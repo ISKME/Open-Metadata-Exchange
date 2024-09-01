@@ -1,6 +1,6 @@
 import nntp
 from server.schemas import Channel, ChannelSummary, Card, NewCard, Metadata
-import json
+# import json
 
 def getClient():
     client = nntp.NNTPClient('localhost', 119, use_ssl=False)
@@ -27,7 +27,7 @@ def channelSummary(channelName: str) -> ChannelSummary:
 def _to_metadata(x):
     try:
         return Metadata.model_validate_json(x)
-    except:
+    except ValueError:
         return x
 
 def channelCards(channelName: str, start: int, end: int) -> list[Card]:

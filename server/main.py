@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-import nntp
+# import nntp
 import server.ome_node as ome_node
 from server.schemas import Channel, ChannelSummary, Card, NewCard, CardRef
 

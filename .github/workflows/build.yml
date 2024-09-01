@@ -1,0 +1,33 @@
+name: ome_build
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    
+jobs:
+  ome_build:
+    # TODO: Remove all instances of `|| true`
+    runs-on: ubuntu-latest
+    steps:
+      - if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install --yes inn2 || true
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+      # - uses: pre-commit/action@v3.0.1
+      - run: pip install pipenv ruff
+      - run: ruff check --exit-zero --output-format=github --target-version=py311
+      - run: pipenv install --dev
+      - name: Versions
+        run: |
+          python3 --version
+          echo "Node.js $(node --version)"
+          innd --version || inn2 --version || true
