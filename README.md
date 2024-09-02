@@ -1,6 +1,8 @@
 # Open Metadata Exchange (OME)
 Distributed / Decentralized Network for Open Metadata Exchange
 
+[![ome_build](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml)
+
 # High Level "what connects to what"
 
 ```mermaid
