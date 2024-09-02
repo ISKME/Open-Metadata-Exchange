@@ -20,7 +20,7 @@ sequenceDiagram
 ```
 
 ## To Install the components (will dockerize all of this in the near future):
-### [INN2](https://launchpad.net/ubuntu/+source/inn2): Refer to [this](https://defuse.ca/inn-private-newsgroup-server-setup.htm) for installing INN2
+### [INN2](https://github.com/InterNetNews/inn): Refer to [this](https://defuse.ca/inn-private-newsgroup-server-setup.htm) for installing INN2
 ### [FastAPI](https://fastapi.tiangolo.com/)-Server
 	From the project root directory
 	```
