@@ -25,7 +25,7 @@
       <v-card-text>
 	{{ card.body.description }}
       </v-card-text>
-      
+
     </v-card-item>
 
     <v-divider class="mx-4 mb-1"></v-divider>
@@ -41,7 +41,7 @@
 	</v-list>
       </v-card-text>
     </v-card-item>
-    
+
     <v-divider class="mx-4 mb-1"></v-divider>
 
     <v-card-actions>
@@ -54,7 +54,7 @@
 	>
       </v-btn>
     </v-card-actions>
-    
+
   </v-card>
 </template>
 

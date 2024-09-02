@@ -11,7 +11,7 @@ sequenceDiagram
 	participant NodeServer
 	participant FastAPI-Server
 	participant INN2
-	
+
 	Browser->>NodeServer: GET localhost:3000/
 	NodeServer->>Browser: index.html with Vue.js App
 	Browser->>NodeServer: API Calls (it's proxied in DEV mode)
@@ -48,7 +48,7 @@ sequenceDiagram
 	cd fe
 	npm run dev --host=0.0.0.0
 	```
-	
+
 # Additional bits
 For those wanting to "integrate" with OERCommons (either from the
 local dev environment, or - with some changes to the script - the

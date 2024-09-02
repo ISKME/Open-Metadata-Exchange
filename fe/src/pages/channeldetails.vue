@@ -17,7 +17,7 @@
       </div>
 
       <div class="py-4" />
-      
+
       <v-row>
         <v-col v-for="card in cards" :key="card.number" cols="12">
 	  <CatalogCard :card="card" @importCard="doImport(card.number)"/>
@@ -41,7 +41,7 @@
         </v-btn>
       </template>
     </v-snackbar>
-    
+
   </v-container>
 </template>
 
