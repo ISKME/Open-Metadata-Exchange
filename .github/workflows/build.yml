@@ -1,4 +1,4 @@
-name: ome_build
+name: build
 on:
   push:
     branches: [ main ]
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     
 jobs:
-  ome_build:
+  build:
     # TODO: Remove all instances of `|| true`
     runs-on: ubuntu-latest
     steps:
