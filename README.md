@@ -29,7 +29,7 @@ sequenceDiagram
 	pipenv install
 	pipenv sync
 	```
-### NodeServer (Node.js Vue app) -- [fe](https://www.npmjs.com/package/fe)
+### NodeServer (Node.js Vue app)
 	From the project root directory
 	```
 	cd fe
