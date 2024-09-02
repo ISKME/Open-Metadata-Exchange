@@ -17,7 +17,7 @@
       </div>
 
       <div class="py-4" />
-      
+
       <v-row>
         <v-col v-for="channel in channels" :key="channel.name" cols="12">
           <v-card

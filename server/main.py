@@ -16,25 +16,30 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/api/list")
-async def main() -> list[Channel] :
+async def main() -> list[Channel]:
     return ome_node.channels()
 
+
 @app.get("/api/channel/{name}")
-async def getChannelSummary(name: str) -> ChannelSummary :
+async def getChannelSummary(name: str) -> ChannelSummary:
     return ome_node.channelSummary(name)
 
+
 @app.get("/api/channel/{name}/cards")
-async def getChannelCards(name: str, start: int = 1, end: int = 10) -> list[Card] :
+async def getChannelCards(name: str, start: int = 1, end: int = 10) -> list[Card]:
     return ome_node.channelCards(name, start, end)
+
 
 @app.post("/api/publish")
 async def createPost(card: NewCard):
     return ome_node.createPost(card)
 
+
 @app.post("/api/channel/{name}/import")
-async def importPost(name: str, card: CardRef) -> bool :
+async def importPost(name: str, card: CardRef) -> bool:
     return ome_node.importPost(name, card.id)
 
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
