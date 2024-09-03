@@ -37,7 +37,7 @@ sequenceDiagram
 	```
 
 ## To run the components
-### INN2: refer to the INN2 documentation
+### INN2: refer to the [INN2 documentation](https://www.isc.org/othersoftware/#INN)
 ### FastAPI Python app:
 	```
 	pipenv shell
