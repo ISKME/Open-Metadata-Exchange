@@ -23,6 +23,8 @@ sequenceDiagram
 
 ## To Install the components (will dockerize all of this in the near future):
 ### [INN2](https://github.com/InterNetNews/inn): Refer to [this](https://defuse.ca/inn-private-newsgroup-server-setup.htm) for installing INN2
+Also:
+* https://www.eyrie.org/~eagle/software/inn/docs-2.7
 ### [FastAPI](https://fastapi.tiangolo.com/)-Server
 	From the project root directory
 	```
