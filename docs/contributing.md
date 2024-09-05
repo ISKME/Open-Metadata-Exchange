@@ -1,3 +1,3 @@
-# CONTRIBUTING
+# Contributing
 ```{include} ../CONTRIBUTING.md
 ```
