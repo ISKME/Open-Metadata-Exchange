@@ -5,7 +5,7 @@ Distributed / Decentralized Network for Open Metadata Exchange
 
 # High Level "what connects to what"
 
-```{mermaid}
+```mermaid
 sequenceDiagram
 	participant Browser
 	participant NodeServer
