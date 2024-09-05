@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Main README.md &#8212; Open Metadata Exchange  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Demo" href="demo.html" />
+    <link rel="prev" title="Open Metadata Exchange (OME)" href="README.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="main-readme-md">
+<h1>Main README.md<a class="headerlink" href="#main-readme-md" title="Permalink to this heading">¶</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="open-metadata-exchange-ome">
+<h1>Open Metadata Exchange (OME)<a class="headerlink" href="#open-metadata-exchange-ome" title="Permalink to this heading">¶</a></h1>
+<p>Distributed / Decentralized Network for Open Metadata Exchange</p>
+<p><a class="reference external" href="https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml"><img alt="ome_build" src="https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml/badge.svg" /></a></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="high-level-what-connects-to-what">
+<h1>High Level “what connects to what”<a class="headerlink" href="#high-level-what-connects-to-what" title="Permalink to this heading">¶</a></h1>
+<div class="highlight-mermaid notranslate"><div class="highlight"><pre><span></span>sequenceDiagram
+	participant Browser
+	participant NodeServer
+	participant FastAPI-Server
+	participant INN2
+
+	Browser-&gt;&gt;NodeServer: GET localhost:3000/
+	NodeServer-&gt;&gt;Browser: index.html with Vue.js App
+	Browser-&gt;&gt;NodeServer: API Calls (it&#39;s proxied in DEV mode)
+	NodeServer-&gt;&gt;FastAPI-Server: Forwarded API Calls
+	FastAPI-Server-&gt;&gt;INN2: Query as appropriate
+	FastAPI-Server-&gt;&gt;NodeServer: API Data response
+	NodeServer-&gt;&gt;Browser: API Data response
+</pre></div>
+</div>
+<section id="to-install-the-components-will-dockerize-all-of-this-in-the-near-future">
+<h2>To Install the components (will dockerize all of this in the near future):<a class="headerlink" href="#to-install-the-components-will-dockerize-all-of-this-in-the-near-future" title="Permalink to this heading">¶</a></h2>
+<section id="inn2-refer-to-this-for-installing-inn2">
+<h3><a class="reference external" href="https://github.com/InterNetNews/inn">INN2</a>: Refer to <a class="reference external" href="https://defuse.ca/inn-private-newsgroup-server-setup.htm">this</a> for installing INN2<a class="headerlink" href="#inn2-refer-to-this-for-installing-inn2" title="Permalink to this heading">¶</a></h3>
+<p>Also:</p>
+<ul class="simple">
+<li><p>https://www.eyrie.org/~eagle/software/inn/docs-2.7</p></li>
+</ul>
+</section>
+<section id="fastapi-server">
+<h3><a class="reference external" href="https://fastapi.tiangolo.com/">FastAPI</a>-Server<a class="headerlink" href="#fastapi-server" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>From the project root directory
+```
+pipenv install
+pipenv sync
+```
+</pre></div>
+</div>
+</section>
+<section id="nodeserver-node-js-vue-app">
+<h3>NodeServer (Node.js Vue app)<a class="headerlink" href="#nodeserver-node-js-vue-app" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>From the project root directory
+```
+cd fe
+npm install
+```
+</pre></div>
+</div>
+</section>
+</section>
+<section id="to-run-the-components">
+<h2>To run the components<a class="headerlink" href="#to-run-the-components" title="Permalink to this heading">¶</a></h2>
+<section id="inn2-refer-to-the-inn2-documentation">
+<h3>INN2: refer to the <a class="reference external" href="https://www.isc.org/othersoftware/#INN">INN2 documentation</a><a class="headerlink" href="#inn2-refer-to-the-inn2-documentation" title="Permalink to this heading">¶</a></h3>
+</section>
+<section id="fastapi-python-app">
+<h3>FastAPI Python app:<a class="headerlink" href="#fastapi-python-app" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>```
+pipenv shell
+fastapi dev --port=5000 server/main.py
+```
+</pre></div>
+</div>
+</section>
+<section id="nodeserver">
+<h3>NodeServer<a class="headerlink" href="#nodeserver" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>```
+cd fe
+npm run dev --host=0.0.0.0
+```
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="additional-bits">
+<h1>Additional bits<a class="headerlink" href="#additional-bits" title="Permalink to this heading">¶</a></h1>
+<p>For those wanting to “integrate” with OERCommons (either from the
+local dev environment, or - with some changes to the script - the
+production environment), install <a class="reference external" href="https://www.tampermonkey.net/">tampermonkey</a>
+if you’re using Google Chrome and then install the script that is in
+<code class="docutils literal notranslate"><span class="pre">tools/monkeyscript/OERCommons.tampermonkey_script.js</span></code> so that you get
+a button on OERCommons details page to export items from OERCommons
+into the locally running OME. This allows you to see how you might
+export - in a very proof-of-concept way - from your local library
+software to the OME.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Open Metadata Exchange</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Open Metadata Exchange (OME)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#open-metadata-exchange-overview">Open Metadata Exchange Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Main README.md</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#open-metadata-exchange-ome">Open Metadata Exchange (OME)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#high-level-what-connects-to-what">High Level “what connects to what”</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#to-install-the-components-will-dockerize-all-of-this-in-the-near-future">To Install the components (will dockerize all of this in the near future):</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#to-run-the-components">To run the components</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#additional-bits">Additional bits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo.html">Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html#contributor-covenant-code-of-conduct">Contributor Covenant Code of Conduct</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="README.html" title="previous chapter">Open Metadata Exchange (OME)</a></li>
+      <li>Next: <a href="demo.html" title="next chapter">Demo</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, ISKME and contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/root.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
