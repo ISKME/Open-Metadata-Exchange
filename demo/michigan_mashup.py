@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Make data Lansing, Michigan from World Historical Gazetteer and Michigan Memories
+Make data about Lansing, Michigan from World Historical Gazetteer and Michigan Memories
 available to teachers as they create lesson plans in the OER Commons Editor.
 
 queries:
