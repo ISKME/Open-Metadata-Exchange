@@ -12,8 +12,10 @@ pip install --editable .
 ```
 
 We use [`pre-commit`][https://pre-commit.com/] to format, lint, and test files in this
-project so we strongly encourage coontributors to:
-# `pipx install pre-commit` or `brew install pre-commit`
-# Then in the project root directory run `pre-commit install`
+project so we strongly encourage contributors to:
+```bash
+pipx install pre-commit  # or brew install pre-commit
+pre-commit install
+```
 
 This project requires that a current version of `Docker Desktop` is properly installed.
