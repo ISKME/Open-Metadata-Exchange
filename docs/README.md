@@ -36,5 +36,5 @@ __Problem Solved__: OME addresses an "islands of information" issue. Currently, 
 
 ---
 
-```{include} ../README.md
-```
+:::{include} ../README.md
+:::
