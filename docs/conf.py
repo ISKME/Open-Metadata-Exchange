@@ -20,9 +20,24 @@ exclude_patterns = [
     ".DS_Store",
 ]
 extensions = [
-    "colon_fence",
     "myst_parser",
     "sphinxcontrib.mermaid",
+]
+myst_enable_extensions = [
+    "amsmath",
+    "attrs_inline",
+    "colon_fence",
+    "deflist",
+    "dollarmath",
+    "fieldlist",
+    "html_admonition",
+    "html_image",
+    # "linkify",
+    "replacements",
+    "smartquotes",
+    "strikethrough",
+    "substitution",
+    "tasklist",
 ]
 source_suffix = {
     ".rst": "restructuredtext",

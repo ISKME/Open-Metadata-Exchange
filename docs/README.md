@@ -33,8 +33,3 @@ __Analogy__: Imagine a librarian creates a catalog card for a new book. Once the
 __Practical Implementation__: OME would create a standardized format for Open Educational Resources (OER), similar to iCal. This would operate on a peer-to-peer network using Docker-based nodes that enable store-and-forward information replication. APIs will be available to create, modify, and delete entries in the local node. Each node stores information and forwards modifications to neighboring nodes. There will be a user interface to view, import, and export data on the exchange. Nodes will automatically handle the storage and forwarding of the collaboratively created metadata.
 
 __Problem Solved__: OME addresses an "islands of information" issue. Currently, OER creators work in isolation, creating fragmented resources. OME aims to connect these "islands" so that contributors can discover and enhance each other's work.  Resources can be preserved even if the original creator is no longer active. This will simplify the discovery and tagging process, ensuring that the effort spent on these tasks benefits the entire network and is not unnecessarily duplicated across different digital libraries.
-
----
-
-:::{include} ../README.md
-:::
