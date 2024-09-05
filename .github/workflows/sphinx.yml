@@ -17,7 +17,7 @@ jobs:
     - name: Build HTML
       uses: ammaraskar/sphinx-action@master
       with:
-        pre-build-command: "pip install sphinx --force-reinstall"
+        pre-build-command: "pip install -r docs/requirements.txt"
         docs-folder: "docs/"
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
