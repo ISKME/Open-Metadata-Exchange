@@ -39,7 +39,10 @@ myst_enable_extensions = [
     "substitution",
     "tasklist",
 ]
-myst_fence_as_directive = ["mermaid",]
+myst_fence_as_directive = [
+    "include",
+    "mermaid",
+]
 source_suffix = {
     ".rst": "restructuredtext",
     ".txt": "markdown",
