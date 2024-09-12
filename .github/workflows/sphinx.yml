@@ -44,6 +44,7 @@ jobs:
     needs: build_docs
     runs-on: ubuntu-latest
     steps:
-      - if: github.ref == 'refs/heads/main'
+      - run: echo ${{ github.event_name }}
+      - if: github.event_name == 'bob'
         uses: actions/deploy-pages@v4
         id: deployment
