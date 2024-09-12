@@ -36,13 +36,16 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: docs/_build/html
+      - run: echo ${{ github.event_name }}
 
   deploy_docs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    if: github.event_name != 'pull_request'
     needs: build_docs
     runs-on: ubuntu-latest
     steps:
+      - run: echo ${{ github.event_name }}
       - uses: actions/deploy-pages@v4
         id: deployment
