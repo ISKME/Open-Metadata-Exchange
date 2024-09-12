@@ -11,7 +11,7 @@ class EducationResource(BaseModel):
     of subject tags, a creation date, last modified date, and usage information.
     """
 
-    from .pedigree_record import PedigreeRecord
+    # from pedigree_record import PedigreeRecord
 
     title: str = ""
     description: str = ""
@@ -20,4 +20,4 @@ class EducationResource(BaseModel):
     subject_tags: list[str] = []
     creation_date: datetime | None = None
     last_modified_date: datetime | None = None
-    usage: list[PedigreeRecord] = []
+    usage_comments: list[str] = []  # list[PedigreeRecord] = []

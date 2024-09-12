@@ -2,7 +2,7 @@
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-from .education_resource import EducationResource
+from education_resource import EducationResource
 # from .pedigree_record import PedigreeRecord
 
 # Set up SQLAlchemy base and engine

@@ -1,7 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
 
-from .education_resource import EducationResource
+from education_resource import EducationResource
 
 
 class PedigreeRecord(BaseModel):
