@@ -25,9 +25,9 @@ def nntp_write(payload: dict, newsgroup: str = "local.test") -> str:
     msg = FMT.format(newsgroup, uuid.uuid4().hex, json.dumps(payload, indent=2))
     # print(f"{msg = }")
     with nntplib.NNTP("localhost", readermode=True) as nntp_server:
-        response = nntp_server.post(msg.encode("utf-8"))
-        assert response.startswith("240 "), f"{response = }"
-        return response.split("<")[-1][:-1]  # strip off the <>
+        response = nntp_server.post(msg.encode("utf-8")).split()
+        assert response[0] == "240", " ".join(response)
+        return response[-1]
 
 
 def nntp_read(article_id: str, newsgroup: str = "local.test") -> dict:
@@ -37,8 +37,8 @@ def nntp_read(article_id: str, newsgroup: str = "local.test") -> dict:
     with nntplib.NNTP("localhost", readermode=True) as nntp_server:
         resp, count, first, last, name = nntp_server.group(newsgroup)
         assert last, f"{newsgroup = } has no articles."
-        stat = nntp_server.stat()
-        print(f"{stat = } vs. {article_id = }")
+        # stat = nntp_server.stat()
+        # print(f"{stat = } vs. {article_id = }")
         article = nntp_server.article(article_id)
         print(f"{article = }")
         print(f"{article.decode("utf-8") = }")
