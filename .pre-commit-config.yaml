@@ -32,7 +32,7 @@ repos:
       - id: forbid-new-submodules
       - id: forbid-submodules
       - id: mixed-line-ending
-      - id: name-tests-test
+      #- id: name-tests-test
       #- id: pretty-format-json
       #  exclude: fe/jsconfig.json,Pipfile.lock
       - id: requirements-txt-fixer
