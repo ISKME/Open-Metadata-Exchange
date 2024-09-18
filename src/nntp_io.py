@@ -41,7 +41,7 @@ def nntp_read(article_id: str, newsgroup: str = "local.test") -> dict:
         body_lines = article[1].lines[11:]  # Skip the header lines.
         assert body_lines, f"{article_id = }: {article = } has no body."
         body = "\n".join(line.decode("utf-8") for line in body_lines)
-        print(f"{body = }")
+        # print(f"{body = }")
         return json.loads(body)
 
 
