@@ -30,6 +30,9 @@ jobs:
           python-version: 3.12  # nntplib was removed from the Standard Library in Python 3.13.
       - run: python src/nntplib_tests.py
       - run: python src/nntp_io.py
+      - run: pip install --upgrade pip
+      - run: pip install pydantic pytest
+      - run: pytest tests/test_ome_node.py
 
   pre-commit:
     runs-on: ubuntu-latest

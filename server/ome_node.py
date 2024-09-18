@@ -1,10 +1,10 @@
-import nntp
+import nntplib
 from server.schemas import Channel, ChannelSummary, Card, NewCard, Metadata
 # import json
 
 
 def getClient():
-    client = nntp.NNTPClient("localhost", 119, use_ssl=False)
+    client = nntplib.NNTPClient("localhost", 119, use_ssl=False)
     return client
 
 
