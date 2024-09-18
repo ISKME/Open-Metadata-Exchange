@@ -4,7 +4,7 @@ from server.schemas import Channel, ChannelSummary, Card, NewCard, Metadata
 
 
 def getClient():
-    client = nntplib.NNTPClient("localhost", 119, use_ssl=False)
+    client = nntplib.NNTP("localhost", readermode=True)
     return client
 
 
