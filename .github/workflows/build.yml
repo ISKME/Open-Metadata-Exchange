@@ -8,27 +8,23 @@ on:
 
 jobs:
   build:
-    # TODO: Remove all instances of `|| true`
     runs-on: ubuntu-latest
+    env:
+      INN_HOSTNAME: localhost.localdomain
     steps:
-      - if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install --yes inn2 || true
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
+      - name: cat ${INN_HOSTNAME} > /etc/hostname
+        run: |
+          echo "${INN_HOSTNAME}" > hostname
+          sudo mv hostname /etc/
+          cat /etc/hostname
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install --yes inn2
       - uses: actions/setup-python@v5
         with:
-          python-version: 3.11
-      - run: pip install pipenv
-      - run: pipenv install --dev
-      - name: Versions
-        run: |
-          python3 --version
-          echo "Node.js $(node --version)"
-          nnptd --version || innd --version || inn2 --version || true
+          python-version: 3.12  # nntplib was removed from the Standard Library in Python 3.13.
+      - run: python src/nntplib_tests.py
 
   pre-commit:
     runs-on: ubuntu-latest
