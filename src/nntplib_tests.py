@@ -22,7 +22,7 @@ with nntplib.NNTP("localhost", readermode=True) as nntp_server:
     resp, count, first, last, name = nntp_server.group("local.test")
     print(f"Group '{name}' has {count} articles, range {first} to {last}.")
     # Post an article to the 'local.test' group.
-    msg = pathlib.Path("contrib/inn_article_001.txt").read_text()
+    msg = (pathlib.Path(__file__).parent / "inn_article_001.txt").read_text()
     # print(f"{msg = }")
     response = nntp_server.post(msg.encode("utf-8"))
     print(f"{response = }")
