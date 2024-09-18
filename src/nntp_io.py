@@ -38,9 +38,9 @@ def nntp_read(article_id: str, newsgroup: str = "local.test") -> dict:
         resp, count, first, last, name = nntp_server.group(newsgroup)
         assert last, f"{newsgroup = } has no articles."
         article = nntp_server.article(article_id)
-        body_lines = article[1].lines[10:]  # Skip the header lines.
+        body_lines = article[1].lines[11:]  # Skip the header lines.
         assert body_lines, f"{article_id = }: {article = } has no body."
-        body = "\n".join(line.decode("utf-8") for line in body_lines).strip()
+        body = "\n".join(line.decode("utf-8") for line in body_lines)
         print(f"{body = }")
         return json.loads(body)
 
