@@ -3,6 +3,18 @@ from server.schemas import Channel, ChannelSummary, Card, NewCard, Metadata
 # import json
 
 
+DEFAULT_NEWSGROUPS = {
+    "control",
+    "control.cancel",
+    "control.checkgroups",
+    "control.newgroup",
+    "control.rmgroup",
+    "junk",
+    "local.general",
+    "local.test",
+}
+
+
 def getClient():
     client = nntplib.NNTP("localhost", readermode=True)
     return client
