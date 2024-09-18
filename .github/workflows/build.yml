@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  inn2:
     runs-on: ubuntu-latest
     env:
       INN_HOSTNAME: localhost.localdomain
@@ -21,6 +21,10 @@ jobs:
       - run: |
           sudo apt-get update -qq
           sudo apt-get install --yes inn2
+          # Useful for debugging:
+          # cat /etc/news/inn.conf
+          # systemctl status inn2
+      # Do some basic Python interactions with the inn server...
       - uses: actions/setup-python@v5
         with:
           python-version: 3.12  # nntplib was removed from the Standard Library in Python 3.13.

@@ -11,6 +11,7 @@ with nntplib.NNTP("localhost", readermode=True) as nntp_server:
     print(f"{nntp_server.getwelcome() = }")
     print(f"{nntp_server.getcapabilities() = }")
     print(f"{nntp_server.list() = }")
+    print("---")
     print("News group list:")
     print(
         "\n".join(
@@ -18,6 +19,7 @@ with nntplib.NNTP("localhost", readermode=True) as nntp_server:
             for i, group_info in enumerate(nntp_server.list()[1], 1)
         )
     )
+    print("---")
     # Ensure the 'local.test' group has no articles.
     resp, count, first, last, name = nntp_server.group("local.test")
     print(f"Group '{name}' has {count} articles, range {first} to {last}.")
@@ -33,9 +35,10 @@ with nntplib.NNTP("localhost", readermode=True) as nntp_server:
     stat = nntp_server.stat()  # last() and next() both fail
     # print(f"{stat = }")
     article = nntp_server.article(stat[2])
-    print(f"{article = }")
+    print(f"{article = }\n---")
     # Print the lines of the article
     print("\n".join(line.decode("utf-8") for line in article[1].lines))
+    print("---")
     # Print the overview information
     resp, count, first, last, name = nntp_server.group("local.test")
     # print(resp, count, first, last, name)
