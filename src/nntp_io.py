@@ -35,7 +35,9 @@ def nntp_read(article_id: str, newsgroup: str = "local.test") -> dict:
     Read an article from a InterNet News newsgroup and return it as a dict.
     """
     with nntplib.NNTP("localhost", readermode=True) as nntp_server:
-        stat = nntp_server.stat()  # last() and next() both fail
+        resp, count, first, last, name = nntp_server.group(newsgroup)
+        assert last, f"{newsgroup = } has no articles."
+        stat = nntp_server.stat()
         print(f"{stat = } vs. {article_id = }")
         article = nntp_server.article(article_id)
         print(f"{article = }")
