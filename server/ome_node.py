@@ -16,7 +16,7 @@ DEFAULT_NEWSGROUPS = {
 }
 
 
-def getClient():
+def getClient() -> nntplib.NNTP:
     client = nntplib.NNTP("localhost", readermode=True)
     return client
 
