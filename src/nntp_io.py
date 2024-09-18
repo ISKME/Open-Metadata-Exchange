@@ -25,9 +25,9 @@ def nntp_write(payload: dict, newsgroup: str = "local.test") -> str:
     msg = FMT.format(newsgroup, uuid.uuid4().hex, json.dumps(payload, indent=2))
     # print(f"{msg = }")
     with nntplib.NNTP("localhost", readermode=True) as nntp_server:
-        response = nntp_server.post(msg.encode("utf-8")).split()
+        response = nntp_server.post(msg.encode("utf-8"))
         assert response.startswith("240 "), f"{response = }"
-        return response.split()[-1][1:-1]  # strip off the <>
+        return response.split("<")[-1][:-1]  # strip off the <>
 
 
 def nntp_read(article_id: str, newsgroup: str = "local.test") -> dict:
