@@ -1,4 +1,5 @@
 import nntplib
+from typing import Iterator
 from server.schemas import Channel, ChannelSummary, Card, NewCard, Metadata
 # import json
 
@@ -20,23 +21,13 @@ def getClient():
     return client
 
 
-def channels() -> list[Channel]:
+def channels() -> Iterator[Channel]:
     client = getClient()
-    suppress = {
-        "control",
-        "control.cancel",
-        "control.checkgroups",
-        "control.newgroup",
-        "control.rmgroup",
-        "junk",
-        "local.general",
-        "local.test",
-    }
-    return [
-        Channel(name=x[0], description=x[1])
-        for x in client.list_newsgroups()
-        if x[0] not in suppress
-    ]
+    newsgroups = sorted(
+        {newsgroup.group for newsgroup in client.list()[1]} - DEFAULT_NEWSGROUPS
+    )
+    for newsgroup in newsgroups:
+        yield Channel(name=newsgroup, description=client.description(newsgroup))
 
 
 def channelSummary(channelName: str) -> ChannelSummary:

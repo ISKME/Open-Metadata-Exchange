@@ -12,3 +12,8 @@ def test_get_client():
     newsgroups = [newsgroup.group for newsgroup in client.list()[1]]
     for newsgroup in ome_node.DEFAULT_NEWSGROUPS:
         assert newsgroup in newsgroups
+
+
+def test_channels():
+    channels = list(ome_node.channels())
+    assert not channels
