@@ -40,8 +40,10 @@ def nntp_read(article_id: str, newsgroup: str = "local.test") -> dict:
         # stat = nntp_server.stat()
         # print(f"{stat = } vs. {article_id = }")
         article = nntp_server.article(article_id)
-        print(f"{article = }")
-        print(f"{article.decode("utf-8") = }")
+        lines = article[1].lines
+        print("\n".join(line.decode("utf-8") for line in lines))
+        # print(f"{article = }")
+        # print(f"{article.decode("utf-8") = }")
         return {}  # json.loads(article[1].lines[0].decode("utf-8"))
 
 
