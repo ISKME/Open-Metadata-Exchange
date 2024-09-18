@@ -32,9 +32,9 @@ def channels() -> Iterator[Channel]:
 
 def channelSummary(channelName: str) -> ChannelSummary:
     client = getClient()
-    estTotal, first, last, name = client.group(channelName)
+    response, count, first, last, name = client.group(channelName)
     return ChannelSummary(
-        name=name, estimatedTotalArticles=estTotal, firstArticle=first, lastArticle=last
+        name=name, estimatedTotalArticles=count, firstArticle=first, lastArticle=last
     )
 
 
