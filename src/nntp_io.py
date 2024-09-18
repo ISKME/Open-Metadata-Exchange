@@ -37,14 +37,12 @@ def nntp_read(article_id: str, newsgroup: str = "local.test") -> dict:
     with nntplib.NNTP("localhost", readermode=True) as nntp_server:
         resp, count, first, last, name = nntp_server.group(newsgroup)
         assert last, f"{newsgroup = } has no articles."
-        # stat = nntp_server.stat()
-        # print(f"{stat = } vs. {article_id = }")
         article = nntp_server.article(article_id)
-        body_lines = article[1].lines[11:]  # Skip the header lines.
-        print("\n".join(line.decode("utf-8") for line in body_lines))
-        # print(f"{article = }")
-        # print(f"{article.decode("utf-8") = }")
-        return {}  # json.loads(article[1].lines[0].decode("utf-8"))
+        body_lines = article[1].lines[10:]  # Skip the header lines.
+        assert body_lines, f"{article_id = }: {article = } has no body."
+        body = "\n".join(line.decode("utf-8") for line in body_lines)
+        # print(f"{body = }")
+        return json.loads(body)
 
 
 if __name__ == "__main__":
