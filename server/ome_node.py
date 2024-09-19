@@ -1,72 +1,68 @@
-import nntplib
-from typing import Iterator
-from server.schemas import Channel, ChannelSummary, Card, NewCard, Metadata
 # import json
+# from typing import Iterator
 
+import nntp
 
-DEFAULT_NEWSGROUPS = {
-    "control",
-    "control.cancel",
-    "control.checkgroups",
-    "control.newgroup",
-    "control.rmgroup",
-    "junk",
-    "local.general",
-    "local.test",
+from server.schemas import Channel, ChannelSummary, Card, NewCard, Metadata
+
+_DEFAULT_NEWGROUPS = {
+    ("control", "Various"),
+    ("control.cancel", "Cancel"),
+    ("control.checkgroups", "Hierarchy"),
+    ("control.newgroup", "Newsgroup"),
+    ("control.rmgroup", "Newsgroup"),
+    ("junk", "Unfiled"),
+    ("local.general", "Local"),
+    ("local.test", "Local"),
 }
 
-
-def getClient() -> nntplib.NNTP:
-    client = nntplib.NNTP("localhost", readermode=True)
+def getClient():
+    client = nntp.NNTPClient('localhost', 119, use_ssl=False)
     return client
 
-
-def channels() -> Iterator[Channel]:
+def channels() -> list[Channel]:
     client = getClient()
-    newsgroups = sorted(
-        {newsgroup.group for newsgroup in client.list()[1]} - DEFAULT_NEWSGROUPS
-    )
-    for newsgroup in newsgroups:
-        yield Channel(name=newsgroup, description=client.description(newsgroup))
+    suppress = {"control", "control.cancel", "control.checkgroups",
+                "control.newgroup", "control.rmgroup",
+                "junk", "local.general", "local.test"}
+    return [ Channel(name=x[0], description=x[1])
+             for x in client.list_newsgroups()
+             if x[0] not in suppress ]
 
 
 def channelSummary(channelName: str) -> ChannelSummary:
     client = getClient()
-    response, count, first, last, name = client.group(channelName)
-    return ChannelSummary(
-        name=name, estimatedTotalArticles=count, firstArticle=first, lastArticle=last
-    )
-
+    estTotal, first, last, name = client.group(channelName)
+    return ChannelSummary(name = name,
+                          estimatedTotalArticles = estTotal,
+                          firstArticle = first,
+                          lastArticle = last)
 
 def _to_metadata(x):
     try:
         return Metadata.model_validate_json(x)
-    except ValueError:
+    except:
         return x
-
 
 def channelCards(channelName: str, start: int, end: int) -> list[Card]:
     client = getClient()
     _, first, last, _ = client.group(channelName)
     if end > last:
         end = last
-    return [
-        Card(
-            number=x[0], headers=x[1], subject=x[1]["Subject"], body=_to_metadata(x[2])
-        )
-        for x in [client.article(i) for i in range(start, end + 1)]
-    ]
-
+    return [Card(number=x[0],
+                 headers=x[1],
+                 subject=x[1]["Subject"],
+                 body=_to_metadata(x[2])) for x in [client.article(i)
+                                                    for i in range(start, end+1)]]
 
 def createPost(card: NewCard):
     client = getClient()
-    headers = {
-        "Subject": card.subject,
-        "From": "OERCommons <admin@oercommons.org>",
-        "Newsgroups": ",".join(card.channels),
-    }
+    headers = {"Subject": card.subject,
+               "From": "OERCommons <admin@oercommons.org>",
+               "Newsgroups": ",".join(card.channels)}
     t = card.body.model_dump_json()
-    return client.post(headers=headers, body=t)
+    return client.post(headers=headers,
+                       body=t)
 
 
 def importPost(channelName: str, cardId: int) -> bool:
