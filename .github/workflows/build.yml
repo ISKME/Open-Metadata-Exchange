@@ -27,12 +27,14 @@ jobs:
       # Do some basic Python interactions with the inn server...
       - uses: actions/setup-python@v5
         with:
-          python-version: 3.12  # nntplib was removed from the Standard Library in Python 3.13.
+          python-version: 3.12
       - run: python src/nntplib_tests.py
       - run: python src/nntp_io.py
       - run: pip install --upgrade pip
-      - run: pip install pydantic pytest
+      - run: pip install pydantic pynntp pytest
       - run: pytest
+      - if: always()
+        run: sudo systemctl stop inn2
   pre-commit:
     runs-on: ubuntu-latest
     steps:
