@@ -1,2 +1,3 @@
 [tool.codespell]
-ignore-words-list = "socio-economic"
+ignore-words-list = "formend,socio-economic"
+skip = "*/package-lock.json"

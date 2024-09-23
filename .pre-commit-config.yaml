@@ -16,6 +16,7 @@ repos:
       - id: check-docstring-first
       - id: check-executables-have-shebangs
       - id: check-json
+        exclude: ".*fe2/tsconfig.json$"
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
       - id: check-symlinks
@@ -53,13 +54,13 @@ repos:
           - tomli
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.6.3
+    rev: v0.6.7
     hooks:  # Format before linting
       - id: ruff-format
       - id: ruff
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: 2.2.1
+    rev: 2.2.4
     hooks:
       - id: pyproject-fmt
 

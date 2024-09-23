@@ -1,0 +1,32 @@
+.case-fields {
+  display: flex;
+  gap: 4px;
+}
+
+.case-field {
+  display: inline;
+  font: 400 13px / 21px "Roboto", sans-serif;
+  color: #333333;
+  padding-inline-start: 0;
+  list-style-type: none;
+  &:not(:last-child) {
+    border-right: 1px solid #efeff0;
+    padding-right: 4px;
+  }
+}
+
+.case-field-col {
+  font: 400 13px / 21px "Roboto", sans-serif;
+  list-style: inside;
+}
+
+.case-field-col:after {
+  content: "|";
+  display: inline;
+  margin-left: 4px;
+  color: #d9d9da;
+}
+
+.case-field-col:last-child:after {
+  display: none;
+}

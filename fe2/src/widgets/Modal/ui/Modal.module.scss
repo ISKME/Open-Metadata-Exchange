@@ -1,0 +1,55 @@
+/* stylelint-disable color-hex-length */
+.modal {
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0 0 0 / 25%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .content {
+      background-color: white;
+      box-shadow: 0 5px 15px rgb(0 0 0 / 50%);
+      border: 1px solid rgb(0 0 0 / 20%);
+      border-radius: 6px;
+      min-width: 600px;
+      max-width: calc(100% - 600px);
+      min-height: 400px;
+      max-height: 800px;
+      overflow-y: auto;
+
+      .header {
+        padding: 15px;
+        border-bottom: 1px solid #e5e5e5;
+        min-height: 16px;
+        text-align: center;
+        position: sticky;
+        top: 0;
+        background: white;
+
+        .close {
+          float: right;
+          font-size: 14px;
+          border-radius: 50%;
+          width: 26px;
+          height: 26px;
+          padding: 8px;
+          font-weight: bold;
+          line-height: 1;
+          color: #000;
+          text-shadow: 0 1px 0 #fff;
+          opacity: 0.2;
+          background-color: transparent;
+        }
+      }
+
+      .children {
+        padding: 16px;
+      }
+    }
+  }
+}
