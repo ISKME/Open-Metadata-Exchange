@@ -9,6 +9,7 @@ on:
 jobs:
   inn-docker:
     strategy:
+      fail-fast: false
       matrix:
         service-image: [cclauss/inn, greenbender/inn]
     runs-on: ubuntu-latest
