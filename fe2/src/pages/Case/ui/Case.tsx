@@ -657,7 +657,7 @@ export function Case() {
 
   const handleClick = ({ currentTarget }) => setAnchorEl(event.currentTarget)
   const handleClose = () => setAnchorEl(null)
-  
+
   React.useEffect(() => {
     const styleTag = document.createElement('style')
     styleTag.textContent = styles
@@ -695,7 +695,7 @@ export function Case() {
             const boundary = commentary.getBoundingClientRect()
             control.style.top = `calc(${rect.top}px - 48px - ${boundary.top}px)`;
             control.style.left = `calc(${rect.left}px + calc(${rect.width}px / 2) - 40px - ${boundary.left}px)`;
-            control['text']= text; 
+            control['text']= text;
             commentary.appendChild(control);
           }
         }
@@ -710,7 +710,7 @@ export function Case() {
         document.getSelection().removeAllRanges();
         event.stopPropagation();
       }
-      document.onpointerdown = () => {  
+      document.onpointerdown = () => {
         let control = document.querySelector('#control');
         if (control !== null) {
           control.remove()

@@ -75,7 +75,7 @@ function convertKebabToCamel(obj) {
   for (const key in obj) {
     const camelCaseKey = key.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
     newObj[camelCaseKey] = obj[key];
-  }  
+  }
   return newObj;
 }
 

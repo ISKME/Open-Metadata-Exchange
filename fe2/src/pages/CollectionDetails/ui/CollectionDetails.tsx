@@ -424,7 +424,7 @@ export function CollectionDetails({ className }: search_resourcesProps) {
               )}
             </div>
           </div>
-        </div>      
+        </div>
       )}
       {map && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }} className={cls.empty}>
