@@ -7,6 +7,24 @@ on:
   workflow_dispatch:
 
 jobs:
+  inn-docker:
+    runs-on: ubuntu-latest
+    services:
+      inn-service:
+        image: greenbender/inn
+        ports:
+          - 119:119
+          - 563:563
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - run: python src/nntplib_tests.py || true
+      - run: python src/nntp_io.py
+      - run: pip install --upgrade pip
+      - run: pip install pydantic pynntp pytest
+      - run: pytest
   inn2:
     runs-on: ubuntu-latest
     env:
