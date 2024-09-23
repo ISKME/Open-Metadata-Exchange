@@ -8,10 +8,13 @@ on:
 
 jobs:
   inn-docker:
+    strategy:
+      matrix:
+        service-image: [cclauss/inn, greenbender/inn]
     runs-on: ubuntu-latest
     services:
       inn-service:
-        image: greenbender/inn
+        image: ${{ matrix.service-image }}
         ports:
           - 119:119
           - 563:563
