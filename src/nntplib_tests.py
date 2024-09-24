@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+Test interacting with the local INN server using the Python <= 3.12 nntplib module.
+"""
+
 import nntplib  # Removed from the Standard Library in Python 3.13.
 import pathlib
 

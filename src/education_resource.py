@@ -7,8 +7,16 @@ class EducationResource(BaseModel):
     The metadata for an education resource to be communicated in the Exchange.  This
     could be a lesson plan, one or more datasets, documents, worksheets, images, or
     videos.
-    The resource contains a title, description, author, authoring institution, a list
-    of subject tags, a creation date, last modified date, and usage information.
+
+    Attributes:
+        title: Description of title
+        description: Description of description
+        author: Description of author
+        authoring_institution: Description of authoring_institution
+        subject_tags: Description of subject_tags
+        creation_date: Description of creation_date
+        last_modified_date: Description of last_modified_date
+        usage: Description of usage
     """
 
     from .pedigree_record import PedigreeRecord
