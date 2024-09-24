@@ -21,6 +21,8 @@ exclude_patterns = [
 ]
 extensions = [
     "myst_parser",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
     "sphinxcontrib.mermaid",
 ]
 myst_enable_extensions = [
