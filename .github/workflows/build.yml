@@ -11,8 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # service-image: [cclauss/inn, greenbender/inn]
-        service-image: [greenbender/inn]
+        service-image: [cclauss/inn, greenbender/inn]
     runs-on: ubuntu-latest
     services:
       inn-service:
@@ -30,34 +29,6 @@ jobs:
       - run: pip install --upgrade pip
       - run: pip install pydantic pynntp pytest
       - run: pytest
-  inn2:
-    runs-on: ubuntu-latest
-    env:
-      INN_HOSTNAME: localhost.localdomain
-    steps:
-      - uses: actions/checkout@v4
-      - name: cat ${INN_HOSTNAME} > /etc/hostname
-        run: |
-          echo "${INN_HOSTNAME}" > hostname
-          sudo mv hostname /etc/
-          cat /etc/hostname
-      - run: |
-          sudo apt-get update -qq
-          sudo apt-get install --yes inn2
-          # Useful for debugging:
-          # cat /etc/news/inn.conf
-          # systemctl status inn2
-      # Do some basic Python interactions with the inn server...
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
-      - run: python src/nntplib_tests.py
-      - run: python src/nntp_io.py
-      - run: pip install --upgrade pip
-      - run: pip install pydantic pynntp pytest
-      - run: pytest
-      - if: always()
-        run: sudo systemctl stop inn2
   pre-commit:
     runs-on: ubuntu-latest
     steps:
