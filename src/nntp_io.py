@@ -20,7 +20,13 @@ def nntp_write(payload: dict, newsgroup: str = "local.test") -> str:
     """
     Write a payload dict as json to a InterNet News newsgroup.
 
-    Return: test.inews.a253222105b64597b9afd10e4f4c6740@inn2.packages.debian.org
+    Args:
+        payload: Description of payload
+        newsgroup: Description of newsgroup
+
+    Returns:
+        test.inews.a253222105b64597b9afd10e4f4c6740@inn2.packages.debian.org
+
     """
     msg = FMT.format(newsgroup, uuid.uuid4().hex, json.dumps(payload, indent=2))
     # print(f"{msg = }")
@@ -33,6 +39,13 @@ def nntp_write(payload: dict, newsgroup: str = "local.test") -> str:
 def nntp_read(article_id: str, newsgroup: str = "local.test") -> dict:
     """
     Read an article from a InterNet News newsgroup and return it as a dict.
+
+    Args:
+        article_id: Description of article_id
+        newsgroup: Description of newsgroup
+
+    Returns:
+        Description of return value
     """
     with nntplib.NNTP("localhost", readermode=True) as nntp_server:
         resp, count, first, last, name = nntp_server.group(newsgroup)

@@ -10,8 +10,14 @@ class PedigreeRecord(BaseModel):
     gather statistics about usage and customization.  This will enable content creators
     measure the impact of their work and gather comments that may lead to improvement
     or collaboration with other interested parties.
-    The record contains a link to the resource, as will as borrower, borrower
-    institution, date borrowed, dates refreshed, usage_comments.
+
+        Attributes:
+        education_resource: Description of education_resource
+        borrower: Description of borrower
+        borrower_institution: Description of borrower_institution
+        date_borrowed: Description of date_borrowed
+        refreshed_dates: Description of refreshed_dates
+        usage_comments: Description of usage_comments
     """
 
     education_resource: EducationResource
