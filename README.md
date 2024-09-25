@@ -21,35 +21,47 @@ sequenceDiagram
 	NodeServer->>Browser: API Data response
 ```
 
-## To Install the components (will dockerize all of this in the near future):
-### [INN2](https://github.com/InterNetNews/inn): Refer to [this](https://defuse.ca/inn-private-newsgroup-server-setup.htm) for installing INN2
+## Install the components:
+### [InterNetNews](https://github.com/InterNetNews/inn) will run in a Docker container:
 Also:
+* https://www.isc.org/othersoftware/#INN
 * https://www.eyrie.org/~eagle/software/inn/docs-2.7
-### [FastAPI](https://fastapi.tiangolo.com/)-Server
-	From the project root directory
-	```
-	pipenv install
-	pipenv sync
-	```
-### NodeServer (Node.js Vue app)
-	From the project root directory
-	```
-	cd fe
-	npm install
-	```
+* https://github.com/cclauss/apt-get-inn2-docker
 
-## To run the components
-### INN2: refer to the [INN2 documentation](https://www.isc.org/othersoftware/#INN)
+### [FastAPI](https://fastapi.tiangolo.com/)-Server
+From the project root directory
+```bash
+python3 -m pip install --upgrade pre-commit pipenv
+pre-commit install
+pipenv install
+pipenv sync
+```
+
+### NodeServer (Node.js Vue app)
+From the project root directory
+```bash
+cd fe
+npm install
+```
+
+## Run the components
+### InterNetNews server:
+For local development and testing, start the INN2 server with:
+```bash
+docker run --rm -t -p119:119 -p563:563 cclauss/inn
+```
+
 ### FastAPI Python app:
-	```
-	pipenv shell
-	fastapi dev --port=5000 server/main.py
-	```
+```bash
+pipenv shell
+fastapi dev --port=5000 server/main.py
+```
+
 ### NodeServer
-	```
-	cd fe
-	npm run dev --host=0.0.0.0
-	```
+```bash
+cd fe
+npm run dev --host=0.0.0.0
+```
 
 # Additional bits
 For those wanting to "integrate" with OERCommons (either from the
