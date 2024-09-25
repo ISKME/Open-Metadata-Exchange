@@ -54,8 +54,8 @@ Also:
 # Additional bits
 For those wanting to "integrate" with OERCommons (either from the
 local dev environment, or - with some changes to the script - the
-production environment), install [tampermonkey](https://www.tampermonkey.net/)
-if you're using Google Chrome and then install the script that is in
+production environment). Install [tampermonkey](https://www.tampermonkey.net/)
+if you're using Google Chrome, and then install the script that is in
 `tools/monkeyscript/OERCommons.tampermonkey_script.js` so that you get
 a button on OERCommons details page to export items from OERCommons
 into the locally running OME. This allows you to see how you might
