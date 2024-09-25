@@ -31,6 +31,8 @@ Also:
 ### [FastAPI](https://fastapi.tiangolo.com/)-Server
 From the project root directory
 ```bash
+python3 -m pip install --upgrade pre-commit pipenv
+pre-commit install
 pipenv install
 pipenv sync
 ```
