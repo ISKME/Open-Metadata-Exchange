@@ -40,7 +40,7 @@ def nntp_read(newsgroup: str = "local.test") -> dict:
     """
     _total, _first, _last, _group = nntp_client.group(newsgroup)
     _article_number, _headers, body = nntp_client.article()
-    # print(f"{body = }")
+    print(f"{body = }")
     return json.loads(body)
 
 
