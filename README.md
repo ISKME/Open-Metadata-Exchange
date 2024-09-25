@@ -21,10 +21,18 @@ sequenceDiagram
 	NodeServer->>Browser: API Data response
 ```
 
-## To Install the components (will dockerize all of this in the near future):
-### [INN2](https://github.com/InterNetNews/inn): Refer to [this](https://defuse.ca/inn-private-newsgroup-server-setup.htm) for installing INN2
+## To Install the components:
+### [InterNetNews](https://github.com/InterNetNews/inn) in a Docker container:
 Also:
+* https://www.isc.org/othersoftware/#INN
 * https://www.eyrie.org/~eagle/software/inn/docs-2.7
+* https://github.com/cclauss/apt-get-inn2-docker
+
+For local development and testing, start the INN2 server with:
+    ```
+	docker run --rm -t -p119:119 -p563:563 cclauss/inn
+	```
+
 ### [FastAPI](https://fastapi.tiangolo.com/)-Server
 	From the project root directory
 	```
@@ -39,7 +47,12 @@ Also:
 	```
 
 ## To run the components
-### INN2: refer to the [INN2 documentation](https://www.isc.org/othersoftware/#INN)
+### InterNetNews: [INN2 documentation](https://www.isc.org/othersoftware/#INN)
+Make sure the INN2 server is running:
+    ```
+	docker run --rm -t -p119:119 -p563:563 cclauss/inn
+	```
+
 ### FastAPI Python app:
 	```
 	pipenv shell
