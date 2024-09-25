@@ -27,8 +27,8 @@ jobs:
       - run: python src/nntplib_tests.py || true
       - run: pip install --upgrade pip
       - run: pip install pydantic pynntp pytest
-      - run: python src/nntp_io.py
       - run: pytest
+      - run: python src/nntp_io.py
   pre-commit:
     runs-on: ubuntu-latest
     steps:
