@@ -10,8 +10,9 @@ jobs:
   inn-docker:
     strategy:
       fail-fast: false
+      max-parallel: 1  # Avoid port contention
       matrix:
-        service-image: [cclauss/inn]  # , greenbender/inn]
+        service-image: [cclauss/inn, greenbender/inn]
     runs-on: ubuntu-latest
     services:
       inn-service:
