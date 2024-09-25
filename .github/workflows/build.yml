@@ -25,9 +25,9 @@ jobs:
         with:
           python-version: 3.12
       - run: python src/nntplib_tests.py || true
-      - run: python src/nntp_io.py
       - run: pip install --upgrade pip
       - run: pip install pydantic pynntp pytest
+      - run: python src/nntp_io.py
       - run: pytest
   pre-commit:
     runs-on: ubuntu-latest
