@@ -28,6 +28,7 @@ extensions = [
 autodoc2_packages = [
     "src",
 ]
+autodoc2_render_plugin = "myst"
 myst_enable_extensions = [
     "amsmath",
     "attrs_inline",
