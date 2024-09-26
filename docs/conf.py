@@ -22,12 +22,13 @@ exclude_patterns = [
 extensions = [
     "autodoc2",
     "myst_parser",
-    "sphinx.ext.napoleon",
+    # "sphinx.ext.napoleon",
     "sphinxcontrib.mermaid",
 ]
+autodoc2_output_dir = "_build/html"
 autodoc2_packages = [
     "src",
-    "../src",
+    # "../src",
 ]
 autodoc2_render_plugin = "myst"
 myst_enable_extensions = [

@@ -8,5 +8,4 @@ root.md
 demo.md
 code_of_conduct.md
 contributing.md
-modules.md
 ```

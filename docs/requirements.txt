@@ -1,5 +1,5 @@
 furo
 myst_parser
-rst-to-myst[sphinx]
+rst-to-myst
 sphinx-autodoc2
 sphinxcontrib-mermaid
