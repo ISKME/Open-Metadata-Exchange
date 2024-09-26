@@ -25,7 +25,7 @@ extensions = [
     # "sphinx.ext.napoleon",
     "sphinxcontrib.mermaid",
 ]
-autodoc2_output_dir = "_build/html"
+autodoc2_output_dir = "docs/_build/html"
 autodoc2_packages = [
     "src",
     # "../src",
