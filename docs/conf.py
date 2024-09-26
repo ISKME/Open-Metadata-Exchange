@@ -20,10 +20,13 @@ exclude_patterns = [
     ".DS_Store",
 ]
 extensions = [
+    "autodoc2",
     "myst_parser",
-    "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinxcontrib.mermaid",
+]
+autodoc2_packages = [
+    "../src",
 ]
 myst_enable_extensions = [
     "amsmath",
