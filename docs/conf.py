@@ -26,7 +26,7 @@ extensions = [
     "sphinxcontrib.mermaid",
 ]
 autodoc2_packages = [
-    "../src",
+    "src",
 ]
 myst_enable_extensions = [
     "amsmath",
