@@ -27,10 +27,10 @@ extensions = [
 ]
 autodoc2_output_dir = "docs/_build/html"
 autodoc2_packages = [
-    "src",
-    # "../src",
+    # "src",
+    "../src",
 ]
-autodoc2_render_plugin = "md"
+autodoc2_render_plugin = "myst"
 myst_enable_extensions = [
     "amsmath",
     "attrs_inline",
