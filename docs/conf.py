@@ -30,7 +30,7 @@ autodoc2_packages = [
     "src",
     # "../src",
 ]
-autodoc2_render_plugin = "myst"
+autodoc2_render_plugin = "md/myst"
 myst_enable_extensions = [
     "amsmath",
     "attrs_inline",
