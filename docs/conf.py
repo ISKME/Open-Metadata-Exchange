@@ -27,6 +27,7 @@ extensions = [
 ]
 autodoc2_packages = [
     "src",
+    "../src",
 ]
 autodoc2_render_plugin = "myst"
 myst_enable_extensions = [
