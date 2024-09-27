@@ -77,11 +77,12 @@ if __name__ == "__main__":
     # Type: whg Lansing, Michigan
     print("whg: World Historical Gazetteer")
     print("michmem: Michigan Memories\n")
+    print("worldbank: World Bank on DSpace\n")
     _ = input("Search: (ex. 'whg Canada') ")
     sleep(2)
 
     print(
-        "3 World Historical Gazetteer datasets found: Getty, Decolonial Atlas, DBpedia\n"
+        "2 World Historical Gazetteer datasets found: Getty, Decolonial Atlas, DBpedia\n"
     )
     open_new_tab("https://whgazetteer.org/places/14156749/portal")
     print("Parsing 3 sources...\n")
@@ -90,7 +91,7 @@ if __name__ == "__main__":
 
     # Type: michmem Lansing river images
     _ = input("Search: (ex. 'whg Canada') ")
-    print("4 Michigan Memories selected: Lansing river images\n")
+    print("Michigan Memories selected: Lansing river images\n")
     open_new_tab(
         "https://michmemories.org/exhibits/default/catalog?q=Lansing+river+images"
     )
