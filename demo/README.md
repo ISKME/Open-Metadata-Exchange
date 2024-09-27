@@ -1,6 +1,6 @@
 There are currently two simple demos.
 
-### `michigan_mashup.py`
+# `michigan_mashup.py`
 Make data about Lansing, Michigan from World Historical Gazetteer and Michigan Memories
 available to teachers as they create new lesson plans in the OER Commons Editor.
 
@@ -11,7 +11,7 @@ Queries:
 * michmem Lansing river images
 * worldbank Health Service Delivery
 
-### `ome_demo.py`
+# `ome_demo.py`
 Use [FastAPI](https://fastapi.tiangolo.com) and [htmx](https://htmx.org) to retrieve multiple different open education resources:
 1. An image from https://michmemories.org
 2. A dataset from https://github.com/WorldHistoricalGazetteer

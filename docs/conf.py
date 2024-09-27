@@ -18,6 +18,7 @@ exclude_patterns = [
     "_build",
     "Thumbs.db",
     ".DS_Store",
+    "src/*",
 ]
 extensions = [
     "myst_parser",
@@ -42,7 +43,7 @@ myst_enable_extensions = [
     "tasklist",
 ]
 myst_fence_as_directive = [
-    "include",
+    # "include",
     "mermaid",
 ]
 source_suffix = {
