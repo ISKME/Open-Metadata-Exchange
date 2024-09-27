@@ -6,6 +6,11 @@ available to teachers as they create new lesson plans in the OER Commons Editor.
 
 Health Service Delivery data can also be gathered from the Moodle site of the Worldbank.
 
+Queries:
+* whg Lansing, MI
+* michmem Lansing river images
+* worldbank Health Service Delivery
+
 ### `ome_demo.py`
 Use [FastAPI](https://fastapi.tiangolo.com) and [htmx](https://htmx.org) to retrieve multiple different open education resources:
 1. An image from https://michmemories.org
