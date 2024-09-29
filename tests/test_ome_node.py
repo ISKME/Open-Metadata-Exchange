@@ -15,10 +15,10 @@ def test_channels():
 
 
 def test_one_channel():
-    ome_node.DEFAULT_NEWSGROUPS.remove(("local.test", "Local"))
+    ome_node.DEFAULT_NEWSGROUPS.remove(("local.test", "Local test group"))
     for channel in ome_node.channels():
         assert channel.name == "local.test"
-        assert channel.description == "Local"
+        assert channel.description == "Local test group"
 
 
 def test_channel_summary():
