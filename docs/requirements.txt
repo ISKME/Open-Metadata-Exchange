@@ -1,3 +1,4 @@
+autodoc2
 furo
 myst_parser
 rst-to-myst[sphinx]
