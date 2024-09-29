@@ -1,4 +1,4 @@
-# Vuetify (Default)
+# FE: Vuetify (Default)
 
 This is the official scaffolding tool for Vuetify, designed to give
 you a head start in building your new Vuetify application. It sets up
@@ -15,8 +15,8 @@ hassle of setting up the project from scratch.
 - 💬 [Discord](https://community.vuetifyjs.com)
 
 
-# Install
+## Install
 See the README.md file in the project root.
 
-# Run
+## Run
 See the README.md file in the project root.
