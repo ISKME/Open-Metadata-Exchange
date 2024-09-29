@@ -6,6 +6,13 @@ Distributed / Decentralized Network for Open Metadata Exchange
 # High Level "what connects to what"
 
 ```mermaid
+graph
+   accTitle: My title here
+   accDescr: My description here
+   A-->B
+```
+
+```mermaid
 sequenceDiagram
 	participant Browser
 	participant NodeServer

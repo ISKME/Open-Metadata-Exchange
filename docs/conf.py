@@ -14,18 +14,24 @@ author = "ISKME and contributors"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
+autodoc2_output_dir = "docs/apidocs"
+autodoc2_packages = ["src"]
+autodoc2_render_plugin = "myst"
 exclude_patterns = [
     "_build",
+    ".*",
+    "**/*.rst",
+    "docs/src.md",
+    "fe/src/*/README.md",
+    "fe/src/components/README.md",
     "Thumbs.db",
-    ".DS_Store",
-    "src/*",
 ]
 extensions = [
+    "autodoc2",
     "myst_parser",
-    "sphinx.ext.autodoc",
-    "sphinx.ext.napoleon",
     "sphinxcontrib.mermaid",
 ]
+extensions = ["autodoc2", "myst_parser"]
 myst_enable_extensions = [
     "amsmath",
     "attrs_inline",
@@ -36,6 +42,7 @@ myst_enable_extensions = [
     "html_admonition",
     "html_image",
     # "linkify",
+    "mermaid",
     "replacements",
     "smartquotes",
     "strikethrough",
@@ -48,7 +55,7 @@ myst_fence_as_directive = [
 ]
 source_suffix = {
     ".rst": "restructuredtext",
-    ".txt": "markdown",
+    # ".txt": "markdown",
     ".md": "markdown",
 }
 suppress_warnings = ["epub.unknown_project_files"]

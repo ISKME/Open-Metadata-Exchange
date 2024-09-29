@@ -1,3 +1,23 @@
+[project]
+name = "open-metadata-exchange"
+version = "0.1.0"
+
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+optional-dependencies.docs = [
+  "furo==2024.8.6",
+  "myst-parser==4",
+  # "sphinx-autodoc2==0.5.0",
+  "sphinx-autodoc2 @ git+https://github.com/sphinx-extensions2/sphinx-autodoc2.git@main",
+  "sphinxcontrib-mermaid==0.9.2",
+]
+
 [tool.codespell]
 ignore-words-list = "formend,socio-economic"
 skip = "*/package-lock.json"
