@@ -15,9 +15,15 @@ author = "ISKME and contributors"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 exclude_patterns = [
-    "_build",
-    "Thumbs.db",
+    ".*/*",
     ".DS_Store",
+    "docs/_build",
+    "docs/requirements.txt",
+    "fe/src/*/README.md",
+    "LICENSE.rst",
+    "src/inn_article_001.txt",
+    "src/Open_Metadata_Exchange.egg-info/*",
+    "Thumbs.db",
 ]
 extensions = [
     "myst_parser",
