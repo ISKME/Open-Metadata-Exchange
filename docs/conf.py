@@ -14,7 +14,7 @@ author = "ISKME and contributors"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-autoapi_dirs = ["../src"]
+autoapi_dirs = ["src"]
 exclude_patterns = [
     ".*/*",
     ".DS_Store",
