@@ -1,7 +1,7 @@
 [project]
 name = "open-metadata-exchange"
 version = "0.1.0"
-requires-python = ">= 3.11"
+requires-python = ">=3.11"
 
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
@@ -20,3 +20,6 @@ optional-dependencies.docs = [
 [tool.codespell]
 ignore-words-list = "formend,socio-economic"
 skip = "*/package-lock.json"
+
+[tool.pyproject-fmt]
+max_supported_python = "3.13"
