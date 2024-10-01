@@ -30,7 +30,7 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install --upgrade pip
-      - run: pip install -r docs/requirements.txt
+      - run: pip install --editable ".[docs]"
       - uses: actions/configure-pages@v5
       # - run: sphinx-apidoc -f -o docs src  # Todo: Add demo code
       # - run: shopt -s globstar && rst2myst convert docs/**/*.rst
