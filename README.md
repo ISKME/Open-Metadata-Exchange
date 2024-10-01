@@ -22,11 +22,11 @@ sequenceDiagram
 ```
 
 ## Install the components:
-### [InterNetNews](https://github.com/InterNetNews/inn) will run in a Docker container:
+### [InterNetNews](https://github.com/InterNetNews/inn) will be run in a Docker container:
 Also:
-* https://www.isc.org/othersoftware/#INN
-* https://www.eyrie.org/~eagle/software/inn/docs-2.7
-* https://github.com/cclauss/apt-get-inn2-docker
+* [https://www.isc.org/othersoftware/#INN](https://www.isc.org/othersoftware/#INN)
+* [https://www.eyrie.org/~eagle/software/inn/docs-2.7](https://www.eyrie.org/~eagle/software/inn/docs-2.7)
+* [https://github.com/cclauss/apt-get-inn2-docker](https://github.com/cclauss/apt-get-inn2-docker)
 
 ### [FastAPI](https://fastapi.tiangolo.com/)-Server
 From the project root directory
