@@ -54,7 +54,7 @@ docker run --rm -t -p119:119 -p563:563 cclauss/inn
 ### FastAPI Python app:
 ```bash
 pipenv shell
-fastapi dev --port=5000 server/main.py
+PYTHONPATH=./ fastapi dev --port=5000 server/main.py
 ```
 
 ### NodeServer
