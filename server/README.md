@@ -1,4 +1,5 @@
-# FastAPI server: A backend for the FE2 user interface
+# FastAPI server
+## A backend for the FE2 user interface
 
 Build and run the FastAPI server in background mode and follow the logs.
 ```bash

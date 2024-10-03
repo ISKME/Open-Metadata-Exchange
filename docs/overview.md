@@ -1,4 +1,4 @@
-# Open Metadata Exchange (OME)
+# OME Project
 OME enables open educational resources to create, publish, and update their metadata
 on a peer-to-peer network.  By solving authoring, publishing, and discovery issues,
 this network will provide broad visibility to current islands of OER information.
@@ -26,7 +26,7 @@ The project is licensed under the __GNU Affero General Public License v3.0__.
 
 ---
 
-# Open Metadata Exchange Overview
+# OME Overview
 
 __Analogy__: Imagine a librarian creates a catalog card for a new book. Once the card is made, the librarian makes copies and sends them to neighboring libraries. Those libraries do the same, spreading the information further. Each library may choose to add specific details relevant to its own collection, but they don't have to start from scratch. Any updates to the cards are also shared. This process ensures efficient sharing and updating of information across libraries.
 

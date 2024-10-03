@@ -3,7 +3,7 @@ Distributed / Decentralized Network for Open Metadata Exchange
 
 [![ome_build](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml)
 
-# High Level "what connects to what"
+## High Level "what connects to what"
 
 ```mermaid
 sequenceDiagram
@@ -67,7 +67,7 @@ npm run # To see available commands
 npm run start:dev:server  # TODO (@KevinEverywhere): Is this the correct command to display the UI?
 ```
 
-# Additional bits
+## Additional bits
 For those wanting to "integrate" with OERCommons (either from the
 local dev environment, or - with some changes to the script - the
 production environment). Install [tampermonkey](https://www.tampermonkey.net/)
