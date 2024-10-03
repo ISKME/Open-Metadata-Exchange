@@ -1,7 +1,8 @@
-# Open Metadata Exchange (OME)
+# OME Readme
 Distributed / Decentralized Network for Open Metadata Exchange
 
 [![ome_build](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml)
+[![ome_docs](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/sphinx.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/sphinx.yml)
 
 ## High Level "what connects to what"
 
