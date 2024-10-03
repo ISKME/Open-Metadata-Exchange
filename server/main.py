@@ -3,8 +3,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 # import nntp
-import server.ome_node as ome_node
-from server.schemas import Channel, ChannelSummary, Card, NewCard, CardRef
+from . import ome_node
+from .schemas import Channel, ChannelSummary, Card, NewCard, CardRef
 
 app = FastAPI()
 

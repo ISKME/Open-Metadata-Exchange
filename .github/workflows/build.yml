@@ -52,8 +52,8 @@ jobs:
         - uses: actions/setup-node@v4
           with:
             node-version: ${{ matrix.node-version }}
-        - run: cd fe2 && npm install
-        - run: cd fe2 && npm run
+        - run: cd fe2 && npm ci || npm install
+        - run: cd fe2 && npm run  # To see available commands
         # TODO(@KevinEverywhere): Set up eslint/config and then remove `|| true`
         - run: cd fe2 && yes | npm init @eslint/config
         - run: cd fe2 && npm run lint:scss || true

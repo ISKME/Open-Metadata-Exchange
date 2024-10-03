@@ -1,9 +1,10 @@
-# Open Metadata Exchange (OME)
+# OME Readme
 Distributed / Decentralized Network for Open Metadata Exchange
 
 [![ome_build](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml)
+[![ome_docs](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/sphinx.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/sphinx.yml)
 
-# High Level "what connects to what"
+## High Level "what connects to what"
 
 ```mermaid
 sequenceDiagram
@@ -28,14 +29,8 @@ Also:
 * [https://www.eyrie.org/~eagle/software/inn/docs-2.7](https://www.eyrie.org/~eagle/software/inn/docs-2.7)
 * [https://github.com/cclauss/apt-get-inn2-docker](https://github.com/cclauss/apt-get-inn2-docker)
 
-### [FastAPI](https://fastapi.tiangolo.com/)-Server
+### [FastAPI](https://fastapi.tiangolo.com/)-Server will be run in a Docker container:
 From the project root directory
-```bash
-python3 -m pip install --upgrade pre-commit pipenv
-pre-commit install
-pipenv install
-pipenv sync
-```
 
 ### NodeServer (Node.js Vue app)
 From the project root directory
@@ -52,18 +47,28 @@ docker run --rm -t -p119:119 -p563:563 cclauss/inn
 ```
 
 ### FastAPI Python app:
+For local development and testing, build and run the FastAPI server
+in background mode and follow the logs with:
 ```bash
-pipenv shell
-PYTHONPATH=./ fastapi dev --port=5000 server/main.py
+docker build --tag=fastapi-server --no-cache --progress=plain . \
+  && docker run --detach --publish=5001:5001 fastapi-server \
+  && docker logs -f $(docker ps -lq)
 ```
 
-### NodeServer
+### FE NodeServer
 ```bash
 cd fe
 npm run dev --host=0.0.0.0
 ```
 
-# Additional bits
+### FE2 NodeServer
+```bash
+cd fe2
+npm run # To see available commands
+npm run start:dev:server  # TODO (@KevinEverywhere): Is this the correct command to display the UI?
+```
+
+## Additional bits
 For those wanting to "integrate" with OERCommons (either from the
 local dev environment, or - with some changes to the script - the
 production environment). Install [tampermonkey](https://www.tampermonkey.net/)
