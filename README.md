@@ -49,7 +49,8 @@ docker run --rm -t -p119:119 -p563:563 cclauss/inn
 ### FastAPI Python app:
 For local development and testing:
 ```bash
-pipenv run PYTHONPATH=. fastapi dev --host=0.0.0.0 --port=5001 server/main.py
+pipenv shell
+PYTHONPATH=. fastapi dev --host=0.0.0.0 --port=5001 server/main.py
 
 open http://localhost:5001
 open http://localhost:5001/docs
