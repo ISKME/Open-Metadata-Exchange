@@ -9,17 +9,18 @@ Distributed / Decentralized Network for Open Metadata Exchange
 ```mermaid
 sequenceDiagram
 	participant Browser
-	participant NodeServer
+	participant FE2-on-NodeServer
 	participant FastAPI-Server
-	participant INN2
+	participant InterNetNews
 
-	Browser->>NodeServer: GET localhost:3000/
-	NodeServer->>Browser: index.html with Vue.js App
-	Browser->>NodeServer: API Calls (it's proxied in DEV mode)
-	NodeServer->>FastAPI-Server: Forwarded API Calls
-	FastAPI-Server->>INN2: Query as appropriate
-	FastAPI-Server->>NodeServer: API Data response
-	NodeServer->>Browser: API Data response
+	Browser->>FE2-on-NodeServer: GET localhost:4000/imls
+	FE2-on-NodeServer->>Browser: index.html with React app
+	Browser->>FE2-on-NodeServer: API calls (it's proxied in DEV mode)
+	FE2-on-NodeServer->>FastAPI-Server: Forwarded API calls
+	FastAPI-Server->>InterNetNews: Query as appropriate
+        InterNetNews->>FastAPI-Server: Metadata response
+	FastAPI-Server->>FE2-on-NodeServer: API Data response
+	FE2-on-NodeServer->>Browser: API Data response
 ```
 
 ## Install the components:
@@ -78,7 +79,7 @@ npm run dev --host=0.0.0.0
 ### FE2 NodeServer
 ```bash
 cd fe2
-npm run # To see available commands
+npm ci
 npm run start
 # Wait for `webpack x.y.z compiled successfully`
 open http://localhost:4000/imls
