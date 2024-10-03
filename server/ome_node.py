@@ -3,7 +3,7 @@ from typing import Iterator
 
 import nntp
 
-from .schemas import Channel, ChannelSummary, Card, NewCard, Metadata
+from server.schemas import Channel, ChannelSummary, Card, NewCard, Metadata
 
 DEFAULT_NEWSGROUPS = {
     ("control.cancel", "Cancel messages (no posting)"),

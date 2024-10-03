@@ -15,8 +15,8 @@ Install Open Metadata Exchange by running:
 * `apt-get install open-metadata-exchange` (Aspirational!)
 
 ## Contribute
-* Issue Tracker: https://github.com/ISKME/Open-Metadata-Exchange/issues
-* Source Code: https://github.com/ISKME/Open-Metadata-Exchange
+* Issue Tracker: <https://github.com/ISKME/Open-Metadata-Exchange/issues>
+* Source Code: <https://github.com/ISKME/Open-Metadata-Exchange>
 
 ## Support
 Please open an issue in our [Issue Tracker](https://github.com/ISKME/Open-Metadata-Exchange/issues).

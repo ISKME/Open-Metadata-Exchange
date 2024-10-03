@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 pynntp = "*"
-fastapi = "*"
+fastapi = {extras = ["standard"], version = "*"}
 
 [dev-packages]
 
