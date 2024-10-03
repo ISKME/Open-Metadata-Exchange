@@ -2,15 +2,14 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-# import nntp
-from . import ome_node
-from .schemas import Channel, ChannelSummary, Card, NewCard, CardRef
+from server import ome_node
+from server.schemas import Channel, ChannelSummary, Card, NewCard, CardRef
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex="http://.*\.localhost:8000",
+    allow_origin_regex="http://.*\\.localhost:5001",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
