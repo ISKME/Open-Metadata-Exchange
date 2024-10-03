@@ -79,8 +79,8 @@ npm run dev --host=0.0.0.0
 ```bash
 cd fe2
 npm run # To see available commands
-npm run start:dev:server  # TODO (@KevinEverywhere): Is this the correct command to display the UI?
-
+npm run start
+# Wait for `webpack x.y.z compiled successfully`
 open http://localhost:4000/imls
 ```
 
