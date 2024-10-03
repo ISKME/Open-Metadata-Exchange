@@ -14,7 +14,7 @@ sequenceDiagram
 	participant InterNetNews
 
 	Browser->>FE2-on-NodeServer: GET localhost:4000/imls
-	FE2-on-NodeServer->>Browser: index.html with React app
+	FE2-on-NodeServer->>Browser: index.html from React app
 	Browser->>FE2-on-NodeServer: API calls (it's proxied in DEV mode)
 	FE2-on-NodeServer->>FastAPI-Server: Forwarded API calls
 	FastAPI-Server->>InterNetNews: Query as appropriate
