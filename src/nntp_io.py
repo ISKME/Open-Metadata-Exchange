@@ -8,8 +8,7 @@ nntp_client: nntp.NNTPClient = nntp.NNTPClient("localhost")
 
 
 def nntp_write(payload: dict, newsgroup: str = "local.test") -> bool:
-    """
-    Write a payload dict as json to a InterNet News newsgroup.
+    """Write a payload dict as json to a InterNet News newsgroup.
 
     Args:
         payload: Description of payload

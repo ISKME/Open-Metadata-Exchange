@@ -1,8 +1,9 @@
 [project]
 name = "open-metadata-exchange"
 version = "0.1.0"
+description = "Open Metadata Exchange (OME)"
+authors = [ { name = "ISKME and contributors" } ]
 requires-python = ">=3.11"
-
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.11",
@@ -10,10 +11,10 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
 ]
 optional-dependencies.docs = [
-  "furo",
   "myst-parser",
-  "rst-to-myst[sphinx]",
+  "rst-to-myst",
   "sphinx-autoapi",
+  "sphinx-pyproject",
   "sphinxcontrib-mermaid",
 ]
 
@@ -23,3 +24,52 @@ skip = "*/package-lock.json"
 
 [tool.pyproject-fmt]
 max_supported_python = "3.13"
+
+[tool.sphinx-pyproject]
+copyright = "2024, ISKME and contributors"
+autoapi_dirs = [ "server", "src" ]
+exclude_patterns = [
+  ".*/*",
+  ".DS_Store",
+  "autoapi/Open-Metadata-Exchange/server/schemas/index.rst",
+  "docs/_build",
+  "fe/src/*/README.md",
+  "LICENSE.rst",
+  "src/index.rst",
+  "src/Open_Metadata_Exchange.egg-info/*",
+  "Thumbs.db",
+]
+extensions = [
+  "autoapi.extension",
+  "myst_parser",
+  "sphinxcontrib.mermaid",
+]
+html_static_path = [ "_static" ]
+html_theme = "alabaster"
+myst_enable_extensions = [
+  "amsmath",
+  "attrs_inline",
+  "colon_fence",
+  "deflist",
+  "dollarmath",
+  "fieldlist",
+  "html_admonition",
+  "html_image",
+  # "linkify",
+  "replacements",
+  "smartquotes",
+  "strikethrough",
+  "substitution",
+  "tasklist",
+]
+myst_fence_as_directive = [
+  "include",
+  "mermaid",
+]
+suppress_warnings = [ "epub.unknown_project_files" ]
+templates_path = [ "_templates" ]
+
+[tool.sphinx-pyproject.source_suffix]
+".rst" = "restructuredtext"
+".txt" = "markdown"
+".md" = "markdown"
