@@ -24,4 +24,4 @@ COPY ./static /app/static
 EXPOSE 5001
 
 # Command to run the FastAPI server, binding it to port 5001
-CMD ["uv", "run", "fastapi", "dev", "--port=5001", "server/main.py"]
+CMD ["uv", "run", "fastapi", "dev", "--host=0.0.0.0", "--port=5001", "server/main.py"]

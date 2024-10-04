@@ -57,7 +57,6 @@ open http://localhost:5001
 open http://localhost:5001/docs
 ```
 
-<!-- This is commented out for now...
 Or docker build and run the FastAPI server in background mode and
 follow the logs with:
 ```bash
@@ -68,7 +67,6 @@ docker build --tag=fastapi-server --no-cache --progress=plain . \
 open http://localhost:5001
 open http://localhost:5001/docs
 ```
--->
 
 ### FE NodeServer
 ```bash
