@@ -11,6 +11,5 @@ fe2/README.md
 server/README.md
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
-autoapi/Open-Metadata-Exchange/server/index.rst
-autoapi/Open-Metadata-Exchange/src/index.rst
+autoapi/index.rst
 ```
