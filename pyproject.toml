@@ -12,7 +12,6 @@ classifiers = [
 ]
 optional-dependencies.docs = [
   "myst-parser",
-  "rst-to-myst",
   "sphinx-autoapi",
   "sphinx-pyproject",
   "sphinxcontrib-mermaid",
@@ -29,14 +28,11 @@ max_supported_python = "3.13"
 copyright = "2024, ISKME and contributors"
 autoapi_dirs = [ "server", "src" ]
 exclude_patterns = [
-  ".*/*",
+  # ".*/*",
   ".DS_Store",
-  "autoapi/Open-Metadata-Exchange/server/schemas/index.rst",
-  "docs/_build",
   "fe/src/*/README.md",
-  "LICENSE.rst",
-  "src/index.rst",
-  "src/Open_Metadata_Exchange.egg-info/*",
+  # "LICENSE.rst",
+  "src/open_metadata_exchange.egg-info",
   "Thumbs.db",
 ]
 extensions = [
@@ -66,9 +62,7 @@ myst_fence_as_directive = [
   "include",
   "mermaid",
 ]
-suppress_warnings = [ "epub.unknown_project_files" ]
 templates_path = [ "_templates" ]
-
 [tool.sphinx-pyproject.source_suffix]
 ".rst" = "restructuredtext"
 ".txt" = "markdown"
