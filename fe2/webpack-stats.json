@@ -1,204 +1,31 @@
 {
   "status": "done",
   "assets": {
-    "7c6642f94a27c2bbf2d2ab579543e5f0.jpg": {
-      "name": "7c6642f94a27c2bbf2d2ab579543e5f0.jpg",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/7c6642f94a27c2bbf2d2ab579543e5f0.jpg",
-      "publicPath": "http://0.0.0.0:4000/7c6642f94a27c2bbf2d2ab579543e5f0.jpg"
+    "ad92a8b23314d572fd6620d89f463816.png": {
+      "name": "ad92a8b23314d572fd6620d89f463816.png",
+      "path": "/Users/kevinready/work/iskme/Open-Metadata-Exchange/fe2/build/ad92a8b23314d572fd6620d89f463816.png",
+      "publicPath": "http://0.0.0.0:4000/ad92a8b23314d572fd6620d89f463816.png"
     },
-    "48aa27d36e62a71cf3033281ea72ecea.jpg": {
-      "name": "48aa27d36e62a71cf3033281ea72ecea.jpg",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/48aa27d36e62a71cf3033281ea72ecea.jpg",
-      "publicPath": "http://0.0.0.0:4000/48aa27d36e62a71cf3033281ea72ecea.jpg"
+    "b946169989d81584f36ae11989a221b8.png": {
+      "name": "b946169989d81584f36ae11989a221b8.png",
+      "path": "/Users/kevinready/work/iskme/Open-Metadata-Exchange/fe2/build/b946169989d81584f36ae11989a221b8.png",
+      "publicPath": "http://0.0.0.0:4000/b946169989d81584f36ae11989a221b8.png"
     },
-    "1b979e7026c0adbdd7b9d6419fb09662.jpg": {
-      "name": "1b979e7026c0adbdd7b9d6419fb09662.jpg",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/1b979e7026c0adbdd7b9d6419fb09662.jpg",
-      "publicPath": "http://0.0.0.0:4000/1b979e7026c0adbdd7b9d6419fb09662.jpg"
-    },
-    "main.bee0396796d47467cb21.js": {
-      "name": "main.bee0396796d47467cb21.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.bee0396796d47467cb21.js",
-      "publicPath": "http://0.0.0.0:4000/main.bee0396796d47467cb21.js"
+    "main.42d958a7e0aacce059fc.js": {
+      "name": "main.42d958a7e0aacce059fc.js",
+      "path": "/Users/kevinready/work/iskme/Open-Metadata-Exchange/fe2/build/main.42d958a7e0aacce059fc.js",
+      "publicPath": "http://0.0.0.0:4000/main.42d958a7e0aacce059fc.js"
     },
     "index.html": {
       "name": "index.html",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/index.html",
+      "path": "/Users/kevinready/work/iskme/Open-Metadata-Exchange/fe2/build/index.html",
       "publicPath": "http://0.0.0.0:4000/index.html"
-    },
-    "main.792f3a91eaecf278ea61.js": {
-      "name": "main.792f3a91eaecf278ea61.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.792f3a91eaecf278ea61.js",
-      "publicPath": "http://0.0.0.0:4000/main.792f3a91eaecf278ea61.js"
-    },
-    "main.97bc57d74d038dd9e9c6.hot-update.js": {
-      "name": "main.97bc57d74d038dd9e9c6.hot-update.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.97bc57d74d038dd9e9c6.hot-update.js",
-      "publicPath": "http://0.0.0.0:4000/main.97bc57d74d038dd9e9c6.hot-update.js"
-    },
-    "main.97bc57d74d038dd9e9c6.hot-update.json": {
-      "name": "main.97bc57d74d038dd9e9c6.hot-update.json",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.97bc57d74d038dd9e9c6.hot-update.json",
-      "publicPath": "http://0.0.0.0:4000/main.97bc57d74d038dd9e9c6.hot-update.json"
-    },
-    "main.98673d0e8d4dc5c2e98f.js": {
-      "name": "main.98673d0e8d4dc5c2e98f.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.98673d0e8d4dc5c2e98f.js",
-      "publicPath": "http://0.0.0.0:4000/main.98673d0e8d4dc5c2e98f.js"
-    },
-    "main.ef30dbae6526425c40ff.hot-update.js": {
-      "name": "main.ef30dbae6526425c40ff.hot-update.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.ef30dbae6526425c40ff.hot-update.js",
-      "publicPath": "http://0.0.0.0:4000/main.ef30dbae6526425c40ff.hot-update.js"
-    },
-    "main.ef30dbae6526425c40ff.hot-update.json": {
-      "name": "main.ef30dbae6526425c40ff.hot-update.json",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.ef30dbae6526425c40ff.hot-update.json",
-      "publicPath": "http://0.0.0.0:4000/main.ef30dbae6526425c40ff.hot-update.json"
-    },
-    "main.48f3280b64c151850916.js": {
-      "name": "main.48f3280b64c151850916.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.48f3280b64c151850916.js",
-      "publicPath": "http://0.0.0.0:4000/main.48f3280b64c151850916.js"
-    },
-    "main.39f8126364d087149890.hot-update.js": {
-      "name": "main.39f8126364d087149890.hot-update.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.39f8126364d087149890.hot-update.js",
-      "publicPath": "http://0.0.0.0:4000/main.39f8126364d087149890.hot-update.js"
-    },
-    "main.39f8126364d087149890.hot-update.json": {
-      "name": "main.39f8126364d087149890.hot-update.json",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.39f8126364d087149890.hot-update.json",
-      "publicPath": "http://0.0.0.0:4000/main.39f8126364d087149890.hot-update.json"
-    },
-    "main.2e523ee0ef8086b1f4d0.js": {
-      "name": "main.2e523ee0ef8086b1f4d0.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.2e523ee0ef8086b1f4d0.js",
-      "publicPath": "http://0.0.0.0:4000/main.2e523ee0ef8086b1f4d0.js"
-    },
-    "main.46ce7451a799c35833f1.hot-update.js": {
-      "name": "main.46ce7451a799c35833f1.hot-update.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.46ce7451a799c35833f1.hot-update.js",
-      "publicPath": "http://0.0.0.0:4000/main.46ce7451a799c35833f1.hot-update.js"
-    },
-    "main.46ce7451a799c35833f1.hot-update.json": {
-      "name": "main.46ce7451a799c35833f1.hot-update.json",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.46ce7451a799c35833f1.hot-update.json",
-      "publicPath": "http://0.0.0.0:4000/main.46ce7451a799c35833f1.hot-update.json"
-    },
-    "main.7d1c6b12326539b80127.js": {
-      "name": "main.7d1c6b12326539b80127.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.7d1c6b12326539b80127.js",
-      "publicPath": "http://0.0.0.0:4000/main.7d1c6b12326539b80127.js"
-    },
-    "main.7db78e74c8e5a607113d.hot-update.js": {
-      "name": "main.7db78e74c8e5a607113d.hot-update.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.7db78e74c8e5a607113d.hot-update.js",
-      "publicPath": "http://0.0.0.0:4000/main.7db78e74c8e5a607113d.hot-update.js"
-    },
-    "main.7db78e74c8e5a607113d.hot-update.json": {
-      "name": "main.7db78e74c8e5a607113d.hot-update.json",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.7db78e74c8e5a607113d.hot-update.json",
-      "publicPath": "http://0.0.0.0:4000/main.7db78e74c8e5a607113d.hot-update.json"
-    },
-    "main.a0edc55839986ea47d72.js": {
-      "name": "main.a0edc55839986ea47d72.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.a0edc55839986ea47d72.js",
-      "publicPath": "http://0.0.0.0:4000/main.a0edc55839986ea47d72.js"
-    },
-    "main.a00230735bb8fa8a6d3d.hot-update.js": {
-      "name": "main.a00230735bb8fa8a6d3d.hot-update.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.a00230735bb8fa8a6d3d.hot-update.js",
-      "publicPath": "http://0.0.0.0:4000/main.a00230735bb8fa8a6d3d.hot-update.js"
-    },
-    "main.a00230735bb8fa8a6d3d.hot-update.json": {
-      "name": "main.a00230735bb8fa8a6d3d.hot-update.json",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.a00230735bb8fa8a6d3d.hot-update.json",
-      "publicPath": "http://0.0.0.0:4000/main.a00230735bb8fa8a6d3d.hot-update.json"
-    },
-    "main.ff463c1607a2291bc7f3.js": {
-      "name": "main.ff463c1607a2291bc7f3.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.ff463c1607a2291bc7f3.js",
-      "publicPath": "http://0.0.0.0:4000/main.ff463c1607a2291bc7f3.js"
-    },
-    "main.81eccc6b7177c77ffb05.hot-update.js": {
-      "name": "main.81eccc6b7177c77ffb05.hot-update.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.81eccc6b7177c77ffb05.hot-update.js",
-      "publicPath": "http://0.0.0.0:4000/main.81eccc6b7177c77ffb05.hot-update.js"
-    },
-    "main.81eccc6b7177c77ffb05.hot-update.json": {
-      "name": "main.81eccc6b7177c77ffb05.hot-update.json",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.81eccc6b7177c77ffb05.hot-update.json",
-      "publicPath": "http://0.0.0.0:4000/main.81eccc6b7177c77ffb05.hot-update.json"
-    },
-    "main.95577696ab7bcd529d77.js": {
-      "name": "main.95577696ab7bcd529d77.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.95577696ab7bcd529d77.js",
-      "publicPath": "http://0.0.0.0:4000/main.95577696ab7bcd529d77.js"
-    },
-    "main.c3365288d8670571b1bc.hot-update.js": {
-      "name": "main.c3365288d8670571b1bc.hot-update.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.c3365288d8670571b1bc.hot-update.js",
-      "publicPath": "http://0.0.0.0:4000/main.c3365288d8670571b1bc.hot-update.js"
-    },
-    "main.c3365288d8670571b1bc.hot-update.json": {
-      "name": "main.c3365288d8670571b1bc.hot-update.json",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.c3365288d8670571b1bc.hot-update.json",
-      "publicPath": "http://0.0.0.0:4000/main.c3365288d8670571b1bc.hot-update.json"
-    },
-    "main.b7e21be9c2c6687705f6.js": {
-      "name": "main.b7e21be9c2c6687705f6.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.b7e21be9c2c6687705f6.js",
-      "publicPath": "http://0.0.0.0:4000/main.b7e21be9c2c6687705f6.js"
-    },
-    "main.64bf6742eb7076ab37cb.hot-update.js": {
-      "name": "main.64bf6742eb7076ab37cb.hot-update.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.64bf6742eb7076ab37cb.hot-update.js",
-      "publicPath": "http://0.0.0.0:4000/main.64bf6742eb7076ab37cb.hot-update.js"
-    },
-    "main.64bf6742eb7076ab37cb.hot-update.json": {
-      "name": "main.64bf6742eb7076ab37cb.hot-update.json",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.64bf6742eb7076ab37cb.hot-update.json",
-      "publicPath": "http://0.0.0.0:4000/main.64bf6742eb7076ab37cb.hot-update.json"
-    },
-    "main.3fc787f8a581a51d0c73.js": {
-      "name": "main.3fc787f8a581a51d0c73.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.3fc787f8a581a51d0c73.js",
-      "publicPath": "http://0.0.0.0:4000/main.3fc787f8a581a51d0c73.js"
-    },
-    "main.385fd2047344df9a6968.hot-update.js": {
-      "name": "main.385fd2047344df9a6968.hot-update.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.385fd2047344df9a6968.hot-update.js",
-      "publicPath": "http://0.0.0.0:4000/main.385fd2047344df9a6968.hot-update.js"
-    },
-    "main.385fd2047344df9a6968.hot-update.json": {
-      "name": "main.385fd2047344df9a6968.hot-update.json",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.385fd2047344df9a6968.hot-update.json",
-      "publicPath": "http://0.0.0.0:4000/main.385fd2047344df9a6968.hot-update.json"
-    },
-    "main.1291dc8ed592af6f4341.js": {
-      "name": "main.1291dc8ed592af6f4341.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.1291dc8ed592af6f4341.js",
-      "publicPath": "http://0.0.0.0:4000/main.1291dc8ed592af6f4341.js"
-    },
-    "main.bac39e6c8cfc6d813f51.hot-update.js": {
-      "name": "main.bac39e6c8cfc6d813f51.hot-update.js",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.bac39e6c8cfc6d813f51.hot-update.js",
-      "publicPath": "http://0.0.0.0:4000/main.bac39e6c8cfc6d813f51.hot-update.js"
-    },
-    "main.bac39e6c8cfc6d813f51.hot-update.json": {
-      "name": "main.bac39e6c8cfc6d813f51.hot-update.json",
-      "path": "/Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/build/main.bac39e6c8cfc6d813f51.hot-update.json",
-      "publicPath": "http://0.0.0.0:4000/main.bac39e6c8cfc6d813f51.hot-update.json"
     }
   },
   "chunks": {
     "main": [
-      "main.1291dc8ed592af6f4341.js",
-      "main.bac39e6c8cfc6d813f51.hot-update.js"
+      "main.42d958a7e0aacce059fc.js"
     ]
   },
-  "publicPath": "http://0.0.0.0:4000/",
-  "error": "Error",
-  "message": "[tsl] ERROR in /Users/anisa/Docs/ISKME/oerc-sandbox/apps/imls/react/src/pages/CollectionDetails/ui/CollectionDetails.tsx(51,14)\n      TS2554: Expected 1 arguments, but got 0."
+  "publicPath": "http://0.0.0.0:4000/"
 }

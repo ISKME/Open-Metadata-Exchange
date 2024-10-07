@@ -18,9 +18,7 @@ npm run start
 open http://localhost:4000/imls
 ```
 
-
 ## % `cd fe2 && npm run`
-
 ```
 Lifecycle scripts included in imls-react@1.0.0, available via `npm run script`:
 
