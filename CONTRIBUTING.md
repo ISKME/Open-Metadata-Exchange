@@ -31,8 +31,8 @@ Substitute your GitHub username in the steps below: `<your_GitHub_username>`
 * If that page already exists then you already have your own fork.
 * If that page does not exist, go to https://github.com/ISKME/Open-Metadata-Exchange and click the `Fork` button in the upper right of the page.
 
-We can switch to the terminal to create a local directory where you can make changes and submit them as pull requests.
-* `git clone https://github.com/<your_GitHub_username>/Open-Metadata-Exchange` will make a local copy.  Make sure you use `<your_GitHub_username>`!!
+Now let's switch to your terminal to create a local directory where you can make changes and submit those changes as pull requests.
+* `git clone https://github.com/<your_GitHub_username>/Open-Metadata-Exchange` will make a local copy of your fork.  Make sure you use `<your_GitHub_username>`!!
 * `cd Open-Metadata-Exchange`  # Going inside this new directory is important.
 * `git remote add upstream https://github.com/ISKME/Open-Metadata-Exchange`  Make sure you use `ISKME`.
 * `git remote -v` to ensure that `origin` is your fork and that `upstream` is the ISKME repo.
