@@ -28,12 +28,11 @@ max_supported_python = "3.13"
 copyright = "2024, ISKME and contributors"
 autoapi_dirs = [ "server", "src" ]
 exclude_patterns = [
-  # ".*/*",
-  ".DS_Store",
-  "fe/src/*/README.md",
-  "fe2",
+  ".*/*",
+  "fe",
+  "fe2/node_modules",
   # "LICENSE.rst",
-  "src/open_metadata_exchange.egg-info",
+  "src/Open_Metadata_Exchange.egg-info",
   "Thumbs.db",
 ]
 extensions = [

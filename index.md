@@ -5,10 +5,9 @@
 
 docs/overview.md
 README.md
-demo/README.md
-fe/README.md
 fe2/README.md
 server/README.md
+demo/README.md
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
 ```
