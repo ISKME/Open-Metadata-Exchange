@@ -29,9 +29,8 @@ copyright = "2024, ISKME and contributors"
 autoapi_dirs = [ "server", "src" ]
 exclude_patterns = [
   # ".*/*",
-  ".DS_Store",
-  "fe/src/*/README.md",
-  "fe2",
+  "fe",
+  # "fe2",
   # "LICENSE.rst",
   "src/open_metadata_exchange.egg-info",
   "Thumbs.db",
