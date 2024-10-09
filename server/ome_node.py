@@ -5,7 +5,7 @@ import nntp
 
 from server.schemas import Channel, ChannelSummary, Card, NewCard, Metadata
 
-DEFAULT_NEWSGROUPS = {
+DEFAULT_NEWSGROUPS: dict[str, str] = {
     ("control.cancel", "Cancel messages (no posting)"),
     ("control.checkgroups", "Hierarchy check control messages (no posting)"),
     ("control.newgroup", "Newsgroup creation control messages (no posting)"),
@@ -16,10 +16,22 @@ DEFAULT_NEWSGROUPS = {
     ("local.test", "Local test group"),
 }
 
+CLIENT: nntp.NNTPClient | None = None
 
-def getClient():
-    client = nntp.NNTPClient("localhost")
-    return client
+
+def getClient() -> nntp.NNTPClient:
+    global CLIENT
+    CLIENT = CLIENT or nntp.NNTPClient("localhost")
+    return CLIENT
+
+
+def enable_a_default_channel(channel_name: str = "local.test") -> None:
+    for name, description in DEFAULT_NEWSGROUPS:
+        if name == channel_name:
+            DEFAULT_NEWSGROUPS.remove((name, description))
+            break
+    else:
+        raise ValueError(f"{channel_name} is not in {DEFAULT_NEWSGROUPS}")
 
 
 def channels() -> Iterator[Channel]:
@@ -45,7 +57,7 @@ def _to_metadata(x):
 
 def channelCards(channelName: str, start: int, end: int) -> list[Card]:
     client = getClient()
-    _, first, last, _ = client.group(channelName)
+    _, _first, last, _ = client.group(channelName)
     if end > last:
         end = last
     return [
