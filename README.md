@@ -41,6 +41,11 @@ npm install
 ```
 
 ## Run the components
+For local development and testing, start the INN2 server and FastAPI server with:
+```bash
+docker compose -f docker-compose.debug.yml up
+```
+
 ### InterNetNews server:
 For local development and testing, start the INN2 server with:
 ```bash
