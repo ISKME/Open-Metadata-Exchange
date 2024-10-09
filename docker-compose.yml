@@ -1,13 +1,15 @@
 services:
-  # imls-react:
-  #   image: imlsreact
-  #   build:
-  #     context: fe2
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     NODE_ENV: production
-  #   ports:
-  #     - 4000:4000
+  imls-react:
+    image: imlsreact
+    build:
+      context: fe2
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 4000:4000
+    # depends_on:
+    #   - fastapi-server
 
   fastapi-server:
     image: fastapi
@@ -19,7 +21,7 @@ services:
     ports:
       - 5001:5001
   #   depends_on:
-  #     - imls-react
+  #     - internetnews-server
 
   internetnews-server:
     image: cclauss/inn
