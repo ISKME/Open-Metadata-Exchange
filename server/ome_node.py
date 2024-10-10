@@ -1,4 +1,5 @@
 # import json
+import sys
 from typing import Iterator
 
 import nntp
@@ -34,9 +35,15 @@ def enable_a_default_channel(channel_name: str = "local.test") -> None:
         raise ValueError(f"{channel_name} is not in {DEFAULT_NEWSGROUPS}")
 
 
-def channels() -> Iterator[Channel]:
+async def channels() -> Iterator[Channel]:
+    print("channels()...", file=sys.stderr)
     client = getClient()
-    for name, description in set(client.list_newsgroups()) - DEFAULT_NEWSGROUPS:
+    print(f"{client = }", file=sys.stderr)
+    print(f"{await client.list_newsgroups() = }", file=sys.stderr)
+    async for name, description in (
+        set(await client.list_newsgroups()) - DEFAULT_NEWSGROUPS
+    ):
+        print(f"{name = }, {description = }", file=sys.stderr)
         yield Channel(name=name, description=description)
 
 
