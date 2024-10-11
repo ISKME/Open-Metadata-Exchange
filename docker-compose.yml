@@ -8,8 +8,8 @@ services:
       NODE_ENV: production
     ports:
       - 4000:4000
-    # depends_on:
-    #   - fastapi-server
+    depends_on:
+      - fastapi-server
 
   fastapi-server:
     image: fastapi
@@ -20,8 +20,8 @@ services:
       SERVER_PORT: 5001
     ports:
       - 5001:5001
-  #   depends_on:
-  #     - internetnews-server
+    depends_on:
+      - internetnews-server
 
   internetnews-server:
     image: cclauss/inn
