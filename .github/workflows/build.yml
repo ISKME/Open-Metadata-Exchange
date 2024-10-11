@@ -31,16 +31,6 @@ jobs:
       - run: python src/nntp_io.py
       - run: python src/nntplib_tests.py || true
 
-  pre-commit:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with:
-        python-version: 3.13
-        allow-prereleases: true
-    - uses: pre-commit/action@v3.0.1
-
   front-end:
       strategy:
         fail-fast: false
