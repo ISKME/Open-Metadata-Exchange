@@ -13,7 +13,7 @@ classifiers = [
 optional-dependencies.docs = [
   "myst-parser",
   "sphinx-autoapi",
-  "sphinx-pyproject",
+  "sphinx-pyproject<8.1",  # https://github.com/sphinx-doc/sphinx/issues/13002
   "sphinxcontrib-mermaid",
 ]
 
