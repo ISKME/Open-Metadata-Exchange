@@ -1,22 +1,23 @@
 from starlette.types import Scope
 from starlette.responses import Response
 
-import importlib.util
+# import importlib.util
 import os
 import stat
-import typing
-from email.utils import parsedate
+# import typing
+# from email.utils import parsedate
 
 import anyio
 import anyio.to_thread
 
-from starlette._utils import get_route_path
-from starlette.datastructures import URL, Headers
+# from starlette._utils import get_route_path
+from starlette.datastructures import URL  # , Headers
 from starlette.exceptions import HTTPException
-from starlette.responses import FileResponse, RedirectResponse, Response
-from starlette.types import Receive, Scope, Send
+from starlette.responses import FileResponse, RedirectResponse  # , Response
+# from starlette.types import Receive, Scope, Send
 
 from fastapi.staticfiles import StaticFiles
+
 
 class MocAPI(StaticFiles):
     """
@@ -39,7 +40,7 @@ class MocAPI(StaticFiles):
     handler for any URL that doesn't already have an actual
     implemented handler.
     """
-    
+
     async def get_response(self, path: str, scope: Scope) -> Response:
         """
         Returns an HTTP response, given the incoming path, method and request headers.

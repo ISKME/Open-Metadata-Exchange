@@ -19,7 +19,7 @@ optional-dependencies.docs = [
 
 [tool.codespell]
 ignore-words-list = "formend,socio-economic"
-skip = "*/package-lock.json"
+skip = "*/package-lock.json,static/api/imls/v2/**/*.json"
 
 [tool.pyproject-fmt]
 max_supported_python = "3.13"

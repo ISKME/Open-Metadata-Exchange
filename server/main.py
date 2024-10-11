@@ -42,5 +42,7 @@ async def importPost(name: str, card: CardRef) -> bool:
     return ome_node.importPost(name, card.id)
 
 
-app.mount("/api/imls/", MocAPI(directory="static/api/imls/", html=True), name="Mock API")
+app.mount(
+    "/api/imls/", MocAPI(directory="static/api/imls/", html=True), name="Mock API"
+)
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
