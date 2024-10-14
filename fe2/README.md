@@ -10,6 +10,15 @@ should probably be a Node.js server process that can handle 4xx and 5xx
 errors. After we have communication running from FE2 to Server to INN2,
 we can reevaluate where further code changes should be focused.
 
+```bash
+cd fe2
+npm ci
+npm run start
+# Wait for `webpack x.y.z compiled successfully`
+open http://localhost:4000/imls
+```
+
+
 ## % `cd fe2 && npm run`
 
 ```
