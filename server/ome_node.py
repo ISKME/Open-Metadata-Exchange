@@ -1,9 +1,10 @@
 # import json
-from typing import Iterator
+from collections.abc import Iterator
 
 import nntp
+from pydantic import ValidationError
 
-from server.schemas import Channel, ChannelSummary, Card, NewCard, Metadata
+from server.schemas import Card, Channel, ChannelSummary, Metadata, NewCard
 
 DEFAULT_NEWSGROUPS: dict[str, str] = {
     ("control.cancel", "Cancel messages (no posting)"),
@@ -19,7 +20,7 @@ DEFAULT_NEWSGROUPS: dict[str, str] = {
 CLIENT: nntp.NNTPClient | None = None
 
 
-def getClient() -> nntp.NNTPClient:
+def get_client() -> nntp.NNTPClient:
     global CLIENT
     CLIENT = CLIENT or nntp.NNTPClient("localhost")
     return CLIENT
@@ -31,45 +32,52 @@ def enable_a_default_channel(channel_name: str = "local.test") -> None:
             DEFAULT_NEWSGROUPS.remove((name, description))
             break
     else:
-        raise ValueError(f"{channel_name} is not in {DEFAULT_NEWSGROUPS}")
+        msg = f"{channel_name} is not in {DEFAULT_NEWSGROUPS}"
+        raise ValueError(msg)
 
 
 def channels() -> Iterator[Channel]:
-    client = getClient()
+    client = get_client()
     for name, description in set(client.list_newsgroups()) - DEFAULT_NEWSGROUPS:
         yield Channel(name=name, description=description)
 
 
-def channelSummary(channelName: str) -> ChannelSummary:
-    client = getClient()
-    estTotal, first, last, name = client.group(channelName)
+def channel_summary(channel_name: str) -> ChannelSummary:
+    client = get_client()
+    est_total, first, last, name = client.group(channel_name)
     return ChannelSummary(
-        name=name, estimatedTotalArticles=estTotal, firstArticle=first, lastArticle=last
+        name=name,
+        estimatedTotalArticles=est_total,
+        firstArticle=first,
+        lastArticle=last,
     )
 
 
 def _to_metadata(x):
     try:
         return Metadata.model_validate_json(x)
-    except Exception:
+    except ValidationError:
         return x
 
 
-def channelCards(channelName: str, start: int, end: int) -> list[Card]:
-    client = getClient()
-    _, _first, last, _ = client.group(channelName)
+def channel_cards(channel_name: str, start: int, end: int) -> list[Card]:
+    client = get_client()
+    _, _first, last, _ = client.group(channel_name)
     if end > last:
         end = last
     return [
         Card(
-            number=x[0], headers=x[1], subject=x[1]["Subject"], body=_to_metadata(x[2])
+            number=x[0],
+            headers=x[1],
+            subject=x[1]["Subject"],
+            body=_to_metadata(x[2]),
         )
         for x in [client.article(i) for i in range(start, end + 1)]
     ]
 
 
-def createPost(card: NewCard):
-    client = getClient()
+def create_post(card: NewCard):
+    client = get_client()
     headers = {
         "Subject": card.subject,
         "From": "OERCommons <admin@oercommons.org>",
@@ -79,5 +87,5 @@ def createPost(card: NewCard):
     return client.post(headers=headers, body=t)
 
 
-def importPost(channelName: str, cardId: int) -> bool:
+def import_post(channel_name: str, card_id: int) -> bool:  # noqa: ARG001
     return True

@@ -1,12 +1,14 @@
 # from typing import Iterator
 
 from collections.abc import Iterator
+
 import pytest
+
 from server import ome_node
 
 
 def test_nntp_client():
-    nntp_client = ome_node.getClient()
+    nntp_client = ome_node.get_client()
     assert isinstance(nntp_client, ome_node.nntp.NNTPClient)
     newsgroups = set(nntp_client.list_newsgroups())
     assert newsgroups == ome_node.DEFAULT_NEWSGROUPS
@@ -30,9 +32,9 @@ def test_one_channel():
 
 
 def test_channel_summary():
-    nntp_client = ome_node.getClient()
+    nntp_client = ome_node.get_client()
     for channel in ome_node.channels():
-        channel_summary = ome_node.channelSummary(channel.name)
+        channel_summary = ome_node.channel_summary(channel.name)
         total, first, last, group = nntp_client.group(channel_summary.name)
         assert channel_summary.name == group == "local.test"
         assert channel_summary.estimatedTotalArticles == total == 0
@@ -92,8 +94,12 @@ def sample_metadata() -> Iterator[ome_node.Metadata]:
 def test_create_post(metadata):
     assert isinstance(metadata, ome_node.Metadata)
     assert metadata.title in sue_grafton_books
-    ome_node.createPost(
-        ome_node.NewCard(channels=["local.test"], subject=metadata.title, body=metadata)
+    ome_node.create_post(
+        ome_node.NewCard(
+            channels=["local.test"],
+            subject=metadata.title,
+            body=metadata,
+        ),
     )
 
 
