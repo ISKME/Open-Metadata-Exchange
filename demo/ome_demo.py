@@ -8,8 +8,8 @@ Import FastAPI and use it retrieve multiple different resources
 
 from typing import Annotated
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 import httpx
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 
 app = FastAPI()
 
@@ -20,7 +20,7 @@ async def root():
 
 
 @app.post("/login/")
-async def login(username: Annotated[str, Form()], password: Annotated[str, Form()]):
+async def login(username: Annotated[str, Form()], password: Annotated[str, Form()]):  # noqa: ARG001
     return {"username": username}
 
 
@@ -30,7 +30,8 @@ async def image() -> bytes:
     Retrieve an image from https://michmemories.org
     """
     image_url = "https://digitalcollections.detroitpubliclibrary.org/islandora/object/islandora%3A236607/datastream/IMAGE/view"
-    image = await httpx.get(image_url)
+    async with httpx.AsyncClient() as httpx_async_client:
+        image = await httpx_async_client.get(image_url)
     if image.status_code == 200:
         return image.content
     raise HTTPException(status_code=404, detail="Image not found")

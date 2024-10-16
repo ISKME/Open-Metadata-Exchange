@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from server import ome_node
-from server.schemas import Channel, ChannelSummary, Card, NewCard, CardRef
 from server.helpers import MocAPI
+from server.schemas import Card, CardRef, Channel, ChannelSummary, NewCard
 
 app = FastAPI()
 
@@ -43,6 +43,8 @@ async def importPost(name: str, card: CardRef) -> bool:
 
 
 app.mount(
-    "/api/imls/", MocAPI(directory="static/api/imls/", html=True), name="Mock API"
+    "/api/imls/",
+    MocAPI(directory="static/api/imls/", html=True),
+    name="Mock API",
 )
 app.mount("/", StaticFiles(directory="static", html=True), name="static")

@@ -11,10 +11,9 @@ typical usage:
 """
 
 import json
+import os
 import sys
 from urllib.parse import urlparse
-import os
-
 
 outputDir = sys.argv[1]
 harFile = sys.argv[2]
@@ -31,21 +30,21 @@ def isApiCall(entry):
     return path.startswith("/api/imls/") and mimeType == "application/json"
 
 
-def ensureDir(dir):
-    if not os.path.isdir(dir):
-        os.makedirs(dir)
+def ensureDir(directory) -> None:
+    if not os.path.isdir(directory):
+        os.makedirs(directory)
 
 
 def getResponse(entry):
     try:
         return json.loads(entry["response"]["content"]["text"])
-    except Exception:
+    except (json.JSONDecodeError, KeyError):
         print(getPath(entry))
         print(entry["response"]["content"].keys())
         return {}
 
 
-with open(harFile, "r") as f:
+with open(harFile) as f:
     har = json.load(f)
     for entry in har["log"]["entries"]:
         if isApiCall(entry):
@@ -56,4 +55,5 @@ with open(harFile, "r") as f:
             filename = "index.json"
             full_path = os.path.join(full_dir, filename)
             response = getResponse(entry)
-            json.dump(response, open(full_path, "w"))
+            with open(full_path, "w") as out_file:
+                json.dump(response, out_file, indent=2)

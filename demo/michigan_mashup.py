@@ -28,7 +28,10 @@ def decolonialatlas(page: str) -> str:
 
 def getty(page: str) -> str:
     """
-    <TD COLSPAN=5><SPAN CLASS=page><BR><B>Note: </B>Located on Grand river where it joins the Red Cedar river; site was wilderness in 1847 when state capital was moved here; grew with arrival of railroad & development of motor industry in 1880s; now produces automobiles.</SPAN></TD></TR>
+    <TD COLSPAN=5><SPAN CLASS=page><BR><B>Note: </B>Located on Grand river where it
+    joins the Red Cedar river; site was wilderness in 1847 when state capital was moved
+    here; grew with arrival of railroad & development of motor industry in 1880s; now
+    produces automobiles.</SPAN></TD></TR>
     """
     page = "\n".join(line for line in page.splitlines() if "<B>Note: </B>" in line)
     return BeautifulSoup(page, "html.parser").text
@@ -39,16 +42,18 @@ async def fetch_text(url: str) -> str:
         response = await client.get(url)
         if response.status_code == 200:
             return response.text
-        else:
-            print(f"Failed to fetch {url}: {response.status_code}")
-            return ""
+        print(f"Failed to fetch {url}: {response.status_code}")
+        return ""
 
 
 async def whgazetteer():
     urls = (
         # "https://michmemories.org/exhibits/default/catalog?q=lansing",
         # "https://whgazetteer.org/places/14156749/portal",
-        "https://www.getty.edu/vow/TGNFullDisplay?find=Michigan&place=&nation=&prev_page=1&english=Y&subjectid=2052433",
+        (
+            "https://www.getty.edu/vow/TGNFullDisplay?find=Michigan&place=&nation="
+            "&prev_page=1&english=Y&subjectid=2052433"
+        ),
         "https://decolonialatlas.wordpress.com/turtle-island-decolonized/",
         # "https://dbpedia.org/page/Lansing,_Michigan",
     )
@@ -57,7 +62,7 @@ async def whgazetteer():
     results = await asyncio.gather(*tasks)
 
     funcs = {func.__name__: func for func in (decolonialatlas, dbpedia, getty)}
-    for url, result in zip(urls, results):
+    for url, result in zip(urls, results, strict=True):
         if result:
             for func in funcs:
                 if func in url:
@@ -82,7 +87,8 @@ if __name__ == "__main__":
     sleep(2)
 
     print(
-        "2 World Historical Gazetteer datasets found: Getty, Decolonial Atlas, DBpedia\n"
+        "2 World Historical Gazetteer datasets found: Getty, Decolonial Atlas, "
+        "DBpedia\n",
     )
     open_new_tab("https://whgazetteer.org/places/14156749/portal")
     print("Parsing 3 sources...\n")
@@ -93,10 +99,10 @@ if __name__ == "__main__":
     _ = input("Search: (ex. 'whg Canada') ")
     print("Michigan Memories selected: Lansing river images\n")
     open_new_tab(
-        "https://michmemories.org/exhibits/default/catalog?q=Lansing+river+images"
+        "https://michmemories.org/exhibits/default/catalog?q=Lansing+river+images",
     )
     sleep(2)
-    run("open *.jpg", shell=True)
+    run("open *.jpg", shell=True)  # noqa: S602, S607
     # for i, image_file in enumerate(Path(__file__).glob("*.jpg")):
     #    print(f"Opening {image_file}...")
     #    sleep(1)
@@ -106,10 +112,11 @@ if __name__ == "__main__":
     #
     _ = input("Search: (ex. 'whg Canada') ")
     print(
-        "1 Worldbank pdf file: The Power of Data Collection on Health Service Delivery\n"
+        "1 Worldbank pdf file: The Power of Data Collection on Health Service Delivery"
+        "\n",
     )
     open_new_tab(
-        "https://openknowledge.worldbank.org/bitstreams/a34428a8-81c0-4c98-88b8-a5637bc5fde8/download"
+        "https://openknowledge.worldbank.org/bitstreams/a34428a8-81c0-4c98-88b8-a5637bc5fde8/download",
     )
     # sleep(2)
     # run("open *.jpg", shell=True)
