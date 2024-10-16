@@ -104,7 +104,7 @@ def test_create_post(metadata):
 
 
 def test_channel_cards():
-    cards = list(ome_node.channelCards("local.test", 1, 100))
+    cards = list(ome_node.channel_cards("local.test", 1, 100))
     assert len(cards) == len(sue_grafton_books)
     first_card = cards[0]
     assert first_card.number == 1
