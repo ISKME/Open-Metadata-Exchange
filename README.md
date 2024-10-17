@@ -27,7 +27,7 @@ sequenceDiagram
 graph TD
     subgraph Partners
         partner0[partner-0]
-        partner3[partner-1]
+        partner1[partner-1]
         partner2[partner-2]
         partnerN[partner-n]
     end
