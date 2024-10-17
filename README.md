@@ -40,7 +40,7 @@ graph TD
     subgraph Networks
         INN["InterNetNews (INN) server"]
         P2P["other peer-to-peer server"]
-	end
+    end
 
     INN <-- "metadata (json)" --> FastAPI
     P2P <-- "metadata (json)" --> FastAPI
