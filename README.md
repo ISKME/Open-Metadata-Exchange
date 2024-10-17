@@ -37,13 +37,13 @@ graph LR
     partner2 <-- "metadata (json)" --> FastAPI
     partnerN <-- "metadata (json)" --> FastAPI
 
-    subgraph Networks
-        INN["InterNetNews (INN) server"]
-        P2P["other peer-to-peer server"]
-    end
+    FastAPI <-- "metadata (json)" --> INN["InterNetNews (INN) server"]
+    FastAPI <-- "metadata (json)" --> P2P["other peer-to-peer server"]
 
-    INN <-- "metadata (json)" --> FastAPI
-    P2P <-- "metadata (json)" --> FastAPI
+    subgraph Networks
+        INN
+        P2P
+    end
 ```
 
 ## Install the components:
