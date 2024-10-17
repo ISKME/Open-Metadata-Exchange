@@ -15,12 +15,15 @@ app = FastAPI()
 
 
 @app.get("/")
-async def root():
+async def root() -> dict[str, str]:
     return {"message": "Hello World"}
 
 
 @app.post("/login/")
-async def login(username: Annotated[str, Form()], password: Annotated[str, Form()]):  # noqa: ARG001
+async def login(
+    username: Annotated[str, Form()],
+    password: Annotated[str, Form()],  # noqa: ARG001
+) -> dict[str, str]:
     return {"username": username}
 
 
@@ -38,7 +41,7 @@ async def image() -> bytes:
 
 
 @app.get("/dataset")
-async def dataset():
+async def dataset() -> dict[str, str]:
     """
     Retrieve a dataset from https://github.com/WorldHistoricalGazetteer
     """
@@ -46,7 +49,7 @@ async def dataset():
 
 
 @app.get("/pdf")
-async def pdf():
+async def pdf() -> dict[str, str]:
     """
     Retrieve a pdf file from https://openknowledge.worldbank.org/pages/sustainable-development-goals
     """
@@ -54,10 +57,10 @@ async def pdf():
 
 
 @app.post("/files/")
-async def create_file(file: Annotated[bytes, File()]):
+async def create_file(file: Annotated[bytes, File()]) -> dict[str, int]:
     return {"file_size": len(file)}
 
 
 @app.post("/uploadfile/")
-async def create_upload_file(file: UploadFile):
+async def create_upload_file(file: UploadFile) -> dict[str, str]:
     return {"filename": file.filename}

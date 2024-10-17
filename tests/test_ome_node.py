@@ -7,21 +7,21 @@ import pytest
 from server import ome_node
 
 
-def test_nntp_client():
+def test_nntp_client() -> None:
     nntp_client = ome_node.get_client()
     assert isinstance(nntp_client, ome_node.nntp.NNTPClient)
     newsgroups = set(nntp_client.list_newsgroups())
     assert newsgroups == ome_node.DEFAULT_NEWSGROUPS
 
 
-def test_channels():
+def test_channels() -> None:
     """
     Ensure that the default channels are all disabled.
     """
     assert not list(ome_node.channels())
 
 
-def test_one_channel():
+def test_one_channel() -> None:
     """
     Let's enable the channel 'local.test' so we can use it for the remaining tests.
     """
@@ -31,7 +31,7 @@ def test_one_channel():
         assert channel.description == "Local test group"
 
 
-def test_channel_summary():
+def test_channel_summary() -> None:
     nntp_client = ome_node.get_client()
     for channel in ome_node.channels():
         channel_summary = ome_node.channel_summary(channel.name)
@@ -91,7 +91,7 @@ def sample_metadata() -> Iterator[ome_node.Metadata]:
 
 
 @pytest.mark.parametrize("metadata", sample_metadata())
-def test_create_post(metadata):
+def test_create_post(metadata: ome_node.Metadata) -> None:
     assert isinstance(metadata, ome_node.Metadata)
     assert metadata.title in sue_grafton_books
     ome_node.create_post(
@@ -103,7 +103,7 @@ def test_create_post(metadata):
     )
 
 
-def test_channel_cards():
+def test_channel_cards() -> None:
     cards = list(ome_node.channel_cards("local.test", 1, 100))
     assert len(cards) == len(sue_grafton_books)
     first_card = cards[0]

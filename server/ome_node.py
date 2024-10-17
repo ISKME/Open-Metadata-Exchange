@@ -21,7 +21,7 @@ CLIENT: nntp.NNTPClient | None = None
 
 
 def get_client() -> nntp.NNTPClient:
-    global CLIENT
+    global CLIENT  # noqa: PLW0603
     CLIENT = CLIENT or nntp.NNTPClient("localhost")
     return CLIENT
 
@@ -37,14 +37,14 @@ def enable_a_default_channel(channel_name: str = "local.test") -> None:
 
 
 def channels() -> Iterator[Channel]:
-    client = get_client()
-    for name, description in set(client.list_newsgroups()) - DEFAULT_NEWSGROUPS:
+    nntp_client = get_client()
+    for name, description in set(nntp_client.list_newsgroups()) - DEFAULT_NEWSGROUPS:
         yield Channel(name=name, description=description)
 
 
 def channel_summary(channel_name: str) -> ChannelSummary:
-    client = get_client()
-    est_total, first, last, name = client.group(channel_name)
+    nntp_client = get_client()
+    est_total, first, last, name = nntp_client.group(channel_name)
     return ChannelSummary(
         name=name,
         estimated_total_articles=est_total,
@@ -53,7 +53,7 @@ def channel_summary(channel_name: str) -> ChannelSummary:
     )
 
 
-def _to_metadata(x):
+def _to_metadata(x: str | bytes | bytearray) -> Metadata | str | bytes | bytearray:
     try:
         return Metadata.model_validate_json(x)
     except ValidationError:
@@ -61,10 +61,9 @@ def _to_metadata(x):
 
 
 def channel_cards(channel_name: str, start: int, end: int) -> list[Card]:
-    client = get_client()
-    _, _first, last, _ = client.group(channel_name)
-    if end > last:
-        end = last
+    nntp_client = get_client()
+    _, _first, last, _ = nntp_client.group(channel_name)
+    end = min(end, last)
     return [
         Card(
             number=x[0],
@@ -72,19 +71,19 @@ def channel_cards(channel_name: str, start: int, end: int) -> list[Card]:
             subject=x[1]["Subject"],
             body=_to_metadata(x[2]),
         )
-        for x in [client.article(i) for i in range(start, end + 1)]
+        for x in [nntp_client.article(i) for i in range(start, end + 1)]
     ]
 
 
-def create_post(card: NewCard):
-    client = get_client()
+def create_post(card: NewCard) -> bool:
+    nntp_client = get_client()
     headers = {
         "Subject": card.subject,
         "From": "OERCommons <admin@oercommons.org>",
         "Newsgroups": ",".join(card.channels),
     }
     t = card.body.model_dump_json()
-    return client.post(headers=headers, body=t)
+    return nntp_client.post(headers=headers, body=t)
 
 
 def import_post(channel_name: str, card_id: int) -> bool:  # noqa: ARG001
