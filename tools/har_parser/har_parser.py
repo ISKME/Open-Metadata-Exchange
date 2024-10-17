@@ -15,45 +15,44 @@ import os
 import sys
 from urllib.parse import urlparse
 
-outputDir = sys.argv[1]
-harFile = sys.argv[2]
+_, output_dir, har_filename = sys.argv[:3]
 
 
-def getPath(entry):
+def get_path(entry: dict) -> str:
     parts = urlparse(entry["request"]["url"])
     return parts.path
 
 
-def isApiCall(entry):
-    path = getPath(entry)
-    mimeType = entry["response"]["content"]["mimeType"]
-    return path.startswith("/api/imls/") and mimeType == "application/json"
+def is_api_call(entry: dict) -> bool:
+    path: str = get_path(entry)
+    mime_type: str = entry["response"]["content"]["mimeType"]
+    return path.startswith("/api/imls/") and mime_type == "application/json"
 
 
-def ensureDir(directory) -> None:
+def ensure_dir(directory: str) -> None:
     if not os.path.isdir(directory):
         os.makedirs(directory)
 
 
-def getResponse(entry):
+def get_response(entry: str) -> dict:
     try:
         return json.loads(entry["response"]["content"]["text"])
     except (json.JSONDecodeError, KeyError):
-        print(getPath(entry))
+        print(get_path(entry))
         print(entry["response"]["content"].keys())
         return {}
 
 
-with open(harFile) as f:
-    har = json.load(f)
+with open(har_filename) as f:
+    har: dict = json.load(f)
     for entry in har["log"]["entries"]:
-        if isApiCall(entry):
-            path = getPath(entry)[1:]
-            full_dir = os.path.join(outputDir, path)
-            ensureDir(full_dir)
+        if is_api_call(entry):
+            path = get_path(entry)[1:]
+            full_dir = os.path.join(output_dir, path)
+            ensure_dir(full_dir)
 
             filename = "index.json"
             full_path = os.path.join(full_dir, filename)
-            response = getResponse(entry)
+            response = get_response(entry)
             with open(full_path, "w") as out_file:
                 json.dump(response, out_file, indent=2)

@@ -24,7 +24,7 @@ async def main() -> list[Channel]:
 
 @app.get("/api/channel/{name}")
 async def get_channel_summary(name: str) -> ChannelSummary:
-    return ome_node.channelSummary(name)
+    return ome_node.channel_summary(name)
 
 
 @app.get("/api/channel/{name}/cards")
@@ -33,13 +33,13 @@ async def get_channel_cards(name: str, start: int = 1, end: int = 10) -> list[Ca
 
 
 @app.post("/api/publish")
-async def create_post(card: NewCard):
-    return ome_node.createPost(card)
+async def create_post(card: NewCard) -> bool:
+    return ome_node.create_post(card)
 
 
 @app.post("/api/channel/{name}/import")
 async def import_post(name: str, card: CardRef) -> bool:
-    return ome_node.importPost(name, card.id)
+    return ome_node.import_post(name, card.id)
 
 
 app.mount(

@@ -8,6 +8,8 @@ queries:
 * whg Lansing, Michigan
 * michmemories Lansing river images
 * worldbank Health Service Delivery
+
+On macOS, /usr/bin/open will open images in the default image viewer.
 """
 
 import asyncio
@@ -46,7 +48,7 @@ async def fetch_text(url: str) -> str:
         return ""
 
 
-async def whgazetteer():
+async def whgazetteer() -> None:
     urls = (
         # "https://michmemories.org/exhibits/default/catalog?q=lansing",
         # "https://whgazetteer.org/places/14156749/portal",
@@ -66,7 +68,7 @@ async def whgazetteer():
         if result:
             for func in funcs:
                 if func in url:
-                    result = funcs[func](result)
+                    result = funcs[func](result)  # noqa: PLW2901
                     break
             print(f"Text from {url}:\n\n{result}\n\n{'='*50}\n")
         else:
@@ -102,11 +104,11 @@ if __name__ == "__main__":
         "https://michmemories.org/exhibits/default/catalog?q=Lansing+river+images",
     )
     sleep(2)
-    run("open *.jpg", shell=True)  # noqa: S602, S607
+    run("/usr/bin/open *.jpg", shell=True, check=True)  # noqa: S602
     # for i, image_file in enumerate(Path(__file__).glob("*.jpg")):
     #    print(f"Opening {image_file}...")
     #    sleep(1)
-    #    run(["open", image_file])
+    #    run(["/usr/bin/open", image_file])
 
     # Type: worldbank Health Service Delivery
     #
@@ -119,8 +121,8 @@ if __name__ == "__main__":
         "https://openknowledge.worldbank.org/bitstreams/a34428a8-81c0-4c98-88b8-a5637bc5fde8/download",
     )
     # sleep(2)
-    # run("open *.jpg", shell=True)
+    # run("/usr/bin/open *.jpg", shell=True)
     # for i, image_file in enumerate(Path(__file__).glob("*.jpg")):
     #    print(f"Opening {image_file}...")
     #    sleep(1)
-    #    run(["open", image_file])
+    #    run(["/usr/bin/open", image_file])
