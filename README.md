@@ -27,24 +27,23 @@ sequenceDiagram
 graph TD
     subgraph Partners
         partner0[partner-0]
-        partner3[partner-3]
+        partner3[partner-1]
         partner2[partner-2]
         partnerN[partner-n]
     end
 
-    partner0 -- "metadata (json)" --> FastAPI["FastAPI server"]
-    partner3 -- "metadata (json)" --> FastAPI
-    partner2 -- "metadata (json)" --> FastAPI
-    partnerN -- "metadata (json)" --> FastAPI
-    FastAPI -- "metadata (json)" --> INN["InterNetNews (INN) server"]
-    FastAPI -- "metadata (json)" --> P2P["other peer-to-peer server"]
+    partner0 <-- "metadata (json)" --> FastAPI["FastAPI server"]
+    partner1 <-- "metadata (json)" --> FastAPI
+    partner2 <-- "metadata (json)" --> FastAPI
+    partnerN <-- "metadata (json)" --> FastAPI
 
-    FastAPI -- "metadata (json)" --> partner0
-    FastAPI -- "metadata (json)" --> partner3
-    FastAPI -- "metadata (json)" --> partner2
-    FastAPI -- "metadata (json)" --> partnerN
-    INN -- "metadata (json)" --> FastAPI
-    P2P -- "metadata (json)" --> FastAPI
+    subgraph Partners
+	    INN["InterNetNews (INN) server"]
+		P2P["other peer-to-peer server"]
+	end
+
+    INN <-- "metadata (json)" --> FastAPI
+    P2P <-- "metadata (json)" --> FastAPI
 ```
 
 ## Install the components:
