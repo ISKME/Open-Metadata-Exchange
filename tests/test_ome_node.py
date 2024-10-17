@@ -37,9 +37,9 @@ def test_channel_summary():
         channel_summary = ome_node.channel_summary(channel.name)
         total, first, last, group = nntp_client.group(channel_summary.name)
         assert channel_summary.name == group == "local.test"
-        assert channel_summary.estimatedTotalArticles == total == 0
-        assert channel_summary.firstArticle == first == 1
-        assert channel_summary.lastArticle == last == 0
+        assert channel_summary.estimated_total_articles == total == 0
+        assert channel_summary.first_article == first == 1
+        assert channel_summary.last_article == last == 0
 
 
 sue_grafton_books = {
