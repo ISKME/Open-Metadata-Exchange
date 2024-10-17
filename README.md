@@ -24,7 +24,7 @@ sequenceDiagram
 ```
 ---
 ```mermaid
-graph TD
+graph LR
     subgraph Partners
         partner0[partner-0]
         partner1[partner-1]
