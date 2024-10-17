@@ -37,9 +37,9 @@ graph TD
     partner2 <-- "metadata (json)" --> FastAPI
     partnerN <-- "metadata (json)" --> FastAPI
 
-    subgraph Partners
-	    INN["InterNetNews (INN) server"]
-		P2P["other peer-to-peer server"]
+    subgraph Networks
+        INN["InterNetNews (INN) server"]
+        P2P["other peer-to-peer server"]
 	end
 
     INN <-- "metadata (json)" --> FastAPI
