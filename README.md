@@ -25,20 +25,20 @@ sequenceDiagram
 ---
 ```mermaid
 graph LR
-    subgraph Partners
-        partner0[partner-0]
-        partner1[partner-1]
-        partner2[partner-2]
-        partnerN[partner-n]
+    subgraph Open Educational Resources
+        OER0[OER-0]
+        OER1[OER-1]
+        OER2[OER-2]
+        OERn[OER-n]
     end
 
-    partner0 <-- "metadata (json)" --> FastAPI["FastAPI server"]
-    partner1 <-- "metadata (json)" --> FastAPI
-    partner2 <-- "metadata (json)" --> FastAPI
-    partnerN <-- "metadata (json)" --> FastAPI
+    OER0 <-- "metadata.json" --> FastAPI["FastAPI server"]
+    OER1 <-- "metadata.json" --> FastAPI
+    OER2 <-- "metadata.json" --> FastAPI
+    OERn <-- "metadata.json" --> FastAPI
 
-    FastAPI <-- "metadata (json)" --> INN["InterNetNews (INN) server"]
-    FastAPI <-- "metadata (json)" --> P2P["other peer-to-peer server"]
+    FastAPI <-- "metadata.json" --> INN["InterNetNews (INN) server"]
+    FastAPI <-- "metadata.json" --> P2P["other peer-to-peer server"]
 
     subgraph Networks
         INN
