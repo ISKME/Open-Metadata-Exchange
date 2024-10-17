@@ -64,7 +64,7 @@ class MocAPI(StaticFiles):
         if stat_result and stat.S_ISDIR(stat_result.st_mode) and self.html:
             # We're in HTML mode, and have got a directory URL.
             # Check if we have 'index.json' file to serve.
-            index_path = os.path.join(path, "index.json")
+            index_path = os.path.join(path, "index.json")  # noqa: PTH118
             full_path, stat_result = await anyio.to_thread.run_sync(
                 self.lookup_path,
                 index_path,
