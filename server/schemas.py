@@ -8,9 +8,9 @@ class Channel(BaseModel):
 
 class ChannelSummary(BaseModel):
     name: str
-    estimatedTotalArticles: int
-    firstArticle: int
-    lastArticle: int
+    estimated_total_articles: int
+    first_article: int
+    last_article: int
 
 
 class Metadata(BaseModel):

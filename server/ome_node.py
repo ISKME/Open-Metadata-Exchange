@@ -47,9 +47,9 @@ def channel_summary(channel_name: str) -> ChannelSummary:
     est_total, first, last, name = client.group(channel_name)
     return ChannelSummary(
         name=name,
-        estimatedTotalArticles=est_total,
-        firstArticle=first,
-        lastArticle=last,
+        estimated_total_articles=est_total,
+        first_article=first,
+        last_article=last,
     )
 
 
