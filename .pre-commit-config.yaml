@@ -16,7 +16,7 @@ repos:
       - id: check-docstring-first
       - id: check-executables-have-shebangs
       - id: check-json
-        exclude: ".*fe2/tsconfig.json$"
+        exclude: '.*fe2/tsconfig.json$'
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
       - id: check-symlinks
@@ -49,14 +49,14 @@ repos:
     rev: v2.3.0
     hooks:
       - id: codespell # See pyproject.toml for args
-        args: ["--ignore-words-list=teh"]
+        args: ['--ignore-words-list=teh']
         additional_dependencies:
           - tomli
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.6.9
-    hooks:  # Format before linting
-      - id: ruff-format
+    hooks: # Format before linting
+      # - id: ruff-format
       - id: ruff
 
   - repo: https://github.com/tox-dev/pyproject-fmt

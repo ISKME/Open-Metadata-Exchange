@@ -3,22 +3,17 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 from server import ome_node
-from server.schemas import Channel, ChannelSummary, Card, NewCard, CardRef
+from server.schemas import ChannelSummary, Card, NewCard, CardRef
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex="http://.*\\.localhost:5001",
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.get("/api/list")
-async def main() -> list[Channel]:
-    return ome_node.channels()
 
 
 @app.get("/api/channel/{name}")

@@ -1,6 +1,10 @@
-version: '1.0'
-
 services:
+  internetnews-server:
+    image: cclauss/inn
+    ports:
+      - 119:119
+      - 563:563
+
   imlsreact:
     image: imlsreact
     build:
