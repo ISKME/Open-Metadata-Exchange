@@ -8,19 +8,22 @@ Import FastAPI and use it retrieve multiple different resources
 
 from typing import Annotated
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 import httpx
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 
 app = FastAPI()
 
 
 @app.get("/")
-async def root():
+async def root() -> dict[str, str]:
     return {"message": "Hello World"}
 
 
 @app.post("/login/")
-async def login(username: Annotated[str, Form()], password: Annotated[str, Form()]):
+async def login(
+    username: Annotated[str, Form()],
+    password: Annotated[str, Form()],  # noqa: ARG001
+) -> dict[str, str]:
     return {"username": username}
 
 
@@ -30,14 +33,15 @@ async def image() -> bytes:
     Retrieve an image from https://michmemories.org
     """
     image_url = "https://digitalcollections.detroitpubliclibrary.org/islandora/object/islandora%3A236607/datastream/IMAGE/view"
-    image = await httpx.get(image_url)
+    async with httpx.AsyncClient() as httpx_async_client:
+        image = await httpx_async_client.get(image_url)
     if image.status_code == 200:
         return image.content
     raise HTTPException(status_code=404, detail="Image not found")
 
 
 @app.get("/dataset")
-async def dataset():
+async def dataset() -> dict[str, str]:
     """
     Retrieve a dataset from https://github.com/WorldHistoricalGazetteer
     """
@@ -45,7 +49,7 @@ async def dataset():
 
 
 @app.get("/pdf")
-async def pdf():
+async def pdf() -> dict[str, str]:
     """
     Retrieve a pdf file from https://openknowledge.worldbank.org/pages/sustainable-development-goals
     """
@@ -53,10 +57,10 @@ async def pdf():
 
 
 @app.post("/files/")
-async def create_file(file: Annotated[bytes, File()]):
+async def create_file(file: Annotated[bytes, File()]) -> dict[str, int]:
     return {"file_size": len(file)}
 
 
 @app.post("/uploadfile/")
-async def create_upload_file(file: UploadFile):
+async def create_upload_file(file: UploadFile) -> dict[str, str]:
     return {"filename": file.filename}
