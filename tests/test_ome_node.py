@@ -6,9 +6,13 @@ import pytest
 
 from server import ome_node
 
+AUSTIN_PORT = 119
+BOSTON_PORT = AUSTIN_PORT + 1000
 
-def test_nntp_client() -> None:
-    nntp_client = ome_node.get_client()
+
+@pytest.mark.parametrize("port", [AUSTIN_PORT, BOSTON_PORT])
+def test_nntp_client(port: int) -> None:
+    nntp_client = ome_node.get_client(port=port)
     assert isinstance(nntp_client, ome_node.nntp.NNTPClient)
     newsgroups = set(nntp_client.list_newsgroups())
     assert newsgroups == ome_node.DEFAULT_NEWSGROUPS

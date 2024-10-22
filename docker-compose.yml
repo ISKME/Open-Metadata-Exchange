@@ -1,9 +1,15 @@
 services:
-  internetnews-server:
+  internetnews-server-austin:
     image: cclauss/inn
     ports:
       - 119:119
       - 563:563
+
+  internetnews-server-boston:
+    image: cclauss/inn
+    ports:
+      - 1119:119
+      - 1563:563
 
   fastapi-server:
     image: fastapi
@@ -15,7 +21,8 @@ services:
     ports:
       - 5001:5001
     depends_on:
-      - internetnews-server
+      - internetnews-server-austin
+      - internetnews-server-boston
 
   imls-react:
     image: imlsreact
