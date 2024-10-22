@@ -6,6 +6,8 @@ from pydantic import ValidationError
 
 from server.schemas import Card, Channel, ChannelSummary, Metadata, NewCard
 
+AUSTIN_PORT = 119
+BOSTON_PORT = AUSTIN_PORT + 1000
 DEFAULT_NEWSGROUPS: dict[str, str] = {
     ("control.cancel", "Cancel messages (no posting)"),
     ("control.checkgroups", "Hierarchy check control messages (no posting)"),
@@ -20,9 +22,9 @@ DEFAULT_NEWSGROUPS: dict[str, str] = {
 CLIENT: nntp.NNTPClient | None = None
 
 
-def get_client() -> nntp.NNTPClient:
+def get_client(port: int = 119) -> nntp.NNTPClient:
     global CLIENT  # noqa: PLW0603
-    CLIENT = CLIENT or nntp.NNTPClient("localhost")
+    CLIENT = CLIENT or nntp.NNTPClient("localhost", port=port)
     return CLIENT
 
 
