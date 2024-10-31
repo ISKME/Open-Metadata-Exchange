@@ -1,0 +1,49 @@
+@startuml
+!include  <C4/C4_Context.puml>
+!include <office/Users/user.puml>
+
+' HIDE_STEREOTYPE()
+' LAYOUT_WITH_LEGEND()
+
+
+' title OME Network
+
+   Enterprise_Boundary(Library, "Library 1") {
+
+   Person(Librarian1, Librarian , "<$user> \n Responsible for curation" )
+   Person(Author1, Author , "<$user> \n Responsible for authoring resource" )
+   ' Person(Educator1, Educator , "<$user> \n Responsible for picking resource to use" )
+   ' Person(Student1, Student , "<$user> \n End-user of resources" )
+
+      System_Ext(InHouseSoftware1, "Library Software", "Existing In-House Library Software")
+
+   Rel(Librarian1, InHouseSoftware1, "Uses the OME UI embedded in their library software to curate (import/export) OME content")
+   Rel(Author1, InHouseSoftware1, "Creates resources")
+
+      package "OME Node" {
+    	 System(UI_1, "UI", "Common UI that has OME workflows built-in")
+
+    	 System(Search_1, "Search", "Search index")
+    	 System(API_1, "API")
+
+	 System_Ext(Bridge_1, "Plugin", "Necessary bits to facilitate import/export from library software to the OME")
+
+         System(P2P_1, "P2P", "Data transport")
+
+	 Rel(UI_1, API_1, "")
+	 Rel(API_1, Search_1, "Search")
+	 Rel(API_1, P2P_1, "Publish to OME")
+	 Rel(P2P_1, Search_1, "Index OME resources")
+
+	 Rel(API_1, Bridge_1, "Import into the Library software")
+	 Rel(Bridge_1, InHouseSoftware1, "Import into the Library software")
+
+	 Lay_D(API_1, Search_1)
+      }
+
+   }
+
+   Rel_Neighbor(InHouseSoftware1, UI_1, "UI component hosted within the library software")
+   Lay_D(InHouseSoftware1, UI_1)
+
+@enduml
