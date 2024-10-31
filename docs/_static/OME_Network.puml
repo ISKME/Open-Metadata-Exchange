@@ -1,0 +1,100 @@
+@startuml
+!include  <C4/C4_Context.puml>
+!include <office/Users/user.puml>
+
+' HIDE_STEREOTYPE()
+' LAYOUT_WITH_LEGEND()
+
+title OME Network
+
+   Enterprise_Boundary(Library_1, "Library 1") {
+
+      System_Ext(InHouseSoftware_1, "Library Software", "Existing In-House Library Software")
+
+      package "OME Node.1" {
+      	 System(API_1, "OME Software", "Made up of Search/API/UI")
+         System(P2P_1, "P2P", "Data transport")
+      }
+
+      Rel(InHouseSoftware_1, API_1, "Import/Export/Search and other workflows")
+   }
+
+
+   Enterprise_Boundary(Library_2, "Library 2") {
+
+      System_Ext(InHouseSoftware_2, "Library Software", "Existing In-House Library Software")
+
+      package "OME Node.2" {
+      	 System(API_2, "OME Software", "Made up of Search/API/UI")
+         System(P2P_2, "P2P", "Data transport")
+      }
+
+      Rel(InHouseSoftware_2, API_2, "Import/Export/Search and other workflows")
+   }
+
+
+   Enterprise_Boundary(Library_3, "Library 3") {
+
+      System_Ext(InHouseSoftware_3, "Library Software", "Existing In-House Library Software")
+
+      package "OME Node.3" {
+      	 System(API_3, "OME Software", "Made up of Search/API/UI")
+         System(P2P_3, "P2P", "Data transport")
+      }
+
+      Rel(InHouseSoftware_3, API_3, "Import/Export/Search and other workflows")
+   }
+
+
+   Enterprise_Boundary(Library_4, "Library 4") {
+
+      System_Ext(InHouseSoftware_4, "Library Software", "Existing In-House Library Software")
+
+      package "OME Node.4" {
+      	 System(API_4, "OME Software", "Made up of Search/API/UI")
+         System(P2P_4, "P2P", "Data transport")
+      }
+
+      Rel_U(InHouseSoftware_4, API_4, "Import/Export/Search and other workflows")
+   }
+
+
+   Enterprise_Boundary(Library_5, "Library 5") {
+
+      System_Ext(InHouseSoftware_5, "Library Software", "Existing In-House Library Software")
+
+      package "OME Node.5" {
+      	 System(API_5, "OME Software", "Made up of Search/API/UI")
+         System(P2P_5, "P2P", "Data transport")
+      }
+
+      Rel_U(InHouseSoftware_5, API_5, "Import/Export/Search and other workflows")
+   }
+
+
+   Enterprise_Boundary(Library_6, "Library 6") {
+
+      System_Ext(InHouseSoftware_6, "Library Software", "Existing In-House Library Software")
+
+      package "OME Node.6" {
+      	 System(API_6, "OME Software", "Made up of Search/API/UI")
+         System(P2P_6, "P2P", "Data transport")
+      }
+
+      Rel_U(InHouseSoftware_6, API_6, "Import/Export/Search and other workflows")
+   }
+
+   Enterprise_Boundary(Library_7, "Library 7") {
+      System_Ext(InHouseSoftware_7, "Library Software", "Existing In-House Library Software")
+   }
+
+
+   Rel(P2P_1, P2P_2, "")
+   Rel(P2P_1, P2P_3, "")
+   Rel(P2P_3, P2P_4, "")
+   Rel(P2P_3, P2P_6, "")
+   Rel_U(P2P_5, P2P_2, "")
+
+   Rel(InHouseSoftware_7, API_1, "Import/Export/Search and other workflows")
+
+@enduml
