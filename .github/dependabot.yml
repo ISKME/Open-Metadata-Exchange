@@ -11,3 +11,11 @@ updates:
           - "*"  # Group all Actions updates into a single larger pull request
     schedule:
       interval: weekly
+  - package-ecosystem: npm
+    directory: /fe2
+    groups:
+      npm_fe2:
+        patterns:
+          - "*"  # Group all npm updates into a single larger pull request
+    schedule:
+      interval: weekly
