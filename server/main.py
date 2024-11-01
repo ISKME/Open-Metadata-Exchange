@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -15,6 +17,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# If we are not running in Continuous Integration then enable the INN local.test group.
+if not os.getenv("CI"):  # Not running in Continuous Integration
+    ome_node.DEFAULT_NEWSGROUPS.remove(("local.test", "Local test group"))
 
 
 @app.get("/api/list")
