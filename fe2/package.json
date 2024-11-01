@@ -75,7 +75,7 @@
 		"@reduxjs/toolkit": "^1.8.5",
 		"@types/react-redux": "^7.1.24",
 		"@wojtekmaj/react-daterange-picker": "^5.4.2",
-		"axios": "^0.27.2",
+		"axios": "^1.7.7",
 		"dayjs": "^1.11.11",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
