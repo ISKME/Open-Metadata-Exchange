@@ -14,6 +14,17 @@ updates:
   - package-ecosystem: npm
     directory: "/fe2"
     groups:
+      npm-fe2-babel:
+        patterns:
+        - "@babel*"
+        - "babel*"
+      npm-fe2-eslint:
+        patterns:
+        - "eslint*"
+        - "@typescript-eslint*"
+      npm-fe2-webpack:
+        patterns:
+        - "@webpack*"
       npm-fe2-dev:
         dependency-type: development
         # patterns:
