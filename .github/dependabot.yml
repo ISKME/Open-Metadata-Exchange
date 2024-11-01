@@ -16,8 +16,8 @@ updates:
     groups:
       npm-fe2-dev:
         dependency-type: development
-        patterns:
-          - "*"  # Group all npm updates into a single larger pull request
+        # patterns:
+        #  - "*"  # Group all npm updates into a single larger pull request
       npm-fe2-prod:
         dependency-type: production
         patterns:
