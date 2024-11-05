@@ -1,27 +1,37 @@
 services:
-  internetnews-server:
+  internetnews-server-austin:
     image: cclauss/inn
     ports:
       - 119:119
       - 563:563
 
-  imlsreact:
-    image: imlsreact
-    build:
-      context: ./fe2
-      dockerfile: ./Dockerfile
-    environment:
-      NODE_ENV: production
+  internetnews-server-boston:
+    image: cclauss/inn
     ports:
-      - 4000:4000
-  fastapiserver:
+      - 1119:119
+      - 1563:563
+
+  fastapi-server:
     image: fastapi
     build:
-      context: .
-      dockerfile: ./Dockerfile
+      # context: .
+      dockerfile: Dockerfile
     environment:
       SERVER_PORT: 5001
     ports:
       - 5001:5001
     depends_on:
-      - imlsreact
+      - internetnews-server-austin
+      - internetnews-server-boston
+
+  imls-react:
+    image: imlsreact
+    build:
+      context: fe2
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - 4000:4000
+    depends_on:
+      - fastapi-server

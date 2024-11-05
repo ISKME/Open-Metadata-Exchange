@@ -1,4 +1,3 @@
-#React app image
 FROM node:20-alpine
 
 # Prepare app directory

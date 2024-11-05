@@ -35,7 +35,7 @@ $(function() {
         };
         $.ajax({
             type: 'post',
-            url: "//localhost:5000/api/publish",
+            url: "//localhost:5001/api/publish",
             data: JSON.stringify(data),
             contentType: 'application/json; charset=utf-8',
             traditional: true,

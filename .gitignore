@@ -169,3 +169,4 @@ cython_debug/
 
 fe/node_modules/
 fe2/node_modules/
+fe2/webpack-stats.json

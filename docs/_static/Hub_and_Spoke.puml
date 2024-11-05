@@ -1,0 +1,56 @@
+@startuml
+!include  <C4/C4_Context.puml>
+!include <office/Users/user.puml>
+
+' HIDE_STEREOTYPE()
+' LAYOUT_WITH_LEGEND()
+
+
+   Enterprise_Boundary(Library_5, "Library 5") {
+
+      System_Ext(InHouseSoftware_5, "Library Software", "Existing In-House Library Software")
+
+   }
+
+   Enterprise_Boundary(Library_6, "Library 6") {
+
+      System_Ext(InHouseSoftware_6, "Library Software", "Existing In-House Library Software")
+
+   }
+
+   Enterprise_Boundary(Library_2, "Library 2") {
+      System_Ext(InHouseSoftware_2, "Library Software", "Existing In-House Library Software")
+   }
+
+   Enterprise_Boundary(Library_3, "Library 3") {
+
+      System_Ext(InHouseSoftware_3, "Library Software", "Existing In-House Library Software")
+
+   }
+
+   Enterprise_Boundary(Library_4, "Library 4") {
+
+      System_Ext(InHouseSoftware_4, "Library Software", "Existing In-House Library Software")
+
+   }
+
+   Enterprise_Boundary(Library_1, "Library 1") {
+
+      System_Ext(InHouseSoftware_1, "Library Software", "Existing In-House Library Software")
+
+      package "OME Node.1" {
+      	 System(API_1, "OME Software", "Made up of Search/API/UI")
+      }
+
+      Rel(InHouseSoftware_1, API_1, "Import/Export/Search and other workflows")
+   }
+
+
+
+   Rel(InHouseSoftware_2, API_1, "Import/Export/Search and other workflows")
+   Rel_U(InHouseSoftware_3, API_1, "Import/Export/Search and other workflows")
+   Rel_L(InHouseSoftware_4, API_1, "Import/Export/Search and other workflows")
+   Rel(InHouseSoftware_5, API_1, "Import/Export/Search and other workflows")
+   Rel(InHouseSoftware_6, API_1, "Import/Export/Search and other workflows")
+
+@enduml
