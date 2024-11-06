@@ -1,8 +1,31 @@
 {
-  "status": "error",
-  "assets": {},
-  "chunks": {},
-  "publicPath": "/static/",
-  "error": "Error",
-  "message": "[tsl] ERROR in /Users/kevinready/work/iskme/Open-Metadata-Exchange/fe2/build/main.763b81d3f87897dccae7.js(205,223625)\n      TS8010: Type annotations can only be used in TypeScript files."
+  "status": "done",
+  "assets": {
+    "ad92a8b23314d572fd6620d89f463816.png": {
+      "name": "ad92a8b23314d572fd6620d89f463816.png",
+      "path": "/Users/kevinready/work/iskme/Open-Metadata-Exchange/fe2/build/ad92a8b23314d572fd6620d89f463816.png",
+      "publicPath": "http://0.0.0.0:4000/ad92a8b23314d572fd6620d89f463816.png"
+    },
+    "b946169989d81584f36ae11989a221b8.png": {
+      "name": "b946169989d81584f36ae11989a221b8.png",
+      "path": "/Users/kevinready/work/iskme/Open-Metadata-Exchange/fe2/build/b946169989d81584f36ae11989a221b8.png",
+      "publicPath": "http://0.0.0.0:4000/b946169989d81584f36ae11989a221b8.png"
+    },
+    "main.c80e61d10117659b652d.js": {
+      "name": "main.c80e61d10117659b652d.js",
+      "path": "/Users/kevinready/work/iskme/Open-Metadata-Exchange/fe2/build/main.c80e61d10117659b652d.js",
+      "publicPath": "http://0.0.0.0:4000/main.c80e61d10117659b652d.js"
+    },
+    "index.html": {
+      "name": "index.html",
+      "path": "/Users/kevinready/work/iskme/Open-Metadata-Exchange/fe2/build/index.html",
+      "publicPath": "http://0.0.0.0:4000/index.html"
+    }
+  },
+  "chunks": {
+    "main": [
+      "main.c80e61d10117659b652d.js"
+    ]
+  },
+  "publicPath": "http://0.0.0.0:4000/"
 }

@@ -22,6 +22,29 @@ sequenceDiagram
 	FastAPI-Server->>FE2-on-NodeServer: API Data response
 	FE2-on-NodeServer->>Browser: API Data response
 ```
+---
+```mermaid
+graph LR
+    subgraph Partners
+        partner0[partner-0]
+        partner1[partner-1]
+        partner2[partner-2]
+        partnerN[partner-n]
+    end
+
+    partner0 <-- "metadata.json" --> FastAPI["FastAPI server"]
+    partner1 <-- "metadata.json" --> FastAPI
+    partner2 <-- "metadata.json" --> FastAPI
+    partnerN <-- "metadata.json" --> FastAPI
+
+    FastAPI <-- "metadata.json" --> INN["InterNetNews (INN) server"]
+    FastAPI <-- "metadata.json" --> P2P["other peer-to-peer server"]
+
+    subgraph Networks
+        INN
+        P2P
+    end
+```
 
 ## Install the components:
 ### [InterNetNews](https://github.com/InterNetNews/inn) will be run in a Docker container:
@@ -41,6 +64,11 @@ npm install
 ```
 
 ## Run the components
+For local development and testing, start the INN2 server and FastAPI server with:
+```bash
+docker compose -f docker-compose.debug.yml up
+```
+
 ### InterNetNews server:
 For local development and testing, start the INN2 server with:
 ```bash

@@ -2,6 +2,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { BuildOptions } from './types/config';
+const Dotenv = require('dotenv-webpack');
 
 var BundleTracker = require('webpack-bundle-tracker');
 
@@ -13,6 +14,7 @@ export function buildPlugins({
 		new HtmlWebpackPlugin({
 			template: paths.html,
 		}),
+		new Dotenv({ path: './.env' }),
 		new webpack.ProgressPlugin(),
 		new webpack.ProvidePlugin({
 			process: 'process/browser',
