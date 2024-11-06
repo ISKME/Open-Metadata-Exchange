@@ -30,7 +30,9 @@ services:
       context: fe2
       dockerfile: Dockerfile
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
+      REACT_APP_API_URL: http://localhost:5001
+
     ports:
       - 4000:4000
     depends_on:
