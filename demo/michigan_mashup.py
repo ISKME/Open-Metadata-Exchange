@@ -66,9 +66,9 @@ async def whgazetteer() -> None:
     funcs = {func.__name__: func for func in (decolonialatlas, dbpedia, getty)}
     for url, result in zip(urls, results, strict=True):
         if result:
-            for func in funcs:
-                if func in url:
-                    result = funcs[func](result)  # noqa: PLW2901
+            for func_name, func in funcs.items():
+                if func_name in url:
+                    result = func(result)  # noqa: PLW2901
                     break
             print(f"Text from {url}:\n\n{result}\n\n{'='*50}\n")
         else:
