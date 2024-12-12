@@ -11,10 +11,9 @@ services:
       - 1119:119
       - 1563:563
 
-  fastapi-server:
+  fastapi-server-austin:
     image: fastapi
     build:
-      # context: .
       dockerfile: Dockerfile
     environment:
       SERVER_PORT: 5001
@@ -22,9 +21,19 @@ services:
       - 5001:5001
     depends_on:
       - internetnews-server-austin
+
+  fastapi-server-boston:
+    image: fastapi
+    build:
+      dockerfile: Dockerfile
+    environment:
+      SERVER_PORT: 5001
+    ports:
+      - 5002:5001
+    depends_on:
       - internetnews-server-boston
 
-  imls-react:
+  imls-react-austin:
     image: imlsreact
     build:
       context: fe2
@@ -32,8 +41,20 @@ services:
     environment:
       NODE_ENV: development
       REACT_APP_API_URL: http://localhost:5001
-
     ports:
       - 4000:4000
     depends_on:
-      - fastapi-server
+      - fastapi-server-austin
+
+  imls-react-boston:
+    image: imlsreact
+    build:
+      context: fe2
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: development
+      REACT_APP_API_URL: http://localhost:5002
+    ports:
+      - 4001:4001
+    depends_on:
+      - fastapi-server-boston
