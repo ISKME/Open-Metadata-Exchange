@@ -70,7 +70,7 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
 						<div className={cls['text']}>
 							<div className={cls['text-only']}>
 								<div className={cls['head']}>
-									Remove this collection from the OER Exchange
+									Remove this collection from the Open Metadata Exchange
 								</div>
 								<p className={cls['subhead']}>
 									By unsharing, this collection will no longer appear in the OER
@@ -135,10 +135,10 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
 			<div className={cls.callout}>
 				<div className={cls.frame}>
 					<h1>Search shared content</h1>
-					<p>All of the content you share to the OER Exchange is found here.</p>
+					<p>All of the content you share to the Open Metadata Exchange is found here.</p>
 				</div>
 				<div className={cls.calloutAction}>
-					<p>Share a new collection on the OER Exchange here</p>
+					<p>Share a new collection on the Open Metadata Exchange here</p>
 					<div className={cls.updates}>
 						<div
 							className={cls.notificationIcon}

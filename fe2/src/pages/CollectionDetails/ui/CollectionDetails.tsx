@@ -341,9 +341,9 @@ export function CollectionDetails({ className }: search_resourcesProps) {
 			<ArrowIcon className={cls.back_link_img} />
 			<AppLink
 				to="/imls/explore-oer-exchange"
-				aria-label="Go Back to Explore OER Exchange"
+				aria-label="Go Back to Explore Open Metadata Exchange"
 				className={cls.back_link}
-				text="Back to Explore OER Exchange"
+				text="Back to Explore Open Metadata Exchange"
 			/>
 			{!done && (
 				<div>
@@ -537,7 +537,7 @@ export function CollectionDetails({ className }: search_resourcesProps) {
 													)
 												}>
 												<p className={cls['label-text']}>
-													Map Metadata in the OER Exchange
+													Map Metadata in the Open Metadata Exchange
 												</p>
 											</div>
 										</div>
@@ -584,7 +584,7 @@ export function CollectionDetails({ className }: search_resourcesProps) {
 											<div className={cls['frame-2']}>
 												<div className={cls['div-wrapper']}>
 													<div className={cls['text-wrapper-2']}>
-														OER Exchange {section.name}
+														Open Metadata Exchange {section.name}
 													</div>
 												</div>
 												<div className={cls['frame-wrapper']}>

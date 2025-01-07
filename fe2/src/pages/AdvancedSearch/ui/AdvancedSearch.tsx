@@ -45,7 +45,7 @@ export function AdvancedSearch({ className }: AdvancedSearchProps) {
   return (
     <div className={classNames(cls.Advanced, {}, [className])}>
       <ArrowIcon className={cls.back_link_img} />
-      <AppLink to="/imls/explore-oer-exchange" aria-label="Go Back to Explore OER Exchange" className={cls.back_link} text='Back to Explore OER Exchange' />
+      <AppLink to="/imls/explore-oer-exchange" aria-label="Go Back to Explore Open Metadata Exchange" className={cls.back_link} text='Back to Explore Open Metadata Exchange' />
       <h1 className={cls.advanced_title}>Advanced Search</h1>
       <div className="">
         <div className="">

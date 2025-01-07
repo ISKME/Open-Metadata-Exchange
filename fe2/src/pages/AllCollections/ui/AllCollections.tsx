@@ -90,7 +90,7 @@ export function AllCollections({ className }: AllCollectionsProps) {
 	const [tenantTitle, setTenantTitle] = useState('');
 	const [tenantUrl, setTenantUrl] = useState('');
 	const [description, setDescription] = useState<any>(
-		<>All of the collections shared to OER Exchange</>
+		<>All of the collections shared to Open Metadata Exchange</>
 	);
 
 	fSearch = inputValue;
@@ -145,16 +145,16 @@ export function AllCollections({ className }: AllCollectionsProps) {
 	//     });
 	//   if (!hasTenant() && !hasFilter()) {
 	//     setTitle('All Collections');
-	//     setDescription('All of the collections shared to OER Exchange');
+	//     setDescription('All of the collections shared to Open Metadata Exchange');
 	//   } else if (!hasTenant() && hasFilter()) {
 	//     setTitle('Filtered Collections');
-	//     setDescription('All of the collections shared to OER Exchange by selected filters');
+	//     setDescription('All of the collections shared to Open Metadata Exchange by selected filters');
 	//   } else if (hasTenant() && !hasFilter()) {
 	//     setTitle(tenantTitle + ' Collections');
-	//     setDescription(<>All of the collections shared to OER Exchange by <a href={`${tenantUrl}`}>{tenantTitle}</a></>);
+	//     setDescription(<>All of the collections shared to Open Metadata Exchange by <a href={`${tenantUrl}`}>{tenantTitle}</a></>);
 	//   } else {
 	//     setTitle(tenantTitle + ' Collections');
-	//     setDescription(<>All of the filtered collections shared to OER Exchange by <a href={`${tenantUrl}`}>{tenantTitle}</a></>);
+	//     setDescription(<>All of the filtered collections shared to Open Metadata Exchange by <a href={`${tenantUrl}`}>{tenantTitle}</a></>);
 	//   }
 	// }, [path]);
 
@@ -179,7 +179,7 @@ export function AllCollections({ className }: AllCollectionsProps) {
 				updatedList[slug]?.splice(updatedList[slug].indexOf(value), 1);
 				if (slug === 'tenant') {
 					setTitle('All Collections');
-					setDescription(<>All of the collections shared to OER Exchange</>);
+					setDescription(<>All of the collections shared to Open Metadata Exchange</>);
 					setTenantTitle('');
 					setTenantUrl('');
 				}
@@ -233,7 +233,7 @@ export function AllCollections({ className }: AllCollectionsProps) {
 				/>
 			</div>
 			{/* <ArrowIcon /> */}
-			{/* <AppLink to="/imls/explore-oer-exchange" aria-label="Go Back to Explore OER Exchange" className={cls.back_link} text="Back to Explore OER Exchange" /> */}
+			{/* <AppLink to="/imls/explore-oer-exchange" aria-label="Go Back to Explore Open Metadata Exchange" className={cls.back_link} text="Back to Explore Open Metadata Exchange" /> */}
 			<h1 className={cls.allcollections_title}>{title}</h1>
 			<h5 className={cls.allcollections_desc}>{description}</h5>
 			<div className={cls.search_block}>
@@ -286,13 +286,13 @@ export function AllCollections({ className }: AllCollectionsProps) {
 						// updatePath(null);
 						if (!hasTenant() && !hasFilter()) {
 							setTitle('All Collections');
-							setDescription('All of the collections shared to OER Exchange');
+							setDescription('All of the collections shared to Open Metadata Exchange');
 							setTenantTitle('');
 							setTenantUrl('');
 						} else if (!hasTenant() && hasFilter()) {
 							setTitle('Filtered Collections');
 							setDescription(
-								'All of the collections shared to OER Exchange by selected filters'
+								'All of the collections shared to Open Metadata Exchange by selected filters'
 							);
 							setTenantTitle('');
 							setTenantUrl('');
@@ -301,7 +301,7 @@ export function AllCollections({ className }: AllCollectionsProps) {
 								setTitle(tenantTitle + ' Collections');
 								setDescription(
 									<>
-										All of the collections shared to OER Exchange by{' '}
+										All of the collections shared to Open Metadata Exchange by{' '}
 										<a href={`${tenantUrl}`}>{tenantTitle}</a>
 									</>
 								);
@@ -322,7 +322,7 @@ export function AllCollections({ className }: AllCollectionsProps) {
 											setTitle(data.name + ' Collections');
 											setDescription(
 												<>
-													All of the collections shared to OER Exchange by{' '}
+													All of the collections shared to Open Metadata Exchange by{' '}
 													<a href={`${data.url}`}>{data.name}</a>
 												</>
 											);
@@ -334,7 +334,7 @@ export function AllCollections({ className }: AllCollectionsProps) {
 								setTitle(tenantTitle + ' Collections');
 								setDescription(
 									<>
-										All of the filtered collections shared to OER Exchange by{' '}
+										All of the filtered collections shared to Open Metadata Exchange by{' '}
 										<a href={`${tenantUrl}`}>{tenantTitle}</a>
 									</>
 								);
@@ -354,7 +354,7 @@ export function AllCollections({ className }: AllCollectionsProps) {
 											setTitle(data.name + ' Collections');
 											setDescription(
 												<>
-													All of the filtered collections shared to OER Exchange
+													All of the filtered collections shared to Open Metadata Exchange
 													by <a href={`${data.url}`}>{data.name}</a>
 												</>
 											);

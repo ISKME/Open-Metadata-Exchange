@@ -259,10 +259,10 @@ export function MicrositeCollections({ className }: AllCollectionsProps) {
 				/>
 			</div>
 			{/* <ArrowIcon /> */}
-			{/* <AppLink to="/imls/explore-oer-exchange" aria-label="Go Back to Explore OER Exchange" className={cls.back_link} text="Back to Explore OER Exchange" /> */}
+			{/* <AppLink to="/imls/explore-oer-exchange" aria-label="Go Back to Explore Open Metadata Exchange" className={cls.back_link} text="Back to Explore Open Metadata Exchange" /> */}
 			<h1 className={cls.allcollections_title}>{title} Collections</h1>
 			<h5 className={cls.allcollections_desc}>
-				All of the collections shared to the OER Exchange by{' '}
+				All of the collections shared to the Open Metadata Exchange by{' '}
 				<a href={`${tenantUrl}`}>{title}</a>
 			</h5>
 			<div className={cls.search_block}>

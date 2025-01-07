@@ -262,7 +262,7 @@ export function SearchGrid({ api, title, children, un = '', share = '', add = []
             </div>
             <div className={cls['list-items']}>
               <div className={cls['date-added']}>
-                <p className={cls['body-text']}>Added to the OER Exchange Date Range</p>
+                <p className={cls['body-text']}>Added to the Open Metadata Exchange Date Range</p>
                 <DateRangePicker onChange={setDate} value={date} />
               </div>
               <div className={cls.div}>
@@ -351,10 +351,10 @@ export function SearchGrid({ api, title, children, un = '', share = '', add = []
         <svg className={cls['ionicon-c-checkmark']} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M12 2.24951C6.6239 2.24951 2.25 6.62342 2.25 11.9995C2.25 17.3756 6.6239 21.7495 12 21.7495C17.3761 21.7495 21.75 17.3756 21.75 11.9995C21.75 6.62342 17.3761 2.24951 12 2.24951ZM17.0742 8.73185L10.7742 16.2319C10.7051 16.3142 10.6191 16.3807 10.5221 16.4268C10.425 16.473 10.3192 16.4978 10.2117 16.4995H10.1991C10.0939 16.4995 9.99 16.4773 9.89398 16.4345C9.79796 16.3917 9.71202 16.3292 9.64172 16.2511L6.94172 13.2511C6.87315 13.1783 6.81981 13.0926 6.78483 12.999C6.74985 12.9054 6.73395 12.8057 6.73805 12.7058C6.74215 12.6059 6.76617 12.5079 6.8087 12.4174C6.85123 12.327 6.91142 12.2459 6.98572 12.1791C7.06002 12.1122 7.14694 12.0609 7.24136 12.0281C7.33578 11.9953 7.43581 11.9817 7.53556 11.9881C7.63531 11.9945 7.73277 12.0208 7.82222 12.0654C7.91166 12.1101 7.99128 12.1721 8.0564 12.2479L10.1794 14.6067L15.9258 7.76717C16.0547 7.61814 16.237 7.52582 16.4335 7.51017C16.6299 7.49452 16.8246 7.55679 16.9754 7.68352C17.1263 7.81026 17.2212 7.99127 17.2397 8.18744C17.2582 8.3836 17.1988 8.57917 17.0742 8.73185Z" fill="#34B53A"/>
         </svg>
-        <p className={cls['text-wrapper']}>You are no longer sharing {shareState} on the OER Exchange.</p>
+        <p className={cls['text-wrapper']}>You are no longer sharing {shareState} on the Open Metadata Exchange.</p>
         <p className={cls['div']}>Current subscribers will no longer receive updates for this collection.</p>
       </div>}
-      {message(addState.length, `Success! You are now sharing ${formatStringArray(addState.map((item) => item.name))} to the OER Exchange.`, '')}
+      {message(addState.length, `Success! You are now sharing ${formatStringArray(addState.map((item) => item.name))} to the Open Metadata Exchange.`, '')}
       <h6>
         <span style={{ color: addState.length ? '#34B53A' : '' }}>{num + addState.length}</span>
         {` ${title}`}
