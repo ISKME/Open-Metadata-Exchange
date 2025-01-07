@@ -337,7 +337,7 @@ const Welcome = ({ name }) => {
 					<div className={cls['text-wrapper']}>Welcome back {name}</div>
 					<p className={cls.subhead}>
 						Add collections and resources to your microsite from nationwide
-						digital libraries sharing on the OER Exchange.
+						digital libraries sharing on the Open Metadata Exchange.
 					</p>
 				</div>
 			</div>
@@ -377,7 +377,7 @@ const News = () => (
 				</clipPath>
 			</defs>
 		</svg>
-		<p>What’s New in the OER Exchange</p>
+		<p>What’s New in the Open Metadata Exchange</p>
 	</div>
 );
 
@@ -590,7 +590,7 @@ export function Home({ className }: HomeProps) {
 						<div className={cls['list-items']}>
 							<div className={cls['date-added']}>
 								<p className={cls['body-text']}>
-									Added to the OER Exchange Date Range
+									Added to the Open Metadata Exchange Date Range
 								</p>
 								<DateRangePicker onChange={setDate} value={date} />
 							</div>

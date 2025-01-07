@@ -83,7 +83,7 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
                 <div className={cls['frame']}><div className={cls['text-wrapper']}>New Unmapped Values</div></div>
                 <div className={cls['div']}>
                   <div className={cls['frame-2']}>
-                    <div className={cls['div-wrapper']}><div className={cls['text-wrapper-2']}>OER Exchange {section.name}</div></div>
+                    <div className={cls['div-wrapper']}><div className={cls['text-wrapper-2']}>Open Metadata Exchange {section.name}</div></div>
                     <div className={cls['frame-wrapper']}>
                       <div className={cls['frame-3']}><div className={cls['text-wrapper-2']}>Your {section.name}</div></div>
                     </div>

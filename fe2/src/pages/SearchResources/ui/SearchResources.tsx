@@ -210,9 +210,9 @@ export function SearchResources({ className }: search_resourcesProps) {
 			<ArrowIcon className={cls.back_link_img} />
 			<AppLink
 				to="/imls/explore-oer-exchange"
-				aria-label="Go Back to Explore OER Exchange"
+				aria-label="Go Back to Explore Open Metadata Exchange"
 				className={cls.back_link}
-				text="Back to Explore OER Exchange"
+				text="Back to Explore Open Metadata Exchange"
 			/>
 			<h1 className={cls.search_resources_title}>Search</h1>
 			<div className={cls.search_block}>

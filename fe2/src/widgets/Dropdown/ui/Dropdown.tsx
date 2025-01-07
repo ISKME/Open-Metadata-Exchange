@@ -272,7 +272,7 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
 					className="button-instance"
 					labelTextClassName={cls.designComponentInstanceNode}
 					property1="default"
-					text="Share to the OER Exchange"
+					text="Share to the Open Metadata Exchange"
 					onClick={adding}
 				/>
 			</div>

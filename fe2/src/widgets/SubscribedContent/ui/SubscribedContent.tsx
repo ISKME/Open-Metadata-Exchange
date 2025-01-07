@@ -88,7 +88,7 @@ export const SubscribedContent = ({ className }: SubscribedContentProps) => {
         <div className={cls.frame}>
           <h1>Search subscribed content</h1>
           <p>
-            All of the OER Exchange content you subscribed to
+            All of the Open Metadata Exchange content you subscribed to
             <br />
             is found here in your library and on your microsite.
           </p>

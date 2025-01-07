@@ -465,7 +465,7 @@ export function Library({ className }: LibraryProps) {
       </div>
       <div id="my_library" className={cls.library}>
         {/* <ArrowIcon className={cls.back_link_img} />
-        <AppLink to="/imls/explore-oer-exchange" aria-label="Go Back to Explore OER Exchange" className={cls.back_link} text="Back to Explore OER Exchange" />
+        <AppLink to="/imls/explore-oer-exchange" aria-label="Go Back to Explore Open Metadata Exchange" className={cls.back_link} text="Back to Explore Open Metadata Exchange" />
         <h1 className={cls.library_title}>My Library</h1> */}
         <Tabs
           key={index}
