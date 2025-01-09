@@ -70,7 +70,7 @@ async def whgazetteer() -> None:
                 if func_name in url:
                     result = func(result)  # noqa: PLW2901
                     break
-            print(f"Text from {url}:\n\n{result}\n\n{'='*50}\n")
+            print(f"Text from {url}:\n\n{result}\n\n{'=' * 50}\n")
         else:
             print(f"Failed to fetch text from {url}")
 
