@@ -55,6 +55,6 @@ services:
       NODE_ENV: development
       REACT_APP_API_URL: http://localhost:5002
     ports:
-      - 4001:4001
+      - 4001:4000
     depends_on:
       - fastapi-server-boston
