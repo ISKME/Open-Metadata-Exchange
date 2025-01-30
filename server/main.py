@@ -35,7 +35,7 @@ async def get_channel_summary(name: str) -> ChannelSummary:
 
 @app.get("/api/channel/{name}/cards")
 async def get_channel_cards(name: str, start: int = 1, end: int = 10) -> list[Card]:
-    return ome_node.channelCards(name, start, end)
+    return ome_node.channel_cards(name, start, end)
 
 
 @app.post("/api/publish")
