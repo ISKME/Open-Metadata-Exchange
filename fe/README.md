@@ -20,3 +20,10 @@ See the README.md file in the project root.
 
 ## Run
 See the README.md file in the project root.
+
+```bash
+cd fe
+npm install
+npm run dev
+```
+https://localhost:3000
