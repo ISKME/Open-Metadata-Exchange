@@ -26,4 +26,11 @@ cd fe
 npm install
 npm run dev
 ```
-https://localhost:3000
+http://localhost:3000 will show NNTP records in the `OER.public` channel of the NNTP server at port 5000.
+
+Docker external ports | Austin stack | Boston stack | hint
+:---:|:---:|:---:|:---
+InternetNews Server | 119,563 | 1119,1563 | +1,000
+FastAPI Server | 5001 | 5002 | +1
+React Server | 4000 | 4001 | +1
+FE Server | 3000 | 3001 | +1
