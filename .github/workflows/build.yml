@@ -51,7 +51,7 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - run: uv python install  # Version from pyproject.toml project.requires-python
       - run: uvx --with=pydantic,pynntp pytest
-      - run: uvx python src/nntp_io.py
+      - run: uvx --with=pynntp pytest python src/nntp_io.py
       # - run: uvx python src/nntplib_tests.py || true
 
   front-end:
