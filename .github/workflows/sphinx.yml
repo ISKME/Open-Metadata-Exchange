@@ -30,7 +30,7 @@ jobs:
         with:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
-      - run: uv add --editable ".[docs]"
+      # - run: uv add --editable ".[docs]"
       - uses: actions/configure-pages@v5
       # - run: sphinx-apidoc -f -o docs src  # Todo: Add demo code
       # - run: shopt -s globstar && rst2myst convert docs/**/*.rst
