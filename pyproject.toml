@@ -8,12 +8,22 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.13",
 ]
+dependencies = [
+  "fastapi[standdard]>=0.115.8",
+  "pynntp>=2.0.1",
+]
+
 optional-dependencies.docs = [
   "myst-parser",
   "sphinx<8.1",            # https://github.com/sphinx-doc/sphinx/issues/13002
   "sphinx-autoapi",
   "sphinx-pyproject",
   "sphinxcontrib-mermaid",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.3.4",
 ]
 
 [tool.ruff]
