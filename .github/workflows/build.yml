@@ -7,7 +7,31 @@ on:
   workflow_dispatch:
 
 jobs:
-  inn-docker:
+  # inn-docker:
+  #  strategy:
+  #    fail-fast: false
+  #    matrix:
+  #      service-image: [cclauss/inn]  # , greenbender/inn]
+  #  runs-on: ubuntu-latest
+  #  services:
+  #    inn-service:
+  #      image: ${{ matrix.service-image }}
+  #      ports:
+  #        - 119:119
+  #        - 563:563
+  #  steps:
+  #    - uses: actions/checkout@v4
+  #    - uses: actions/setup-python@v5
+  #      with:
+  #        python-version: 3.13
+  #        allow-prereleases: true
+  #    - run: pip install --upgrade pip
+  #    - run: pip install pydantic pynntp pytest
+  #    - run: pytest
+  #    - run: python src/nntp_io.py
+  #    - run: python src/nntplib_tests.py || true
+
+  inn-docker_uv:
     strategy:
       fail-fast: false
       matrix:
@@ -21,31 +45,28 @@ jobs:
           - 563:563
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v5
         with:
-          python-version: 3.13
-          allow-prereleases: true
-      - run: pip install --upgrade pip
-      - run: pip install pydantic pynntp pytest
-      - run: pytest
-      - run: python src/nntp_io.py
-      - run: python src/nntplib_tests.py || true
+          enable-cache: true
+      - run: uv python install  # Version from pyproject.toml project.requires-python
+      - run: uvx --with=pydantic,pynntp pytest
+      - run: uv run --with=pynntp src/nntp_io.py
 
   front-end:
-      strategy:
-        fail-fast: false
-        matrix:
-          node-version: [18.19.0]
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
-          with:
-            node-version: ${{ matrix.node-version }}
-        - run: cd fe2 && npm ci || npm install
-        - run: cd fe2 && npm run  # To see available commands
-        # TODO(@KevinEverywhere): Set up eslint/config and then remove `|| true`
-        - run: cd fe2 && yes | npm init @eslint/config
-        - run: cd fe2 && npm run lint:scss || true
-        - run: cd fe2 && npm run lint:ts || true
-        - run: cd fe2 && npm run unit
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18.19.0]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: cd fe2 && npm ci || npm install
+      - run: cd fe2 && npm run  # To see available commands
+      # TODO(@KevinEverywhere): Set up eslint/config and then remove `|| true`
+      - run: cd fe2 && yes | npm init @eslint/config
+      - run: cd fe2 && npm run lint:scss || true
+      - run: cd fe2 && npm run lint:ts || true
+      - run: cd fe2 && npm run unit
