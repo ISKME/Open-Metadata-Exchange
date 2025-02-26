@@ -45,14 +45,14 @@ jobs:
           - 563:563
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.13
+      # - uses: actions/setup-python@v5
+      #  with:
+      #    python-version: 3.13
       - uses: astral-sh/setup-uv@v5
       - run: uv python install  # Version from pyproject.toml project.requires-python
       - run: uvx --with=pydantic,pynntp pytest
-      - run: uvx --with=pynntp src/nntp_io.py
-      # - run: uvx python src/nntplib_tests.py || true
+      - run: uv run --with=pynntp src/nntp_io.py
+      # - run: uv run src/nntplib_tests.py || true
 
   front-end:
     strategy:
