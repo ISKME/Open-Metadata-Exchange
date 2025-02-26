@@ -25,7 +25,11 @@ if not os.getenv("CI"):  # Not running in Continuous Integration
 
 @app.get("/api/list")
 async def main() -> list[Channel]:
-    return ome_node.channels()
+    from sys import stderr
+
+    print("Getting list of channels", file=stderr)
+    print(ome_node.channels(), file=stderr)
+    return list(ome_node.channels())
 
 
 @app.get("/api/channel/{name}")
