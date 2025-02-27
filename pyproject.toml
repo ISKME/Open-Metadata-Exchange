@@ -9,7 +9,7 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-  "fastapi[standdard]>=0.115.8",
+  "fastapi[standard]>=0.115.8",
   "pynntp>=2.0.1",
 ]
 
