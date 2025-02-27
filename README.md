@@ -33,7 +33,7 @@ docker compose -f docker-compose.debug.yml up
     * <https://www.eyrie.org/~eagle/software/inn/docs-2.7>
     * <https://github.com/cclauss/apt-get-inn2-docker>
 * [FastAPI](https://fastapi.tiangolo.com/)-Server middle tier that connects the INN to the frontend.
-* [FE2](./FE2/README.md) user interface that connects to the FastAPI-Server.
+* [FE2](./fe2/README.md) user interface that connects to the FastAPI-Server.
 
 ### FE2 NodeServer
 ```bash
