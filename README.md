@@ -24,9 +24,10 @@ sequenceDiagram
 ```
 
 ## Run the components
-For local development and testing, start the INN2 server and FastAPI server with:
+For local development and testing, start two INN2 servers, two FastAPI servers, and two React front ends with:
 ```bash
-docker compose -f docker-compose.debug.yml up
+docker compose build
+docker compose up
 ```
 * [InterNetNews](https://github.com/InterNetNews/inn) (INN) backend that houses the metadata.
     * <https://www.isc.org/othersoftware/#INN>
