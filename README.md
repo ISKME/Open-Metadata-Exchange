@@ -28,6 +28,7 @@ For local development and testing, start two INN2 servers, two FastAPI servers, 
 ```bash
 docker compose build
 docker compose up
+open http://localhost:5001
 ```
 * [InterNetNews](https://github.com/InterNetNews/inn) (INN) backend that houses the metadata.
     * <https://www.isc.org/othersoftware/#INN>
