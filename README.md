@@ -1,10 +1,9 @@
 # OME Readme
-Distributed / Decentralized Network for Open Metadata Exchange
+Distributed / Decentralized Network for Open Metadata Exchange -- Documentation: https://iskme.github.io/Open-Metadata-Exchange
+
 
 [![ome_build](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml)
 [![ome_docs](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/sphinx.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/sphinx.yml)
-
-Documentation: https://iskme.github.io/Open-Metadata-Exchange
 
 ## High Level "what connects to what"
 
