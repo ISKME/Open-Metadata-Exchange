@@ -389,6 +389,7 @@ if __name__ == "__main__":
     # `uv run oercommons_models.py`
     from pathlib import Path
 
+    # The oercommons.json file should be in the same directory as this script.
     json_path = Path(__file__).parent / "oercommons.json"
     model_instance = Model.model_validate_json(json_path.read_text())
     print(f"{model_instance = }\n")
