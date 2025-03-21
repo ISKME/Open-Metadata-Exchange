@@ -9,7 +9,7 @@ docker run --rm -t -p119:119 -p563:563 cclauss/inn
 
 Terminal 2:
 ```bash
-pipenv run PYTHONPATH="." python server/card_editor.py
+PYTHONPATH="." uv run server/card_editor.py
 ```
 """
 

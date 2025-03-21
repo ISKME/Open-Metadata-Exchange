@@ -29,8 +29,7 @@ docker kill $(docker ps -lq)
 
 For local development and testing:
 ```bash
-pipenv shell
-PYTHONPATH=. fastapi dev --host=0.0.0.0 --port=5001 server/main.py
+uv run fastapi dev --host=0.0.0.0 --port=5001 server/main.py
 
 open http://localhost:5001
 open http://localhost:5001/docs
