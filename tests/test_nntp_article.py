@@ -43,6 +43,6 @@ def test_nntp_article_invalid_attachment() -> None:
     with pytest.raises(FileNotFoundError, match=f"Attachment {path} does not exist."):
         nntp_article("Test Article", [path])
 
-    path = here / "invalid.txt"
+    path = here / "not_a_json_file.txt"
     with pytest.raises(ValueError, match=f"Attachment {path} is not a JSON file."):
         nntp_article("Test Article", [path])
