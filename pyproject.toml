@@ -41,7 +41,7 @@ lint.per-file-ignores."tools/har_parser/har_parser.py" = [ "PTH" ] # flake8-use-
 lint.pylint.allow-magic-value-types = [ "int", "str" ]
 
 [tool.codespell]
-ignore-words-list = "formend"
+ignore-words-list = "formend,thur"
 skip = "*/package-lock.json,static/api/imls/v2/**/*.json"
 
 [tool.pyproject-fmt]
