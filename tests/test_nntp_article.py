@@ -39,13 +39,10 @@ def test_nntp_article_invalid_attachment() -> None:
     """
     Test the nntp_article function with an invalid attachment.
     """
-    with pytest.raises(
-        FileNotFoundError,
-        match=f"Attachment {here / 'does_not_exist.json'} does not exist.",
-    ):
-        nntp_article("Test Article", [here / "does_not_exist.json"])
+    path = here / "does_not_exist.json"
+    with pytest.raises(FileNotFoundError, match=f"Attachment {path} does not exist."):
+        nntp_article("Test Article", [path])
 
-    with pytest.raises(
-        ValueError, match=f"Attachment {here / 'invalid.txt'} is not a JSON file."
-    ):
-        nntp_article("Test Article", [here / "invalid.txt"])
+    path = here / "invalid.txt"
+    with pytest.raises(ValueError, match=f"Attachment {path} is not a JSON file."):
+        nntp_article("Test Article", [path])
