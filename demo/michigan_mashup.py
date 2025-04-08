@@ -1,4 +1,12 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#   "beautifulsoup4",
+#   "httpx",
+# ]
+# ///
 
 """
 Make data about Lansing, Michigan from World Historical Gazetteer and Michigan Memories
@@ -77,7 +85,7 @@ async def whgazetteer() -> None:
 
 if __name__ == "__main__":
     # from pathlib import Path
-    from subprocess import run
+    from subprocess import CalledProcessError, run
     from time import sleep
     from webbrowser import open_new_tab
 
@@ -99,12 +107,16 @@ if __name__ == "__main__":
 
     # Type: michmem Lansing river images
     _ = input("Search: (ex. 'whg Canada') ")
-    print("Michigan Memories selected: Lansing river images\n")
+    # https://michmemories.org/exhibits/timber-tales-lumbering-and-lumber-camps
+    print("Michigan Memories selected: Lansing river\n")
     open_new_tab(
-        "https://michmemories.org/exhibits/default/catalog?q=Lansing+river+images",
+        "https://michmemories.org/search?keywords=Lansing+river",
     )
     sleep(2)
-    run("/usr/bin/open *.jpg", shell=True, check=True)  # noqa: S602
+    try:
+        run("/usr/bin/open *.jpg", shell=True, check=True)  # noqa: S602
+    except CalledProcessError as e:
+        print(f"Error opening local images: {e}")
     # for i, image_file in enumerate(Path(__file__).glob("*.jpg")):
     #    print(f"Opening {image_file}...")
     #    sleep(1)
