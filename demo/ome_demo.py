@@ -1,4 +1,14 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#   "fastapi",
+#   "httpx",
+#   "python-multipart",
+# ]
+# ///
+
 """
 Import FastAPI and use it retrieve multiple different resources
 1. An image from https://michmemories.org
