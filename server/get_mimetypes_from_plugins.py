@@ -44,4 +44,4 @@ def get_plugin_mimetypes() -> Iterator[str]:
 
 if __name__ == "__main__":
     for plugin in get_plugin_mimetypes():
-        print(f"Plugin: {plugin.__name__}, Mimetype: {plugin.mimetype}")
+        print(f"Plugin: {plugin.__name__}, Mimetypes: {plugin.mimetypes}")
