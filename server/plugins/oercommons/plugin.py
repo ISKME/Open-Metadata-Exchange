@@ -19,7 +19,7 @@ class OERCommonsPlugin(OMEPlugin):
     It provides functionality to create metadata cards from URLs or JSON payloads.
     """
 
-    mimetype: str = "application/vnd.oercommons.oer-commons+json"
+    mimetypes: tuple[str] = ("application/vnd.oercommons.oer-commons+json",)
 
     def make_metadata_card_from_url(self, url: str) -> EducationResource:
         """
