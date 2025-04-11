@@ -33,8 +33,10 @@ lint.ignore = [
   "COM812", # May cause conflicts with ruff format
   "D",      # pydocstyle
   "ERA",    # eradicate
+  "FIX002", # Line contains TODO, consider resolving the issue
   "ISC001", # May cause conflicts with ruff format
   "T201",   # flake8-print
+  "TD003",  # Missing issue link for this TODO
 ]
 lint.per-file-ignores."tests/*" = [ "S101" ] # Use of assert detected
 lint.per-file-ignores."tools/har_parser/har_parser.py" = [ "PTH" ] # flake8-use-pathlib

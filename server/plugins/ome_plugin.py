@@ -46,7 +46,7 @@ class OMEPlugin:
     It is currently empty and does not implement any specific methods or properties.
     """
 
-    mimetype: str = ""
+    mimetypes: tuple[str, ...] = ()
 
     def make_metadata_card_from_url(self, url: str) -> EducationResource:
         """
