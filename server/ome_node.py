@@ -32,8 +32,6 @@ DEFAULT_NEWSGROUPS: dict[str, str] = {
     ("local.test", "Local test group"),
 }
 
-CLIENT: nntp.NNTPClient | None = None
-
 
 def get_client(port: int = 119) -> nntp.NNTPClient:
     global CLIENT
@@ -58,14 +56,12 @@ def enable_a_default_channel(channel_name: str = "local.test") -> None:
         raise ValueError(msg)
 
 
-def channels() -> Iterator[Channel]:
-    nntp_client = get_client()
+def channels(nntp_client: nntp.NNTPClient) -> Iterator[Channel]:
     for name, description in set(nntp_client.list_newsgroups()) - DEFAULT_NEWSGROUPS:
         yield Channel(name=name, description=description)
 
 
-def channel_summary(channel_name: str) -> ChannelSummary:
-    nntp_client = get_client()
+def channel_summary(nntp_client: nntp.NNTPClient, channel_name: str) -> ChannelSummary:
     est_total, first, last, name = nntp_client.group(channel_name)
     return ChannelSummary(
         name=name,
@@ -82,8 +78,9 @@ def _to_metadata(x: str | bytes | bytearray) -> Metadata | str | bytes | bytearr
         return x
 
 
-def channel_cards(channel_name: str, start: int, end: int) -> list[Card]:
-    nntp_client = get_client()
+def channel_cards(
+    nntp_client: nntp.NNTPClient, channel_name: str, start: int, end: int
+) -> list[Card]:
     _, _first, last, _ = nntp_client.group(channel_name)
     end = min(end, last)
     return [
@@ -97,8 +94,7 @@ def channel_cards(channel_name: str, start: int, end: int) -> list[Card]:
     ]
 
 
-def create_post(card: NewCard) -> bool:
-    nntp_client = get_client()
+def create_post(nntp_client: nntp.NNTPClient, card: NewCard) -> bool:
     headers = {
         "Subject": card.subject,
         "From": "OERCommons <admin@oercommons.org>",
@@ -108,11 +104,12 @@ def create_post(card: NewCard) -> bool:
     return nntp_client.post(headers=headers, body=t)
 
 
-def import_post(channel_name: str, card_id: int) -> bool:  # noqa: ARG001
+def import_post(nntp_client: nntp.NNTPClient, channel_name: str, card_id: int) -> bool:  # noqa: ARG001
     return True
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     import os
 
     # Environment variable INN_SERVER_NAME is defined in the docker-compose.yml file.
@@ -125,3 +122,16 @@ if __name__ == "__main__":
     print(channel_summary("local.test"))
     print(channel_cards("local.test", 1, 10))
     # print(create_post(NewCard(subject="test", body="test", channels=["local.test"])))
+=======
+    print("Getting list of channels", flush=True)
+    nntp_client = get_nntp_client()
+    print(f"{nntp_client=}", flush=True)
+    print("Getting list of channels", flush=True)
+    print(f"{tuple(channels(nntp_client))=}", flush=True)
+    # print(channel_summary(nntp_client, "local.test"), flush=True)
+    # print(channel_cards(nntp_client, "local.test", 1, 10), flush=True)
+    # print(create_post(
+    #     NewCard(nntp_client, subject="test", body="test", channels=["local.test"])),
+    #     flush=True
+    # )
+>>>>>>> 553a835 (FastAPI must use hostnames to communicate with INN servers)

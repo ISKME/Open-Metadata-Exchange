@@ -10,32 +10,37 @@ BOSTON_PORT = AUSTIN_PORT + 1000
 
 @pytest.mark.parametrize("port", [AUSTIN_PORT, BOSTON_PORT])
 def test_nntp_client(port: int) -> None:
-    nntp_client = ome_node.get_client(port=port)
+    nntp_client = ome_node.get_nntp_client(port=port)
     assert isinstance(nntp_client, ome_node.nntp.NNTPClient)
     newsgroups = set(nntp_client.list_newsgroups())
     assert newsgroups == ome_node.DEFAULT_NEWSGROUPS
 
 
-def test_channels() -> None:
+@pytest.mark.parametrize("port", [AUSTIN_PORT, BOSTON_PORT])
+def test_channels(port: int) -> None:
     """
     Ensure that the default channels are all disabled.
     """
-    assert not list(ome_node.channels())
+    nntp_client = ome_node.get_nntp_client(port=port)
+    assert not list(ome_node.channels(nntp_client))
 
 
-def test_one_channel() -> None:
+@pytest.mark.parametrize("port", [AUSTIN_PORT, BOSTON_PORT])
+def test_one_channel(port: int) -> None:
     """
     Let's enable the channel 'local.test' so we can use it for the remaining tests.
     """
+    nntp_client = ome_node.get_nntp_client(port=port)
     ome_node.enable_a_default_channel()
-    for channel in ome_node.channels():
+    for channel in ome_node.channels(nntp_client):
         assert channel.name == "local.test"
         assert channel.description == "Local test group"
 
 
-def test_channel_summary() -> None:
-    nntp_client = ome_node.get_client()
-    for channel in ome_node.channels():
+@pytest.mark.parametrize("port", [AUSTIN_PORT, BOSTON_PORT])
+def test_channel_summary(port: int) -> None:
+    nntp_client = ome_node.get_nntp_client(port=port)
+    for channel in ome_node.channels(nntp_client):
         channel_summary = ome_node.channel_summary(channel.name)
         total, first, last, group = nntp_client.group(channel_summary.name)
         assert channel_summary.name == group == "local.test"

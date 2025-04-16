@@ -33,7 +33,7 @@ from server import ome_node
 # from server.schemas import NewCard
 # from server.schemas import Card, CardRef, Channel, ChannelSummary, NewCard
 
-nntp_client = ome_node.get_client()
+nntp_client = ome_node.get_nntp_client()
 ome_node.enable_a_default_channel("local.test")
 
 
