@@ -1,4 +1,17 @@
+#!/usr/bin/env -S uv run --script
+
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "pydantic",
+#     "pynntp",
+# ]
+# ///
+
+# PYTHONPATH="." server/ome_node.py
+
 # import json
+import os
 from collections.abc import Iterator
 
 import nntp
@@ -23,9 +36,15 @@ CLIENT: nntp.NNTPClient | None = None
 
 
 def get_client(port: int = 119) -> nntp.NNTPClient:
-    global CLIENT  # noqa: PLW0603
-    CLIENT = CLIENT or nntp.NNTPClient("localhost", port=port)
-    return CLIENT
+    global CLIENT
+    if CLIENT:
+        return CLIENT
+
+    # Environment variable INN_SERVER_NAME is defined in the docker-compose.yml file.
+    inn_server_name = os.getenv("INN_SERVER_NAME", "localhost")
+    if port == BOSTON_PORT:  # Special case for localhost accessing Boston container.
+        inn_server_name = "localhost"
+    return (CLIENT := nntp.NNTPClient(inn_server_name, port=port))
 
 
 def enable_a_default_channel(channel_name: str = "local.test") -> None:
@@ -90,3 +109,18 @@ def create_post(card: NewCard) -> bool:
 
 def import_post(channel_name: str, card_id: int) -> bool:  # noqa: ARG001
     return True
+
+
+if __name__ == "__main__":
+    import os
+
+    # Environment variable INN_SERVER_NAME is defined in the docker-compose.yml file.
+    print(f'{os.getenv("INN_SERVER_NAME", "localhost")=}')
+    print("Getting list of channels")
+    nntp_client = get_client()
+    print(f"{nntp_client=}")
+    print("Getting list of channels")
+    print(f"{tuple(channels())=}")
+    print(channel_summary("local.test"))
+    print(channel_cards("local.test", 1, 10))
+    # print(create_post(NewCard(subject="test", body="test", channels=["local.test"])))
