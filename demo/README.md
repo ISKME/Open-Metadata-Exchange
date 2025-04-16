@@ -13,7 +13,7 @@ Queries:
 * worldbank Health Service Delivery
 
 ## `ome_demo.py`
-Use [FastAPI](https://fastapi.tiangolo.com) and [htmx](https://htmx.org) to retrieve multiple different open education resources:
+Use [FastAPI](https://fastapi.tiangolo.com) and [httpx](https://www.python-httpx.org) to retrieve multiple different open education resources:
 1. An image from https://michmemories.org
 2. A dataset from https://github.com/WorldHistoricalGazetteer
 3. A pdf file from https://openknowledge.worldbank.org/pages/sustainable-development-goals
