@@ -44,6 +44,7 @@ def get_client(port: int = 119) -> nntp.NNTPClient:
     inn_server_name = os.getenv("INN_SERVER_NAME", "localhost")
     if port == BOSTON_PORT:  # Special case for localhost accessing Boston container.
         inn_server_name = "localhost"
+    print(f"{__file__}.get_client({port=}) on {inn_server_name}")
     return (CLIENT := nntp.NNTPClient(inn_server_name, port=port))
 
 
