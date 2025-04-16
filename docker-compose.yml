@@ -25,6 +25,7 @@ services:
     build:
       dockerfile: Dockerfile
     environment:
+      INN_SERVER_NAME: internetnews-server-austin
       SERVER_PORT: 5001
     ports:
       - 5001:5001
@@ -36,6 +37,7 @@ services:
     build:
       dockerfile: Dockerfile
     environment:
+      INN_SERVER_NAME: internetnews-server-boston
       SERVER_PORT: 5001
     ports:
       - 5002:5001
