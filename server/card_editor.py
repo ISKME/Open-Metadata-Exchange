@@ -1,3 +1,15 @@
+#!/usr/bin/env -S uv run --script
+
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "pydantic",
+#     "pynntp",
+# ]
+# ///
+
+# PYTHONPATH="." server/card_editor.py
+
 """
 Use fastui to create a simple web interface for the card editor.
 The editor should allow users to create NewCards and publish them to a channel.
@@ -73,16 +85,17 @@ def sample_metadata() -> Iterator[ome_node.Metadata]:
         )
 
 
-for metadata in sample_metadata():
-    ome_node.create_post(
-        ome_node.NewCard(
-            channels=["local.test"],
-            subject=metadata.title,
-            body=metadata,
-        ),
-    )
-for i, card in enumerate(ome_node.channel_cards("local.test", 1, 100), 1):
-    print(f"{i:>3}: {card.body = }")
+if __name__ == "__main__":
+    for metadata in sample_metadata():
+        ome_node.create_post(
+            ome_node.NewCard(
+                channels=["local.test"],
+                subject=metadata.title,
+                body=metadata,
+            ),
+        )
+    for i, card in enumerate(ome_node.channel_cards("local.test", 1, 100), 1):
+        print(f"{i:>3}: {card.body = }")
 
 
 def junk() -> None:

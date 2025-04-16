@@ -23,8 +23,7 @@ def nntp_article(title: str, attachments: Iterable[str | Path]) -> EmailMessage:
     msg["Subject"] = title
     # Iterate over the attachments and add them to the email
     for attachment in attachments:
-        path = Path(attachment)
-        if not path.exists():
+        if not (path := Path(attachment)).exists():
             err_msg = FileNotFoundError(f"Attachment {attachment} does not exist.")
             raise err_msg
         if path.suffix != ".json":

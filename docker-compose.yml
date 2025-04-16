@@ -1,7 +1,16 @@
+# Accessing the two INN servers:
+# Internally (from other containers like the FastAPI containers):
+# * Use internetnews-server-austin:119
+# * Use internetnews-server-boston:119
+# Externally (from your host):
+# * Use localhost:119 for Austin
+# * Use localhost:1119 for Boston
+# host.docker.internal would be used if the INN server was running on your localhost machine.
+
 services:
   internetnews-server-austin:
     image: cclauss/inn
-    ports:
+    ports:  # external:internal
       - 119:119
       - 563:563
 
