@@ -28,7 +28,7 @@ jobs:
   #    - run: pip install --upgrade pip
   #    - run: pip install pydantic pynntp pytest
   #    - run: pytest
-  #    - run: python src/nntp_io.py
+  #    - run: python scripts/nntp_io.py
   #    - run: python src/nntplib_tests.py || true
 
   inn-docker_uv:
@@ -50,7 +50,7 @@ jobs:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
       - run: uvx --with=pydantic,pynntp pytest
-      - run: uv run --with=pynntp src/nntp_io.py
+      - run: uv run scripts/nntp_io.py
 
   front-end:
     strategy:

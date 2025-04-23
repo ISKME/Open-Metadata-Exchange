@@ -28,7 +28,8 @@ $(function() {
 
         var data = {
             "channels": [
-                "OER.public"
+                "local.test",
+                // "OER.public"  TODO(cclauss): https://github.com/ISKME/Open-Metadata-Exchange/issues/123
             ],
             "subject": meta["title"],
             "body": meta
