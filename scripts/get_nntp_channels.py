@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 
 # /// script
-# requires-python = ">=3.9"
+# requires-python = ">=3.13"
 # dependencies = [
 #     "pynntp",
 # ]
@@ -26,17 +26,30 @@ def get_nntp_client(port: int = 119) -> nntp.NNTPClient:
     inn_server_name = os.getenv("INN_SERVER_NAME", "localhost")
     if port == BOSTON_PORT:  # Special case for localhost accessing Boston container.
         inn_server_name = "localhost"
-    return (CLIENT := nntp.NNTPClient(inn_server_name, port=port))
+    try:
+        return (CLIENT := nntp.NNTPClient(inn_server_name, port=port))
+    except ConnectionRefusedError:
+        print(f"INN server {inn_server_name}:{port} is not reachable.", flush=True)
 
 
 def channels(nntp_client: nntp.NNTPClient) -> Iterator[str]:
-    for name, description in set(nntp_client.list_newsgroups()):
+    for name, description in sorted(nntp_client.list_newsgroups()):
         yield f"{name=:<20}: {description=}"
 
 
 if __name__ == "__main__":
-    austin_nntp = get_nntp_client(port=119)
-    print("NNTP Server @ port 119:\n\t" + "\n\t".join(channels(austin_nntp)))
+    for port in (AUSTIN_PORT, BOSTON_PORT):
+        if nntp_client := get_nntp_client(port=port):
+            print(f"INN server @ {port=}:\n\t" + "\n\t".join(channels(nntp_client)))
+            print(f"\t{'-' * 24}")
+            for name, description in sorted(nntp_client.list_newsgroups()):
+                print(f"\t{name=:<20}: {description=}")
 
-    boston_nntp = get_nntp_client(port=1119)
-    print("NNTP Server @ port 1119\n\t" + "\n\t".join(channels(boston_nntp)))
+    # import datetime  # Modify above: requires-python = "==3.12"
+    # import nntplib  # Removed from the Python standard library in 3.12
+
+    # for port in (AUSTIN_PORT, BOSTON_PORT):
+    #    if nntp_client := nntplib.NNTP("localhost", port=119):
+    #        print(f"INN server @ {port=}:")
+    #        for newsgroup in nntp_client.newgroups(datetime.date(1970, 1, 1))[1]:
+    #            print(f"\t{newsgroup.group=}")

@@ -28,7 +28,7 @@ $(function() {
 
         var data = {
             "channels": [
-                "OER.public"
+                "oer.public",
             ],
             "subject": meta["title"],
             "body": meta

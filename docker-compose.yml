@@ -9,13 +9,13 @@
 
 services:
   internetnews-server-austin:
-    image: cclauss/inn
+    image: greenbender/inn  # cclauss/inn
     ports:  # external:internal
       - 119:119
       - 563:563
 
   internetnews-server-boston:
-    image: cclauss/inn
+    image: greenbender/inn  # cclauss/inn
     ports:
       - 1119:119
       - 1563:563
