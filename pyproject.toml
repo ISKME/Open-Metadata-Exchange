@@ -3,10 +3,10 @@ name = "open-metadata-exchange"
 version = "0.1.0"
 description = "Open Metadata Exchange (OME)"
 authors = [ { name = "ISKME and contributors" } ]
-requires-python = ">=3.13"
+requires-python = "==3.12"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
   "fastapi[standard]>=0.115.8",
@@ -47,7 +47,7 @@ ignore-words-list = "formend,thur"
 skip = "*/package-lock.json,static/api/imls/v2/**/*.json"
 
 [tool.pyproject-fmt]
-max_supported_python = "3.13"
+max_supported_python = "3.12"
 
 [tool.sphinx-pyproject]
 copyright = "2024, ISKME and contributors"

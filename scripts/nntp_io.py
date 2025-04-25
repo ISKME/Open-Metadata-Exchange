@@ -72,5 +72,8 @@ if __name__ == "__main__":
     print(f"{__file__}: {newsgroup=}")
     payload = {"key": "value"}
     print(f"{nntp_write(payload, newsgroup)}")
-    print(f"{nntp_read()}")
+    try:
+        print(f"{nntp_read()}")
+    except nntp.NNTPTemporaryError as e:
+        print(f"{e!r} on nntp_read({newsgroup=})")
     nntp_client.quit()
