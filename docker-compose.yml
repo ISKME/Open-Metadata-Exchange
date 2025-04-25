@@ -13,12 +13,14 @@ services:
     ports:  # external:internal
       - 119:119
       - 563:563
+    restart: always
 
   internetnews-server-boston:
     image: greenbender/inn  # cclauss/inn
     ports:
       - 1119:119
       - 1563:563
+    restart: always
 
   fastapi-server-austin:
     image: fastapi
