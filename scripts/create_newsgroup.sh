@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # To be run INSIDE an INN Docker container:
-# `docker exec -it open-metadata-exchange-internetnews-server-austin-1 bash`
+# `docker exec -it open-metadata-exchange-internetnews-server-austin-1 sh`
 # run this script with a newsgroup name as the optional first argument.
 # `exit`  # Repeat with the other INN server(s).
 
