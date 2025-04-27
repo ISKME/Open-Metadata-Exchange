@@ -7,6 +7,7 @@
 # ]
 # ///
 from datetime import datetime
+from types import MappingProxyType
 
 from pydantic import BaseModel
 
@@ -47,6 +48,8 @@ class OMEPlugin:
     """
 
     mimetypes: tuple[str, ...] = ()
+    # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
+    newsgroups: dict[str, str] = MappingProxyType({})
 
     def make_metadata_card_from_url(self, url: str) -> EducationResource:
         """

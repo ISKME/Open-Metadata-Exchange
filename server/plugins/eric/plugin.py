@@ -7,6 +7,8 @@
 # ]
 # ///
 
+from types import MappingProxyType
+
 from server.plugins.eric.eric_models import Model
 
 # from pydantic import BaseModel
@@ -20,6 +22,15 @@ class EricPlugin(OMEPlugin):
     """
 
     mimetypes: tuple[str] = ("application/vnd.eric.eric+json",)
+    # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
+    newsgroups: dict[str, str] = MappingProxyType(
+        {
+            "eric.public": (
+                "Metadata from US DoE's Education Resources Information Center (ERIC) "
+                "https://eric.ed.gov"
+            ),
+        }
+    )
 
     def make_metadata_card_from_url(self, url: str) -> EducationResource:
         """
