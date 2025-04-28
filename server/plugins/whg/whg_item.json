@@ -1,0 +1,16 @@
+{
+  "id": 657,
+  "place_count": 305,
+  "owner": "WHG Admin",
+  "label": "africanports1887",
+  "title": "African Ports, 1887",
+  "description": "305 settlements and ports on the West African coast",
+  "datatype": "place",
+  "ds_status": "indexed",
+  "create_date": "2020-06-17T14:56:01.812576",
+  "public": true,
+  "core": false,
+  "creator": "Dr. Patricia Seed",
+  "webpage": null,
+  "contributors": "Atteoudeyi Azizou; Patrick Manning"
+}
