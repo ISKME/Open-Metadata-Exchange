@@ -7,6 +7,8 @@
 # ]
 # ///
 
+from types import MappingProxyType
+
 # from pydantic import BaseModel
 from server.plugins.ome_plugin import EducationResource, OMEPlugin
 from server.plugins.openlibrary.openlibrary_authors_models import Model as AuthorsModel
@@ -24,6 +26,12 @@ class OpenLibraryPlugin(OMEPlugin):
     mimetypes: tuple[str] = (
         "application/vnd.openlibrary.authors+json",
         "application/vnd.openlibrary.work+json",
+    )
+    # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
+    newsgroups: dict[str, str] = MappingProxyType(
+        {
+            "openlibrary.public": "Metadata from the Internet Archive's Open Library https://openlibrary.org",
+        }
     )
 
     def make_metadata_card_from_url(self, url: str) -> EducationResource:
