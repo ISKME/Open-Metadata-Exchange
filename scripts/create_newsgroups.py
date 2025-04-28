@@ -67,7 +67,7 @@ def get_group_headers(newsgroup: str, nntp_client: NNTPClient) -> dict:
     count, first, last, name = nntp_client.group(newsgroup)
     return {
         header["Message-ID"]: (article_number, header)
-        for article_number, header in src_client.xover((first, last))
+        for article_number, header in nntp_client.xover((first, last))
     }
 
 
@@ -157,7 +157,7 @@ def junk() -> None:
     """
 
 
-if __name__ == "__main__":
+def main() -> None:
     newsgroups = get_newsgroups_from_plugins()
     print(f"{newsgroups=}")
     time.sleep(5)  # Wait for the NNTP servers to start
@@ -188,3 +188,7 @@ if __name__ == "__main__":
     # Close the connections
     src_client.close()
     dst_client.close()
+
+
+if __name__ == "__main__":
+    main()

@@ -16,7 +16,7 @@ here = Path(__file__).parent
 plugins_dir = here.parent / "server" / "plugins"
 
 
-def get_ome_plugins_from_path(file_path: Path) -> Iterator[str]:
+def get_ome_plugins_from_path(file_path: Path) -> Iterator[type[OMEPlugin]]:
     file_path = Path(file_path).resolve()
     module_name = file_path.stem
 
