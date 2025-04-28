@@ -51,13 +51,12 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell # See pyproject.toml for args
-        args: ["--ignore-words-list=teh"]
         additional_dependencies:
           - tomli
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.11.7
-    hooks:  # Format before linting
+    hooks:
       - id: ruff
       - id: ruff-format
 
