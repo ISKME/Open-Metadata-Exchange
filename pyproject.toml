@@ -44,7 +44,7 @@ lint.pylint.allow-magic-value-types = [ "int", "str" ]
 
 [tool.codespell]
 ignore-words-list = "formend,thur"
-skip = "*/package-lock.json,static/api/imls/v2/**/*.json"
+skip = "*/package-lock.json,*/whg.json,static/api/imls/v2/**/*.json"
 
 [tool.pyproject-fmt]
 max_supported_python = "3.12"

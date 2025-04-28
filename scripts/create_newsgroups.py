@@ -11,10 +11,10 @@
 """
 We have two NNTP servers Austin (the writer) and Boston (the city) to deemonstrate how
 OME nodes can publish and subscribe to metadata in the peer-to-peer network.  Each OME
-plugin has one or more newsgroups.
+plugin has one or more newsgroups where it publishes its metadata.
 
 Once the NNTP servers have started, get the newsgroups required by all plugins and
-creates those newsgroups on both NNTP servers.
+create those newsgroups on both NNTP servers.
 
 Then run `nntp_sync()` every five seconds to sync the articles between the two servers.
 NOTE: `nntp_sync()` is temporary workaround for greenbender/inn-docker#26.
@@ -35,7 +35,7 @@ def create_newsgroups(newsgroups: dict[str, str], nntp_server_name: str) -> str:
     """
     Create newsgroups on the NNTP server using `ctlinnd newgroup newsgroup` command.
     Then append newsgroup descriptions to the end of the `db/newsgroups` file.
-    The complexity is that we need to run these commands in a Docker container.
+    The complexity is that we need to run these commands inside a Docker container.
     """
     server_name = f"open-metadata-exchange-internetnews-server-{nntp_server_name}-1"
     command = " && ".join(f"ctlinnd newgroup {name}" for name in newsgroups)
