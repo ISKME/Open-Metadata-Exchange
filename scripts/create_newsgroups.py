@@ -173,8 +173,11 @@ if __name__ == "__main__":
     dst_client = NNTPClient("localhost", 1119)
 
     # Perform the NNTP sync every 5 seconds
+    sync_cycle = 0
     try:
         while True:
+            sync_cycle += 1
+            print(f"{sync_cycle=}")
             nntp_sync(newsgroups, src_client, dst_client)
             time.sleep(5)  # Sleep for 5 seconds before the next sync
     except KeyboardInterrupt:
