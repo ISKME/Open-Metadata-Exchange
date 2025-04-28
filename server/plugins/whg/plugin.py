@@ -47,7 +47,7 @@ class WHGPlugin(OMEPlugin):
         return EducationResource(
             title=whg_item.title,
             description=whg_item.description,
-            authors=[whg_item.creator, *whg_item.contributors.split("; ")],
+            authors=[whg_item.creator, *(whg_item.contributors or "").split("; ")],
             authoring_institution=whg_item.owner,
             subject_tags=whg_item.datatype.split(", "),
             creation_date=whg_item.create_date,
