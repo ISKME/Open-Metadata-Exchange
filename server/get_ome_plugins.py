@@ -42,7 +42,10 @@ def get_ome_plugins() -> Iterator[str]:
                 yield from get_ome_plugins_from_path(file_path)
 
 
-def get_newsgroups() -> dict[str, str]:
+def get_newsgroups_from_plugins() -> dict[str, str]:
+    """
+    Return the content of the newsgroups attribute of all OMEPlugins.
+    """
     newsgroups = {}
     for plugin in get_ome_plugins():
         newsgroups.update(plugin.newsgroups)
@@ -54,4 +57,4 @@ if __name__ == "__main__":
 
     for plugin in get_ome_plugins():
         print(f"{plugin.__name__}: {plugin.mimetypes=}\n\t\t{plugin.newsgroups=}")
-    print(json.dumps(get_newsgroups(), indent=2))
+    print(json.dumps(get_newsgroups_from_plugins(), indent=2))

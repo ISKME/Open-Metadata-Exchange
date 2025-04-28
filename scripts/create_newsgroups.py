@@ -9,58 +9,61 @@
 # ///
 
 """
-nntp_sync is workaround for greenbender/inn-docker#26 to keep the NNTP servers in sync.
+We have two NNTP servers Austin (the writer) and Boston (the city) to deemonstrate how
+OME nodes can publish and subscribe to metadata in the peer-to-peer network.  Each OME
+plugin has one or more newsgroups.
+
+Once the NNTP servers have started, get the newsgroups required by all plugins and
+creates those newsgroups on both NNTP servers.
+
+Then run `nntp_sync()` every five seconds to sync the articles between the two servers.
+NOTE: `nntp_sync()` is temporary workaround for greenbender/inn-docker#26.
 """
 
 # import asyncio
 
 import datetime
-import nntplib  # Removed from the Python standard library in 3.12
 import subprocess
+import time
 
-import nntp
+from nntp import NNTPClient
 
-from server.get_ome_plugins import get_newsgroups
-
-docker_exec_fmt = (
-    'docker exec -it open-metadata-exchange-internetnews-server-{}-1 sh -c "{}"'
-)
-
-newsgroups = get_newsgroups()
-print(f"{newsgroups=}")
-
-command = " && ".join(f"ctlinnd newgroup {name}x" for name in newsgroups)
-command = docker_exec_fmt.format("boston", command)
-print(f"{command=}")
-
-command = " && ".join(
-    f"echo '{name:<23} {description.replace("'", '')}' >> db/newsgroups"
-    for name, description in newsgroups.items()
-)
-command = docker_exec_fmt.format("boston", command)
-print(f"{command=}")
-
-completed_process = subprocess.run(  # noqa: S602
-    command, capture_output=True, shell=True, check=True, text=True
-)
-print(f"{completed_process.stdout=}")
-
-# subprocess.run(newsgroup.create_newsgroup())
+from server.get_ome_plugins import get_newsgroups_from_plugins
 
 
-# This includes newly created newsgroups.
-nntplib_client = nntplib.NNTP("localhost")
-for group_info in nntplib_client.newgroups(datetime.date(1970, 1, 1))[1]:
-    print(f"{group_info=}")
-print("-" * 20)
+def create_newsgroups(newsgroups: dict[str, str], nntp_server_name: str) -> str:
+    """
+    Create newsgroups on the NNTP server using `ctlinnd newgroup newsgroup` command.
+    Then append newsgroup descriptions to the end of the `db/newsgroups` file.
+    The complexity is that we need to run these commands in a Docker container.
+    """
+    server_name = f"open-metadata-exchange-internetnews-server-{nntp_server_name}-1"
+    command = " && ".join(f"ctlinnd newgroup {name}" for name in newsgroups)
+    command = f'docker exec -it {server_name} sh -c "{command}"'
+    print(f"{command=}")
 
-# This does NOT include newly created newsgroups!
-pynntp_client = nntp.NNTPClient("localhost")
-for name, description in sorted(pynntp_client.list_newsgroups()):
-    print(f"{name=:<20}: {description=}")
+    completed_process = subprocess.run(  # noqa: S602
+        command, capture_output=True, shell=True, check=True, text=True
+    )
+    print(f"{completed_process.stdout=}")
+    ret_val = completed_process.stdout
+
+    # Append newsgroup descriptions to the end of the `db/newsgroups` file.
+    command = " && ".join(
+        f"echo '{name:<23} {description.replace("'", '')}' >> db/newsgroups"
+        for name, description in newsgroups.items()
+    )
+    command = f'docker exec -it {server_name} sh -c "{command}"'
+    print(f"{command=}")
+
+    completed_process = subprocess.run(  # noqa: S602
+        command, capture_output=True, shell=True, check=True, text=True
+    )
+    print(f"{completed_process.stdout=}")
+    return ret_val
 
 
-def get_group_headers(newsgroup: str, nntp_client: nntp.NNTPClient) -> dict:
+def get_group_headers(newsgroup: str, nntp_client: NNTPClient) -> dict:
     count, first, last, name = nntp_client.group(newsgroup)
     return {
         header["Message-ID"]: (article_number, header)
@@ -69,7 +72,7 @@ def get_group_headers(newsgroup: str, nntp_client: nntp.NNTPClient) -> dict:
 
 
 def sync_articles(
-    article_numbers: list[int], src_client: nntp.NNTPClient, dst_client: nntp.NNTPClient
+    article_numbers: list[int], src_client: NNTPClient, dst_client: NNTPClient
 ) -> None:
     for article_number in sorted(article_numbers):
         try:
@@ -88,7 +91,7 @@ def sync_articles(
 
 
 def nntp_sync(
-    newsgroups: list[str], src_client: nntp.NNTPClient, dst_client: nntp.NNTPClient
+    newsgroups: list[str], src_client: NNTPClient, dst_client: NNTPClient
 ) -> None:
     for newsgroup in newsgroups:
         print(f"Syncing newsgroup: {newsgroup}")
@@ -155,12 +158,29 @@ def junk() -> None:
 
 
 if __name__ == "__main__":
-    # Connect to both NNTP servers
-    src_client = nntp.NNTPClient("localhost", 119)
-    dst_client = nntp.NNTPClient("localhost", 1119)
+    newsgroups = get_newsgroups_from_plugins()
+    print(f"{newsgroups=}")
+    time.sleep(5)  # Wait for the NNTP servers to start
 
-    # Perform the sync
-    nntp_sync(newsgroups, src_client, dst_client)
+    # Create newsgroups on both NNTP servers
+    for nntp_server_name in ("austin", "boston"):
+        print(f"Creating newsgroups on {nntp_server_name}")
+        create_newsgroups(newsgroups, nntp_server_name)
+    print("Newsgroups created")
+
+    # Connect to both NNTP servers
+    src_client = NNTPClient("localhost", 119)
+    dst_client = NNTPClient("localhost", 1119)
+
+    # Perform the NNTP sync every 5 seconds
+    try:
+        while True:
+            nntp_sync(newsgroups, src_client, dst_client)
+            time.sleep(5)  # Sleep for 5 seconds before the next sync
+    except KeyboardInterrupt:
+        print(
+            f"nntp_sync() interrupted by user at {datetime.datetime.now(datetime.UTC)}"
+        )
 
     # Close the connections
     src_client.close()
