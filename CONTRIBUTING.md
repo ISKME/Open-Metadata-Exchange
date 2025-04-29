@@ -17,7 +17,7 @@ pip install --editable .
 We use [`pre-commit`](https://pre-commit.com/) to format, lint, and test files in this
 project so we strongly encourage contributors to:
 ```bash
-pipx install pre-commit  # or brew install pre-commit
+uv tool install pre-commit  # or brew install pre-commit
 pre-commit install
 ```
 
