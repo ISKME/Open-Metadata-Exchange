@@ -37,7 +37,7 @@ repos:
           - --fix=lf
       #- id: name-tests-test
       #- id: pretty-format-json
-      #  exclude: fe/jsconfig.json,Pipfile.lock
+      #  exclude: fe/jsconfig.json
       - id: requirements-txt-fixer
       - id: sort-simple-yaml
       - id: trailing-whitespace
