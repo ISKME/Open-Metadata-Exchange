@@ -14,7 +14,7 @@
 import os
 from collections.abc import Iterator
 
-import nntp
+from nntp import NNTPClient
 from pydantic import ValidationError
 
 from server.schemas import Card, Channel, ChannelSummary, Metadata, NewCard
@@ -32,10 +32,10 @@ DEFAULT_NEWSGROUPS: dict[str, str] = {
     ("local.test", "Local test group"),
 }
 
-CLIENT: nntp.NNTPClient | None = None
+CLIENT: NNTPClient | None = None
 
 
-def get_client(port: int = 119) -> nntp.NNTPClient:
+def get_client(port: int = 119) -> NNTPClient:
     global CLIENT
     if CLIENT:
         return CLIENT
@@ -45,7 +45,7 @@ def get_client(port: int = 119) -> nntp.NNTPClient:
     if port == BOSTON_PORT:  # Special case for localhost accessing Boston container.
         inn_server_name = "localhost"
     print(f"{__file__}.get_client({port=}) on {inn_server_name}")
-    return (CLIENT := nntp.NNTPClient(inn_server_name, port=port))
+    return (CLIENT := NNTPClient(inn_server_name, port=port))
 
 
 def enable_a_default_channel(channel_name: str = "local.test") -> None:

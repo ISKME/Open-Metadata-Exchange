@@ -59,8 +59,8 @@ if __name__ == "__main__":
     here = Path(__file__).resolve().parent
     # Conditionally create an whg.json file that should contain whg dataset items.
     if not (json_path := here / "whg.json").exists():
-        with Client() as client:
-            response = client.get("https://whgazetteer.org/api/datasets")
+        with Client() as httpx_client:
+            response = httpx_client.get("https://whgazetteer.org/api/datasets")
             response.raise_for_status()
             json_path.write_text(response.text)
     # Conditionally create an whg_item.json file that should contain only one item.

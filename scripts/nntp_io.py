@@ -9,9 +9,9 @@
 
 import json
 
-import nntp
+from nntp import NNTPClient, NNTPTemporaryError
 
-nntp_client: nntp.NNTPClient = nntp.NNTPClient("localhost", port=119)
+pynntp_client: NNTPClient = NNTPClient("localhost", port=119)
 
 
 def nntp_pick_newsgroup(newsgroup: str = "local.test") -> tuple[str, ...]:
@@ -23,7 +23,7 @@ def nntp_pick_newsgroup(newsgroup: str = "local.test") -> tuple[str, ...]:
     Returns:
         tuple(total, first, last, group) -- See pynntp docs.
     """
-    return tuple(nntp_client.group(newsgroup))
+    return tuple(pynntp_client.group(newsgroup))
 
 
 def nntp_write(payload: dict, newsgroup: str = "") -> bool:
@@ -44,7 +44,7 @@ def nntp_write(payload: dict, newsgroup: str = "") -> bool:
         "From": "GitHub Actions <actions@github.com>",
         "Newsgroups": newsgroup,
     }
-    return nntp_client.post(headers=headers, body=json.dumps(payload, indent=2))
+    return pynntp_client.post(headers=headers, body=json.dumps(payload, indent=2))
 
 
 def nntp_read(newsgroup: str = "") -> dict:
@@ -60,7 +60,7 @@ def nntp_read(newsgroup: str = "") -> dict:
     """
     if newsgroup:
         _total_first_last_group = nntp_pick_newsgroup(newsgroup)
-    _article_number, _headers, body = nntp_client.article()
+    _article_number, _headers, body = pynntp_client.article()
     print(f"{body = }")
     return json.loads(body)
 
@@ -74,6 +74,6 @@ if __name__ == "__main__":
     print(f"{nntp_write(payload, newsgroup)}")
     try:
         print(f"{nntp_read()}")
-    except nntp.NNTPTemporaryError as e:
+    except NNTPTemporaryError as e:
         print(f"{e!r} on nntp_read({newsgroup=})")
-    nntp_client.quit()
+    pynntp_client.quit()
