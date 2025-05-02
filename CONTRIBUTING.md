@@ -4,17 +4,24 @@ All community interactions should be aligned with our Code of Conduct.
 We appreciate your interest in this project and look forward to collaborating around
 respecful issues and pull requests.
 
-## venv
+The repository uses three tools that contributors will need to interact with:
+1. [`uv`](https://docs.astral.sh/uv): Python package and project manager
+2. [`pre-commit`](https://pre-commit.com): Framework for pre-commit hooks
+3. [`Docker Desktop`](https://www.docker.com/products/docker-desktop): Containerization software
+
+## uv
 To isolate this project from other projects that use Python, we encourage you to create
 a [`venv`](https://docs.python.org/3/library/venv.html) with the commands:
 ```bash
-python3 -m venv .venv
+uv --python=3.12 venv
 source .venv/bin/activate
+uv pip install --upgrade pip
 pip install --editable .
 ```
+Python <= 3.12 is required a bug in pynntp .list_newsgroups().
 
 ## pre-commit
-We use [`pre-commit`](https://pre-commit.com/) to format, lint, and test files in this
+We use [`pre-commit`](https://pre-commit.com) to format, lint, and test files in this
 project so we strongly encourage contributors to:
 ```bash
 uv tool install pre-commit  # or brew install pre-commit
@@ -45,5 +52,10 @@ upstream	https://github.com/ISKME/Open-Metadata-Exchange (fetch)
 upstream	https://github.com/ISKME/Open-Metadata-Exchange (push)
 ```
 Now you can make changes to your fork (origin) and then push those changes to ISKME (upstream) for review.
+```
+git checkout -b branch_for_my_changes
+<make some changes>
+git push
+```
 
 You should perform the `pre-commit` steps above to ensure some local testing before your work gets reviewed.
