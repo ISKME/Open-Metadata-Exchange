@@ -68,5 +68,5 @@ if __name__ == "__main__":
     print(f"{model_instance.field_score = }\n")
     plugin = OERCommonsPlugin()
     print(f"{plugin = }")
-    print(f"{plugin.mimetype = }")
+    print(f"{plugin.mimetypes = }")
     print(f"{plugin.make_metadata_card_from_json(json_path.read_text()) = }")
