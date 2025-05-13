@@ -10,7 +10,7 @@
 """
 Fetch ERIC open records by reading their ID from a CSV file.
 
-ERIC-open-records.csv must exist in the same directory as this script.
+ERIC_open_records.csv must exist in the same directory as this script.
 
 * uv run --script fetch_eric_open_records.py
 """
@@ -22,12 +22,12 @@ from httpx import AsyncClient
 
 here = Path(__file__).parent
 
-if (json_filepath := here / "fetched_ERIC-open-records.json").exists():
+if (json_filepath := here / "fetched_ERIC_open_records.json").exists():
     msg = f"Will not overwrite existing file: {json_filepath}"
     raise AssertionError(msg)
 
 
-if not (csv_filepath := here / "ERIC-open-records.csv").exists():
+if not (csv_filepath := here / "ERIC_open_records.csv").exists():
     raise FileNotFoundError
 
 
