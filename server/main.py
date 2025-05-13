@@ -39,6 +39,9 @@ async def get_channel_summary(name: str) -> ChannelSummary:
 async def get_channel_cards(
     name: str, page: int = 1, page_size: int = 10
 ) -> list[Card]:
+    """
+    http://localhost:5001/api/channel/eric.public/cards?page=2&page_size=25
+    """
     start = (page - 1) * page_size + 1
     end = start + page_size - 1
     return ome_node.channel_cards(name, start, end)
