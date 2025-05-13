@@ -140,7 +140,7 @@ if __name__ == "__main__":
     import os
 
     # Environment variable INN_SERVER_NAME is defined in the docker-compose.yml file.
-    print(f'{os.getenv("INN_SERVER_NAME", "localhost")=}')
+    print(f"{os.getenv("INN_SERVER_NAME", "localhost")=}")
     print("Getting list of channels")
     nntp_client = get_client()
     print(f"{nntp_client=}")
