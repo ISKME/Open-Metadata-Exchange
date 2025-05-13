@@ -67,8 +67,11 @@ def nntp_read(newsgroup: str = "") -> dict:
 
 if __name__ == "__main__":
     import os
+    import sys
 
     newsgroup = "local.test" if os.getenv("CI") else "oer.public"
+    if sys.argv[1:]:
+        newsgroup = sys.argv[1]
     print(f"{__file__}: {newsgroup=}")
     payload = {"key": "value"}
     print(f"{nntp_write(payload, newsgroup)}")
