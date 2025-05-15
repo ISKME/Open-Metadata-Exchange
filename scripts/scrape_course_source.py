@@ -1,91 +1,12 @@
+#!/usr/bin/env -S uv run --script
+#
 # /// script
 # dependencies = [
+#     "beautifulsoup4",
 #     "httpx",
-#     "beautifulsoup4"
+#     "rich",
 # ]
 # ///
-
-"""
-import httpx
-from bs4 import BeautifulSoup
-
-URL = "https://qubeshub.org/community/groups/coursesource/publications"
-
-def fetch_page(url):
-    response = httpx.get(url, follow_redirects=True)
-    response.raise_for_status()
-    return response.text
-
-def parse_metadata(html):
-    soup = BeautifulSoup(html, "html.parser")
-    items = soup.select("div.coursesource-card-contents")
-    metadata_list = []
-
-    for item in items[:20]:  # Limit to first 20
-        # Title and URL
-        title_tag = item.select_one("h5 a")
-        title = title_tag.text.strip() if title_tag else "No title"
-        link = title_tag['href'] if title_tag else "No link"
-
-        # Courses
-        courses_div = item.select_one("div.coursesource-card-courses")
-        courses = []
-        if courses_div:
-            for span in courses_div.select("span a"):
-                course_name = span.text.strip()
-                if course_name:
-                    courses.append(course_name)
-
-        # Keywords
-        keywords_div = item.select_one("div.coursesource-card-keywords")
-        keywords = []
-        if keywords_div:
-            for keyword_tag in keywords_div.select("span.keyword a"):
-                keyword = keyword_tag.text.strip()
-                if keyword:
-                    keywords.append(keyword)
-
-        # Remove elements to isolate the description
-        if (h5 := item.select_one("h5")):
-            h5.extract()
-        if courses_div:
-            courses_div.extract()
-        if keywords_div:
-            keywords_div.extract()
-
-        description = item.get_text(strip=True)
-
-        metadata_list.append({
-            "title": title,
-            "url": f"https://qubeshub.org{link}",
-            "description": description,
-            "courses": courses,
-            "keywords": keywords
-        })
-
-    return metadata_list
-
-if __name__ == "__main__":
-    html = fetch_page(URL)
-    print(f"{len(html) = }")
-    metadata = parse_metadata(html)
-    print(f"{len(metadata) = }")
-    for idx, entry in enumerate(metadata, start=1):
-        print(f"{idx}. {entry['title']}")
-        print(f"   URL: {entry['url']}")
-        print(f"   Description: {entry['description']}")
-        print(f"   Courses: {', '.join(entry['courses'])}")
-        print(f"   Keywords: {', '.join(entry['keywords'])}\n")
-    print("Done.")
-
-
-    # /// script
-# dependencies = [
-#     "httpx",
-#     "beautifulsoup4"
-# ]
-# ///
-"""
 
 import argparse
 import json
@@ -93,6 +14,8 @@ from collections.abc import Iterator
 
 import httpx
 from bs4 import BeautifulSoup, Tag
+from rich.console import Console
+from rich.table import Table
 
 URL = "https://qubeshub.org/community/groups/coursesource/publications"
 
@@ -106,7 +29,7 @@ def fetch_page(url: str) -> str:
 def parse_a_metadata_record(item: Tag) -> dict:
     title_tag = item.select_one("h5 a")
     title = title_tag.text.strip() if title_tag else "No title"
-    link = title_tag["href"] if title_tag else "No link"
+    link = (title_tag or {}).get("href", "No link")
 
     courses_div = item.select_one("div.coursesource-card-courses")
     courses = (
@@ -153,6 +76,7 @@ def parse_metadata(html: str) -> Iterator[dict]:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Scrape metadata from CourseSource.")
     parser.add_argument("--json", action="store_true", help="Output as JSON")
+    parser.add_argument("--rich", action="store_true", help="Output as rich tables")
     args = parser.parse_args()
 
     html = fetch_page(URL)
@@ -168,3 +92,28 @@ if __name__ == "__main__":
             print(f"   Description: {entry['description']}")
             print(f"   Courses: {', '.join(entry['courses'])}")
             print(f"   Keywords: {', '.join(entry['keywords'])}\n")
+
+    if args.rich:
+        console = Console()
+        table = Table(title="CourseSource Metadata")
+
+        table.add_column("Title", justify="left")
+        table.add_column("URL", justify="left")
+        table.add_column("Description", justify="left")
+        table.add_column("Courses", justify="left")
+        table.add_column("Keywords", justify="left")
+
+        for i, entry in enumerate(parse_metadata(html), start=1):
+            table.add_row(
+                f"{i:>2}. {entry['title']}",
+                entry["url"],
+                entry["description"],
+                ", ".join(entry["courses"]),
+                ", ".join(entry["keywords"]),
+                style="white" if i % 2 else "grey50",
+            )
+            if i > 6:
+                break
+
+        console.print(table)
+    print("Done.")
