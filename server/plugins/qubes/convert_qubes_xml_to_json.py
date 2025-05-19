@@ -1,10 +1,13 @@
 #!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = ">=3.13"
-# dependencies = [
-#     "xmltodict",
-# ]
-# ///
+
+"""
+Convert an XML file to a JSON file.
+
+"https://qubeshub.org/oaipmh/?verb=ListRecords&metadataPrefix=oai_dc&set=publications"
+curl URL > qubes_records.xml
+-- or --
+wget URL -O qubes_records.xml
+"""
 
 import json
 import xml.etree.ElementTree as ET
@@ -12,11 +15,11 @@ from pathlib import Path
 
 here = Path(__file__).parent
 
-if (json_filepath := here / "results.json").exists():
+if (json_filepath := here / "qubes_records.json").exists():
     msg = f"Will not overwrite existing file: {json_filepath}"
     raise AssertionError(msg)
 
-if not (xml_filepath := here / "results.xml").exists():
+if not (xml_filepath := here / "qubes_records.xml").exists():
     msg = f"Could not find XML file: {xml_filepath}"
     raise FileNotFoundError(msg)
 
@@ -57,12 +60,11 @@ new_dict = {
 
 def old_to_new_dict(old_dict: dict[str, dict | str]) -> dict[str, str]:
     """
+    Doctest:
     >>> old_to_new_dict(old_dict) == new_dict
     True
     """
-    # old_dict = dict(old_dict)
-    # old_dict = old_dict.copy()
-    print(f"{type(old_dict)}: {old_dict = }")
+    # print(f"{type(old_dict)}: {old_dict = }")
     new_dict = {}
     for key, value in old_dict.items():
         if isinstance(value, dict):
