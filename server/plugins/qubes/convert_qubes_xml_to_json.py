@@ -10,6 +10,7 @@ wget URL -O qubes_records.xml
 """
 
 import json
+import os
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -32,7 +33,7 @@ old_dict = {
     },
     "{http://www.openarchives.org/OAI/2.0/}metadata": {
         "{http://www.openarchives.org/OAI/2.0/oai_dc/}dc": {
-            "{http://purl.org/dc/elements/1.1/}title": "DataNuggets Resources [version 1.0]",
+            "{http://purl.org/dc/elements/1.1/}title": "DataNuggets Resources [v1.0]",
             "{http://purl.org/dc/elements/1.1/}creator": "Drew LaMar",
             "{http://purl.org/dc/elements/1.1/}subject": "DataNuggets",
             "{http://purl.org/dc/elements/1.1/}date": "2016-02-18T04:13:55Z",
@@ -48,7 +49,7 @@ new_dict = {
     "identifier": "https://qubeshub.org/publications/2/1",
     "datestamp": "2016-02-18T04:13:55Z",
     "setSpec": "publications:",
-    "title": "DataNuggets Resources [version 1.0]",
+    "title": "DataNuggets Resources [1.0]",
     "creator": "Drew LaMar",
     "subject": "DataNuggets",
     "date": "2016-02-18T04:13:55Z",
@@ -78,7 +79,7 @@ def old_to_new_dict(old_dict: dict[str, dict | str]) -> dict[str, str]:
     return new_dict
 
 
-def xml_to_dict(element):
+def xml_to_dict(element: ET.Element) -> dict | list | str | None:
     """Convert an XML element and its children to a dictionary."""
     if len(element) == 0:  # If the element has no children
         return element.text.strip() if element.text else None
@@ -97,10 +98,9 @@ def xml_to_dict(element):
     return result
 
 
-def convert_xml_to_json(xml_file, json_file):
+def convert_xml_to_json(xml_file: os.PathLike, json_file: os.PathLike) -> None:
     """Convert XML file to JSON file."""
-    # Parse the XML file
-    tree = ET.parse(xml_file)
+    tree = ET.parse(xml_file)  # noqa: S314
     root = tree.getroot()
 
     # Convert XML to dictionary
@@ -116,7 +116,7 @@ def convert_xml_to_json(xml_file, json_file):
     print(f"{len(records)} records were converted.")
 
     # Write the list of records to a JSON file
-    json_filepath.write_text(json.dumps(records, indent=4))
+    json_file.write_text(json.dumps(records, indent=4))
 
 
 if __name__ == "__main__":

@@ -11,7 +11,6 @@ from types import MappingProxyType
 
 # from pydantic import BaseModel
 from server.plugins.ome_plugin import EducationResource, OMEPlugin
-
 from server.plugins.qubes.qubes_models import Model, ModelItem
 
 
