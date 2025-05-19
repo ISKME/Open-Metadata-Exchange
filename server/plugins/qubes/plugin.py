@@ -12,15 +12,12 @@ from types import MappingProxyType
 # from pydantic import BaseModel
 from server.plugins.ome_plugin import EducationResource, OMEPlugin
 
-# from server.plugins.openlibrary.openlibrary_authors_models import Model as AuthorsModel
-# from server.plugins.openlibrary.openlibrary_work_models import Model as WorkModel
-
-# unused = AuthorsModel
+from server.plugins.qubes.qubes_models import Model, ModelItem
 
 
-class CourseSourcePlugin(OMEPlugin):
+class QubesPlugin(OMEPlugin):
     """
-    This class represents the Course Source plugin, which is a subclass of OMEPlugin.
+    This class represents the QUBES plugin, which is a subclass of OMEPlugin.
     It provides functionality to create metadata cards from URLs or JSON payloads.
     """
 
@@ -45,30 +42,32 @@ class CourseSourcePlugin(OMEPlugin):
         This method creates a metadata card from a given JSON payload.
         It currently does not implement any functionality.
         """
-        oercommons_item = WorkModel.model_validate_json(json_payload)
+        qubes_record = ModelItem.model_validate_json(json_payload)
         return EducationResource(
-            title=oercommons_item.title,
-            description=oercommons_item.description,
-            authors=[str(author for author in oercommons_item.authors)],
-            authoring_institution="Open Library (https://openlibrary.org)",
-            subject_tags=oercommons_item.subjects,
-            creation_date=oercommons_item.created.value,
-            last_modified_date=oercommons_item.last_modified.value,
+            title=qubes_record.title,
+            description=qubes_record.description,
+            authors=qubes_record.creator,
+            authoring_institution=qubes_record.identifier,
+            subject_tags=qubes_record.subjects,
+            creation_date=qubes_record.date,
+            last_modified_date=qubes_record.date,
         )
 
 
 if __name__ == "__main__":
     from pathlib import Path
 
-    # The oercommons.json file should be in the same directory as this script.
-    json_path = Path(__file__).parent / "openlibrary_work.json"
-    model_instance = WorkModel.model_validate_json(json_path.read_text())
-    print(f"{model_instance = }\n")
-    print(f"{model_instance.type = }")
-    print(f"{model_instance.authors = }")
-    print(f"{model_instance.created = }")
-    print(f"{model_instance.last_modified = }\n")
-    plugin = OpenLibraryPlugin()
-    print(f"{plugin = }")
-    print(f"{plugin.mimetypes = }")
-    print(f"{plugin.make_metadata_card_from_json(json_path.read_text()) = }")
+    plugin = QubesPlugin()
+    # The qubes_records.json file should be in the same directory as this script.
+    json_path = Path(__file__).parent / "qubes_records.json"
+    records = Model.model_validate_json(json_path.read_text()).root
+    for i, record in enumerate(records, start=1):
+        # print(f"{i:>2}. {record = }\n")
+        print(f"{i:>2}. {record.title = }")
+        print(f"{record.description = }")
+        print(f"{record.creator = }")
+        print(f"{record.date = }\n")
+
+        print(f"{plugin = }")
+        print(f"{plugin.mimetypes = }")
+        print(f"{plugin.make_metadata_card_from_json(json_path.read_text()) = }")

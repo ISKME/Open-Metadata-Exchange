@@ -26,7 +26,7 @@ from pydantic import BaseModel, RootModel
 
 class ModelItem(BaseModel):
     identifier: str | None = None
-    setSpec: str
+    setSpec: str  # noqa: N815
     title: str
     creator: str | list[str]
     subject: str | list[str]
