@@ -60,8 +60,7 @@ def bulk_import(url: str = URL) -> str:
     here = Path(__file__).resolve().parent
     if not (json_path := here / "eric_bulk.json").exists():
         with Client() as httpx_client:
-            response = httpx_client.get(url)
-            response.raise_for_status()
+            response = httpx_client.get(url).raise_for_status()
             json_path.write_text(response.text)
 
     # The eric_ome_metadata.json file should be in the same directory as this script.

@@ -19,7 +19,7 @@ Import FastAPI and use it retrieve multiple different resources
 from typing import Annotated
 
 import httpx
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, UploadFile
 
 app = FastAPI()
 
@@ -42,12 +42,12 @@ async def image() -> bytes:
     """
     Retrieve an image from https://michmemories.org
     """
-    image_url = "https://digitalcollections.detroitpubliclibrary.org/islandora/object/islandora%3A236607/datastream/IMAGE/view"
+    image_url = (
+        "https://digitalcollections.detroitpubliclibrary.org/islandora/object"
+        "/islandora%3A236607/datastream/IMAGE/view"
+    )
     async with httpx.AsyncClient() as httpx_async_client:
-        image = await httpx_async_client.get(image_url)
-    if image.status_code == 200:
-        return image.content
-    raise HTTPException(status_code=404, detail="Image not found")
+        return await httpx_async_client.get(image_url).raise_for_status().content
 
 
 @app.get("/dataset")

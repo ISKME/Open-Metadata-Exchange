@@ -35,15 +35,14 @@ async def fetch_eric_open_records() -> None:
     """Fetch ERIC open records by reading their ID from a CSV file."""
     with csv_filepath.open(newline="") as in_file, json_filepath.open("w") as out_file:
         reader = csv.DictReader(in_file)
-        async with AsyncClient() as client:
+        async with AsyncClient() as httpx_client:
             for i, row in enumerate(reader, start=1):
                 row_id = row["id"]
                 if i % 10 == 0:
                     print(i, row_id)
-                response = await client.get(
+                response = await httpx_client.get(
                     f"https://api.ies.ed.gov/eric/?search={row_id}"
-                )
-                response.raise_for_status()
+                ).raise_for_status()
                 if (num_found := response.json()["response"]["numFound"]) == 0:
                     print(f"Error: ID {row_id} not found.")
                 elif num_found > 1:
