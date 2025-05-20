@@ -20,11 +20,11 @@ class QubesPlugin(OMEPlugin):
     It provides functionality to create metadata cards from URLs or JSON payloads.
     """
 
-    mimetypes: tuple[str] = ("application/vnd.qubeshub+json",)
+    mimetypes: tuple[str] = ("application/vnd.qubes+json",)
     # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
     newsgroups: dict[str, str] = MappingProxyType(
         {
-            "qubeshub.public": "Metadata from QUBES https://qubeshub.org",
+            "qubes.public": "Metadata from QUBES https://qubeshub.org",
         }
     )
 
@@ -69,4 +69,5 @@ if __name__ == "__main__":
 
         print(f"{plugin = }")
         print(f"{plugin.mimetypes = }")
-        print(f"{plugin.make_metadata_card_from_json(json_path.read_text()) = }")
+        # TODO(cclauss): fix the next line to read a list of json records.
+        # print(f"{plugin.make_metadata_card_from_json(json_path.read_text()) = }")
