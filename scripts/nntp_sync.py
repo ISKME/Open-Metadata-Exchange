@@ -10,8 +10,8 @@
 # ///
 
 """
-We have two NNTP servers Austin (the writer) and Boston (the city) to demonstrate how
-OME nodes can publish and subscribe to metadata in the peer-to-peer network.
+We have two NNTP servers Austin and Boston to demonstrate how OME nodes can publish and
+subscribe to metadata in the peer-to-peer network.
 
 Run `nntp_sync()` every five seconds to sync the articles between the two servers.
 After each sync, print a table of each server's newsgroups and the number of articles.

@@ -21,9 +21,7 @@ URL = "https://qubeshub.org/community/groups/coursesource/publications"
 
 
 def fetch_page(url: str) -> str:
-    response = httpx.get(url, follow_redirects=True)
-    response.raise_for_status()
-    return response.text
+    return httpx.get(url, follow_redirects=True).raise_for_status().text
 
 
 def parse_a_metadata_record(item: Tag) -> dict:

@@ -115,7 +115,7 @@ if not (json_file := Path(__file__).with_suffix(".json")).exists():
         msg = "Please set the URL environment variable"
         raise ValueError(msg)
 
-    if not (json_payload := httpx.get(url).json()):
+    if not (json_payload := httpx.get(url).raise_for_status().json()):
         msg = f"Failed to fetch JSON payload from {url=}"
         raise ValueError(msg)
 
