@@ -9,7 +9,7 @@
 
 from types import MappingProxyType
 
-from server.plugins.eric.eric_models import Doc, Model
+from server.plugins.eric.eric_models import Model, ModelItem
 
 # from pydantic import BaseModel
 from server.plugins.ome_plugin import EducationResource, OMEPlugin
@@ -32,7 +32,7 @@ class EricPlugin(OMEPlugin):
         }
     )
 
-    def make_metadata_card(self, doc: Doc) -> EducationResource:
+    def make_metadata_card(self, doc: ModelItem) -> EducationResource:
         return EducationResource(
             title=doc.title,
             description=doc.description,
@@ -47,13 +47,13 @@ class EricPlugin(OMEPlugin):
         """
         This method creates a metadata card from a dict of ERIC doc data.
         """
-        return self.make_metadata_card(Doc(**doc_dict))
+        return self.make_metadata_card(ModelItem(**doc_dict))
 
     def make_metadata_card_from_json(self, json_payload: str) -> EducationResource:
         """
         This method creates a metadata card from a given JSON payload.
         """
-        return self.make_metadata_card(Doc.model_validate_json(json_payload))
+        return self.make_metadata_card(ModelItem.model_validate_json(json_payload))
 
     def make_metadata_card_from_url(self, url: str) -> EducationResource:
         """
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     print(f"{response_instance.numFoundExact = }")
 
     json_path = Path(__file__).parent / "eric_item.json"
-    doc_instance = Doc.model_validate_json(json_path.read_text())
+    doc_instance = ModelItem.model_validate_json(json_path.read_text())
     print(f"{doc_instance = }\n")
     print(f"{doc_instance.title = }")
     print(f"{doc_instance.author = }")

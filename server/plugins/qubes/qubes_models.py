@@ -44,9 +44,8 @@ class Model(RootModel[list[ModelItem]]):
 if __name__ == "__main__":
     from pathlib import Path
 
-    here = Path(__file__).parent
     # A qubes_records.json file should contain multiple items.
-    if not (json_path := here / "qubes_records.json").exists():
+    if not (json_path := Path(__file__).parent / "qubes_records.json").exists():
         msg = f"See convert_qubes_xml_to_json.py to regenerate {json_path.name}."
         raise FileNotFoundError(msg)
 
