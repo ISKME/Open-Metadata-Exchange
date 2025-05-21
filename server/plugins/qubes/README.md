@@ -16,15 +16,18 @@ The plugin is composed of at least three code files.
 1. Use cURL or wget to create a `qubes_records.xml` file as discussed in `convert_qubes_xml_to_json.py`.
 2. Run `server/plugins/qubes/convert_qubes_xml_to_json.py` to generate `qubes_records.json`.
 3. [Optional]: Run `server/plugins/qubes/qubes_models.py` to ensure that `qubes_records.json` can be parsed.
-4. [Optional]: Run `server/plugins/qubes/plugin.py` to ensure that `qubes_records.json` can be parsed.
+4. [Optional]: Run `PYTHONPATH="." server/plugins/qubes/plugin.py` to ensure that `qubes_records.json` can be parsed.
 5. `docker compose build`
-6. `open http://localhost:5001 && docker compose up` -- The webpage will be blank until the FastAPI server starts.
-7. `PYTHONPATH="." scripts/create_newsgroups.py` -- Refresh the webpage and ensure newsgroup `qubes.public` exists under `API List`.
-8. [Optional]: `open http://localhost:5001/api/channel/qubes.public` -- Ensure total=0, first=1, last=0
-9. `server/plugins/qubes/load_qubes_records_to_nntp.py`
-10. [Optional]: Refresh the webpage and ensure total=51, first=1, last=51
-11. Change URL from 5001 (Austin) to 5002 (Boston) to ensure total=0, first=1, last=0
-12. `PYTHONPATH="." scripts/nntp_sync.py` to transfer Austin articles to Boston...  Refresh to ensure total=51, first=1, last=51
+6. `open http://localhost:5001/newsgroups && docker compose up` -- The webpage will be blank until the FastAPI server starts.
+7. `PYTHONPATH="." scripts/create_newsgroups.py`
+8. Refresh webpage to show that the newsgroups were created.
+9. [Optional]: `open http://localhost:5001/api/channel/qubes.public` -- Ensure total=0, first=1, last=0
+10. `server/plugins/qubes/load_qubes_records_to_nntp.py`
+11. [Optional]: Refresh the webpage and ensure total=51, first=1, last=51
+12. Change URL from 5001 (Austin) to 5002 (Boston) to ensure total=0, first=1, last=0
+13. `PYTHONPATH="." scripts/nntp_sync.py` to transfer Austin articles to Boston...
+14. Refresh web page to ensure total=51, first=1, last=51
+15. `open http://localhost:5001/api/channel/qubes.public/cards` to show individual records
 
 
 https://iskme.github.io/Open-Metadata-Exchange/autoapi/qubes/plugin

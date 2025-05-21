@@ -1,17 +1,12 @@
 import os
 
-import httpx
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 
 from server import ome_node
 from server.helpers import MocAPI
 from server.schemas import Card, CardRef, Channel, ChannelSummary, NewCard
-
-unused = httpx
 
 app = FastAPI()
 
@@ -62,25 +57,9 @@ async def import_post(name: str, card: CardRef) -> bool:
     return ome_node.import_post(name, card.id)
 
 
-@app.get("/newsgroups", response_class=HTMLResponse)
-async def newsgroups(request: Request) -> HTMLResponse:
-    return templates.TemplateResponse(
-        "newsgroups.html",
-        {
-            "request": request,
-            "newsgroups": [channel.name for channel in ome_node.channels()],
-        },
-    )
-
-
 app.mount(
     "/api/imls/",
     MocAPI(directory="static/api/imls/", html=True),
     name="Mock API",
 )
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
-templates = Jinja2Templates(directory="templates")
-print(f"Templates: {templates=}", flush=True)
-print(f"{templates.env=}", flush=True)
-print(f"{templates.get_template('newsgroups.html')=}", flush=True)
-# print(f"Templates directory: {templates.directory=}", flush=True)
