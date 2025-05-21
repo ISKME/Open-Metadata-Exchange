@@ -19,6 +19,7 @@ WORKDIR /app
 # Copy the FastAPI app code to the container
 COPY ./server /app/server
 COPY ./static /app/static
+COPY ./templates /app/templates
 
 # Expose port 5001
 EXPOSE 5001

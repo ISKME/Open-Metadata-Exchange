@@ -36,7 +36,7 @@ def get_ome_plugins_from_path(file_path: Path) -> Iterator[type[OMEPlugin]]:
 
 
 def get_ome_plugins() -> Iterator[type[OMEPlugin]]:
-    for directory in plugins_dir.iterdir():
+    for directory in sorted(plugins_dir.iterdir()):
         if directory.is_dir():
             for file_path in directory.glob("plugin.py"):
                 yield from get_ome_plugins_from_path(file_path)
