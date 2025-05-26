@@ -19,13 +19,13 @@ DEFAULT_NEWSGROUPS: dict[str, str] = {
 
 
 @pytest.fixture
-def enable_default_newsgroup(newsgroup: str = "local.test") -> None:
+def enable_a_default_newsgroup(newsgroup: str = "local.test") -> None:
     """
     Fixture to enable a default newsgroup for testing purposes.
     This is used to ensure that the 'local.test' newsgroup is available
     for tests that require it.
 
-    Use @pytest.mark.usefixtures("enable_default_newsgroup") as discussed at
+    Use @pytest.mark.usefixtures("enable_a_default_newsgroup") as discussed at
     https://docs.pytest.org/en/stable/how-to/fixtures.html \
         #use-fixtures-in-classes-and-modules-with-usefixtures
     """
@@ -56,7 +56,7 @@ def test_channels() -> None:
     assert not list(ome_node.channels())
 
 
-@pytest.mark.usefixtures("enable_default_newsgroup")
+@pytest.mark.usefixtures("enable_a_default_newsgroup")
 def test_one_channel() -> None:
     """
     Let's enable the channel 'local.test' so we can use it for the remaining tests.
@@ -66,7 +66,7 @@ def test_one_channel() -> None:
         assert channel.description == "Local test group"
 
 
-@pytest.mark.usefixtures("enable_default_newsgroup")
+@pytest.mark.usefixtures("enable_a_default_newsgroup")
 def test_channel_summary() -> None:
     nntp_client = ome_node.get_client()
     for channel in ome_node.channels():
@@ -155,7 +155,7 @@ def sample_metadata_boston() -> Iterator[ome_node.Metadata]:
         )
 
 
-@pytest.mark.usefixtures("enable_default_newsgroup")
+@pytest.mark.usefixtures("enable_a_default_newsgroup")
 @pytest.mark.parametrize("metadata", sample_metadata_boston())
 def test_create_post(metadata: ome_node.Metadata) -> None:
     assert isinstance(metadata, ome_node.Metadata)
@@ -169,7 +169,7 @@ def test_create_post(metadata: ome_node.Metadata) -> None:
     )
 
 
-@pytest.mark.usefixtures("enable_default_newsgroup")
+@pytest.mark.usefixtures("enable_a_default_newsgroup")
 def test_channel_cards() -> None:
     cards = list(ome_node.channel_cards("local.test", 1, 100))
     assert len(cards) == len(sue_grafton_books)

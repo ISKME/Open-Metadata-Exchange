@@ -17,6 +17,7 @@ from collections.abc import Iterator
 from nntp import NNTPClient
 from pydantic import ValidationError
 
+from server.get_ome_plugins import get_newsgroups_from_plugins
 from server.schemas import Card, Channel, ChannelSummary, Metadata, NewCard
 
 AUSTIN_PORT = 119
@@ -48,10 +49,6 @@ def get_client(port: int = 119) -> NNTPClient:
     return (CLIENT := NNTPClient(inn_server_name, port=port))
 
 
-def enable_a_default_channel(channel_name: str = "local.test") -> None:
-    DEFAULT_NEWSGROUP_NAMES.remove(channel_name)  # May raise KeyError
-
-
 def broken_channels() -> Iterator[Channel]:
     """Rename this function to channels() and remove this function below when
     https://github.com/greenbender/pynntp/issues/95 is fixed.
@@ -63,6 +60,17 @@ def broken_channels() -> Iterator[Channel]:
 
 
 def channels() -> Iterator[Channel]:
+    """Rename this function to channels() and remove this function below when
+    https://github.com/greenbender/pynntp/issues/95 is fixed.
+    """
+    nntp_client = get_client()
+    ome_newsgroups = get_newsgroups_from_plugins()
+    for name, _low, _high, _status in sorted(nntp_client.list_active()):
+        if description := ome_newsgroups.get(name):
+            yield Channel(name=name, description=description)
+
+
+def nntplib_channels() -> Iterator[Channel]:
     """Rename broken_channels() above to channels() and remove this function when
     https://github.com/greenbender/pynntp/issues/95 is fixed.
     """
