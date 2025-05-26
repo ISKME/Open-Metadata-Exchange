@@ -40,13 +40,12 @@ def test_pynntp_client(port: int) -> None:
     assert isinstance(pynntp_client, ome_node.NNTPClient)
     # See https://github.com/greenbender/pynntp/issues/95
     newsgroups = set(pynntp_client.list_newsgroups())
-    assert newsgroups == ome_node.DEFAULT_NEWSGROUPS
+    assert newsgroups == DEFAULT_NEWSGROUPS
     newsgroup_names = {
         name for name, _low, _high, _status in pynntp_client.list_active()
     }
-    expected_names = {name for name, _ in DEFAULT_NEWSGROUPS}
-    assert newsgroup_names == expected_names, (
-        f"Expected newsgroup names {expected_names}, but got {newsgroup_names}"
+    assert newsgroup_names == ome_node.DEFAULT_NEWSGROUP_NAMES, (
+        f"Expected names {ome_node.DEFAULT_NEWSGROUP_NAMES}, but got {newsgroup_names}"
     )
 
 
