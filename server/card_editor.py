@@ -34,7 +34,8 @@ from server import ome_node
 # from server.schemas import Card, CardRef, Channel, ChannelSummary, NewCard
 
 nntp_client = ome_node.get_client()
-ome_node.enable_a_default_channel("local.test")
+# Enable a default channel for testing purposes.
+ome_node.DEFAULT_NEWSGROUP_NAMES.remove("local.test")
 
 
 sue_grafton_books = {

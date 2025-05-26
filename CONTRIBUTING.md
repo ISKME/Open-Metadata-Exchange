@@ -13,12 +13,11 @@ The repository uses three tools that contributors will need to interact with:
 To isolate this project from other projects that use Python, we encourage you to create
 a [`venv`](https://docs.python.org/3/library/venv.html) with the commands:
 ```bash
-uv --python=3.12 venv
+uv --python=3.13 venv
 source .venv/bin/activate
 uv pip install --upgrade pip
 pip install --editable .
 ```
-Python <= 3.12 is required a bug in pynntp .list_newsgroups().
 
 ## pre-commit
 We use [`pre-commit`](https://pre-commit.com) to format, lint, and test files in this
