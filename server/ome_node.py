@@ -49,16 +49,6 @@ def get_client(port: int = 119) -> NNTPClient:
     return (CLIENT := NNTPClient(inn_server_name, port=port))
 
 
-def broken_channels() -> Iterator[Channel]:
-    """Rename this function to channels() and remove this function below when
-    https://github.com/greenbender/pynntp/issues/95 is fixed.
-    """
-    nntp_client = get_client()
-    for name, description in sorted(nntp_client.list_newsgroups()):
-        if name not in DEFAULT_NEWSGROUP_NAMES:
-            yield Channel(name=name, description=description)
-
-
 def channels() -> Iterator[Channel]:
     """Rename this function to channels() and remove this function below when
     https://github.com/greenbender/pynntp/issues/95 is fixed.
@@ -68,27 +58,6 @@ def channels() -> Iterator[Channel]:
     for name, _low, _high, _status in sorted(nntp_client.list_active()):
         if description := ome_newsgroups.get(name):
             yield Channel(name=name, description=description)
-
-
-def nntplib_channels() -> Iterator[Channel]:
-    """Rename broken_channels() above to channels() and remove this function when
-    https://github.com/greenbender/pynntp/issues/95 is fixed.
-    """
-    try:
-        import datetime
-        import nntplib  # Removed from the Python standard library in 3.12
-    except ImportError:
-        return broken_channels()
-
-    # Environment variable INN_SERVER_NAME is defined in the docker-compose.yml file.
-    inn_server_name = os.getenv("INN_SERVER_NAME", "localhost")
-    # This includes newly created newsgroups.
-    nntplib_client = nntplib.NNTP(inn_server_name)
-    for group_info in nntplib_client.newgroups(datetime.date(1970, 1, 1))[1]:
-        yield Channel(
-            name=group_info.group,
-            description=nntplib_client.description(group_info.group),
-        )
 
 
 def channel_summary(channel_name: str) -> ChannelSummary:
