@@ -10,6 +10,8 @@
 services:
   internetnews-server-austin:
     image: greenbender/inn  # cclauss/inn
+    volumes:
+      - ./server_config/news_server/innfeed.austin.conf:/usr/local/news/etc/innfeed.conf
     ports:  # external:internal
       - 119:119
       - 563:563
@@ -17,6 +19,8 @@ services:
 
   internetnews-server-boston:
     image: greenbender/inn  # cclauss/inn
+    volumes:
+      - ./server_config/news_server/innfeed.boston.conf:/usr/local/news/etc/innfeed.conf
     ports:
       - 1119:119
       - 1563:563
@@ -24,6 +28,10 @@ services:
 
   fastapi-server-austin:
     image: fastapi
+    volumes:
+      - ./server:/app/server:rw
+      - ./static:/app/static:rw
+      - ./templates:/app/templates:rw
     build:
       dockerfile: Dockerfile
     environment:
@@ -33,9 +41,13 @@ services:
       - 5001:5001
     depends_on:
       - internetnews-server-austin
-
+      
   fastapi-server-boston:
     image: fastapi
+    volumes:
+      - ./server:/app/server:rw
+      - ./static:/app/static:rw
+      - ./templates:/app/templates:rw
     build:
       dockerfile: Dockerfile
     environment:
@@ -48,6 +60,8 @@ services:
 
   imls-react-austin:
     image: imlsreact
+    volumes:
+      - ./fe2:/app:rw
     build:
       context: fe2
       dockerfile: Dockerfile
@@ -61,6 +75,8 @@ services:
 
   imls-react-boston:
     image: imlsreact
+    volumes:
+      - ./fe2:/app:rw
     build:
       context: fe2
       dockerfile: Dockerfile

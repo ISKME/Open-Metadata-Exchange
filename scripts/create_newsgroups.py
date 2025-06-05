@@ -28,7 +28,7 @@ def create_newsgroups(newsgroups: dict[str, str], nntp_server_name: str) -> str:
     Then append newsgroup descriptions to the end of the `db/newsgroups` file.
     The complexity is that we need to run these commands inside a Docker container.
     """
-    server_name = f"open-metadata-exchange-internetnews-server-{nntp_server_name}-1"
+    server_name = f"ome-internetnews-server-{nntp_server_name}-1"
     command = " && ".join(f"ctlinnd newgroup {name}" for name in newsgroups)
     command = f'docker exec -it {server_name} sh -c "{command}"'
     print(f"{command=}")

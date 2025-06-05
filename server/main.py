@@ -72,7 +72,7 @@ async def newsgroups(request: Request) -> HTMLResponse:
 
 
 app.mount(
-    "/api/imls/",
+    "/undefined/api/imls/",
     MocAPI(directory="static/api/imls/", html=True),
     name="Mock API",
 )
