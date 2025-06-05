@@ -22,6 +22,17 @@ export default (env: BuildEnv) => {
     isDev,
     port: PORT,
   });
-
+    config.devServer.proxy = [
+	{
+	    context: ["/api/", "/imls/undefined/api/", "/undefined/api/"],
+	    target: 'http://ome-fastapi-server-boston-1:5001',
+	    changeOrigin: true,
+	    secure: false,
+	    pathRewrite: {
+		'^/imls/undefined/': '/',
+		"^/undefined/": '/'
+	    }
+	}
+    ];
   return config;
 };
