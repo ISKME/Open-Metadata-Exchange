@@ -38,3 +38,59 @@ class NewCard(BaseModel):
 
 class CardRef(BaseModel):
     id: int
+
+
+#######
+
+
+class ResourceSummaryData(BaseModel):
+    id: int
+    name: str
+    isShared: bool
+    abstract: str
+    educationLevels: list[str]
+    micrositeName: str
+    micrositeSlug: str
+    numAlerts: int
+    numResources: int
+    numSubscribers: int
+    subscribed: bool
+    thumbnail: str
+    updatedOn: str
+
+
+class ChannelSummaryData(BaseModel):
+    name: str
+    slug: str
+    educationLevels: list[str]
+    logo: str | None
+    numCollections: int
+
+
+class ExploreSection(BaseModel):
+    type: str
+    name: str
+    data: list[ChannelSummaryData | ResourceSummaryData]
+
+
+class ClientInfo(BaseModel):
+    name: str
+    slug: str
+
+
+class ResponseCode(BaseModel):
+    code: int
+    message: str
+
+
+class UserInfo(BaseModel):
+    email: str
+    isAuthenticated: bool
+    name: str
+
+
+class ExploreSummary(BaseModel):
+    sections: list[ExploreSection]
+    response: ResponseCode
+    userInfo: UserInfo
+    clientInfo: ClientInfo

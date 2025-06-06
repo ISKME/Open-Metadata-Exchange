@@ -18,7 +18,19 @@ from nntp import NNTPClient
 from pydantic import ValidationError
 
 from server.get_ome_plugins import get_newsgroups_from_plugins
-from server.schemas import Card, Channel, ChannelSummary, Metadata, NewCard
+from server.schemas import (
+    Card,
+    Channel,
+    ChannelSummary,
+    ChannelSummaryData,
+    ClientInfo,
+    ExploreSection,
+    ExploreSummary,
+    Metadata,
+    NewCard,
+    ResponseCode,
+    UserInfo,
+)
 
 AUSTIN_PORT = 119
 BOSTON_PORT = AUSTIN_PORT + 1000
@@ -108,11 +120,51 @@ def import_post(channel_name: str, card_id: int) -> bool:  # noqa: ARG001
     return True
 
 
+def explore_summary() -> ExploreSummary:
+    nntp_client = get_client()
+
+    ome_newsgroups = get_newsgroups_from_plugins()
+
+    channels = ExploreSection(type="Microsites", name="By Channels", data=[])
+    # resources = ExploreSection(type="Collections", name="All shared
+    # resources", data=[])
+
+    for name, _low, _high, _status in sorted(nntp_client.list_active()):
+        if description := ome_newsgroups.get(name):
+            est_total, _first, _last, _name = nntp_client.group(name)
+            channels.data.append(
+                ChannelSummaryData(
+                    name=description,
+                    slug=name,
+                    educationLevels=[
+                        "Upper Primary",
+                        "Career / Technical",
+                        "Adult Education",
+                        "High School",
+                        "Preschool",
+                        "Lower Primary",
+                        "Middle School",
+                    ],
+                    logo=None,
+                    numCollections=est_total,
+                )
+            )
+
+    return ExploreSummary(
+        clientInfo=ClientInfo(name="Austin Library", slug="austin"),
+        response=ResponseCode(code=200, message="Successful Operation"),
+        sections=[channels],
+        userInfo=UserInfo(
+            email="info@iskme.org", isAuthenticated=True, name="ISKME Librarian"
+        ),
+    )
+
+
 if __name__ == "__main__":
     import os
 
     # Environment variable INN_SERVER_NAME is defined in the docker-compose.yml file.
-    print(f"{os.getenv("INN_SERVER_NAME", "localhost")=}")
+    print(f"{os.getenv('INN_SERVER_NAME', 'localhost')=}")
     print("Getting list of channels")
     nntp_client = get_client()
     print(f"{nntp_client=}")

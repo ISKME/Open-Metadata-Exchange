@@ -7,7 +7,14 @@ from fastapi.templating import Jinja2Templates
 
 from server import ome_node
 from server.helpers import MocAPI
-from server.schemas import Card, CardRef, Channel, ChannelSummary, NewCard
+from server.schemas import (
+    Card,
+    CardRef,
+    Channel,
+    ChannelSummary,
+    ExploreSummary,
+    NewCard,
+)
 
 unused = httpx
 
@@ -69,6 +76,12 @@ async def newsgroups(request: Request) -> HTMLResponse:
             "newsgroups": [channel.name for channel in ome_node.channels()],
         },
     )
+
+
+@app.get("/api/imls/v2/explore-oer-exchange/")
+async def explore_oer_exchange(_request: Request) -> ExploreSummary:
+    return ome_node.explore_summary()
+
 
 app.mount(
     "/api/imls/",
