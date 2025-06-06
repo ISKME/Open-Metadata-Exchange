@@ -25,7 +25,7 @@ export default (env: BuildEnv) => {
     config.devServer.proxy = [
 	{
 	    context: ["/api/", "/imls/undefined/api/", "/undefined/api/"],
-	    target: 'http://ome-fastapi-server-boston-1:5001',
+	    target: process.env.REACT_APP_API_URL,
 	    changeOrigin: true,
 	    secure: false,
 	    pathRewrite: {
