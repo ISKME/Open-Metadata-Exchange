@@ -11,7 +11,11 @@ services:
   internetnews-server-austin:
     image: greenbender/inn  # cclauss/inn
     volumes:
+      - ./server_config/news_server/inn.austin.conf:/usr/local/news/etc/inn.conf
       - ./server_config/news_server/innfeed.austin.conf:/usr/local/news/etc/innfeed.conf
+      - ./server_config/news_server/incoming.austin.conf:/usr/local/news/etc/incoming.conf
+      - ./server_config/news_server/newsfeeds.austin:/usr/local/news/etc/newsfeeds
+      - ./server_config/news_server/control.ctl.local:/usr/local/news/etc/control.ctl.local
     ports:  # external:internal
       - 119:119
       - 563:563
@@ -20,7 +24,11 @@ services:
   internetnews-server-boston:
     image: greenbender/inn  # cclauss/inn
     volumes:
+      - ./server_config/news_server/inn.boston.conf:/usr/local/news/etc/inn.conf
       - ./server_config/news_server/innfeed.boston.conf:/usr/local/news/etc/innfeed.conf
+      - ./server_config/news_server/incoming.boston.conf:/usr/local/news/etc/incoming.conf
+      - ./server_config/news_server/newsfeeds.boston:/usr/local/news/etc/newsfeeds
+      - ./server_config/news_server/control.ctl.local:/usr/local/news/etc/control.ctl.local
     ports:
       - 1119:119
       - 1563:563

@@ -1,0 +1,20 @@
+##  Sample control.ctl.local file.
+##
+##  It defines local access control for control messages.
+##  The rules in this file are executed after those defined
+##  in control.ctl.
+##  Lines are matched in order and the last matching line
+##  will be used.
+##
+##  See the control.ctl man page for more information.
+
+##  Output encoding for the newsgroups file.
+/localencoding/:utf-8
+
+##  Maximum number of changes that could be made at one time
+##  by a checkgroups before bailing and mailing the changes
+##  to the admin if no log file was specified.
+/maxdocheckgroups/:*:*:10
+
+ihave:*:*:doit
+sendme:*:*:doit
