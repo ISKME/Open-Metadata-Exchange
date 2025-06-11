@@ -1,5 +1,5 @@
-import importlib
-import os
+import math
+from datetime import datetime
 
 import httpx
 from fastapi import FastAPI, Request
@@ -9,40 +9,35 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from server import ome_node
+from server.get_ome_plugins import load_plugin
 from server.helpers import MocAPI
-from server.plugins.ome_plugin import OMEPlugin
 from server.schemas import (
     Attachment,
+    BrowseResponse,
     Card,
     CardRef,
     Channel,
     ChannelSummary,
+    ClientInfo,
+    Collections,
     ExploreSummary,
+    Filter,
     MiniMetadata,
+    PaginationOptions,
     Post,
+    ResponseCodeExtended,
+    SortOption,
+    UserInfo,
 )
+from server.utils import get_channels_filters, get_latest_articles, post_to_summary
 
-
-def _load_plugin(plugin_name: str) -> OMEPlugin:
-    plugin_name = plugin_name.split(".")
-    plugin_module_name = ".".join(plugin_name[:-1])
-    plugin_class_name = plugin_name[-1]
-
-    plugin_module = importlib.import_module(plugin_module_name)
-    plugin_class = getattr(plugin_module, plugin_class_name)
-
-    try:
-        plugin = plugin_class()
-    except ModuleNotFoundError:
-        print(f"Failed to load plugin: {plugin_name}")
-        return _load_plugin("server.plugins.ome_plugin.OMEPlugin")
-    return plugin
-
-
-def load_plugin() -> OMEPlugin:
-    plugin = os.getenv("CMS_PLUGIN", "server.plugins.ome_plugin.OMEPlugin")
-    return _load_plugin(plugin)
-
+sort_options = [
+    SortOption(name="Relevance", slug="search"),
+    SortOption(name="Title", slug="title"),
+    SortOption(name="Title (DESC)", slug="-title"),
+    SortOption(name="Most Popular", slug="visits"),
+    SortOption(name="Date Updated", slug="timestamp"),
+]
 
 plugin = load_plugin()
 
@@ -93,6 +88,7 @@ async def create_post(meta: MiniMetadata) -> bool:
     # TODO(anooparyal): create a more generic version of the metadata and add that
     # to the list of attachments
     post = Post(
+        id=None,
         channels=plugin.newsgroups.keys(),
         admin_contact=plugin.librarian_contact,
         subject=metadata.title,
@@ -104,6 +100,7 @@ async def create_post(meta: MiniMetadata) -> bool:
                 data=metadata.model_dump_json(),
             )
         ],  # add the other generic metadata here
+        date=datetime.now(tz=datetime.UTC),
     )
     sent = ome_node.create_post(post)
     print(f"Sent: {sent}")
@@ -113,6 +110,44 @@ async def create_post(meta: MiniMetadata) -> bool:
 @app.post("/api/channel/{name}/import")
 async def import_post(name: str, card: CardRef) -> bool:
     return ome_node.import_post(name, card.id)
+
+
+@app.get("/api/imls/v2/collections/browse/")
+async def browse(sortby: str = "timestamp", per_page: int = 3) -> BrowseResponse:
+    total_num_articles = 124
+    latest = [post_to_summary(x) for x in get_latest_articles(per_page)]
+    tenant_slug = next(iter(plugin.newsgroups.keys()))
+    return BrowseResponse(
+        collections=Collections(
+            items=latest,
+            filters=[
+                Filter(name="Channel", keyword="channel", items=get_channels_filters())
+            ],
+            sortBy=sortby,
+            sortByOptions=sort_options,
+            pagination=PaginationOptions(
+                count=total_num_articles,  # TODO(anooparyal): get the
+                # total count of articles
+                # available
+                numPages=math.ceil(total_num_articles / per_page),
+                page=1,
+                perPage=per_page,
+                perPageOptions=[3, 9, 30, 90],
+            ),
+        ),
+        response=ResponseCodeExtended(
+            code=200,
+            message="Successful operation",
+            tenant=tenant_slug,
+            request_schema=tenant_slug,
+            all_tenants=True,
+            shared_only=True,
+        ),
+        userInfo=UserInfo(
+            email=plugin.librarian_contact, isAuthenticated=True, name=""
+        ),
+        clientInfo=ClientInfo(name=plugin.site_name, slug=tenant_slug),
+    )
 
 
 @app.get("/newsgroups", response_class=HTMLResponse)

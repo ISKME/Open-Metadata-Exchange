@@ -49,9 +49,16 @@ class OMEPlugin:
 
     mimetypes: tuple[str, ...] = ()
     # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
+    # TODO(anooparyal): this needs to move into the OMESite class
     newsgroups: dict[str, str] = MappingProxyType({})
 
+    site_name: str = "Generic OME Library"  # TODO(anooparyal): this
+    # needs to move into the
+    # OMESite class
     librarian_contact: str = "info@iskme.org"
+    logo: str = (
+        "https://louis.oercommons.org/static/newdesign/images/louis/oerx-logo.png"
+    )
 
     def summarize(self, card: EducationResource) -> str:
         msg = "Not implemented yet."
@@ -74,3 +81,8 @@ class OMEPlugin:
         raise NotImplementedError(msg)
 
     # def make_nntp_article(self, file_path: str) -> EducationResource:
+
+
+# TODO(anooparyal): need to create a class here called 'Site' so that
+# many different sites can use the same plugin but have different
+# attributes specific to the site.

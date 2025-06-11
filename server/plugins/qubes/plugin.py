@@ -28,6 +28,7 @@ class QubesPlugin(OMEPlugin):
             "qubes.public": "Metadata from QUBES https://qubeshub.org",
         }
     )
+    site_name: str = "Qubes"
     librarian_contact: str = "info@qubeshub.org"
 
     def summarize(self, card: EducationResource) -> str:

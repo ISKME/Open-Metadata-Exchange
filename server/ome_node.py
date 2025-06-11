@@ -13,20 +13,24 @@
 # import json
 import os
 from collections.abc import Iterator
+from email import message_from_string
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+import dateparser
 from nntp import NNTPClient
 
 from server.get_ome_plugins import get_newsgroups_from_plugins
 from server.schemas import (
+    Attachment,
     Channel,
     ChannelSummary,
     ChannelSummaryData,
     ClientInfo,
     ExploreSection,
     ExploreSummary,
+    NewsgroupPost,
     Post,
     ResponseCode,
     UserInfo,
@@ -113,8 +117,69 @@ def create_post(post: Post) -> bool:
     return nntp_client.post(headers=headers, body=msg)
 
 
-def import_post(channel_name: str, card_id: int) -> bool:  # noqa: ARG001
-    return True
+def from_post(post: NewsgroupPost) -> Post:
+    headers = {str(key): value for key, value in post.headers.items()}
+    header_str = "\n".join([f"{key}: {value}" for key, value in headers.items()])
+    whole_str = f"{header_str}\n\n{post.body}"
+
+    attachments = []
+    body = None
+    message = message_from_string(whole_str)
+
+    if message.is_multipart():
+        for part in message.walk():
+            if not part.is_multipart():
+                content_type = part.get_content_type()
+                if content_type == "text/plain" and not body:
+                    body = part.get_payload(decode=True)
+                # TODO(anooparyal): need to handle it better here and
+                # handle other mime-types
+                elif content_type == "application/json":
+                    content = part.get_payload(decode=True)
+                    print(f"{type(content)}: {content}")
+                    attachments.append(
+                        Attachment(
+                            filename=part.get_filename(),
+                            mime_subtype="json",
+                            data=content,
+                        )
+                    )
+    else:
+        body = message.get_payload(decode=True)
+    ds = headers.get("Date")
+    date = dateparser.parse(ds)
+    if not date:
+        date = dateparser.parse("Wed, 1 Jan 2024 03:15:57 -0500")
+
+    return Post(
+        id=post.id,
+        channels=[post.channel],
+        admin_contact=headers.get("From", "missing"),
+        subject=headers.get("Subject", "missing"),
+        body=body,
+        attachments=attachments,
+        date=date,
+    )
+
+
+def get_post(channel: str, message_id: int) -> Post:
+    nntp_client = get_client()
+    nntp_client.group(channel)
+    post_number, headers, body = nntp_client.article(message_id)
+    return from_post(
+        NewsgroupPost(id=post_number, channel=channel, headers=headers, body=body)
+    )
+
+
+def get_last_n_posts(channel: str, num: int = 3) -> Iterator[Post]:
+    nntp_client = get_client()
+    est_total, first, last, name = nntp_client.group(channel)
+    start = max(last - num, first)
+    for i in range(start, last + 1):
+        post_number, headers, body = nntp_client.article(i)
+        yield from_post(
+            NewsgroupPost(id=post_number, channel=channel, headers=headers, body=body)
+        )
 
 
 def explore_summary() -> ExploreSummary:

@@ -60,7 +60,7 @@ services:
     build:
       dockerfile: Dockerfile
     environment:
-      CMS_PLUGIN: server.plugins.qubes.plugin.QubesPlugin
+      CMS_PLUGIN: server.plugins.oercommons.plugin.OERCommonsPlugin
       INN_SERVER_NAME: boston
       SERVER_PORT: 5001
     ports:
