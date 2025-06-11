@@ -44,12 +44,3 @@ if __name__ == "__main__":
             print(f"\t{'-' * 24}")
             for name, description in sorted(nntp_client.list_newsgroups()):
                 print(f"\t{name=:<20}: {description=}")
-
-    # import datetime  # Modify above: requires-python = "==3.12"
-    # import nntplib  # Removed from the Python standard library in 3.12
-
-    # for port in (AUSTIN_PORT, BOSTON_PORT):
-    #    if nntp_client := nntplib.NNTP("localhost", port=119):
-    #        print(f"INN server @ {port=}:")
-    #        for newsgroup in nntp_client.newgroups(datetime.date(1970, 1, 1))[1]:
-    #            print(f"\t{newsgroup.group=}")
