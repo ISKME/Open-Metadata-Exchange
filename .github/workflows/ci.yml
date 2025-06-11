@@ -29,7 +29,6 @@ jobs:
   #    - run: pip install pydantic pynntp pytest
   #    - run: pytest
   #    - run: python scripts/nntp_io.py
-  #    - run: python src/nntplib_tests.py || true
 
   inn-docker_uv:
     strategy:

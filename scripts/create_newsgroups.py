@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 
 # /// script
-# requires-python = "==3.12"
+# requires-python = ">=3.13"
 # dependencies = [
 #     "pydantic",
 # ]
@@ -13,8 +13,6 @@ and subscribe to metadata in the peer-to-peer network.  Once the NNTP servers ha
 started, get the newsgroups required by all plugins and create those newsgroups on both
 NNTP servers.
 """
-
-# import asyncio
 
 import subprocess
 import time
