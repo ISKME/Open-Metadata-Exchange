@@ -16,43 +16,45 @@ NNTP servers.
 
 # import asyncio
 
-import subprocess
+# import subprocess
 import time
 
 from server.get_ome_plugins import get_newsgroups_from_plugins
 
 
-def create_newsgroups(newsgroups: dict[str, str], nntp_server_name: str) -> str:
+def create_newsgroups(newsgroups: dict[str, str], server_name: str) -> str:
     """
     Create newsgroups on the NNTP server using `ctlinnd newgroup newsgroup` command.
     Then append newsgroup descriptions to the end of the `db/newsgroups` file.
     The complexity is that we need to run these commands inside a Docker container.
     """
-    server_name = f"ome-internetnews-server-{nntp_server_name}-1"
     command = " && ".join(f"ctlinnd newgroup {name}" for name in newsgroups)
     command = f'docker exec -it {server_name} sh -c "{command}"'
     print(f"{command=}")
 
-    completed_process = subprocess.run(  # noqa: S602
-        command, capture_output=True, shell=True, check=True, text=True
-    )
-    print(f"{completed_process.stdout=}")
-    ret_val = completed_process.stdout
+    # completed_process = subprocess.run(
+    #     command, capture_output=True, shell=True, check=True, text=True
+    # )
+
+    # print(f"{completed_process.stdout=}")
+    # ret_val = completed_process.stdout
 
     # Append newsgroup descriptions to the end of the `db/newsgroups` file.
     # If the newsgroups already exist, could we be adding duplicates?
     command = " && ".join(
-        f"echo '{name:<23} {description.replace("'", '')}' >> db/newsgroups"
-        for name, description in newsgroups.items()
+        [
+            f"""echo '{name:<23} {description.replace("'", "")}' >> db/newsgroups"""
+            for name, description in newsgroups.items()
+        ]
     )
     command = f'docker exec -it {server_name} sh -c "{command}"'
     print(f"{command=}")
 
-    completed_process = subprocess.run(  # noqa: S602
-        command, capture_output=True, shell=True, check=True, text=True
-    )
-    print(f"{completed_process.stdout=}")
-    return ret_val
+    # completed_process = subprocess.run(
+    #     command, capture_output=True, shell=True, check=True, text=True
+    # )
+    # print(f"{completed_process.stdout=}")
+    # return ret_val
 
 
 def main() -> None:
@@ -60,7 +62,12 @@ def main() -> None:
     print(f"{newsgroups=}")
     time.sleep(5)  # Wait for the NNTP servers to start
 
-    for nntp_server_name in ("austin", "boston"):
+    nodes = ["austin", "boston"]
+
+    # server_names = [f"ome-internetnews-server-{node}-1" for node in nodes]
+    server_names = nodes
+
+    for nntp_server_name in server_names:
         print(f"Creating {len(newsgroups)} newsgroups on {nntp_server_name=}")
         create_newsgroups(newsgroups, nntp_server_name)
 

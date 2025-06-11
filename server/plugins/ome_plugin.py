@@ -51,6 +51,12 @@ class OMEPlugin:
     # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
     newsgroups: dict[str, str] = MappingProxyType({})
 
+    librarian_contact: str = "info@iskme.org"
+
+    def summarize(self, card: EducationResource) -> str:
+        msg = "Not implemented yet."
+        raise NotImplementedError(msg)
+
     def make_metadata_card_from_url(self, url: str) -> EducationResource:
         """
         This method is a placeholder for creating a metadata card.

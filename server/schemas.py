@@ -13,6 +13,10 @@ class ChannelSummary(BaseModel):
     last_article: int
 
 
+class MiniMetadata(BaseModel):
+    url: str
+
+
 class Metadata(BaseModel):
     title: str
     url: str
@@ -30,10 +34,19 @@ class Card(BaseModel):
     body: Metadata | str
 
 
-class NewCard(BaseModel):
+class Attachment(BaseModel):
+    filename: str
+    mime_subtype: str
+    data: str  # this might need to be a binary type
+    # and not str
+
+
+class Post(BaseModel):
     channels: list[str]
+    admin_contact: str
     subject: str
-    body: Metadata
+    body: str
+    attachments: list[Attachment]
 
 
 class CardRef(BaseModel):

@@ -12,6 +12,7 @@ from types import MappingProxyType
 # from pydantic import BaseModel
 from server.plugins.ome_plugin import EducationResource, OMEPlugin
 from server.plugins.qubes.qubes_models import Model, ModelItem
+from server.plugins.qubes.utils import extract_from_url
 
 
 class QubesPlugin(OMEPlugin):
@@ -27,14 +28,16 @@ class QubesPlugin(OMEPlugin):
             "qubes.public": "Metadata from QUBES https://qubeshub.org",
         }
     )
+    librarian_contact: str = "info@qubeshub.org"
+
+    def summarize(self, card: EducationResource) -> str:
+        return f"Summary: {card.description}"
 
     def make_metadata_card_from_url(self, url: str) -> EducationResource:
         """
         This method creates a metadata card from a given URL.
-        It currently does not implement any functionality.
         """
-        msg = "This method is not implemented yet."
-        raise NotImplementedError(msg)
+        return extract_from_url(url)
 
     def make_metadata_card_from_json(self, json_payload: str) -> EducationResource:
         """

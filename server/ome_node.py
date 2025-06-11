@@ -13,21 +13,21 @@
 # import json
 import os
 from collections.abc import Iterator
+from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 from nntp import NNTPClient
-from pydantic import ValidationError
 
 from server.get_ome_plugins import get_newsgroups_from_plugins
 from server.schemas import (
-    Card,
     Channel,
     ChannelSummary,
     ChannelSummaryData,
     ClientInfo,
     ExploreSection,
     ExploreSummary,
-    Metadata,
-    NewCard,
+    Post,
     ResponseCode,
     UserInfo,
 )
@@ -45,6 +45,8 @@ DEFAULT_NEWSGROUP_NAMES: set[str] = {
     "local.test",
 }
 
+# TODO(anooparyal): implement a connection pool here.. that is able to
+# discard closed connections.
 CLIENT: NNTPClient | None = None
 
 
@@ -83,37 +85,32 @@ def channel_summary(channel_name: str) -> ChannelSummary:
     )
 
 
-def _to_metadata(x: str | bytes | bytearray) -> Metadata | str | bytes | bytearray:
-    try:
-        return Metadata.model_validate_json(x)
-    except ValidationError:
-        return x
-
-
-def channel_cards(channel_name: str, start: int, end: int) -> list[Card]:
+def create_post(post: Post) -> bool:
     nntp_client = get_client()
-    _, _first, last, _ = nntp_client.group(channel_name)
-    end = min(end, last)
-    return [
-        Card(
-            number=x[0],
-            headers=x[1],
-            subject=x[1]["Subject"],
-            body=_to_metadata(x[2]),
+    message = MIMEMultipart()
+    message["Subject"] = post.subject
+    message["From"] = post.admin_contact
+
+    body_part = MIMEText(post.body)
+    message.attach(body_part)
+
+    for attachment in post.attachments:
+        message.attach(
+            MIMEApplication(
+                attachment.data,
+                _subtype=attachment.mime_subtype,
+                Name=attachment.filename,
+            )
         )
-        for x in [nntp_client.article(i) for i in range(start, end + 1)]
-    ]
 
+    # it's important that it's serialized before we look at the
+    # headers because the boundary that's referenced in the headers is
+    # figured out when it's first serialized
+    msg = message.as_string().split("\n\n", 1)[1]
 
-def create_post(card: NewCard) -> bool:
-    nntp_client = get_client()
-    headers = {
-        "Subject": card.subject,
-        "From": "OERCommons <admin@oercommons.org>",
-        "Newsgroups": ",".join(card.channels),
-    }
-    t = card.body.model_dump_json()
-    return nntp_client.post(headers=headers, body=t)
+    headers = dict(message._headers)  # noqa: SLF001
+    headers["Newsgroups"] = ",".join(post.channels)
+    return nntp_client.post(headers=headers, body=msg)
 
 
 def import_post(channel_name: str, card_id: int) -> bool:  # noqa: ARG001
@@ -171,5 +168,4 @@ if __name__ == "__main__":
     print("Getting list of channels")
     print(f"{tuple(channels())=}")
     print(channel_summary("local.test"))
-    print(channel_cards("local.test", 1, 10))
     # print(create_post(NewCard(subject="test", body="test", channels=["local.test"])))

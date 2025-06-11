@@ -1,3 +1,6 @@
+import importlib
+import os
+
 import httpx
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,14 +10,41 @@ from fastapi.templating import Jinja2Templates
 
 from server import ome_node
 from server.helpers import MocAPI
+from server.plugins.ome_plugin import OMEPlugin
 from server.schemas import (
+    Attachment,
     Card,
     CardRef,
     Channel,
     ChannelSummary,
     ExploreSummary,
-    NewCard,
+    MiniMetadata,
+    Post,
 )
+
+
+def _load_plugin(plugin_name: str) -> OMEPlugin:
+    plugin_name = plugin_name.split(".")
+    plugin_module_name = ".".join(plugin_name[:-1])
+    plugin_class_name = plugin_name[-1]
+
+    plugin_module = importlib.import_module(plugin_module_name)
+    plugin_class = getattr(plugin_module, plugin_class_name)
+
+    try:
+        plugin = plugin_class()
+    except ModuleNotFoundError:
+        print(f"Failed to load plugin: {plugin_name}")
+        return _load_plugin("server.plugins.ome_plugin.OMEPlugin")
+    return plugin
+
+
+def load_plugin() -> OMEPlugin:
+    plugin = os.getenv("CMS_PLUGIN", "server.plugins.ome_plugin.OMEPlugin")
+    return _load_plugin(plugin)
+
+
+plugin = load_plugin()
 
 unused = httpx
 
@@ -57,9 +87,27 @@ async def get_channel_cards(
     return ome_node.channel_cards(name, start, end)
 
 
-@app.post("/api/publish")
-async def create_post(card: NewCard) -> bool:
-    return ome_node.create_post(card)
+@app.post("/api/publish_url")
+async def create_post(meta: MiniMetadata) -> bool:
+    metadata = plugin.make_metadata_card_from_url(meta.url)
+    # TODO(anooparyal): create a more generic version of the metadata and add that
+    # to the list of attachments
+    post = Post(
+        channels=plugin.newsgroups.keys(),
+        admin_contact=plugin.librarian_contact,
+        subject=metadata.title,
+        body=plugin.summarize(metadata),
+        attachments=[
+            Attachment(
+                mime_subtype="json",
+                filename="metadata.json",
+                data=metadata.model_dump_json(),
+            )
+        ],  # add the other generic metadata here
+    )
+    sent = ome_node.create_post(post)
+    print(f"Sent: {sent}")
+    return sent
 
 
 @app.post("/api/channel/{name}/import")
