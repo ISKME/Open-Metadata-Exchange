@@ -30,6 +30,7 @@ class QubesPlugin(OMEPlugin):
     )
     site_name: str = "Qubes"
     librarian_contact: str = "info@qubeshub.org"
+    logo: str = "https://qubeshub.org/groups/bioquest/File:/uploads/assets/imgs/bioquest_logo_transparent.png"
 
     def summarize(self, card: EducationResource) -> str:
         return f"Summary: {card.description}"

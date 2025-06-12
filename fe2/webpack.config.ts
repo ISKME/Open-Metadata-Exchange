@@ -24,13 +24,19 @@ export default (env: BuildEnv) => {
   });
     config.devServer.proxy = [
 	{
-	    context: ["/api/", "/imls/undefined/api/", "/undefined/api/"],
+	    context: [
+	    	"/imls/collection-details/",
+		"/api/",
+		"/imls/undefined/api/",
+		"/undefined/api/"
+	    ],
 	    target: process.env.REACT_APP_API_URL,
 	    changeOrigin: true,
 	    secure: false,
 	    pathRewrite: {
 		'^/imls/undefined/': '/',
-		"^/undefined/": '/'
+		'^/undefined/': '/',
+		'.*/undefined/api/': '/api/'
 	    }
 	}
     ];

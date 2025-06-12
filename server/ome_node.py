@@ -21,19 +21,13 @@ from email.mime.text import MIMEText
 import dateparser
 from nntp import NNTPClient
 
-from server.get_ome_plugins import get_newsgroups_from_plugins
+from server.get_ome_plugins import get_newsgroups_from_plugins, load_plugin
 from server.schemas import (
     Attachment,
     Channel,
     ChannelSummary,
-    ChannelSummaryData,
-    ClientInfo,
-    ExploreSection,
-    ExploreSummary,
     NewsgroupPost,
     Post,
-    ResponseCode,
-    UserInfo,
 )
 
 AUSTIN_PORT = 119
@@ -52,6 +46,8 @@ DEFAULT_NEWSGROUP_NAMES: set[str] = {
 # TODO(anooparyal): implement a connection pool here.. that is able to
 # discard closed connections.
 CLIENT: NNTPClient | None = None
+
+plugin = load_plugin()
 
 
 def get_client(port: int = 119) -> NNTPClient:
@@ -136,7 +132,6 @@ def from_post(post: NewsgroupPost) -> Post:
                 # handle other mime-types
                 elif content_type == "application/json":
                     content = part.get_payload(decode=True)
-                    print(f"{type(content)}: {content}")
                     attachments.append(
                         Attachment(
                             filename=part.get_filename(),
@@ -180,46 +175,6 @@ def get_last_n_posts(channel: str, num: int = 3) -> Iterator[Post]:
         yield from_post(
             NewsgroupPost(id=post_number, channel=channel, headers=headers, body=body)
         )
-
-
-def explore_summary() -> ExploreSummary:
-    nntp_client = get_client()
-
-    ome_newsgroups = get_newsgroups_from_plugins()
-
-    channels = ExploreSection(type="Microsites", name="By Channels", data=[])
-    # resources = ExploreSection(type="Collections", name="All shared
-    # resources", data=[])
-
-    for name, _low, _high, _status in sorted(nntp_client.list_active()):
-        if description := ome_newsgroups.get(name):
-            est_total, _first, _last, _name = nntp_client.group(name)
-            channels.data.append(
-                ChannelSummaryData(
-                    name=description,
-                    slug=name,
-                    educationLevels=[
-                        "Upper Primary",
-                        "Career / Technical",
-                        "Adult Education",
-                        "High School",
-                        "Preschool",
-                        "Lower Primary",
-                        "Middle School",
-                    ],
-                    logo=None,
-                    numCollections=est_total,
-                )
-            )
-
-    return ExploreSummary(
-        clientInfo=ClientInfo(name="Austin Library", slug="austin"),
-        response=ResponseCode(code=200, message="Successful Operation"),
-        sections=[channels],
-        userInfo=UserInfo(
-            email="info@iskme.org", isAuthenticated=True, name="ISKME Librarian"
-        ),
-    )
 
 
 if __name__ == "__main__":

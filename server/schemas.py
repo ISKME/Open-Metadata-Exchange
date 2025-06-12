@@ -83,12 +83,37 @@ class ResourceSummaryData(BaseModel):
     updatedOn: datetime
 
 
+class ResourceDetailData(BaseModel):
+    id: int
+    title: str
+    abstract: str
+    source: str
+    url: str | None
+    metadata: list[str]
+    thumbnail: str | None
+    timestamp: datetime
+    updatedDate: datetime
+    detailURL: str | None
+    grade_sublevel: list[str]
+    accessibility: list[str]
+    rating: int
+    ratings_number: int
+    site: str
+    license: str
+    license_cou_bucket: str
+    license_types: list[str]
+    license_bucket_title: str
+    visits: int
+    collections: list[str]
+
+
 class ChannelSummaryData(BaseModel):
     name: str
     slug: str
     educationLevels: list[str]
     logo: str | None
     numCollections: int
+    lastModified: datetime
 
 
 class ExploreSection(BaseModel):
@@ -156,6 +181,14 @@ class Collections(BaseModel):
     pagination: PaginationOptions
 
 
+class CollectionDetails(BaseModel):
+    items: list[ResourceDetailData]
+    filters: list[Filter]
+    sortBy: str
+    sortByOptions: list[SortOption]
+    pagination: PaginationOptions
+
+
 class ExploreSummary(BaseModel):
     sections: list[ExploreSection]
     response: ResponseCode
@@ -166,5 +199,19 @@ class ExploreSummary(BaseModel):
 class BrowseResponse(BaseModel):
     collections: Collections
     response: ResponseCodeExtended
+    userInfo: UserInfo
+    clientInfo: ClientInfo
+
+
+class ChannelSummaryResponse(BaseModel):
+    collection: ResourceSummaryData
+    response: ResponseCode
+    userInfo: UserInfo
+    clientInfo: ClientInfo
+
+
+class ChannelResourcesResponse(BaseModel):
+    resources: CollectionDetails
+    response: ResponseCode
     userInfo: UserInfo
     clientInfo: ClientInfo
