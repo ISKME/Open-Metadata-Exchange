@@ -20,7 +20,7 @@ class EducationResource(BaseModel):
         usage: Description of usage
     """
 
-    from .pedigree_record import PedigreeRecord
+    from .pedigree_record import PedigreeRecord  # noqa: PLC0415 Avoid circular imports
 
     title: str = ""
     description: str = ""
