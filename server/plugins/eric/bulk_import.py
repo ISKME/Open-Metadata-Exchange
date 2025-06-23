@@ -20,7 +20,11 @@
 #             --input eric_item.json --input-file-type json \
 #             --output eric_item_models.py
 
+import json
 from collections.abc import Iterator
+from pathlib import Path
+
+from httpx import Client
 
 from server.plugins.eric.plugin import EricPlugin
 from server.plugins.ome_plugin import EducationResource
@@ -51,11 +55,6 @@ def bulk_import(url: str = URL) -> str:
     - The original json downloaded.
     - OME metadata as translated by this OME plugin
     """
-    import json
-    from pathlib import Path
-
-    from httpx import Client
-
     # The eric_bulk.json file should be in the same directory as this script.
     here = Path(__file__).resolve().parent
     if not (json_path := here / "eric_bulk.json").exists():
