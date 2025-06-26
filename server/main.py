@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 
 import httpx
 from fastapi import FastAPI, Request
@@ -100,7 +100,7 @@ async def create_post(meta: MiniMetadata) -> bool:
                 data=metadata.model_dump_json(),
             )
         ],  # add the other generic metadata here
-        date=datetime.now(tz=datetime.UTC),
+        date=datetime.now(tz=UTC),
     )
     sent = ome_node.create_post(post)
     print(f"Sent: {sent}")

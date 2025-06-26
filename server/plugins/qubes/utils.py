@@ -14,7 +14,7 @@ from server.plugins.ome_plugin import EducationResource
 
 
 def fetch_page(url: str) -> str:
-    return httpx.get(url, follow_redirects=True, timeout=20).raise_for_status().text
+    return httpx.get(url, follow_redirects=True, timeout=30).raise_for_status().text
 
 
 def extract_from_url(url: str) -> EducationResource:

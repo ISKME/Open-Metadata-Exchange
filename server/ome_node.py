@@ -170,7 +170,7 @@ def get_last_n_posts(channel: str, num: int = 3) -> Iterator[Post]:
     nntp_client = get_client()
     est_total, first, last, name = nntp_client.group(channel)
     start = max(last - num, first)
-    for i in range(start, last + 1):
+    for i in range(last, start - 1, -1):
         post_number, headers, body = nntp_client.article(i)
         yield from_post(
             NewsgroupPost(id=post_number, channel=channel, headers=headers, body=body)
