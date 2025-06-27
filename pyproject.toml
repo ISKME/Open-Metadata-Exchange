@@ -28,6 +28,7 @@ docs = [
 [tool.ruff]
 target-version = "py312"
 
+exclude = [ ".git/", "server/plugins/moodle/extract-mbz3.py" ]
 lint.select = [ "ALL" ]
 lint.ignore = [
   "COM812", # May cause conflicts with ruff format
@@ -47,7 +48,7 @@ ignore-words-list = "formend,thur"
 skip = "*.csv,*/ERIC_open_records.json,*/package-lock.json,*/whg.json,./fe*/node_modules/*,static/api/imls/v2/**/*.json"
 
 [tool.pyproject-fmt]
-max_supported_python = "3.12"
+max_supported_python = "3.14"
 
 [tool.sphinx-pyproject]
 copyright = "2024, ISKME and contributors"
