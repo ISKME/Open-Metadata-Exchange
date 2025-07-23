@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 
 # /// script
-# requires-python = "==3.12"
+# requires-python = ">=3.13"
 # dependencies = [
 #     "pydantic",
 # ]
@@ -14,9 +14,6 @@ started, get the newsgroups required by all plugins and create those newsgroups 
 NNTP servers.
 """
 
-# import asyncio
-
-# import subprocess
 import time
 
 from server.get_ome_plugins import get_newsgroups_from_plugins
