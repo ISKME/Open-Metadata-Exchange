@@ -7,6 +7,7 @@ or newsgroups of each class that is a subclass of OMEPlugin.
 
 import importlib.util
 import inspect
+import os
 from collections.abc import Iterator
 from pathlib import Path
 
@@ -14,6 +15,27 @@ from server.plugins.ome_plugin import OMEPlugin
 
 here = Path(__file__).parent
 plugins_dir = here.parent / "server" / "plugins"
+
+
+def _load_plugin(plugin_name: str) -> OMEPlugin:
+    plugin_name = plugin_name.split(".")
+    plugin_module_name = ".".join(plugin_name[:-1])
+    plugin_class_name = plugin_name[-1]
+
+    plugin_module = importlib.import_module(plugin_module_name)
+    plugin_class = getattr(plugin_module, plugin_class_name)
+
+    try:
+        plugin = plugin_class()
+    except ModuleNotFoundError:
+        print(f"Failed to load plugin: {plugin_name}")
+        return _load_plugin("server.plugins.ome_plugin.OMEPlugin")
+    return plugin
+
+
+def load_plugin() -> OMEPlugin:
+    plugin = os.getenv("CMS_PLUGIN", "server.plugins.ome_plugin.OMEPlugin")
+    return _load_plugin(plugin)
 
 
 def get_ome_plugins_from_path(file_path: Path) -> Iterator[type[OMEPlugin]]:

@@ -39,6 +39,7 @@ lint.ignore = [
   "T201",   # flake8-print
   "TD003",  # Missing issue link for this TODO
 ]
+lint.per-file-ignores."server/schemas.py" = [ "N815" ] # the case in the response json is dictated by the API
 lint.per-file-ignores."tests/*" = [ "S101" ] # Use of assert detected
 lint.per-file-ignores."tools/har_parser/har_parser.py" = [ "PTH" ] # flake8-use-pathlib
 lint.pylint.allow-magic-value-types = [ "int", "str" ]

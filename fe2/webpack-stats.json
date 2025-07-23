@@ -1,6 +1,31 @@
 {
-  "status": "compile",
-  "assets": {},
-  "chunks": {},
+  "status": "done",
+  "assets": {
+    "ad92a8b23314d572fd6620d89f463816.png": {
+      "name": "ad92a8b23314d572fd6620d89f463816.png",
+      "path": "/app/build/ad92a8b23314d572fd6620d89f463816.png",
+      "publicPath": "http://0.0.0.0:4000/ad92a8b23314d572fd6620d89f463816.png"
+    },
+    "b946169989d81584f36ae11989a221b8.png": {
+      "name": "b946169989d81584f36ae11989a221b8.png",
+      "path": "/app/build/b946169989d81584f36ae11989a221b8.png",
+      "publicPath": "http://0.0.0.0:4000/b946169989d81584f36ae11989a221b8.png"
+    },
+    "main.c24c1040b60f57398474.js": {
+      "name": "main.c24c1040b60f57398474.js",
+      "path": "/app/build/main.c24c1040b60f57398474.js",
+      "publicPath": "http://0.0.0.0:4000/main.c24c1040b60f57398474.js"
+    },
+    "index.html": {
+      "name": "index.html",
+      "path": "/app/build/index.html",
+      "publicPath": "http://0.0.0.0:4000/index.html"
+    }
+  },
+  "chunks": {
+    "main": [
+      "main.c24c1040b60f57398474.js"
+    ]
+  },
   "publicPath": "http://0.0.0.0:4000/"
 }

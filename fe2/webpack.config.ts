@@ -22,6 +22,23 @@ export default (env: BuildEnv) => {
     isDev,
     port: PORT,
   });
-
+    config.devServer.proxy = [
+	{
+	    context: [
+	    	"/imls/collection-details/",
+		"/api/",
+		"/imls/undefined/api/",
+		"/undefined/api/"
+	    ],
+	    target: process.env.REACT_APP_API_URL,
+	    changeOrigin: true,
+	    secure: false,
+	    pathRewrite: {
+		'^/imls/undefined/': '/',
+		'^/undefined/': '/',
+		'.*/undefined/api/': '/api/'
+	    }
+	}
+    ];
   return config;
 };

@@ -11,9 +11,8 @@ import anyio.to_thread
 from fastapi.staticfiles import StaticFiles
 
 # from starlette._utils import get_route_path
-from starlette.datastructures import URL  # , Headers
 from starlette.exceptions import HTTPException
-from starlette.responses import FileResponse, RedirectResponse, Response  # , Response
+from starlette.responses import FileResponse, Response  # , Response
 from starlette.types import Scope
 
 
@@ -70,11 +69,11 @@ class MocAPI(StaticFiles):
                 index_path,
             )
             if stat_result is not None and stat.S_ISREG(stat_result.st_mode):
-                if not scope["path"].endswith("/"):
-                    # Directory URLs should redirect to always end in "/".
-                    url = URL(scope=scope)
-                    url = url.replace(path=url.path + "/")
-                    return RedirectResponse(url=url)
+                # if not scope["path"].endswith("/"):
+                #     # Directory URLs should redirect to always end in "/".
+                #     url = URL(scope=scope)
+                #     url = url.replace(path=url.path + "/")
+                #     return RedirectResponse(url=url)
                 return self.file_response(full_path, stat_result, scope)
 
         if self.html:

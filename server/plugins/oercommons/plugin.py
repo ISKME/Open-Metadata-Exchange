@@ -29,6 +29,10 @@ class OERCommonsPlugin(OMEPlugin):
         }
     )
 
+    site_name: str = "OERCommons"
+    librarian_contact: str = "info@iskme.org"
+    logo: str = "https://oercommons.org/static/newdesign/images/header/oerc-logo.png"
+
     def make_metadata_card_from_url(self, url: str) -> EducationResource:
         """
         This method creates a metadata card from a given URL.

@@ -8,52 +8,76 @@
 # host.docker.internal would be used if the INN server was running on your localhost machine.
 
 services:
-  internetnews-server-austin:
-    image: greenbender/inn  # cclauss/inn
-    ports:  # external:internal
-      - 119:119
-      - 563:563
-    restart: always
+  # internetnews-server-austin:
+  #   image: greenbender/inn  # cclauss/inn
+  #   volumes:
+  #     - ./server_config/news_server/inn.austin.conf:/usr/local/news/etc/inn.conf
+  #     - ./server_config/news_server/innfeed.austin.conf:/usr/local/news/etc/innfeed.conf
+  #     - ./server_config/news_server/incoming.austin.conf:/usr/local/news/etc/incoming.conf
+  #     - ./server_config/news_server/newsfeeds.austin:/usr/local/news/etc/newsfeeds
+  #     - ./server_config/news_server/control.ctl.local:/usr/local/news/etc/control.ctl.local
+  #   ports:  # external:internal
+  #     - 119:119
+  #     - 563:563
+  #   restart: always
 
-  internetnews-server-boston:
-    image: greenbender/inn  # cclauss/inn
-    ports:
-      - 1119:119
-      - 1563:563
-    restart: always
+  # internetnews-server-boston:
+  #   image: greenbender/inn  # cclauss/inn
+  #   volumes:
+  #     - ./server_config/news_server/inn.boston.conf:/usr/local/news/etc/inn.conf
+  #     - ./server_config/news_server/innfeed.boston.conf:/usr/local/news/etc/innfeed.conf
+  #     - ./server_config/news_server/incoming.boston.conf:/usr/local/news/etc/incoming.conf
+  #     - ./server_config/news_server/newsfeeds.boston:/usr/local/news/etc/newsfeeds
+  #     - ./server_config/news_server/control.ctl.local:/usr/local/news/etc/control.ctl.local
+  #   ports:
+  #     - 1119:119
+  #     - 1563:563
+  #   restart: always
 
   fastapi-server-austin:
     image: fastapi
+    volumes:
+      - ./server:/app/server:rw
+      - ./static:/app/static:rw
+      - ./templates:/app/templates:rw
     build:
       dockerfile: Dockerfile
     environment:
-      INN_SERVER_NAME: internetnews-server-austin
+      CMS_PLUGIN: server.plugins.qubes.plugin.QubesPlugin
+      INN_SERVER_NAME: 10.0.0.94 # austin
       SERVER_PORT: 5001
     ports:
       - 5001:5001
-    depends_on:
-      - internetnews-server-austin
+    # depends_on:
+    #   - internetnews-server-austin
 
   fastapi-server-boston:
     image: fastapi
+    volumes:
+      - ./server:/app/server:rw
+      - ./static:/app/static:rw
+      - ./templates:/app/templates:rw
     build:
       dockerfile: Dockerfile
     environment:
-      INN_SERVER_NAME: internetnews-server-boston
+      CMS_PLUGIN: server.plugins.oercommons.plugin.OERCommonsPlugin
+      INN_SERVER_NAME: 10.0.0.130 # boston
       SERVER_PORT: 5001
     ports:
       - 5002:5001
-    depends_on:
-      - internetnews-server-boston
+    # depends_on:
+    #   - internetnews-server-boston
 
   imls-react-austin:
     image: imlsreact
+    volumes:
+      - ./fe2:/app:rw
     build:
       context: fe2
       dockerfile: Dockerfile
     environment:
       NODE_ENV: development
-      REACT_APP_API_URL: http://localhost:5001
+      REACT_APP_API_URL: 'http://ome-fastapi-server-austin-1:5001'
     ports:
       - 4000:4000
     depends_on:
@@ -61,12 +85,14 @@ services:
 
   imls-react-boston:
     image: imlsreact
+    volumes:
+      - ./fe2:/app:rw
     build:
       context: fe2
       dockerfile: Dockerfile
     environment:
       NODE_ENV: development
-      REACT_APP_API_URL: http://localhost:5002
+      REACT_APP_API_URL: 'http://ome-fastapi-server-boston-1:5001'
     ports:
       - 4001:4000
     depends_on:

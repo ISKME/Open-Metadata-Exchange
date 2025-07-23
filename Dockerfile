@@ -11,15 +11,16 @@
 # Use Asteal's uv Debian Bookworm Slim Python 3.12 base image
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
-RUN uv venv && uv pip install "fastapi[standard]" pydantic pynntp && mkdir -p /app/server
+RUN uv venv && uv pip install "fastapi[standard]" pydantic pynntp beautifulsoup4 dateparser && mkdir -p /app/server
 
 # Create a directory for the FastAPI app
 WORKDIR /app
 
-# Copy the FastAPI app code to the container
-COPY ./server /app/server
-COPY ./static /app/static
-COPY ./templates /app/templates
+# # Copy the FastAPI app code to the container
+# DO NOT DO this. Using the 'bind mount' instead (see the docker compose file).
+# COPY ./server /app/server
+# COPY ./static /app/static
+# COPY ./templates /app/templates
 
 # Expose port 5001
 EXPOSE 5001
