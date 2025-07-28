@@ -48,7 +48,7 @@ jobs:
         with:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
-      - run: uvx --with=pydantic,pynntp pytest
+      - run: uvx --with=beautifulsoup4,dateparser,httpx,pydantic,pynntp pytest
       - run: uv run scripts/nntp_io.py
 
   front-end:
