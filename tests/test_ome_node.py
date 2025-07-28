@@ -1,8 +1,9 @@
-from collections.abc import Iterator
+from collections.abc import Generator, Iterator
+from datetime import datetime, timezone
 
 import pytest
 
-from server import ome_node
+from server import ome_node, schemas
 
 AUSTIN_PORT = 119
 BOSTON_PORT = AUSTIN_PORT + 1000
@@ -19,7 +20,7 @@ DEFAULT_NEWSGROUPS: dict[str, str] = {
 
 
 @pytest.fixture
-def enable_a_default_newsgroup(newsgroup: str = "local.test") -> None:
+def enable_a_default_newsgroup(newsgroup: str = "local.test") -> Generator[None]:
     """
     Fixture to enable a default newsgroup for testing purposes.
     This is used to ensure that the 'local.test' newsgroup is available
@@ -89,10 +90,10 @@ jane_austen_novels = {
 }
 
 
-def sample_metadata_austin() -> Iterator[ome_node.Metadata]:
+def sample_metadata_austin() -> Iterator[schemas.Metadata]:
     for title, year in jane_austen_novels.items():
         keyword = title.split()[-1]  # "Sense and Sensibility" --> "Sensibility"
-        yield ome_node.Metadata(
+        yield schemas.Metadata(
             title=title,
             url=f"https://en.wikipedia.org/wiki/{title}".replace(" ", "_"),
             description=f"{title} is a novel by Jane Austen",
@@ -136,10 +137,10 @@ sue_grafton_books = {
 }
 
 
-def sample_metadata_boston() -> Iterator[ome_node.Metadata]:
+def sample_metadata_boston() -> Iterator[schemas.Metadata]:
     for title, year in sue_grafton_books.items():
         keyword = title.split()[-1]  # "A is for Alibi" --> "Alibi"
-        yield ome_node.Metadata(
+        yield schemas.Metadata(
             title=title,
             url=f"https://en.wikipedia.org/wiki/{title}".replace(" ", "_"),
             description=f"{title} is a mystery novel by Sue Grafton",
@@ -157,14 +158,18 @@ def sample_metadata_boston() -> Iterator[ome_node.Metadata]:
 
 @pytest.mark.usefixtures("enable_a_default_newsgroup")
 @pytest.mark.parametrize("metadata", sample_metadata_boston())
-def test_create_post(metadata: ome_node.Metadata) -> None:
-    assert isinstance(metadata, ome_node.Metadata)
+def test_create_post(metadata: schemas.Metadata) -> None:
+    assert isinstance(metadata, schemas.Metadata)
     assert metadata.title in sue_grafton_books
     ome_node.create_post(
-        ome_node.NewCard(
+        schemas.Post(
+            id=int(datetime.now(timezone.utc).timestamp() * 1000),  # noqa: UP017
             channels=["local.test"],
+            admin_contact="sue@grafton.com",
             subject=metadata.title,
-            body=metadata,
+            body=metadata.model_dump_json(),
+            attachments=[],
+            date=None,
         ),
     )
 
