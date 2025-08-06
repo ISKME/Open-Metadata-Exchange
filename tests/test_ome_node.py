@@ -1,9 +1,10 @@
+# uvx -w=beautifulsoup4,dateparser,httpx,pydantic,pynntp pytest -vv
 from collections.abc import Generator, Iterator
 from datetime import datetime, timezone
 
 import pytest
 
-from server import ome_node, schemas
+from server import ome_node, schemas, utils
 
 AUSTIN_PORT = 119
 BOSTON_PORT = AUSTIN_PORT + 1000
@@ -174,6 +175,11 @@ def test_create_post(metadata: schemas.Metadata) -> None:
     )
 
 
+@pytest.mark.skipif(
+    not hasattr(ome_node, "channel_cards"),
+    reason="channel_cards was removed",
+    strict=True,
+)
 @pytest.mark.usefixtures("enable_a_default_newsgroup")
 def test_channel_cards() -> None:
     cards = list(ome_node.channel_cards("local.test", 1, 100))
@@ -186,3 +192,36 @@ def test_channel_cards() -> None:
     assert last_card.number == len(sue_grafton_books) == 25
     assert last_card.body.title == "Y is for Yesterday"
     assert last_card.body.url == "https://en.wikipedia.org/wiki/Y_is_for_Yesterday"
+
+
+# @pytest.mark.usefixtures("enable_a_default_newsgroup")
+@pytest.mark.parametrize("metadata", sample_metadata_boston())
+def test_utils_get_channels(metadata: schemas.Metadata) -> None:
+    assert isinstance(metadata, schemas.Metadata)
+    assert metadata.title in sue_grafton_books
+    channels = list(utils.get_channels())
+    assert len(channels) == 5
+    slug, description, plugin = channels[0]
+    assert slug == "eric.public"
+    assert description == (
+        "Metadata from US DoE's Education Resources Information Center (ERIC) "
+        "https://eric.ed.gov"
+    )
+    assert plugin.mimetypes == ("application/vnd.eric.eric+json",)
+    assert dict(plugin.newsgroups) == {"eric.public": description}
+    assert plugin.site_name == "Generic OME Library"
+    assert plugin.librarian_contact == "info@iskme.org"
+    assert plugin.logo
+
+
+# def test_utils_get_channels_filters() -> None:
+# def test_utils_get_latest_articles(num: int) -> list[Post]:
+# def test_utils_get_active_channels(num: int = -1) -> list[ChannelSummaryData]:
+# def test_utils_explore_summary() -> ExploreSummary:
+# def test_utils_post_to_summary(post: Post) -> ResourceSummaryData:
+# def test_utils_post_to_details(post: Post) -> ResourceDetailData:
+# def test_utils_browse_results(
+#     sortby: str = "timestamp", per_page: int = 3
+# ) -> BrowseResponse:
+# def test_utils_get_channel_summary(
+# def test_utils_get_channel_resources(

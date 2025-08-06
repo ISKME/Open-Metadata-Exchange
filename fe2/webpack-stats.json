@@ -11,10 +11,10 @@
       "path": "/app/build/b946169989d81584f36ae11989a221b8.png",
       "publicPath": "http://0.0.0.0:4000/b946169989d81584f36ae11989a221b8.png"
     },
-    "main.c24c1040b60f57398474.js": {
-      "name": "main.c24c1040b60f57398474.js",
-      "path": "/app/build/main.c24c1040b60f57398474.js",
-      "publicPath": "http://0.0.0.0:4000/main.c24c1040b60f57398474.js"
+    "main.f696b6a39b1b1b889d9c.js": {
+      "name": "main.f696b6a39b1b1b889d9c.js",
+      "path": "/app/build/main.f696b6a39b1b1b889d9c.js",
+      "publicPath": "http://0.0.0.0:4000/main.f696b6a39b1b1b889d9c.js"
     },
     "index.html": {
       "name": "index.html",
@@ -24,7 +24,7 @@
   },
   "chunks": {
     "main": [
-      "main.c24c1040b60f57398474.js"
+      "main.f696b6a39b1b1b889d9c.js"
     ]
   },
   "publicPath": "http://0.0.0.0:4000/"
