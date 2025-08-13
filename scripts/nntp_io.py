@@ -7,6 +7,7 @@
 # ]
 # ///
 
+import email
 import json
 
 from nntp import NNTPClient, NNTPTemporaryError
@@ -60,8 +61,30 @@ def nntp_read(newsgroup: str = "") -> dict:
     """
     if newsgroup:
         _total_first_last_group = nntp_pick_newsgroup(newsgroup)
-    _article_number, _headers, body = pynntp_client.article()
+    body = pynntp_client.body()
     print(f"{body = }")
+
+    # Parse MIME message to extract JSON content
+    mime_string: str = body.decode("utf-8") if hasattr(body, "decode") else body
+
+    # Parse the MIME message
+    msg = email.message_from_string(mime_string)
+    print(f"{msg = }")
+    print(f"{msg.is_multipart() = }")
+
+    # If it's multipart, get the first part with JSON content
+    if msg.is_multipart():
+        for part in msg.walk():
+            if part.get_content_type() == "text/plain":
+                json_content = part.get_payload()
+                return json.loads(json_content)
+    else:
+        # If not multipart, get the payload directly
+        json_content = msg.get_payload()
+        print(f"{json_content = }")
+        return json.loads(json_content)
+
+    # Fallback: try to parse the body directly as JSON
     return json.loads(body)
 
 
@@ -74,9 +97,9 @@ if __name__ == "__main__":
         newsgroup = sys.argv[1]
     print(f"{__file__}: {newsgroup=}")
     payload = {"key": "value"}
-    print(f"{nntp_write(payload, newsgroup)}")
+    print(f"{nntp_write(payload, newsgroup) = }")
     try:
-        print(f"{nntp_read()}")
+        print(f"{nntp_read() = }")
     except NNTPTemporaryError as e:
         print(f"{e!r} on nntp_read({newsgroup=})")
     pynntp_client.quit()
