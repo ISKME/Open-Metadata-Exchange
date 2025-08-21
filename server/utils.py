@@ -44,20 +44,16 @@ def get_channels() -> Iterable[tuple[str, str, OMEPlugin]]:
             yield slug, description, plugin
 
 
-def get_channels_filters() -> list[FilterItem]:
-    channels = []
+def get_channels_filters() -> Iterable[FilterItem]:
     for slug, description, plugin in get_channels():
-        summary = channel_summary(slug)
-        channel = FilterItem(
+        yield FilterItem(
             name=description,
             slug=slug,
             isSelected=False,
-            numResources=summary.estimated_total_articles,
+            numResources=channel_summary(slug).estimated_total_articles,
             level=0,
             icons=[plugin.logo],
         )
-        channels.append(channel)
-    return channels
 
 
 def get_latest_articles(num: int) -> list[Post]:

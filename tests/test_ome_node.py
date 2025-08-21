@@ -214,9 +214,23 @@ def test_utils_get_channels(metadata: schemas.Metadata) -> None:
     assert plugin.logo
 
 
-# def test_utils_get_channels_filters() -> None:
-# def test_utils_get_latest_articles(num: int) -> list[Post]:
-# def test_utils_get_active_channels(num: int = -1) -> list[ChannelSummaryData]:
+def test_utils_get_channels_filters() -> None:
+    channels = list(utils.get_channels())
+    assert len(channels) == 5
+    slug, description, plugin = channels[0]
+    assert slug == "eric.public"
+    assert description == (
+        "Metadata from US DoE's Education Resources Information Center (ERIC) "
+        "https://eric.ed.gov"
+    )
+    assert plugin.mimetypes == ("application/vnd.eric.eric+json",)
+    assert dict(plugin.newsgroups) == {"eric.public": description}
+    assert plugin.site_name == "Generic OME Library"
+    assert plugin.librarian_contact == "info@iskme.org"
+
+
+# def test_utils_get_latest_articles(metadata: schemas.Metadata) -> None:
+# def test_utils_get_active_channels() -> None:
 # def test_utils_explore_summary() -> ExploreSummary:
 # def test_utils_post_to_summary(post: Post) -> ResourceSummaryData:
 # def test_utils_post_to_details(post: Post) -> ResourceDetailData:
