@@ -24,8 +24,7 @@ async def fetch_image_urls(
 ) -> AsyncGenerator[str, None]:
     """Yield image URLs from the query results page."""
     async with httpx.AsyncClient() as client:
-        resp = await client.get(query_url)
-        resp.raise_for_status()
+        resp = (await client.get(query_url)).raise_for_status()
         soup = BeautifulSoup(resp.text, "html.parser")
         images = soup.find_all("img")
         count = 0
