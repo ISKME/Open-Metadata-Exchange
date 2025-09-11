@@ -168,7 +168,7 @@ def get_post(channel: str, message_id: int) -> Post:
 
 def get_last_n_posts(channel: str, num: int = 3) -> Iterator[Post]:
     nntp_client = get_client()
-    est_total, first, last, name = nntp_client.group(channel)
+    _est_total, first, last, _name = nntp_client.group(channel)
     start = max(last - num, first)
     for i in range(last, start - 1, -1):
         post_number, headers, body = nntp_client.article(i)
