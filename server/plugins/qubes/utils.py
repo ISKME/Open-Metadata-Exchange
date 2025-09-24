@@ -1,7 +1,5 @@
 # /// script
 # dependencies = [
-#     "xml",
-#     "datetime",
 #     "httpx",
 #     "rich",
 # ]
