@@ -26,7 +26,10 @@ class EducationResource(BaseModel):
         subject_tags: Description of subject_tags
         creation_date: Description of creation_date
         last_modified_date: Description of last_modified_date
-        usage: Description of usage
+        source_url: Permanent URL where the resource can be found
+        version_url: URL where this version of the resource can be found
+        spdx_license_expression: License using SPDX standard https://spdx.org/licenses
+        # TBD: usage: Description of usage
     """
 
     # from .pedigree_record import PedigreeRecord
@@ -39,6 +42,8 @@ class EducationResource(BaseModel):
     creation_date: datetime | None = None
     last_modified_date: datetime | None = None
     source_url: str = ""
+    version_url: str = ""
+    spdx_license_expression: str = ""
 
 
 class OMEPlugin:
