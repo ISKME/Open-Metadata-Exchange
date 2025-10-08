@@ -61,7 +61,7 @@ def main() -> None:
     print(f"{newsgroups=}")
     time.sleep(5)  # Wait for the NNTP servers to start
 
-    nodes = ["austin", "boston"]
+    nodes = ["ome-internetnews-server-austin-1"]
 
     # server_names = [f"ome-internetnews-server-{node}-1" for node in nodes]
     server_names = nodes

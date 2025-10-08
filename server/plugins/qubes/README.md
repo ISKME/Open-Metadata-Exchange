@@ -39,3 +39,32 @@ server/plugins/qubes/
 13. `PYTHONPATH="." scripts/nntp_sync.py` to transfer Austin articles to Boston...
 14. Refresh web page to ensure total=51, first=1, last=51
 15. `open http://localhost:5001/api/channel/qubes.public/cards` to show individual records
+
+### QUBES API
+
+Gets list of publications
+https://qubeshub.ddev.site/oaipmh/?verb=ListRecords&metadataPrefix=qdc&set=publications
+
+Gets metadata for a specific publication based on url
+https://qubeshub.ddev.site/oaipmh/?verb=GetRecord&metadataPrefix=qdc&identifier=https://qubeshub.ddev.site/publications/1/1
+
+### Setting up newsgroups
+
+Currently not working:
+
+```bash
+PYTHONPATH="." scripts/create_newsgroups.py
+```
+
+Manual method (might need to only run `newgroup` commands one, even after docker restart).
+
+```bash
+docker compose up
+docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup qubes.public"
+docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup eric.public"
+docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup oer.public"
+docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup openlibrary.public"
+docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup whg.public"
+```
+
+Visit http://localhost:5001/.
