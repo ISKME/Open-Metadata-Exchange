@@ -8,7 +8,7 @@
 
 # To kill the background container, run `docker kill $(docker ps -lq)`
 
-# Use Asteal's uv Debian Trixie Slim Python 3.14 base image
+# Use Astral's uv Debian Trixie Slim Python 3.14 base image
 FROM ghcr.io/astral-sh/uv:python3.14-trixie-slim
 
 RUN uv venv && uv pip install "fastapi[standard]" pydantic pynntp beautifulsoup4 dateparser && mkdir -p /app/server
