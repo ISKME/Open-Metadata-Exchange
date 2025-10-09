@@ -8,8 +8,8 @@
 
 # To kill the background container, run `docker kill $(docker ps -lq)`
 
-# Use Asteal's uv Debian Bookworm Slim Python 3.12 base image
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+# Use Asteal's uv Debian Trixie Slim Python 3.14 base image
+FROM ghcr.io/astral-sh/uv:python3.14-trixie-slim
 
 RUN uv venv && uv pip install "fastapi[standard]" pydantic pynntp beautifulsoup4 dateparser && mkdir -p /app/server
 
