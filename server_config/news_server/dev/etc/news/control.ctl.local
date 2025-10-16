@@ -15,6 +15,3 @@
 ##  by a checkgroups before bailing and mailing the changes
 ##  to the admin if no log file was specified.
 /maxdocheckgroups/:*:*:10
-
-ihave:*:*:doit
-sendme:*:*:doit
