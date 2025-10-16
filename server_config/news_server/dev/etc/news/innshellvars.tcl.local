@@ -1,0 +1,11 @@
+##  Sample innshellvars.tcl.local script.
+##
+##  It permits adding or overriding variables defined by
+##  the innshellvars.tcl script.
+##  This script has to be executable in order to be included
+##  during the run of innshellvars.tcl.
+
+##  Defining or redefining variable will allow using
+##  $variable with the corresponding value during the run
+##  of innshellvars.tcl.
+#set variable "test"

@@ -56,7 +56,7 @@ ME:!*/!local::
 # no longer handles any control messages except cancel internally.
 controlchan!\
     :!*,control,control.*,!control.cancel\
-    :AC,Tc,Wnsm:/usr/local/news/bin/controlchan
+    :AC,Tc,Wnsm:/usr/lib/news/bin/controlchan
 
 ##  Uncomment if you're using innfeed.  This feed tells INN how to run
 ##  innfeed, and then every site you're feeding with innfeed has a
@@ -70,14 +70,14 @@ controlchan!\
 
 # innfeed funnel master.
 innfeed!\
-   :!*\
-   :Tc,Wnm*:/usr/local/news/bin/innfeed
+    :!*\
+    :Tc,Wnm*:/usr/lib/news/bin/innfeed 
 
-# If need be, a funnel for delayed feeds.  See delayer(1) for more details.
+# If need be, a funnel for delayed feeds.  See delayer(8) for more details.
 #innfeed-delayed!\
 #    :!*\
-#    :Tc,Wnm*,S16384:/usr/local/news/bin/delayer --delay 300 -- \
-#        /usr/local/news/bin/innfeed -c innfeed-delayed.conf
+#    :Tc,Wnm*,S16384:/usr/lib/news/bin/delayer --delay 300 -- \
+#        /usr/lib/news/bin/innfeed -c innfeed-delayed.conf
 
 ##  Only uncomment this feed if both enableoverview and useoverchan are
 ##  set to true in inn.conf.  By default, innd will write out overview
@@ -86,26 +86,21 @@ innfeed!\
 ##  operations out of innd's main loop.
 
 # News overview.
-#overview!:*:Tc,WnteO:/usr/local/news/bin/overchan
+#overview!:*:Tc,WnteO:/usr/lib/news/bin/overchan
 
 
 ##  OUTGOING NORMAL FEED EXAMPLES
-
-austin\
-	:*\
-	:Tm\
-	:innfeed!
 
 # A real-time feed through innfeed.  Don't send articles with a distribution
 # of "foo", since those articles are internal.
 # Note that control messages will be sent even though "!control,!control.*"
 # is specified.  It is useful not to forget that pattern since control
 # messages for local.* would still be sent with "*,@local.*" only.
-#news.uu.net/uunet\
-#    :*,!junk,!control,!control.*/!foo\
-#    :Tm:innfeed!
+ISKME\
+    :*,!junk,!control,!control.*/!foo\
+    :Tm:innfeed!
 
-# Create a batch file in /usr/local/news/spool/outgoing for all articles
+# Create a batch file in /var/spool/news/outgoing for all articles
 # that haven't already passed through nic.near.net.  The batch file will
 # be named nic.near.net, the default file name.  Then nntpsend can send
 # articles from that spool file.
@@ -124,31 +119,31 @@ austin\
 
 # Accumulate Path header field statistics.  See ninpaths(8) for more details
 # on how to set this up.
-#inpaths!:*:Tc,WP:/usr/local/news/bin/ninpaths -p -d /usr/local/news/log/path/inpaths.%d
+#inpaths!:*:Tc,WP:/usr/lib/news/bin/ninpaths -p -d /var/log/news/path/inpaths.%d
 
 # Feed all moderated source postings to an archiver.
 #source-archive!:!*,*sources*,!*wanted*,!*.d\
-#    :Tc,Wn:/usr/local/news/bin/archive -f -i /usr/local/news/spool/archive/INDEX
+#    :Tc,Wn:/usr/lib/news/bin/archive -f -i /var/spool/news/archive/INDEX
 
 # Feed NoCeM messages to perl-nocem in order to process third-party,
 # PGP-signed article cancellation notices.  See perl-nocem(8) for more
 # details on how to set this up.
 #nocem!:!*,news.lists.filters\
-#    :Tc,Wf,Ap:/usr/local/news/bin/perl-nocem
+#    :Tc,Wf,Ap:/usr/lib/news/bin/perl-nocem
 
 # News to mail gateway.  Similar to innfeed, this uses a master feed and
 # then individual feeds for every separate address that news is being
 # gated to.  This sends all posts to rec.pets.red-ants to the address
-# listed in /usr/local/news/etc/news2mail.cf for list-big-red-ants.
+# listed in /etc/news/news2mail.cf for list-big-red-ants.
 # Posts from the domain list owner are excluded (path for that example:
 # lists.ucsd.edu).
-#news2mail!:!*:Ac,Tc,Wn*:/usr/local/news/bin/news2mail
+#news2mail!:!*:Ac,Tc,Wn*:/usr/lib/news/bin/news2mail
 #list-big-red-ants/lists.ucsd.edu:!*,rec.pets.red-ants:Ap,Tm:news2mail!
 
 # Example of an exploder feed.  See buffchan(8) for more details.
 #foo:news.*:Ap,Tm:buffchan!
 #uunet:*:Ap,Tm:buffchan!
-#buffchan!:*:Tx,WGm*:/usr/local/news/bin/buffchan -f 2
+#buffchan!:*:Tx,WGm*:/usr/lib/news/bin/buffchan -f 2
 
 # Capture all local postings (with a distribution of "foo" and no more
 # than two sites in the Path header field body) using a local program (that

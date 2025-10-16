@@ -1,0 +1,72 @@
+* How to setup NNTP server:
+https://defuse.ca/inn-private-newsgroup-server-setup.htm
+
+* INN documentation:
+https://www.eyrie.org/~eagle/software/inn/docs-2.7/
+
+* Basic commands:
+** copy all newsgroups from remote server:
+#+begin_src shell
+  /usr/lib/news/bin/getlist
+#+end_src
+
+also, look at /usr/lib/news/bin/actsync (and actsyncd) and set it up on cron
+
+
+** create newsgroups on your local instance
+#+begin_src 
+  docker ps
+  docker exec -it <container_id>  /usr/lib/news/bin/ctlinnd newgroup ome.oercommons
+#+end_src
+
+** TODO push locally created groups to the mothership (and replicate)
+This probably should be done by routing the control messages. Need to read up more.
+
+
+** Forward all messages to remote peer:
+#+begin_src shell
+  perl -ne 'chomp; our ($hash, $timestamps, $_) = split " "; \
+     print "$_\n" if $_' /var/lib/news/history         | tr . / > /var/spool/news/outgoing/list
+  /usr/lib/news/bin/innxmit -dv nntp2.dev.ome.oercommons.org list
+#+end_src
+
+** TODO Pull all messages from mothership
+
+** tunnel to let mothership to connect back to the local instance
+The mothership needs to have entries added in /etc/news/innfeed.conf
+and /etc/news/newsfeed files pointing at 127.0.0.1 and a specific port (e.g. 1119)
+
+Then, from your localhost,
+#+begin_src shell
+  ssh -R 1119:127.0.0.1:119 iskme-nntp
+#+end_src
+
+Will let the mothership connect to your local (dockerized) instance of
+nntp by connecting to 127.0.0.1:1119
+
+The connection is as follows:
+
+#+begin_src 
+mothership-nntp > 127.0.0.1:1119 (where 127.0.0.1 is the mothership)
+-> ssh-tunnel to your machine -> 172.17.0.1 -> 172.17.0.2:119 (docker instance)
+#+end_src
+
+
+
+
+* Debugging
+** Inspecting the IP address/Gateway of the docker image
+#+begin_src shell
+  docker ps
+  docker inspect -f '{{.NetworkSettings.Networks.bridge.Gateway}}' <image_name>
+#+end_src
+
+
+** Figuring out who's connecting to the docker image
+#+begin_src shell
+  docker ps
+  docker inspect -f '{{.State.Pid}}' <image_name>
+  sudo nsenter -t <pid_from_above> -n netstat -tnlap
+  OR
+  sudo nsenter -t <pid_from_above> -n ss -tnlap
+#+end_src
