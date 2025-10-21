@@ -48,11 +48,13 @@ app.add_middleware(
 
 @app.get("/newsgroups", response_class=HTMLResponse)
 async def newsgroups(request: Request) -> HTMLResponse:
+    channels = ome_node.channels()
+    print(f"{channels=}")
     return templates.TemplateResponse(
         "newsgroups.html",
         {
             "request": request,
-            "newsgroups": [channel.name for channel in ome_node.channels()],
+            "channels": [channel.name for channel in channels]
         },
     )
 
