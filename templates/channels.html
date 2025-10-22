@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OME - API Server</title>
+  </head>
+  <body>
+    <a href="/">Back</a>
+    <h1>Open Metadata API Server</h1>
+    {% if channels %}
+    <h2>Channels</h2>
+    <ul>
+      {% for channel in channels %}
+      <li>
+	<div>
+	  <strong>
+	    <a href="{{ url_for('show_channel_details', channel_name=channel.name) }}">
+	      {{ channel.name }}
+	    </a>
+	  </strong>
+	  <span>{{channel.estimated_total_articles}}</span>
+	</div>
+	<div>
+	  <span>{{channel.first_article}} - {{channel.last_article}}</span>
+	</div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <h2>No channels found.</h2>
+    <p>You need to run
+      <code>
+	docker exec -it &lt;container_id&gt;
+	/usr/lib/news/bin/actsync -v 4 -m -ox -p 20 localhost
+	nntp.dev.ome.oercommons.org
+      </code>
+    </p>
+    {% endif %}
+  </body>
+</html>
