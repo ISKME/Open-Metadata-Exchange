@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OME - API Server</title>
+  </head>
+  <body>
+    <a href="/channels">Back</a>
+    <h1>Open Metadata API Server</h1>
+    <h2>
+      {{channel_summary.name}}
+      <span>{{channel_summary.estimated_total_articles}}</span>
+    </h2>
+    <div>
+      <span>{{channel_summary.first_article}} - {{channel_summary.last_article}}</span>
+    </div>
+    {% if posts %}
+    <ul>
+      {% for post in posts %}
+      <li>
+	<span>{{ post.date }}</span>
+	<strong>{{ post.subject }}</strong>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <div>No posts found</div>
+    {% endif %}
+  </body>
+</html>
