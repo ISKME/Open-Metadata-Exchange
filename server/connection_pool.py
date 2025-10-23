@@ -29,9 +29,8 @@ class ClientFactory(PooledObjectFactory):
             # active.
             _dd = con.date()
         except NNTPError as err:
-            # print(f"Validation Failed!") # socket.getpeername() throws an exception here.
+            # Connections isn't usable anymore.
             return False
-        # print(f"Validation Succeeded: {type(con.socket)} {con.socket.getpeername()=} {con.socket=}")
         return True
 
 

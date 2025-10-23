@@ -25,7 +25,7 @@ class EricPlugin(OMEPlugin):
     # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
     newsgroups: dict[str, str] = MappingProxyType(
         {
-            "eric.public": (
+            "ome.eric": (
                 "Metadata from US DoE's Education Resources Information Center (ERIC) "
                 "https://eric.ed.gov"
             ),

@@ -56,7 +56,6 @@ def channels() -> Iterator[Channel]:
         ome_newsgroups = get_newsgroups_from_plugins()
         for name, _low, _high, _status in sorted(nntp_client.list_active()):
             #if description := ome_newsgroups.get(name):
-            print(f"{name=}")
             yield Channel(name=name, description=ome_newsgroups.get(name, ""))
 
 
