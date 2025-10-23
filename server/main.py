@@ -41,22 +41,31 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# If we are not running in Continuous Integration then enable the INN local.test group.
-# if not os.getenv("CI"):  # Not running in Continuous Integration
-#     ome_node.DEFAULT_NEWSGROUPS.remove(("local.test", "Local test group"))
 
-
-@app.get("/newsgroups", response_class=HTMLResponse)
-async def newsgroups(request: Request) -> HTMLResponse:
+@app.get("/channels", response_class=HTMLResponse)
+async def show_channels(request: Request) -> HTMLResponse:
     channels = ome_node.channels()
-    print(f"{channels=}")
+    channel_list = [ome_node.channel_summary(channel.name) for channel in channels]
     return templates.TemplateResponse(
-        "newsgroups.html",
+        "channels.html",
         {
             "request": request,
-            "channels": [channel.name for channel in channels]
+            "channels": channel_list
         },
     )
+
+@app.get("/channel/{channel_name:str}")
+async def show_channel_details(request: Request, channel_name: str) -> HTMLResponse:
+    summary = ome_node.channel_summary(channel_name)
+    posts = list(ome_node.get_last_n_posts(channel_name, 10))
+    print(f"{posts=}")
+    return templates.TemplateResponse(
+        "channel_details.html",
+        {
+            "request": request,
+            "channel_summary": summary,
+            "posts": posts
+        })
 
 
 @app.get("/api/list")
@@ -141,7 +150,4 @@ app.mount(
 )
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
 templates = Jinja2Templates(directory="templates")
-print(f"Templates: {templates=}", flush=True)
-print(f"{templates.env=}", flush=True)
-print(f"{templates.get_template('newsgroups.html')=}", flush=True)
 # print(f"Templates directory: {templates.directory=}", flush=True)
