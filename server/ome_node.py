@@ -3,9 +3,9 @@
 # /// script
 # requires-python = ">=3.9"
 # dependencies = [
+#     "pondpond",
 #     "pydantic",
 #     "pynntp",
-#     "pondpond",
 # ]
 # ///
 
@@ -170,8 +170,8 @@ if __name__ == "__main__":
     # Environment variable INN_SERVER_NAME is defined in the docker-compose.yml file.
     print(f"{os.getenv('INN_SERVER_NAME', 'localhost')=}")
     print("Getting list of channels")
-    nntp_client = get_client()
-    print(f"{nntp_client=}")
+    # nntp_client = get_client()  # TODO(@cclauss): Remove when fixed in pynntp
+    # print(f"{nntp_client=}")
     print("Getting list of channels")
     print(f"{tuple(channels())=}")
     print(channel_summary("local.test"))

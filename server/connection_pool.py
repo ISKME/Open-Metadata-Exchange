@@ -1,19 +1,23 @@
-from pond import Pond, PooledObjectFactory, PooledObject
 import os
+
 from nntp import NNTPClient, NNTPError
+from pond import Pond, PooledObject, PooledObjectFactory
 
 
 class ClientFactory(PooledObjectFactory):
-    def createInstance(self) -> PooledObject:
-        # Environment variable INN_SERVER_NAME is defined in the docker-compose.yml file.
+    def createInstance(self) -> PooledObject:  # noqa: N802
+        # Environment variable INN_SERVER_NAME is defined in docker-compose.yml file.
         inn_server_name = os.getenv("INN_SERVER_NAME", "localhost")
         port = 119
         client = NNTPClient(
-            inn_server_name, port=port, username="node", password="node"
+            inn_server_name,
+            port=port,
+            username="node",
+            password="node",  # noqa: S106
         )
         return PooledObject(client)
 
-    def destroy(self, pooled_object: PooledObject):
+    def destroy(self, pooled_object: PooledObject) -> None:
         del pooled_object
 
     def reset(self, pooled_object: PooledObject) -> PooledObject:
@@ -25,13 +29,13 @@ class ClientFactory(PooledObjectFactory):
         # test the connection and validate it's working
         con = pooled_object.keeped_object
         try:
-            # TODO: is there a way to check the con.socket.fd to see
-            # if the connection is closed? This is good for now but
-            # would be nice if we didn't have to issue a command to
+            # TODO(@aa-iskme): is there a way to check the con.socket.fd
+            # to see if the connection is closed? This is good for now
+            # but would be nice if we didn't have to issue a command to
             # the NNTP server to check if the connection is still
             # active.
             _dd = con.date()
-        except NNTPError as err:
+        except NNTPError:
             # Connections isn't usable anymore.
             return False
         return True
@@ -49,14 +53,13 @@ pond.register(factory)
 
 
 class ClientContextManager:
-    def __enter__(self):
+    def __enter__(self) -> NNTPClient:
         self.pooled = pond.borrow(factory)
-        con = self.pooled.use()
-        return con
+        return self.pooled.use()
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:  # noqa: ANN001
         if exc_type:
-            # Exception occured. Check to see if it's a connection
+            # Exception occurred. Check to see if it's a connection
             # related exception. Then delete the connection.
             pass
         pond.recycle(self.pooled, factory)

@@ -231,7 +231,7 @@ rmgroup:*:alive.*:doit
 # to drop all newgroups and rmgroups for alt.*.  The local news admin can
 # then add new alt.* groups only on user request.  Tons of alt.* newgroups
 # are sent out regularly with the intent more to create nonsense entries
-# in active files than to actually create a useable newsgroup.  The admin
+# in active files than to actually create a usable newsgroup.  The admin
 # may still want to check the control message archive, as described below.
 #
 # Quality, user-desirable new groups can often be discovered by a quick

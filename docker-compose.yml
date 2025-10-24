@@ -20,7 +20,7 @@ services:
       - 119:119
 
     # This is really finicky.. Apparently the 'post_start' hook
-    # doesn't guarentee the container is actually running.
+    # doesn't guarantee the container is actually running.
 
     # post_start:
     #   - command: |
@@ -75,4 +75,3 @@ networks:
       config:
         - subnet: 172.21.0.0/24
           gateway: 172.21.0.1   # This is crucial for the nntp config to work.
-
