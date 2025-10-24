@@ -2,12 +2,15 @@ from pond import Pond, PooledObjectFactory, PooledObject
 import os
 from nntp import NNTPClient, NNTPError
 
+
 class ClientFactory(PooledObjectFactory):
     def createInstance(self) -> PooledObject:
         # Environment variable INN_SERVER_NAME is defined in the docker-compose.yml file.
         inn_server_name = os.getenv("INN_SERVER_NAME", "localhost")
         port = 119
-        client = NNTPClient(inn_server_name, port=port, username="node", password="node")
+        client = NNTPClient(
+            inn_server_name, port=port, username="node", password="node"
+        )
         return PooledObject(client)
 
     def destroy(self, pooled_object: PooledObject):
@@ -34,10 +37,12 @@ class ClientFactory(PooledObjectFactory):
         return True
 
 
-pond = Pond(borrowed_timeout=2,
-            time_between_eviction_runs=-1,
-            thread_daemon=True,
-            eviction_weight=0.8)
+pond = Pond(
+    borrowed_timeout=2,
+    time_between_eviction_runs=-1,
+    thread_daemon=True,
+    eviction_weight=0.8,
+)
 
 factory = ClientFactory(pooled_maxsize=10, least_one=True)
 pond.register(factory)

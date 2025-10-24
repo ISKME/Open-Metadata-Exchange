@@ -71,7 +71,7 @@ controlchan!\
 # innfeed funnel master.
 innfeed!\
     :!*\
-    :Tc,Wnm*:/usr/lib/news/bin/innfeed 
+    :Tc,Wnm*:/usr/lib/news/bin/innfeed
 
 # If need be, a funnel for delayed feeds.  See delayer(8) for more details.
 #innfeed-delayed!\

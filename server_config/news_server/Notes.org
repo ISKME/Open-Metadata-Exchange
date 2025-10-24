@@ -14,7 +14,7 @@ also, look at /usr/lib/news/bin/actsync (and actsyncd) and set it up on cron
 
 
 ** create newsgroups on your local instance
-#+begin_src 
+#+begin_src
   docker ps
   docker exec -it <container_id>  /usr/lib/news/bin/ctlinnd newgroup ome.oercommons
 #+end_src
@@ -46,7 +46,7 @@ nntp by connecting to 127.0.0.1:1119
 
 The connection is as follows:
 
-#+begin_src 
+#+begin_src
 mothership-nntp > 127.0.0.1:1119 (where 127.0.0.1 is the mothership)
 -> ssh-tunnel to your machine -> 172.17.0.1 -> 172.17.0.2:119 (docker instance)
 #+end_src
