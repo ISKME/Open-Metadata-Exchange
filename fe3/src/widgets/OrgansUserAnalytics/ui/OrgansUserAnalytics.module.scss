@@ -1,0 +1,18 @@
+.userAnalytics {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 800px;
+    input[type="search"]::-webkit-search-cancel-button {
+        display: none;
+    }
+}
+
+.formInputLabel {
+    padding-top: 6px !important;
+}
+    
+.formSelect {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}

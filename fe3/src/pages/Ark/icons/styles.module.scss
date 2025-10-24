@@ -1,0 +1,15 @@
+.loader {
+  stroke: rgb(4 66 79);
+  animation: dash 1s linear infinite;
+
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 150;
+      stroke-dashoffset: 0;
+    }
+    100% {
+      stroke-dasharray: 130, 150;
+      stroke-dashoffset: 0;
+    }
+  }
+}

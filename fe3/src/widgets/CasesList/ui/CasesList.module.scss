@@ -1,0 +1,148 @@
+.allItems {
+    padding: 16px;
+    width: 350px;
+    .groupItems,
+    .myItems {
+        width: 100%;
+        border-bottom: 1px dashed #d6dee0;
+        padding-bottom: 8px;
+        .title {
+            color: #303e48;
+            font-size: 18px; 
+            font-family: "DINPro", sans-serif;
+            font-weight: 500;
+            &:last-child {
+                margin-top: 16px;
+            }
+        }
+        .folder {
+            font-family: "DINPro", sans-serif;
+            cursor: pointer;
+            color: #0b6a8e;
+            .folderName {
+                margin-top: 6px;
+                font-size: 15px;
+                padding-left: 10px;
+                font-weight: 400;
+            }
+            .subFolderName {
+                font-size: 13px;
+                padding-left: 16px;
+                font-weight: 300;
+            }
+            .groupNameWrapper {
+                margin-top: 6px;
+                display: flex;
+                gap: 8px;
+                align-items: center;
+                justify-content: flex-start;
+                img {
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                }
+                .groupNameTitle {
+                  font-size: 16px;
+                  font-weight: 500;
+                }
+            }
+        }
+      }
+      .myItems {
+        border-top: 1px dashed #d6dee0;
+      }
+      .itemsWrapper {
+        max-height: 250px;
+        overflow-y: auto;
+      }
+}
+
+.selectedFolders {
+    margin-top: 16px;
+    font-family: "DINPro", sans-serif;
+    border-top: 1px dashed #d6dee0;
+    li {
+        font-size: 15px;
+        font-weight: 400;
+    }
+    .folderName {
+        font-size: 15px;
+        padding: 4px 16px;
+        font-weight: 400;
+        &:first-child {
+            margin-top: 16px;
+        }
+        &:hover {
+            background-color: #d6dee0;
+        }
+    }
+    .subFolderName {
+        font-size: 13px;
+        padding: 4px 24px;
+        font-weight: 300;
+        &:hover {
+            background-color: #d6dee0;
+        }
+    }
+}
+
+.fadeMenu {
+    .dropdown {
+        background-color: #fff;
+        width: 100%;
+    }
+    .dropButton {
+        width: 100%;
+        text-align: justify;
+        border: 1px solid black;
+        background: transparent;
+        padding: 8px;
+        padding-left: 16px;
+        height: 60px;
+        font-size: 15px;
+        line-height: 18px;
+        color: #808080;
+        border: 1px solid #ccc;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+    .dropWrapper {
+        margin: 16px 0;
+        max-height: 300px;
+        overflow-y: auto;
+        width: 370px;
+        overflow-x: hidden;
+    }
+    .mySAvedCases {
+        border-bottom: 1px dashed  #ccc;
+        cursor: pointer;
+    }
+    .userFolders {
+        border-top: 1px dashed  #ccc;
+        cursor: pointer;
+    }
+    .dropButtonWrapper {
+        width: 100%;
+        max-width: 370px;
+        position: relative;
+        div {
+            position: absolute;
+            background-color: #fff;
+            left: 9px;
+            top: -7px;
+            font-size: 11px;
+            padding: 0 4px;
+             color: #808080;
+        }
+    }
+    .dropButtonIcon{
+        position: absolute;
+        top: 20px;
+        right: 10px;
+        transition: 0.8s;
+    }
+    .dropButtonIconRotate {
+        transform: rotate(180deg)
+    }
+}

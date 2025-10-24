@@ -1,0 +1,224 @@
+// /* stylelint-disable declaration-block-no-redundant-longhand-properties */
+// /* stylelint-disable color-hex-length */
+// // src/widgets/WidgetDashboard/ui/WidgetDashboard.module.scss
+
+.dashboardContainer {
+  padding: 20px;
+  padding-top: 40px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.title {
+  font-size: 34px;
+  color: #333;
+}
+
+.widgetList {
+  margin-top: 10px;
+}
+
+.widgetActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.widgetExisting {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin: 60px 0 10px;
+
+  h2 {
+    margin-bottom: 0;
+    opacity: 0.8;
+  }
+}
+
+.tableWrapper {
+  width: 100%;
+  border-top: 2px solid grey;
+  padding-top: 30px;
+
+  table {
+    margin-left: 40px;
+
+    thead {
+      th {
+        padding: 12px;
+      }
+
+      &.thead {
+        th {
+          font-size: 16px;
+          width: fit-content;
+          width: 100px;
+          padding-left: 16px;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        padding: 10px;
+        border: 1px solid grey;
+        border-left: none;
+        border-right: none;
+
+        td {
+          padding: 20px;
+
+          &:first-child {
+            font-size: 16px;
+            width: fit-content;
+            max-width: 800px;
+            min-width: 400px;
+            padding-left: 16px;
+
+            @media(max-width: 950px) {
+              max-width: 250px;
+              min-width: 150px;
+            }
+          }
+
+          input {
+            width: 64px;
+            border: 1px solid transparent;
+            padding-left: 16px;
+
+            &:focus {
+              border: 1px solid black;
+              box-shadow: none;
+            }
+          }
+
+          .editingPageName {
+            width: 100%;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+
+            input {
+              width: 100%;
+            }
+
+          }
+
+          .pageName {
+            display: flex;
+            width: 100%;
+            height: 46px;
+            cursor: pointer;
+            align-items: center;
+            gap: 8px;
+            max-width: 364px;
+            span {
+              width: fit-content;
+              max-width: calc(100% - 20px);
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+            }
+            svg {
+              visibility: hidden;
+            }
+
+            &:hover {
+              svg {
+                visibility: visible;
+              }
+            }
+          }
+
+          button {
+            margin-left: 10px;
+            cursor: pointer;
+
+            &:hover {
+              opacity: 0.5;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &:nth-child(2) {
+    display: flex;
+    gap: 50px;
+    padding-top: 40px;
+    flex-wrap: wrap;
+
+    .delete {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    .imageItem {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .imageDetail {
+        width: 240px;
+        height: 240px;
+        border: 1px solid #a09d9d;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 98%;
+        }
+      }
+
+   
+
+      .editImageName {
+        display: flex;
+        gap: 10px;
+        width: fit-content;
+        cursor: pointer;
+        align-items: center;
+        transition: 0.3s ease-in-out;
+
+        .editImageIcon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        svg {
+          visibility: hidden;
+        }
+
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+     
+      &:hover {
+        .delete,
+        svg,
+        .editImageIcon {
+          visibility: visible;
+        }
+      }
+    }
+  }
+}

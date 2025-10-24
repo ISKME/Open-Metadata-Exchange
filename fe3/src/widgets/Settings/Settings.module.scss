@@ -1,0 +1,30 @@
+.settings {
+    font-family: "IBM Plex Mono", sans-serif;
+    position: fixed;
+    top: 255px;
+    left: 0;
+    background: rgba(255, 255, 255, .75);
+    backdrop-filter: blur(7px);
+    box-shadow: -1px 1px 9px rgba(0, 0, 0, .25);
+    border-radius: 0 8px 8px 0;
+    width: 313px;
+    max-height: 600px;
+    overflow-y: auto;
+    padding: 16px;
+    z-index: 1000;
+
+    input[type="color"] {
+        background: none;
+        border: none;
+    }
+
+    .item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        span {
+            text-transform: capitalize;
+        }
+    }
+}

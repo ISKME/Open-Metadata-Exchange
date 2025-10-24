@@ -53,9 +53,9 @@ services:
   imls-react:
     image: imlsreact
     volumes:
-      - ./fe2:/app:rw
+      - ./fe3:/app:rw
     build:
-      context: fe2
+      context: fe3
       dockerfile: Dockerfile
     environment:
       NODE_ENV: development

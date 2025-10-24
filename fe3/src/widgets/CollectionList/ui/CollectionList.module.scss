@@ -1,0 +1,19 @@
+.collection_list_wrapper {
+  // width: 795px;
+  overflow-x: hidden;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 25px;
+}
+
+.collection_list {
+  display: flex;
+  justify-content: flex-start;
+  transition: all 0.35s ease 0s;
+}
+
+.scroll_buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 150px;
+}

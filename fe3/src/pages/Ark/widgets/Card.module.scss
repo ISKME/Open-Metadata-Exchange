@@ -1,0 +1,150 @@
+/* stylelint-disable color-function-notation */
+/* stylelint-disable color-hex-length */
+.item_card {
+  //width: 500px;
+  overflow: hidden;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.25);
+  margin-right: 15px;
+  margin-bottom: 15px;
+  color: var(--text-color);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  font-family: "Open Sans";
+  
+  &:hover {
+    background-color: rgb(198, 220, 255);
+  }
+  &:active {
+    background-color: rgb(172, 190, 220);
+  }
+}
+
+.item_overview {
+  width: 66%;
+  padding: 16px;
+
+  .microsite {
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+}
+
+.item_link {
+  text-decoration: none;
+  color: rgb(5, 77, 209);
+  cursor: pointer;
+  font-family: "Open Sans";
+  font-weight: bold;
+}
+
+.item_label_wrapper {
+  margin-bottom: 10px;
+}
+
+.item_label {
+  color: rgb(5, 77, 209);
+  font-size: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.item_label:hover {
+  color: #003e52;
+  text-decoration: underline;
+}
+
+.item_label input {
+  margin-right: 10px;
+}
+
+.item_stars {
+  display: flex;
+  gap: 3px;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.star_icon {
+  fill: #6f983d;
+  stroke: #6f983d;
+}
+
+.star_icon_disable {
+  fill: rgb(199, 194, 190);
+  stroke: #6f983d;
+}
+
+.star_icon_partial {
+  position: relative;
+}
+
+.subTitle {
+  font-size: 16px;
+  font-weight: 600;
+
+  & > span {
+    font-weight: normal;
+  }
+}
+
+.subTitle span {
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.item_accessibility {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.accessible_icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.overview_link {
+  color: #1f0894;
+  cursor: pointer;
+}
+
+.item_info {
+  width: 34%;
+  padding: 16px;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.item_big_icon {
+  align-items: center;
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+}
+
+.full_course_icon {
+  width: 64px;
+  height: 64px;
+  g { fill: rgb(162,165,172); }
+}
+
+.item_icons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.icon {
+  width: 26px;
+  height: 26px;
+}
+
+.info_icon {
+  width: 26px;
+  height: 26px;
+  color: #105a84;
+}
