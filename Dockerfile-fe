@@ -1,0 +1,19 @@
+# Build Stage
+FROM node:18-alpine AS build_image
+WORKDIR /app
+COPY fe3/package*.json ./
+RUN npm install
+COPY fe3/ .
+RUN npm run build:prod
+
+# Production Stage
+FROM nginx:latest AS production
+COPY --from=build_image /app/build/ /var/www/html/imls
+COPY server_config/frontend_server/dev/etc/nginx /etc/nginx
+COPY fe3/public/tweaks.css /var/www/html/imls/css/
+RUN sed 's:/static/:/imls/:g' -i /var/www/html/imls/index.html
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+

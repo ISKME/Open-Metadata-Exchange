@@ -22,9 +22,9 @@ services:
     # This is really finicky.. Apparently the 'post_start' hook
     # doesn't guarentee the container is actually running.
     
-    # post_start:
-    #   - command: |
-    #       /usr/lib/news/bin/actsync -v 4 -m -ox -p 20  localhost nntp.dev.ome.oercommons.org
+    post_start:
+      - command: |
+          /usr/local/bin/preseed.sh
           
 
   fastapi-server:
@@ -52,11 +52,8 @@ services:
 
   imls-react:
     image: imlsreact
-    volumes:
-      - ./fe3:/app:rw
     build:
-      context: fe3
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-fe
     environment:
       NODE_ENV: development
       REACT_APP_API_URL: 'http://fastapi-server:5001'
@@ -64,7 +61,7 @@ services:
       my_network:
         ipv4_address: 172.21.0.4
     ports:
-      - 4000:4000
+      - 4000:80
     depends_on:
       - fastapi-server
 

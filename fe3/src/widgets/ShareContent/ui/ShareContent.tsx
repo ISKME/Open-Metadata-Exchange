@@ -7,7 +7,7 @@
 /* eslint-disable eqeqeq */
 
 import {
-  Link, redirect, useNavigate, useSearchParams,
+  Link, useNavigate, useSearchParams,
 } from 'react-router-dom';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -114,8 +114,10 @@ export function ShareContent({ className }: ShareContentProps) {
     setInputValue(event.target.value);
   }
 
+  const navigate = useNavigate();
+
   function cancel() {
-    redirect('/imls/site-collections/shared-collections');
+    navigate('/imls/site-collections/shared-collections');
   }
 
   function save() {
