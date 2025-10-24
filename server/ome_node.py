@@ -3,6 +3,7 @@
 # /// script
 # requires-python = ">=3.9"
 # dependencies = [
+#     "pondpond",
 #     "pydantic",
 #     "pynntp",
 # ]
@@ -19,7 +20,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import dateparser
-from nntp import NNTPClient
 
 from server.get_ome_plugins import get_newsgroups_from_plugins, load_plugin
 from server.schemas import (
@@ -29,6 +29,8 @@ from server.schemas import (
     NewsgroupPost,
     Post,
 )
+
+from .connection_pool import ClientContextManager
 
 AUSTIN_PORT = 119
 BOSTON_PORT = AUSTIN_PORT + 1000
@@ -43,74 +45,57 @@ DEFAULT_NEWSGROUP_NAMES: set[str] = {
     "local.test",
 }
 
-# TODO(anooparyal): implement a connection pool here.. that is able to
-# discard closed connections.
-CLIENT: NNTPClient | None = None
-
 plugin = load_plugin()
-
-
-def get_client(port: int = 119) -> NNTPClient:
-    global CLIENT
-    if CLIENT:
-        return CLIENT
-
-    # Environment variable INN_SERVER_NAME is defined in the docker-compose.yml file.
-    inn_server_name = os.getenv("INN_SERVER_NAME", "localhost")
-    if port == BOSTON_PORT:  # Special case for localhost accessing Boston container.
-        inn_server_name = "localhost"
-    print(f"{__file__}.get_client({port=}) on {inn_server_name}")
-    return (CLIENT := NNTPClient(inn_server_name, port=port))
 
 
 def channels() -> Iterator[Channel]:
     """Rename this function to channels() and remove this function below when
     https://github.com/greenbender/pynntp/issues/95 is fixed.
     """
-    nntp_client = get_client()
-    ome_newsgroups = get_newsgroups_from_plugins()
-    for name, _low, _high, _status in sorted(nntp_client.list_active()):
-        if description := ome_newsgroups.get(name):
-            yield Channel(name=name, description=description)
+    with ClientContextManager() as nntp_client:
+        ome_newsgroups = get_newsgroups_from_plugins()
+        for name, _low, _high, _status in sorted(nntp_client.list_active()):
+            # if description := ome_newsgroups.get(name):
+            yield Channel(name=name, description=ome_newsgroups.get(name, ""))
 
 
 def channel_summary(channel_name: str) -> ChannelSummary:
-    nntp_client = get_client()
-    est_total, first, last, name = nntp_client.group(channel_name)
-    return ChannelSummary(
-        name=name,
-        estimated_total_articles=est_total,
-        first_article=first,
-        last_article=last,
-    )
+    with ClientContextManager() as nntp_client:
+        est_total, first, last, name = nntp_client.group(channel_name)
+        return ChannelSummary(
+            name=name,
+            estimated_total_articles=est_total,
+            first_article=first,
+            last_article=last,
+        )
 
 
 def create_post(post: Post) -> bool:
-    nntp_client = get_client()
-    message = MIMEMultipart()
-    message["Subject"] = post.subject
-    message["From"] = post.admin_contact
+    with ClientContextManager() as nntp_client:
+        message = MIMEMultipart()
+        message["Subject"] = post.subject
+        message["From"] = post.admin_contact
 
-    body_part = MIMEText(post.body)
-    message.attach(body_part)
+        body_part = MIMEText(post.body)
+        message.attach(body_part)
 
-    for attachment in post.attachments:
-        message.attach(
-            MIMEApplication(
-                attachment.data,
-                _subtype=attachment.mime_subtype,
-                Name=attachment.filename,
+        for attachment in post.attachments:
+            message.attach(
+                MIMEApplication(
+                    attachment.data,
+                    _subtype=attachment.mime_subtype,
+                    Name=attachment.filename,
+                )
             )
-        )
 
-    # it's important that it's serialized before we look at the
-    # headers because the boundary that's referenced in the headers is
-    # figured out when it's first serialized
-    msg = message.as_string().split("\n\n", 1)[1]
+        # it's important that it's serialized before we look at the
+        # headers because the boundary that's referenced in the headers is
+        # figured out when it's first serialized
+        msg = message.as_string().split("\n\n", 1)[1]
 
-    headers = dict(message._headers)  # noqa: SLF001
-    headers["Newsgroups"] = ",".join(post.channels)
-    return nntp_client.post(headers=headers, body=msg)
+        headers = dict(message._headers)  # noqa: SLF001
+        headers["Newsgroups"] = ",".join(post.channels)
+        return nntp_client.post(headers=headers, body=msg)
 
 
 def from_post(post: NewsgroupPost) -> Post:
@@ -158,23 +143,25 @@ def from_post(post: NewsgroupPost) -> Post:
 
 
 def get_post(channel: str, message_id: int) -> Post:
-    nntp_client = get_client()
-    nntp_client.group(channel)
-    post_number, headers, body = nntp_client.article(message_id)
-    return from_post(
-        NewsgroupPost(id=post_number, channel=channel, headers=headers, body=body)
-    )
+    with ClientContextManager() as nntp_client:
+        nntp_client.group(channel)
+        post_number, headers, body = nntp_client.article(message_id)
+        return from_post(
+            NewsgroupPost(id=post_number, channel=channel, headers=headers, body=body)
+        )
 
 
 def get_last_n_posts(channel: str, num: int = 3) -> Iterator[Post]:
-    nntp_client = get_client()
-    _est_total, first, last, _name = nntp_client.group(channel)
-    start = max(last - num, first)
-    for i in range(last, start - 1, -1):
-        post_number, headers, body = nntp_client.article(i)
-        yield from_post(
-            NewsgroupPost(id=post_number, channel=channel, headers=headers, body=body)
-        )
+    with ClientContextManager() as nntp_client:
+        _est_total, first, last, _name = nntp_client.group(channel)
+        start = max(last - num, first)
+        for i in range(last, start - 1, -1):
+            post_number, headers, body = nntp_client.article(i)
+            yield from_post(
+                NewsgroupPost(
+                    id=post_number, channel=channel, headers=headers, body=body
+                )
+            )
 
 
 if __name__ == "__main__":
@@ -183,8 +170,8 @@ if __name__ == "__main__":
     # Environment variable INN_SERVER_NAME is defined in the docker-compose.yml file.
     print(f"{os.getenv('INN_SERVER_NAME', 'localhost')=}")
     print("Getting list of channels")
-    nntp_client = get_client()
-    print(f"{nntp_client=}")
+    # nntp_client = get_client()  # TODO(@cclauss): Remove when fixed in pynntp
+    # print(f"{nntp_client=}")
     print("Getting list of channels")
     print(f"{tuple(channels())=}")
     print(channel_summary("local.test"))

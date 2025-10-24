@@ -18,21 +18,21 @@
 # that may be worthwhile adding to the default sendmail command.
 
 mta:                         "/usr/sbin/sendmail -oi -oem %s"
-organization:                "OME-Node-Austin"
+organization:                "A poorly-installed InterNetNews site"
 ovmethod:                    tradindexed
 hismethod:                   hisv6
-pathhost:                    austin
-pathnews:                    /usr/local/news
+pathhost:                    server.example.net
+pathnews:                    /usr/lib/news
 
 #runasuser:
 #runasgroup:
 
 # General Settings
 
-domain: austin
+domain:	  local
 #innflags:
-mailcmd:                     /usr/local/news/bin/innmail
-#server:
+mailcmd:                     /usr/lib/news/bin/innmail
+server:	localhost
 #syntaxchecks:               [ no-laxmid ]
 
 # Feed Configuration
@@ -50,7 +50,7 @@ maxartsize:                  1000000
 maxconnections:              50
 #pathalias:
 #pathcluster:
-pgpverify:                   false
+pgpverify:                   true
 port:                        119
 remembertrash:               true
 #sourceaddress:
@@ -70,7 +70,6 @@ groupbaseexpiry:             true
 mergetogroups:               false
 nfswriter:                   false
 overcachesize:               128
-ovflushcount:                50
 #ovgrouppat:
 storeonxref:                 true
 useoverchan:                 false
@@ -137,9 +136,9 @@ backofftrigger:              10000
 # compiled this support in with --with-openssl at configure time.
 
 #tlscafile:
-tlscapath:                  /usr/local/news/etc
-tlscertfile:                /usr/local/news/etc/cert.pem
-tlskeyfile:                 /usr/local/news/etc/key.pem
+#tlscapath:                  /etc/news
+#tlscertfile:                /etc/news/cert.pem
+#tlskeyfile:                 /etc/news/key.pem
 #tlsciphers:
 #tlsciphers13:
 #tlscompression:             false
@@ -198,18 +197,18 @@ rlimitnofile:                -1
 
 # Paths
 
-patharchive:                 /usr/local/news/spool/archive
-patharticles:                /usr/local/news/spool/articles
-pathbin:                     /usr/local/news/bin
-pathcontrol:                 /usr/local/news/bin/control
-pathdb:                      /usr/local/news/db
-pathetc:                     /usr/local/news/etc
-pathfilter:                  /usr/local/news/bin/filter
-pathhttp:                    /usr/local/news/http
-pathincoming:                /usr/local/news/spool/incoming
-pathlog:                     /usr/local/news/log
-pathoutgoing:                /usr/local/news/spool/outgoing
-pathoverview:                /usr/local/news/spool/overview
-pathrun:                     /usr/local/news/run
-pathspool:                   /usr/local/news/spool
-pathtmp:                     /usr/local/news/tmp
+patharchive:                 /var/spool/news/archive
+patharticles:                /var/spool/news/articles
+pathbin:                     /usr/lib/news/bin
+pathcontrol:                 /usr/lib/news/bin/control
+pathdb:                      /var/lib/news
+pathetc:                     /etc/news
+pathfilter:                  /etc/news/filter
+pathhttp:                    /var/www/inn
+pathincoming:                /var/spool/news/incoming
+pathlog:                     /var/log/news
+pathoutgoing:                /var/spool/news/outgoing
+pathoverview:                /var/spool/news/overview
+pathrun:                     /run/news
+pathspool:                   /var/spool/news
+pathtmp:                     /var/spool/news/incoming/tmp

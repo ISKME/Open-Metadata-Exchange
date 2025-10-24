@@ -32,13 +32,13 @@ server/plugins/qubes/
 6. `open http://localhost:5001/newsgroups && docker compose up` -- The webpage will be blank until the FastAPI server starts.
 7. `PYTHONPATH="." scripts/create_newsgroups.py`
 8. Refresh webpage to show that the newsgroups were created.
-9. [Optional]: `open http://localhost:5001/api/channel/qubes.public` -- Ensure total=0, first=1, last=0
+9. [Optional]: `open http://localhost:5001/api/channel/ome.qubes` -- Ensure total=0, first=1, last=0
 10. `server/plugins/qubes/load_qubes_records_to_nntp.py`
 11. [Optional]: Refresh the webpage and ensure total=51, first=1, last=51
 12. Change URL from 5001 (Austin) to 5002 (Boston) to ensure total=0, first=1, last=0
 13. `PYTHONPATH="." scripts/nntp_sync.py` to transfer Austin articles to Boston...
 14. Refresh web page to ensure total=51, first=1, last=51
-15. `open http://localhost:5001/api/channel/qubes.public/cards` to show individual records
+15. `open http://localhost:5001/api/channel/ome.qubes/cards` to show individual records
 
 ### QUBES API
 
