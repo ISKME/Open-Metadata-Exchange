@@ -1,9 +1,4 @@
 * Docker related:
-** TODO Docker restarts are not graceful.
-   `docker compose up`, followed by, Ctrl-C, followed by `docker
-   compose up` fails. You have to run docker `compose rm nntp-server`
-   before you can successfully run `docker compose up`.
-
 ** TODO Templatize the nntp server config files so that we can populate it
    from environment variables to docker-compose.yml to the config
    file.

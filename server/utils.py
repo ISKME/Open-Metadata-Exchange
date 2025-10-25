@@ -70,25 +70,19 @@ def get_active_channels(num: int = -1) -> list[ChannelSummaryData]:
         summary = channel_summary(slug)
         posts = list(get_last_n_posts(slug, 1))
         latest_post = posts[0] if posts else None
-        channel = ResourceSummaryData(
+        channel = ChannelSummaryData(
             id=0,
             name=description,
-            abstract="",
-            isShared=True,
+            slug=slug,
             educationLevels=[],
-            micrositeName=slug,
-            micrositeSlug=slug,
-            numAlerts=0,
-            numResources=summary.estimated_total_articles,
-            numSubscribers=0,
-            subscribed=False,
-            thumbnail=plugin.logo,
-            updatedOn=latest_post.date
+            logo=plugin.logo,
+            numCollections=summary.estimated_total_articles,
+            lastModified=latest_post.date
             if latest_post
             else datetime.now(tz=UTC) - timedelta(days=365),
         )
         channels.append(channel)
-    channels = sorted(channels, key=attrgetter("updatedOn"), reverse=True)
+    channels = sorted(channels, key=attrgetter("lastModified"), reverse=True)
     if num != -1:
         channels = channels[-num:]
     return channels
@@ -96,17 +90,17 @@ def get_active_channels(num: int = -1) -> list[ChannelSummaryData]:
 
 def explore_summary() -> ExploreSummary:
     plugin = site_plugin
-    channels = ExploreSection(type="Collections", name="By Channels", data=[])
-    # resources = ExploreSection(type="Collections", name="All shared
-    # resources", data=[])
-    channels.data.extend(get_active_channels(5))
+    resources = ExploreSection(type="Collections", name="All shared resources", data=[])
+    channels = ExploreSection(type="Microsites", name="By Channels", data=[])
+
+    channels.data.extend(get_active_channels(10))
 
     return ExploreSummary(
         clientInfo=ClientInfo(
             name=plugin.site_name, slug=next(iter(list(plugin.newsgroups.keys())))
         ),
         response=ResponseCode(code=200, message="Successful Operation"),
-        sections=[channels],
+        sections=[resources, channels],
         userInfo=UserInfo(
             email=plugin.librarian_contact,
             isAuthenticated=True,
@@ -159,7 +153,7 @@ def post_to_details(post: Post) -> ResourceDetailData:
     )
 
 
-def browse_results(sortby: str = "timestamp", per_page: int = 3) -> BrowseResponse:
+def browse_results(sortby: str = "timestamp", per_page: int = 10) -> BrowseResponse:
     plugin = site_plugin
     total_num_articles = 124
     plugin_by_slug = {slug: plugin for slug, _description, plugin in get_channels()}
@@ -183,7 +177,7 @@ def browse_results(sortby: str = "timestamp", per_page: int = 3) -> BrowseRespon
                 numPages=math.ceil(total_num_articles / per_page),
                 page=1,
                 perPage=per_page,
-                perPageOptions=[3, 9, 30, 90],
+                perPageOptions=[10, 30, 50],
             ),
         ),
         response=ResponseCodeExtended(

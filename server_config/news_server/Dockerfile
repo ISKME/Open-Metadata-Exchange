@@ -13,9 +13,10 @@ RUN chown root:root /etc/news -R
 COPY ./dev/var/lib/news/newsusers /var/lib/news/newsusers
 RUN chown root:root /var/lib/news/newsusers
 
-
 RUN mkdir -p /var/www/inn
 RUN chown news:news /var/www/inn
+
+COPY ./preseed.sh /usr/local/bin/
 
 EXPOSE 119
 ENTRYPOINT ["/usr/bin/tini", "--"]

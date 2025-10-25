@@ -11,4 +11,3 @@
 nnrpd -D -p 563 -S
 echo "Allowing any client to connect and transfer articles. Do NOT use this in production."
 exec /usr/lib/news/bin/innd "$@"
-# exec /bin/bash

@@ -56,7 +56,6 @@ async def show_channels(request: Request) -> HTMLResponse:
 async def show_channel_details(request: Request, channel_name: str) -> HTMLResponse:
     summary = ome_node.channel_summary(channel_name)
     posts = list(ome_node.get_last_n_posts(channel_name, 10))
-    print(f"{posts=}")
     return templates.TemplateResponse(
         "channel_details.html",
         {"request": request, "channel_summary": summary, "posts": posts},
@@ -119,7 +118,7 @@ async def import_post(name: str, card: CardRef) -> bool:
 
 
 @app.get("/api/imls/v2/collections/browse/")
-async def browse(sortby: str = "timestamp", per_page: int = 3) -> BrowseResponse:
+async def browse(sortby: str = "timestamp", per_page: int = 10) -> BrowseResponse:
     return browse_results(sortby, per_page)
 
 
@@ -136,6 +135,11 @@ async def channel_summary(channel: str, _id: int) -> ChannelSummaryResponse:
 @app.get("/api/imls/v2/collections/{channel}/{_id}/resources")
 async def get_channel(channel: str, _id: int) -> ChannelResourcesResponse:
     return get_channel_resources(channel)
+
+
+@app.get("/api/imls/v2/resources/")
+async def get_resources(tenant: str) -> ChannelResourcesResponse:
+    return get_channel_resources(tenant)
 
 
 app.mount(

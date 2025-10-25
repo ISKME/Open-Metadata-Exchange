@@ -6,6 +6,7 @@
 #     "pondpond",
 #     "pydantic",
 #     "pynntp",
+#     "pondpond",
 # ]
 # ///
 

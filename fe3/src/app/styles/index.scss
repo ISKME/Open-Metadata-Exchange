@@ -1,0 +1,35 @@
+/* stylelint-disable color-hex-length */
+/* stylelint-disable font-family-name-quotes */
+@import "reset";
+@import "variables/global";
+@import url("https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&display=swap");
+
+body {
+  font-family: "ABeeZee", sans-serif;
+  margin: 0;
+  font-size: 1.1em;
+  background: #ffffff;
+  color: var(--text-color);
+}
+
+.app {
+  font: var(--font-m);
+  background: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+}
+
+.content-page {
+  display: flex;
+  flex-grow: 1;
+  padding: 0;
+}
+
+.page-wrapper {
+  width: calc(100% - 140px);
+  padding: 20px;
+
+  @media (min-width: 1024px) {
+    padding: 48px 160px 48px 96px;
+  }
+}
