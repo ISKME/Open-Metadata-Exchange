@@ -287,7 +287,7 @@ const extendImageComponent = (editor: Editor) => {
       },
 
       handleDragEnd(model) {
-        // TODO: drag overlayText and overlayTextStyle along with image 
+        // TODO: drag overlayText and overlayTextStyle along with image
       },
     },
   });

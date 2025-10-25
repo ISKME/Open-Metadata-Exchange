@@ -48,7 +48,7 @@ const config = {
     { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
     { name: 'links', items: [ 'Link', 'Unlink' ] },
     { name: 'insert', items: [ 'Image', 'Table', 'Video', 'Mathjax', 'Abbr' ] },
-    { name: 'tools', items: [ 'ShowBlocks' ] }, 
+    { name: 'tools', items: [ 'ShowBlocks' ] },
   ],
   removeButtons: "Cut,Copy,Paste,JustifyBlock,Anchor,About",
   format_tags: "p;h1;h2;h3;h4;pre",

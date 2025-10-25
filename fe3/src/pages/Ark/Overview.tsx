@@ -291,7 +291,7 @@ function DownloadList({ data, editURL, canEdit }) {
       open={open}
       onClose={handleClose}
     >
-      {downloadList.map((item, i) => 
+      {downloadList.map((item, i) =>
         <MenuItem key={item} onClick={() => {
           if (!!item.children?.length) {
             if (!item.open) setDownloadList([
@@ -433,7 +433,7 @@ export default function ArkOverview() {
       setShowSeeMore(overviewRef.current.scrollHeight > 300);
     }
   }, [desc, more]);
-  
+
   function jump(i) {
     document.getElementById('section-' + i).scrollIntoView()
   }

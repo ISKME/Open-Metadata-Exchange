@@ -19,7 +19,7 @@ export const VideoPlayer = ({ video }) => {
         }
       }
     })
-  
+
     return <div ref={videoRef}>{ video }</div>;
   };
 

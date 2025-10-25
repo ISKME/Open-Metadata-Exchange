@@ -21,11 +21,11 @@ services:
 
     # This is really finicky.. Apparently the 'post_start' hook
     # doesn't guarantee the container is actually running.
-    
+
     post_start:
       - command: |
           /usr/local/bin/preseed.sh
-          
+
 
   fastapi-server:
     image: fastapi

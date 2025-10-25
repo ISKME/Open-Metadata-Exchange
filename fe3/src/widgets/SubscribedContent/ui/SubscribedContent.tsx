@@ -29,7 +29,7 @@ export const SubscribedContent = ({ className }: SubscribedContentProps) => {
       setSelectedCollection(title);
       setIsVisible(true);
     }
-  
+
     return (
       <div>
         <CollectionItemCard collection={data} className={cls.cardWidth} />

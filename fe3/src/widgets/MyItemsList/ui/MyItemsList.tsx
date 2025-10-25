@@ -113,10 +113,10 @@ export function MyItemsList({
     } else {
       params.delete("f.search");
     }
-  
+
     params.set("page", 1);
     window.history.replaceState(null, "", `?${params.toString()}`);
-  
+
     dispatch(
       fetchItems(
         searchTerm,
@@ -126,7 +126,7 @@ export function MyItemsList({
       )
     );
   };
-  
+
   const handleClearFilters = () => {
     const params = new URLSearchParams();
     setTerm("");
@@ -134,7 +134,7 @@ export function MyItemsList({
     setSearch("");
     setSearchText("");
     onClear();
-  
+
     const currentPath = location.pathname;
 
     navigate(currentPath);
@@ -192,9 +192,9 @@ export function MyItemsList({
     setDefaultPage(1)
     const params = new URLSearchParams(window.location.search);
     params.set("page", 1);
-  
+
     window.history.replaceState(null, "", `?${params.toString()}`);
-  
+
     dispatch(
       fetchItems(
         term,
@@ -213,7 +213,7 @@ export function MyItemsList({
     if (term) setParams('f.search', term);
   }, [search]);
 
-  React.useEffect(() => {    
+  React.useEffect(() => {
     getItemIds();
   }, [check, JSON.stringify(data)]);
 
@@ -252,7 +252,7 @@ export function MyItemsList({
             "X-CSRFToken": csrfToken,
           },
         });
-       
+
         setCreatingFolder(false);
         setSelectedFolder("");
         setGetName("Move folder to");
@@ -268,7 +268,7 @@ export function MyItemsList({
       handleClick();
     }
   };
-  
+
   const getItemIds = () => {
     const itemsIds = check
       .map((isChecked, index) => {
@@ -331,7 +331,7 @@ export function MyItemsList({
     setCreatingFolder(true)
     selectValue('', 'My Saved Cases')
   }
- 
+
   return (
     <>
       <Typography
@@ -407,7 +407,7 @@ export function MyItemsList({
                       Move folder to
                       </div>
                     <button onClick={openDropDown} className={cls.dropButton}>
-                      {getName} 
+                      {getName}
                     </button>
                     <KeyboardArrowDownIcon className={`${cls.dropButtonIcon} ${isShow ? cls.dropButtonIconRotate : ''}`} />
                     </div>
@@ -415,10 +415,10 @@ export function MyItemsList({
                     {isShow && (
                       <Box
                         className={cls.dropdown}
-                  
+
                       >
                         <MenuItem
-                    
+
                           onClick={() =>
                             selectValue(
                               '',

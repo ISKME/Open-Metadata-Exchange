@@ -95,9 +95,9 @@ export function GroupsMembers() {
     const { checked } = event.target
     if (checked) {
       setCheckedEmails([...checkedEmails, email])
-    } else {  
-      setCheckedEmails(checkedEmails.filter((checkedEmail) => checkedEmail !== email));  
-    }  
+    } else {
+      setCheckedEmails(checkedEmails.filter((checkedEmail) => checkedEmail !== email));
+    }
   }
 
   useEffect(() => {
@@ -425,7 +425,7 @@ export function GroupsMembers() {
             InputProps={{
               endAdornment: searchQuery && (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => 
+                  <IconButton onClick={() =>
                     { setSearchQuery("");
                     setMembers(originalMembers)
                   }}>

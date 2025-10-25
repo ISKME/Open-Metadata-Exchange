@@ -148,7 +148,7 @@ export function Home({ className }: HomeProps) {
     <Grid container spacing={4}>
       <Grid item xs={12} sm={6} md={3}>
         <FeatureCard
-          title="Share" 
+          title="Share"
           text="Share your institution's OER content with other libraries."
           icon={<ShareIcon />}
           links={[{
@@ -160,7 +160,7 @@ export function Home({ className }: HomeProps) {
       </Grid>
       <Grid item xs={12} sm={6} md={3}>
         <FeatureCard
-          title="Explore & Sync" 
+          title="Explore & Sync"
           text="Explore and sync subscribed OER content to your institution’s library."
           icon={<ExploreSyncIcon />}
           links={[{
@@ -176,7 +176,7 @@ export function Home({ className }: HomeProps) {
       </Grid>
       <Grid item xs={12} sm={6} md={3}>
         <FeatureCard
-          title="Stay Updated" 
+          title="Stay Updated"
           text="Get notified of the newest changes in OER when you subscribe to collections."
           icon={<StayUpdatedIcon />}
           links={[{
@@ -192,7 +192,7 @@ export function Home({ className }: HomeProps) {
       </Grid>
       <Grid item xs={12} sm={6} md={3}>
         <FeatureCard
-          title="Set Preferences" 
+          title="Set Preferences"
           text="Get recommended content delivered when you set your content preferences."
           icon={<SetPreferencesIcon />}
           links={[{

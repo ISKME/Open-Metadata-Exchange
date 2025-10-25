@@ -4,7 +4,7 @@
 .hub-list-item {
     margin: 20px 0;
   }
-  
+
   .hub-list-item .hub-cover {
     width: 160px;
     height: 160px;
@@ -13,30 +13,30 @@
     margin: 0 auto 15px;
     position: relative;
   }
-  
+
   @media only screen and (max-width: 767px) {
     .hub-list-item .hub-cover {
       width: 140px;
       height: 140px;
     }
   }
-  
+
   .hub-list-item .hub-cover img {
     width: 100%;
     height: 100%;
   }
-  
+
   .hub-list-item .hub-title {
     display: block;
     text-align: center;
   }
-  
+
   .hub-list-item .hub-title {
     color: #303e48;
     font: 700 18px/24px "DINPro", sans-serif;
   }
-  
+
   .hub-list-item a {
     text-decoration: none;
   }
-  
+

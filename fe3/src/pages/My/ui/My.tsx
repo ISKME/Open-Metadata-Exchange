@@ -20,7 +20,7 @@ export function My() {
   const location = useLocation()
   const navigate = useNavigate()
   const [tab, setTab] = useState(find(location.pathname))
-  
+
   useEffect(async () => {
     const { data } = await axios.get('/api/hubs/v1/my/')
     if (data.count === 0) {

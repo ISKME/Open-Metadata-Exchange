@@ -97,7 +97,7 @@ const FilterInnerItems = ({ name, items = [], onSelect = (item) => {}, onData = 
           <Typography>{item.full_code} {item.name}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography sx={{ 
+          <Typography sx={{
             padding: '4px 0',
             fontStyle: 'italic',
             weight: 400,
@@ -257,7 +257,7 @@ function Note({ id, name, text, date, framework, edit, video = false, comment = 
     tempTime = null
     setVideoTime(time[0])
     setTimeout(() => setVideoTime(null))
-    const element = document.getElementById('playerContainer')                  
+    const element = document.getElementById('playerContainer')
     const position = element.getBoundingClientRect().top + document.documentElement.scrollTop - 50
     scrollTo({
       behavior: 'smooth',
@@ -283,10 +283,10 @@ function Note({ id, name, text, date, framework, edit, video = false, comment = 
       <Menu
         id="long-menu"
         anchorEl={anchorEl}
-        keepMounted  
-        open={Boolean(anchorEl)}  
-        onClose={handleMenuClose}  
-      >  
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
         <MenuItem onClick={handleEdit}>Edit</MenuItem>
         <MenuItem onClick={handleDelete}>Delete</MenuItem>
         <Alert
@@ -485,7 +485,7 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
       window.location.reload()
     })
   }
-  
+
   return (
     <Card sx={{ margin: '16px 0' }}>
       <CardContent>
@@ -664,34 +664,34 @@ function Groups({ options, init = { id: -1, leader: false }, onChange = (item) =
   };
 
   const boxStyles = { padding: '8px', border: '1px solid rgba(0, 0, 0, .2)', cursor: 'pointer' }
-  
-  return (  
+
+  return (
    <div style={{ fontFamily: '"DINPro", sans-serif', padding: '0 8px' }}>
     <Typography style={{ margin: '4px 0' }}>Who Can See this Note</Typography>
     <div
       style={{ background: selected === -1 ? 'rgba(0, 0, 0, .1)' : '', ...boxStyles }}
-      onClick={() => handleClick(-1)}  
+      onClick={() => handleClick(-1)}
     >
       Only Me
-    </div>  
+    </div>
     <Typography style={{ margin: '4px 0' }}>Share With</Typography>
     {options.map((option, index) => (
       <div key={index} >
-        <div 
+        <div
           style={{ background: selected === option.id ? 'rgba(0, 0, 0, .1)' : '', ...boxStyles }}
-          onClick={() => handleClick(option.id)}  
-        >  
-          {option.title}  
-        </div>  
+          onClick={() => handleClick(option.id)}
+        >
+          {option.title}
+        </div>
         <div
           style={{ background: selected === (option.id + 'l') ? 'rgba(0, 0, 0, .1)' : '', ...boxStyles, paddingLeft: '32px' }}
-          onClick={() => handleClick(option.id, true)}  
-        >  
-          Group Leaders Only 
-        </div>  
+          onClick={() => handleClick(option.id, true)}
+        >
+          Group Leaders Only
+        </div>
       </div>
-    ))}  
-   </div>  
+    ))}
+   </div>
   )
 }
 
@@ -882,7 +882,7 @@ export function Case() {
   useEffect(() => {
     if (!video && videos?.length) setVideo(videos[0]);
   }, [videos]);
-  
+
   useEffect(() => {
     const styleTag = document.createElement('style')
     styleTag.textContent = styles
@@ -955,7 +955,7 @@ export function Case() {
         document.getSelection().removeAllRanges()
         event.stopPropagation()
       }
-      document.onpointerdown = () => {  
+      document.onpointerdown = () => {
         let control = document.querySelector('#control')
         if (control !== null) {
           control.remove()
@@ -1068,10 +1068,10 @@ export function Case() {
 
   const handleBack = () => {
     const referrer = document.referrer;
-  
+
     if (referrer) {
       const isInternalReferrer = referrer.includes(window.location.origin);
-  
+
       if (isInternalReferrer) {
         const referrerPath = new URL(referrer).pathname;
         if (referrerPath.includes("/courseware/new") || referrerPath.includes("/groups/new") || referrerPath.includes("/my/new") || referrerPath.includes("/curated-collections/new")) {
@@ -1151,7 +1151,7 @@ export function Case() {
                       tempTime = entire_entity ? 0 : start_position
                       setVideo(videos.find((item) => item.url === uri))
                     }
-                    const element = document.getElementById('playerContainer')                  
+                    const element = document.getElementById('playerContainer')
                     const position = element.getBoundingClientRect().top + document.documentElement.scrollTop - 50
                     scrollTo({
                       behavior: 'smooth',

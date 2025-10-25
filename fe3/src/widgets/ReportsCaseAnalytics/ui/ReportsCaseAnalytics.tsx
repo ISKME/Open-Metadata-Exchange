@@ -184,7 +184,7 @@ export function ReportsCaseAnalytics() {
       organization: organization || undefined,
       ids: filteredIds.length > 0 ? filteredIds : undefined,
     };
-  
+
     axios
       .get('/clickhouse/overall/case-analytics', { params })
       .then(({ data }) => {
@@ -210,9 +210,9 @@ export function ReportsCaseAnalytics() {
   const updateFilters = (key, value) => {
     const updatedParams = { ...selectedParams, [key]: value };
     setSelectedParams(updatedParams);
-  
+
     const dataToFilter = initialResponseData || [];
-  
+
     const safeIncludes = (array, value) => {
       if (!array || !Array.isArray(array)) return false;
       if (typeof value === 'object' && value?.value) {
@@ -244,7 +244,7 @@ export function ReportsCaseAnalytics() {
         )
         .map((item) => item.id);
     }
-  
+
     const filteredUsersByActiveStatus =
       updatedParams.userIsActive === UserIsActiveStatus.ALL || !updatedParams.userIsActive
         ? []
@@ -307,23 +307,23 @@ export function ReportsCaseAnalytics() {
     const userIds = newValue ? newValue.map((user) => user.id) : [];
     updateFilters('users', userIds);
   };
-  
+
   const handleGroupChange = (event, newValue) => {
     updateFilters('group', newValue ? newValue.label : null);
   };
 
   const handleOrganizationChange = async (event, newValue) => {
     const organization = newValue ? newValue.label : null;
-  
+
     fetchConfigs(date[0], date[1], organization);
-  
+
     updateFilters('organization', organization);
   };
-  
+
   const handleSubjectChange = (event, newValue) => {
     updateFilters('subject', newValue || null);
   };
-  
+
   const handleGradeChange = (event, newValue) => {
     updateFilters('grade', newValue || null);
   };
@@ -331,7 +331,7 @@ export function ReportsCaseAnalytics() {
   const handleEthnicityChange = (event, newValue) => {
     updateFilters('ethnicity', newValue || null);
   };
-  
+
   const handleAreaChange = (event, newValue) => {
     updateFilters('area', newValue || null);
   };
@@ -359,9 +359,9 @@ export function ReportsCaseAnalytics() {
     };
     try {
       const { data } = await axios.get('/clickhouse/configs', { params });
-  
+
       const uniqueUserTypes = Array.from(new Set(data.users.map((user) => user.user_type)));
-  
+
       setUsers(
         data.users.map((user) => ({
           id: user.id,
@@ -379,7 +379,7 @@ export function ReportsCaseAnalytics() {
       setIsLoading(false);
     }
   };
-  
+
   const fetchTableData = async (startDate, endDate, users = [], group = null, organization = null, filteredIds = []) => {
     const params = {
       date_range_start: startDate ? formatDate(startDate) : undefined,
@@ -389,7 +389,7 @@ export function ReportsCaseAnalytics() {
       organization: organization || undefined,
       ids: filteredIds.length > 0 ? filteredIds : undefined,
     };
-  
+
     try {
       setIsLoading(true);
       const response = await axios.get('/clickhouse/overall/cases-details/', { params });
@@ -432,7 +432,7 @@ export function ReportsCaseAnalytics() {
       setIsLoading(false);
     }
   };
-  
+
   const handleSearch = (searchValue) => {
     const filteredData = originalTableData.filter((row) => {
       const caseStr = row.case.toString();
@@ -441,7 +441,7 @@ export function ReportsCaseAnalytics() {
       const ethnicityStr = row.ethnicity.toLowerCase();
       const areaStr = row.area.toLowerCase();
       const searchLower = searchValue.toLowerCase();
-  
+
       return (
         caseStr.includes(searchLower) ||
         subjectStr.includes(searchLower) ||
@@ -456,7 +456,7 @@ export function ReportsCaseAnalytics() {
   const handleClearSearch = () => {
     setTableData(originalTableData);
   };
-  
+
   const handleExport = () => {
     const csvContent = [
       ['Case', 'Resource View', 'IM Download', 'All Notes', 'Saves', 'Subjects', 'Grades', 'Ethnicities', 'Certificate Area'],
@@ -474,7 +474,7 @@ export function ReportsCaseAnalytics() {
     ]
       .map((e) => e.join(','))
       .join('\n');
-  
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -506,7 +506,7 @@ export function ReportsCaseAnalytics() {
     const selectedRange = event.target.value;
     setRange(selectedRange);
     let startDate, endDate;
-  
+
     if (typeof selectedRange === 'number' && selectedRange >= 2015 && selectedRange <= new Date().getFullYear()) {
       startDate = new Date(`${selectedRange}-01-01`);
       endDate = new Date(`${selectedRange}-12-31`);
@@ -529,7 +529,7 @@ export function ReportsCaseAnalytics() {
           return;
       }
     }
-  
+
     setDate([startDate, endDate]);
     fetchConfigs(startDate, endDate);
     fetchData(startDate, endDate, [], null, null, []);
@@ -586,7 +586,7 @@ export function ReportsCaseAnalytics() {
   const handleToggleItem = (key) => {
     const updatedItems = { ...activeItems, [key]: !activeItems[key] };
     setActiveItems(updatedItems);
-  
+
     const allSelectedNow = Object.values(updatedItems).every(Boolean);
     setAllSelected(allSelectedNow);
   };
@@ -603,7 +603,7 @@ export function ReportsCaseAnalytics() {
   return (
     <div className={cls.caseAnalytics}>
       <Typography variant="h5">
-        Case Analytics 
+        Case Analytics
       </Typography>
       <div>
         <FormControl size="small" sx={{ width: '350px', marginRight: '24px' }}>

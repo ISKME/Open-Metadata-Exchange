@@ -45,7 +45,7 @@ function CheckboxWrapper(props) {
           {Checkbox(itemProps)}
           {item.items.length > 0 && CheckboxUL(updateProps(props, { items: item.items }))}
         </li>
-      )  
+      )
     },
     dt: () => {
       return (
@@ -69,7 +69,7 @@ function CheckboxWrapper(props) {
             )
           })}
         </>
-      )  
+      )
     },
   }
 

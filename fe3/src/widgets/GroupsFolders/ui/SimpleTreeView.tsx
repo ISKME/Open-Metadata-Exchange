@@ -10,7 +10,7 @@ import CloseFolderSvg from "./../../../app/image/closeFolder.svg";
 import OpenFolderSvg from "./../../../app/image/openFolder.svg";
 import ThreePointSvg from "./../../../app/image/threePoint.svg";
 
-export function SimpleTreeView({ 
+export function SimpleTreeView({
   folders,
   groupId,
   setId,
@@ -35,7 +35,7 @@ export function SimpleTreeView({
   };
 
   const handleSubfolderClick = (id) => {
-    setSubSelected((prev) => (prev === id ? null : id)); 
+    setSubSelected((prev) => (prev === id ? null : id));
   };
 
   const handleDelete = (id, isSubfolder) => {
@@ -43,7 +43,7 @@ export function SimpleTreeView({
     setOpen(true);
     subfolderCallback(isSubfolder);
   };
-  
+
   const handleRename = (id, title, isSubfolder) => {
     setId(id);
     setName(title);
@@ -88,7 +88,7 @@ export function SimpleTreeView({
             onClick={() => handleFolderClick(folder.id, folder.is_default)}
           >
             <div
-              className={`${cls.foldersItem1} ${folder.id === selectedFolder && !subSelected ? cls.selected : 
+              className={`${cls.foldersItem1} ${folder.id === selectedFolder && !subSelected ? cls.selected :
                 folder.id === selectedFolder && subSelected ? cls.noSelected : ''
               }`}
             >
@@ -102,7 +102,7 @@ export function SimpleTreeView({
                     )}
                   </span>
                 )}
-                 
+
                 {folder.id !== selectedFolder ? (
                   <CloseFolderSvg />
                 ) : (

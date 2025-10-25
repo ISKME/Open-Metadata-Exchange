@@ -261,7 +261,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/' }) {
 
   const clearFilter = (param, value) => {
     const val = value.split('-').slice(0, -1).join('-')
-    
+
     setDefaultPage(1)
     setParams('page', 1)
     setParams(param, val)

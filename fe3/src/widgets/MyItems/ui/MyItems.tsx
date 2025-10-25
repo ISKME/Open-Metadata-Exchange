@@ -83,7 +83,7 @@ export function MyItems() {
     const url = isSubfolder
       ? `myitems/v1/folders/${id.split('_')[0]}/subfolders/${id.split('_')[1]}`
       : `myitems/v1/folders/${id}`;
-      
+
     req.del(url)
       .then(() => {
         get()
@@ -92,12 +92,12 @@ export function MyItems() {
         console.error('Delete failed:', error);
       });
   }
-  
+
   function rename(isSubfolder) {
     const url = isSubfolder
       ? `myitems/v1/folders/${id.split('_')[0]}/subfolders/${id.split('_')[1]}`
       : `myitems/v1/folders/${id}`;
-  
+
     req.put(url, { title: name, name })
       .then(() => {
         get()
@@ -106,24 +106,24 @@ export function MyItems() {
         console.error('Rename failed:', error);
       });
   }
-  
+
   const handleCreateSubfolder = async () => {
     if (!newSubfolderTitle.trim()) {
       console.error('Folder title is required');
       return;
     }
-  
+
     const parentFolderId = id;
     const parentContentTypeId = folders.find(folder => folder.id === id)?.content_type_id;
     const data = {
       target_title: newSubfolderTitle,
       ...(parentFolderId && parentContentTypeId && { parent: `${parentContentTypeId}.${parentFolderId}` })
     };
-  
+
     try {
       const response = await req.post('myitems/v1/save-widget/save/', data);
       console.log(`${parentFolderId ? 'Subfolder' : 'Folder'} created successfully:`, response);
-      
+
       setNewSubfolderTitle('');
       setOpenAddSubfolder(false);
       get();
@@ -135,8 +135,8 @@ export function MyItems() {
 
   const updateCasesData = (caseIds) => {
     const data = [...items];
-    dispatch(itemsSlice.actions.updateItems({ 
-      items: data.filter((c) => !caseIds.includes(c.id)) 
+    dispatch(itemsSlice.actions.updateItems({
+      items: data.filter((c) => !caseIds.includes(c.id))
     }));
   };
 
@@ -157,14 +157,14 @@ export function MyItems() {
       window.alert("Please select a folder from which you want to delete the cases.");
       return;
     }
-  
+
     const payload = {
       item_ids: items,
       folderId: folderId,
       subfolderId: subFolderId,
       modelType: "myitems",
     };
-  
+
     try {
       const response = await axios.delete("/api/myitems/v1/remove-items-from-folders/", {
         data: payload,
@@ -183,7 +183,7 @@ export function MyItems() {
 
   const getSelectedItem = (is_default) => {
     setSelectedFolderIsDefault(is_default)
-  } 
+  }
   return (
     <>
       <Modal open={openAddSubfolder} onClose={() => setOpenAddSubfolder(false)}>
@@ -214,11 +214,11 @@ export function MyItems() {
           </Typography>
           <Box className={cls.modalInput}>
           <TextField
-            label="New Title" 
-            variant="outlined" 
-            margin="dense" 
-            value={name} 
-            onChange={({ target }) => setName(target.value)} 
+            label="New Title"
+            variant="outlined"
+            margin="dense"
+            value={name}
+            onChange={({ target }) => setName(target.value)}
           />
           </Box>
           <Box className={cls.buttonsGroup}>
@@ -245,12 +245,12 @@ export function MyItems() {
 
       <Grid container spacing={2} sx={{ padding: '32px 10%' }}>
         <Grid item xs={4} sx={{ fontFamily: '"DINPro", sans-serif' }}>
-          <SimpleTreeView 
+          <SimpleTreeView
             folders={folders}
             setFolderId={setFolderId}
             setSubFolderId={setSubFolderId}
             groupId={undefined}
-            setId={setId} 
+            setId={setId}
             setName={setName}
             setOpenRename={setOpenRename}
             setOpen={setOpen}

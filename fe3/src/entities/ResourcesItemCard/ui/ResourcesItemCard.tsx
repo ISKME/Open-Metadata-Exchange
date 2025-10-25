@@ -139,7 +139,7 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
         {
           resource.visits !== undefined ? (
             <div>
-              <strong>Views:</strong> 
+              <strong>Views:</strong>
               <p style={{
                   color: '#428bca', fontWeight: 'bold', fontSize: '15px', marginLeft: '8px', display: 'inline',
                 }}

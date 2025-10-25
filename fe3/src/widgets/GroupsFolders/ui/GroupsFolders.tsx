@@ -44,7 +44,7 @@ export function GroupsFolders({ content }) {
   const [defaultPage, setDefaultPage] = React.useState(() => {
     const page = parseInt(new URLSearchParams(window.location.search).get("page"), 10);
     return isNaN(page) ? 1 : page;
-  }); 
+  });
   let filters = searchParams.get('filters')
   if (filters) filters = JSON.parse(filters)
   else filters = {}
@@ -86,7 +86,7 @@ export function GroupsFolders({ content }) {
     const url = isSubfolder
       ? `groups/v1/groups/${groupId}/folders/${id.split('_')[0]}/subfolders/${id.split('_')[1]}`
       : `groups/v1/groups/${groupId}/folders/${id}`;
-      
+
     req.del(url)
       .then(() => {
         get(groupId)
@@ -95,13 +95,13 @@ export function GroupsFolders({ content }) {
         console.error('Delete failed:', error);
       });
   }
-  
+
   function rename(isSubfolder) {
     const url = isSubfolder
       ? `groups/v1/groups/${groupId}/folders/${id.split('_')[0]}/subfolders/${id.split('_')[1]}`
       : `groups/v1/groups/${groupId}/folders/${id}`;
-  
-    req.put(url, { 
+
+    req.put(url, {
       title: name,
     })
       .then(() => {
@@ -111,7 +111,7 @@ export function GroupsFolders({ content }) {
         console.error('Rename failed:', error);
       });
   }
-  
+
   const handleCreateSubfolder = () => {
     const parentFolderId = isGroup ? groupId : id;
     if (!parentFolderId) {
@@ -146,8 +146,8 @@ export function GroupsFolders({ content }) {
 
   const updateCasesData = (caseIds) => {
     const data = [...cases];
-    dispatch(casesSlice.actions.updateCases({ 
-      items: data.filter((c) => !caseIds.includes(c.id)) 
+    dispatch(casesSlice.actions.updateCases({
+      items: data.filter((c) => !caseIds.includes(c.id))
     }));
   };
 
@@ -168,14 +168,14 @@ export function GroupsFolders({ content }) {
       window.alert("Please select a folder from which you want to delete the cases.");
       return;
     }
-  
+
     const payload = {
       item_ids: items,
       folderId: folderId,
       subfolderId: subFolderId,
       modelType: "groups",
     };
-  
+
     try {
       const response = await axios.delete("/api/myitems/v1/remove-items-from-folders/", {
         data: payload,
@@ -194,7 +194,7 @@ export function GroupsFolders({ content }) {
 
   const getSelectedItem = (is_default) => {
     setSelectedFolderIsDefault(is_default)
-  } 
+  }
   return (
     <>
         <Modal open={openAddSubfolder} onClose={() => setOpenAddSubfolder(false)}>
@@ -224,12 +224,12 @@ export function GroupsFolders({ content }) {
               Enter a new name for the {isSubfolder ? 'subfolder' : 'folder'}.
             </Typography>
             <Box className={cls.modalInput}>
-            <TextField 
-              label="New Title" 
-              variant="outlined" 
-              margin="dense" 
-              value={name} 
-              onChange={({ target }) => setName(target.value)} 
+            <TextField
+              label="New Title"
+              variant="outlined"
+              margin="dense"
+              value={name}
+              onChange={({ target }) => setName(target.value)}
             />
             </Box>
             <Box className={cls.buttonsGroup}>
@@ -256,12 +256,12 @@ export function GroupsFolders({ content }) {
 
       <Grid container spacing={2} sx={{ padding: '0 10%' }}>
         <Grid item xs={4}>
-          <SimpleTreeView 
+          <SimpleTreeView
             folders={folders}
             setFolderId={setFolderId}
             setSubFolderId={setSubFolderId}
             groupId={groupId}
-            setId={setId} 
+            setId={setId}
             setName={setName}
             setOpenRename={setOpenRename}
             setOpen={setOpen}

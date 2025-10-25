@@ -54,7 +54,7 @@ export function OrgansUsersImport({ id, onCancel = () => { } }) {
       </a>
       <Typography>
         <p>
-        Please list your organization’s name and the user role separated by a colon (no spaces). 
+        Please list your organization’s name and the user role separated by a colon (no spaces).
         The Organization name must be entered exactly as it appears on your dashboard.
         </p>
         <div className={cls.bulletList}>

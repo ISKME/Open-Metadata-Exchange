@@ -78,7 +78,7 @@ export function Dashboard() {
   }, [location]);
 
   const formatDate = (date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  
+
   const fetchData = (start, end, selectedGroups, selectedOrg, selectedHubs, allWidgetsArg = null) => {
     const params = {
       date_range_start: formatDate(start),
@@ -110,7 +110,7 @@ export function Dashboard() {
     (list || []).map((item, index) => {
       const base = item?.name ?? '—';
       let label = base;
-  
+
       if (allSections && currentSection) {
         const curIdx = allSections.indexOf(currentSection);
         if (curIdx > 0) {
@@ -122,7 +122,7 @@ export function Dashboard() {
           if (parents) label = `${base} (${parents})`;
         }
       }
-  
+
       return {
         id: index,
         value: item?.visits_count ?? 0,
@@ -131,14 +131,14 @@ export function Dashboard() {
         color: predefinedColors[index % predefinedColors.length],
       };
     });
-  
+
 
   const handleWidgetSectionChange = (widget: any, newSection: string | null) => {
     if (!newSection) return;
     const defaultView = widget.view_options?.[0]?.slug || 'all';
     const bySection = widgetSectionChartData[widget.id] || {};
     const dataset = bySection[newSection] || [];
-  
+
     setSelectedWidgetSection(prev => ({ ...prev, [widget.id]: newSection }));
     setWidgetDataMap(prev => ({
       ...prev,
@@ -147,7 +147,7 @@ export function Dashboard() {
         [defaultView]: dataset,
       }
     }));
-  };  
+  };
 
   const fetchNavigation = async () => {
     try {
@@ -160,19 +160,19 @@ export function Dashboard() {
 
   const loadAllWidgetData = async (params, allWidgetsArg = null) => {
     const allWidgets = allWidgetsArg ?? pageTypesWithWidgets.flatMap(pt => pt.widgets || []);
-  
+
     const loadingState = {};
     allWidgets.forEach(widget => { loadingState[widget.id] = true; });
     setWidgetLoadingMap(loadingState);
-  
+
     setWidgetSections({});
     setSelectedWidgetSection({});
     setWidgetSectionChartData({});
-  
+
     allWidgets.forEach(async (widget) => {
       const defaultView = widget.view_options?.[0]?.slug || null;
       if (!defaultView) return;
-  
+
       try {
         const { data } = await axios.get(widget.endpoint, {
           params: {
@@ -181,17 +181,17 @@ export function Dashboard() {
             sort_by: defaultView === "all" ? widget.sort_by : defaultView,
           },
         });
-  
+
         if (Array.isArray(data?.sections) && data.sections.length) {
           const bySection: Record<string, any[]> = {};
           const sectionList: string[] = Array.isArray(data?.sections) ? data.sections : [];
           sectionList.forEach((s) => {
             bySection[s] = makeChartData(data?.[s] || [], sectionList, s);
           });
-  
+
           const initialSection = selectedWidgetSection[widget.id] || data.sections[0];
           const dataset = bySection[initialSection] || [];
-  
+
           setWidgetDataMap(prev => ({
             ...prev,
             [widget.id]: { ...(prev[widget.id] || {}), [defaultView]: dataset }
@@ -213,11 +213,11 @@ export function Dashboard() {
       }
     });
   };
-  
+
   const updateFilters = (key, value) => {
     const updatedParams = { ...selectedParams, [key]: value };
     setSelectedParams(updatedParams);
-  
+
     const allWidgets = pageTypesWithWidgets.flatMap(pt => pt.widgets || []);
     if (allWidgets.length > 0) {
       const [startDate, endDate] = date;
@@ -228,14 +228,14 @@ export function Dashboard() {
         hub: updatedParams.hub,
         group: updatedParams.group,
       };
-  
+
       const clearedData = {};
       allWidgets.forEach(widget => {
         clearedData[widget.id] = {};
       });
       setWidgetDataMap(clearedData);
       setResetViewTrigger(prev => prev + 1);
-  
+
       loadAllWidgetData(params);
     }
   };
@@ -258,7 +258,7 @@ export function Dashboard() {
     allWidgets.forEach(widget => {
       clearedData[widget.id] = {};
     });
-  
+
     setWidgetDataMap(clearedData);
     setResetViewTrigger(prev => prev + 1);
   };
@@ -284,7 +284,7 @@ export function Dashboard() {
     const selectedRange = event.target.value;
     setRange(selectedRange);
     let startDate, endDate;
-  
+
     switch (selectedRange) {
       case DateRange.LAST_30_DAYS:
         endDate = new Date();
@@ -310,7 +310,7 @@ export function Dashboard() {
     resetAllWidgetsViewAndData();
     fetchConfigs(startDate, endDate);
     fetchData(startDate, endDate, selectedParams.group, selectedParams.organization, selectedParams.hub);
-  };  
+  };
 
   const fetchConfigs = async (startDate, endDate) => {
     setIsLoading(true);
@@ -341,7 +341,7 @@ export function Dashboard() {
       console.error("Failed to fetch widget data", err);
     }
   };
-  
+
   useEffect(async () => {
     if (widgetId) {
       const widget = await fetchWidget();
@@ -356,9 +356,9 @@ export function Dashboard() {
       const clearedData = { [widget.id]: {} };
       setWidgetDataMap(clearedData);
       setResetViewTrigger(prev => prev + 1);
-      
+
       const allWidgets = pageTypesWithWidgets.flatMap(pt => pt.widgets || []);
-  
+
       const loadingState = {};
       allWidgets.forEach(widget => {
         loadingState[widget.id] = true;
@@ -380,10 +380,10 @@ export function Dashboard() {
           sectionList.forEach((s) => {
             bySection[s] = makeChartData(data?.[s] || [], sectionList, s);
           });
-        
+
           const initialSection = data.sections[0];
           const dataset = bySection[initialSection] || [];
-        
+
           setWidgetDataMap(prev => ({
             ...prev,
             [widget.id]: { ...(prev[widget.id] || {}), [defaultView]: dataset }
@@ -436,7 +436,7 @@ export function Dashboard() {
         console.error("Failed to fetch favorites", err);
       }
     };
-  
+
     fetchFavorites();
 
     if (target === '') {
@@ -449,7 +449,7 @@ export function Dashboard() {
       // if (organization) setSelectedParams(prev => ({ ...prev, organization }));
       // if (hub) setSelectedParams(prev => ({ ...prev, hub }));
     }
-    
+
     if (widgetId) {
       fetchWidget();
     }
@@ -554,7 +554,7 @@ export function Dashboard() {
               .filter(({ slug }) => slug !== 'all')
               // .sort((a, b) => a.slug === 'favorites' ? 1 : -1)
               .filter(({ widgets }) => widgets?.length)
-              .map((page, i) => 
+              .map((page, i) =>
             <Button key={page.slug} className={cls.pageLinkItem} onClick={() => goTo(page.slug)}>
               {page.title}
             </Button>)}

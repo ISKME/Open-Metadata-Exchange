@@ -32,7 +32,7 @@ export function MyHubs() {
             <div className={cls['hub-list-item']}>
               <a href={'/hubs/' + item.slug}>
                 <div className={cls['hub-cover']}>
-                <img 
+                <img
                   src={item.logo}
                   width="149"
                   height="149"

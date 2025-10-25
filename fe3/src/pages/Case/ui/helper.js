@@ -16,13 +16,13 @@ export function convertSeconds(seconds, full = false) {
   // }
 }
 
-/**  
-* Groups data into sub-arrays based on the start_position being within the specified range.  
-*  
-* @param {number} range - The range to group the data by.  
-* @param {object[]} data - The data to group.  
-* @returns {object[][]} - The grouped data.  
-*/  
+/**
+* Groups data into sub-arrays based on the start_position being within the specified range.
+*
+* @param {number} range - The range to group the data by.
+* @param {object[]} data - The data to group.
+* @returns {object[][]} - The grouped data.
+*/
 export function categorizeByTimeRange(data, range) {
   // Sort the data by start_position
   data.sort((a, b) => a.start_position - b.start_position)

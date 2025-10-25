@@ -62,6 +62,7 @@ async def show_channel_details(request: Request, channel_name: str) -> HTMLRespo
         {"request": request, "channel_summary": summary, "posts": posts},
     )
 
+
 @app.get("/channel/{channel_name:str}")
 async def show_channel_details(request: Request, channel_name: str) -> HTMLResponse:
     summary = ome_node.channel_summary(channel_name)
@@ -69,11 +70,8 @@ async def show_channel_details(request: Request, channel_name: str) -> HTMLRespo
     print(f"{posts=}")
     return templates.TemplateResponse(
         "channel_details.html",
-        {
-            "request": request,
-            "channel_summary": summary,
-            "posts": posts
-        })
+        {"request": request, "channel_summary": summary, "posts": posts},
+    )
 
 
 @app.get("/api/list")
@@ -154,6 +152,7 @@ async def get_channel(channel: str, _id: int) -> ChannelResourcesResponse:
 @app.get("/api/imls/v2/resources/")
 async def get_resources(tenant: str) -> ChannelResourcesResponse:
     return get_channel_resources(tenant)
+
 
 app.mount(
     "/api/imls/",

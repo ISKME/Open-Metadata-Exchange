@@ -166,7 +166,7 @@ export function OrgansUserAnalytics({ id }) {
       users: users.length > 0 ? users : undefined,
       group: group || undefined,
     };
-  
+
     axios
       .get('/clickhouse/overall/user-analytics', { params })
       .then(({ data }) => {
@@ -195,26 +195,26 @@ export function OrgansUserAnalytics({ id }) {
       users: users.length > 0 ? users : undefined,
       group: group || undefined,
     };
-  
+
     try {
       setIsLoading(true);
-  
+
       const response = await axios.get('/clickhouse/overall/users-details/', { params });
-  
+
       const configResponse = await axios.get('/clickhouse/configs', { params });
       const userConfigs = configResponse.data.users;
-  
+
       const userMap = userConfigs.reduce((map, user) => {
         map[user.id] = `${user.first_name} ${user.last_name}`.trim() || 'Unnamed User';
         return map;
       }, {});
-  
+
       const data = response.data.map((item) => {
         const userId = item.user;
         const fullName = userId
           ? userMap[userId] || `User${userId}`
           : 'Unlogged users';
-  
+
         return {
           id: userId || 'unlogged',
           user: fullName,
@@ -228,7 +228,7 @@ export function OrgansUserAnalytics({ id }) {
           search: item.search,
         };
       });
-  
+
       setOriginalTableData(data);
       setTableData(data);
     } catch (error) {
@@ -248,7 +248,7 @@ export function OrgansUserAnalytics({ id }) {
       } else {
         params['get_default_organization'] = true;
       }
-  
+
     try {
       const { data } = await axios.get('/clickhouse/configs', { params });
 
@@ -279,9 +279,9 @@ export function OrgansUserAnalytics({ id }) {
   const handleRange = (event) => {
     const selectedRange = event.target.value;
     setRange(selectedRange);
-  
+
     let startDate, endDate;
-  
+
     switch (selectedRange) {
       case DateRange.LAST_30_DAYS:
         endDate = new Date();
@@ -309,7 +309,7 @@ export function OrgansUserAnalytics({ id }) {
     fetchTableData(startDate, endDate, [], null);
     resetFilters();
   };
-  
+
   const handleDateRangeChange = (newDate) => {
     if (!newDate) {
       const defaultEndDate = new Date();
@@ -331,37 +331,37 @@ export function OrgansUserAnalytics({ id }) {
 
   const handleUserChange = (event, newValue) => {
     const updatedUsers = newValue ? newValue.map((user) => user.id) : [];
-  
+
     const filteredUsers = applyFilters(updatedUsers, selectedParams.typeStatusUsers);
-  
+
     setSelectedParams((prev) => ({
       ...prev,
       selectedUsers: updatedUsers,
       users: filteredUsers,
     }));
-  
+
     fetchData(date[0], date[1], filteredUsers, selectedParams.group);
     fetchTableData(date[0], date[1], filteredUsers, selectedParams.group);
   };
 
   const handleUserTypeChange = (event) => {
     const updatedUserType = event.target.value;
-  
+
     let filteredTypeStatusUsers = [];
     if (updatedUserType !== UserType.ALL && updatedUserType) {
       filteredTypeStatusUsers = users
         .filter(user => user.user_type === updatedUserType)
         .map(user => user.id);
-  
+
       if (filteredTypeStatusUsers.length === 0) {
         filteredTypeStatusUsers = [-1];
       }
     } else if (updatedUserType === UserType.ALL) {
       filteredTypeStatusUsers = [];
     }
-  
+
     const filteredUsers = applyFilters(selectedParams.selectedUsers, filteredTypeStatusUsers);
-  
+
     setSelectedParams((prev) => ({
       ...prev,
       typeStatusUsers: filteredTypeStatusUsers,
@@ -375,19 +375,19 @@ export function OrgansUserAnalytics({ id }) {
   const applyFilters = (selectedUsers, typeStatusUsers) => {
     if (!selectedUsers.length) return typeStatusUsers;
     if (!typeStatusUsers.length) return selectedUsers;
-  
+
     const filteredUsers = selectedUsers.filter(id => typeStatusUsers.includes(id));
     return filteredUsers.length ? filteredUsers : [-1];
   };
-  
+
   const handleGroupChange = (event, newValue) => {
     const updatedGroup = newValue ? newValue.label : null;
-  
+
     setSelectedParams((prev) => ({
       ...prev,
       group: updatedGroup,
     }));
-  
+
     fetchData(date[0], date[1], selectedParams.users, updatedGroup);
     fetchTableData(date[0], date[1], selectedParams.users, updatedGroup);
   };
@@ -395,7 +395,7 @@ export function OrgansUserAnalytics({ id }) {
   const handleToggleItem = (key) => {
     const updatedItems = { ...activeItems, [key]: !activeItems[key] };
     setActiveItems(updatedItems);
-  
+
     const allSelectedNow = Object.values(updatedItems).every(Boolean);
     setAllSelected(allSelectedNow);
   };
@@ -420,7 +420,7 @@ export function OrgansUserAnalytics({ id }) {
       const userStr = row.user.toLowerCase();
       const idStr = row.id.toString();
       const searchLower = searchValue.toLowerCase();
-  
+
       return (
         userStr.includes(searchLower) ||
         idStr.includes(searchLower)
@@ -432,7 +432,7 @@ export function OrgansUserAnalytics({ id }) {
   const handleClearSearch = () => {
     setTableData(originalTableData);
   };
-  
+
   const handleExport = () => {
     const csvContent = [
       ['User', 'User Type', 'Resource View', 'Visits Count', 'Downloads', 'Saves', 'All Notes', 'Login', 'Search'],
@@ -450,7 +450,7 @@ export function OrgansUserAnalytics({ id }) {
     ]
       .map((e) => e.join(','))
       .join('\n');
-  
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);

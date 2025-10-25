@@ -77,7 +77,9 @@ def get_active_channels(num: int = -1) -> list[ChannelSummaryData]:
             educationLevels=[],
             logo=plugin.logo,
             numCollections=summary.estimated_total_articles,
-            lastModified=latest_post.date if latest_post else datetime.now(tz=UTC) - timedelta(days=365)
+            lastModified=latest_post.date
+            if latest_post
+            else datetime.now(tz=UTC) - timedelta(days=365),
         )
         channels.append(channel)
     channels = sorted(channels, key=attrgetter("lastModified"), reverse=True)
@@ -90,7 +92,7 @@ def explore_summary() -> ExploreSummary:
     plugin = site_plugin
     resources = ExploreSection(type="Collections", name="All shared resources", data=[])
     channels = ExploreSection(type="Microsites", name="By Channels", data=[])
-    
+
     channels.data.extend(get_active_channels(10))
 
     return ExploreSummary(
