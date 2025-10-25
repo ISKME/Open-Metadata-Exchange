@@ -26,7 +26,7 @@ cd fe
 npm install
 npm run dev
 ```
-http://localhost:3000 will show NNTP records in the `oer.public` channel of the NNTP server at port 119.
+http://localhost:3000 will show NNTP records in the `ome.oer` channel of the NNTP server at port 119.
 
 Docker external ports | Austin stack | Boston stack | hint
 :---:|:---:|:---:|:---

@@ -11,6 +11,7 @@ classifiers = [
 ]
 dependencies = [
   "fastapi[standard]>=0.115.8",
+  "pondpond",
   "pynntp>=2.0.1",
 ]
 

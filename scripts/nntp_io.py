@@ -92,7 +92,7 @@ if __name__ == "__main__":
     import os
     import sys
 
-    newsgroup = "local.test" if os.getenv("CI") else "oer.public"
+    newsgroup = "local.test" if os.getenv("CI") else "ome.oer"
     if sys.argv[1:]:
         newsgroup = sys.argv[1]
     print(f"{__file__}: {newsgroup=}")

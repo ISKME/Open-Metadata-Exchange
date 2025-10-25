@@ -138,7 +138,7 @@ def post_to_details(post: Post) -> ResourceDetailData:
         thumbnail=None,
         timestamp=post.date,
         updatedDate=post.date,
-        detailURL=f"/api/imls/v2/resources/qubes.public/materials/{post.id}",
+        detailURL=f"/api/imls/v2/resources/ome.qubes/materials/{post.id}",
         grade_sublevel=["High School"],
         accessibility=[],
         rating=0,
