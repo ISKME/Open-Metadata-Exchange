@@ -76,11 +76,11 @@ def nntp_read(newsgroup: str = "") -> dict:
     if msg.is_multipart():
         for part in msg.walk():
             if part.get_content_type() == "text/plain":
-                json_content = part.get_payload()
+                json_content = part.get_payload().splitlines()[5]
                 return json.loads(json_content)
     else:
         # If not multipart, get the payload directly
-        json_content = msg.get_payload()
+        json_content = msg.get_payload().splitlines()[5]
         print(f"{json_content = }")
         return json.loads(json_content)
 

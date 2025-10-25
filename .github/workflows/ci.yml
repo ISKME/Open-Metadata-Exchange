@@ -50,7 +50,7 @@ jobs:
       - run: uv python install  # Version from pyproject.toml project.requires-python
       # TODO(@cclauss): Remove `|| true` when tests are fixed
       - run: uvx --with=beautifulsoup4,dateparser,httpx,pondpond,pydantic,pynntp pytest
-      - run: uv run scripts/nntp_io.py || true  # TODO(@cclauss): Remove `|| true` when that script is fixed
+      - run: uv run scripts/nntp_io.py
 
   front-end:
     strategy:
