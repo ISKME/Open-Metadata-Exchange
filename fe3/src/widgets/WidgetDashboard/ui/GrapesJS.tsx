@@ -92,20 +92,20 @@ export default function DefaultEditor() {
     const headers = typeof fetchOptions === 'function'
       ? fetchOptions({}).headers["X-CSRFToken"]
       : null;
-  
+
     if (!headers) {
       console.error("CSRF token not found");
       return;
     }
-  
+
     // @ts-ignore
     const editorInstance = window?.grapesjs?.editors[0];
-  
+
     if (!editorInstance || !editorInstance.getProjectData()) {
       console.error("Editor instance or project data is missing");
       return;
     }
-  
+
     try {
       await axios.put(`/api/pages/v1/admin/${id}/`, {
         id: id,
@@ -125,7 +125,7 @@ export default function DefaultEditor() {
       console.error("Error while saving:", error);
     }
   };
-  
+
   return (
     <div>
       <ThemeProvider theme={THEME}>

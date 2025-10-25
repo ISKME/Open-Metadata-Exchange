@@ -78,7 +78,7 @@ export function ResourcesAll({
     params[key] = value;
     setSearchParams(params);
   };
- 
+
   const [term, setTerm] = useState(() => {
     return new URLSearchParams(window.location.search).get("f.search") || "";
   });
@@ -109,11 +109,11 @@ export function ResourcesAll({
     } else {
       params.delete("f.search");
     }
-  
+
     params.set("page", 1);
     window.history.replaceState(null, "", `?${params.toString()}`);
   };
-  
+
   const handleClearFilters = () => {
     setTerm("");
     setDefaultPage(1);
@@ -149,7 +149,7 @@ export function ResourcesAll({
   useEffect(() => {
     dispatch(fetchCases(URL, null, null, null, true))
   }, [defaultPage, JSON.stringify(term), JSON.stringify(materials)]);
- 
+
   return (
     <>
       <Typography
@@ -228,7 +228,7 @@ export function ResourcesAll({
                     <CloseIcon fontSize="small" />
                   </IconButton>
                   Hub:
-                  <span> {searchParams.get("hub_title") || searchParams.get("network_hub")}</span> 
+                  <span> {searchParams.get("hub_title") || searchParams.get("network_hub")}</span>
                 </span>
               )}
               {search ? (

@@ -86,7 +86,7 @@ export function Resources({ titles = '', URL = '/api/materials/v1/courses' }) {
     setParams('f.material_types', tempMaterials.map((item) => item.slug))
     setParams('page', 1)
   }
-  
+
   useEffect(() => {
     tempMaterials = materials.filter((item) => makeArray(urlParams['f.material_types']).includes(item.slug))
     if (tempMaterials.length) setExpand(true)
@@ -102,7 +102,7 @@ export function Resources({ titles = '', URL = '/api/materials/v1/courses' }) {
 
   const clearFilter = (param, value) => {
     const val = value.split('-').slice(0, -1).join('-')
-    
+
     setDefaultPage(1)
     setParams('page', 1)
     setParams(param, val)

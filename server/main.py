@@ -141,6 +141,7 @@ async def get_channel(channel: str, _id: int) -> ChannelResourcesResponse:
 async def get_resources(tenant: str) -> ChannelResourcesResponse:
     return get_channel_resources(tenant)
 
+
 app.mount(
     "/api/imls/",
     MocAPI(directory="static/api/imls/", html=True),

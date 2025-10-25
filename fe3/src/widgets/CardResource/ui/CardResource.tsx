@@ -59,7 +59,7 @@ export function CardResource({ id, title, description, url, items = [] }) {
               color: 'rgb(51, 51, 51)',
               display: 'box',
               lineClamp: 3,
-              boxOrient: 'vertical',  
+              boxOrient: 'vertical',
               overflow: 'hidden',
             }}
             dangerouslySetInnerHTML={{ __html: description }}

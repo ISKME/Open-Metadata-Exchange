@@ -79,7 +79,7 @@ export function Folders({ ids = [] }) {
         }
 
         const response = await req.post('myitems/v1/save-widget/save/', payload)
-       
+
         setCreatingFolder(false);
         setSelectedFolder("");
         setGetName("Move folder to");
@@ -176,7 +176,7 @@ export function Folders({ ids = [] }) {
               Move folder to
               </div>
             <button onClick={() => setisShow(!isShow)} className={cls.dropButton}>
-              {getName} 
+              {getName}
             </button>
             <KeyboardArrowDownIcon className={`${cls.dropButtonIcon} ${isShow ? cls.dropButtonIconRotate : ''}`} />
             </div>

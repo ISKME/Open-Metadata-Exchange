@@ -34,7 +34,7 @@ export const Select = memo((props: SelectProps) => {
     };
   }, []);
 
-  
+
   useEffect(() => {
     const selected = selectOptions?.find((item) => item.slug === initial);
     selected && setIsSelected(selected.name);

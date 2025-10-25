@@ -119,12 +119,12 @@ export function OrgansUsers({ id }) {
 
   const fetchMembers = async (params = {}) => {
     try {
-      const response = await axios.get(`/api/organizations/v1/organizations/${id}/members`, { 
-          params: { 
-              ...params, 
+      const response = await axios.get(`/api/organizations/v1/organizations/${id}/members`, {
+          params: {
+              ...params,
               page_size: pageSize,
               ordering: `${sortDir === 'asc' ? '' : '-'}${sortBy}`
-          } 
+          }
       });
 
       if (response.data.results?.length) {
@@ -288,7 +288,7 @@ export function OrgansUsers({ id }) {
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = `/api/organizations/v1/organizations/${id}/members/export?q=${term}`;
-      
+
       const csrf = document.createElement('input');
       csrf.type = 'hidden';
       csrf.name = 'csrfmiddlewaretoken';
@@ -339,20 +339,20 @@ export function OrgansUsers({ id }) {
 
   async function handlePendingDelete() {
     if (!window.confirm(`Delete ${pendingSelected.length} pending user(s)?`)) return;
-  
+
     try {
       const { data } = await axios.get('/api/csrf-token');
       const headers = {
         'Content-Type': 'application/json',
         'X-Csrftoken': data.token
       };
-  
+
       await Promise.all(
         pendingSelected.map(_id =>
           axios.delete(`/api/organizations/v2/organizations/${id}/invitations/${_id}`, { headers })
         )
       );
-  
+
       alert('Deleted successfully');
       fetchPendingMembers();
       setPendingSelected([]);
@@ -361,7 +361,7 @@ export function OrgansUsers({ id }) {
       alert('Error deleting pending users.');
     }
   }
-  
+
 
   function onSortChanged({ dir, by }) {
     const orderingField = sortFieldMap[by] || by;

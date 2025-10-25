@@ -104,7 +104,7 @@ export default function({
   useEffect(() => {
     setPage(1);
     if (selectedSection !== 1) resetSearch();
-  
+
     if (selectedView === 'line' && widgetTypes.includes('line')) {
       const needFull = selectedSection === 1;
       if (needFull) {
@@ -116,7 +116,7 @@ export default function({
       }
       return;
     }
-  
+
     const needFull = selectedSection === 1;
     if (needFull) {
       const arr = fullDataByView[selectedView];
@@ -128,7 +128,7 @@ export default function({
       else setTotalCount(arr.length);
     }
   }, [selectedView, selectedSection, widgetTypes, dateRange, selectedParams]);
-  
+
   const prevResetRef = useRef(null);
 
   useEffect(() => {
@@ -188,10 +188,10 @@ export default function({
       setTotalCount(Array.isArray(base) ? base.length : 0);
       return;
     }
-  
+
     const base = getBaseTableData();
     if (!Array.isArray(base)) return;
-  
+
     let filtered: any[] = [];
     if (selectedView === 'line') {
       filtered = base.filter(r =>
@@ -203,7 +203,7 @@ export default function({
         (r.label || r.name || '').toLowerCase().includes(q)
       );
     }
-  
+
     setSearchResults(filtered);
     setSearchPerformed(true);
     setSearchContext(selectedView);
@@ -214,23 +214,23 @@ export default function({
     if (timelineAbortController.current) {
       timelineAbortController.current.abort();
     }
-  
+
     const controller = new AbortController();
     timelineAbortController.current = controller;
-  
+
     try {
       const params = {
         ...buildBaseParams(),
         limit: full ? 100000 : itemsCount,
       };
-  
+
       const response = await axios.get(`${endpoint}-timeline`, {
         params,
         signal: controller.signal,
       });
-  
+
       const timeline = Array.isArray(response.data?.data) ? response.data.data : [];
-  
+
       if (selectedViewRef.current !== 'line') return;
       if (full) {
         setTimelineAllData(timeline);
@@ -238,7 +238,7 @@ export default function({
         setTimelineData(timeline);
       }
       setTotalCount(timeline.length);
-  
+
     } catch (err) {
       if (axios.isCancel(err)) {
         console.log("Timeline request cancelled");
@@ -247,20 +247,20 @@ export default function({
       }
     }
   };
-  
-  
+
+
   const transformTimelineData = (data) => {
-  
+
     if (!data || data.length === 0) {
       return { series: [], xAxis: [] };
     }
-  
+
     const allDates = Array.from(
       new Set(data.map(({ date }) => date))
     ).sort();
-  
+
     const grouped = {};
-  
+
     data.forEach(({ date, eventCategory, eventCount }) => {
       if (!date || !eventCategory) {
         return;
@@ -268,13 +268,13 @@ export default function({
       if (!grouped[eventCategory]) {
         grouped[eventCategory] = {};
       }
-  
+
       grouped[eventCategory][date] = (grouped[eventCategory][date] || 0) + Number(eventCount || 0);
     });
-  
+
     const series = Object.entries(grouped).map(([category, counts], index) => {
       const seriesData = allDates.map(date => counts[date] || 0);
-  
+
       return {
         id: category,
         label: category,
@@ -284,33 +284,33 @@ export default function({
         color: colors[index % colors.length],
       };
     });
-  
+
     return { series, xAxis: allDates };
   };
 
   const { series, xAxis } = transformTimelineData(timelineData);
-  
+
   const fetchViewData = async (viewSlug, full = false) => {
     if (viewAbortController.current) {
       viewAbortController.current.abort();
     }
     const controller = new AbortController();
     viewAbortController.current = controller;
-  
+
     setWidgetLoadingMap(prev => ({ ...prev, [widgetId]: true }));
-  
+
     try {
       const params = {
         ...buildBaseParams(),
         limit: full ? 100000 : itemsCount,
         sort_by: viewSlug === "all" ? sortBy : viewSlug,
       };
-  
+
       const { data: response } = await axios.get(endpoint, {
         params,
         signal: controller.signal,
       });
-  
+
       const filteredData = response.data.filter(
         (item) => (item[params.sort_by] ?? 0) > 0
       );
@@ -321,9 +321,9 @@ export default function({
         url: item.url || '',
         color: colors[index % colors.length],
       }));
-  
+
       if (selectedViewRef.current !== viewSlug) return;
-  
+
       setTotalCount(chartData.length);
       if (full) {
         setFullDataByView(prev => ({ ...prev, [viewSlug]: chartData }));
@@ -347,7 +347,7 @@ export default function({
       }
     }
   };
-  
+
   const handleFavoriteClick = async () => {
     try {
       const data = await req.post('/reports/widget/favorites', { widget_id: widgetId });
@@ -365,14 +365,14 @@ export default function({
       console.error("Error toggling favorite", error);
     }
   };
-  
+
   const getDateRangeText = () => {
     if (range === DateRange.CUSTOM && dateRange?.length === 2) {
       const [start, end] = dateRange;
       const diffDays = Math.round((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24));
       return `${diffDays} ${diffDays === 1 ? 'day' : 'days'}`;
     }
-  
+
     switch (range) {
       case DateRange.LAST_30_DAYS:
         return 'Last 30 days';
@@ -394,7 +394,7 @@ export default function({
       alert('Please enter at least 3 characters.');
       return;
     }
-    setPage(1);  
+    setPage(1);
     runLocalSearch(q);
   };
 
@@ -403,9 +403,9 @@ export default function({
       console.warn("Download is only available in Table view");
       return;
     }
-  
+
     setIsDownloading(true);
-  
+
     try {
       if (selectedView === 'line') {
         const trimmed = searchText.trim();
@@ -414,7 +414,7 @@ export default function({
           limit: 100000,
           ...(searchPerformed && trimmed.length >= 3 ? { search: trimmed } : {}),
         };
-  
+
         let raw = [];
         if (searchPerformed && trimmed.length >= 3 && Array.isArray(searchResults) && searchResults.length) {
           raw = searchResults;
@@ -430,12 +430,12 @@ export default function({
           [title]: item.eventCategory || '—',
           'Views': Number(item.eventCount ?? 0),
         }));
-  
+
         if (!rows.length) {
           console.warn("No data to export");
           return;
         }
-  
+
         const csvContent = [
           columns.join(','),
           ...rows.map(row =>
@@ -446,7 +446,7 @@ export default function({
             }).join(',')
           ),
         ].join('\n');
-  
+
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -457,17 +457,17 @@ export default function({
         document.body.removeChild(link);
         return;
       }
-  
+
       const sort_field = selectedView === "all" ? sortBy : selectedView;
       const valueTitle = viewOptions.find((v) => v.slug === selectedView)?.title?.replace(/^By /, '') || 'Value';
-  
+
       const params = {
         ...buildBaseParams(),
         limit: 100000,
         sort_by: sort_field,
         ...(searchPerformed && searchText.trim() && { search: searchText.trim() }),
       };
-  
+
       let filteredData;
       if (searchPerformed && searchText.trim()) {
         filteredData = searchResults.map(r => ({ name: r.label, [params.sort_by]: r.value }));
@@ -477,25 +477,25 @@ export default function({
         const { data: response } = await axios.get(endpoint, { params });
         filteredData = response.data.filter(item => (item[params.sort_by] ?? 0) > 0);
       }
-  
+
       const columns = [title, valueTitle];
       const rows = filteredData.map(item => ({
         [title]: item.name || '—',
         [valueTitle]: Number(item[params.sort_by] ?? 0),
       }));
-  
+
       if (!rows.length) {
         console.warn("No data to export");
         return;
       }
-  
+
       const csvContent = [
         columns.join(','),
         ...rows.map(row =>
           columns.map(col => `"${String(row[col] ?? '').replace(/"/g, '""')}"`).join(',')
         ),
       ].join('\n');
-  
+
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -504,14 +504,14 @@ export default function({
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-  
+
     } catch (error) {
       console.error("Error downloading CSV", error);
     } finally {
       setIsDownloading(false);
     }
   };
-  
+
   return (
     <div className={cls.widgetCard}>
       <div className={cls.widgetHeaderRow}>
@@ -550,9 +550,9 @@ export default function({
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="12" r="10" stroke="black" strokeWidth="2" />
                 <path
-                  d="M12 8C11.2044 8 10.4413 8.31607 9.87868 8.87868C9.31607 9.44129 9 10.2044 9 11H11C11 10.7348 11.1054 10.4804 11.2929 
-                  10.2929C11.4804 10.1054 11.7348 10 12 10C12.2652 10 12.5196 10.1054 12.7071 10.2929C12.8946 10.4804 13 10.7348 13 11C13 
-                  11.5523 12.5523 12 12 12C11.4477 12 11 12.4477 11 13V14H13V13.5C13.7956 13.5 14.5587 13.1839 15.1213 12.6213C15.6839 
+                  d="M12 8C11.2044 8 10.4413 8.31607 9.87868 8.87868C9.31607 9.44129 9 10.2044 9 11H11C11 10.7348 11.1054 10.4804 11.2929
+                  10.2929C11.4804 10.1054 11.7348 10 12 10C12.2652 10 12.5196 10.1054 12.7071 10.2929C12.8946 10.4804 13 10.7348 13 11C13
+                  11.5523 12.5523 12 12 12C11.4477 12 11 12.4477 11 13V14H13V13.5C13.7956 13.5 14.5587 13.1839 15.1213 12.6213C15.6839
                   12.0587 16 11.2956 16 10.5C16 9.70435 15.6839 8.94129 15.1213 8.37868C14.5587 7.81607 13.7956 7.5 13 7.5H12Z"
                   fill="black"
                 />

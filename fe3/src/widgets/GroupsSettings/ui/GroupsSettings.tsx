@@ -92,7 +92,7 @@ export function GroupsSettings() {
         'Content-Type': 'application/json;charset=UTF-8',
         'X-Csrftoken': csrfData.token,
       };
-  
+
       const payload = {
         title: duplicateTitle,
         description: duplicateDescription,

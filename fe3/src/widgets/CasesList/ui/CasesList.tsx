@@ -112,19 +112,19 @@ export function CasesList({
     if (!params.sort_by) {
       params.sort_by = "search";
     }
-  
+
     setSearchParams(params);
   };
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-  
+
     if (!params.get("sort_by")) {
       params.set("sort_by", "search");
       setSearchParams(params);
     }
   }, []);
- 
+
   const [term, setTerm] = useState(() => {
     return new URLSearchParams(window.location.search).get("f.search") || "";
   });
@@ -166,11 +166,11 @@ export function CasesList({
     } else {
       params.delete("f.search");
     }
-  
+
     params.set("page", 1);
     window.history.replaceState(null, "", `?${params.toString()}`);
   };
-  
+
   const handleClearFilters = () => {
     const params = new URLSearchParams();
     const sort = searchParams.get('sort_by');
@@ -180,7 +180,7 @@ export function CasesList({
     setSearchText("");
     onClear();
     setExtras([])
-  
+
     const currentPath = location.pathname;
 
     if (sort) {
@@ -250,7 +250,7 @@ export function CasesList({
     setParams('sort_by', sort)
     const params = new URLSearchParams(window.location.search);
     params.set("page", 1);
-  
+
     window.history.replaceState(null, "", `?${params.toString()}`);
   };
 
@@ -270,13 +270,13 @@ export function CasesList({
 
   const [item, setItem] = useState(searchParams.get('sort_by') || order || '');
 
-  useEffect(() => {    
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const sort = params.get("sort_by") || "";
     setItem(sort);
   }, [window.location.search]);
 
-  useEffect(() => {    
+  useEffect(() => {
     getItemIds();
   }, [check, JSON.stringify(data)]);
 
@@ -312,7 +312,7 @@ export function CasesList({
       await dispatch(fetchCases(URL, groupId, folderId, subFolderId));
       setLoading(false)
     };
-  
+
     fetchFiltersAndCases();
   }, [
     defaultPage,
@@ -349,7 +349,7 @@ export function CasesList({
             "X-CSRFToken": csrfToken,
           },
         });
-       
+
         setCreatingFolder(false);
         setSelectedFolder("");
         setGetName("Move folder to");
@@ -365,7 +365,7 @@ export function CasesList({
       handleClick();
     }
   };
-  
+
   const getItemIds = () => {
     const itemsIds = check
       .map((isChecked, index) => {
@@ -505,7 +505,7 @@ export function CasesList({
                       Move folder to
                       </div>
                     <button onClick={openDropDown} className={cls.dropButton}>
-                      {getName} 
+                      {getName}
                     </button>
                     <KeyboardArrowDownIcon className={`${cls.dropButtonIcon} ${isShow ? cls.dropButtonIconRotate : ''}`} />
                     </div>
@@ -513,10 +513,10 @@ export function CasesList({
                     {isShow && (
                       <Box
                         className={cls.dropdown}
-                  
+
                       >
                         <MenuItem
-                    
+
                           onClick={() =>
                             selectValue(
                               '',
@@ -814,7 +814,7 @@ export function CasesList({
                     <CloseIcon fontSize="small" />
                   </IconButton>
                   Hub:
-                  <span> {searchParams.get("hub_title") || searchParams.get("network_hub")}</span> 
+                  <span> {searchParams.get("hub_title") || searchParams.get("network_hub")}</span>
                 </span>
               )}
               {search ? (

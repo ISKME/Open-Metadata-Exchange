@@ -49,7 +49,7 @@ export function AllCollections() {
   const [subjects, setSubjects] = useState([]);
   const [levels, setLevels] = useState([]);
   const [tenants, setTenants] = useState([]);
-  
+
   const fetcher = async (queries) => {
     try {
       // resources/queries expects full query string (including leading ?)

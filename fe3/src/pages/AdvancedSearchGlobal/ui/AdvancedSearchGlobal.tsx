@@ -69,7 +69,7 @@ export function AdvancedSearchGlobal() {
   const useFilter = (filterName, component, propsComponent) => {
     const filter = filters[filterName]
     propsComponent = propsComponent || {}
-  
+
     if (filter) {
       const propsFilter = settings[filterName] || {}
       const props = {
@@ -91,14 +91,14 @@ export function AdvancedSearchGlobal() {
 
   function useStdFilter() {
     const filterName = 'std'
-  
+
     const handleSelect = (filter, value) => {
       setSelected(prevSelected => {
         const updatedSelected = prevSelected.filter(item => item.keyword !== filter.keyword)
         updatedSelected.push({ keyword: filter.keyword, value: value })
         return updatedSelected
       })
-    
+
       axios.get(`/api/search/v2/browse/filters?${filter.keyword}=${value}`).then(({ data }) => {
         if (data.filters && data.filters[filterName]) {
           setStdItems(data.filters[filterName].items || [])

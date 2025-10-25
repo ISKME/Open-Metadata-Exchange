@@ -124,7 +124,7 @@ export function RelatedResource({ resource = null, beforeSubmitCallback, afterSu
   return (
     <>
     <div className="saved-related-resource-ct mod-opened" data-resource-id="None">
-  
+
       {resource && !editing && (<div className="saved-related-resource">
         <button className="btn btn-link saved-related-resource-delete" type="button" onClick={onDelete}>
           <i className="fa fa-times-circle"></i>

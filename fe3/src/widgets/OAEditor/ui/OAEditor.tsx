@@ -52,7 +52,7 @@ export function OAEditor({ lesson }: { lesson: any }) {
     const newSections = [...sections];
     const [deleted] = newSections.splice(pos, 1);
     delete sectionsMap[deleted.step_id];
-  
+
     if (deleted.delete_url) {
       setProcessing(true)
       req.del(deleted.delete_url).then(() => {

@@ -175,7 +175,7 @@ export function OrgansCaseAnalytics({ id }) {
       group: group || undefined,
       ids: filteredIds.length > 0 ? filteredIds : undefined,
     };
-  
+
     axios
       .get('/clickhouse/overall/case-analytics', { params })
       .then(({ data }) => {
@@ -203,7 +203,7 @@ export function OrgansCaseAnalytics({ id }) {
     setSelectedParams(updatedParams);
 
     const dataToFilter = initialResponseData || [];
-  
+
     const safeIncludes = (array, value) => {
       if (!array || !Array.isArray(array)) return false;
       return array.includes(value);
@@ -222,7 +222,7 @@ export function OrgansCaseAnalytics({ id }) {
         )
         .map((item) => item.id);
     }
-  
+
     const updatedResponseData = dataToFilter.filter((item) =>
       (!updatedParams.subject || safeIncludes(item.subjects, updatedParams.subject)) &&
       (!updatedParams.grade || safeIncludes(item.grades, updatedParams.grade)) &&
@@ -237,7 +237,7 @@ export function OrgansCaseAnalytics({ id }) {
         : users
             .filter(user => user.user_type === updatedParams.userType)
             .map(user => user.id);
-    
+
     let usersParam = [];
     if (updatedParams.userType === UserType.ALL || !updatedParams.userType) {
       usersParam = updatedParams.users.length > 0 ? updatedParams.users : [];
@@ -249,11 +249,11 @@ export function OrgansCaseAnalytics({ id }) {
         usersParam = filteredUsersByType.length > 0 ? filteredUsersByType : [-1];
       }
     }
-  
+
     fetchData(date[0], date[1], usersParam.length === 0 ? [] : usersParam, updatedParams.group, filteredIds);
     fetchTableData(date[0], date[1], usersParam.length === 0 ? [] : usersParam, updatedParams.group, filteredIds);
   };
-  
+
   const handleUserChange = (event, newValue) => {
     const userIds = newValue ? newValue.map((user) => user.id) : [];
     updateFilters('users', userIds);
@@ -264,19 +264,19 @@ export function OrgansCaseAnalytics({ id }) {
     setSelectedUserType(value);
     updateFilters('userType', value);
   };
-  
+
   const handleGroupChange = (event, newValue) => {
     updateFilters('group', newValue ? newValue.label : null);
   };
-  
+
   const handleSubjectChange = (event, newValue) => {
     updateFilters('subject', newValue || null);
   };
-  
+
   const handleGradeChange = (event, newValue) => {
     updateFilters('grade', newValue || null);
   };
-  
+
   const handleAreaChange = (event, newValue) => {
     updateFilters('area', newValue || null);
   };
@@ -291,7 +291,7 @@ export function OrgansCaseAnalytics({ id }) {
       } else {
         params['get_default_organization'] = true;
       }
-    
+
     try {
       const { data } = await axios.get('/clickhouse/configs', { params });
 
@@ -322,7 +322,7 @@ export function OrgansCaseAnalytics({ id }) {
       group: group || undefined,
       ids: filteredIds.length > 0 ? filteredIds : undefined,
     };
-  
+
     try {
       setIsLoading(true);
       const response = await axios.get('/clickhouse/overall/cases-details/', { params });
@@ -358,7 +358,7 @@ export function OrgansCaseAnalytics({ id }) {
       setIsLoading(false);
     }
   };
-  
+
   const handleSearch = (searchValue) => {
     const filteredData = originalTableData.filter((row) => {
       const caseStr = row.case.toString();
@@ -366,7 +366,7 @@ export function OrgansCaseAnalytics({ id }) {
       const gradeStr = row.grade.toLowerCase();
       const areaStr = row.area.toLowerCase();
       const searchLower = searchValue.toLowerCase();
-  
+
       return (
         caseStr.includes(searchLower) ||
         subjectStr.includes(searchLower) ||
@@ -380,7 +380,7 @@ export function OrgansCaseAnalytics({ id }) {
   const handleClearSearch = () => {
     setTableData(originalTableData);
   };
-  
+
   const handleExport = () => {
     const csvContent = [
       ['Case', 'Resource View', 'IM Download', 'Notes', 'Saves', 'Subjects', 'Grades', 'Certificate Area'],
@@ -397,7 +397,7 @@ export function OrgansCaseAnalytics({ id }) {
     ]
       .map((e) => e.join(','))
       .join('\n');
-  
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -417,7 +417,7 @@ export function OrgansCaseAnalytics({ id }) {
     const selectedRange = event.target.value;
     setRange(selectedRange);
     let startDate, endDate;
-  
+
     switch (selectedRange) {
       case DateRange.LAST_30_DAYS:
         endDate = new Date();
@@ -497,7 +497,7 @@ export function OrgansCaseAnalytics({ id }) {
   const handleToggleItem = (key) => {
     const updatedItems = { ...activeItems, [key]: !activeItems[key] };
     setActiveItems(updatedItems);
-  
+
     const allSelectedNow = Object.values(updatedItems).every(Boolean);
     setAllSelected(allSelectedNow);
   };
@@ -514,7 +514,7 @@ export function OrgansCaseAnalytics({ id }) {
   return (
     <div className={cls.caseAnalytics}>
       <Typography variant="h5">
-        Case Analytics 
+        Case Analytics
       </Typography>
       <div>
         <FormControl size="small" sx={{ width: '350px', marginRight: '24px' }}>

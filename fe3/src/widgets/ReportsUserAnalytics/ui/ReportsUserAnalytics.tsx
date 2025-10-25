@@ -173,7 +173,7 @@ export function ReportsUserAnalytics() {
       group: group || undefined,
       organization: organization || undefined,
     };
-  
+
     axios
       .get('/clickhouse/overall/user-analytics', { params })
       .then(({ data }) => {
@@ -203,26 +203,26 @@ export function ReportsUserAnalytics() {
       group: group || undefined,
       organization: organization || undefined,
     };
-  
+
     try {
       setIsLoading(true);
-  
+
       const response = await axios.get('/clickhouse/overall/users-details/', { params });
-  
+
       const configResponse = await axios.get('/clickhouse/configs', { params });
       const userConfigs = configResponse.data.users;
-  
+
       const userMap = userConfigs.reduce((map, user) => {
         map[user.id] = `${user.first_name} ${user.last_name}`.trim() || 'Unnamed User';
         return map;
       }, {});
-  
+
       const data = response.data.map((item) => {
         const userId = item.user;
         const fullName = userId
           ? userMap[userId] || `User${userId}`
           : 'Unlogged users';
-  
+
         return {
           id: userId || 'unlogged',
           user: fullName,
@@ -237,7 +237,7 @@ export function ReportsUserAnalytics() {
           groups: item.groups,
         };
       });
-  
+
       setOriginalTableData(data);
       setTableData(data);
     } catch (error) {
@@ -258,9 +258,9 @@ export function ReportsUserAnalytics() {
     };
     try {
       const { data } = await axios.get('/clickhouse/configs', { params });
-  
+
       const uniqueUserTypes = Array.from(new Set(data.users.map((user) => user.user_type)));
-  
+
       setUsers(
         data.users.map((user) => ({
           id: user.id,
@@ -290,9 +290,9 @@ export function ReportsUserAnalytics() {
   const handleRange = (event) => {
     const selectedRange = event.target.value;
     setRange(selectedRange);
-  
+
     let startDate, endDate;
-  
+
     if (typeof selectedRange === 'number' && selectedRange >= 2015 && selectedRange <= new Date().getFullYear()) {
       startDate = new Date(`${selectedRange}-01-01`);
       endDate = new Date(`${selectedRange}-12-31`);
@@ -315,14 +315,14 @@ export function ReportsUserAnalytics() {
           return;
       }
     }
-  
+
     setDate([startDate, endDate]);
     fetchConfigs(startDate, endDate);
     fetchData(startDate, endDate, [], null, null);
     fetchTableData(startDate, endDate, [], null, null);
     resetFilters();
   };
-  
+
   const handleDateRangeChange = (newDate) => {
     if (!newDate) {
       const defaultEndDate = new Date();
@@ -353,24 +353,24 @@ export function ReportsUserAnalytics() {
 
   const handleGroupChange = (event, newValue) => {
     const updatedGroup = newValue ? newValue.label : null;
-  
+
     setSelectedParams((prev) => ({
       ...prev,
       group: updatedGroup,
     }));
-  
+
     fetchData(date[0], date[1], selectedParams.users, updatedGroup, selectedParams.organization);
     fetchTableData(date[0], date[1], selectedParams.users, updatedGroup, selectedParams.organization);
   };
 
   const handleOrganizationChange = (event, newValue) => {
     const updatedOrganization = newValue ? newValue.label : null;
-  
+
     setSelectedParams((prev) => ({
       ...prev,
       organization: updatedOrganization,
     }));
-  
+
     fetchConfigs(date[0], date[1], updatedOrganization)
     fetchData(date[0], date[1], selectedParams.users, selectedParams.group, updatedOrganization);
     fetchTableData(date[0], date[1], selectedParams.users, selectedParams.group, updatedOrganization);
@@ -379,20 +379,20 @@ export function ReportsUserAnalytics() {
   const applyFilters = (filteredIsActiveUsers, filteredTypeStatusUsers) => {
     if (!filteredIsActiveUsers.length) return filteredTypeStatusUsers;
     if (!filteredTypeStatusUsers.length) return filteredIsActiveUsers;
-  
+
     const filteredUsers = filteredIsActiveUsers.filter(id => filteredTypeStatusUsers.includes(id));
     return filteredUsers.length ? filteredUsers : [-1];
   };
 
   const handleUserIsActiveChange = (event) => {
     const updatedUserIsActive = event.target.value;
-  
+
     let filteredIsActiveUsers = [];
     if (updatedUserIsActive === UserIsActiveStatus.ACTIVE) {
       filteredIsActiveUsers = users
         .filter(user => user.is_active)
         .map(user => user.id);
-  
+
       if (filteredIsActiveUsers.length === 0) {
         filteredIsActiveUsers = [-1];
       }
@@ -400,16 +400,16 @@ export function ReportsUserAnalytics() {
       filteredIsActiveUsers = users
         .filter(user => !user.is_active)
         .map(user => user.id);
-  
+
       if (filteredIsActiveUsers.length === 0) {
         filteredIsActiveUsers = [-1];
       }
     } else if (updatedUserIsActive === UserIsActiveStatus.ALL) {
       filteredIsActiveUsers = [];
     }
-  
+
     const filteredUsers = applyFilters(filteredIsActiveUsers, selectedParams.typeStatusUsers);
-  
+
     setSelectedParams((prev) => ({
       ...prev,
       isActiveUsers: filteredIsActiveUsers,
@@ -422,22 +422,22 @@ export function ReportsUserAnalytics() {
 
   const handleUserTypeChange = (event) => {
     const updatedUserType = event.target.value;
-  
+
     let filteredTypeStatusUsers = [];
     if (updatedUserType !== UserType.ALL && updatedUserType) {
       filteredTypeStatusUsers = users
         .filter(user => user.user_type === updatedUserType)
         .map(user => user.id);
-  
+
       if (filteredTypeStatusUsers.length === 0) {
         filteredTypeStatusUsers = [-1];
       }
     } else if (updatedUserType === UserType.ALL) {
       filteredTypeStatusUsers = [];
     }
-  
+
     const filteredUsers = applyFilters(selectedParams.isActiveUsers, filteredTypeStatusUsers);
-  
+
     setSelectedParams((prev) => ({
       ...prev,
       typeStatusUsers: filteredTypeStatusUsers,
@@ -451,7 +451,7 @@ export function ReportsUserAnalytics() {
   const handleToggleItem = (key) => {
     const updatedItems = { ...activeItems, [key]: !activeItems[key] };
     setActiveItems(updatedItems);
-  
+
     const allSelectedNow = Object.values(updatedItems).every(Boolean);
     setAllSelected(allSelectedNow);
   };
@@ -476,7 +476,7 @@ export function ReportsUserAnalytics() {
       const userStr = row.user.toLowerCase();
       const idStr = row.id.toString();
       const searchLower = searchValue.toLowerCase();
-  
+
       return (
         userStr.includes(searchLower) ||
         idStr.includes(searchLower)
@@ -488,7 +488,7 @@ export function ReportsUserAnalytics() {
   const handleClearSearch = () => {
     setTableData(originalTableData);
   };
-  
+
   const handleExport = () => {
     const csvContent = [
       ['User', 'User Type', 'Resource View', 'Visits Count', 'Downloads', 'Saves', 'All Notes', 'Login', 'Search', 'Groups'],
@@ -507,7 +507,7 @@ export function ReportsUserAnalytics() {
     ]
       .map((e) => e.join(','))
       .join('\n');
-  
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -520,7 +520,7 @@ export function ReportsUserAnalytics() {
   return (
     <div className={cls.userAnalytics}>
       <Typography variant="h5">
-        User Analytics 
+        User Analytics
       </Typography>
       <div>
         <FormControl size="small" sx={{ width: '350px', marginRight: '24px' }}>
