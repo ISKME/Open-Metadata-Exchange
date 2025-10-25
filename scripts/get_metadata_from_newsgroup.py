@@ -36,6 +36,6 @@ def get_metadata_from_newsgroup(
 
 if __name__ == "__main__":
     for i, resource in enumerate(
-        get_metadata_from_newsgroup(newsgroup="qubes.public"), start=1
+        get_metadata_from_newsgroup(newsgroup="ome.qubes"), start=1
     ):
         print(f"{i:02d}: {resource})")

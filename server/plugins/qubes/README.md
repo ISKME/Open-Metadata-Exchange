@@ -60,11 +60,11 @@ Manual method (might need to only run `newgroup` commands one, even after docker
 
 ```bash
 docker compose up
-docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup qubes.public"
-docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup eric.public"
-docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup oer.public"
-docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup openlibrary.public"
-docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup whg.public"
+docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup ome.eric"
+docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup ome.oer"
+docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup ome.openlibrary"
+docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup ome.qubes"
+docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup ome.whg"
 ```
 
 Visit http://localhost:5001/.
