@@ -22,4 +22,3 @@ EXPOSE 119
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
 CMD ["/docker-entrypoint.sh", "-d"]
-

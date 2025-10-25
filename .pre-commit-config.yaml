@@ -18,6 +18,7 @@ repos:
         exclude: ".*fe2/tsconfig.json$"
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
+        exclude_types: [perl]
       - id: check-symlinks
       - id: check-toml
       - id: check-vcs-permalinks

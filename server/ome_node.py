@@ -3,6 +3,7 @@
 # /// script
 # requires-python = ">=3.9"
 # dependencies = [
+#     "pondpond",
 #     "pydantic",
 #     "pynntp",
 #     "pondpond",
@@ -46,7 +47,7 @@ DEFAULT_NEWSGROUP_NAMES: set[str] = {
 }
 
 plugin = load_plugin()
-    
+
 
 def channels() -> Iterator[Channel]:
     """Rename this function to channels() and remove this function below when
@@ -55,7 +56,7 @@ def channels() -> Iterator[Channel]:
     with ClientContextManager() as nntp_client:
         ome_newsgroups = get_newsgroups_from_plugins()
         for name, _low, _high, _status in sorted(nntp_client.list_active()):
-            #if description := ome_newsgroups.get(name):
+            # if description := ome_newsgroups.get(name):
             yield Channel(name=name, description=ome_newsgroups.get(name, ""))
 
 
@@ -75,7 +76,7 @@ def create_post(post: Post) -> bool:
         message = MIMEMultipart()
         message["Subject"] = post.subject
         message["From"] = post.admin_contact
-        
+
         body_part = MIMEText(post.body)
         message.attach(body_part)
 
@@ -92,7 +93,7 @@ def create_post(post: Post) -> bool:
         # headers because the boundary that's referenced in the headers is
         # figured out when it's first serialized
         msg = message.as_string().split("\n\n", 1)[1]
-        
+
         headers = dict(message._headers)  # noqa: SLF001
         headers["Newsgroups"] = ",".join(post.channels)
         return nntp_client.post(headers=headers, body=msg)
@@ -158,7 +159,9 @@ def get_last_n_posts(channel: str, num: int = 3) -> Iterator[Post]:
         for i in range(last, start - 1, -1):
             post_number, headers, body = nntp_client.article(i)
             yield from_post(
-                NewsgroupPost(id=post_number, channel=channel, headers=headers, body=body)
+                NewsgroupPost(
+                    id=post_number, channel=channel, headers=headers, body=body
+                )
             )
 
 
@@ -168,8 +171,8 @@ if __name__ == "__main__":
     # Environment variable INN_SERVER_NAME is defined in the docker-compose.yml file.
     print(f"{os.getenv('INN_SERVER_NAME', 'localhost')=}")
     print("Getting list of channels")
-    nntp_client = get_client()
-    print(f"{nntp_client=}")
+    # nntp_client = get_client()  # TODO(@cclauss): Remove when fixed in pynntp
+    # print(f"{nntp_client=}")
     print("Getting list of channels")
     print(f"{tuple(channels())=}")
     print(channel_summary("local.test"))
