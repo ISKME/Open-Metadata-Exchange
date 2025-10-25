@@ -56,24 +56,10 @@ async def show_channels(request: Request) -> HTMLResponse:
 async def show_channel_details(request: Request, channel_name: str) -> HTMLResponse:
     summary = ome_node.channel_summary(channel_name)
     posts = list(ome_node.get_last_n_posts(channel_name, 10))
-    print(f"{posts=}")
     return templates.TemplateResponse(
         "channel_details.html",
         {"request": request, "channel_summary": summary, "posts": posts},
     )
-
-@app.get("/channel/{channel_name:str}")
-async def show_channel_details(request: Request, channel_name: str) -> HTMLResponse:
-    summary = ome_node.channel_summary(channel_name)
-    posts = list(ome_node.get_last_n_posts(channel_name, 10))
-    print(f"{posts=}")
-    return templates.TemplateResponse(
-        "channel_details.html",
-        {
-            "request": request,
-            "channel_summary": summary,
-            "posts": posts
-        })
 
 
 @app.get("/api/list")
