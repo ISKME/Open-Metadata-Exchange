@@ -1,2 +1,3 @@
 .MuiCardContent-root img{width:200px;}
 .MuiCardMedia-root.MuiCardMedia-img{width:200px; object-fit: contain;}
+.MuiPaper-root MuiAvatar-circular{padding: 20px; width:200px;}

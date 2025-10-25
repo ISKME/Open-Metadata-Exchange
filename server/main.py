@@ -124,7 +124,7 @@ async def import_post(name: str, card: CardRef) -> bool:
 
 
 @app.get("/api/imls/v2/collections/browse/")
-async def browse(sortby: str = "timestamp", per_page: int = 3) -> BrowseResponse:
+async def browse(sortby: str = "timestamp", per_page: int = 10) -> BrowseResponse:
     return browse_results(sortby, per_page)
 
 
@@ -142,6 +142,10 @@ async def channel_summary(channel: str, _id: int) -> ChannelSummaryResponse:
 async def get_channel(channel: str, _id: int) -> ChannelResourcesResponse:
     return get_channel_resources(channel)
 
+
+@app.get("/api/imls/v2/resources/")
+async def get_resources(tenant: str) -> ChannelResourcesResponse:
+    return get_channel_resources(tenant)
 
 app.mount(
     "/api/imls/",

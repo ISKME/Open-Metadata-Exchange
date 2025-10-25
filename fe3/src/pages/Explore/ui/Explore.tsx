@@ -139,7 +139,7 @@ export function Explore({ className }: ExploreProps) {
                       <Typography variant="h6" fontWeight={600}>{microsite.name}</Typography>
                       <Typography variant="body2" color="text.secondary">{microsite.numCollections} Collections</Typography>
                       <Typography variant="body2" color="text.secondary">{microsite.educationalLevels?.slice(0, 3)?.join(', ')}</Typography>
-                      <Button variant="outlined" size="small" sx={{ mt: 2 }} onClick={() => navigate(`/imls/browse/?tenant=${microsite.slug}`)}>
+                      <Button variant="outlined" size="small" sx={{ mt: 2 }} onClick={() => navigate(`/imls/search/?tenant=${microsite.slug}`)}>
                         Explore Microsite
                       </Button>
                     </CardContent>
