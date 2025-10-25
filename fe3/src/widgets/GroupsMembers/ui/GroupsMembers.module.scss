@@ -1,0 +1,47 @@
+.editModal {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 10px;
+ .buttonsGroup {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 20px;
+ }
+ input[type="text"] {
+    height: 34px !important;
+ }
+ .select {
+    select {
+    padding: 10.5px 14px;
+    }
+ }
+ .cancel {
+    padding: 6px 12px;
+    font-family: "DINPro", sans-serif;
+    color: #333333;
+    font-size: 14px;
+    font-weight: 400;
+    &:hover {
+        background-color: transparent;
+        opacity: 0.8;
+    }
+ }
+ .primary {
+    padding: 6px 12px;
+    border-color: #303e48;
+    background-color: #303e48;
+    color: #fad000;
+    font-family: "DINPro", sans-serif;
+    -moz-box-shadow: 0 3px 0 #202c34;
+    -webkit-box-shadow: 0 3px 0 #202c34;
+    box-shadow: 0 3px 0 #202c34;
+    font-size: 14px;
+    font-weight: 400;
+    &:hover {
+      border-color: #8f9bae;
+      background-color: #8f9bae;
+      color: #ffffff;
+      -moz-box-shadow: 0 3px 0 #7c8ba2;
+      -webkit-box-shadow: 0 3px 0 #7c8ba2;
+      box-shadow: 0 3px 0 #7c8ba2;
+    }
+ }
+}

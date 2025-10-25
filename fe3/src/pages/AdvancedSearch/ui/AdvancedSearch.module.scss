@@ -1,0 +1,55 @@
+/* stylelint-disable color-hex-length */
+.Advanced {
+  width: 80%;
+  padding: 0;
+  margin-top: 20px;
+  margin-left: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 5px 5px 22px #ababab, -5px -5px 22px #ffffff;
+}
+
+.advanced_title {
+  margin-bottom: 25px;
+}
+
+.advanced_subtitle {
+  margin-bottom: 20px;
+}
+
+.advanced_filter_item {
+  margin-bottom: 20px;
+}
+
+.advanced_filter_item_title {
+  margin-bottom: 20px;
+}
+
+.include,
+.exclude {
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.include p,
+.exclude p {
+  margin-bottom: 10px;
+}
+
+.btns_wrapper {
+  width: 216px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.back_link {
+  display: inline-block;
+  font-weight: bold;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
+.back_link_img {
+  display: inline;
+  margin-right: 10px;
+}

@@ -1,0 +1,17 @@
+export default [
+    "#F47560",
+    "#E8A838",
+    "#F1E15B",
+    "#97E3D5",
+    "#E8C1A0",
+    "#61CDBB",
+    "#C3A8E3",
+    "#FFB5A7",
+    "#FFD6A5",
+    "#B5E48C",
+    "#A1CFF0",
+    "#C9ADA7",
+    "#FFC09F",
+    "#ADF7B6",
+    "#FFDAC1",
+];

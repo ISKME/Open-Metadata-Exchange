@@ -1,29 +1,35 @@
-# Accessing the two INN servers:
+# Accessing the INN server:
 # Internally (from other containers like the FastAPI containers):
-# * Use internetnews-server-austin:119
-# * Use internetnews-server-boston:119
+# * Use nntp-server:119
 # Externally (from your host):
-# * Use localhost:119 for Austin
-# * Use localhost:1119 for Boston
+# * Use localhost:119
 # host.docker.internal would be used if the INN server was running on your localhost machine.
 
 services:
-  internetnews-server-austin:
-    image: greenbender/inn  # cclauss/inn
-    # volumes:
-      # - ./server_config/news_server/inn.austin.conf:/usr/local/news/etc/inn.conf
-      # - ./server_config/news_server/innfeed.austin.conf:/usr/local/news/etc/innfeed.conf
-      # - ./server_config/news_server/incoming.austin.conf:/usr/local/news/etc/incoming.conf
-      # - ./server_config/news_server/newsfeeds.austin:/usr/local/news/etc/newsfeeds
-      # - ./server_config/news_server/control.ctl.local:/usr/local/news/etc/control.ctl.local
-    hostname: internetnews-server-austin
-    ports:  # external:internal
+  nntp-server:
+    hostname: nntp-server
+    # TODO: the network name in /etc/news/inn.conf should be
+    # different. Should come from .env file.
+    build:
+      context: ./server_config/news_server
+      dockerfile: Dockerfile
+    networks:
+      my_network:
+        ipv4_address: 172.21.0.2
+    ports:
       - 119:119
-      - 563:563
-    restart: always
 
-  fastapi-server-austin:
+    # This is really finicky.. Apparently the 'post_start' hook
+    # doesn't guarantee the container is actually running.
+
+    post_start:
+      - command: |
+          /usr/local/bin/preseed.sh
+
+
+  fastapi-server:
     image: fastapi
+    hostname: fastapi-server
     volumes:
       - ./server:/app/server:rw
       - ./static:/app/static:rw
@@ -32,24 +38,37 @@ services:
       dockerfile: Dockerfile
     environment:
       CMS_PLUGIN: server.plugins.qubes.plugin.QubesPlugin
-      INN_SERVER_NAME: internetnews-server-austin # austin
+      INN_SERVER_NAME: nntp-server
+      # TODO: need to add the username/password that the NNTP server
+      # now needs via .env or some such
       SERVER_PORT: 5001
+    networks:
+      my_network:
+        ipv4_address: 172.21.0.3
     ports:
       - 5001:5001
     depends_on:
-      - internetnews-server-austin
+      - nntp-server
 
-  imls-react-austin:
+  imls-react:
     image: imlsreact
-    volumes:
-      - ./fe2:/app:rw
     build:
-      context: fe2
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-fe
     environment:
       NODE_ENV: development
-      REACT_APP_API_URL: 'http://ome-fastapi-server-austin-1:5001'
+      REACT_APP_API_URL: 'http://fastapi-server:5001'
+    networks:
+      my_network:
+        ipv4_address: 172.21.0.4
     ports:
-      - 4000:4000
+      - 4000:80
     depends_on:
-      - fastapi-server-austin
+      - fastapi-server
+
+networks:
+  my_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
+          gateway: 172.21.0.1   # This is crucial for the nntp config to work.

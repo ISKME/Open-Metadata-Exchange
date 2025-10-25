@@ -1,0 +1,35 @@
+/* stylelint-disable color-function-notation */
+.bymicrosite_list_wrapper {
+  width: 1250px;
+  overflow-x: hidden;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 25px;
+}
+
+.microsite_collection_list {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.u_hidden {
+  display: none !important;
+}
+
+.is_collapsed .microsite_item_card:nth-child(n + 9) {
+  display: none;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.btn_link {
+  color: rgb(58, 20, 156);
+  margin-bottom: 25px;
+  padding: 5px;
+  border: none;
+  background-color: inherit;
+}

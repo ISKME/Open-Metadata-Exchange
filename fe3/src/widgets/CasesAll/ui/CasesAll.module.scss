@@ -1,0 +1,30 @@
+/* stylelint-disable declaration-block-no-redundant-longhand-properties */
+/* stylelint-disable color-hex-length */
+.cases,
+.cases * {
+  font-family: "DINPro", sans-serif !important;
+}
+.grades {
+  margin: 10px 0;
+  border: solid #efeff0;
+  border-width: 1px 0 0 1px;
+  cursor: pointer;
+  .grade {
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 0;
+    width: 20%;
+    border: solid #efeff0;
+    border-width: 0 1px 1px 0;
+    padding: 18px 0;
+    text-align: center;
+    &:hover {
+      background-color: #ececec;
+    }
+  }
+}
+.page-subtitle {
+  color: #44515a;
+  font: 400 22px / 22px "DINPro", sans-serif !important;
+  margin-bottom: 15px !important;
+}

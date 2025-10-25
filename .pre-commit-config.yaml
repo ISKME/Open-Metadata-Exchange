@@ -18,7 +18,9 @@ repos:
         exclude: ".*fe2/tsconfig.json$"
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
+        exclude_types: [perl]
       - id: check-symlinks
+        exclude: server_config/frontend_server/dev/etc/nginx/modules
       - id: check-toml
       - id: check-vcs-permalinks
       - id: check-xml
@@ -54,13 +56,13 @@ repos:
           - tomli
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.0
+    rev: v0.14.1
     hooks:
       - id: ruff-check
       - id: ruff-format
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.7.0
+    rev: v2.11.0
     hooks:
       - id: pyproject-fmt
 

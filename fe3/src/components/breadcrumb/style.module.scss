@@ -1,0 +1,80 @@
+.frame {
+  align-items: center;
+  background-color: #054dd1;
+  border-radius: 1000px;
+  display: inline-flex;
+  gap: 8px;
+  padding: 8px 24px;
+  position: relative;
+
+  .div {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 8px;
+    position: relative;
+  }
+
+  .img {
+    height: 16px;
+    position: relative;
+    width: 16px;
+  }
+
+  .sort-by {
+    color: rgba(252, 252, 252, 1);
+    font-family: "Open Sans";
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .1px;
+    line-height: 24px;
+    margin-top: -1px;
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+    width: fit-content;
+  }
+
+  .arrow-drop-up {
+    height: 16px;
+    position: relative;
+    width: 23px;
+  }
+
+  .vector {
+    align-self: stretch;
+    position: relative;
+    width: 1px;
+  }
+
+  .text {
+    color: rgba(252, 252, 252, 1);
+    font-family: "Open Sans";
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .1px;
+    line-height: 24px;
+    margin-top: -1px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+  }
+}
+
+.frame .subscribed-content {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  padding: 0px 8px;
+  position: relative;
+  text-transform: capitalize;
+}
+
+.frame .property-1-notification {
+  height: 16px !important;
+  left: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+  width: 14px !important;
+}

@@ -24,7 +24,7 @@ class WHGPlugin(OMEPlugin):
     # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
     newsgroups: dict[str, str] = MappingProxyType(
         {
-            "whg.public": (
+            "ome.whg": (
                 "Metadata from World Historical Gazetteer (WHG) https://whgazetteer.org"
             ),
         }

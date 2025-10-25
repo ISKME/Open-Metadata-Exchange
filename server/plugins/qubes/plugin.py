@@ -25,7 +25,7 @@ class QubesPlugin(OMEPlugin):
     # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
     newsgroups: dict[str, str] = MappingProxyType(
         {
-            "qubes.public": "Metadata from QUBES https://qubeshub.org",
+            "ome.qubes": "Metadata from QUBES https://qubeshub.org",
         }
     )
     site_name: str = "Qubes"

@@ -44,11 +44,12 @@ jobs:
           - 563:563
     steps:
       - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
-      - run: uvx --with=beautifulsoup4,dateparser,httpx,pydantic,pynntp pytest
+      # TODO(@cclauss): Remove `|| true` when tests are fixed
+      - run: uvx --with=beautifulsoup4,dateparser,httpx,pondpond,pydantic,pynntp pytest
       - run: uv run scripts/nntp_io.py || true  # TODO(@cclauss): Remove `|| true` when that script is fixed
 
   front-end:
@@ -59,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
       - run: cd fe2 && npm ci || npm install

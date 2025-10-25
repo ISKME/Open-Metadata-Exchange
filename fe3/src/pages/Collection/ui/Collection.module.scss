@@ -1,0 +1,194 @@
+.formatted-text {
+  color: #333333;
+  font: 400 14px / 24px "Poppins", sans-serif;
+  overflow-wrap: break-word;
+  overflow-x: auto;
+  margin-top: 30px;
+
+  sup {
+    top: -0.5em;
+  }
+
+  sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+}
+
+.formatted-text h1,
+.formatted-text h2,
+.formatted-text h3,
+.formatted-text h4 {
+  font-family: "Poppins", sans-serif;
+}
+
+.formatted-text h1:first-child,
+.formatted-text h2:first-child,
+.formatted-text h3:first-child,
+.formatted-text h4:first-child {
+  margin-top: 0;
+}
+
+.formatted-text h1:last-child,
+.formatted-text h2:last-child,
+.formatted-text h3:last-child,
+.formatted-text h4:last-child {
+  margin-bottom: 0;
+}
+
+.formatted-text h1 {
+  font-weight: normal;
+  font-size: 18px;
+}
+
+.formatted-text h2 {
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.formatted-text h3 {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.formatted-text h4 {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.formatted-text h4.terms-italic {
+  color: #2b3990;
+  font-weight: normal;
+}
+
+.formatted-text p {
+  margin-bottom: 1em;
+}
+
+.formatted-text p:last-child {
+  margin-bottom: 0;
+}
+
+.formatted-text ul,
+.formatted-text ol {
+  list-style-position: outside;
+  margin-left: 2em;
+  margin-bottom: 1em;
+}
+
+.formatted-text ul:last-child,
+.formatted-text ol:last-child {
+  margin-bottom: 0;
+}
+
+.formatted-text table {
+  margin-bottom: 1em;
+}
+
+.formatted-text th {
+  text-align: center;
+}
+
+.formatted-text td,
+.formatted-text th {
+  vertical-align: top;
+  padding: 2px 10px;
+}
+
+.formatted-text table {
+  display: block;
+  overflow-x: scroll;
+}
+
+.formatted-text table[border] td,
+.formatted-text table[border] th {
+  border: 3px solid;
+}
+
+.formatted-text table[border="2"] td,
+.formatted-text table[border="2"] th {
+  border: 2px solid;
+}
+
+.formatted-text table td,
+.formatted-text table th,
+.formatted-text table[border="1"] td,
+.formatted-text table[border="1"] th {
+  border: 1px solid;
+}
+
+.formatted-text table[border="0"] {
+  border: none;
+}
+
+.formatted-text table>caption {
+  caption-side: bottom;
+  font-style: italic;
+}
+
+.formatted-text .indent-1 {
+  margin-left: 4em;
+}
+
+.formatted-text .indent-2 {
+  margin-left: 8em;
+}
+
+.formatted-text .indent-3 {
+  margin-left: 12em;
+}
+
+.formatted-text blockquote {
+  font-size: 1em;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+}
+
+.formatted-text figure {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.formatted-text .oembed iframe {
+  max-width: 100%;
+}
+
+.formatted-text img {
+  max-width: 100%;
+}
+
+.formatted-text img.qr-code {
+  display: block;
+  max-width: 25%;
+  margin: 0 auto;
+}
+
+.formatted-text abbr {
+  cursor: help;
+  border-bottom: 1px dotted #777777;
+  text-decoration: none;
+}
+
+.formatted-text sub a {
+  display: inline-block;
+  font-size: 100%;
+}
+
+.formatted-text a {
+  color: #2395d1;
+  text-decoration: underline;
+}
+
+.formatted-text a:hover {
+  color: #215064;
+  text-decoration: underline;
+}
+
+.formatted-text a:visited {
+  color: #804180;
+  text-decoration: underline;
+}

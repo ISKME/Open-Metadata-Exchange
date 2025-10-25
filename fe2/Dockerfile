@@ -1,5 +1,5 @@
 #React app imagefile
-FROM node:20-alpine
+FROM node:current-bookworm
 
 # Prepare app directory
 WORKDIR /app/
