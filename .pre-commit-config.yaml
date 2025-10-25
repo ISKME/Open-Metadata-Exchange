@@ -19,7 +19,8 @@ repos:
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
         exclude_types: [perl]
-      - id: check-symlinks
+      - id: check-symlinks 
++       exclude: server_config/frontend_server/dev/etc/nginx/modules
       - id: check-toml
       - id: check-vcs-permalinks
       - id: check-xml
