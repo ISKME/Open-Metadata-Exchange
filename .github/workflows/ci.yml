@@ -49,7 +49,7 @@ jobs:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
       # TODO(@cclauss): Remove `|| true` when tests are fixed
-      - run: uvx --with=beautifulsoup4,dateparser,httpx,pondpond,pydantic,pynntp pytest
+      - run: uvx --with=beautifulsoup4,dateparser,httpx,pondpond,pydantic,pynntp,pytest-run-parallel pytest --iterations=8 --parallel-threads=auto --ignore-gil-enabled
       - run: uv run scripts/nntp_io.py
 
   front-end:
