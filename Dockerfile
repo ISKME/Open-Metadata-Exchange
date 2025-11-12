@@ -8,8 +8,8 @@
 
 # To kill the background container, run `docker kill $(docker ps -lq)`
 
-# Use Astral's uv Debian Trixie Slim Python 3.14 base image
-FROM ghcr.io/astral-sh/uv:python3.14-trixie-slim
+# Use Astral's uv Debian Trixie Slim Python 3.12 base image
+FROM ghcr.io/astral-sh/uv:python3.12-trixie-slim
 
 RUN apt-get update && apt-get install -y build-essential
 
