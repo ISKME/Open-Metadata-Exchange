@@ -2,9 +2,11 @@
 from collections.abc import Generator, Iterator
 from datetime import datetime, timezone
 
+import nntp
 import pytest
 
 from server import ome_node, schemas, utils
+from server.connection_pool import ClientContextManager
 
 AUSTIN_PORT = 119
 BOSTON_PORT = AUSTIN_PORT + 1000
@@ -36,20 +38,19 @@ def enable_a_default_newsgroup(newsgroup: str = "local.test") -> Generator[None]
     ome_node.DEFAULT_NEWSGROUP_NAMES.add(newsgroup)
 
 
-@pytest.mark.parametrize("port", [AUSTIN_PORT, BOSTON_PORT])
-@pytest.mark.xfail(reason="ome_node.get_client() was removed", strict=True)
-def test_pynntp_client(port: int) -> None:
-    pynntp_client = ome_node.get_client(port=port)
-    assert isinstance(pynntp_client, ome_node.NNTPClient)
-    # See https://github.com/greenbender/pynntp/issues/95
-    newsgroups = set(pynntp_client.list_newsgroups())
-    assert newsgroups == DEFAULT_NEWSGROUPS
-    newsgroup_names = {
-        name for name, _low, _high, _status in pynntp_client.list_active()
-    }
-    assert newsgroup_names == ome_node.DEFAULT_NEWSGROUP_NAMES, (
-        f"Expected names {ome_node.DEFAULT_NEWSGROUP_NAMES}, but got {newsgroup_names}"
-    )
+def test_pynntp_client() -> None:
+    with ClientContextManager() as pynntp_client:
+        assert isinstance(pynntp_client, nntp.NNTPClient)
+        # See https://github.com/greenbender/pynntp/issues/95
+        newsgroups = set(pynntp_client.list_newsgroups())
+        assert newsgroups == DEFAULT_NEWSGROUPS
+        newsgroup_names = {
+            name for name, _low, _high, _status in pynntp_client.list_active()
+        }
+        assert newsgroup_names == ome_node.DEFAULT_NEWSGROUP_NAMES, (
+            f"Expected names {ome_node.DEFAULT_NEWSGROUP_NAMES}, but got "
+            f"{newsgroup_names}"
+        )
 
 
 @pytest.mark.xfail(reason="ome_node.get_client() was removed.", strict=True)
@@ -72,7 +73,7 @@ def test_one_channel() -> None:
 
 
 @pytest.mark.usefixtures("enable_a_default_newsgroup")
-@pytest.mark.xfail(reason="ome_node.get_client() was removed.", strict=True)
+@pytest.mark.xfail(reason="enable_a_default_newsgroup() is broken.", strict=True)
 def test_channel_summary() -> None:
     nntp_client = ome_node.get_client()
     for channel in ome_node.channels():
