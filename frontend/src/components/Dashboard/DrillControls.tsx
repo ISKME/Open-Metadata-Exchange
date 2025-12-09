@@ -342,18 +342,18 @@ export function useDrill({
     setSelL1(null);
     setLvl1Options([]);
     setChartData(null);
-  
+
     if (blockRegionOnceRef) {
       blockRegionOnceRef.current = false;
     }
     if (initTargetRef) {
       initTargetRef.current = "none";
     }
-  
+
     if (isTimeline) return;
     if (!sections[1]) return;
     if (!option) return;
-  
+
     await loadLevel1(option.label, false);
   };
 
