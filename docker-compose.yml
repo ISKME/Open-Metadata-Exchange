@@ -18,14 +18,8 @@ services:
         ipv4_address: 172.21.0.2
     ports:
       - 119:119
-
-    # This is really finicky.. Apparently the 'post_start' hook
-    # doesn't guarantee the container is actually running.
-
     post_start:
-      - command: |
-          /usr/local/bin/preseed.sh
-
+      - command:  sh -c "/usr/local/bin/wait_for_tcp.sh 119 20 && /usr/local/bin/preseed.sh"
 
   fastapi-server:
     image: fastapi
