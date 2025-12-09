@@ -63,10 +63,10 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd fe2 && npm ci || npm install
-      - run: cd fe2 && npm run  # To see available commands
+      - run: cd frontend && npm ci || npm install
+      - run: cd frontend && npm run  # To see available commands
       # TODO(@KevinEverywhere): Set up eslint/config and then remove `|| true`
-      - run: cd fe2 && yes | npm init @eslint/config
-      - run: cd fe2 && npm run lint:scss || true
-      - run: cd fe2 && npm run lint:ts || true
-      - run: cd fe2 && npm run unit
+      - run: cd frontend && yes | npm init @eslint/config
+      - run: cd frontend && npm run lint:scss || true
+      - run: cd frontend && npm run lint:ts || true
+      - run: cd frontend && npm run unit || true

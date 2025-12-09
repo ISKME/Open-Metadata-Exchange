@@ -1,6 +1,6 @@
 FROM debian:stable
 
-RUN apt-get update && apt-get install -y --no-install-recommends openssl tini inn2
+RUN apt-get update && apt-get install -y --no-install-recommends openssl tini inn2 netcat-traditional
 
 COPY ./dev/docker-entrypoint.sh /docker-entrypoint.sh
 
@@ -16,6 +16,7 @@ RUN chown root:root /var/lib/news/newsusers
 RUN mkdir -p /var/www/inn
 RUN chown news:news /var/www/inn
 
+COPY ./wait_for_tcp.sh /usr/local/bin/
 COPY ./preseed.sh /usr/local/bin/
 
 EXPOSE 119
