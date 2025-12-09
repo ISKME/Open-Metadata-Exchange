@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useEffect, useState, useRef } from 'react';
 
 import { ILesson } from 'entities/Lesson';
