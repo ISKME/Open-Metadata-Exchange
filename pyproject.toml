@@ -11,6 +11,7 @@ classifiers = [
 ]
 dependencies = [
   "fastapi[standard]>=0.115.8",
+  "madoka>=0.7.2.1",
   "pondpond",
   "pynntp>=2.0.1",
 ]
@@ -47,7 +48,7 @@ lint.per-file-ignores."tools/har_parser/har_parser.py" = [ "PTH" ] # flake8-use-
 lint.pylint.allow-magic-value-types = [ "int", "str" ]
 
 [tool.codespell]
-ignore-words-list = "formend,thur"
+ignore-words-list = "astroid,formend,thur"
 skip = "*.csv,*.ctl,*/ERIC_open_records.json,*/package-lock.json,*/whg.json,./fe*/node_modules/*,static/api/imls/v2/**/*.json"
 
 [tool.pyproject-fmt]
