@@ -1,0 +1,30 @@
+{
+  "id": "EJ1166550",
+  "title": "On Parallel Software Engineering Education Using Python",
+  "author": [
+    "Marowka, Ami"
+  ],
+  "description": "Python is gaining popularity in academia as the preferred language to teach novices serial programming. The syntax of Python is clean, easy, and simple to understand. At the same time, it is a high-level programming language that supports multi programming paradigms such as imperative, functional, and object-oriented. Therefore, by default, it is almost obvious to believe that Python is also the appropriate language for teaching parallel programming paradigms. This paper presents an in-depth study that examines to what extent Python language is suitable for teaching parallel programming to inexperienced students. The findings show that Python has stumbling blocks that prevent it from preserving its advantages when shifting from serial programming to parallel programming. Therefore, choosing Python as the first language for teaching parallel programming calls for strong justifications, especially when better solutions exist in the community.",
+  "subject": [
+    "Computer Science Education",
+    "Programming Languages",
+    "Computer Software",
+    "Engineering Education",
+    "Novices",
+    "Educational Benefits",
+    "Barriers"
+  ],
+  "publicationtype": [
+    "Journal Articles",
+    "Reports - Research"
+  ],
+  "publicationdateyear": 2018,
+  "language": [
+    "English"
+  ],
+  "issn": [
+    "ISSN-1360-2357"
+  ],
+  "publisher": "Springer. 233 Spring Street, New York, NY 10013. Tel: 800-777-4643; Tel: 212-460-1500; Fax: 212-348-4505; e-mail: service-ny@springer.com; Web site: http://www.springerlink.com",
+  "peerreviewed": "T"
+}
