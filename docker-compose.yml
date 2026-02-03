@@ -5,6 +5,10 @@
 # * Use localhost:119
 # host.docker.internal would be used if the INN server was running on your localhost machine.
 
+env_file:
+  - path: .env
+    required: true
+
 services:
   nntp-server:
     hostname: nntp-server
@@ -31,7 +35,7 @@ services:
     build:
       dockerfile: Dockerfile
     environment:
-      CMS_PLUGIN: server.plugins.qubes.plugin.QubesPlugin
+      CMS_PLUGIN: ${OME_CMS_PLUGIN}
       INN_SERVER_NAME: nntp-server
       # TODO: need to add the username/password that the NNTP server
       # now needs via .env or some such
