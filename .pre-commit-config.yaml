@@ -62,7 +62,7 @@ repos:
       - id: ruff-format
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.12.1
+    rev: v2.14.2
     hooks:
       - id: pyproject-fmt
 
@@ -72,6 +72,6 @@ repos:
       - id: validate-pyproject
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.9.29
+    rev: 0.10.0
     hooks:
       - id: uv-lock
