@@ -30,7 +30,6 @@ docs = [
 
 [tool.ruff]
 target-version = "py312"
-
 exclude = [ ".git/", "server/plugins/moodle/extract-mbz3.py" ]
 lint.select = [ "ALL" ]
 lint.ignore = [
@@ -42,9 +41,9 @@ lint.ignore = [
   "T201",   # flake8-print
   "TD003",  # Missing issue link for this TODO
 ]
-lint.per-file-ignores."server/schemas.py" = [ "N815" ] # the case in the response json is dictated by the API
-lint.per-file-ignores."tests/*" = [ "S101" ] # Use of assert detected
-lint.per-file-ignores."tools/har_parser/har_parser.py" = [ "PTH" ] # flake8-use-pathlib
+lint.per-file-ignores."server/schemas.py" = [ "N815" ]  # the case in the response json is dictated by the API
+lint.per-file-ignores."tests/*" = [ "S101" ]  # Use of assert detected
+lint.per-file-ignores."tools/har_parser/har_parser.py" = [ "PTH" ]  # flake8-use-pathlib
 lint.pylint.allow-magic-value-types = [ "int", "str" ]
 
 [tool.codespell]
@@ -93,7 +92,6 @@ myst_fence_as_directive = [
   "mermaid",
 ]
 templates_path = [ "_templates" ]
-[tool.sphinx-pyproject.source_suffix]
-".rst" = "restructuredtext"
-".txt" = "markdown"
-".md" = "markdown"
+source_suffix.".rst" = "restructuredtext"
+source_suffix.".txt" = "markdown"
+source_suffix.".md" = "markdown"
