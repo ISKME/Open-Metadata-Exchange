@@ -53,6 +53,24 @@ skip = "*.csv,*.ctl,*/ERIC_open_records.json,*/package-lock.json,*/whg.json,./fe
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
 
+[tool.rumdl]
+disable = [
+  "MD001",
+  "MD007",
+  "MD012",
+  "MD013",
+  "MD022",
+  "MD025",
+  "MD026",
+  "MD031",
+  "MD032",
+  "MD034",
+  "MD040",
+  "MD041",
+  "MD057",
+  "MD064"
+]
+
 [tool.sphinx-pyproject]
 copyright = "2024, ISKME and contributors"
 autoapi_dirs = [ "server", "src" ]
