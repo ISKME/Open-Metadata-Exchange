@@ -1,144 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Open Metadata Exchange Demo</title>
+    <title>Open Metadata Exchange API Server</title>
   </head>
   <body>
-    <h1>Open Metadata Exchange Demo</h1>
+    <h1>Open Metadata Exchange</h1>
+    <h2>Project Related</h2>
     <ul>
-      <li><a href="https://github.com/ISKME/Open-Metadata-Exchange" target="_blank">Code</a></li>
-      <li><a href="https://ISKME.github.io/Open-Metadata-Exchange" target="_blank">Docs</a></li>
-      <li><a href="https://github.com/ISKME/Open-Metadata-Exchange/issues" target="_blank">Issues</a></li>
-      <li><a href="https://github.com/ISKME/Open-Metadata-Exchange/pulls" target="_blank">Pull requests</a></li>
+      <li><a href="https://github.com/ISKME/Open-Metadata-Exchange">Code</a></li>
+      <li><a href="https://ISKME.github.io/Open-Metadata-Exchange">Docs</a></li>
+      <li><a href="https://github.com/ISKME/Open-Metadata-Exchange/issues">Issues</a></li>
+      <li><a href="https://github.com/ISKME/Open-Metadata-Exchange/pulls">Pull requests</a></li>
     </ul>
-    <h2>Frontend GUI FE2</h2>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Austin (port: 4000)</th>
-          <th>Boston (port: 4001)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><a href="http://localhost:4000/imls" target="_blank">Austin Frontend</a></td>
-          <td><a href="http://localhost:4001/imls" target="_blank">Boston Frontend</a></td>
-        </tr>
-      </tbody>
-    </table>
+    <h2>Quick Links</h2>
+    <ul>
+      <li><a href="http://localhost:4000/imls/">Frontend</a></li>
+      <li><a href="http://localhost:5001/channels">Channels</a></li>
+      <li><a href="http://localhost:5001/docs">API Docs</a></li>
+      <li><a href="http://localhost:5001/redoc">API Docs (Redoc)</a></li>
+      <li><a href="http://localhost:5001/openapi.json">OpenAPI JSON</a></li>
+    </ul>
 
-    <h2>Debug frontend GUI FE</h2>
+    <h2>Quick Links (Debug)</h2>
     <p>Start with: `cd fe && npm install && npm run dev`</P>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Austin (port: 3000)</th>
-          <th>Boston (port: 3001)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><a href="http://localhost:3000" target="_blank">Austin Debug Frontend</a></td>
-          <td><a href="http://localhost:3001" target="_blank">Boston Debug Frontend</a></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h2>FastAPI Servers</h2>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Austin (port: 5001)</th>
-          <th>Boston (port: 5002)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="2" style="text-align: center;"><strong>API docs</strong></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/docs" target="_blank">Docs</a></td>
-          <td><a href="http://localhost:5002/docs" target="_blank">Docs</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/redoc" target="_blank">Redoc</a></td>
-          <td><a href="http://localhost:5002/redoc" target="_blank">Redoc</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/openapi.json" target="_blank">OpenAPI JSON</a></td>
-          <td><a href="http://localhost:5002/openapi.json" target="_blank">OpenAPI JSON</a></td>
-        </tr>
-        <tr>
-          <td colspan="2" style="text-align: center;"><strong>API calls</strong></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/list" target="_blank">API List</a></td>
-          <td><a href="http://localhost:5002/api/list" target="_blank">API List</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/channel/local.test" target="_blank">Channel: local.test</a></td>
-          <td><a href="http://localhost:5002/api/channel/local.test" target="_blank">Channel: local.test</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/channel/local.test/cards" target="_blank">Channel Cards: local.test</a></td>
-          <td><a href="http://localhost:5002/api/channel/local.test/cards" target="_blank">Channel Cards: local.test</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/channel/eric.public" target="_blank">Channel: eric.public</a></td>
-          <td><a href="http://localhost:5002/api/channel/eric.public" target="_blank">Channel: eric.public</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/channel/eric.public/cards" target="_blank">Channel Cards: eric.public</a></td>
-          <td><a href="http://localhost:5002/api/channel/eric.public/cards" target="_blank">Channel Cards: eric.public</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/channel/oer.public" target="_blank">Channel: oer.public</a></td>
-          <td><a href="http://localhost:5002/api/channel/oer.public" target="_blank">Channel: oer.public</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/channel/oer.public/cards" target="_blank">Channel Cards: oer.public</a></td>
-          <td><a href="http://localhost:5002/api/channel/oer.public/cards" target="_blank">Channel Cards: oer.public</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/channel/openlibrary.public" target="_blank">Channel: openlibrary.public</a></td>
-          <td><a href="http://localhost:5002/api/channel/openlibrary.public" target="_blank">Channel: openlibrary.public</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/channel/openlibrary.public/cards" target="_blank">Channel Cards: openlibrary.public</a></td>
-          <td><a href="http://localhost:5002/api/channel/openlibrary.public/cards" target="_blank">Channel Cards: openlibrary.public</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/channel/qubes.public" target="_blank">Channel: qubes.public</a></td>
-          <td><a href="http://localhost:5002/api/channel/qubes.public" target="_blank">Channel: qubes.public</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/channel/qubes.public/cards" target="_blank">Channel Cards: qubes.public</a></td>
-          <td><a href="http://localhost:5002/api/channel/qubes.public/cards" target="_blank">Channel Cards: qubes.public</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/channel/whg.public" target="_blank">Channel: whg.public</a></td>
-          <td><a href="http://localhost:5002/api/channel/whg.public" target="_blank">Channel: whg.public</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/channel/whg.public/cards" target="_blank">Channel Cards: whg.public</a></td>
-          <td><a href="http://localhost:5002/api/channel/whg.public/cards" target="_blank">Channel Cards: whg.public</a></td>
-        </tr>
-        <tr>
-          <td colspan="2" style="text-align: center;"><strong>OER pages</strong></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/imls/v2/collections/browse/" target="_blank">Collections Browse</a></td>
-          <td><a href="http://localhost:5002/api/imls/v2/collections/browse/" target="_blank">Collections Browse</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/imls/v2/resources/" target="_blank">Resources</a></td>
-          <td><a href="http://localhost:5002/api/imls/v2/resources/" target="_blank">Resources</a></td>
-        </tr>
-        <tr>
-          <td><a href="http://localhost:5001/api/imls/v2/explore-oer-exchange/" target="_blank">Explore OER Exchange</a></td>
-          <td><a href="http://localhost:5002/api/imls/v2/explore-oer-exchange/" target="_blank">Explore OER Exchange</a></td>
-        </tr>
-      </tbody>
-    </table>
+    <ul>
+      <li><a href="http://localhost:3000">Debug Frontend</a></li>
+    </ul>
   </body>
 </html>

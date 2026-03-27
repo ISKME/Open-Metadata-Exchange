@@ -8,10 +8,12 @@
 
 # To kill the background container, run `docker kill $(docker ps -lq)`
 
-# Use Asteal's uv Debian Bookworm Slim Python 3.12 base image
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+# Use Astral's uv Debian Trixie Slim Python 3.12 base image
+FROM ghcr.io/astral-sh/uv:python3.12-trixie-slim
 
-RUN uv venv && uv pip install "fastapi[standard]" pydantic pynntp beautifulsoup4 dateparser && mkdir -p /app/server
+RUN apt-get update && apt-get install -y build-essential
+
+RUN uv venv && uv pip install "fastapi[standard]" pydantic pynntp beautifulsoup4 dateparser pondpond && mkdir -p /app/server
 
 # Create a directory for the FastAPI app
 WORKDIR /app

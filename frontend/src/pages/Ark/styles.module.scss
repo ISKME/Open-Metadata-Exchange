@@ -1,0 +1,379 @@
+.header {
+    font-family: "IBM Plex Mono", monospace !important;
+    text-align: center;
+    margin: 90px auto 50px !important;
+    color: black;
+    font-size: 36px !important;
+    font-weight: 600 !important;
+    line-height: 40px !important;
+}
+.subHeader {
+    color: #000;
+    text-align: center;
+    font-size: 26px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: 30px !important;
+    letter-spacing: -0.52px !important;
+}
+.learn {
+    display: block;
+    color: #000;
+    text-align: center;
+    font-size: 20px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: 30px !important;
+    letter-spacing: -0.4px !important;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+    margin-top: 24px !important;
+    margin-bottom: 36px !important;
+}
+.browseSamples {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 16px !important;
+    font-size: 18px;
+    & > span {
+        font-weight: 700;
+    }
+    & > a {
+        color: #000;
+        max-width: 220px;
+        height: 24px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        &.browseAll {
+            color: #646464;
+        }
+    }
+}
+.title {
+    font-family: "IBM Plex Mono", monospace !important;
+    text-align: center;
+    margin: 0 auto 36px !important;
+    font-size: 26px !important;
+    font-weight: 600 !important;
+    line-height: 30px !important;
+}
+.text {
+    font-size: 18px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: 28px !important;
+    max-width: 720px;
+    margin: 0 auto 48px !important;
+    a {
+        color: #000;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 28px;
+        text-decoration-line: underline;
+        text-decoration-style: solid;
+        text-decoration-skip-ink: auto;
+        text-decoration-thickness: auto;
+        text-underline-offset: auto;
+        text-underline-position: from-font;
+    }
+}
+.navToolbar {
+    min-height: 72px !important;
+}
+.navContainer {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+}
+.navTitle {
+    font-family: "IBM Plex Mono", monospace !important;
+    font-size: 17.26px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: 19.178px !important;
+    text-decoration: none;
+    color: #FFF;
+}
+.navLink {
+    color: #C2C2C2;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24.169px;
+    text-decoration: none;
+}
+.search {
+    text-align: center;
+    margin-bottom: 28px;
+}
+.searchBlock {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 36px;
+}
+.searchResults {
+    display: flex;
+    gap: 28px;
+}
+.filters {
+    min-width: 300px;
+}
+.resourcesList {
+    width: 100%;
+}
+.loaderContainer {
+    padding-top: 16px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 16px;
+    font-family: "IBM Plex Mono", monospace;
+}
+.dropdowns {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+.footerLink {
+    color: #C2C2C2;
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30px;
+    text-decoration: none;
+}
+.copyRight {
+    color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px;
+}
+.footerText {
+    color: #C2C2C2;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px;
+}
+/* stylelint-disable color-function-notation */
+/* stylelint-disable declaration-block-no-redundant-longhand-properties */
+/* stylelint-disable color-hex-length */
+
+.collection_header {
+    display: flex;
+    gap: 48px;
+    margin-bottom: 16px;
+    font-family: Inter;
+
+    & > div:first-child {
+        width: 320px;
+
+        img {
+            border-radius: 8px;
+            width: 100%;
+            border: 1px solid rgb(0, 0, 0, .5);
+        }
+    }
+
+    & > div:nth-child(2) {
+        color: #173d50;
+
+        & > * {
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            text-transform: uppercase;
+            display: inline;
+            margin-right: 8px;
+            font-weight: bold;
+            font-size: 24px;
+            line-height: 30px;
+            color: #474f60;
+        }
+
+        h4 {
+            margin-top: 16px;
+            color: #173d50;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 20px;
+        }
+
+        a {
+            color: #0e0f54;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .button {
+            align-items: center;
+            height: 24px;
+            background: #0e0f54;
+            border: 1px solid #0e0f54;
+            border-radius: 10px;
+            padding: 4px 12px;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 17px;
+            color: #fff;
+            box-shadow: none;
+            margin: 0;
+        }
+
+        .desc {
+            display: flex;
+            gap: 16px;
+
+            & > div {
+                &:first-child {
+                    flex: 7;
+                }
+
+                &:nth-child(2) {
+                    flex: 3;
+                }
+            }
+
+            .shorten {
+                width: 300px;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                white-space: break-spaces;
+            }
+        }
+    }
+}
+
+.compress {
+    max-height: 72px;
+    overflow: hidden;
+    font-family: Inter;
+}
+
+.overview_link {
+    font-weight: normal;
+    position: absolute !important;
+    bottom: 0;
+    right: 0;
+    background: rgb(241 242 242);
+    padding-left: 12px;
+    color: #1f0894;
+    cursor: pointer;
+}
+.sections {
+    h1, h2, h3, h4, h5, h6 {
+        margin-top: 24px;
+        margin-bottom: 16px;
+    }
+    h4, h6 {
+        margin-top: 0;
+    }
+    table {
+        margin-bottom: 16px;
+        margin-top: 8px;
+        padding: 16px;
+        border: 1px solid rgba(0, 0, 0, .15);
+        border-radius: 8px;
+        background: rgba(214 222 224 / 50%);
+        tbody {
+            border: none;
+            td {
+                border: none;
+            }
+        }
+    }
+    p {
+        margin-bottom: 1em;
+    }
+}
+.content {
+    background-color: rgba(214 222 224 / 40%);
+    margin-top: 20px;
+    padding: 20px;
+}
+.attachments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin: 16px 4px;
+    a {
+        color: #474f60;
+        text-decoration: none;
+        display: flex;
+        gap: 8px;
+    }
+}
+.details {
+    font-family: Inter;
+    flex-grow: 1;
+    flex-direction: column;
+    display: flex;
+    &>div {
+        margin-bottom: 8px;
+    }
+    p {
+        min-height: 20px;
+    }
+}
+.standards {
+    // font-family: Inter;
+    text-align: center;
+    h5, h4, .standardsDescription {
+        // font-family: Inter;
+        margin-bottom: 4px;
+    }
+}
+.resourceLibrary {
+    // font-family: Inter;
+    flex-grow: 1;
+    flex-direction: column;
+    display: flex;
+    gap: 8px;
+    a {
+        color: #474f60;
+        text-decoration: none;
+        display: flex;
+        gap: 8px;
+        background: #dee0e5;
+        padding: 8px 12px;
+        border-radius: 8px;
+    }
+}
+.chip {
+    padding: 1px 4px;
+    background-color: rgba(214 222 224 / 50%);
+    border-radius: 4px;
+    margin-right: 4px;
+}
+.overview {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 24px;
+    &::after {
+        background-image: linear-gradient(0deg, white 8%, transparent);
+        height: 20px;
+        width: 100%;
+        content: " ";
+        display: block;
+        position: absolute;
+        bottom: 0;
+    }
+}

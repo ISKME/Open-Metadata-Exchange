@@ -34,7 +34,7 @@ rich_console = Console()
 
 
 def get_group_headers(newsgroup: str, nntp_client: NNTPClient) -> dict:
-    count, first, last, name = nntp_client.group(newsgroup)
+    _count, first, last, _name = nntp_client.group(newsgroup)
     return {
         header["Message-ID"]: (article_number, header)
         for article_number, header in nntp_client.xover((first, last))

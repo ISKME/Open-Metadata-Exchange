@@ -1,0 +1,27 @@
+##  Sample news2mail configuration file.
+##
+##  Format is:
+##
+##      newsfeeds-name      list-to-address      [list-sender-address]
+##
+##  newsfeeds-name:       Name used in the newsfeeds file for the gateway feed
+##                        (required).
+##  list-to-address:      List address to send articles to (required).
+##  list-sender-address:  Envelope-from address to use (a list member's
+##                        address; optional).
+##
+##  In newsfeeds, put an entry like:
+##
+##      news2mail!:!*:Ac,Tc,Wn*:<pathbin>/news2mail
+##
+##  and for each mailing-list, have an entry list like:
+##
+##      list-big-red-ants/lists.ucsd.edu:!*,rec.pets.red-ants:Ap,Tm:news2mail!
+##
+##  The site name used in the newfeeds entry for a mailing-list (above
+##  "list-big-red-ants") must be the same as the first field in an entry in
+##  this file.
+##
+##  See the news2mail man page for more information.
+
+#list-big-red-ants    big-red-ants@lists.ucsd.edu    news+big-red-ants@local.news.server.org

@@ -1,0 +1,153 @@
+/* stylelint-disable color-function-notation */
+/* stylelint-disable declaration-block-no-redundant-longhand-properties */
+/* stylelint-disable color-hex-length */
+:global(.app) {
+  background-color: white;
+}
+
+:global(.page-wrapper) {
+  padding: 0;
+  width: 100%;
+}
+
+// :global(.MuiButtonBase-root.Mui-selected) {
+//   color: white;
+// }
+
+.group-info {
+  background: #ffffff;
+  margin-bottom: 0;
+  padding: 40px 0 20px 10%;
+  font-size: 16px;
+}
+
+.group-info .group-info-container {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+
+@media only screen and (max-width: 767px) {
+  .group-info .group-info-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.group-info .group-info-cover {
+  width: 160px;
+  height: 160px;
+  padding: 14px;
+  border: 1px solid #e8e8e8;
+  border-radius: 50%;
+  margin: 0 30px 20px 0;
+  position: relative;
+}
+
+.group-info .group-info-cover img {
+  border-radius: 50%;
+}
+
+.group-info .group-info-text {
+  margin: 0 0 20px 0;
+}
+
+@media only screen and (max-width: 767px) {
+  .group-info .group-info-text {
+    width: 100%;
+  }
+}
+
+.group-info h1 {
+  color: #44515a;
+  font: 300 24px/24px "DINPro", sans-serif;
+  margin: 0 0 15px;
+}
+
+.group-info h2 {
+  color: #303e48;
+  font: 500 20px/20px "DINPro", sans-serif;
+  margin: 0 0 10px;
+}
+
+.group-info h2 .fa {
+  color: #fff;
+  margin-right: 5px;
+}
+
+.group-info p {
+  color: #303e48;
+  font: 300 16px/26px "Roboto", sans-serif;
+}
+
+.group-info p:last-child {
+  margin-bottom: 0;
+}
+
+.group-info .group-info-administrators-list {
+  font-weight: 500;
+}
+
+.group-info-counters {
+  display: flex;
+}
+
+.group-info-counters-item {
+  margin: 0 30px 0 0;
+}
+
+.group-info-counters-item:last-child {
+  margin: 0;
+}
+
+.group-info-counters-item .fa {
+  margin: 0 .25em 0 0;
+  width: 24px;
+  height: 24px;
+  color: #44515a;
+  line-height: 24px;
+  text-align: center;
+  font-size: 14px;
+  background: #fafafa;
+  border-radius: 50%;
+}
+
+.group-info-counters-item .fa::before {
+  position: relative;
+  left: 1px;
+}
+
+.group-info-counters-item .text {
+  font: 300 16px "Roboto", sans-serif;
+}
+
+.group-info-counters-item .text-counter {
+  color: #6b899d;
+  font-weight: 500;
+}
+
+.group-info-line-delimiter {
+  margin-bottom: 50px;
+}
+
+.group-info-line-delimiter .container {
+  height: 1px;
+  background: #efeff0;
+}
+
+.case-fields {
+  display: flex;
+  gap: 4px;
+}
+
+.case-field {
+  display: inline;
+  font: 400 13px / 21px "Roboto", sans-serif;
+  color: #333333;
+  padding-inline-start: 0;
+  list-style-type: none;
+  &:not(:last-child) {
+    border-right: 1px solid #efeff0;
+    padding-right: 4px;
+  }
+}

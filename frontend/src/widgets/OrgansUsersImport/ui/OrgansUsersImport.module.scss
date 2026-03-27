@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-left: 16px;
+}
+
+.downloadLink {
+    margin: 8px;
+    text-decoration: none;
+    color: #333;
+}
+
+.uploadLabel {
+    margin-top: 40px;
+    padding-bottom: 10px;
+}
+
+.bulletList {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.bulletItem {
+    position: relative;
+    padding-left: 1.2em;
+    margin: 6px 0;
+}
+
+.bulletItem::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+}
+
+.actionButtons {
+    display: flex;
+    margin-top: 40px;
+}

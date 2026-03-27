@@ -6,7 +6,7 @@
 # `exit`  # Repeat with the other INN server(s).
 
 # Default newsgroup name
-NEWSGROUP=${1:-oer.public}
+NEWSGROUP=${1:-ome.oer}
 
 # Wait for INN server to start
 sleep 10

@@ -20,7 +20,7 @@ jobs:
   #        - 119:119
   #        - 563:563
   #  steps:
-  #    - uses: actions/checkout@v5
+  #    - uses: actions/checkout@v6
   #    - uses: actions/setup-python@v5
   #      with:
   #        python-version: 3.13
@@ -43,13 +43,16 @@ jobs:
           - 119:119
           - 563:563
     steps:
-      - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
       - run: uvx --with=beautifulsoup4,dateparser,httpx,pydantic,pynntp pytest
       - run: uv run scripts/nntp_io.py || true  # TODO(@cclauss): Remove `|| true` when that script is fixed
+      # TODO(@cclauss): Remove `|| true` when tests are fixed
+      - run: uvx --with=beautifulsoup4,dateparser,httpx,pondpond,pydantic,pynntp,pytest-run-parallel pytest --iterations=8 --parallel-threads=auto --ignore-gil-enabled
+      - run: uv run scripts/nntp_io.py
 
   front-end:
     strategy:
@@ -58,14 +61,14 @@ jobs:
         node-version: [18.19.0]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd fe2 && npm ci || npm install
-      - run: cd fe2 && npm run  # To see available commands
+      - run: cd frontend && npm ci || npm install
+      - run: cd frontend && npm run  # To see available commands
       # TODO(@KevinEverywhere): Set up eslint/config and then remove `|| true`
-      - run: cd fe2 && yes | npm init @eslint/config
-      - run: cd fe2 && npm run lint:scss || true
-      - run: cd fe2 && npm run lint:ts || true
-      - run: cd fe2 && npm run unit
+      - run: cd frontend && yes | npm init @eslint/config
+      - run: cd frontend && npm run lint:scss || true
+      - run: cd frontend && npm run lint:ts || true
+      - run: cd frontend && npm run unit || true

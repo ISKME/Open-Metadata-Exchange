@@ -1,0 +1,47 @@
+.case-fields {
+  display: flex;
+  gap: 4px;
+  margin-top: 10px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.case-field {
+  display: inline;
+  padding-inline-start: 0;
+  list-style-type: none;
+  margin-top: 8px;
+
+  li {
+    font: normal 14px / 21px "Roboto", sans-serif;
+    color: rgb(51, 51, 51);
+  }
+}
+
+.downloadButton {
+  &:hover {
+    color: #666666;
+  }
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #56788f;
+  i {
+    margin-left: 6px;
+    font-family: FontAwesome !important;
+  }
+}

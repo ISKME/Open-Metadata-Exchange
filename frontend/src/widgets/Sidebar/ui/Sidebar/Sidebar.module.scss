@@ -1,0 +1,26 @@
+/* stylelint-disable shorthand-property-no-redundant-values */
+/* stylelint-disable color-hex-length */
+.Sidebar {
+  width: 200px;
+  // min-width: 300px;
+  background: #484F60;
+  min-height: 100vh;
+  box-sizing: border-box;
+  position: relative;
+  color: #fff;
+}
+
+.sidebar_content {
+  width: inherit;
+  position: sticky;
+  top: 40vh;
+}
+
+.Sidebar .links {
+  margin-top: 80px;
+  // margin-left: 20px;
+}
+
+.Sidebar .links li {
+  margin-top: 10px;
+}

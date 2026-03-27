@@ -1,0 +1,161 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    align-items: center;
+
+    .filtersRow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 16px;
+        background-color: white;
+        padding: 4px;
+        width: max-content;
+        border: 1px solid #cbcbcb;
+        border-radius: 8px;
+        & > div:not(:first-child) {
+            border-left: 1px solid #cbcbcb;
+        }
+    }
+
+    input[type="search"]::-webkit-search-cancel-button {
+        display: none;
+    }
+
+    input, textarea {
+        box-shadow: none;
+        outline: none;
+    }
+}
+
+.dashboardHeader {
+    text-align: center;
+    margin-bottom: 24px;
+
+    h1 {
+        font-size: 30px;
+        font-weight: 700;
+    }
+    &h2 {
+        font-size: 24px;
+        font-weight: 600;
+    }
+}
+
+.divider {
+    margin: 24px 0;
+}
+
+.reportsBreadcrumb {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    .breadcrumbText {
+        font-size: 14px;
+    }
+}
+
+.bigCard {
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    margin-top: 36px;
+}
+
+.reportsTitle {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 24px;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.pageLinksContainer {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #f6f6f6;
+    height: 50px;
+
+    .homeIcon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .pageLinks {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        width: 100%;
+
+        .break {
+            flex-basis: 100%;
+            height: 0;
+        }
+    }
+
+    .pageLinkSubItem {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 16px;
+    }
+
+    .pageLinkItem {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        &.active {
+            border-radius: 10px;
+            background: #E1E1E1;
+            // padding: 12px 20px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            color: black;
+        }
+
+        .pageLink {
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+    }
+}
+
+.subheading {
+    margin: 8px 0;
+    color: #5a5a5a;
+    font-size: 14px;
+}
+
+.widgetsSection {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.leftNav {
+    width: 250px;
+    margin-right: 24px;
+
+    hr {
+        margin: 0;
+    }
+
+    & > nav > ul > li a {
+        padding: 16px 8px;
+    }
+}

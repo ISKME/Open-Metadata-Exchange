@@ -30,7 +30,7 @@ class OpenLibraryPlugin(OMEPlugin):
     # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
     newsgroups: dict[str, str] = MappingProxyType(
         {
-            "openlibrary.public": "Metadata from the Internet Archive's Open Library https://openlibrary.org",
+            "ome.openlibrary": "Metadata from the Internet Archive's Open Library https://openlibrary.org",
         }
     )
 

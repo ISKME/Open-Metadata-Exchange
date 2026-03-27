@@ -1,0 +1,72 @@
+#! /usr/bin/perl
+use lib '/usr/share/perl5'; use INN::Config;
+
+##
+##  Sample code for the nnrpd Perl authentication hooks.
+##
+##  This file is loaded when a perl_auth parameter is reached in readers.conf.
+##  If it defines a sub named authenticate, that function will be called during
+##  processing of a perl_auth parameter.  Attributes about the connection are
+##  passed to the program in the %attributes global variable.
+##  It should return an array with two elements:
+##
+##  1) NNTP response code.  Should be one of the codes from %authcodes
+##  below to not risk violating the protocol.
+##  2) An error string to be passed to the client (make sure that
+##  such a message is properly encoded in UTF-8 so as to comply with the
+##  NNTP protocol).
+##  Both elements are required.  If there is a problem, nnrpd will die
+##  and syslog the exact error.
+
+##  The code below uses a user database based on CDB_File. It is
+##  provided here as an example of an authentication script.
+
+##  This file cannot be run as a standalone script, although it would be
+##  worthwhile to add some code so that it could so that one could test the
+##  results of various authentication and connection queries from the
+##  command line.  The #! line at the top is just so that fixscript will
+##  work.
+
+use strict;
+use warnings;
+
+use vars qw(%attributes %authcodes %users);
+
+# These codes are a widely implemented de facto standard.
+%authcodes = ('allowed' => 281, 'denied' => 481);
+
+# This sub should perform any initialization work that the
+# authentication stuff needs.
+sub auth_init {
+    require CDB_File;
+    tie(%users, 'CDB_File', $INN::Config::pathdb . '/users.cdb')
+      or warn "Could not open $INN::Config::pathdb/users.cdb for users: $!\n";
+}
+
+# This function is called for authentication requests.  For details on
+# all the information passed to it, see ~news/doc/hook-perl.
+sub authenticate {
+    return &checkuser();
+}
+
+# This function assumes that there's a database tied as %users that
+# contains, keyed by users, a tab-separated list of the password (in
+# crypt format), whether they can post, a wildmat matching what
+# newsgroups they have access to, and the number of bytes per second
+# they're allowed to use.  This section of the code only accesses the
+# username and password fields.  See the file nnrpd_access.pl for
+# access rights based on the other fields.
+sub checkuser {
+    my $user = $attributes{'username'};
+    my $pass = $attributes{'password'};
+
+    return ($authcodes{denied}, "No username given.")
+      unless defined $users{$user};
+
+    my ($password, $post_unused, $subscription_unused, $speed_unused)
+      = split(/\t/, $users{$user});
+    return ($authcodes{denied}, "Incorrect password.")
+      if (crypt($pass, $password) ne $password);
+
+    return ($authcodes{allowed}, "");
+}

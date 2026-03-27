@@ -41,19 +41,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# If we are not running in Continuous Integration then enable the INN local.test group.
-# if not os.getenv("CI"):  # Not running in Continuous Integration
-#     ome_node.DEFAULT_NEWSGROUPS.remove(("local.test", "Local test group"))
 
-
-@app.get("/newsgroups", response_class=HTMLResponse)
-async def newsgroups(request: Request) -> HTMLResponse:
+@app.get("/channels", response_class=HTMLResponse)
+async def show_channels(request: Request) -> HTMLResponse:
+    channels = ome_node.channels()
+    channel_list = [ome_node.channel_summary(channel.name) for channel in channels]
     return templates.TemplateResponse(
-        "newsgroups.html",
-        {
-            "request": request,
-            "newsgroups": [channel.name for channel in ome_node.channels()],
-        },
+        "channels.html",
+        {"request": request, "channels": channel_list},
+    )
+
+
+@app.get("/channel/{channel_name:str}")
+async def show_channel_details(request: Request, channel_name: str) -> HTMLResponse:
+    summary = ome_node.channel_summary(channel_name)
+    posts = list(ome_node.get_last_n_posts(channel_name, 10))
+    return templates.TemplateResponse(
+        "channel_details.html",
+        {"request": request, "channel_summary": summary, "posts": posts},
     )
 
 
@@ -74,7 +79,7 @@ async def get_channel_cards(
     name: str, page: int = 1, page_size: int = 10
 ) -> list[Card]:
     """
-    http://localhost:5001/api/channel/eric.public/cards?page=2&page_size=25
+    http://localhost:5001/api/channel/ome.eric/cards?page=2&page_size=25
     """
     start = (page - 1) * page_size + 1
     end = start + page_size - 1
@@ -113,7 +118,7 @@ async def import_post(name: str, card: CardRef) -> bool:
 
 
 @app.get("/api/imls/v2/collections/browse/")
-async def browse(sortby: str = "timestamp", per_page: int = 3) -> BrowseResponse:
+async def browse(sortby: str = "timestamp", per_page: int = 10) -> BrowseResponse:
     return browse_results(sortby, per_page)
 
 
@@ -132,6 +137,11 @@ async def get_channel(channel: str, _id: int) -> ChannelResourcesResponse:
     return get_channel_resources(channel)
 
 
+@app.get("/api/imls/v2/resources/")
+async def get_resources(tenant: str) -> ChannelResourcesResponse:
+    return get_channel_resources(tenant)
+
+
 app.mount(
     "/api/imls/",
     MocAPI(directory="static/api/imls/", html=True),
@@ -139,7 +149,4 @@ app.mount(
 )
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
 templates = Jinja2Templates(directory="templates")
-print(f"Templates: {templates=}", flush=True)
-print(f"{templates.env=}", flush=True)
-print(f"{templates.get_template('newsgroups.html')=}", flush=True)
 # print(f"Templates directory: {templates.directory=}", flush=True)

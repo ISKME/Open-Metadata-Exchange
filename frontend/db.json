@@ -1,0 +1,2029 @@
+{
+  "resources": {
+  "items": [
+  {
+  "id": "materials.course.148252",
+  "title": "100 Free Web Tools for Elementary Teachers",
+  "abstract": "This article includes the URL and description of 100 free web tools that can be used by all teachers. The tools are categorized into search engines, math and science, games, templates and lesson plans, and more.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Education",
+  "slug": "education"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Reading",
+  "slug": "reading"
+  }
+  ]
+  },
+  {
+  "label": "Author",
+  "items": [
+  {
+  "name": "John Costilla",
+  "slug": null
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2014-10-17T16:23:58"
+  },
+  {
+  "id": "materials.course.19563",
+  "title": "100th Day of School Activities",
+  "abstract": "Resources to mark the 100th day of school with math activities. Challenge students to generate 100 different ways to represent the number 100. Students will easily generate 99 + 1 and 50 + 50, but encourage them to think out of the box. Challenge them to include examples from all of the NCTM Standards strands: number sense, numerical operations, geometry, measurement, algebra, patterns, data analysis, probability, discrete math, Create a class list to record the best entries. Some teachers write 100 in big bubble numeral style and then record the entries inside the numerals.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Mathematics",
+  "slug": "mathematics"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Activity/Lab",
+  "slug": "activity-lab"
+  }
+  ]
+  },
+  {
+  "label": "Author",
+  "items": [
+  {
+  "name": "Terry Kawas",
+  "slug": null
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2011-02-16T08:51:56"
+  },
+  {
+  "id": "materials.course.140429",
+  "title": "10th Grade English",
+  "abstract": "21 Units and 157 Lessons of Common Core Integrated 10th Grade English.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Arts and Humanities",
+  "slug": "arts-and-humanities"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Activity/Lab",
+  "slug": "activity-lab"
+  },
+  {
+  "name": "Diagram/Illustration",
+  "slug": "diagram-illustration"
+  },
+  {
+  "name": "Homework/Assignment",
+  "slug": "homework-assignment"
+  },
+  {
+  "name": "Lesson Plan",
+  "slug": "lesson-plan"
+  },
+  {
+  "name": "Reading",
+  "slug": "reading"
+  }
+  ]
+  },
+  {
+  "label": "Author",
+  "items": [
+  {
+  "name": "Christopher Arnett",
+  "slug": null
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2014-10-15T00:00:00"
+  },
+  {
+  "id": "materials.course.24144",
+  "title": "10th's and Decimals",
+  "abstract": "In this video segment from Cyberchase, the CyberSquad replaces a piece of track to get the Madre Bonita Express to the Mother's Day harvest.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Mathematics",
+  "slug": "mathematics"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Lecture",
+  "slug": "lecture"
+  }
+  ]
+  },
+  {
+  "label": "Author",
+  "items": [
+  {
+  "name": "WNET",
+  "slug": null
+  },
+  {
+  "name": "U.S. Department of Education",
+  "slug": null
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2008-07-24T00:00:00"
+  },
+  {
+  "id": "materials.course.47220",
+  "title": "12 Steps to a Sustainable High School",
+  "abstract": "This activity includes an assessment, analysis, and action tool that can be used by classrooms to promote understanding of how the complex current issues of energy, pollution, supply, and consumption are not just global but also local issues.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Physical Science",
+  "slug": "physical-science"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Activity/Lab",
+  "slug": "activity-lab"
+  }
+  ]
+  },
+  {
+  "label": "Author",
+  "items": [
+  {
+  "name": "Connecticut Energy Education",
+  "slug": null
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2012-06-19T00:36:47"
+  },
+  {
+  "id": "materials.course.61699",
+  "title": "12 Stones",
+  "abstract": "Twelve Stones portrays the heart of Heifer's work - Passing on the Gift ÂŽ - and shows the transformation of a community of women in Nepal from helplessness to hope through Heifer International. This is a preview clip of a documentary produced by Sandy Smolen.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Physical Science",
+  "slug": "physical-science"
+  },
+  {
+  "name": "Geology",
+  "slug": "geology"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Lecture",
+  "slug": "lecture"
+  }
+  ]
+  },
+  {
+  "label": "Author",
+  "items": [
+  {
+  "name": "Sandy Smolen",
+  "slug": null
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2009-12-07T00:00:00"
+  },
+  {
+  "id": "materials.course.498",
+  "title": "1869: A Report on Schools in North Carolina",
+  "abstract": "In this lesson, students use a guided reading to look at a report on the status of education in North Carolina in 1869, and discuss the reasons given then for why the Governor and Legislature should support educating North Carolina's children. They are provided an opportunity to compare and contrast the 1869 document against their own ideas about the civic duty to attend school through age sixteen, and its relative value to the state and the country.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Arts and Humanities",
+  "slug": "arts-and-humanities"
+  },
+  {
+  "name": "History",
+  "slug": "history"
+  },
+  {
+  "name": "U.S. History",
+  "slug": "u-s-history"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Lesson Plan",
+  "slug": "lesson-plan"
+  }
+  ]
+  },
+  {
+  "label": "Author",
+  "items": [
+  {
+  "name": "Victoria Schaefer",
+  "slug": null
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2004-07-06T00:00:00"
+  },
+  {
+  "id": "materials.course.499",
+  "title": "1897 Petition Against the Annexation of Hawaii",
+  "abstract": "This site recounts the struggle for control of Hawaii between native Hawaiians and American business interests in the late 1800s. This 1897 petition and a lobbying effort by native Hawaiians convinced the U.S. Congress not to annex the islands. But months later the U.S.S. Maine exploded in Havana and the Spanish-American War began. The U.S. needed a mid-Pacific fueling station and naval base.\n\n\n\nPrimary source images, standards correlation, and teaching activities are included in this resource.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "History",
+  "slug": "history"
+  },
+  {
+  "name": "U.S. History",
+  "slug": "u-s-history"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Activity/Lab",
+  "slug": "activity-lab"
+  },
+  {
+  "name": "Lesson Plan",
+  "slug": "lesson-plan"
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2007-08-24T00:00:00"
+  },
+  {
+  "id": "materials.course.107802",
+  "title": "1900 America: Primary Sources and Epic Poetry",
+  "abstract": "This interdisciplinary lesson integrates analyzing historical primary resources with literary analysis. Students work in groups and express themselves creatively through a multi-media epic poem.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Arts and Humanities",
+  "slug": "arts-and-humanities"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Lesson Plan",
+  "slug": "lesson-plan"
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2014-07-12T00:09:23"
+  },
+  {
+  "id": "materials.course.23661",
+  "title": "1964 Alaska Earthquake",
+  "abstract": "This video adapted from the Valdez Museum & Historical Archive, explores what happened during the Great Alaska Earthquake of 1964 through original footage, first-person accounts, and animations illustrating plate tectonics.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Physical Science",
+  "slug": "physical-science"
+  },
+  {
+  "name": "Geology",
+  "slug": "geology"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Lecture",
+  "slug": "lecture"
+  }
+  ]
+  },
+  {
+  "label": "Author",
+  "items": [
+  {
+  "name": "WGBH Educational Foundation",
+  "slug": null
+  },
+  {
+  "name": "National Science Foundation",
+  "slug": null
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2008-11-04T00:00:00"
+  },
+  {
+  "id": "materials.course.14848",
+  "title": "The \"1OO-Year Flood\"",
+  "abstract": "This site describes how and when 100-year floods occur. It states that flood designations are based on statistical averages, not on the number of years between big floods. It also suggests that it would make more sense to refer to 100-year floods as 1-in-100 chance floods. This resource is a United States Geological Survey (USGS) Fact Sheet. It can be used in teaching quantitative skills.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Education",
+  "slug": "education"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Reading",
+  "slug": "reading"
+  }
+  ]
+  },
+  {
+  "label": "Author",
+  "items": [
+  {
+  "name": "Karen Dinicola",
+  "slug": null
+  },
+  {
+  "name": "U.S. Geological Survey",
+  "slug": null
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2006-11-14T00:00:00"
+  },
+  {
+  "id": "materials.course.103236",
+  "title": "1st Grade-Act. 02: How Do You Feel Today?",
+  "abstract": "In this lesson children will be asked to make a graph, then listen to a story. After the story, they will do a similar graph and then compare the two graphs.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Arts and Humanities",
+  "slug": "arts-and-humanities"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Lesson Plan",
+  "slug": "lesson-plan"
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2013-10-22T01:08:31"
+  },
+  {
+  "id": "materials.course.103237",
+  "title": "1st Grade-Act. 03: T-Shirt Glyph",
+  "abstract": "In this lesson each student will create a glyph (symbol or icon) which represents them and read the glyphs of others using a legend to understand the data on the glyphs.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Arts and Humanities",
+  "slug": "arts-and-humanities"
+  },
+  {
+  "name": "Visual Arts",
+  "slug": "visual-arts"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Lesson Plan",
+  "slug": "lesson-plan"
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2013-10-22T01:08:31"
+  },
+  {
+  "id": "materials.course.103238",
+  "title": "1st Grade-Act. 04: Chrysanthemum and Letter Tiles",
+  "abstract": "In this lesson children will listen as the teacher reads Chrysanthemum. Afterwards have a discussion about the story with a focus on the length of ChrysanthemumŐs name. Have the children compare the lengths of their own names using letter tiles, grid paper, and a class graph.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Arts and Humanities",
+  "slug": "arts-and-humanities"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Lesson Plan",
+  "slug": "lesson-plan"
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2013-10-22T01:08:31"
+  },
+  {
+  "id": "materials.course.103239",
+  "title": "1st Grade-Act. 05: Chrysanthemum Sound Boards",
+  "abstract": "In this lesson students will listen and match sounds ... either rhyming sounds, beginning sounds, ending sounds or vowel sounds.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Arts and Humanities",
+  "slug": "arts-and-humanities"
+  },
+  {
+  "name": "English Language Arts",
+  "slug": "english-language-arts"
+  },
+  {
+  "name": "Speaking and Listening",
+  "slug": "speaking-and-listening"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Lesson Plan",
+  "slug": "lesson-plan"
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2013-10-22T01:08:31"
+  },
+  {
+  "id": "materials.course.103240",
+  "title": "1st Grade-Act. 06: Beep, Beep, Vroom, Vroom",
+  "abstract": "This lesson will help students understand how to identify, create, and label simple patterns.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Arts and Humanities",
+  "slug": "arts-and-humanities"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Lesson Plan",
+  "slug": "lesson-plan"
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2013-10-22T01:08:32"
+  },
+  {
+  "id": "materials.course.103241",
+  "title": "1st Grade-Act. 07: Seven Fat Cats",
+  "abstract": "While reading the story \"Seven Fat Cats\", students will listen and match the sounds (rhyming, beginning, ending, and vowel.)",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Arts and Humanities",
+  "slug": "arts-and-humanities"
+  },
+  {
+  "name": "English Language Arts",
+  "slug": "english-language-arts"
+  },
+  {
+  "name": "Speaking and Listening",
+  "slug": "speaking-and-listening"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Lesson Plan",
+  "slug": "lesson-plan"
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2013-10-22T01:08:32"
+  },
+  {
+  "id": "materials.course.211924",
+  "title": "2000 Midterm I + Solutions",
+  "abstract": "Midterm examination for a class at MIT covering game theory and its applications to economics. The one-hour-and-twenty-minute open book examination asks open ended theoretical questions. The exam contains questions and solutions.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Mathematics",
+  "slug": "mathematics"
+  },
+  {
+  "name": "Social Science",
+  "slug": "social-science"
+  },
+  {
+  "name": "Economics",
+  "slug": "economics"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Assessment",
+  "slug": "assessment"
+  }
+  ]
+  },
+  {
+  "label": "Author",
+  "items": [
+  {
+  "name": "Massachusetts Institute of Technology",
+  "slug": null
+  },
+  {
+  "name": "Muhamet Yildiz",
+  "slug": null
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2014-11-07T14:39:11"
+  },
+  {
+  "id": "materials.course.170086",
+  "title": "2009 State of Michigan Green Jobs Report",
+  "abstract": "This report was the first of its kind to analyze the green job market in MI (3% of workforce) through an analytical (industrial and occupational trends), qualitative (focus groups), and quantitative (employer survey) approach. Discussed are Michigan's green related industries and occupations, and also tracking them. It's concluded that the MI green job market has further potential and is growing despite an economic downturn.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Applied Science",
+  "slug": "applied-science"
+  },
+  {
+  "name": "Career and Technical Education",
+  "slug": "career-and-technical-education"
+  },
+  {
+  "name": "Automotive Technology and Repair",
+  "slug": "automotive-technology-and-repair"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Case Study",
+  "slug": "case-study"
+  },
+  {
+  "name": "Data Set",
+  "slug": "data-set"
+  }
+  ]
+  },
+  {
+  "label": "Author",
+  "items": [
+  {
+  "name": "Michigan Department of Energy, Labor & Economic Growth",
+  "slug": null
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2009-05-11T00:00:00"
+  },
+  {
+  "id": "materials.course.170106",
+  "title": "2011, 2012, and 2014 Wayne State University (WSU) Professional Development Course on Electric-Drive Vehicles Technology",
+  "abstract": "This resource is composed of materials from Wayne State University's professional development workshops which are designed to introduce educators to hybrid electric and electric vehicle fundamentals. Included materials are an event agenda, faculty presentations, and fliers.",
+  "metadata": [
+  {
+  "label": "Subject",
+  "filterKeyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Applied Science",
+  "slug": "applied-science"
+  },
+  {
+  "name": "Career and Technical Education",
+  "slug": "career-and-technical-education"
+  },
+  {
+  "name": "Automotive Technology and Repair",
+  "slug": "automotive-technology-and-repair"
+  }
+  ]
+  },
+  {
+  "label": "Material Type",
+  "filterKeyword": "f.material_types",
+  "items": [
+  {
+  "name": "Full Course",
+  "slug": "full-course"
+  },
+  {
+  "name": "Lecture Notes",
+  "slug": "lecture-notes"
+  },
+  {
+  "name": "Lesson Plan",
+  "slug": "lesson-plan"
+  },
+  {
+  "name": "Unit of Study",
+  "slug": "unit-of-study"
+  }
+  ]
+  },
+  {
+  "label": "Author",
+  "items": [
+  {
+  "name": "Wayne State University",
+  "slug": null
+  }
+  ]
+  }
+  ],
+  "thumbnail": "https://v25.oercommons.org/static/newdesign/images/materials/default-thumbnail-index.png",
+  "timestamp": "2011-06-10T00:00:00"
+  }
+  ],
+  "filters": [
+  {
+  "name": "Subject Area",
+  "keyword": "f.general_subject",
+  "items": [
+  {
+  "name": "Applied Science",
+  "slug": "applied-science",
+  "isSelected": false,
+  "numResources": 2439,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Architecture and Design",
+  "slug": "architecture-and-design",
+  "isSelected": false,
+  "numResources": 117,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Computer Science",
+  "slug": "computer-science",
+  "isSelected": false,
+  "numResources": 91,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Engineering",
+  "slug": "engineering",
+  "isSelected": false,
+  "numResources": 1375,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Environmental Science",
+  "slug": "environmental-science",
+  "isSelected": false,
+  "numResources": 609,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Health, Medicine and Nursing",
+  "slug": "health-medicine-and-nursing",
+  "isSelected": false,
+  "numResources": 206,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Information Science",
+  "slug": "information-science",
+  "isSelected": false,
+  "numResources": 52,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Arts and Humanities",
+  "slug": "arts-and-humanities",
+  "isSelected": false,
+  "numResources": 2566,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Art History",
+  "slug": "art-history",
+  "isSelected": false,
+  "numResources": 412,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Languages",
+  "slug": "languages",
+  "isSelected": false,
+  "numResources": 314,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Literature",
+  "slug": "literature",
+  "isSelected": false,
+  "numResources": 459,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Performing Arts",
+  "slug": "performing-arts",
+  "isSelected": false,
+  "numResources": 55,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Philosophy",
+  "slug": "philosophy",
+  "isSelected": false,
+  "numResources": 37,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Religious Studies",
+  "slug": "religious-studies",
+  "isSelected": false,
+  "numResources": 42,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Visual Arts",
+  "slug": "visual-arts",
+  "isSelected": false,
+  "numResources": 127,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "World Cultures",
+  "slug": "world-cultures",
+  "isSelected": false,
+  "numResources": 116,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Business and Communication",
+  "slug": "business-and-communication",
+  "isSelected": false,
+  "numResources": 370,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Accounting",
+  "slug": "accounting",
+  "isSelected": false,
+  "numResources": 9,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Communication",
+  "slug": "communication",
+  "isSelected": false,
+  "numResources": 32,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Finance",
+  "slug": "finance",
+  "isSelected": false,
+  "numResources": 78,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Journalism",
+  "slug": "journalism",
+  "isSelected": false,
+  "numResources": 22,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Management",
+  "slug": "management",
+  "isSelected": false,
+  "numResources": 32,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Marketing",
+  "slug": "marketing",
+  "isSelected": false,
+  "numResources": 10,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Public Relations",
+  "slug": "public-relations",
+  "isSelected": false,
+  "numResources": 2,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Career and Technical Education",
+  "slug": "career-and-technical-education",
+  "isSelected": false,
+  "numResources": 269,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Agriculture",
+  "slug": "agriculture",
+  "isSelected": false,
+  "numResources": 15,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Automotive Technology and Repair",
+  "slug": "automotive-technology-and-repair",
+  "isSelected": false,
+  "numResources": 86,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Criminal Justice",
+  "slug": "criminal-justice",
+  "isSelected": false,
+  "numResources": 6,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Electronic Technology",
+  "slug": "electronic-technology",
+  "isSelected": false,
+  "numResources": 94,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Environmental Studies",
+  "slug": "environmental-studies",
+  "isSelected": false,
+  "numResources": 2,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Film and Music Production",
+  "slug": "film-and-music-production",
+  "isSelected": false,
+  "numResources": 25,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Graphic Design",
+  "slug": "graphic-design",
+  "isSelected": false,
+  "numResources": 1,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Manufacturing",
+  "slug": "manufacturing",
+  "isSelected": false,
+  "numResources": 9,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Maritime Science",
+  "slug": "maritime-science",
+  "isSelected": false,
+  "numResources": 6,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Welding",
+  "slug": "welding",
+  "isSelected": false,
+  "numResources": 1,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Education",
+  "slug": "education",
+  "isSelected": false,
+  "numResources": 832,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Early Childhood Development",
+  "slug": "early-childhood-development",
+  "isSelected": false,
+  "numResources": 5,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Educational Technology",
+  "slug": "educational-technology",
+  "isSelected": false,
+  "numResources": 3,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Elementary Education",
+  "slug": "elementary-education",
+  "isSelected": false,
+  "numResources": 4,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Higher Education",
+  "slug": "higher-education",
+  "isSelected": false,
+  "numResources": 28,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Language Education (ESL)",
+  "slug": "language-education-esl",
+  "isSelected": false,
+  "numResources": 75,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Special Education",
+  "slug": "special-education",
+  "isSelected": false,
+  "numResources": 7,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "English Language Arts",
+  "slug": "english-language-arts",
+  "isSelected": false,
+  "numResources": 544,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Composition and Rhetoric",
+  "slug": "composition-and-rhetoric",
+  "isSelected": false,
+  "numResources": 12,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Language, Grammar and Vocabulary",
+  "slug": "language-grammar-and-vocabulary",
+  "isSelected": false,
+  "numResources": 414,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Reading Foundation Skills",
+  "slug": "reading-foundation-skills",
+  "isSelected": false,
+  "numResources": 335,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Reading Informational Text",
+  "slug": "reading-informational-text",
+  "isSelected": false,
+  "numResources": 417,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Reading Literature",
+  "slug": "reading-literature",
+  "isSelected": false,
+  "numResources": 328,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Speaking and Listening",
+  "slug": "speaking-and-listening",
+  "isSelected": false,
+  "numResources": 337,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "History",
+  "slug": "history",
+  "isSelected": false,
+  "numResources": 629,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Ancient History",
+  "slug": "ancient-history",
+  "isSelected": false,
+  "numResources": 6,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "U.S. History",
+  "slug": "u-s-history",
+  "isSelected": false,
+  "numResources": 299,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "World History",
+  "slug": "world-history",
+  "isSelected": false,
+  "numResources": 63,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Law",
+  "slug": "law",
+  "isSelected": false,
+  "numResources": 51,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "General Law",
+  "slug": "general-law",
+  "isSelected": false,
+  "numResources": 47,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Life Science",
+  "slug": "life-science",
+  "isSelected": false,
+  "numResources": 4435,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Anatomy/Physiology",
+  "slug": "anatomy-physiology",
+  "isSelected": false,
+  "numResources": 173,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Biology",
+  "slug": "biology",
+  "isSelected": false,
+  "numResources": 506,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Botany",
+  "slug": "botany",
+  "isSelected": false,
+  "numResources": 129,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Ecology",
+  "slug": "ecology",
+  "isSelected": false,
+  "numResources": 507,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Forestry and Agriculture",
+  "slug": "forestry-and-agriculture",
+  "isSelected": false,
+  "numResources": 316,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Genetics",
+  "slug": "genetics",
+  "isSelected": false,
+  "numResources": 95,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Nutrition",
+  "slug": "nutrition",
+  "isSelected": false,
+  "numResources": 42,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Zoology",
+  "slug": "zoology",
+  "isSelected": false,
+  "numResources": 2634,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Mathematics",
+  "slug": "mathematics",
+  "isSelected": false,
+  "numResources": 1399,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Algebra",
+  "slug": "algebra",
+  "isSelected": false,
+  "numResources": 296,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Calculus",
+  "slug": "calculus",
+  "isSelected": false,
+  "numResources": 50,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Functions",
+  "slug": "functions",
+  "isSelected": false,
+  "numResources": 42,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Geometry",
+  "slug": "geometry",
+  "isSelected": false,
+  "numResources": 222,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Measurement and Data",
+  "slug": "measurement-and-data",
+  "isSelected": false,
+  "numResources": 19,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Numbers and Operations",
+  "slug": "numbers-and-operations",
+  "isSelected": false,
+  "numResources": 58,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Ratios and Proportions",
+  "slug": "ratios-and-proportions",
+  "isSelected": false,
+  "numResources": 22,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Statistics and Probability",
+  "slug": "statistics-and-probability",
+  "isSelected": false,
+  "numResources": 189,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Trigonometry",
+  "slug": "trigonometry",
+  "isSelected": false,
+  "numResources": 26,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Physical Science",
+  "slug": "physical-science",
+  "isSelected": false,
+  "numResources": 3627,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Astronomy",
+  "slug": "astronomy",
+  "isSelected": false,
+  "numResources": 443,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Atmospheric Science",
+  "slug": "atmospheric-science",
+  "isSelected": false,
+  "numResources": 253,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Chemistry",
+  "slug": "chemistry",
+  "isSelected": false,
+  "numResources": 811,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Geology",
+  "slug": "geology",
+  "isSelected": false,
+  "numResources": 263,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Hydrology",
+  "slug": "hydrology",
+  "isSelected": false,
+  "numResources": 123,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Oceanography",
+  "slug": "oceanography",
+  "isSelected": false,
+  "numResources": 235,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Physical Geography",
+  "slug": "physical-geography",
+  "isSelected": false,
+  "numResources": 50,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Physics",
+  "slug": "physics",
+  "isSelected": false,
+  "numResources": 1414,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Social Science",
+  "slug": "social-science",
+  "isSelected": false,
+  "numResources": 957,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Anthropology",
+  "slug": "anthropology",
+  "isSelected": false,
+  "numResources": 41,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Archaeology",
+  "slug": "archaeology",
+  "isSelected": false,
+  "numResources": 11,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Cultural Geography",
+  "slug": "cultural-geography",
+  "isSelected": false,
+  "numResources": 3,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Economics",
+  "slug": "economics",
+  "isSelected": false,
+  "numResources": 552,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Ethnic Studies",
+  "slug": "ethnic-studies",
+  "isSelected": false,
+  "numResources": 19,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Linguistics",
+  "slug": "linguistics",
+  "isSelected": false,
+  "numResources": 12,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Political Science",
+  "slug": "political-science",
+  "isSelected": false,
+  "numResources": 168,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Psychology",
+  "slug": "psychology",
+  "isSelected": false,
+  "numResources": 44,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Social Work",
+  "slug": "social-work",
+  "isSelected": false,
+  "numResources": 3,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Sociology",
+  "slug": "sociology",
+  "isSelected": false,
+  "numResources": 99,
+  "level": 1,
+  "icons": [ ]
+  },
+  {
+  "name": "Women's Studies",
+  "slug": "women-s-studies",
+  "isSelected": false,
+  "numResources": 16,
+  "level": 1,
+  "icons": [ ]
+  }
+  ]
+  },
+  {
+  "name": "Education Level",
+  "keyword": "f.sublevel",
+  "items": [
+  {
+  "name": "Preschool",
+  "slug": "preschool",
+  "isSelected": false,
+  "numResources": 84,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Lower Primary",
+  "slug": "lower-primary",
+  "isSelected": false,
+  "numResources": 1227,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Upper Primary",
+  "slug": "upper-primary",
+  "isSelected": false,
+  "numResources": 2549,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Middle School",
+  "slug": "middle-school",
+  "isSelected": false,
+  "numResources": 3748,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "High School",
+  "slug": "high-school",
+  "isSelected": false,
+  "numResources": 5373,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Community College / Lower Division",
+  "slug": "community-college-lower-division",
+  "isSelected": false,
+  "numResources": 6389,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "College / Upper Division",
+  "slug": "college-upper-division",
+  "isSelected": false,
+  "numResources": 4992,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Graduate / Professional",
+  "slug": "graduate-professional",
+  "isSelected": false,
+  "numResources": 801,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Career / Technical",
+  "slug": "career-technical",
+  "isSelected": false,
+  "numResources": 2626,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Adult Education",
+  "slug": "adult-education",
+  "isSelected": false,
+  "numResources": 369,
+  "level": 0,
+  "icons": [ ]
+  }
+  ]
+  },
+  {
+  "name": "Material Type",
+  "keyword": "f.material_types",
+  "items": [
+  {
+  "name": "Activity/Lab",
+  "slug": "activity-lab",
+  "isSelected": false,
+  "numResources": 4479,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Assessment",
+  "slug": "assessment",
+  "isSelected": false,
+  "numResources": 635,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Case Study",
+  "slug": "case-study",
+  "isSelected": false,
+  "numResources": 71,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Data Set",
+  "slug": "data-set",
+  "isSelected": false,
+  "numResources": 210,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Diagram/Illustration",
+  "slug": "diagram-illustration",
+  "isSelected": false,
+  "numResources": 963,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Full Course",
+  "slug": "full-course",
+  "isSelected": false,
+  "numResources": 419,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Game",
+  "slug": "game",
+  "isSelected": false,
+  "numResources": 122,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Homework/Assignment",
+  "slug": "homework-assignment",
+  "isSelected": false,
+  "numResources": 328,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Interactive",
+  "slug": "interactive",
+  "isSelected": false,
+  "numResources": 479,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Lecture",
+  "slug": "lecture",
+  "isSelected": false,
+  "numResources": 2191,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Lecture Notes",
+  "slug": "lecture-notes",
+  "isSelected": false,
+  "numResources": 385,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Lesson",
+  "slug": "lesson",
+  "isSelected": false,
+  "numResources": 914,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Lesson Plan",
+  "slug": "lesson-plan",
+  "isSelected": false,
+  "numResources": 3062,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Module",
+  "slug": "module",
+  "isSelected": false,
+  "numResources": 24,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Primary Source",
+  "slug": "primary-source",
+  "isSelected": false,
+  "numResources": 110,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Reading",
+  "slug": "reading",
+  "isSelected": false,
+  "numResources": 3983,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Simulation",
+  "slug": "simulation",
+  "isSelected": false,
+  "numResources": 565,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Student Guide",
+  "slug": "student-guide",
+  "isSelected": false,
+  "numResources": 40,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Syllabus",
+  "slug": "syllabus",
+  "isSelected": false,
+  "numResources": 237,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Teaching/Learning Strategy",
+  "slug": "teaching-learning-strategy",
+  "isSelected": false,
+  "numResources": 610,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Textbook",
+  "slug": "textbook",
+  "isSelected": false,
+  "numResources": 301,
+  "level": 0,
+  "icons": [ ]
+  },
+  {
+  "name": "Unit of Study",
+  "slug": "unit-of-study",
+  "isSelected": false,
+  "numResources": 538,
+  "level": 0,
+  "icons": [ ]
+  }
+  ]
+  },
+  {
+  "name": "License Types",
+  "keyword": "f.license_types",
+  "items": [
+  {
+  "name": "Unrestricted Use",
+  "slug": "no-strings-attached",
+  "isSelected": false,
+  "numResources": 1561,
+  "level": 0,
+  "icons": null
+  },
+  {
+  "name": "Public Domain",
+  "slug": "public-domain",
+  "isSelected": false,
+  "numResources": 360,
+  "level": 1,
+  "icons": [
+  "cc cc-pd-alt"
+  ]
+  },
+  {
+  "name": "Creative Commons BY",
+  "slug": "cc-by",
+  "isSelected": false,
+  "numResources": 1201,
+  "level": 1,
+  "icons": [
+  "cc cc-by"
+  ]
+  },
+  {
+  "name": "Conditional Remix & Share Permitted",
+  "slug": "remix-and-share",
+  "isSelected": false,
+  "numResources": 6794,
+  "level": 0,
+  "icons": null
+  },
+  {
+  "name": "Creative Commons BY-SA",
+  "slug": "cc-by-sa",
+  "isSelected": false,
+  "numResources": 609,
+  "level": 1,
+  "icons": [
+  "cc cc-by",
+  "cc cc-sa"
+  ]
+  },
+  {
+  "name": "Creative Commons BY-NC",
+  "slug": "cc-by-nc",
+  "isSelected": false,
+  "numResources": 120,
+  "level": 1,
+  "icons": [
+  "cc cc-by",
+  "cc cc-nc"
+  ]
+  },
+  {
+  "name": "Creative Commons BY-NC-SA",
+  "slug": "cc-by-nc-sa",
+  "isSelected": false,
+  "numResources": 6065,
+  "level": 1,
+  "icons": [
+  "cc cc-by",
+  "cc cc-nc",
+  "cc cc-sa"
+  ]
+  },
+  {
+  "name": "Only Sharing Permitted",
+  "slug": "share-only",
+  "isSelected": false,
+  "numResources": 507,
+  "level": 0,
+  "icons": null
+  },
+  {
+  "name": "Creative Commons BY-ND",
+  "slug": "cc-by-nd",
+  "isSelected": false,
+  "numResources": 147,
+  "level": 1,
+  "icons": [
+  "cc cc-by",
+  "cc cc-nd"
+  ]
+  },
+  {
+  "name": "Creative Commons BY-NC-ND",
+  "slug": "cc-by-nc-nd",
+  "isSelected": false,
+  "numResources": 360,
+  "level": 1,
+  "icons": [
+  "cc cc-by",
+  "cc cc-nc",
+  "cc cc-nd"
+  ]
+  },
+  {
+  "name": "Read the Fine Print",
+  "slug": "read-the-fine-print",
+  "isSelected": false,
+  "numResources": 5098,
+  "level": 0,
+  "icons": null
+  },
+  {
+  "name": "Some rights reserved",
+  "slug": "some-rights-reserved",
+  "isSelected": false,
+  "numResources": 631,
+  "level": 1,
+  "icons": null
+  },
+  {
+  "name": "Educational Use Permitted",
+  "slug": "educational-use-permitted",
+  "isSelected": false,
+  "numResources": 2140,
+  "level": 1,
+  "icons": null
+  },
+  {
+  "name": "Restricted Use",
+  "slug": "restricted-use",
+  "isSelected": false,
+  "numResources": 2,
+  "level": 0,
+  "icons": null
+  },
+  {
+  "name": "All Right Reserved",
+  "slug": "all-rights-reserved",
+  "isSelected": false,
+  "numResources": 2,
+  "level": 1,
+  "icons": [
+  "fa fa-copyright filter-license-copyright-icon"
+  ]
+  }
+  ]
+  }
+  ],
+  "sortedBy": "title",
+  "sortByOptions": [
+  {
+  "name": "Title",
+  "slug": "title"
+  },
+  {
+  "name": "Rating",
+  "slug": "rating"
+  },
+  {
+  "name": "Date Added",
+  "slug": "date"
+  }
+  ],
+  "pagination": {
+  "count": 10000,
+  "numPages": 500,
+  "page": 1,
+  "perPage": 20,
+  "perPageOptions": [
+  10,
+  20,
+  50,
+  100
+  ]
+  }
+  },
+  "response": {
+  "code": 200,
+  "message": "Successful operation"
+  },
+  "userInfo": {
+  "isAuthenticated": false
+  }
+  }

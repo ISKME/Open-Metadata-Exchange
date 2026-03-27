@@ -1,0 +1,78 @@
+/* stylelint-disable no-missing-end-of-source-newline */
+.Filter {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.filter_item {
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  & ~ div {
+    label {
+      margin-bottom: 4px;
+      font-weight: initial;
+      font-size: 12px;
+    }
+  }
+}
+
+.filter_name {
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.icon_btn {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: inherit;
+}
+
+.icon {
+  color: #360387;
+  width: 24px;
+  height: 24px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+// .u_hidden {
+//   display: none !important;
+// }
+
+// .is_collapsed .Filter:nth-child(n + 2) {
+//   display: none;
+//   display: flex;
+//   flex-wrap: wrap;
+//   margin-bottom: 25px;
+// }
+
+.panelCollapse {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+
+.collapsed {
+  max-height: 0;
+  margin-bottom: 45px;
+}
+
+.seeMore {
+  border: none;
+  outline: none;
+  color: #1f0894;
+  background: none;
+  text-align: left;
+  padding-top: 4px;
+  font-size: 14px;
+}

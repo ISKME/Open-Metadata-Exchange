@@ -1,0 +1,156 @@
+
+.folders {
+    width: 100%;
+    transition: 0.9s ease-in-out;
+    span {
+        color: black;
+        font-size: 14px;
+        &:focus {
+            outline: none;
+        }
+    &.folderSpan {
+        width: calc(100% - 18px);
+        overflow-x: hidden;
+    }
+    }
+    .foldersItem1 {
+        display: flex;
+        align-items: center;
+        padding: 3px;
+        gap: 8px;
+        position: relative;
+        width: 100%;
+        border-left: 4px solid transparent;
+        margin-bottom: 1px;
+        padding-left: 8px;
+        cursor: pointer;
+        &.selected {
+            border-left: 4px solid #4b687d;
+            background-color: #efeff0;
+        }
+        &.noSelected {
+            border-left: 4px solid transparent;
+            background-color: #efeff0;
+        }
+        .svgWrapper {
+          visibility: hidden;
+          position: absolute;
+          right: 0;
+          z-index: 2;
+          .dropdown {
+              visibility: hidden;
+              top: 21px;
+              position: absolute;
+              width: 120px;
+              height: fit-content;
+              border: 1px solid #999;
+              border-radius: 4px;
+              padding: 8px;
+              left: -90px;
+              background: #fff;
+              z-index: 99;
+              div{
+                font-size: 12px;
+                padding: 8px;
+                width: 100%;
+                &:hover {
+                  background-color: #efeff0;
+                }
+              }
+          }
+          &:hover {
+            .dropdown {
+                visibility: visible;
+              }
+          }
+        }
+        &:hover {
+            background-color: #efeff0;
+            border-left: 4px solid #BDC6C8;
+            .svgWrapper {
+                visibility: visible;
+              }
+
+        }
+    }
+    .foldersItem2 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+    .foldersItem {
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        &.subFolders {
+            padding-left: 30px;
+        }
+    }
+
+}
+
+
+.foldersHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 14px 20px 0;
+}
+
+.foldersTitle {
+    font-size: 22px;
+    font-weight: 500;
+    color: #333;
+}
+
+.primary {
+    font-size: 14px;
+    font-family: "DINPro", sans-serif;
+    color: #fad000;
+    cursor: pointer;
+    padding: 6px 12px;
+    background-color: #303e48;
+    border-radius: 6px;
+    border: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    &:hover {
+        color: #fff;
+        background-color: #8f9bae;
+    }
+}
+
+.cancel {
+    padding: 6px 12px;
+    font-family: "DINPro", sans-serif;
+    color: #333333;
+    font-size: 14px;
+    font-weight: 400;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    &:hover {
+        background-color: transparent;
+        opacity: 0.8;
+    }
+ }
+
+.arrowSpace {
+    padding-left: 14px;
+}
+.modalInput {
+    // padding: 20px 0;
+    // border: 1px solid  #8f9bae;
+    border-left: none;
+    border-right: none;
+    margin: 16px 0;
+    div,
+    input {
+        width: 100%;
+    }
+}
+.buttonsGroup {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+}

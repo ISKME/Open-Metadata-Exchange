@@ -25,7 +25,7 @@ class OERCommonsPlugin(OMEPlugin):
     # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
     newsgroups: dict[str, str] = MappingProxyType(
         {
-            "oer.public": "Metadata from ISKME's OER Commons https://oercommons.org",
+            "ome.oercommons": "Metadata from ISKME's OER Commons https://oercommons.org",
         }
     )
 

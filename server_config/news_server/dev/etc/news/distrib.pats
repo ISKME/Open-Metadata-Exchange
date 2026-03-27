@@ -1,0 +1,19 @@
+##  Sample distrib.pats file.
+##
+##  It specifies the default Distribution header field body for newsgroups.
+##
+##  Format:
+##      <weight>:<pattern>:<value>
+##
+##  All articles are matched against all patterns.  The value to be used is
+##  the one with the highest weight.
+##      <weight>        The weight assigned to this match, integer.
+##      <pattern>       Newsgroup name or single uwildmat pattern.
+##      <value>         Body of Distribution header field, encoded in UTF-8.
+##
+##  See the distrib.pats man page for more information.
+
+##  Uncomment to default all local.* groups to a distribution of local.
+##  If used, make sure the newsfeeds "ME" entry does not reject this
+##  distribution.
+#10:local.*:local

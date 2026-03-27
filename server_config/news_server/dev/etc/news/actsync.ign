@@ -1,0 +1,34 @@
+##  Sample actsync.ign ignore file.
+##
+##  It defines synchronization rules (which newsgroups will be
+##  checked and which will be ignored).
+##  See the actsync manual page for more information.
+
+##  For now by default do not sync.
+i *
+
+##  Sync on the 8 majors.
+c comp.*
+c humanities.*
+c misc.*
+c news.*
+c rec.*
+c sci.*
+c soc.*
+c talk.*
+
+##  Sync only moderated gnu.* groups.
+#c gnu.* m
+
+##  Don't compare to.* groups as they will differ.
+i to.*
+
+##  These are our local groups that nobody else (should) carry.
+i local.*
+
+##  We always want our special top level groups.
+i control
+i general
+i junk
+i test
+i to

@@ -19,7 +19,7 @@ from pathlib import Path
 from nntp import NNTPClient, NNTPTemporaryError
 
 
-def nntp_pick_newsgroup(newsgroup: str = "eric.public") -> tuple[str, ...]:
+def nntp_pick_newsgroup(newsgroup: str = "ome.eric") -> tuple[str, ...]:
     """Pick a newsgroup to be the current default.
 
     Args:
@@ -47,7 +47,7 @@ def nntp_write(payload: dict, newsgroup: str = "") -> bool:
     headers = {
         "Subject": f"Test post to {newsgroup}",
         "From": "GitHub Actions <actions@github.com>",
-        "Newsgroups": newsgroup or "eric.public",
+        "Newsgroups": newsgroup or "ome.eric",
     }
     # for key in tuple(payload):
     #    if key != "id":
@@ -87,7 +87,7 @@ if __name__ == "__main__":
 
     try:
         with NNTPClient("localhost", port=119) as pynntp_client:
-            _total_first_last_group = nntp_pick_newsgroup("eric.public")
+            _total_first_last_group = nntp_pick_newsgroup("ome.eric")
             for record in records:
                 try:
                     nntp_write(record)
