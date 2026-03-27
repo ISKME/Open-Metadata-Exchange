@@ -177,10 +177,10 @@ See `server/plugins/eric/bulk_import.py` for a reference implementation.
 
 #### 5. Verify the plugin is discovered
 
-Run `get_ome_plugins.py` (via uv or as an executable script) to confirm the new plugin is detected:
+Run `get_ome_plugins.py` as an executable (it has a `#!/usr/bin/env -S uv run --script` shebang) to confirm the new plugin is detected:
 
 ```bash
-uv run --script server/get_ome_plugins.py
+./server/get_ome_plugins.py
 ```
 
 The output should include your new plugin's class name, `mimetypes`, and `newsgroups`.
