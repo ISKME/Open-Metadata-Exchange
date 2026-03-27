@@ -35,7 +35,7 @@ sequenceDiagram
 
 - **InterNetNews (INN)**: Backend storage for metadata articles (NNTP newsgroups).
 - **FastAPI Server** (`server/`): Python 3.13+ middleware connecting INN to the frontend.
-- **FE2** (`fe2/`): React user interface served by a Node server on port 4000.
+- **Frontend** (`frontend/`): React user interface served by a Node server on port 4000.
 
 ## Code Quality — Always Run pre-commit
 

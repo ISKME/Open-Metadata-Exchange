@@ -23,7 +23,7 @@ server/plugins/
 └── <plugin_name>/
     ├── __init__.py        ← Optional but recommended
     ├── plugin.py          ← Required: subclass of OMEPlugin
-    ├── <name>_models.py   ← Required: Pydantic models for source data
+    ├── <name>_models.py   ← Required: one or more Pydantic model files for source data
     └── bulk_import.py     ← Optional: utilities for batch importing data
 ```
 
@@ -134,14 +134,15 @@ class <PluginName>Plugin(OMEPlugin):
         return self._make_metadata_card(ModelItem(**doc_dict))
 
     def _make_metadata_card(self, item: ModelItem) -> EducationResource:
+        # Map source model fields to EducationResource — adapt names to match your model.
         return EducationResource(
             title=item.title,
             description=item.description,
-            authors=item.authors,
-            authoring_institution=item.institution or "",
-            subject_tags=item.subjects,
-            creation_date=item.created_date,
-            last_modified_date=item.modified_date,
+            authors=item.author,          # adapt: e.g. item.author, item.authors
+            authoring_institution=item.publisher or "",  # adapt to source field
+            subject_tags=item.subject,    # adapt: e.g. item.subject, item.keywords
+            creation_date=item.publicationdateyear,  # adapt to source date field
+            last_modified_date=item.publicationdateyear,  # adapt to source field
             source_url=item.url or "",
         )
 
@@ -176,10 +177,10 @@ See `server/plugins/eric/bulk_import.py` for a reference implementation.
 
 #### 5. Verify the plugin is discovered
 
-Run `get_ome_plugins.py` to confirm the new plugin is detected:
+Run `get_ome_plugins.py` (via uv or as an executable script) to confirm the new plugin is detected:
 
 ```bash
-python server/get_ome_plugins.py
+uv run --script server/get_ome_plugins.py
 ```
 
 The output should include your new plugin's class name, `mimetypes`, and `newsgroups`.
