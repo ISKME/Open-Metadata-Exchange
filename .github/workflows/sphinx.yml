@@ -31,7 +31,7 @@ jobs:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
       # - run: uv add --editable ".[docs]"
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
       # - run: sphinx-apidoc -f -o docs src  # Todo: Add demo code
       # - run: shopt -s globstar && rst2myst convert docs/**/*.rst
       - run: uv sync --group docs
@@ -50,5 +50,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ github.event_name }}
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5
         id: deployment
