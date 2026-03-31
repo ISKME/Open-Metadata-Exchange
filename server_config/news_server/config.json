@@ -1,0 +1,21 @@
+{
+    "organization": "Internet Archive",
+    "hostname": "nntp.ome.internetarchive.org",
+    "peers": [
+	{
+	    "name": "ISKME",
+	    "dns_name": "nntp.dev.ome.oercommons.org"
+	}
+    ],
+
+    "nntp_user": {
+	"username": "ianode",
+	"password": "ianode"
+    },
+
+    "nntp_debug_user": {
+	"username": "debugreader",
+	"password": "debugreader"
+    },
+    "cms_plugin": "server.plugins.qubes.plugin.QubesPlugin"
+}

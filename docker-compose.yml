@@ -5,9 +5,7 @@
 # * Use localhost:119
 # host.docker.internal would be used if the INN server was running on your localhost machine.
 
-env_file:
-  - path: .env
-    required: true
+# docker compose looks for .env file
 
 services:
   nntp-server:
@@ -21,7 +19,7 @@ services:
       my_network:
         ipv4_address: 172.21.0.2
     ports:
-      - 119:119
+      - 1119:119
     post_start:
       - command:  sh -c "/usr/local/bin/wait_for_tcp.sh 119 20 && /usr/local/bin/preseed.sh"
 
