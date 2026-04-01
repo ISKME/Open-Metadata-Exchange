@@ -22,8 +22,6 @@
 #             --input openlibrary_authors.json --input-file-type json \
 #             --output openlibrary_authors_models.py
 
-from __future__ import annotations
-
 from pydantic import BaseModel
 
 

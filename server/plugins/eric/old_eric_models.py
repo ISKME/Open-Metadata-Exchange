@@ -23,8 +23,6 @@
 
 # ruff: noqa: N815 -- mixed-case-variable-in-class-scope
 
-from __future__ import annotations
-
 from pydantic import BaseModel
 
 

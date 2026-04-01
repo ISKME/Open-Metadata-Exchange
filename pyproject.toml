@@ -29,7 +29,8 @@ docs = [
 ]
 
 [tool.ruff]
-target-version = "py312"
+target-version = "py313"  # The default Python of the latest Debian LTS release: trixie (Debian 13)
+# https://www.debian.org/releases
 exclude = [ ".git/", "server/plugins/moodle/extract-mbz3.py" ]
 lint.select = [ "ALL" ]
 lint.ignore = [
@@ -39,7 +40,8 @@ lint.ignore = [
   "FIX002", # Line contains TODO, consider resolving the issue
   "ISC001", # May cause conflicts with ruff format
   "T201",   # flake8-print
-  "TD003",  # Missing issue link for this TODO
+  "TC003",  # typing-only-standard-library-import
+  "TD003",  # missing-todo-link
 ]
 lint.per-file-ignores."server/schemas.py" = [ "N815" ]  # the case in the response json is dictated by the API
 lint.per-file-ignores."tests/*" = [ "S101" ]  # Use of assert detected
