@@ -20,8 +20,6 @@
 #             --input whg.json --input-file-type json \
 #             --output whg_models.py
 
-from __future__ import annotations
-
 from typing import Any
 
 from pydantic import BaseModel
