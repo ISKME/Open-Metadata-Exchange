@@ -205,32 +205,32 @@ def test_utils_get_channels(metadata: schemas.Metadata) -> None:
     assert isinstance(metadata, schemas.Metadata)
     assert metadata.title in sue_grafton_books
     channels = list(utils.get_channels())
-    assert len(channels) == 5
+    assert len(channels) == 6
     slug, description, plugin = channels[0]
-    assert slug == "ome.eric"
+    assert slug == "ome.early_learning"
     assert description == (
-        "Metadata from US DoE's Education Resources Information Center (ERIC) "
-        "https://eric.ed.gov"
+        "Metadata from Early Learning Resource Network "
+        "https://www.earlylearningresourcenetwork.org"
     )
-    assert plugin.mimetypes == ("application/vnd.eric.eric+json",)
-    assert dict(plugin.newsgroups) == {"ome.eric": description}
-    assert plugin.site_name == "Generic OME Library"
+    assert plugin.mimetypes == ("application/vnd.earlylearning.early-learning+json",)
+    assert dict(plugin.newsgroups) == {"ome.early_learning": description}
+    assert plugin.site_name == "Early Learning Resource Network"
     assert plugin.librarian_contact == "info@iskme.org"
     assert plugin.logo
 
 
 def test_utils_get_channels_filters() -> None:
     channels = list(utils.get_channels())
-    assert len(channels) == 5
+    assert len(channels) == 6
     slug, description, plugin = channels[0]
-    assert slug == "ome.eric"
+    assert slug == "ome.early_learning"
     assert description == (
-        "Metadata from US DoE's Education Resources Information Center (ERIC) "
-        "https://eric.ed.gov"
+        "Metadata from Early Learning Resource Network "
+        "https://www.earlylearningresourcenetwork.org"
     )
-    assert plugin.mimetypes == ("application/vnd.eric.eric+json",)
-    assert dict(plugin.newsgroups) == {"ome.eric": description}
-    assert plugin.site_name == "Generic OME Library"
+    assert plugin.mimetypes == ("application/vnd.earlylearning.early-learning+json",)
+    assert dict(plugin.newsgroups) == {"ome.early_learning": description}
+    assert plugin.site_name == "Early Learning Resource Network"
     assert plugin.librarian_contact == "info@iskme.org"
 
 
