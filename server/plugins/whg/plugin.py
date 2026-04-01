@@ -41,17 +41,19 @@ class WHGPlugin(OMEPlugin):
     def make_metadata_card_from_json(self, json_payload: str) -> EducationResource:
         """
         This method creates a metadata card from a given JSON payload.
-        It currently does not implement any functionality.
         """
         whg_item = Feature.model_validate_json(json_payload)
+        creator = [whg_item.creator] if whg_item.creator else []
+        contributors = [c for c in (whg_item.contributors or "").split("; ") if c]
         return EducationResource(
             title=whg_item.title,
             description=whg_item.description,
-            authors=[whg_item.creator, *(whg_item.contributors or "").split("; ")],
+            authors=[*creator, *contributors],
             authoring_institution=whg_item.owner,
             subject_tags=whg_item.datatype.split(", "),
             creation_date=whg_item.create_date,
             last_modified_date=whg_item.create_date,
+            source_url=whg_item.webpage or "",
         )
 
 
