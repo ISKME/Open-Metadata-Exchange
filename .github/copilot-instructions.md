@@ -62,7 +62,7 @@ and correctness. The hooks include:
 ### Setup
 
 ```bash
-uv --python=3.13 venv
+uv venv --python 3.13
 source .venv/bin/activate
 uv pip install --upgrade pip
 pip install --editable .
@@ -79,6 +79,10 @@ pre-commit install
 - Use [Pydantic](https://docs.pydantic.dev/) `BaseModel` for all data models.
 - Use `MappingProxyType` for immutable dict class attributes (required by `ruff rule RUF012`).
 - Raise `NotImplementedError` with a message variable: `msg = "..."; raise NotImplementedError(msg)`.
+- **Do not use `from __future__ import annotations`** in Pydantic model files that contain
+  `datetime` fields — ruff rule `TC003` flags the runtime `datetime` import as needing a
+  type-checking-only block, which breaks Pydantic's runtime validation.  Omit the future
+  import and let Python 3.13 handle the annotations natively.
 
 ## Plugin Architecture
 
@@ -86,7 +90,7 @@ Plugins live in `server/plugins/<plugin_name>/` and connect external OER data so
 Each plugin inherits from `OMEPlugin` (defined in `server/plugins/ome_plugin.py`) and transforms
 source-specific data into standardized `EducationResource` objects.
 
-See `SKILL.md` for step-by-step instructions on creating a new plugin.
+See `.github/skills/plugin.md` for step-by-step instructions on creating a new plugin.
 
 Key files:
 - `server/plugins/ome_plugin.py` — Base `OMEPlugin` class and `EducationResource` model.

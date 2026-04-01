@@ -44,7 +44,16 @@ touch server/plugins/<plugin_name>/__init__.py
 Replace `<plugin_name>` with a short, lowercase name for the data source (e.g., `khan`,
 `mit_ocw`, `merlot`).
 
-#### 2. Create `<name>_models.py` — Pydantic models for source data
+#### 2. Determine the data access strategy
+
+Before writing any code, check whether the source site exposes a public API:
+
+- **JSON/REST API available** → fetch data with `httpx` and generate Pydantic models from
+  a sample response using `datamodel-codegen` (see below).
+- **No public API (Drupal, WordPress, static HTML, etc.)** → use web scraping with
+  `httpx` + `BeautifulSoup` (see [Web-scraping variant](#web-scraping-variant) below).
+
+#### 3. Create `<name>_models.py` — Pydantic models for source data
 
 Generate models from a sample JSON response using `datamodel-codegen`:
 
@@ -58,6 +67,11 @@ uv tool run --from=datamodel-code-generator datamodel-codegen \
 The generated file will contain Pydantic `BaseModel` classes that validate and parse the
 source API's JSON. Add the standard script header and review the generated types.
 
+> **Important:** Do **not** add `from __future__ import annotations` to Pydantic model files
+> that contain `datetime` fields. Ruff rule `TC003` will flag the runtime `datetime` import
+> as needing a type-checking-only block, which breaks Pydantic's runtime validation.
+> Python 3.13 handles PEP 563-style annotations natively without the future import.
+
 Example structure (`server/plugins/eric/eric_models.py`):
 
 ```python
@@ -68,7 +82,6 @@ Example structure (`server/plugins/eric/eric_models.py`):
 # dependencies = ["pydantic"]
 # ///
 
-from __future__ import annotations
 from pydantic import BaseModel, Field
 
 
@@ -167,15 +180,33 @@ if __name__ == "__main__":
       raise NotImplementedError(msg)
   ```
 - Add an `if __name__ == "__main__":` block for single-file testing.
+- **Mark the file executable** after creation so that `check-shebang-scripts-are-executable`
+  (a pre-commit hook) does not fail:
+  ```bash
+  git add --chmod=+x server/plugins/<plugin_name>/plugin.py
+  git add --chmod=+x server/plugins/<plugin_name>/<plugin_name>_models.py
+  ```
 
 #### 4. (Optional) Create `bulk_import.py` — batch import utilities
 
-If the source provides a bulk data export (CSV, JSON dump, API pagination), add a
-`bulk_import.py` to handle fetching and converting that data into INN articles.
+If the source provides a bulk data export (CSV, JSON dump, API pagination), or requires web
+scraping, add a `bulk_import.py` to handle fetching and converting that data into
+`EducationResource` objects.  Cache results locally so that repeated runs do not re-fetch
+the site.  Mark the file executable the same way as other scripts:
 
-See `server/plugins/eric/bulk_import.py` for a reference implementation.
+```bash
+git add --chmod=+x server/plugins/<plugin_name>/bulk_import.py
+```
 
-#### 5. Verify the plugin is discovered
+See `server/plugins/eric/bulk_import.py` for an API/JSON reference implementation and
+`server/plugins/early_learning/bulk_import.py` for a web-scraping reference.
+
+#### 5. Update the channel count in tests
+
+`tests/test_ome_node.py` hard-codes the expected number of channels.  Increment it by 1
+for each new plugin you add.  Search for `len(channels) ==` and update every occurrence.
+
+#### 6. Verify the plugin is discovered
 
 Run `get_ome_plugins.py` as an executable (it has a `#!/usr/bin/env -S uv run --script` shebang) to confirm the new plugin is detected:
 
@@ -185,7 +216,7 @@ Run `get_ome_plugins.py` as an executable (it has a `#!/usr/bin/env -S uv run --
 
 The output should include your new plugin's class name, `mimetypes`, and `newsgroups`.
 
-#### 6. Run pre-commit to validate your changes
+#### 7. Run pre-commit to validate your changes
 
 **Always run `pre-commit run --all-files` after adding or modifying any files:**
 
@@ -194,6 +225,132 @@ pre-commit run --all-files
 ```
 
 Fix any issues reported before committing.
+
+---
+
+### Web-scraping variant
+
+Use this when the source site has **no public REST or JSON API** (e.g., Drupal, WordPress,
+or static HTML sites).  The pattern uses `httpx` for HTTP fetches and `BeautifulSoup` for
+HTML parsing.
+
+#### Models (`<name>_models.py`)
+
+Write the Pydantic model by hand from the fields you intend to scrape — there is no JSON
+response to feed into `datamodel-codegen`.  Omit `from __future__ import annotations` if
+any field has a `datetime` type:
+
+```python
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.13"
+# dependencies = ["pydantic"]
+# ///
+
+from datetime import datetime
+
+from pydantic import BaseModel, RootModel
+
+
+class <PluginName>Item(BaseModel):
+    title: str = ""
+    url: str = ""
+    description: str = ""
+    authors: list[str] = []
+    subjects: list[str] = []
+    language: str = ""
+    license: str = ""
+    publisher: str = ""
+    date: datetime | None = None
+
+
+class <PluginName>Model(RootModel[list[<PluginName>Item]]):
+    pass
+```
+
+#### `bulk_import.py` skeleton for scraping
+
+```python
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.13"
+# dependencies = ["beautifulsoup4", "httpx", "pydantic"]
+# ///
+
+from __future__ import annotations
+
+from datetime import datetime
+from pathlib import Path
+
+import httpx
+from bs4 import BeautifulSoup
+
+from server.plugins.<plugin_name>.<plugin_name>_models import (
+    <PluginName>Item,
+    <PluginName>Model,
+)
+
+SEARCH_URL = "https://example.com/resources"
+BASE_URL = "https://example.com"
+MAX_RESULTS = 8
+HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; OME-Bot/1.0)"}
+
+
+def _absolute_url(href: str) -> str:
+    return href if href.startswith("http") else BASE_URL + href
+
+
+def scrape_resource_page(client: httpx.Client, url: str) -> <PluginName>Item:
+    soup = BeautifulSoup(
+        client.get(url, headers=HEADERS, follow_redirects=True).raise_for_status().text,
+        "html.parser",
+    )
+    title = (soup.select_one("h1") or soup.new_tag("span")).get_text(strip=True)
+    # ... extract other fields using CSS selectors
+    return <PluginName>Item(title=title, url=url)
+
+
+def scrape_search_results(
+    client: httpx.Client, url: str = SEARCH_URL, max_results: int = MAX_RESULTS
+) -> list[str]:
+    soup = BeautifulSoup(
+        client.get(url, headers=HEADERS, follow_redirects=True).raise_for_status().text,
+        "html.parser",
+    )
+    urls: list[str] = []
+    for article in soup.select("article"):
+        if len(urls) >= max_results:
+            break
+        link = article.select_one("a[href]")
+        if link:
+            urls.append(_absolute_url(str(link["href"])))
+    return urls
+
+
+def bulk_import(url: str = SEARCH_URL, max_results: int = MAX_RESULTS) -> list[<PluginName>Item]:
+    cache = Path(__file__).resolve().parent / "<plugin_name>_resources.json"
+    if cache.exists():
+        return <PluginName>Model.model_validate_json(cache.read_text()).root
+    items: list[<PluginName>Item] = []
+    with httpx.Client(timeout=30) as client:
+        for resource_url in scrape_search_results(client, url, max_results):
+            items.append(scrape_resource_page(client, resource_url))
+    cache.write_text(<PluginName>Model(root=items).model_dump_json(indent=2))
+    return items
+
+
+if __name__ == "__main__":
+    for i, item in enumerate(bulk_import(), start=1):
+        print(f"{i:>2}. {item.title!r}")
+```
+
+**Drupal-specific tips** (many OER sites run Drupal):
+
+- Field selectors follow the pattern `div.field--name-field-<name> .field__item`.
+- Title: `h1.page-title` or `h1`.
+- Search result links: `article h3.node__title a` or `.views-field-title a`.
+- Date: `time[datetime]` attribute value is the most reliable source.
+- Always provide multiple fallback selectors — theme customisations vary between sites.
 
 ---
 
@@ -219,6 +376,7 @@ Defined in `server/plugins/ome_plugin.py`:
 | Plugin | Directory | Notable Feature |
 |--------|-----------|----------------|
 | ERIC | `server/plugins/eric/` | Most advanced; bulk CSV/JSON import |
+| Early Learning | `server/plugins/early_learning/` | Web scraping (no API); BeautifulSoup + httpx |
 | OERCommons | `server/plugins/oercommons/` | Simple JSON transform |
 | Open Library | `server/plugins/openlibrary/` | Linked metadata (two API calls) |
 | Qubes | `server/plugins/qubes/` | XML-to-JSON conversion |
