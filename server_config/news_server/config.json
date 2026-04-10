@@ -4,7 +4,8 @@
     "peers": [
 	{
 	    "name": "ISKME",
-	    "dns_name": "nntp.dev.ome.oercommons.org"
+	    "dns_name": "nntp.dev.ome.oercommons.org",
+	    "incoming_ip": "172.21.0.1"
 	}
     ],
 
