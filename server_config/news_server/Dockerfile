@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends openssl tini in
 
 COPY ./dev/docker-entrypoint.sh /docker-entrypoint.sh
 COPY ./dev/templatize.sh /templatize.sh
-
+COPY ./j2_filters.py /j2_filters.py
 COPY ./config.json /config.json
 
 # TODO: modify the incoming.conf IP address dynamically based on the
@@ -12,7 +12,7 @@ COPY ./config.json /config.json
 
 
 COPY ./dev/etc/news/* /etc/news/
-RUN /templatize.sh /etc/news /config.json
+RUN /templatize.sh /j2_filters.py /etc/news /config.json
 
 
 RUN chown root:root /etc/news -R
