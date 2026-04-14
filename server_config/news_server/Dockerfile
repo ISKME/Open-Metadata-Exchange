@@ -17,7 +17,9 @@ RUN /templatize.sh /j2_filters.py /etc/news /config.json
 
 RUN chown root:root /etc/news -R
 
-COPY ./dev/var/lib/news/newsusers /var/lib/news/newsusers
+COPY ./dev/var/lib/news/newsusers.j2 /var/lib/news/newsusers.j2
+RUN /templatize.sh /j2_filters.py /var/lib/news/ /config.json
+
 RUN chown root:root /var/lib/news/newsusers
 
 RUN mkdir -p /var/www/inn

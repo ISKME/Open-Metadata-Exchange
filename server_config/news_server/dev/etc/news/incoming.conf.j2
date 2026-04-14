@@ -161,7 +161,7 @@ peer ME {
 
 {% for peer in peers %}
 peer {{ peer.name }} {
-# This IP must match the IP address given by `docker inspect -f '{{.NetworkSettings.Networks.bridge.Gateway}}' <image-name>`
+# This IP must match the IP address given by {% raw %} `docker inspect -f '{{.NetworkSettings.Networks.bridge.Gateway}}' <image-name>` {% endraw %}
 # in case of docker level network bridging to join other docker images, it's best to get the IP by running:
 # docker exec -it <CONTAINER_ID_OF_THE_NNTP_SERVER> ip route show
 # and add that IP here

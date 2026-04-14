@@ -91,10 +91,11 @@ streaming:                false
 #backlog-feed-first:       false
 
 ##  Peers.
-
-peer ISKME {
-     ip-name:  nntp.dev.ome.oercommons.org
+{% for peer in peers %}
+peer {{ peer.name }} {
+     ip-name: {{ peer.dns_name }}
 }
+{% endfor %}
 
 #peer decwrl {
 #    ip-name:              news1.pa.dec.com
