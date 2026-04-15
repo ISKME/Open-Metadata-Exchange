@@ -19,10 +19,11 @@ def _spdx_license_id_to_name_map() -> dict[str, str]:
 
 
 def spdx_id_to_full_name(spdx_license_id: str) -> str:
-    msg = f"Invalid SPDX license identifier: {spdx_license_id}"
-    if full_name := _spdx_license_id_to_name_map().get(spdx_license_id):
-        return full_name
-    raise ValueError(msg)
+    full_name = _spdx_license_id_to_name_map().get(spdx_license_id)
+    if full_name is None:
+        msg = f"Invalid SPDX license identifier: {spdx_license_id}"
+        raise ValueError(msg)
+    return full_name
 
 
 class Channel(BaseModel):

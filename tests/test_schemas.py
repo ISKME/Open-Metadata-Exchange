@@ -1,14 +1,13 @@
-import json
-
 import pytest
 from pydantic import ValidationError
 
-from server.schemas import SPDX_LICENSES_JSON, Metadata, spdx_id_to_full_name
+from server.schemas import (
+    Metadata,
+    _spdx_license_id_to_name_map,
+    spdx_id_to_full_name,
+)
 
-with SPDX_LICENSES_JSON.open(encoding="utf-8") as spdx_file:
-    SPDX_LICENSE_IDS = {
-        license_info["licenseId"] for license_info in json.load(spdx_file)["licenses"]
-    }
+SPDX_LICENSE_ID_TO_NAME = _spdx_license_id_to_name_map()
 
 
 @pytest.mark.parametrize(
@@ -48,7 +47,7 @@ def test_spdx_license(spdx_license: str) -> None:
         alignment_tags=[],
         keywords=[],
     )
-    assert spdx_license in SPDX_LICENSE_IDS
+    assert spdx_license in SPDX_LICENSE_ID_TO_NAME
     assert metadata.spdx_license == spdx_license
 
 
