@@ -105,6 +105,7 @@ def sample_metadata_austin() -> Iterator[schemas.Metadata]:
             description=f"{title} is a novel by Jane Austen",
             subject="Sensibility",
             author="Jane Austen",
+            spdx_license="MIT",
             alignment_tags=["Sensibility", "Jane Austen", keyword],
             keywords=[
                 "Sensibility",
@@ -152,6 +153,7 @@ def sample_metadata_boston() -> Iterator[schemas.Metadata]:
             description=f"{title} is a mystery novel by Sue Grafton",
             subject="Mystery",
             author="Sue Grafton",
+            spdx_license="MIT",
             alignment_tags=["Mystery", "Sue Grafton", "Kinsey Millhone", keyword],
             keywords=[
                 "Mystery",

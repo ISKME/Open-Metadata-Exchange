@@ -1,6 +1,28 @@
+import json
 from datetime import datetime
+from functools import cache
+from pathlib import Path
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
+
+SPDX_LICENSES_JSON = Path(__file__).with_name("spdx_licenses.json")
+
+
+@cache
+def _spdx_license_id_to_name_map() -> dict[str, str]:
+    with SPDX_LICENSES_JSON.open(encoding="utf-8") as spdx_file:
+        spdx_licenses = json.load(spdx_file)
+    return {
+        license_info["licenseId"]: license_info["name"]
+        for license_info in spdx_licenses["licenses"]
+    }
+
+
+def spdx_id_to_full_name(spdx_license_id: str) -> str:
+    msg = f"Invalid SPDX license identifier: {spdx_license_id}"
+    if full_name := _spdx_license_id_to_name_map().get(spdx_license_id):
+        return full_name
+    raise ValueError(msg)
 
 
 class Channel(BaseModel):
@@ -25,8 +47,15 @@ class Metadata(BaseModel):
     description: str
     subject: str
     author: str
+    spdx_license: str
     alignment_tags: list[str]
     keywords: list[str]
+
+    @field_validator("spdx_license")
+    @classmethod
+    def validate_spdx_license(cls, spdx_license: str) -> str:
+        spdx_id_to_full_name(spdx_license)
+        return spdx_license
 
 
 class Card(BaseModel):
