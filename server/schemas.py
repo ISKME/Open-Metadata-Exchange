@@ -54,6 +54,7 @@ class Metadata(BaseModel):
     @field_validator("spdx_license")
     @classmethod
     def validate_spdx_license(cls, spdx_license: str) -> str:
+        """Validate that the SPDX identifier exists in the SPDX license list."""
         spdx_id_to_full_name(spdx_license)
         return spdx_license
 
