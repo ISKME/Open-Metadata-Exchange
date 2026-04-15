@@ -15,10 +15,16 @@ class OpenStaxBook(BaseModel):
     Represents a single OpenStax book entry.
     """
 
-    title: str
-    description: str = ""
-    authors: list[str] = Field(default_factory=list)
-    subject_tags: list[str] = Field(default_factory=list)
-    source_url: str = ""
-    version_url: str = ""
-    spdx_license_expression: str = "CC-BY-4.0"
+    title: str = Field(description="Book title.")
+    description: str = Field(default="", description="Book description or abstract.")
+    authors: list[str] = Field(default_factory=list, description="Book author names.")
+    subject_tags: list[str] = Field(
+        default_factory=list, description="Subject tags for discovery."
+    )
+    source_url: str = Field(default="", description="Canonical OpenStax book URL.")
+    version_url: str = Field(
+        default="", description="Optional URL for a specific version."
+    )
+    spdx_license_expression: str = Field(
+        default="CC-BY-4.0", description="SPDX license expression."
+    )

@@ -10,6 +10,7 @@
 # ///
 
 import json
+import logging
 from collections.abc import Iterator
 from pathlib import Path
 from urllib.parse import urljoin
@@ -23,23 +24,32 @@ from server.plugins.openstax.plugin import OpenStaxPlugin
 
 OPENSTAX_BASE_URL = "https://openstax.org"
 COMPUTER_SCIENCE_SUBJECT_URL = "https://openstax.org/subjects/computer-science"
+logger = logging.getLogger(__name__)
 
 
 def _authors_from_value(value: object) -> list[str]:
+    """
+    Normalize JSON-LD author values (str, dict, or list) to a flat list of names.
+    """
     if isinstance(value, str):
         return [value]
     if isinstance(value, dict):
         name = value.get("name")
-        return [name] if isinstance(name, str) and name else []
+        return [name.strip()] if isinstance(name, str) and name.strip() else []
     if isinstance(value, list):
         names = []
         for author in value:
             names.extend(_authors_from_value(author))
         return names
+    if value is not None:
+        logger.warning("Unsupported author field type: %s", type(value).__name__)
     return []
 
 
 def _extract_json_ld_books(payload: object) -> Iterator[OpenStaxBook]:
+    """
+    Recursively traverse JSON-LD payloads and yield OpenStaxBook records.
+    """
     if isinstance(payload, list):
         for item in payload:
             yield from _extract_json_ld_books(item)
@@ -89,7 +99,8 @@ def extract_books_from_subject_page(html: str) -> list[OpenStaxBook]:
             continue
         try:
             json_payload = json.loads(script_text)
-        except json.JSONDecodeError:
+        except json.JSONDecodeError as exc:
+            logger.debug("Skipping invalid JSON-LD script: %s", exc)
             continue
         for book in _extract_json_ld_books(json_payload):
             key = book.source_url or book.title
@@ -120,20 +131,29 @@ def fetch_subject_page(url: str = COMPUTER_SCIENCE_SUBJECT_URL) -> str:
     Fetch OpenStax subject page HTML.
     """
     with httpx.Client(follow_redirects=True, timeout=30.0) as client:
-        return client.get(url).raise_for_status().text
+        try:
+            return client.get(url).raise_for_status().text
+        except httpx.HTTPError as exc:
+            status_code = (
+                exc.response.status_code
+                if isinstance(exc, httpx.HTTPStatusError)
+                else "N/A"
+            )
+            msg = (
+                f"Failed to fetch OpenStax subject page: {url} "
+                f"(Status: {status_code}). {exc!s}"
+            )
+            raise RuntimeError(msg) from exc
 
 
 def bulk_translate(books: list[dict]) -> Iterator[EducationResource]:
     plugin = OpenStaxPlugin()
-    yield from (
-        plugin.make_metadata_card_from_dict(OpenStaxBook(**book).model_dump())
-        for book in books
-    )
+    yield from (plugin.make_metadata_card_from_dict(book) for book in books)
 
 
 def bulk_import(url: str = COMPUTER_SCIENCE_SUBJECT_URL) -> list[dict]:
     """
-    Gather OpenStax Computer Science books and return translated OME metadata records.
+    Gather OpenStax Computer Science books and return serialized OME records.
     """
     here = Path(__file__).resolve().parent
     html_path = here / "openstax_computer_science_subject.html"
@@ -144,7 +164,7 @@ def bulk_import(url: str = COMPUTER_SCIENCE_SUBJECT_URL) -> list[dict]:
     if not books_path.exists():
         books = extract_books_from_subject_page(html_path.read_text())
         books_path.write_text(
-            json.dumps([book.model_dump() for book in books], indent=2, sort_keys=True)
+            f"{json.dumps([book.model_dump() for book in books], indent=2)}\n"
         )
 
     books = json.loads(books_path.read_text())

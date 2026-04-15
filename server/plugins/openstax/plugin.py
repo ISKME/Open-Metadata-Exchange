@@ -18,7 +18,7 @@ class OpenStaxPlugin(OMEPlugin):
     Plugin to translate OpenStax book metadata to OME EducationResource cards.
     """
 
-    mimetypes: tuple[str] = ("application/vnd.openstax.book+json",)
+    mimetypes: tuple[str, ...] = ("application/vnd.openstax.book+json",)
     # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
     newsgroups: dict[str, str] = MappingProxyType(
         {
@@ -30,7 +30,7 @@ class OpenStaxPlugin(OMEPlugin):
     )
 
     site_name: str = "OpenStax"
-    librarian_contact: str = "support@openstax.org"
+    librarian_contact: str = "info@iskme.org"
     logo: str = "https://openstax.org/dist/images/logos/logo.svg"
 
     def make_metadata_card(self, book: OpenStaxBook) -> EducationResource:
