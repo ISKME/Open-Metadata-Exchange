@@ -1,0 +1,14 @@
+{
+  "title": "Introduction to Python Programming",
+  "description": "An OpenStax introductory computer science textbook focused on Python programming fundamentals.",
+  "authors": [
+    "OpenStax"
+  ],
+  "subject_tags": [
+    "computer science",
+    "programming"
+  ],
+  "source_url": "https://openstax.org/details/books/introduction-python-programming",
+  "version_url": "",
+  "spdx_license_expression": "CC-BY-4.0"
+}
