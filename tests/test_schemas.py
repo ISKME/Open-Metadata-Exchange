@@ -7,8 +7,6 @@ from server.schemas import (
     spdx_id_to_full_name,
 )
 
-SPDX_LICENSE_ID_TO_NAME = _spdx_license_id_to_name_map()
-
 
 @pytest.mark.parametrize(
     ("spdx_license_id", "expected_full_name"),
@@ -47,7 +45,7 @@ def test_spdx_license(spdx_license: str) -> None:
         alignment_tags=[],
         keywords=[],
     )
-    assert spdx_license in SPDX_LICENSE_ID_TO_NAME
+    assert spdx_license in _spdx_license_id_to_name_map()
     assert metadata.spdx_license == spdx_license
 
 
