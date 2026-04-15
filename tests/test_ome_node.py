@@ -205,7 +205,7 @@ def test_utils_get_channels(metadata: schemas.Metadata) -> None:
     assert isinstance(metadata, schemas.Metadata)
     assert metadata.title in sue_grafton_books
     channels = list(utils.get_channels())
-    assert len(channels) == 6
+    assert len(channels) == 7
     slug, description, plugin = channels[0]
     assert slug == "ome.early_learning"
     assert description == (
@@ -221,7 +221,7 @@ def test_utils_get_channels(metadata: schemas.Metadata) -> None:
 
 def test_utils_get_channels_filters() -> None:
     channels = list(utils.get_channels())
-    assert len(channels) == 6
+    assert len(channels) == 7
     slug, description, plugin = channels[0]
     assert slug == "ome.early_learning"
     assert description == (
