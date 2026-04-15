@@ -7,6 +7,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  shellcheck:
+    runs-on: ubuntu-slim
+    steps:  # See configuration in .shellcheckrc
+    - uses: actions/checkout@v6
+    - run: find . -type f -name "*.sh" -exec shellcheck {} +
+
   # inn-docker:
   #  strategy:
   #    fail-fast: false

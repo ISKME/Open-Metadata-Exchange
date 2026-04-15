@@ -5,14 +5,9 @@ A function that returns an nntp_article that contains a tuple of attachments tha
 json files.
 """
 
-from __future__ import annotations
-
+from collections.abc import Iterable
 from email.message import EmailMessage
 from pathlib import Path
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from collections.abc import Iterable
 
 
 def nntp_article(title: str, attachments: Iterable[str | Path]) -> EmailMessage:

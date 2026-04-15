@@ -19,8 +19,6 @@
 #   filename:  qubes_records.json
 #   timestamp: 2025-05-19T05:38:58+00:00
 
-from __future__ import annotations
-
 from pydantic import BaseModel, RootModel
 
 

@@ -10,14 +10,15 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  "fastapi[standard]>=0.115.8",
+  "fastapi[standard]>=0.135.3",
+  "madoka>=0.7.2.1",
   "pondpond",
   "pynntp>=2.0.1",
 ]
 
 [dependency-groups]
 dev = [
-  "pytest>=8.3.4",
+  "pytest>=9.0.3",
 ]
 docs = [
   "myst-parser>=4.0.1",
@@ -28,8 +29,8 @@ docs = [
 ]
 
 [tool.ruff]
-target-version = "py312"
-
+target-version = "py313"  # The default Python of the latest Debian LTS release: trixie (Debian 13)
+# https://www.debian.org/releases
 exclude = [ ".git/", "server/plugins/moodle/extract-mbz3.py" ]
 lint.select = [ "ALL" ]
 lint.ignore = [
@@ -39,19 +40,38 @@ lint.ignore = [
   "FIX002", # Line contains TODO, consider resolving the issue
   "ISC001", # May cause conflicts with ruff format
   "T201",   # flake8-print
-  "TD003",  # Missing issue link for this TODO
+  "TC003",  # typing-only-standard-library-import
+  "TD003",  # missing-todo-link
 ]
-lint.per-file-ignores."server/schemas.py" = [ "N815" ] # the case in the response json is dictated by the API
-lint.per-file-ignores."tests/*" = [ "S101" ] # Use of assert detected
-lint.per-file-ignores."tools/har_parser/har_parser.py" = [ "PTH" ] # flake8-use-pathlib
+lint.per-file-ignores."server/schemas.py" = [ "N815" ]  # the case in the response json is dictated by the API
+lint.per-file-ignores."tests/*" = [ "S101" ]  # Use of assert detected
+lint.per-file-ignores."tools/har_parser/har_parser.py" = [ "PTH" ]  # flake8-use-pathlib
 lint.pylint.allow-magic-value-types = [ "int", "str" ]
 
 [tool.codespell]
-ignore-words-list = "formend,thur"
+ignore-words-list = "astroid,formend,thur"
 skip = "*.csv,*.ctl,*/ERIC_open_records.json,*/package-lock.json,*/whg.json,./fe*/node_modules/*,static/api/imls/v2/**/*.json"
 
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
+
+[tool.rumdl]
+disable = [
+  "MD001",
+  "MD007",
+  "MD012",
+  "MD013",
+  "MD022",
+  "MD025",
+  "MD026",
+  "MD031",
+  "MD032",
+  "MD034",
+  "MD040",
+  "MD041",
+  "MD057",
+  "MD064"
+]
 
 [tool.sphinx-pyproject]
 copyright = "2024, ISKME and contributors"
@@ -92,7 +112,6 @@ myst_fence_as_directive = [
   "mermaid",
 ]
 templates_path = [ "_templates" ]
-[tool.sphinx-pyproject.source_suffix]
-".rst" = "restructuredtext"
-".txt" = "markdown"
-".md" = "markdown"
+source_suffix.".rst" = "restructuredtext"
+source_suffix.".txt" = "markdown"
+source_suffix.".md" = "markdown"

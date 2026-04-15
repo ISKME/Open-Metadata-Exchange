@@ -16,8 +16,6 @@
 #             --input oercommons.json --input-file-type json \
 #             --output oercommons_models.py
 
-from __future__ import annotations
-
 from pydantic import BaseModel, Field
 
 
