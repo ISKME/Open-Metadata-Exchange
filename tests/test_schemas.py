@@ -12,11 +12,15 @@ with SPDX_LICENSES_JSON.open(encoding="utf-8") as spdx_file:
 
 
 @pytest.mark.parametrize(
-    "spdx_license_id",
-    ["MIT", "Apache-2.0", "CC-BY-4.0"],
+    ("spdx_license_id", "expected_full_name"),
+    [
+        ("MIT", "MIT License"),
+        ("Apache-2.0", "Apache License 2.0"),
+        ("CC-BY-4.0", "Creative Commons Attribution 4.0 International"),
+    ],
 )
-def test_spdx_id_to_full_name(spdx_license_id: str) -> None:
-    assert spdx_id_to_full_name(spdx_license_id)
+def test_spdx_id_to_full_name(spdx_license_id: str, expected_full_name: str) -> None:
+    assert spdx_id_to_full_name(spdx_license_id) == expected_full_name
 
 
 @pytest.mark.parametrize("spdx_license_id", ["NOT-A-REAL-SPDX-ID"])
@@ -31,23 +35,25 @@ def test_spdx_id_to_full_name_invalid(spdx_license_id: str) -> None:
         "MIT",
         "Apache-2.0",
         "CC-BY-4.0",
-        "NOT-A-REAL-SPDX-ID",
     ],
 )
 def test_spdx_license(spdx_license: str) -> None:
-    if spdx_license in SPDX_LICENSE_IDS:
-        metadata = Metadata(
-            title="Title",
-            url="https://example.org/resource",
-            description="Description",
-            subject="Subject",
-            author="Author",
-            spdx_license=spdx_license,
-            alignment_tags=[],
-            keywords=[],
-        )
-        assert metadata.spdx_license == spdx_license
-        return
+    metadata = Metadata(
+        title="Title",
+        url="https://example.org/resource",
+        description="Description",
+        subject="Subject",
+        author="Author",
+        spdx_license=spdx_license,
+        alignment_tags=[],
+        keywords=[],
+    )
+    assert spdx_license in SPDX_LICENSE_IDS
+    assert metadata.spdx_license == spdx_license
+
+
+@pytest.mark.parametrize("spdx_license", ["NOT-A-REAL-SPDX-ID"])
+def test_spdx_license_invalid(spdx_license: str) -> None:
     with pytest.raises(ValidationError):
         Metadata(
             title="Title",
