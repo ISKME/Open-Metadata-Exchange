@@ -26,7 +26,7 @@ def _spdx_license_id_to_name_map() -> dict[str, str]:
 
 
 def spdx_id_to_full_name(spdx_license_id: str) -> str:
-    """Return the full SPDX license name for a valid SPDX identifier."""
+    """Return the full SPDX license name or raise ValueError for an invalid ID."""
     full_name = _spdx_license_id_to_name_map().get(spdx_license_id)
     if full_name is None:
         msg = f"Invalid SPDX license identifier: {spdx_license_id}"
@@ -63,7 +63,7 @@ class Metadata(BaseModel):
     @field_validator("spdx_license")
     @classmethod
     def validate_spdx_license(cls, spdx_license: str) -> str:
-        """Validate that the SPDX identifier exists in the SPDX license list."""
+        """Called by Pydantic; raise ValueError when spdx_license is not SPDX-valid."""
         try:
             spdx_id_to_full_name(spdx_license)
         except ValueError as err:
