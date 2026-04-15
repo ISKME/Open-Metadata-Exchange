@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-from functools import cache
+from functools import lru_cache
 from pathlib import Path
 
 from pydantic import BaseModel, field_validator
@@ -8,7 +8,7 @@ from pydantic import BaseModel, field_validator
 SPDX_LICENSES_JSON = Path(__file__).with_name("spdx_licenses.json")
 
 
-@cache
+@lru_cache(maxsize=1)
 def _spdx_license_id_to_name_map() -> dict[str, str]:
     with SPDX_LICENSES_JSON.open(encoding="utf-8") as spdx_file:
         spdx_licenses = json.load(spdx_file)
@@ -19,6 +19,7 @@ def _spdx_license_id_to_name_map() -> dict[str, str]:
 
 
 def spdx_id_to_full_name(spdx_license_id: str) -> str:
+    """Return the full SPDX license name for a valid SPDX identifier."""
     full_name = _spdx_license_id_to_name_map().get(spdx_license_id)
     if full_name is None:
         msg = f"Invalid SPDX license identifier: {spdx_license_id}"
@@ -56,7 +57,11 @@ class Metadata(BaseModel):
     @classmethod
     def validate_spdx_license(cls, spdx_license: str) -> str:
         """Validate that the SPDX identifier exists in the SPDX license list."""
-        spdx_id_to_full_name(spdx_license)
+        try:
+            spdx_id_to_full_name(spdx_license)
+        except ValueError as err:
+            msg = f"Invalid value for spdx_license: {spdx_license}"
+            raise ValueError(msg) from err
         return spdx_license
 
 
