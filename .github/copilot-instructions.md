@@ -83,6 +83,8 @@ pre-commit install
   `datetime` fields — ruff rule `TC003` flags the runtime `datetime` import as needing a
   type-checking-only block, which breaks Pydantic's runtime validation.  Omit the future
   import and let Python 3.13 handle the annotations natively.
+- Avoid where possible variables that can be polymorphic with None (s: str | None).
+- Use assignment expresstions (:=) where it makes sense.
 
 ## Plugin Architecture
 
