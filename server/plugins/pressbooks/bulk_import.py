@@ -13,6 +13,7 @@
 # ]
 # ///
 
+import asyncio
 import json
 import logging
 from collections.abc import Iterator
@@ -34,15 +35,65 @@ logger = logging.getLogger(__name__)
 plugin = PressbooksPlugin()
 
 
-def fetch_books(
+def _parse_page(items: list) -> list[PressbooksBook]:
+    """
+    Validate raw API items into PressbooksBook records.
+
+    Uses a Python 3.13+ ExceptionGroup to gather and report all validation
+    errors at once rather than stopping at the first malformed record.
+    Valid records are returned even when some items fail validation.
+    """
+    books: list[PressbooksBook] = []
+    errors: list[ValidationError] = []
+    for item in items:
+        try:
+            books.append(PressbooksBook.model_validate(item))
+        except ValidationError as exc:
+            errors.append(exc)
+    if errors:
+        msg = f"Skipping {len(errors)} malformed Pressbooks book record(s)"
+        try:
+            raise ExceptionGroup(msg, errors)
+        except* ValidationError as eg:
+            for exc in eg.exceptions:
+                logger.warning("Malformed book record: %s", exc)
+    return books
+
+
+async def _fetch_page(
+    client: httpx.AsyncClient,
+    params: dict[str, str | int],
+) -> list[PressbooksBook]:
+    """Fetch and parse a single page of books from the Pressbooks Directory API."""
+    try:
+        response = await client.get(BOOKS_API_URL, params=params)
+        response.raise_for_status()
+    except httpx.HTTPError as exc:
+        status_code = (
+            exc.response.status_code
+            if isinstance(exc, httpx.HTTPStatusError)
+            else "N/A"
+        )
+        msg = (
+            f"Failed to fetch books from Pressbooks Directory API: {BOOKS_API_URL} "
+            f"(Status: {status_code}). {exc!s}"
+        )
+        raise RuntimeError(msg) from exc
+    return _parse_page(response.json())
+
+
+async def fetch_all_books(
     *,
     search: str = "",
     institution: str = "",
     per_page: int = DEFAULT_PER_PAGE,
-    page: int = 1,
 ) -> list[PressbooksBook]:
     """
-    Fetch a page of books from the Pressbooks Directory REST API.
+    Fetch all matching books from the Pressbooks Directory.
+
+    Fetches the first page to discover the total page count from the
+    ``X-WP-TotalPages`` response header, then gathers all remaining pages
+    concurrently using :func:`asyncio.gather`.
 
     Args:
         search: Full-text search query (maps to the ``?q=`` UI parameter).
@@ -50,21 +101,23 @@ def fetch_books(
                      Multiple institutions can be joined with ``&&``
                      (e.g. ``"University at Buffalo&&University of Rochester"``).
         per_page: Number of results per page (max 100).
-        page: 1-based page number.
 
     Returns:
-        A list of :class:`PressbooksBook` records parsed from the API response.
+        A flat list of all :class:`PressbooksBook` records.
     """
-    params: dict[str, str | int] = {"per_page": per_page, "page": page}
+    base_params: dict[str, str | int] = {"per_page": per_page}
     if search:
-        params["search"] = search
+        base_params["search"] = search
     if institution:
-        params["institution"] = institution
+        base_params["institution"] = institution
 
-    with httpx.Client(follow_redirects=True, timeout=30.0) as client:
+    async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as client:
+        # Fetch the first page and read the total page count from the response header.
         try:
-            response = client.get(BOOKS_API_URL, params=params)
-            response.raise_for_status()
+            first_response = await client.get(
+                BOOKS_API_URL, params={**base_params, "page": 1}
+            )
+            first_response.raise_for_status()
         except httpx.HTTPError as exc:
             status_code = (
                 exc.response.status_code
@@ -72,49 +125,25 @@ def fetch_books(
                 else "N/A"
             )
             msg = (
-                f"Failed to fetch books from Pressbooks Directory API: {BOOKS_API_URL} "
-                f"(Status: {status_code}). {exc!s}"
+                f"Failed to fetch books from Pressbooks Directory API: "
+                f"{BOOKS_API_URL} (Status: {status_code}). {exc!s}"
             )
             raise RuntimeError(msg) from exc
 
-    books: list[PressbooksBook] = []
-    for item in response.json():
-        try:
-            books.append(PressbooksBook.model_validate(item))
-        except ValidationError:
-            item_id = item.get("id") if isinstance(item, dict) else repr(item)
-            logger.warning("Skipping malformed book record: %r", item_id)
-    return books
+        first_books = _parse_page(first_response.json())
+        total_pages = int(first_response.headers.get("X-WP-TotalPages", "1"))
 
+        if total_pages <= 1:
+            return first_books
 
-def fetch_all_books(
-    *,
-    search: str = "",
-    institution: str = "",
-    per_page: int = DEFAULT_PER_PAGE,
-) -> list[PressbooksBook]:
-    """
-    Fetch all matching books from the Pressbooks Directory, handling pagination.
-
-    Args:
-        search: Full-text search query.
-        institution: Institution name filter.
-        per_page: Number of results per page.
-
-    Returns:
-        A flat list of all :class:`PressbooksBook` records across all pages.
-    """
-    all_books: list[PressbooksBook] = []
-    page = 1
-    while True:
-        books = fetch_books(
-            search=search, institution=institution, per_page=per_page, page=page
+        # Gather all remaining pages concurrently.
+        remaining = await asyncio.gather(
+            *[
+                _fetch_page(client, {**base_params, "page": p})
+                for p in range(2, total_pages + 1)
+            ]
         )
-        all_books.extend(books)
-        if len(books) < per_page:
-            break
-        page += 1
-    return all_books
+        return first_books + [book for page_books in remaining for book in page_books]
 
 
 def bulk_translate(books: list[dict]) -> Iterator[EducationResource]:
@@ -137,7 +166,7 @@ def bulk_import_search(
         A list of serialised EducationResource dicts.
     """
     if not cache_path.exists():
-        books = fetch_all_books(search=search)
+        books = asyncio.run(fetch_all_books(search=search))
         cache_path.write_text(
             json.dumps([book.model_dump() for book in books], indent=2) + "\n"
         )
@@ -161,7 +190,7 @@ def bulk_import_institution(
         A list of serialised EducationResource dicts.
     """
     if not cache_path.exists():
-        books = fetch_all_books(institution=institution)
+        books = asyncio.run(fetch_all_books(institution=institution))
         cache_path.write_text(
             json.dumps([book.model_dump() for book in books], indent=2) + "\n"
         )
@@ -183,11 +212,12 @@ if __name__ == "__main__":
         print(f"  {card['title']!r}  ({card['spdx_license_expression']})")
 
     print("\n=== University at Buffalo / Rochester institution results ===")
-    institution = (
-        "University at Buffalo"
-        "&&University of Rochester"
-        "&&Rochester Community and Technical College"
-    )
+    institutions = [
+        "University at Buffalo",
+        "University of Rochester",
+        "Rochester Community and Technical College",
+    ]
+    institution = "&&".join(institutions)
     uni_results = bulk_import_institution(
         institution=institution,
         cache_path=here / "pressbooks_university_books.json",

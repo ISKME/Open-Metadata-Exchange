@@ -49,7 +49,9 @@ Replace `<plugin_name>` with a short, lowercase name for the data source (e.g., 
 Before writing any code, check whether the source site exposes a public API:
 
 - **JSON/REST API available** → fetch data with `httpx` and generate Pydantic models from
-  a sample response using `datamodel-codegen` (see below).
+  a sample response using `datamodel-codegen` (see below).  Prefer
+  `httpx.AsyncClient` with `asyncio.gather()` for paginated APIs (see
+  [Async / concurrent page fetching](#async--concurrent-page-fetching) below).
 - **No public API (Drupal, WordPress, static HTML, etc.)** → use web scraping with
   `httpx` + `BeautifulSoup` (see [Web-scraping variant](#web-scraping-variant) below).
 
@@ -198,8 +200,91 @@ the site.  Mark the file executable the same way as other scripts:
 git add --chmod=+x server/plugins/<plugin_name>/bulk_import.py
 ```
 
-See `server/plugins/eric/bulk_import.py` for an API/JSON reference implementation and
-`server/plugins/early_learning/bulk_import.py` for a web-scraping reference.
+See `server/plugins/eric/bulk_import.py` for an API/JSON reference implementation,
+`server/plugins/early_learning/bulk_import.py` for a web-scraping reference, and
+`server/plugins/pressbooks/bulk_import.py` for an async/concurrent pagination example.
+
+---
+
+### Async / concurrent page fetching
+
+When a REST API exposes pagination headers (e.g., WordPress REST APIs return
+`X-WP-TotalPages` and `X-WP-Total`), use `httpx.AsyncClient` with
+`asyncio.gather()` to fetch all pages concurrently instead of looping
+sequentially:
+
+```python
+import asyncio
+
+import httpx
+
+
+async def _fetch_page(client: httpx.AsyncClient, params: dict) -> list:
+    response = await client.get(API_URL, params=params)
+    response.raise_for_status()
+    return response.json()
+
+
+async def fetch_all(*, per_page: int = 100, **filters) -> list:
+    base_params = {"per_page": per_page, **filters}
+    async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as client:
+        first = await client.get(API_URL, params={**base_params, "page": 1})
+        first.raise_for_status()
+        total_pages = int(first.headers.get("X-WP-TotalPages", "1"))
+        first_items = first.json()
+        if total_pages <= 1:
+            return first_items
+        remaining = await asyncio.gather(
+            *[
+                _fetch_page(client, {**base_params, "page": p})
+                for p in range(2, total_pages + 1)
+            ]
+        )
+        return first_items + [item for page in remaining for item in page]
+
+
+# Call from synchronous code:
+all_items = asyncio.run(fetch_all(search="python"))
+```
+
+See `server/plugins/pressbooks/bulk_import.py` for a full working example.
+
+---
+
+### Exception Groups for validation loops
+
+This project targets **Python 3.13+**.  When validating a list of records
+(e.g., after a bulk API fetch), use an `ExceptionGroup` to collect *all*
+`ValidationError` exceptions and report them together rather than raising on
+the first failure or silently discarding errors one at a time:
+
+```python
+from pydantic import ValidationError
+
+
+def _parse_records(items: list) -> list[MyModel]:
+    records: list[MyModel] = []
+    errors: list[ValidationError] = []
+    for item in items:
+        try:
+            records.append(MyModel.model_validate(item))
+        except ValidationError as exc:
+            errors.append(exc)
+    if errors:
+        try:
+            raise ExceptionGroup(
+                f"Skipping {len(errors)} malformed record(s)", errors
+            )
+        except* ValidationError as eg:
+            for exc in eg.exceptions:
+                logger.warning("Malformed record: %s", exc)
+    return records
+```
+
+The `try / raise ExceptionGroup / except*` idiom logs every bad record in a
+single structured report while still returning all valid records to the caller.
+
+---
 
 #### 5. Update the channel count in tests
 
