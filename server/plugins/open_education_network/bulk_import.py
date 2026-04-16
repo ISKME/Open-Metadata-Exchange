@@ -53,7 +53,7 @@ def _parse_records(items: list) -> list[OENTextbook]:
         except ValidationError as exc:
             errors.append(exc)
     if errors:
-        msg = f"Skipping {len(errors)} malformed OEN textbook record(s)"
+        msg = f"Skipping {len(errors)} of {len(items)} malformed OEN textbook record(s)"
         try:
             raise ExceptionGroup(msg, errors)
         except* ValidationError as eg:
@@ -73,7 +73,7 @@ def fetch_textbooks(
     Args:
         subject: Subject keyword to search for (e.g., ``"Python"``).
         formats: List of format names to filter by (e.g., ``["eBook", "PDF"]``).
-                 Maps to the ``format[]`` query parameter.
+                 Passed to the API as repeated ``format[]`` query parameters.
 
     Returns:
         A list of :class:`OENTextbook` records.

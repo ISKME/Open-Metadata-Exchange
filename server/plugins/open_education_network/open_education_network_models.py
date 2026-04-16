@@ -35,7 +35,9 @@ class OENSubject(BaseModel):
     name: str = Field(default="", description="Subject name.")
     child_subject: OENChildSubject = Field(
         default_factory=OENChildSubject,
-        description="Optional child subject.",
+        description=(
+            "Child subject (always present; name may be empty if not applicable)."
+        ),
     )
 
 
