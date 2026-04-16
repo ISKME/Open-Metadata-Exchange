@@ -19,10 +19,11 @@ from collections.abc import Iterator
 from pathlib import Path
 
 import httpx
+from pydantic import ValidationError
 
 from server.plugins.ome_plugin import EducationResource
-from server.plugins.pressbooks.pressbooks_models import PressbooksBook
 from server.plugins.pressbooks.plugin import PressbooksPlugin
+from server.plugins.pressbooks.pressbooks_models import PressbooksBook
 
 PRESSBOOKS_DIRECTORY_URL = "https://pressbooks.directory"
 BOOKS_API_URL = f"{PRESSBOOKS_DIRECTORY_URL}/wp-json/pressbooks/v2/books"
@@ -45,7 +46,7 @@ def fetch_books(
 
     Args:
         search: Full-text search query (maps to the ``?q=`` UI parameter).
-        institution: Institution name to filter by (maps to the ``?inst=`` UI parameter).
+        institution: Institution name filter (maps to the ``?inst=`` UI parameter).
                      Multiple institutions can be joined with ``&&``
                      (e.g. ``"University at Buffalo&&University of Rochester"``).
         per_page: Number of results per page (max 100).
@@ -80,8 +81,9 @@ def fetch_books(
     for item in response.json():
         try:
             books.append(PressbooksBook.model_validate(item))
-        except Exception:
-            logger.warning("Skipping malformed book record: %r", item.get("id"))
+        except ValidationError:
+            item_id = item.get("id") if isinstance(item, dict) else repr(item)
+            logger.warning("Skipping malformed book record: %r", item_id)
     return books
 
 

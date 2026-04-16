@@ -35,7 +35,9 @@ class PressbooksPlugin(OMEPlugin):
 
     site_name: str = "Pressbooks Directory"
     librarian_contact: str = "info@iskme.org"
-    logo: str = "https://pressbooks.org/app/themes/pressbooks-org/images/pressbooks-logo.svg"
+    logo: str = (
+        "https://pressbooks.org/app/themes/pressbooks-org/images/pressbooks-logo.svg"
+    )
 
     def make_metadata_card(self, book: PressbooksBook) -> EducationResource:
         """Translate a PressbooksBook record into an OME EducationResource."""
@@ -56,9 +58,7 @@ class PressbooksPlugin(OMEPlugin):
 
     def make_metadata_card_from_json(self, json_payload: str) -> EducationResource:
         """Create an EducationResource from a raw JSON string."""
-        return self.make_metadata_card(
-            PressbooksBook.model_validate_json(json_payload)
-        )
+        return self.make_metadata_card(PressbooksBook.model_validate_json(json_payload))
 
     def make_metadata_card_from_url(self, url: str) -> EducationResource:
         """

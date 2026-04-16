@@ -15,7 +15,7 @@ from types import MappingProxyType
 from pydantic import BaseModel, Field, field_validator
 
 # Map Pressbooks license slugs to SPDX expressions.
-PRESSBOOKS_LICENSE_TO_SPDX: dict[str, str] = MappingProxyType(  # type: ignore[assignment]
+PRESSBOOKS_LICENSE_TO_SPDX: MappingProxyType[str, str] = MappingProxyType(
     {
         "cc-by": "CC-BY-4.0",
         "cc-by-sa": "CC-BY-SA-4.0",
@@ -100,9 +100,7 @@ class PressbooksBookMetadata(BaseModel):
     @property
     def spdx_license(self) -> str:
         """Translate the Pressbooks license slug to an SPDX expression."""
-        return PRESSBOOKS_LICENSE_TO_SPDX.get(
-            self.pb_license.lower(), self.pb_license
-        )
+        return PRESSBOOKS_LICENSE_TO_SPDX.get(self.pb_license.lower(), self.pb_license)
 
 
 class PressbooksBook(BaseModel):
