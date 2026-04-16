@@ -220,9 +220,7 @@ import httpx
 
 
 async def _fetch_page(client: httpx.AsyncClient, params: dict) -> list:
-    response = await client.get(API_URL, params=params)
-    response.raise_for_status()
-    return response.json()
+    return await client.get(API_URL, params=params).raise_for_status().json()
 
 
 async def fetch_all(*, per_page: int = 100, **filters) -> list:
