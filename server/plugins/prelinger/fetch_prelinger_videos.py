@@ -28,7 +28,6 @@ Usage (run directly)::
 Results are cached in ``prelinger_finland_videos.json`` inside this directory.
 """
 
-import json
 from pathlib import Path
 
 import httpx
@@ -139,11 +138,3 @@ if __name__ == "__main__":
         print(f"  authors:    {card.authors}")
         print(f"  license:    {card.spdx_license_expression!r}")
         print()
-
-    # Also dump a pretty-printed sample of the raw records
-    here = Path(__file__).resolve().parent
-    sample_path = here / "prelinger_finland_videos.json"
-    sample_path.write_text(
-        json.dumps([r.model_dump() for r in records], indent=2) + "\n"
-    )
-    print(f"Wrote {len(records)} records to {sample_path}")
