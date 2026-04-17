@@ -10,8 +10,13 @@
 from datetime import datetime
 from types import MappingProxyType
 
+import httpx
+
 from server.plugins.ome_plugin import EducationResource, OMEPlugin
-from server.plugins.prelinger.prelinger_models import PrelingerItem
+from server.plugins.prelinger.prelinger_models import (
+    PrelingerItem,
+    PrelingerMetadataResponse,
+)
 
 ARCHIVE_DETAILS_BASE = "https://archive.org/details/"
 
@@ -42,8 +47,8 @@ class PrelingerPlugin(OMEPlugin):
     (https://archive.org/developers/md-read.html) into standardised
     OME EducationResource cards.
 
-    The Prelinger Archives is a collection of ephemeral films – advertising,
-    educational, industrial, and amateur – donated to the Internet Archive
+    The Prelinger Archives is a collection of ephemeral films - advertising,
+    educational, industrial, and amateur - donated to the Internet Archive
     and made freely available in the public domain.
     """
 
@@ -86,9 +91,7 @@ class PrelingerPlugin(OMEPlugin):
 
     def make_metadata_card_from_json(self, json_payload: str) -> EducationResource:
         """Create an EducationResource from a raw JSON string."""
-        return self._make_metadata_card(
-            PrelingerItem.model_validate_json(json_payload)
-        )
+        return self._make_metadata_card(PrelingerItem.model_validate_json(json_payload))
 
     def make_metadata_card_from_url(self, url: str) -> EducationResource:
         """
@@ -97,10 +100,6 @@ class PrelingerPlugin(OMEPlugin):
         Calls ``GET https://archive.org/metadata/{identifier}`` where
         *identifier* is extracted from the supplied *url*.
         """
-        import httpx
-
-        from server.plugins.prelinger.prelinger_models import PrelingerMetadataResponse
-
         with httpx.Client(follow_redirects=True, timeout=30.0) as client:
             # Accept both https://archive.org/details/{id} and
             # https://archive.org/metadata/{id}

@@ -16,9 +16,9 @@ Fetch Prelinger video metadata from the Internet Archive.
 
 Two complementary functions are provided:
 
-* ``search_prelinger`` – queries the Internet Archive Advanced Search API to
+* ``search_prelinger`` - queries the Internet Archive Advanced Search API to
   discover video identifiers within the Prelinger collection.
-* ``fetch_item_metadata`` – retrieves the full metadata for a single item via
+* ``fetch_item_metadata`` - retrieves the full metadata for a single item via
   the Internet Archive Metadata (md-read) API.
 
 Usage (run directly)::
@@ -33,13 +33,13 @@ from pathlib import Path
 
 import httpx
 
+from server.plugins.prelinger.plugin import PrelingerPlugin
 from server.plugins.prelinger.prelinger_models import (
     PrelingerItem,
     PrelingerMetadataResponse,
     PrelingerModel,
     PrelingerSearchResponse,
 )
-from server.plugins.prelinger.plugin import PrelingerPlugin
 
 IA_SEARCH_URL = "https://archive.org/advancedsearch.php"
 IA_METADATA_URL = "https://archive.org/metadata/{identifier}"

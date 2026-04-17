@@ -13,12 +13,22 @@
 from pydantic import BaseModel, Field, RootModel, field_validator
 
 
+def _coerce_to_list(v: object) -> list[str]:
+    """Normalize a string, list, or None value to a flat list of strings."""
+    if isinstance(v, str):
+        return [v]
+    return list(v) if v is not None else []
+
+
 class PrelingerItem(BaseModel):
     """
     Represents a single video item from the Prelinger Archives at the Internet Archive.
 
     Fields map directly to the ``metadata`` object returned by the md-read API:
     ``GET https://archive.org/metadata/{identifier}``
+
+    Also used as the document type within ``PrelingerSearchResponseInner.docs`` since
+    the Advanced Search API returns the same fields.
     """
 
     identifier: str = ""
@@ -34,9 +44,7 @@ class PrelingerItem(BaseModel):
     @classmethod
     def coerce_to_list(cls, v: object) -> list[str]:
         """Normalize string or None values to a list of strings."""
-        if isinstance(v, str):
-            return [v]
-        return list(v) if v is not None else []
+        return _coerce_to_list(v)
 
 
 class PrelingerMetadataResponse(BaseModel):
@@ -47,31 +55,12 @@ class PrelingerMetadataResponse(BaseModel):
     metadata: PrelingerItem
 
 
-class PrelingerSearchDoc(BaseModel):
-    """A single document returned inside the ``response.docs`` list of an advanced search."""
-
-    identifier: str = ""
-    title: str = ""
-    description: str = ""
-    creator: list[str] = Field(default_factory=list)
-    subject: list[str] = Field(default_factory=list)
-    date: str = ""
-    licenseurl: str = ""
-    mediatype: str = ""
-
-    @field_validator("creator", "subject", mode="before")
-    @classmethod
-    def coerce_to_list(cls, v: object) -> list[str]:
-        """Normalize string or None values to a list of strings."""
-        if isinstance(v, str):
-            return [v]
-        return list(v) if v is not None else []
-
-
 class PrelingerSearchResponseInner(BaseModel):
-    numFound: int = 0
+    model_config = {"populate_by_name": True}
+
+    num_found: int = Field(default=0, alias="numFound")
     start: int = 0
-    docs: list[PrelingerSearchDoc] = Field(default_factory=list)
+    docs: list[PrelingerItem] = Field(default_factory=list)
 
 
 class PrelingerSearchResponse(BaseModel):
