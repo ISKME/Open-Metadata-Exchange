@@ -7,6 +7,7 @@
 # ]
 # ///
 
+from contextlib import suppress
 from datetime import datetime
 from types import MappingProxyType
 
@@ -32,10 +33,8 @@ _IA_DATE_FORMATS: tuple[tuple[str, int], ...] = (
 def _parse_ia_date(date_str: str) -> datetime | None:
     """Parse an Internet Archive date string (YYYY, YYYY-MM, or YYYY-MM-DD)."""
     for fmt, length in _IA_DATE_FORMATS:
-        try:
+        with suppress(ValueError):
             return datetime.strptime(date_str[:length], fmt)  # noqa: DTZ007
-        except ValueError:
-            continue
     return None
 
 
@@ -105,8 +104,7 @@ class PrelingerPlugin(OMEPlugin):
             # https://archive.org/metadata/{id}
             identifier = url.rstrip("/").rsplit("/", 1)[-1]
             api_url = f"https://archive.org/metadata/{identifier}"
-            response = client.get(api_url)
-            response.raise_for_status()
+            response = client.get(api_url).raise_for_status()
         envelope = PrelingerMetadataResponse.model_validate_json(response.text)
         return self._make_metadata_card(envelope.metadata)
 

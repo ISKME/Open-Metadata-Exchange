@@ -69,8 +69,9 @@ def search_prelinger(
         "rows": rows,
         "output": "json",
     }
-    response = client.get(IA_SEARCH_URL, params=params, headers=HEADERS)
-    response.raise_for_status()
+    response = client.get(
+        IA_SEARCH_URL, params=params, headers=HEADERS
+    ).raise_for_status()
     search_result = PrelingerSearchResponse.model_validate_json(response.text)
     return [doc.identifier for doc in search_result.response.docs if doc.identifier]
 
@@ -82,8 +83,7 @@ def fetch_item_metadata(identifier: str, *, client: httpx.Client) -> PrelingerIt
     ``GET https://archive.org/metadata/{identifier}``
     """
     url = IA_METADATA_URL.format(identifier=identifier)
-    response = client.get(url, headers=HEADERS)
-    response.raise_for_status()
+    response = client.get(url, headers=HEADERS).raise_for_status()
     envelope = PrelingerMetadataResponse.model_validate_json(response.text)
     return envelope.metadata
 

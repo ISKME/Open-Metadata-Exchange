@@ -206,6 +206,61 @@ See `server/plugins/eric/bulk_import.py` for an API/JSON reference implementatio
 
 ---
 
+### HTTP requests: always chain `.raise_for_status()`
+
+When making HTTP requests with `httpx`, chain `.raise_for_status()` directly onto
+the `.get()` (or `.post()`, etc.) call instead of calling it on a separate line.
+`httpx.Response.raise_for_status()` returns `self`, so the response object is still
+available for further use:
+
+```python
+# Preferred — chain raise_for_status() on the same line
+response = client.get(url, params=params, headers=HEADERS).raise_for_status()
+data = response.json()
+
+# Also valid for one-liners when only the text/json is needed
+soup = BeautifulSoup(
+    client.get(url, headers=HEADERS, follow_redirects=True).raise_for_status().text,
+    "html.parser",
+)
+
+# Discouraged — two-line raise_for_status
+response = client.get(url)   # ← do not do this
+response.raise_for_status()  # ← do not do this
+```
+
+This applies to both synchronous (`httpx.Client`) and asynchronous
+(`httpx.AsyncClient`) usage.
+
+---
+
+### Exception suppression: prefer `contextlib.suppress` over `try/except/continue`
+
+When a `try` block in a loop only catches an exception to continue to the next
+iteration (i.e., the `except` body is just `continue` or `pass`), use
+`contextlib.suppress` instead.  This is required by ruff rule **SIM105**
+(`suppressible-exception`):
+
+```python
+# Preferred — contextlib.suppress
+from contextlib import suppress
+
+for fmt, length in DATE_FORMATS:
+    with suppress(ValueError):
+        return datetime.strptime(date_str[:length], fmt)
+return None
+
+# Discouraged — bare except/continue (ruff SIM105 will flag this)
+for fmt, length in DATE_FORMATS:
+    try:
+        return datetime.strptime(date_str[:length], fmt)
+    except ValueError:
+        continue
+return None
+```
+
+---
+
 ### Async / concurrent page fetching
 
 When a REST API exposes pagination headers (e.g., WordPress REST APIs return
