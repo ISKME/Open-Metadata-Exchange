@@ -339,12 +339,54 @@ single structured report while still returning all valid records to the caller.
 
 ---
 
-#### 5. Update the channel count in tests
+#### 5. Create an NNTP news article for each imported item
+
+After writing each item's raw source data to
+`server/plugins/<plugin_name>/<plugin_name>_item.json`, create an NNTP news article
+using `server/nntp_article.py`.  The article body should be the OME JSON for the item,
+with two enclosures: the OME JSON file and the original source JSON file.
+
+```python
+from pathlib import Path
+
+from server.nntp_article import nntp_article
+from server.plugins.<plugin_name>.plugin import <PluginName>Plugin
+
+plugin = <PluginName>Plugin()
+here = Path(__file__).resolve().parent
+
+# Paths to the source data and OME metadata files
+item_json_path = here / "<plugin_name>_item.json"
+ome_json_path = here / "<plugin_name>_ome_item.json"
+
+# Convert the raw source JSON to an OME EducationResource and serialise it
+ome_resource = plugin.make_metadata_card_from_json(item_json_path.read_text())
+ome_json = ome_resource.model_dump_json(indent=2)
+
+# Write the OME JSON to a file so it can be attached as the second enclosure
+ome_json_path.write_text(ome_json)
+
+# Create the NNTP article:
+#   - body:             the OME JSON for this item
+#   - first enclosure:  the original source JSON file (<plugin_name>_item.json)
+#   - second enclosure: the OME JSON file  (<plugin_name>_ome_item.json)
+article = nntp_article(
+    title=ome_resource.title,
+    attachments=[item_json_path, ome_json_path],
+    body=ome_json,
+)
+```
+
+> **Note:** `nntp_article()` is defined in `server/nntp_article.py` and returns a Python
+> `email.message.EmailMessage`.  Pass that object to `pynntp_client.post()` (or write it
+> to disk with `Path(...).write_text(str(article))`) when you are ready to publish.
+
+#### 6. Update the channel count in tests
 
 `tests/test_ome_node.py` hard-codes the expected number of channels.  Increment it by 1
 for each new plugin you add.  Search for `len(channels) ==` and update every occurrence.
 
-#### 6. Verify the plugin is discovered
+#### 7. Verify the plugin is discovered
 
 Run `get_ome_plugins.py` as an executable (it has a `#!/usr/bin/env -S uv run --script` shebang) to confirm the new plugin is detected:
 
@@ -354,7 +396,7 @@ Run `get_ome_plugins.py` as an executable (it has a `#!/usr/bin/env -S uv run --
 
 The output should include your new plugin's class name, `mimetypes`, and `newsgroups`.
 
-#### 7. Run pre-commit to validate your changes
+#### 8. Run pre-commit to validate your changes
 
 **Always run `pre-commit run --all-files` after adding or modifying any files:**
 
