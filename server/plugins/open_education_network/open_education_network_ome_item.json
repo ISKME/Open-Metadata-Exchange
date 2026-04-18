@@ -1,0 +1,17 @@
+{
+  "title": "Python for Everybody: Exploring Data in Python 3",
+  "description": "This book is designed to introduce students to programming and computational thinking through the lens of exploring data. You can think of the Python programming language as your tool to solve data problems that are beyond the capability of a spreadsheet.",
+  "authors": [
+    "Charles Severance"
+  ],
+  "authoring_institution": "Open Education Network",
+  "subject_tags": [
+    "Computing & Information Technology",
+    "Programming Languages"
+  ],
+  "creation_date": null,
+  "last_modified_date": null,
+  "source_url": "https://open.umn.edu/opentextbooks/textbooks/python-for-everybody-exploring-data-in-python-3",
+  "version_url": "",
+  "spdx_license_expression": "CC-BY-NC-SA-4.0"
+}
