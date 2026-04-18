@@ -10,12 +10,22 @@ from email.message import EmailMessage
 from pathlib import Path
 
 
-def nntp_article(title: str, attachments: Iterable[str | Path]) -> EmailMessage:
+def nntp_article(
+    title: str, attachments: Iterable[str | Path], *, body: str = ""
+) -> EmailMessage:
     """
-    Returns a tuple of paths to two JSON files.
+    Returns an NNTP article (EmailMessage) with the given subject, optional body text,
+    and JSON file attachments (enclosures).
+
+    Args:
+        title: The article subject line.
+        attachments: Paths to JSON files to attach as NNTP enclosures.
+        body: Optional plain-text body for the article (e.g., serialised OME JSON).
     """
     msg = EmailMessage()
     msg["Subject"] = title
+    if body:
+        msg.set_content(body)
     # Iterate over the attachments and add them to the email
     for attachment in attachments:
         if not (path := Path(attachment)).exists():
