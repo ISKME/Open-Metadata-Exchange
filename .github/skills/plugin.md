@@ -363,16 +363,16 @@ ome_json_path = here / "<plugin_name>_ome_item.json"
 ome_resource = plugin.make_metadata_card_from_json(item_json_path.read_text())
 ome_json = ome_resource.model_dump_json(indent=2)
 
-# Write the OME JSON to a file so it can be attached as the first enclosure
+# Write the OME JSON to a file so it can be attached as the second enclosure
 ome_json_path.write_text(ome_json)
 
 # Create the NNTP article:
 #   - body:             the OME JSON for this item
-#   - first enclosure:  the OME JSON file  (<plugin_name>_ome_item.json)
-#   - second enclosure: the original source JSON file (<plugin_name>_item.json)
+#   - first enclosure:  the original source JSON file (<plugin_name>_item.json)
+#   - second enclosure: the OME JSON file  (<plugin_name>_ome_item.json)
 article = nntp_article(
     title=ome_resource.title,
-    attachments=[ome_json_path, item_json_path],
+    attachments=[item_json_path, ome_json_path],
     body=ome_json,
 )
 ```
