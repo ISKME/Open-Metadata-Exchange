@@ -37,6 +37,29 @@ sequenceDiagram
 - **FastAPI Server** (`server/`): Python 3.13+ middleware connecting INN to the frontend.
 - **Frontend** (`frontend/`): React user interface served by a Node server on port 4000.
 
+## Tests Must Pass Before Committing
+
+**Every commit on every PR must have a passing test suite.** Run the
+full suite and confirm it passes before `git commit`:
+
+```bash
+uv run pytest
+```
+
+- Do not commit code on a red suite — neither to open a PR nor to
+  update one. Fix the failure first, or skip/xfail the specific test
+  with a reason before committing.
+- Pre-existing failures that are unrelated to your change (for
+  example, tests that require a running NNTP server when one is not
+  available) must be called out explicitly in the PR description so a
+  reviewer can distinguish them from regressions.
+- If your change is docs-only, confirm the baseline is clean on the
+  branch you started from — a docs PR should not introduce a test
+  regression.
+- Delegated agents (subagents spawned via the `Agent` tool) inherit
+  this requirement. When briefing an agent to land a change, remind it
+  to run `uv run pytest` before committing.
+
 ## Code Quality — Always Run pre-commit
 
 **Always run `pre-commit run --all-files` after making any code changes.**
