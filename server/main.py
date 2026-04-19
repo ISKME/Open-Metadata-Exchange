@@ -1,14 +1,21 @@
+import logging
 from datetime import UTC, datetime
 
 import httpx
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
 
 from server import ome_node
+from server.config import get_cors_middleware_kwargs
 from server.helpers import MocAPI
+from server.logging_config import configure_logging
+from server.rate_limit import create_limiter
 from server.schemas import (
     Attachment,
     BrowseResponse,
@@ -16,7 +23,6 @@ from server.schemas import (
     CardRef,
     Channel,
     ChannelResourcesResponse,
-    ChannelSummary,
     ChannelSummaryResponse,
     ExploreSummary,
     MiniMetadata,
@@ -31,15 +37,17 @@ from server.utils import (
 
 unused = httpx
 
+configure_logging()
+logger = logging.getLogger(__name__)
+
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# Per-IP rate limit — configurable via OME_RATE_LIMIT. See issue #5.
+app.state.limiter = create_limiter()
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+app.add_middleware(SlowAPIMiddleware)
+
+app.add_middleware(CORSMiddleware, **get_cors_middleware_kwargs())
 
 
 @app.get("/channels", response_class=HTMLResponse)
@@ -64,19 +72,25 @@ async def show_channel_details(request: Request, channel_name: str) -> HTMLRespo
 
 @app.get("/api/list")
 async def main() -> list[Channel]:
-    print("Getting list of channels", flush=True)
-    print(f"{tuple(ome_node.channels())=}", flush=True)
-    return list(ome_node.channels())
+    channels = list(ome_node.channels())
+    logger.info("Listing channels: count=%d", len(channels))
+    return channels
 
 
 @app.get("/api/channel/{name}")
-async def get_channel_synopsis(name: str) -> ChannelSummary:
+async def get_channel_synopsis(name: str) -> ChannelSummaryResponse:
+    # Return annotation corrected from ChannelSummary (the raw NNTP
+    # summary) to ChannelSummaryResponse (what `utils.get_channel_summary`
+    # actually returns). Uncovered until issue #6 added TestClient
+    # coverage — FastAPI's response validator rejected real calls.
     return get_channel_summary(name)
 
 
 @app.get("/api/channel/{name}/cards")
 async def get_channel_cards(
-    name: str, page: int = 1, page_size: int = 10
+    name: str,
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=10, ge=1, le=200),
 ) -> list[Card]:
     """
     http://localhost:5001/api/channel/ome.eric/cards?page=2&page_size=25
@@ -108,7 +122,7 @@ async def create_post(meta: MiniMetadata) -> bool:
         date=datetime.now(tz=UTC),
     )
     sent = ome_node.create_post(post)
-    print(f"Sent: {sent}")
+    logger.info("Post submitted: subject=%r sent=%s", metadata.title, sent)
     return sent
 
 
@@ -118,8 +132,12 @@ async def import_post(name: str, card: CardRef) -> bool:
 
 
 @app.get("/api/imls/v2/collections/browse/")
-async def browse(sortby: str = "timestamp", per_page: int = 10) -> BrowseResponse:
-    return browse_results(sortby, per_page)
+async def browse(
+    sortby: str = "timestamp",
+    per_page: int = Query(default=10, ge=1, le=200),
+    page: int = Query(default=1, ge=1),
+) -> BrowseResponse:
+    return browse_results(sortby=sortby, per_page=per_page, page=page)
 
 
 @app.get("/api/imls/v2/explore-oer-exchange/")
@@ -133,13 +151,24 @@ async def channel_summary(channel: str, _id: int) -> ChannelSummaryResponse:
 
 
 @app.get("/api/imls/v2/collections/{channel}/{_id}/resources")
-async def get_channel(channel: str, _id: int) -> ChannelResourcesResponse:
-    return get_channel_resources(channel)
+async def get_channel(
+    channel: str,
+    _id: int,
+    per_page: int = Query(default=10, ge=1, le=200),
+    sortby: str = "timestamp",
+    page: int = Query(default=1, ge=1),
+) -> ChannelResourcesResponse:
+    return get_channel_resources(channel, per_page=per_page, sortby=sortby, page=page)
 
 
 @app.get("/api/imls/v2/resources/")
-async def get_resources(tenant: str) -> ChannelResourcesResponse:
-    return get_channel_resources(tenant)
+async def get_resources(
+    tenant: str,
+    per_page: int = Query(default=10, ge=1, le=200),
+    sortby: str = "timestamp",
+    page: int = Query(default=1, ge=1),
+) -> ChannelResourcesResponse:
+    return get_channel_resources(tenant, per_page=per_page, sortby=sortby, page=page)
 
 
 app.mount(
