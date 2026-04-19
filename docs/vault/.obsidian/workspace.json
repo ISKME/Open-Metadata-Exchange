@@ -1,0 +1,59 @@
+{
+  "main": {
+    "id": "root",
+    "type": "split",
+    "children": [
+      {
+        "id": "home-leaf",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "home-tab",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": { "file": "Home.md", "mode": "preview" }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "left",
+    "type": "split",
+    "children": [
+      {
+        "id": "left-tabs",
+        "type": "tabs",
+        "children": [
+          { "id": "files",    "type": "leaf", "state": { "type": "file-explorer", "state": {} } },
+          { "id": "search",   "type": "leaf", "state": { "type": "search",        "state": {} } },
+          { "id": "bookmarks","type": "leaf", "state": { "type": "bookmarks",     "state": {} } }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "right",
+    "type": "split",
+    "children": [
+      {
+        "id": "right-tabs",
+        "type": "tabs",
+        "children": [
+          { "id": "outline",    "type": "leaf", "state": { "type": "outline",       "state": {} } },
+          { "id": "backlinks",  "type": "leaf", "state": { "type": "backlink",      "state": {} } },
+          { "id": "outgoing",   "type": "leaf", "state": { "type": "outgoing-link", "state": {} } },
+          { "id": "tags",       "type": "leaf", "state": { "type": "tag",           "state": {} } }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "active": "home-tab"
+}

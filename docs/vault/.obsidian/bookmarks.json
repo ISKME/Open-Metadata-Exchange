@@ -1,0 +1,10 @@
+{
+  "items": [
+    { "type": "file", "path": "Home.md",                                     "title": "Home" },
+    { "type": "file", "path": "01-Overview/What is OME.md",                  "title": "What is OME" },
+    { "type": "file", "path": "02-Architecture/System Architecture.md",      "title": "System Architecture" },
+    { "type": "file", "path": "03-Getting-Started/Quickstart.md",            "title": "Quickstart" },
+    { "type": "file", "path": "05-Plugins/Plugin System Overview.md",        "title": "Plugin System" },
+    { "type": "file", "path": "09-Decisions/ADR Index.md",                   "title": "ADR Index" }
+  ]
+}

@@ -81,6 +81,7 @@ copyright = "2024, ISKME and contributors"
 autoapi_dirs = [ "server", "src" ]
 exclude_patterns = [
   ".*/*",
+  "docs/vault",
   "fe",
   "fe2/node_modules",
   # "LICENSE.rst",

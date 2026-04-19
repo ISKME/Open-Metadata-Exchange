@@ -1,0 +1,31 @@
+{
+  "collapse-filter": false,
+  "search": "",
+  "showTags": true,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    { "query": "path:01-Overview",         "color": { "a": 1, "rgb": 5431026  } },
+    { "query": "path:02-Architecture",     "color": { "a": 1, "rgb": 14701138 } },
+    { "query": "path:03-Getting-Started",  "color": { "a": 1, "rgb": 7458117  } },
+    { "query": "path:04-Developer-Guide",  "color": { "a": 1, "rgb": 5431026  } },
+    { "query": "path:05-Plugins",          "color": { "a": 1, "rgb": 15844367 } },
+    { "query": "path:06-Operations",       "color": { "a": 1, "rgb": 14701138 } },
+    { "query": "path:07-API-Reference",    "color": { "a": 1, "rgb": 3238066  } },
+    { "query": "path:08-User-Guide",       "color": { "a": 1, "rgb": 7458117  } },
+    { "query": "path:09-Decisions",        "color": { "a": 1, "rgb": 11141120 } }
+  ],
+  "collapse-display": false,
+  "showArrow": true,
+  "textFadeMultiplier": 0,
+  "nodeSizeMultiplier": 1.2,
+  "lineSizeMultiplier": 1,
+  "collapse-forces": false,
+  "centerStrength": 0.5,
+  "repelStrength": 10,
+  "linkStrength": 1,
+  "linkDistance": 250,
+  "scale": 1
+}
