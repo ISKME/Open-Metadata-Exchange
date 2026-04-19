@@ -70,6 +70,11 @@ jobs:
           INN_PASSWORD: node
           OME_ENV: dev
         run: uvx --with=beautifulsoup4,dateparser,httpx,pondpond,pydantic,pynntp,pytest-cov pytest --cov=server --cov-fail-under=50
+      # Issue #12 — type checking. Starts permissive, pinned to the
+      # modules listed in pyproject.toml [tool.mypy].files. Ratchet as
+      # more modules are cleaned up.
+      - name: Type check (mypy)
+        run: uvx --with=pydantic,slowapi mypy
       - run: uv run scripts/nntp_io.py
 
   front-end:
@@ -85,8 +90,19 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: cd frontend && npm ci || npm install
       - run: cd frontend && npm run  # To see available commands
-      # TODO(@KevinEverywhere): Set up eslint/config and then remove `|| true`
-      - run: cd frontend && yes | npm init @eslint/config
-      - run: cd frontend && npm run lint:scss || true
-      - run: cd frontend && npm run lint:ts || true
-      - run: cd frontend && npm run unit || true
+      # Frontend lint + unit tests are non-blocking until the underlying
+      # issues are fixed (issue #11 follow-up). `continue-on-error: true`
+      # surfaces failures as clearly-marked warnings in the UI instead
+      # of masking them behind shell fallbacks that show green.
+      - name: Bootstrap eslint config
+        continue-on-error: true
+        run: cd frontend && yes | npm init @eslint/config
+      - name: Lint SCSS
+        continue-on-error: true
+        run: cd frontend && npm run lint:scss
+      - name: Lint TypeScript
+        continue-on-error: true
+        run: cd frontend && npm run lint:ts
+      - name: Frontend unit tests
+        continue-on-error: true
+        run: cd frontend && npm run unit

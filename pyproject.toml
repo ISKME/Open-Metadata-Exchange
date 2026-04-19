@@ -19,7 +19,9 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+  "mypy>=1.20.1",
   "pytest>=9.0.3",
+  "pytest-asyncio>=1.3.0",
   "pytest-cov>=7.1.0",
 ]
 docs = [
@@ -49,6 +51,24 @@ lint.per-file-ignores."server/schemas.py" = [ "N815" ]  # the case in the respon
 lint.per-file-ignores."tests/*" = [ "S101" ]  # Use of assert detected
 lint.per-file-ignores."tools/har_parser/har_parser.py" = [ "PTH" ]  # flake8-use-pathlib
 lint.pylint.allow-magic-value-types = [ "int", "str" ]
+
+[tool.mypy]
+# Issue #12 — type checking starts permissive and ratchets. The
+# `files` list pins which modules are currently held to the bar;
+# expand it over time as modules are cleaned up.
+python_version = "3.13"
+files = [
+  "server/plugins/ome_plugin.py",
+  "server/rate_limit.py",
+  "server/logging_config.py",
+]
+ignore_missing_imports = true
+# Permissive defaults so the initial CI signal is useful without
+# requiring a repo-wide cleanup in the same PR.
+check_untyped_defs = false
+disallow_untyped_defs = false
+warn_unused_ignores = true
+warn_redundant_casts = true
 
 [tool.codespell]
 ignore-words-list = "astroid,formend,oen,thur"

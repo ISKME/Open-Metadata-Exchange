@@ -25,6 +25,7 @@ rather than limping along with a subtly broken plugin.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from datetime import datetime
 from types import MappingProxyType
 from typing import Any, Protocol, runtime_checkable
@@ -83,7 +84,7 @@ class OMEPluginProtocol(Protocol):
 
     plugin_api_version: str
     mimetypes: tuple[str, ...]
-    newsgroups: dict[str, str]
+    newsgroups: Mapping[str, str]
     site_name: str
     librarian_contact: str
     logo: str
@@ -112,8 +113,10 @@ class OMEPlugin:
     mimetypes: tuple[str, ...] = ()
     # Immutable default for safety (ruff RUF012). A future `OMESite`
     # abstraction is tracked separately; for now every plugin declares
-    # its own site-flavored attributes.
-    newsgroups: dict[str, str] = MappingProxyType({})
+    # its own site-flavored attributes. The `Mapping` annotation is
+    # compatible with both real dicts and `MappingProxyType` so every
+    # existing subclass still satisfies the contract without changes.
+    newsgroups: Mapping[str, str] = MappingProxyType({})
 
     site_name: str = "Generic OME Library"
     librarian_contact: str = "info@iskme.org"
