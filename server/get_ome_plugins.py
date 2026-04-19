@@ -7,11 +7,14 @@ or newsgroups of each class that is a subclass of OMEPlugin.
 
 import importlib.util
 import inspect
+import logging
 import os
 from collections.abc import Iterator
 from pathlib import Path
 
-from server.plugins.ome_plugin import OMEPlugin
+from server.plugins.ome_plugin import OMEPlugin, validate_plugin
+
+logger = logging.getLogger(__name__)
 
 here = Path(__file__).parent
 plugins_dir = here.parent / "server" / "plugins"
@@ -28,8 +31,9 @@ def _load_plugin(plugin_name: str) -> OMEPlugin:
     try:
         plugin = plugin_class()
     except ModuleNotFoundError:
-        print(f"Failed to load plugin: {plugin_name}")
+        logger.warning("Failed to load plugin: %s", plugin_name)
         return _load_plugin("server.plugins.ome_plugin.OMEPlugin")
+    validate_plugin(plugin)
     return plugin
 
 

@@ -6,10 +6,39 @@
 #     "pydantic",
 # ]
 # ///
+"""Plugin interface for OME (issue #8).
+
+Two plugin shapes are supported:
+
+* :class:`OMEPlugin` — the concrete base class. Subclass this to pick
+  up sensible defaults (mimetypes, newsgroups, contact info) and the
+  ``plugin_api_version`` attribute.
+* :class:`OMEPluginProtocol` — a ``typing.Protocol`` describing the
+  duck-typed contract. Useful for type-checking third-party plugins
+  that do not want to import the concrete base.
+
+Plugins are validated at load time by :func:`validate_plugin`, called
+from :func:`server.get_ome_plugins._load_plugin`. Plugins that fail
+validation raise :class:`InvalidPluginError` so the server fails fast
+rather than limping along with a subtly broken plugin.
+"""
+
+from __future__ import annotations
+
 from datetime import datetime
 from types import MappingProxyType
+from typing import Any, Protocol, runtime_checkable
 
 from pydantic import BaseModel
+
+# Bump the **major** when a breaking change to the plugin contract
+# lands. Plugins whose `plugin_api_version` does not share a major with
+# this constant are rejected by :func:`validate_plugin`.
+CURRENT_PLUGIN_API_VERSION = "1.0"
+
+
+class InvalidPluginError(RuntimeError):
+    """Raised when a plugin fails the load-time validation contract."""
 
 
 class EducationResource(BaseModel):
@@ -32,8 +61,6 @@ class EducationResource(BaseModel):
         # TBD: usage: Description of usage
     """
 
-    # from .pedigree_record import PedigreeRecord
-
     title: str = ""
     description: str = ""
     authors: list[str] = []
@@ -46,20 +73,49 @@ class EducationResource(BaseModel):
     spdx_license_expression: str = ""
 
 
+@runtime_checkable
+class OMEPluginProtocol(Protocol):
+    """Structural contract every OME plugin must satisfy.
+
+    The concrete :class:`OMEPlugin` base class matches this protocol;
+    external plugins may also satisfy it by duck-typing.
+    """
+
+    plugin_api_version: str
+    mimetypes: tuple[str, ...]
+    newsgroups: dict[str, str]
+    site_name: str
+    librarian_contact: str
+    logo: str
+
+    def summarize(self, card: EducationResource) -> str: ...
+
+    def make_metadata_card_from_url(self, url: str) -> EducationResource: ...
+
+    def make_metadata_card_from_json(
+        self, json_payload: str
+    ) -> EducationResource: ...
+
+
 class OMEPlugin:
+    """Concrete base class for OME plugins.
+
+    Subclasses inherit sensible defaults and the contractually required
+    ``plugin_api_version``. Override the three ``make_*`` / ``summarize``
+    methods to implement a real plugin. Methods that are not overridden
+    continue to raise ``NotImplementedError`` so missing work surfaces
+    clearly rather than returning silently-empty data.
     """
-    This class is a placeholder for the OMEPlugin functionality.
-    It is currently empty and does not implement any specific methods or properties.
-    """
+
+    plugin_api_version: str = CURRENT_PLUGIN_API_VERSION
 
     mimetypes: tuple[str, ...] = ()
-    # newsgroups is a dict but make it immutable for safety reasons. `ruff rule RUF012`
-    # TODO(anooparyal): this needs to move into the OMESite class
+    # Immutable default for safety (ruff RUF012). A future `OMESite`
+    # abstraction is tracked separately; for now every plugin declares
+    # its own site-flavored attributes.
     newsgroups: dict[str, str] = MappingProxyType({})
 
-    site_name: str = "Generic OME Library"  # TODO(anooparyal): this
-    # needs to move into the
-    # OMESite class
+    site_name: str = "Generic OME Library"
     librarian_contact: str = "info@iskme.org"
     logo: str = (
         "https://louis.oercommons.org/static/newdesign/images/louis/oerx-logo.png"
@@ -70,24 +126,40 @@ class OMEPlugin:
         raise NotImplementedError(msg)
 
     def make_metadata_card_from_url(self, url: str) -> EducationResource:
-        """
-        This method is a placeholder for creating a metadata card.
-        It currently does not implement any functionality.
-        """
+        """Placeholder; subclasses must override."""
         msg = "This method is not implemented yet."
         raise NotImplementedError(msg)
 
     def make_metadata_card_from_json(self, json_payload: str) -> EducationResource:
-        """
-        This method is a placeholder for creating a metadata card from JSON.
-        It currently does not implement any functionality.
-        """
+        """Placeholder; subclasses must override."""
         msg = "This method is not implemented yet."
         raise NotImplementedError(msg)
 
-    # def make_nntp_article(self, file_path: str) -> EducationResource:
+
+def _major(version: str) -> str:
+    major, _, _ = version.partition(".")
+    return major
 
 
-# TODO(anooparyal): need to create a class here called 'Site' so that
-# many different sites can use the same plugin but have different
-# attributes specific to the site.
+def validate_plugin(plugin: Any) -> None:
+    """Validate a plugin instance against the current contract.
+
+    Raises :class:`InvalidPluginError` for any of:
+
+    * No ``plugin_api_version`` attribute.
+    * ``plugin_api_version`` major does not match
+      :data:`CURRENT_PLUGIN_API_VERSION`.
+    """
+    version = getattr(plugin, "plugin_api_version", None)
+    if not version:
+        raise InvalidPluginError(
+            f"{type(plugin).__name__} is missing 'plugin_api_version'. "
+            f"Set it to {CURRENT_PLUGIN_API_VERSION!r} or inherit from "
+            "OMEPlugin."
+        )
+    if _major(version) != _major(CURRENT_PLUGIN_API_VERSION):
+        raise InvalidPluginError(
+            f"{type(plugin).__name__} declares plugin_api_version={version!r}, "
+            f"incompatible with current plugin API "
+            f"version {CURRENT_PLUGIN_API_VERSION!r}."
+        )

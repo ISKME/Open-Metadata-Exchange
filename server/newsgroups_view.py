@@ -1,3 +1,4 @@
+import logging
 import os
 
 from fastapi import FastAPI
@@ -7,7 +8,11 @@ from fastapi.staticfiles import StaticFiles
 from server import ome_node
 from server.config import get_cors_middleware_kwargs
 from server.helpers import MocAPI
+from server.logging_config import configure_logging
 from server.schemas import Card, CardRef, Channel, ChannelSummary, NewCard
+
+configure_logging()
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -20,9 +25,9 @@ if not os.getenv("CI"):  # Not running in Continuous Integration
 
 @app.get("/api/list")
 async def main() -> list[Channel]:
-    print("Getting list of channels", flush=True)
-    print(f"{tuple(ome_node.channels())=}", flush=True)
-    return list(ome_node.channels())
+    channels = list(ome_node.channels())
+    logger.info("Listing channels: count=%d", len(channels))
+    return channels
 
 
 @app.get("/api/channel/{name}")
