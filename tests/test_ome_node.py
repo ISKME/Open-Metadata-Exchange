@@ -1,5 +1,5 @@
 # uvx -w=beautifulsoup4,dateparser,httpx,pydantic,pynntp pytest -vv
-from collections.abc import Generator, Iterator
+from collections.abc import Iterator
 from datetime import datetime, timezone
 
 import nntp
@@ -22,20 +22,16 @@ DEFAULT_NEWSGROUPS: dict[str, str] = {
 }
 
 
-@pytest.fixture
-def enable_a_default_newsgroup(newsgroup: str = "local.test") -> Generator[None]:
-    """
-    Fixture to enable a default newsgroup for testing purposes.
-    This is used to ensure that the 'local.test' newsgroup is available
-    for tests that require it.
-
-    Use @pytest.mark.usefixtures("enable_a_default_newsgroup") as discussed at
-    https://docs.pytest.org/en/stable/how-to/fixtures.html \
-        #use-fixtures-in-classes-and-modules-with-usefixtures
-    """
-    ome_node.DEFAULT_NEWSGROUP_NAMES.remove(newsgroup)
-    yield
-    ome_node.DEFAULT_NEWSGROUP_NAMES.add(newsgroup)
+# NB: issue #7 — three strict-xfail tests and a broken
+# `enable_a_default_newsgroup` fixture used to live here. They were
+# removed because:
+#   * `test_channels` / `test_one_channel` / `test_channel_summary`
+#     xfailed strictly on removed `ome_node.get_client()` and on a
+#     fixture that was already guaranteed to KeyError (because
+#     `server/card_editor.py` pre-mutates `DEFAULT_NEWSGROUP_NAMES`
+#     at import time).
+#   * Strict xfail masks real regressions and produces XPASS churn.
+# See `tests/test_no_strict_xfail.py` for the regression guard.
 
 
 def test_pynntp_client() -> None:
@@ -51,38 +47,6 @@ def test_pynntp_client() -> None:
             f"Expected names {ome_node.DEFAULT_NEWSGROUP_NAMES}, but got "
             f"{newsgroup_names}"
         )
-
-
-@pytest.mark.xfail(reason="ome_node.get_client() was removed.", strict=True)
-def test_channels() -> None:
-    """
-    Ensure that the default channels are all disabled.
-    """
-    assert not list(ome_node.channels())
-
-
-@pytest.mark.usefixtures("enable_a_default_newsgroup")
-@pytest.mark.xfail(reason="enable_a_default_newsgroup() is broken.", strict=True)
-def test_one_channel() -> None:
-    """
-    Let's enable the channel 'local.test' so we can use it for the remaining tests.
-    """
-    for channel in ome_node.channels():
-        assert channel.name == "local.test"
-        assert channel.description == "Local test group"
-
-
-@pytest.mark.usefixtures("enable_a_default_newsgroup")
-@pytest.mark.xfail(reason="enable_a_default_newsgroup() is broken.", strict=True)
-def test_channel_summary() -> None:
-    nntp_client = ome_node.get_client()
-    for channel in ome_node.channels():
-        channel_summary = ome_node.channel_summary(channel.name)
-        total, first, last, group = nntp_client.group(channel_summary.name)
-        assert channel_summary.name == group == "local.test"
-        assert channel_summary.estimated_total_articles == total == 0
-        assert channel_summary.first_article == first == 1
-        assert channel_summary.last_article == last == 0
 
 
 jane_austen_novels = {
@@ -164,7 +128,6 @@ def sample_metadata_boston() -> Iterator[schemas.Metadata]:
         )
 
 
-@pytest.mark.usefixtures("enable_a_default_newsgroup")
 @pytest.mark.parametrize("metadata", sample_metadata_boston())
 def test_create_post(metadata: schemas.Metadata) -> None:
     assert isinstance(metadata, schemas.Metadata)
@@ -185,9 +148,7 @@ def test_create_post(metadata: schemas.Metadata) -> None:
 @pytest.mark.skipif(
     not hasattr(ome_node, "channel_cards"),
     reason="channel_cards was removed",
-    strict=True,
 )
-@pytest.mark.usefixtures("enable_a_default_newsgroup")
 def test_channel_cards() -> None:
     cards = list(ome_node.channel_cards("local.test", 1, 100))
     assert len(cards) == len(sue_grafton_books)

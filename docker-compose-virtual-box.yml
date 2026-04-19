@@ -45,6 +45,10 @@ services:
     environment:
       CMS_PLUGIN: server.plugins.qubes.plugin.QubesPlugin
       INN_SERVER_NAME: 10.0.0.94 # austin
+      INN_USERNAME: ${INN_USERNAME:-node}
+      INN_PASSWORD: ${INN_PASSWORD:-node}
+      OME_ENV: ${OME_ENV:-dev}
+      OME_ALLOWED_ORIGINS: ${OME_ALLOWED_ORIGINS:-}
       SERVER_PORT: 5001
     ports:
       - 5001:5001
@@ -62,6 +66,10 @@ services:
     environment:
       CMS_PLUGIN: server.plugins.oercommons.plugin.OERCommonsPlugin
       INN_SERVER_NAME: 10.0.0.130 # boston
+      INN_USERNAME: ${INN_USERNAME:-node}
+      INN_PASSWORD: ${INN_PASSWORD:-node}
+      OME_ENV: ${OME_ENV:-dev}
+      OME_ALLOWED_ORIGINS: ${OME_ALLOWED_ORIGINS:-}
       SERVER_PORT: 5001
     ports:
       - 5002:5001

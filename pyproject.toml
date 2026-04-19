@@ -14,11 +14,15 @@ dependencies = [
   "madoka>=0.7.2.1",
   "pondpond",
   "pynntp>=2.0.1",
+  "slowapi>=0.1.9",
 ]
 
 [dependency-groups]
 dev = [
+  "mypy>=1.20.1",
   "pytest>=9.0.3",
+  "pytest-asyncio>=1.3",
+  "pytest-cov>=7.1",
 ]
 docs = [
   "myst-parser>=4.0.1",
@@ -57,6 +61,24 @@ skip = """\
 
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
+
+[tool.mypy]
+# Issue #12 — type checking starts permissive and ratchets. The
+# `files` list pins which modules are currently held to the bar;
+# expand it over time as modules are cleaned up.
+python_version = "3.13"
+files = [
+  "server/plugins/ome_plugin.py",
+  "server/rate_limit.py",
+  "server/logging_config.py",
+]
+ignore_missing_imports = true
+# Permissive defaults so the initial CI signal is useful without
+# requiring a repo-wide cleanup in the same PR.
+check_untyped_defs = false
+disallow_untyped_defs = false
+warn_unused_ignores = true
+warn_redundant_casts = true
 
 [tool.rumdl]
 disable = [

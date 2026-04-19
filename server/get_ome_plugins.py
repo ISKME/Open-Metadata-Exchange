@@ -7,29 +7,67 @@ or newsgroups of each class that is a subclass of OMEPlugin.
 
 import importlib.util
 import inspect
+import logging
 import os
+import re
 from collections.abc import Iterator
 from pathlib import Path
 
-from server.plugins.ome_plugin import OMEPlugin
+from server.plugins.ome_plugin import (
+    InvalidPluginError,
+    OMEPlugin,
+    validate_plugin,
+)
+
+logger = logging.getLogger(__name__)
 
 here = Path(__file__).parent
 plugins_dir = here.parent / "server" / "plugins"
 
+# Plugin dotted paths must live under `server.plugins.*` and follow
+# Python identifier rules at every segment. The final segment is the
+# class (PascalCase); every preceding module segment is snake_case
+# starting with a lowercase letter (no leading underscore, so
+# ``__init__`` and private modules are rejected). Issue #13.
+_PLUGIN_PATH_RE = re.compile(
+    r"^server\.plugins"
+    r"\.[a-z][a-z0-9_]*"
+    r"(?:\.[a-z][a-z0-9_]*)*"
+    r"\.[A-Z][A-Za-z0-9_]*$"
+)
+
 
 def _load_plugin(plugin_name: str) -> OMEPlugin:
-    plugin_name = plugin_name.split(".")
-    plugin_module_name = ".".join(plugin_name[:-1])
-    plugin_class_name = plugin_name[-1]
+    # Validate the dotted path before touching importlib so a hostile
+    # or typo'd value cannot execute arbitrary modules. Issue #13.
+    if not _PLUGIN_PATH_RE.match(plugin_name):
+        raise InvalidPluginError(
+            f"Refusing to load plugin {plugin_name!r}: not a valid "
+            "server.plugins.<module>.<ClassName> path."
+        )
 
-    plugin_module = importlib.import_module(plugin_module_name)
-    plugin_class = getattr(plugin_module, plugin_class_name)
+    module_path, _, class_name = plugin_name.rpartition(".")
 
     try:
-        plugin = plugin_class()
-    except ModuleNotFoundError:
-        print(f"Failed to load plugin: {plugin_name}")
-        return _load_plugin("server.plugins.ome_plugin.OMEPlugin")
+        plugin_module = importlib.import_module(module_path)
+    except ModuleNotFoundError as exc:
+        # Previously this error was silently masked by substituting
+        # the base plugin. That hid typos in CMS_PLUGIN for weeks.
+        # Fail loudly so operators see the problem at startup.
+        raise InvalidPluginError(
+            f"Could not import plugin module {module_path!r}: {exc}"
+        ) from exc
+
+    try:
+        plugin_class = getattr(plugin_module, class_name)
+    except AttributeError as exc:
+        raise InvalidPluginError(
+            f"Module {module_path!r} has no attribute {class_name!r}."
+        ) from exc
+
+    plugin = plugin_class()
+    validate_plugin(plugin)
+    logger.info("Loaded plugin: %s", plugin_name)
     return plugin
 
 
