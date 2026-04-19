@@ -128,40 +128,77 @@ def post_to_summary(post: Post) -> ResourceSummaryData:
 
 
 def post_to_details(post: Post) -> ResourceDetailData:
+    """Map an NNTP :class:`Post` to the IMLS detail-view schema.
+
+    Previously this function shipped fabricated constants (``source``,
+    ``grade_sublevel``, ``license``, ``visits`` etc.) to every response.
+    Consumers treating those as real data received wrong answers. Until
+    real metadata sources for those fields exist, we emit honest
+    "unknown" values (empty string / empty list / 0). See issue #3.
+
+    TODO(#3-followup): source these fields from plugin-provided
+    metadata once the plugin schema is extended.
+    """
     return ResourceDetailData(
         id=post.id,
         title=post.subject,
         abstract=post.body,
-        source="Course Related Material",
+        source="",
         url=None,
         metadata=[],
         thumbnail=None,
         timestamp=post.date,
         updatedDate=post.date,
-        detailURL=f"/api/imls/v2/resources/ome.qubes/materials/{post.id}",
-        grade_sublevel=["High School"],
+        detailURL=f"/api/imls/v2/resources/{post.channels[0]}/materials/{post.id}",
+        grade_sublevel=[],
         accessibility=[],
         rating=0,
         ratings_number=0,
         site=post.channels[0],
-        license="educational-use-permitted",
-        license_cou_bucket="read-the-fine-print",
-        license_types=["read-the-fine-print", "educational-use-permitted"],
-        license_bucket_title="Read the Fine Print",
-        visits=22,
+        license="",
+        license_cou_bucket="",
+        license_types=[],
+        license_bucket_title="",
+        visits=0,
         collections=post.channels,
     )
 
 
-def browse_results(sortby: str = "timestamp", per_page: int = 10) -> BrowseResponse:
+def _total_articles_across_channels() -> int:
+    """Sum :class:`ChannelSummary.estimated_total_articles` for every
+    channel in the plugin registry. Replaces the old hardcoded ``124``.
+    """
+    return sum(
+        channel_summary(slug).estimated_total_articles
+        for slug, _description, _plugin in get_channels()
+    )
+
+
+def browse_results(
+    sortby: str = "timestamp",
+    per_page: int = 10,
+    page: int = 1,
+) -> BrowseResponse:
+    """Cross-channel browse response for the IMLS API.
+
+    Pagination metadata now reflects real values aggregated from NNTP
+    channel summaries rather than the previous hardcoded constants.
+    The ``page`` parameter is threaded through from the endpoint.
+
+    Item-level pagination (fetching the Nth page of merged articles)
+    is not yet implemented at the NNTP layer; the list currently
+    shows the latest ``per_page`` articles regardless of ``page``.
+    See issue #3 follow-up.
+    """
     plugin = site_plugin
-    total_num_articles = 124
-    plugin_by_slug = {slug: plugin for slug, _description, plugin in get_channels()}
+    total_num_articles = _total_articles_across_channels()
+    plugin_by_slug = {slug: p for slug, _description, p in get_channels()}
     latest = [post_to_summary(x) for x in get_latest_articles(per_page)]
     for item in latest:
         item.thumbnail = plugin_by_slug[item.micrositeSlug].logo
 
     tenant_slug = next(iter(plugin.newsgroups.keys()))
+    num_pages = max(1, math.ceil(total_num_articles / per_page)) if per_page else 1
     return BrowseResponse(
         collections=Collections(
             items=latest,
@@ -171,11 +208,9 @@ def browse_results(sortby: str = "timestamp", per_page: int = 10) -> BrowseRespo
             sortBy=sortby,
             sortByOptions=sort_options,
             pagination=PaginationOptions(
-                count=total_num_articles,  # TODO(anooparyal): get the
-                # total count of articles
-                # available
-                numPages=math.ceil(total_num_articles / per_page),
-                page=1,
+                count=total_num_articles,
+                numPages=num_pages,
+                page=page,
                 perPage=per_page,
                 perPageOptions=[10, 30, 50],
             ),
@@ -198,10 +233,17 @@ def browse_results(sortby: str = "timestamp", per_page: int = 10) -> BrowseRespo
 def get_channel_summary(
     channel_slug: str, _per_page: int = 3, _sortby: str = "timestamp"
 ) -> ChannelSummaryResponse:
+    """Per-channel summary for the IMLS API.
+
+    Real values from NNTP (estimated article count) now replace the
+    previously hardcoded ``numResources=100`` and fabricated
+    ``educationLevels`` list. See issue #3.
+    """
     plugin = site_plugin
-    plugin_by_slug = {slug: plugin for slug, _description, plugin in get_channels()}
+    plugin_by_slug = {slug: p for slug, _description, p in get_channels()}
 
     channel_plugin = plugin_by_slug[channel_slug]
+    num_resources = channel_summary(channel_slug).estimated_total_articles
 
     tenant_slug = next(iter(plugin.newsgroups.keys()))
     return ChannelSummaryResponse(
@@ -210,15 +252,11 @@ def get_channel_summary(
             name="",
             abstract="",
             isShared=True,
-            educationLevels=[
-                "College / Upper Division",
-                "Community College / Lower Division",
-                "High School",
-            ],
+            educationLevels=[],
             micrositeName=channel_plugin.site_name,
             micrositeSlug=channel_slug,
             numAlerts=0,
-            numResources=100,
+            numResources=num_resources,
             numSubscribers=0,
             subscribed=False,
             thumbnail=channel_plugin.logo,
@@ -233,16 +271,26 @@ def get_channel_summary(
 
 
 def get_channel_resources(
-    channel_slug: str, per_page: int = 10, sortby: str = "timestamp"
+    channel_slug: str,
+    per_page: int = 10,
+    sortby: str = "timestamp",
+    page: int = 1,
 ) -> ChannelResourcesResponse:
+    """Per-channel resources with real totals and honored pagination.
+
+    ``count`` comes from the NNTP channel summary; ``page`` is taken
+    from the caller. Item-level pagination (returning the Nth page of
+    articles) is tracked as issue #3 follow-up work at the NNTP layer.
+    """
     plugin = site_plugin
-    total_num_articles = 124
-    plugin_by_slug = {slug: plugin for slug, _description, plugin in get_channels()}
+    total_num_articles = channel_summary(channel_slug).estimated_total_articles
+    plugin_by_slug = {slug: p for slug, _description, p in get_channels()}
     latest = [post_to_details(x) for x in get_last_n_posts(channel_slug, per_page)]
     for item in latest:
         item.thumbnail = plugin_by_slug[item.site].logo
 
     tenant_slug = next(iter(plugin.newsgroups.keys()))
+    num_pages = max(1, math.ceil(total_num_articles / per_page)) if per_page else 1
     return ChannelResourcesResponse(
         resources=CollectionDetails(
             items=latest,
@@ -295,11 +343,9 @@ def get_channel_resources(
             sortBy=sortby,
             sortByOptions=sort_options,
             pagination=PaginationOptions(
-                count=total_num_articles,  # TODO(anooparyal): get the
-                # total count of articles
-                # available
-                numPages=math.ceil(total_num_articles / per_page),
-                page=1,
+                count=total_num_articles,
+                numPages=num_pages,
+                page=page,
                 perPage=per_page,
                 perPageOptions=[3, 9, 30, 90],
             ),

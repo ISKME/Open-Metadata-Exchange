@@ -54,8 +54,22 @@ jobs:
         with:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
-      # TODO(@cclauss): Remove `|| true` when tests are fixed
-      - run: uvx --with=beautifulsoup4,dateparser,httpx,pondpond,pydantic,pynntp,pytest-run-parallel pytest --iterations=8 --parallel-threads=auto --ignore-gil-enabled
+      # NNTP credentials and CORS config required by server.connection_pool
+      # and server.config — see .env.example.
+      - name: Run pytest
+        env:
+          INN_USERNAME: node
+          INN_PASSWORD: node
+          OME_ENV: dev
+        run: uvx --with=beautifulsoup4,dateparser,httpx,pondpond,pydantic,pynntp,pytest-run-parallel pytest --iterations=8 --parallel-threads=auto --ignore-gil-enabled
+      # Issue #6 — coverage gate. Starts at 50 % (currently ~59 %);
+      # ratchet upward as new tests land.
+      - name: Coverage gate (>=50%)
+        env:
+          INN_USERNAME: node
+          INN_PASSWORD: node
+          OME_ENV: dev
+        run: uvx --with=beautifulsoup4,dateparser,httpx,pondpond,pydantic,pynntp,pytest-cov pytest --cov=server --cov-fail-under=50
       - run: uv run scripts/nntp_io.py
 
   front-end:
