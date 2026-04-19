@@ -12,8 +12,6 @@ example (e.g. a value where a comment is expected) still surfaces a
 clear failure.
 """
 
-from __future__ import annotations
-
 from pathlib import Path
 
 import pytest
