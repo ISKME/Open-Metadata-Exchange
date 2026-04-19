@@ -84,8 +84,7 @@ async def fetch_with_retry(
                 return resp
             if resp.status_code in _RETRIABLE_STATUSES:
                 last_exc = RetriableHTTPError(
-                    f"{url} returned retriable status "
-                    f"{resp.status_code}"
+                    f"{url} returned retriable status {resp.status_code}"
                 )
                 logger.warning(
                     "Bulk import %s returned %d (attempt %d)",
@@ -96,12 +95,11 @@ async def fetch_with_retry(
             else:
                 # 4xx that is not 408/429 — permanent failure.
                 raise PermanentHTTPError(
-                    f"{url} returned permanent status "
-                    f"{resp.status_code}"
+                    f"{url} returned permanent status {resp.status_code}"
                 )
 
         if attempt < max_retries:
-            await asyncio.sleep(backoff_base * (2 ** attempt))
+            await asyncio.sleep(backoff_base * (2**attempt))
 
     raise RetriableHTTPError(
         f"{url} failed after {max_retries + 1} attempts"

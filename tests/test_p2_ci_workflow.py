@@ -54,6 +54,4 @@ def test_ci_enforces_coverage_gate() -> None:
 )
 def test_ci_coverage_step_dependencies(needle: str) -> None:
     text = _ci_text()
-    assert needle in text, (
-        f"ci.yml coverage gate must reference {needle!r}"
-    )
+    assert needle in text, f"ci.yml coverage gate must reference {needle!r}"

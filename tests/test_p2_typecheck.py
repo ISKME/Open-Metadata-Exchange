@@ -31,12 +31,8 @@ def test_pyproject_has_mypy_section() -> None:
 
 
 def test_ci_runs_mypy() -> None:
-    text = (REPO_ROOT / ".github" / "workflows" / "ci.yml").read_text(
-        encoding="utf-8"
-    )
-    assert "mypy" in text.lower(), (
-        "ci.yml must run mypy as a real step (issue #12)"
-    )
+    text = (REPO_ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    assert "mypy" in text.lower(), "ci.yml must run mypy as a real step (issue #12)"
 
 
 def test_mypy_clean_on_core_modules() -> None:

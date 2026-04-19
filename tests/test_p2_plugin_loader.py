@@ -37,14 +37,14 @@ from server.plugins.ome_plugin import InvalidPluginError
 @pytest.mark.parametrize(
     "bad_name",
     [
-        "os.system",                            # outside server.plugins
-        "server.utils.some_helper",             # outside server.plugins
-        "server.plugins.__init__.X",            # dunder
-        "server.plugins.eric.plugin.../../X",   # path traversal chars
-        "server.plugins.eric.plugin.eval",      # lowercase class name
+        "os.system",  # outside server.plugins
+        "server.utils.some_helper",  # outside server.plugins
+        "server.plugins.__init__.X",  # dunder
+        "server.plugins.eric.plugin.../../X",  # path traversal chars
+        "server.plugins.eric.plugin.eval",  # lowercase class name
         "server.plugins.Eric.plugin.EricPlugin",  # uppercase module
-        "",                                     # empty
-        "server.plugins",                       # too short
+        "",  # empty
+        "server.plugins",  # too short
         "server.plugins.eric.plugin.E;rm -rf",  # shell metachars
     ],
 )
