@@ -47,6 +47,5 @@ def test_env_example_documents_key(key: str) -> None:
 def test_env_example_header_warns_against_committing_real_secrets() -> None:
     text = (REPO_ROOT / ".env.example").read_text()
     assert "DO NOT commit" in text, (
-        ".env.example header should warn contributors not to commit a "
-        "real .env file"
+        ".env.example header should warn contributors not to commit a real .env file"
     )
