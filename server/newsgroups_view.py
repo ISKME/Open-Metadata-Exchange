@@ -5,18 +5,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from server import ome_node
+from server.config import get_cors_middleware_kwargs
 from server.helpers import MocAPI
 from server.schemas import Card, CardRef, Channel, ChannelSummary, NewCard
 
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app.add_middleware(CORSMiddleware, **get_cors_middleware_kwargs())
 
 # If we are not running in Continuous Integration then enable the INN local.test group.
 if not os.getenv("CI"):  # Not running in Continuous Integration

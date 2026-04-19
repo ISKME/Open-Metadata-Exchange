@@ -8,6 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from server import ome_node
+from server.config import get_cors_middleware_kwargs
 from server.helpers import MocAPI
 from server.schemas import (
     Attachment,
@@ -33,13 +34,7 @@ unused = httpx
 
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app.add_middleware(CORSMiddleware, **get_cors_middleware_kwargs())
 
 
 @app.get("/channels", response_class=HTMLResponse)
@@ -118,8 +113,12 @@ async def import_post(name: str, card: CardRef) -> bool:
 
 
 @app.get("/api/imls/v2/collections/browse/")
-async def browse(sortby: str = "timestamp", per_page: int = 10) -> BrowseResponse:
-    return browse_results(sortby, per_page)
+async def browse(
+    sortby: str = "timestamp",
+    per_page: int = 10,
+    page: int = 1,
+) -> BrowseResponse:
+    return browse_results(sortby=sortby, per_page=per_page, page=page)
 
 
 @app.get("/api/imls/v2/explore-oer-exchange/")
@@ -133,13 +132,24 @@ async def channel_summary(channel: str, _id: int) -> ChannelSummaryResponse:
 
 
 @app.get("/api/imls/v2/collections/{channel}/{_id}/resources")
-async def get_channel(channel: str, _id: int) -> ChannelResourcesResponse:
-    return get_channel_resources(channel)
+async def get_channel(
+    channel: str,
+    _id: int,
+    per_page: int = 10,
+    sortby: str = "timestamp",
+    page: int = 1,
+) -> ChannelResourcesResponse:
+    return get_channel_resources(channel, per_page=per_page, sortby=sortby, page=page)
 
 
 @app.get("/api/imls/v2/resources/")
-async def get_resources(tenant: str) -> ChannelResourcesResponse:
-    return get_channel_resources(tenant)
+async def get_resources(
+    tenant: str,
+    per_page: int = 10,
+    sortby: str = "timestamp",
+    page: int = 1,
+) -> ChannelResourcesResponse:
+    return get_channel_resources(tenant, per_page=per_page, sortby=sortby, page=page)
 
 
 app.mount(

@@ -54,8 +54,14 @@ jobs:
         with:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
-      # TODO(@cclauss): Remove `|| true` when tests are fixed
-      - run: uvx --with=beautifulsoup4,dateparser,httpx,pondpond,pydantic,pynntp,pytest-run-parallel pytest --iterations=8 --parallel-threads=auto --ignore-gil-enabled
+      # NNTP credentials and CORS config required by server.connection_pool
+      # and server.config — see .env.example.
+      - name: Run pytest
+        env:
+          INN_USERNAME: node
+          INN_PASSWORD: node
+          OME_ENV: dev
+        run: uvx --with=beautifulsoup4,dateparser,httpx,pondpond,pydantic,pynntp,pytest-run-parallel pytest --iterations=8 --parallel-threads=auto --ignore-gil-enabled
       - run: uv run scripts/nntp_io.py
 
   front-end:
