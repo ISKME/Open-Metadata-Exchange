@@ -33,8 +33,15 @@ services:
     environment:
       CMS_PLUGIN: server.plugins.qubes.plugin.QubesPlugin
       INN_SERVER_NAME: nntp-server
-      # TODO: need to add the username/password that the NNTP server
-      # now needs via .env or some such
+      # NNTP credentials are required (no hardcoded fallback — see
+      # server/connection_pool.py and .env.example). These match the
+      # users preseeded by server_config/news_server.
+      INN_USERNAME: ${INN_USERNAME:-node}
+      INN_PASSWORD: ${INN_PASSWORD:-node}
+      # CORS allow-list for the FastAPI server. In prod this must be
+      # set to an explicit list; dev defaults cover localhost.
+      OME_ENV: ${OME_ENV:-dev}
+      OME_ALLOWED_ORIGINS: ${OME_ALLOWED_ORIGINS:-}
       SERVER_PORT: 5001
     networks:
       my_network:
