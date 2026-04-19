@@ -4,10 +4,11 @@ import * as MetadataDropdown from 'widgets/Metadata/Dropdown';
 import * as MetadataCollapse from 'widgets/Metadata/Collapse';
 import { Tooltip } from 'components/tooltip';
 import { Switch } from 'components/switch';
-import cls from './SubscribedPreferences.module.scss';
 import axios from 'axios';
+import { debug } from 'shared/debug';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import cls from './SubscribedPreferences.module.scss';
 
 interface SubscribedContentProps {
     className?: string;
@@ -22,8 +23,8 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
   const [stats, setStats] = useState({});
 
   useEffect(() => {
-    const tenant = searchParams.get('tenant')
-    const url = tenant ? `/api/imls/v2/metadata/mapping/${tenant}` : '/api/imls/v2/metadata/mapping'
+    const tenant = searchParams.get('tenant');
+    const url = tenant ? `/api/imls/v2/metadata/mapping/${tenant}` : '/api/imls/v2/metadata/mapping';
     axios.get(url).then(({ data }) => {
       const { sections } = data;
       const changes = {};
@@ -52,8 +53,8 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
 
   function save(slug, data) {
     axios.post('/api/imls/v2/metadata/mapping', {
-      [slug]: data.reduce((ac, a) => ({ ...ac, [a[0]]: a[1] }), {})
-    }).then(console.log).catch(console.log);
+      [slug]: data.reduce((ac, a) => ({ ...ac, [a[0]]: a[1] }), {}),
+    }).then(debug).catch(debug);
   }
 
   return (
@@ -76,77 +77,87 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
         <h3>Map your Metadata Standards</h3>
         <p>Select your preferred metadata to map for each metadata item.</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        {sections.map((section) => (
-          <MetadataCollapse.Collapse number={stats[section.name]} title={section.name}>
-            <div className={cls['preferences-values']}>
-              <div className={cls['section-content']}>
-                <div className={cls['frame']}><div className={cls['text-wrapper']}>New Unmapped Values</div></div>
-                <div className={cls['div']}>
-                  <div className={cls['frame-2']}>
-                    <div className={cls['div-wrapper']}><div className={cls['text-wrapper-2']}>OER Exchange {section.name}</div></div>
-                    <div className={cls['frame-wrapper']}>
-                      <div className={cls['frame-3']}><div className={cls['text-wrapper-2']}>Your {section.name}</div></div>
-                    </div>
-                    {/* <div className={cls['frame-4']}>
+          {sections.map((section) => (
+            <MetadataCollapse.Collapse number={stats[section.name]} title={section.name}>
+              <div className={cls['preferences-values']}>
+                <div className={cls['section-content']}>
+                  <div className={cls.frame}><div className={cls['text-wrapper']}>New Unmapped Values</div></div>
+                  <div className={cls.div}>
+                    <div className={cls['frame-2']}>
+                      <div className={cls['div-wrapper']}>
+                        <div className={cls['text-wrapper-2']}>
+                          OER Exchange
+                          {section.name}
+                        </div>
+                      </div>
+                      <div className={cls['frame-wrapper']}>
+                        <div className={cls['frame-3']}>
+                          <div className={cls['text-wrapper-2']}>
+                            Your
+                            {section.name}
+                          </div>
+                        </div>
+                      </div>
+                      {/* <div className={cls['frame-4']}>
                       <div className={cls['microsite']}>Also use as keyword</div>
                       <div className={cls['frame-5']}>
                         <div className={cls['microsite-2']}>Select All</div>
                         <div className={cls['microsite-2']}>Clear All</div>
                       </div>
                     </div> */}
-                  </div>
-                  <div className={cls['frame-6']}>
-                    {Object.entries(section.mapping).map((item) => (
-                      <div className={cls['frame-2']}>
-                        <div className={cls['frame-7']}>
-                          <div className={cls['frame-8']}>
-                            <div className={cls['text-wrapper-3']}>{item[0]}</div>
+                    </div>
+                    <div className={cls['frame-6']}>
+                      {Object.entries(section.mapping).map((item) => (
+                        <div className={cls['frame-2']}>
+                          <div className={cls['frame-7']}>
+                            <div className={cls['frame-8']}>
+                              <div className={cls['text-wrapper-3']}>{item[0]}</div>
+                            </div>
                           </div>
-                        </div>
-                        <div className={cls['frame-wrapper']}>
-                          <MetadataDropdown.Dropdown
-                            keyword={section.name}
-                            list={section.metadata}
-                            initial={item[1][0]}
-                            onSelect={(selected) => {
-                              const temp = changes;
-                              temp[section.name][item[0]] = selected;
-                              setChanges(temp);
-                              const stats = {};
-                              for (const key in changes) {
-                                stats[key] = compute(changes[key]);
-                              }
-                              setChanges(changes);
-                              setStats(stats);
-                            }}
-                          />
-                        </div>
-                        {/* <div className={cls['property-unchecked-wrapper']}>
+                          <div className={cls['frame-wrapper']}>
+                            <MetadataDropdown.Dropdown
+                              keyword={section.name}
+                              list={section.metadata}
+                              initial={item[1][0]}
+                              onSelect={(selected) => {
+                                const temp = changes;
+                                temp[section.name][item[0]] = selected;
+                                setChanges(temp);
+                                const stats = {};
+                                for (const key in changes) {
+                                  stats[key] = compute(changes[key]);
+                                }
+                                setChanges(changes);
+                                setStats(stats);
+                              }}
+                            />
+                          </div>
+                          {/* <div className={cls['property-unchecked-wrapper']}>
                           <div className={cls['property-unchecked']}><div className={cls['rectangle']}></div></div>
                         </div> */}
-                      </div>
-                    ))}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
+                <button
+                  className={cls.button}
+                  style={{
+                    border: '2px solid #1E1E1E',
+                    background: '#054DD1',
+                    color: 'white',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => {
+                    save(section.slug, Object.entries(changes[section.name]).filter((item) => item[1]));
+                    if (stats[section.name] === 0) setStats({ ...stats, [section.name]: -1 });
+                  }}
+                >
+                  <div className={cls['label-text']}>Save and Update Map</div>
+                </button>
               </div>
-              <button
-                className={cls['button']}
-                style={{
-                  border: '2px solid #1E1E1E',
-                  background: '#054DD1',
-                  color: 'white',
-                  cursor: 'pointer',
-                }}
-                onClick={() => {
-                  save(section.slug, Object.entries(changes[section.name]).filter((item) => item[1]));
-                  if (stats[section.name] === 0) setStats({ ...stats, [section.name]: -1 })
-                }}
-              >
-                <div className={cls['label-text']}>Save and Update Map</div>
-              </button>
-            </div>
-          </MetadataCollapse.Collapse>
-        ))}
+            </MetadataCollapse.Collapse>
+          ))}
         </div>
       </div>
       <div>

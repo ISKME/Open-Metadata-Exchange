@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { debug } from 'shared/debug';
 import cls from './Dropdown.module.scss';
 
 // eslint-disable-next-line react/prop-types
@@ -24,11 +25,11 @@ const FiltersCheckbox = ({ id = 0, onChange = (id) => {} }) => {
 
   useEffect(() => {
     if (checked) {
-      share.push(id)
+      share.push(id);
     } else {
-      share.splice(share.indexOf(id), 1)
+      share.splice(share.indexOf(id), 1);
     }
-    console.log(share);
+    debug(share);
   }, [checked]);
 
   let component = (
@@ -63,7 +64,7 @@ const FiltersCheckbox = ({ id = 0, onChange = (id) => {} }) => {
 
 const Button = ({
   // eslint-disable-next-line react/prop-types
-  property1, className, labelTextClassName, text = 'Share your institution’s OER content', onClick = () => {}
+  property1, className, labelTextClassName, text = 'Share your institution’s OER content', onClick = () => {},
 }) => (
   <div className={`${cls.button} ${cls[property1]} ${cls[className]}`} onClick={onClick}>
     <p className={`${cls.labelText} ${cls[labelTextClassName]}`}>{text}</p>
@@ -122,7 +123,7 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
     axios.post('/api/imls/v2/collections/site-collections/picker/', null, { params: { share } }).then(() => {
       onAdd(results.filter((item) => share.includes(item.id)));
     });
-  }
+  };
 
   const search = async (clear = false) => {
     try {
@@ -138,10 +139,10 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   function changeInput({ target }) {
-    setTenantFilter(target.value)
+    setTenantFilter(target.value);
     if (target.value === '') search(true);
   }
 
@@ -159,7 +160,7 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
           value={tenantFilter}
           onChange={changeInput}
           onKeyDown={(event) => {
-            if (event.key === 'Enter') search()
+            if (event.key === 'Enter') search();
           }}
         />
       </div>
@@ -184,9 +185,9 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
                   overflow: 'hidden',
                 }}
               >
-                {results/*.filter((item) => item.name && item.name.toLowerCase().includes(tenantFilter))*/.map((item) => (
+                {results/* .filter((item) => item.name && item.name.toLowerCase().includes(tenantFilter)) */.map((item) => (
                   <div className={cls.frame}>
-                  <FiltersCheckbox id={item.id} onChange={(id) => console.log(id)} />
+                    <FiltersCheckbox id={item.id} onChange={(id) => debug(id)} />
                     <div className={cls.microsite}>{item.name}</div>
                   </div>
                 ))}

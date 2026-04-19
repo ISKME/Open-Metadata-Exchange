@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import { classNames } from 'shared/lib/classNames/classNames';
+import { debug } from 'shared/debug';
 import { Link } from 'react-router-dom';
 import { memo, useEffect, useState } from 'react';
 import cls from './ShareItemCard.module.scss';
@@ -17,7 +18,7 @@ export const ShareItemCard = memo(({
   const [share, setShare] = useState<boolean>(collection.isShared);
 
   return (
-    <div className={classNames('', {}, [className])} onClick={() => console.log(collection.id)}>
+    <div className={classNames('', {}, [className])} onClick={() => debug(collection.id)}>
       <li className={cls.item_card}>
         <div className={cls.item_img_wrapper}>
           <img src={collection.thumbnail} alt="" width="300" height="150" />
