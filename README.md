@@ -25,6 +25,15 @@ sequenceDiagram
 	FE2-on-NodeServer->>Browser: API Data response
 ```
 
+## API documentation
+
+The FastAPI server auto-generates interactive API docs. With the
+server running on port 5001:
+
+* Swagger UI — <http://localhost:5001/docs>
+* ReDoc — <http://localhost:5001/redoc>
+* Raw OpenAPI schema — <http://localhost:5001/openapi.json>
+
 ## Run the components
 For local development and testing, start two INN2 servers, two FastAPI servers, and two React front ends with:
 ```bash
