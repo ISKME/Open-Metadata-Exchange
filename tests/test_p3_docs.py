@@ -1,15 +1,18 @@
-"""Issue #14 + #15 — documentation guards.
+"""Issue #14 — documentation guards.
 
 * Every ``server/plugins/<name>/`` directory has a ``README.md``
   so contributors have a per-plugin reference.
-* ``.env.example`` documents every env var the server reads at runtime,
-  including the P1 additions (``OME_RATE_LIMIT``, ``OME_LOG_LEVEL``).
 * ``CONTRIBUTING.md`` covers: running tests, plugin development,
   troubleshooting.
 * The top-level ``README.md`` points contributors at Swagger/OpenAPI
   (``/docs``).
 * FastAPI's auto-generated ``/docs`` and ``/openapi.json`` endpoints
   are reachable so consumers actually get an API contract.
+
+Issue #15 (``.env.example``) is covered by a separate PR — see
+``tests/test_env_example.py``. This file was split out so the
+smallest possible first PR from this author could be approved for
+CI independently.
 
 These are grep-level regression guards. They are intentionally loose
 (no prose-quality checks) but catch the common failure mode of a
@@ -55,31 +58,6 @@ def test_plugin_directory_has_readme(plugin_dir: Path) -> None:
     assert len(text.strip()) >= 120, (
         f"{plugin_dir.name}/README.md is too short to be useful"
     )
-
-
-# ---------- .env.example (issue #15) ----------
-
-
-_ENV_EXAMPLE_REQUIRED_KEYS = (
-    # From P0 work
-    "INN_SERVER_NAME",
-    "INN_USERNAME",
-    "INN_PASSWORD",
-    "OME_ENV",
-    "OME_ALLOWED_ORIGINS",
-    "CMS_PLUGIN",
-    # From P1 work — must be documented now
-    "OME_RATE_LIMIT",
-    "OME_LOG_LEVEL",
-)
-
-
-@pytest.mark.parametrize("key", _ENV_EXAMPLE_REQUIRED_KEYS)
-def test_env_example_documents_key(key: str) -> None:
-    path = REPO_ROOT / ".env.example"
-    assert path.exists(), ".env.example is required (issue #15)"
-    text = path.read_text(encoding="utf-8")
-    assert key in text, f".env.example must mention {key!r} (issue #15)"
 
 
 # ---------- CONTRIBUTING.md (issue #15) ----------
