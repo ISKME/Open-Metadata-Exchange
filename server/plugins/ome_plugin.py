@@ -92,9 +92,7 @@ class OMEPluginProtocol(Protocol):
 
     def make_metadata_card_from_url(self, url: str) -> EducationResource: ...
 
-    def make_metadata_card_from_json(
-        self, json_payload: str
-    ) -> EducationResource: ...
+    def make_metadata_card_from_json(self, json_payload: str) -> EducationResource: ...
 
 
 class OMEPlugin:

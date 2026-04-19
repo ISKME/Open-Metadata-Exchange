@@ -32,9 +32,9 @@ REPO_ROOT = Path(__file__).parent.parent
 def _plugin_dirs() -> list[Path]:
     plugins = REPO_ROOT / "server" / "plugins"
     return [
-        p for p in sorted(plugins.iterdir())
-        if p.is_dir()
-        and (p / "plugin.py").exists()
+        p
+        for p in sorted(plugins.iterdir())
+        if p.is_dir() and (p / "plugin.py").exists()
     ]
 
 
@@ -99,9 +99,7 @@ def test_contributing_covers_topic(needle: str) -> None:
     path = REPO_ROOT / "CONTRIBUTING.md"
     assert path.exists(), "CONTRIBUTING.md missing"
     text = path.read_text(encoding="utf-8").lower()
-    assert needle.lower() in text, (
-        f"CONTRIBUTING.md must cover {needle!r} (issue #15)"
-    )
+    assert needle.lower() in text, f"CONTRIBUTING.md must cover {needle!r} (issue #15)"
 
 
 # ---------- Top-level README (issue #14) ----------
@@ -112,8 +110,7 @@ def test_top_readme_links_to_swagger_docs() -> None:
     text = path.read_text(encoding="utf-8").lower()
     # Accept either the path or the words "swagger"/"openapi".
     assert "/docs" in text or "swagger" in text or "openapi" in text, (
-        "README.md must point consumers at the auto-generated API "
-        "docs (issue #14)"
+        "README.md must point consumers at the auto-generated API docs (issue #14)"
     )
 
 

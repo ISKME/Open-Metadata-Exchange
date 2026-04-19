@@ -20,7 +20,7 @@ dependencies = [
 [dependency-groups]
 dev = [
   "pytest>=9.0.3",
-  "pytest-cov>=7.1.0",
+  "pytest-cov>=7.1",
 ]
 docs = [
   "myst-parser>=4.0.1",

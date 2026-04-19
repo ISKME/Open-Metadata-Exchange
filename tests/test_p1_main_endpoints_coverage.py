@@ -82,17 +82,15 @@ def client(monkeypatch: pytest.MonkeyPatch) -> TestClient:
 
     # ome_node — for /api/list and /api/channel/{name}
     monkeypatch.setattr(ome_node, "channels", _fake_channels)
-    monkeypatch.setattr(
-        ome_node, "channel_summary", lambda name: summaries[name]
-    )
-    monkeypatch.setattr(
-        ome_node, "get_last_n_posts", lambda _slug, num: posts[:num]
-    )
+    monkeypatch.setattr(ome_node, "channel_summary", lambda name: summaries[name])
+    monkeypatch.setattr(ome_node, "get_last_n_posts", lambda _slug, num: posts[:num])
 
     # utils — mirrored so list-style endpoints that consult utils also work
-    monkeypatch.setattr(utils, "get_channels", lambda: iter(
-        [(c.name, c.description, _FakePlugin(c.name)) for c in channels]
-    ))
+    monkeypatch.setattr(
+        utils,
+        "get_channels",
+        lambda: iter([(c.name, c.description, _FakePlugin(c.name)) for c in channels]),
+    )
     monkeypatch.setattr(utils, "channel_summary", lambda s, *a, **k: summaries[s])
     monkeypatch.setattr(utils, "get_last_n_posts", lambda _slug, num: posts[:num])
     monkeypatch.setattr(utils, "site_plugin", _FakePlugin("ome.alpha"))

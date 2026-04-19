@@ -109,9 +109,7 @@ def test_channel_resources_rejects_negative_page(client: TestClient) -> None:
 
 
 def test_channel_resources_rejects_zero_per_page(client: TestClient) -> None:
-    response = client.get(
-        "/api/imls/v2/collections/ome.alpha/1/resources?per_page=0"
-    )
+    response = client.get("/api/imls/v2/collections/ome.alpha/1/resources?per_page=0")
     assert response.status_code == 422
 
 
@@ -134,7 +132,5 @@ def test_channel_cards_rejects_zero_page(client: TestClient) -> None:
 
 
 def test_channel_cards_rejects_excessive_page_size(client: TestClient) -> None:
-    response = client.get(
-        f"/api/channel/ome.alpha/cards?page_size={PAGE_SIZE_MAX + 1}"
-    )
+    response = client.get(f"/api/channel/ome.alpha/cards?page_size={PAGE_SIZE_MAX + 1}")
     assert response.status_code == 422
