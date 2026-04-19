@@ -54,11 +54,11 @@ Every plugin must satisfy the structural contract defined in
 
 ### Versioning
 
-- `CURRENT_PLUGIN_API_VERSION` is the single source of truth.
-- Bump the **major** for breaking contract changes.
-- Minor bumps are backwards-compatible (a plugin built for `1.0`
+* `CURRENT_PLUGIN_API_VERSION` is the single source of truth.
+* Bump the **major** for breaking contract changes.
+* Minor bumps are backwards-compatible (a plugin built for `1.0`
   loads fine under `1.5`).
-- `validate_plugin()` is called from
+* `validate_plugin()` is called from
   `server.get_ome_plugins._load_plugin`, so misconfigured plugins
   fail fast at startup. `InvalidPluginError` is raised for missing
   or incompatible `plugin_api_version`.

@@ -76,9 +76,7 @@ def client(monkeypatch: pytest.MonkeyPatch) -> TestClient:
 
     monkeypatch.setattr(utils, "get_channels", _fake_get_channels)
     monkeypatch.setattr(utils, "channel_summary", lambda s, *a, **k: summaries[s])
-    monkeypatch.setattr(
-        utils, "get_last_n_posts", lambda _slug, num: posts[:num]
-    )
+    monkeypatch.setattr(utils, "get_last_n_posts", lambda _slug, num: posts[:num])
     monkeypatch.setattr(utils, "site_plugin", _FakePlugin("ome.alpha"))
 
     from server.main import app
@@ -134,4 +132,6 @@ def test_cors_rejects_unknown_origin(client: TestClient) -> None:
     )
     # Starlette returns 400 when the origin isn't on the allow-list.
     # The important thing: no access-control-allow-origin echoed back.
-    assert resp.headers.get("access-control-allow-origin") != "https://evil.example.test"
+    assert (
+        resp.headers.get("access-control-allow-origin") != "https://evil.example.test"
+    )

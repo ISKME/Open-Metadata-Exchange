@@ -158,9 +158,7 @@ async def get_channel(
     sortby: str = "timestamp",
     page: int = Query(default=1, ge=1),
 ) -> ChannelResourcesResponse:
-    return get_channel_resources(
-        channel, per_page=per_page, sortby=sortby, page=page
-    )
+    return get_channel_resources(channel, per_page=per_page, sortby=sortby, page=page)
 
 
 @app.get("/api/imls/v2/resources/")
@@ -170,9 +168,7 @@ async def get_resources(
     sortby: str = "timestamp",
     page: int = Query(default=1, ge=1),
 ) -> ChannelResourcesResponse:
-    return get_channel_resources(
-        tenant, per_page=per_page, sortby=sortby, page=page
-    )
+    return get_channel_resources(tenant, per_page=per_page, sortby=sortby, page=page)
 
 
 app.mount(
