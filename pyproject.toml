@@ -10,7 +10,7 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  "fastapi[standard]>=0.135.3",
+  "fastapi[standard]>=0.136.0",
   "madoka>=0.7.2.1",
   "pondpond",
   "pynntp>=2.0.1",
