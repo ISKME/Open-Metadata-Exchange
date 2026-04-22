@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from server.plugins.openlibrary.bulk_import import bulk_translate
@@ -32,9 +33,9 @@ def test_bulk_translate_sets_source_url() -> None:
 
 
 def test_bulk_translate_sets_authoring_institution() -> None:
-    """bulk_translate sets authoring_institution to the Open Library attribution string."""
+    """bulk_translate maps provider_name to authoring_institution."""
     cards = list(bulk_translate([_sample_book_dict()]))
-    assert "openlibrary.org" in cards[0].authoring_institution
+    assert cards[0].authoring_institution == "Open Library (https://openlibrary.org)"
 
 
 def test_bulk_translate_sets_subject_tags() -> None:
@@ -58,11 +59,9 @@ def test_bulk_translate_multiple_items() -> None:
 
 
 def test_bulk_translate_from_work_json() -> None:
-    """bulk_translate handles a dict derived from the sample openlibrary_work.json fixture."""
+    """bulk_translate handles a dict from the openlibrary_work.json fixture."""
     # The work JSON has different shape than search results — we test that the
     # translate function handles it gracefully (title present → card yielded).
-    import json
-
     work = json.loads((OPENLIBRARY_DIR / "openlibrary_work.json").read_text())
     # Adapt work-format dict to search-result format expected by bulk_translate
     adapted = {

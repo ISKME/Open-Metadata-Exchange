@@ -62,7 +62,11 @@ def test_bulk_import_raises_if_no_cache(tmp_path: Path) -> None:
 
 def test_bulk_import_multiple_records_from_cache(tmp_path: Path) -> None:
     """bulk_import handles multiple records correctly."""
-    record2 = {**_SAMPLE_RECORD, "title": "Second Resource", "identifier": "https://qubeshub.org/publications/2/1"}
+    record2 = {
+        **_SAMPLE_RECORD,
+        "title": "Second Resource",
+        "identifier": "https://qubeshub.org/publications/2/1",
+    }
     cache = tmp_path / "qubes_records.json"
     cache.write_text(json.dumps([_SAMPLE_RECORD, record2]))
 

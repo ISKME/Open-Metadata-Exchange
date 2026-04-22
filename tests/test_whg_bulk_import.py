@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 from server.plugins.whg.bulk_import import bulk_import, bulk_translate
-from server.plugins.whg.whg_models import Feature
 
 WHG_DIR = Path(__file__).parent.parent / "server" / "plugins" / "whg"
 

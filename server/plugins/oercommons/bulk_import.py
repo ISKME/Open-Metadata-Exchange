@@ -27,7 +27,7 @@ from pathlib import Path
 import httpx
 from pydantic import ValidationError
 
-from server.plugins.oercommons.oercommons_models import FieldSource
+from server.plugins.oercommons.plugin import OERCommonsPlugin
 from server.plugins.ome_plugin import EducationResource
 
 OERCOMMONS_SEARCH_URL = "https://oercommons.org/api/v1/materials/search"
@@ -36,45 +36,26 @@ DEFAULT_BATCH_SIZE = 20
 
 logger = logging.getLogger(__name__)
 
-
-def _parse_items(raw_hits: list) -> list[FieldSource]:
-    """
-    Validate raw search-hit dicts into :class:`FieldSource` records.
-
-    Uses a Python 3.13+ ExceptionGroup to collect all validation errors
-    and report them together while returning valid records to the caller.
-    """
-    items: list[FieldSource] = []
-    errors: list[ValidationError] = []
-    for hit in raw_hits:
-        source = hit.get("_source", hit)
-        try:
-            items.append(FieldSource.model_validate(source))
-        except ValidationError as exc:
-            errors.append(exc)
-    if errors:
-        msg = f"Skipping {len(errors)} malformed OER Commons record(s)"
-        try:
-            raise ExceptionGroup(msg, errors)
-        except* ValidationError as eg:
-            for exc in eg.exceptions:
-                logger.warning("Malformed OER Commons record: %s", exc)
-    return items
+_plugin = OERCommonsPlugin()
 
 
 def fetch_materials(
     query: str = DEFAULT_SEARCH_QUERY,
     batch_size: int = DEFAULT_BATCH_SIZE,
-) -> list[FieldSource]:
+) -> list[dict]:
     """
-    Search OER Commons and return a list of :class:`FieldSource` records.
+    Search OER Commons and return raw search-hit dicts.
+
+    Each returned dict has the same shape as :class:`Model` (i.e. it contains
+    ``_index``, ``_type``, ``_id``, ``_score``, ``_source``) so that it can be
+    passed directly to :meth:`OERCommonsPlugin.make_metadata_card_from_json`.
 
     Args:
         query: Search query string.
         batch_size: Maximum number of results to return.
 
     Returns:
-        A list of :class:`FieldSource` records.
+        A list of raw search-hit dicts.
     """
     params = {"q": query, "batch_size": batch_size}
     try:
@@ -95,26 +76,21 @@ def fetch_materials(
         raise RuntimeError(msg) from exc
 
     payload = response.json()
-    hits = payload.get("hits", {}).get("hits", []) if isinstance(payload, dict) else []
-    return _parse_items(hits)
+    return payload.get("hits", {}).get("hits", []) if isinstance(payload, dict) else []
 
 
-def bulk_translate(items: list[dict]) -> Iterator[EducationResource]:
-    """Translate a list of raw OER Commons ``_source`` dicts to OME cards."""
-    for item in items:
+def bulk_translate(hits: list[dict]) -> Iterator[EducationResource]:
+    """Translate raw OER Commons search-hit dicts to OME EducationResource cards.
+
+    Each dict should have the same shape as :class:`Model` (``_index``,
+    ``_type``, ``_id``, ``_score``, ``_source``), matching the format returned
+    by the search API and cached by :func:`bulk_import`.
+    """
+    for hit in hits:
         try:
-            source = FieldSource.model_validate(item)
-            yield EducationResource(
-                title=source.title,
-                description=source.text,
-                authors=source.authors,
-                authoring_institution=source.provider_name,
-                subject_tags=source.keywords_names,
-                creation_date=source.published_on,
-                last_modified_date=source.modified_timestamp,
-            )
-        except (ValidationError, AttributeError) as exc:
-            logger.warning("Skipping malformed OER Commons item: %s", exc)
+            yield _plugin.make_metadata_card_from_json(json.dumps(hit))
+        except (ValidationError, ValueError, AttributeError) as exc:
+            logger.warning("Skipping malformed OER Commons hit: %s", exc)
 
 
 def bulk_import(
@@ -142,10 +118,8 @@ def bulk_import(
         )
 
     if not cache_path.exists():
-        items = fetch_materials(query=query, batch_size=batch_size)
-        cache_path.write_text(
-            json.dumps([item.model_dump() for item in items], indent=2) + "\n"
-        )
+        hits = fetch_materials(query=query, batch_size=batch_size)
+        cache_path.write_text(json.dumps(hits, indent=2) + "\n")
 
     raw = json.loads(cache_path.read_text())
     return [card.model_dump() for card in bulk_translate(raw)]

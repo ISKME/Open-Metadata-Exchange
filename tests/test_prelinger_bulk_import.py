@@ -1,13 +1,18 @@
 from pathlib import Path
 
-from server.plugins.prelinger.bulk_import import bulk_import, fetch_item_metadata, search_prelinger
+from server.plugins.prelinger.bulk_import import (
+    bulk_import,
+    fetch_item_metadata,
+    search_prelinger,
+)
+from server.plugins.prelinger.plugin import PrelingerPlugin
 from server.plugins.prelinger.prelinger_models import PrelingerItem
 
 PRELINGER_DIR = Path(__file__).parent.parent / "server" / "plugins" / "prelinger"
 
 
 def test_bulk_import_uses_cache() -> None:
-    """bulk_import reads from the cached finland videos file without hitting the network."""
+    """bulk_import reads from the cached finland videos file without network calls."""
     items = bulk_import(query="finland")
     assert isinstance(items, list)
     assert len(items) > 0
@@ -25,8 +30,6 @@ def test_bulk_import_returns_prelinger_items() -> None:
 
 def test_bulk_import_plugin_card_translation() -> None:
     """PrelingerPlugin correctly translates cached items to EducationResource cards."""
-    from server.plugins.prelinger.plugin import PrelingerPlugin
-
     plugin = PrelingerPlugin()
     items = bulk_import(query="finland")
     cards = [plugin.make_metadata_card_from_dict(item.model_dump()) for item in items]
