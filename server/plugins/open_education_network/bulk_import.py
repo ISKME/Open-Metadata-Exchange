@@ -85,8 +85,8 @@ def fetch_textbooks(
         params["format[]"] = formats
 
     try:
-        with httpx.Client(follow_redirects=True, timeout=30.0) as client:
-            response = client.get(OEN_TEXTBOOKS_API_URL, params=params)
+        with httpx.Client(follow_redirects=True, timeout=30.0) as httpx_client:
+            response = httpx_client.get(OEN_TEXTBOOKS_API_URL, params=params)
             response.raise_for_status()
     except httpx.HTTPError as exc:
         status_code = (

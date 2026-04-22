@@ -15,6 +15,7 @@
 # ]
 # ///
 
+import asyncio
 from datetime import datetime
 from pathlib import Path
 
@@ -66,14 +67,16 @@ def _text_list(soup: BeautifulSoup, selector: str) -> list[str]:
     ]
 
 
-def scrape_resource_page(client: httpx.Client, url: str) -> EarlyLearningItem:
+async def scrape_resource_page(
+    httpx_async_client: httpx.AsyncClient, url: str
+) -> EarlyLearningItem:
     """
     Fetch a single resource page and extract metadata.
 
     The Early Learning Resource Network is a Drupal site.  Field markup follows
     the standard Drupal 9/10 pattern: ``div.field--name-field-<name>``.
     """
-    response = client.get(url, headers=HEADERS, follow_redirects=True)
+    response = await httpx_async_client.get(url, headers=HEADERS, follow_redirects=True)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "html.parser")
 
@@ -153,8 +156,10 @@ def scrape_resource_page(client: httpx.Client, url: str) -> EarlyLearningItem:
     )
 
 
-def scrape_search_results(
-    client: httpx.Client, url: str = SEARCH_URL, max_results: int = MAX_RESULTS
+async def scrape_search_results(
+    httpx_async_client: httpx.AsyncClient,
+    url: str = SEARCH_URL,
+    max_results: int = MAX_RESULTS,
 ) -> list[str]:
     """
     Fetch the search results page and return up to *max_results* resource URLs.
@@ -163,7 +168,7 @@ def scrape_search_results(
     the canonical ``<h3 class="node__title">`` / ``<h2 class="node__title">``
     title links used by many Drupal themes.
     """
-    response = client.get(url, headers=HEADERS, follow_redirects=True)
+    response = await httpx_async_client.get(url, headers=HEADERS, follow_redirects=True)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "html.parser")
 
@@ -194,6 +199,19 @@ def scrape_search_results(
     return urls[:max_results]
 
 
+async def _fetch_all_items(url: str, max_results: int) -> list[EarlyLearningItem]:
+    """Async helper that scrapes the search page and each resource page."""
+    items: list[EarlyLearningItem] = []
+    async with httpx.AsyncClient(timeout=30) as httpx_async_client:
+        resource_urls = await scrape_search_results(
+            httpx_async_client, url, max_results
+        )
+        for resource_url in resource_urls:
+            item = await scrape_resource_page(httpx_async_client, resource_url)
+            items.append(item)
+    return items
+
+
 def bulk_import(
     url: str = SEARCH_URL, max_results: int = MAX_RESULTS
 ) -> list[EarlyLearningItem]:
@@ -211,12 +229,7 @@ def bulk_import(
     if cache_path.exists():
         return EarlyLearningModel.model_validate_json(cache_path.read_text()).root
 
-    items: list[EarlyLearningItem] = []
-    with httpx.Client(timeout=30) as client:
-        resource_urls = scrape_search_results(client, url, max_results)
-        for resource_url in resource_urls:
-            item = scrape_resource_page(client, resource_url)
-            items.append(item)
+    items = asyncio.run(_fetch_all_items(url, max_results))
 
     # Cache the results
     model = EarlyLearningModel(root=items)
