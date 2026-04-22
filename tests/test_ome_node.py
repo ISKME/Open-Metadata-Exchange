@@ -39,13 +39,13 @@ def enable_a_default_newsgroup(newsgroup: str = "local.test") -> Generator[None]
 
 
 def test_pynntp_client() -> None:
-    with ClientContextManager() as pynntp_client:
-        assert isinstance(pynntp_client, nntp.NNTPClient)
+    with ClientContextManager() as nntp_client:
+        assert isinstance(nntp_client, nntp.NNTPClient)
         # See https://github.com/greenbender/pynntp/issues/95
-        newsgroups = set(pynntp_client.list_newsgroups())
+        newsgroups = set(nntp_client.list_newsgroups())
         assert newsgroups == DEFAULT_NEWSGROUPS
         newsgroup_names = {
-            name for name, _low, _high, _status in pynntp_client.list_active()
+            name for name, _low, _high, _status in nntp_client.list_active()
         }
         assert newsgroup_names == ome_node.DEFAULT_NEWSGROUP_NAMES, (
             f"Expected names {ome_node.DEFAULT_NEWSGROUP_NAMES}, but got "

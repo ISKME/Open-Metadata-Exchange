@@ -9,13 +9,13 @@ class ClientFactory(PooledObjectFactory):
         # Environment variable INN_SERVER_NAME is defined in docker-compose.yml file.
         inn_server_name = os.getenv("INN_SERVER_NAME", "localhost")
         port = 119
-        client = NNTPClient(
+        nntp_client = NNTPClient(
             inn_server_name,
             port=port,
             username="node",
             password="node",  # noqa: S106
         )
-        return PooledObject(client)
+        return PooledObject(nntp_client)
 
     def destroy(self, pooled_object: PooledObject) -> None:
         del pooled_object

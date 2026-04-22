@@ -274,14 +274,14 @@ import asyncio
 import httpx
 
 
-async def _fetch_page(client: httpx.AsyncClient, params: dict) -> list:
-    return await client.get(API_URL, params=params).raise_for_status().json()
+async def _fetch_page(httpx_async_client: httpx.AsyncClient, params: dict) -> list:
+    return await httpx_async_client.get(API_URL, params=params).raise_for_status().json()
 
 
 async def fetch_all(*, per_page: int = 100, **filters) -> list:
     base_params = {"per_page": per_page, **filters}
-    async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as client:
-        first = await client.get(API_URL, params={**base_params, "page": 1})
+    async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as httpx_async_client:
+        first = await httpx_async_client.get(API_URL, params={**base_params, "page": 1})
         first.raise_for_status()
         total_pages = int(first.headers.get("X-WP-TotalPages", "1"))
         first_items = first.json()
@@ -289,7 +289,7 @@ async def fetch_all(*, per_page: int = 100, **filters) -> list:
             return first_items
         remaining = await asyncio.gather(
             *[
-                _fetch_page(client, {**base_params, "page": p})
+                _fetch_page(httpx_async_client, {**base_params, "page": p})
                 for p in range(2, total_pages + 1)
             ]
         )
@@ -480,9 +480,9 @@ def _absolute_url(href: str) -> str:
     return href if href.startswith("http") else BASE_URL + href
 
 
-def scrape_resource_page(client: httpx.Client, url: str) -> <PluginName>Item:
+async def scrape_resource_page(httpx_async_client: httpx.AsyncClient, url: str) -> <PluginName>Item:
     soup = BeautifulSoup(
-        client.get(url, headers=HEADERS, follow_redirects=True).raise_for_status().text,
+        (await httpx_async_client.get(url, headers=HEADERS, follow_redirects=True)).raise_for_status().text,
         "html.parser",
     )
     title = (soup.select_one("h1") or soup.new_tag("span")).get_text(strip=True)
@@ -490,11 +490,11 @@ def scrape_resource_page(client: httpx.Client, url: str) -> <PluginName>Item:
     return <PluginName>Item(title=title, url=url)
 
 
-def scrape_search_results(
-    client: httpx.Client, url: str = SEARCH_URL, max_results: int = MAX_RESULTS
+async def scrape_search_results(
+    httpx_async_client: httpx.AsyncClient, url: str = SEARCH_URL, max_results: int = MAX_RESULTS
 ) -> list[str]:
     soup = BeautifulSoup(
-        client.get(url, headers=HEADERS, follow_redirects=True).raise_for_status().text,
+        (await httpx_async_client.get(url, headers=HEADERS, follow_redirects=True)).raise_for_status().text,
         "html.parser",
     )
     urls: list[str] = []
@@ -507,20 +507,20 @@ def scrape_search_results(
     return urls
 
 
-def bulk_import(url: str = SEARCH_URL, max_results: int = MAX_RESULTS) -> list[<PluginName>Item]:
+async def bulk_import(url: str = SEARCH_URL, max_results: int = MAX_RESULTS) -> list[<PluginName>Item]:
     cache = Path(__file__).resolve().parent / "<plugin_name>_resources.json"
     if cache.exists():
         return <PluginName>Model.model_validate_json(cache.read_text()).root
     items: list[<PluginName>Item] = []
-    with httpx.Client(timeout=30) as client:
-        for resource_url in scrape_search_results(client, url, max_results):
-            items.append(scrape_resource_page(client, resource_url))
+    async with httpx.AsyncClient(timeout=30) as httpx_async_client:
+        for resource_url in await scrape_search_results(httpx_async_client, url, max_results):
+            items.append(await scrape_resource_page(httpx_async_client, resource_url))
     cache.write_text(<PluginName>Model(root=items).model_dump_json(indent=2))
     return items
 
 
 if __name__ == "__main__":
-    for i, item in enumerate(bulk_import(), start=1):
+    for i, item in enumerate(asyncio.run(bulk_import()), start=1):
         print(f"{i:>2}. {item.title!r}")
 ```
 

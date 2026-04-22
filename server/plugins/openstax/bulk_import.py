@@ -9,6 +9,7 @@
 # ]
 # ///
 
+import asyncio
 import json
 import logging
 from collections.abc import Iterator
@@ -126,13 +127,15 @@ def extract_books_from_subject_page(html: str) -> list[OpenStaxBook]:
     return sorted(books_by_key.values(), key=lambda book: book.title.lower())
 
 
-def fetch_subject_page(url: str = COMPUTER_SCIENCE_SUBJECT_URL) -> str:
+async def fetch_subject_page(url: str = COMPUTER_SCIENCE_SUBJECT_URL) -> str:
     """
     Fetch OpenStax subject page HTML.
     """
-    with httpx.Client(follow_redirects=True, timeout=30.0) as client:
+    async with httpx.AsyncClient(
+        follow_redirects=True, timeout=30.0
+    ) as httpx_async_client:
         try:
-            return client.get(url).raise_for_status().text
+            return (await httpx_async_client.get(url)).raise_for_status().text
         except httpx.HTTPError as exc:
             status_code = (
                 exc.response.status_code
@@ -158,7 +161,7 @@ def bulk_import(url: str = COMPUTER_SCIENCE_SUBJECT_URL) -> list[dict]:
     here = Path(__file__).resolve().parent
     html_path = here / "openstax_computer_science_subject.html"
     if not html_path.exists():
-        html_path.write_text(fetch_subject_page(url))
+        html_path.write_text(asyncio.run(fetch_subject_page(url)))
 
     books_path = here / "openstax_computer_science_books.json"
     if not books_path.exists():

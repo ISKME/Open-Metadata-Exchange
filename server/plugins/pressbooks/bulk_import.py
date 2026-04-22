@@ -61,12 +61,12 @@ def _parse_page(items: list) -> list[PressbooksBook]:
 
 
 async def _fetch_page(
-    client: httpx.AsyncClient,
+    httpx_async_client: httpx.AsyncClient,
     params: dict[str, str | int],
 ) -> list[PressbooksBook]:
     """Fetch and parse a single page of books from the Pressbooks Directory API."""
     try:
-        response = await client.get(BOOKS_API_URL, params=params)
+        response = await httpx_async_client.get(BOOKS_API_URL, params=params)
         response.raise_for_status()
     except httpx.HTTPError as exc:
         status_code = (
@@ -111,10 +111,12 @@ async def fetch_all_books(
     if institution:
         base_params["institution"] = institution
 
-    async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as client:
+    async with httpx.AsyncClient(
+        follow_redirects=True, timeout=30.0
+    ) as httpx_async_client:
         # Fetch the first page and read the total page count from the response header.
         try:
-            first_response = await client.get(
+            first_response = await httpx_async_client.get(
                 BOOKS_API_URL, params={**base_params, "page": 1}
             )
             first_response.raise_for_status()
@@ -139,7 +141,7 @@ async def fetch_all_books(
         # Gather all remaining pages concurrently.
         remaining = await asyncio.gather(
             *[
-                _fetch_page(client, {**base_params, "page": p})
+                _fetch_page(httpx_async_client, {**base_params, "page": p})
                 for p in range(2, total_pages + 1)
             ]
         )

@@ -55,7 +55,7 @@ def search_prelinger(
     query: str,
     rows: int = 50,
     *,
-    client: httpx.Client,
+    httpx_client: httpx.Client,
 ) -> list[str]:
     """
     Search the Prelinger collection and return a list of item identifiers.
@@ -69,21 +69,23 @@ def search_prelinger(
         "rows": rows,
         "output": "json",
     }
-    response = client.get(
+    response = httpx_client.get(
         IA_SEARCH_URL, params=params, headers=HEADERS
     ).raise_for_status()
     search_result = PrelingerSearchResponse.model_validate_json(response.text)
     return [doc.identifier for doc in search_result.response.docs if doc.identifier]
 
 
-def fetch_item_metadata(identifier: str, *, client: httpx.Client) -> PrelingerItem:
+def fetch_item_metadata(
+    identifier: str, *, httpx_client: httpx.Client
+) -> PrelingerItem:
     """
     Fetch the full metadata for a single Prelinger item via the md-read API.
 
     ``GET https://archive.org/metadata/{identifier}``
     """
     url = IA_METADATA_URL.format(identifier=identifier)
-    response = client.get(url, headers=HEADERS).raise_for_status()
+    response = httpx_client.get(url, headers=HEADERS).raise_for_status()
     envelope = PrelingerMetadataResponse.model_validate_json(response.text)
     return envelope.metadata
 
@@ -104,10 +106,10 @@ def bulk_import(query: str = "finland", rows: int = 50) -> list[PrelingerItem]:
         return PrelingerModel.model_validate_json(cache_path.read_text()).root
 
     items: list[PrelingerItem] = []
-    with httpx.Client(follow_redirects=True, timeout=30.0) as client:
-        identifiers = search_prelinger(query, rows=rows, client=client)
+    with httpx.Client(follow_redirects=True, timeout=30.0) as httpx_client:
+        identifiers = search_prelinger(query, rows=rows, httpx_client=httpx_client)
         for identifier in identifiers:
-            item = fetch_item_metadata(identifier, client=client)
+            item = fetch_item_metadata(identifier, httpx_client=httpx_client)
             if item.mediatype == "movies":
                 items.append(item)
 
