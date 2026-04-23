@@ -39,10 +39,10 @@ sequenceDiagram
 
 ## Code Quality — Always Run pre-commit
 
-**Always run `pre-commit run --all-files` after making any code changes.**
+**Always run `uvx pre-commit run --all-files` after making any code changes.**
 
 ```bash
-pre-commit run --all-files
+uvx pre-commit run --all-files
 ```
 
 This project uses [`pre-commit`](https://pre-commit.com) to enforce formatting, linting,
