@@ -1,6 +1,6 @@
 FROM debian:stable
 
-RUN apt-get update && apt-get install -y --no-install-recommends openssl tini inn2 netcat-traditional j2cli
+RUN apt-get update && apt-get install --yes --no-install-recommends inn2 j2cli netcat-traditional openssl tini
 
 COPY ./dev/docker-entrypoint.sh /docker-entrypoint.sh
 COPY ./dev/templatize.sh /templatize.sh
