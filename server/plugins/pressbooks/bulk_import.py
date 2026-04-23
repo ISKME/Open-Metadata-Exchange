@@ -118,8 +118,7 @@ async def fetch_all_books(
         try:
             first_response = await httpx_async_client.get(
                 BOOKS_API_URL, params={**base_params, "page": 1}
-            )
-            first_response.raise_for_status()
+            ).raise_for_status()
         except httpx.HTTPError as exc:
             status_code = (
                 exc.response.status_code

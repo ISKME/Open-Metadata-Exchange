@@ -21,10 +21,10 @@ server/plugins/
 ├── ome_plugin.py          ← Base class (do not modify)
 ├── README.md
 └── <plugin_name>/
-    ├── __init__.py        ← Optional but recommended
+    ├── __init__.py        ← Required: Python convention
     ├── plugin.py          ← Required: subclass of OMEPlugin
     ├── <name>_models.py   ← Required: one or more Pydantic model files for source data
-    └── bulk_import.py     ← Optional: utilities for batch importing data
+    └── bulk_import.py     ← Required: utilities for batch importing data
 ```
 
 > **Reference implementation**: `server/plugins/eric/` is the most advanced plugin and
@@ -121,12 +121,12 @@ class <PluginName>Plugin(OMEPlugin):
     """Plugin for <Source Name> metadata integration."""
 
     # MIME type for JSON enclosures stored in INN articles.
-    # Convention: application/vnd.<org>.<source>+json
+    # Naming convention: application/vnd.<org>.<source>+json
     mimetypes: tuple[str, ...] = ("application/vnd.<org>.<source>+json",)
 
     # INN newsgroup(s) for this source.
     # newsgroups is a dict but make it immutable for safety. `ruff rule RUF012`
-    # Convention: ome.<source_name>
+    # Naming convention: ome.<source_name>
     newsgroups: dict[str, str] = MappingProxyType(
         {
             "ome.<source_name>": (
@@ -456,8 +456,6 @@ class <PluginName>Model(RootModel[list[<PluginName>Item]]):
 # requires-python = ">=3.13"
 # dependencies = ["beautifulsoup4", "httpx", "pydantic"]
 # ///
-
-from __future__ import annotations
 
 from datetime import datetime
 from pathlib import Path
