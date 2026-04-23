@@ -18,13 +18,16 @@ Each plugin lives in its own subdirectory under `server/plugins/` and inherits f
 
 ```tree
 server/plugins/
-├── ome_plugin.py          ← Base class (do not modify)
+├── ome_plugin.py                  ← Base class (do not modify)
 ├── README.md
 └── <plugin_name>/
-    ├── __init__.py        ← Required: Python convention
-    ├── plugin.py          ← Required: subclass of OMEPlugin
-    ├── <name>_models.py   ← Required: one or more Pydantic model files for source data
-    └── bulk_import.py     ← Required: utilities for batch importing data
+    ├── __init__.py                ← Required: Python convention
+    ├── <plugin_name>_article.eml  ← Required: NNTP article as an email with two attachments
+    ├── <plugin_name>_item.json    ← Required: A JSON record for one item imported from the source OER platform
+    ├── <plugin_name>_models.py    ← Required: Pydantic model(s) for understanding and transforming imported items
+    ├── bulk_import.py             ← Required: utilities for batch importing data
+    ├── plugin.py                  ← Required: subclass of OMEPlugin
+    └── README.md                  ← Required: Information about the plugin source, API, URLs, etc.
 ```
 
 > **Reference implementation**: `server/plugins/eric/` is the most advanced plugin and
