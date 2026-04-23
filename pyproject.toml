@@ -20,7 +20,11 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+  "beautifulsoup4>=4.13",
+  "dateparser>=1.2",
+  "httpx>=0.28",
   "pytest>=9.0.3",
+  "pytest-run-parallel>=0.3",
 ]
 docs = [
   "myst-parser>=4.0.1",
