@@ -47,15 +47,15 @@ class OpenLibraryPlugin(OMEPlugin):
         This method creates a metadata card from a given JSON payload.
         It currently does not implement any functionality.
         """
-        oercommons_item = WorkModel.model_validate_json(json_payload)
+        openlibrary_item = WorkModel.model_validate_json(json_payload)
         return EducationResource(
-            title=oercommons_item.title,
-            description=oercommons_item.description,
-            authors=[str(author for author in oercommons_item.authors)],
+            title=openlibrary_item.title,
+            description=openlibrary_item.description,
+            authors=[a.author.key for a in openlibrary_item.authors],
             authoring_institution="Open Library (https://openlibrary.org)",
-            subject_tags=oercommons_item.subjects,
-            creation_date=oercommons_item.created.value,
-            last_modified_date=oercommons_item.last_modified.value,
+            subject_tags=openlibrary_item.subjects,
+            creation_date=openlibrary_item.created.value,
+            last_modified_date=openlibrary_item.last_modified.value,
         )
 
 

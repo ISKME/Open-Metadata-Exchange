@@ -207,32 +207,32 @@ def test_utils_get_channels(metadata: schemas.Metadata) -> None:
     assert isinstance(metadata, schemas.Metadata)
     assert metadata.title in sue_grafton_books
     channels = list(utils.get_channels())
-    assert len(channels) == 11
+    assert len(channels) == 12
     slug, description, plugin = channels[0]
-    assert slug == "ome.early_learning"
+    assert slug == "ome.collage_photos"
     assert description == (
-        "Metadata from Early Learning Resource Network "
-        "https://www.earlylearningresourcenetwork.org"
+        "Metadata from Collage Photos educational image collection "
+        "https://oercommons.org"
     )
-    assert plugin.mimetypes == ("application/vnd.earlylearning.early-learning+json",)
-    assert dict(plugin.newsgroups) == {"ome.early_learning": description}
-    assert plugin.site_name == "Early Learning Resource Network"
+    assert plugin.mimetypes == ("application/vnd.collage.photos+json",)
+    assert dict(plugin.newsgroups) == {"ome.collage_photos": description}
+    assert plugin.site_name == "Collage Photos"
     assert plugin.librarian_contact == "info@iskme.org"
     assert plugin.logo
 
 
 def test_utils_get_channels_filters() -> None:
     channels = list(utils.get_channels())
-    assert len(channels) == 11
+    assert len(channels) == 12
     slug, description, plugin = channels[0]
-    assert slug == "ome.early_learning"
+    assert slug == "ome.collage_photos"
     assert description == (
-        "Metadata from Early Learning Resource Network "
-        "https://www.earlylearningresourcenetwork.org"
+        "Metadata from Collage Photos educational image collection "
+        "https://oercommons.org"
     )
-    assert plugin.mimetypes == ("application/vnd.earlylearning.early-learning+json",)
-    assert dict(plugin.newsgroups) == {"ome.early_learning": description}
-    assert plugin.site_name == "Early Learning Resource Network"
+    assert plugin.mimetypes == ("application/vnd.collage.photos+json",)
+    assert dict(plugin.newsgroups) == {"ome.collage_photos": description}
+    assert plugin.site_name == "Collage Photos"
     assert plugin.librarian_contact == "info@iskme.org"
 
 
