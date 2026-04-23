@@ -105,7 +105,12 @@ def make_plugin_article(
 
     if ome_json_path is None:
         stem = item_path.stem  # e.g. "eric_item"
-        ome_stem = f"{stem[:-5]}_ome_item" if stem.endswith("_item") else f"{stem}_ome"
+        _item_suffix = "_item"
+        ome_stem = (
+            f"{stem[: -len(_item_suffix)]}_ome_item"
+            if stem.endswith(_item_suffix)
+            else f"{stem}_ome"
+        )
         ome_path = item_path.parent / f"{ome_stem}.json"
     else:
         ome_path = Path(ome_json_path)
