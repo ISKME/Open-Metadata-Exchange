@@ -33,7 +33,7 @@ services:
     build:
       dockerfile: Dockerfile
     environment:
-      CMS_PLUGIN: ${OME_CMS_PLUGIN}
+      CMS_PLUGIN: server.plugins.${OME_CMS_PLUGIN}
       INN_SERVER_NAME: nntp-server
       # TODO: need to add the username/password that the NNTP server
       # now needs via .env or some such
