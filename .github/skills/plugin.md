@@ -346,43 +346,34 @@ single structured report while still returning all valid records to the caller.
 
 After writing each item's raw source data to
 `server/plugins/<plugin_name>/<plugin_name>_item.json`, create an NNTP news article
-using `server/nntp_article.py`.  The article body should be the OME JSON for the item,
-with two enclosures: the OME JSON file and the original source JSON file.
+using `server/nntp_article.py`.
+
+`make_plugin_article()` handles the full pipeline in one call:
+it derives the OME metadata via the plugin, writes the `_ome_item.json` file, and
+returns a MIME-multipart `EmailMessage` with both JSON files attached.
 
 ```python
 from pathlib import Path
 
-from server.nntp_article import nntp_article
+from server.nntp_article import make_plugin_article
 from server.plugins.<plugin_name>.plugin import <PluginName>Plugin
 
 plugin = <PluginName>Plugin()
 here = Path(__file__).resolve().parent
 
-# Paths to the source data and OME metadata files
-item_json_path = here / "<plugin_name>_item.json"
-ome_json_path = here / "<plugin_name>_ome_item.json"
-
-# Convert the raw source JSON to an OME EducationResource and serialise it
-ome_resource = plugin.make_metadata_card_from_json(item_json_path.read_text())
-ome_json = ome_resource.model_dump_json(indent=2)
-
-# Write the OME JSON to a file so it can be attached as the second enclosure
-ome_json_path.write_text(ome_json)
-
-# Create the NNTP article:
+# Build the NNTP article and write the _ome_item.json side-effect:
 #   - body:             the OME JSON for this item
 #   - first enclosure:  the original source JSON file (<plugin_name>_item.json)
 #   - second enclosure: the OME JSON file  (<plugin_name>_ome_item.json)
-article = nntp_article(
-    title=ome_resource.title,
-    attachments=[item_json_path, ome_json_path],
-    body=ome_json,
-)
+article = make_plugin_article(plugin, here / "<plugin_name>_item.json")
+(here / "<plugin_name>_article.eml").write_text(str(article))
 ```
 
-> **Note:** `nntp_article()` is defined in `server/nntp_article.py` and returns a Python
-> `email.message.EmailMessage`.  Pass that object to `pynntp_client.post()` (or write it
-> to disk with `Path(...).write_text(str(article))`) when you are ready to publish.
+> **Note:** `make_plugin_article()` is defined in `server/nntp_article.py`.  It derives
+> the `_ome_item.json` path automatically from the `_item.json` path (replacing the
+> `_item` suffix with `_ome_item`), but you can pass an explicit `ome_json_path=` keyword
+> argument to override it.  Pass the returned `EmailMessage` to `pynntp_client.post()`
+> (or write it to disk as shown above) when you are ready to publish.
 
 #### 6. Update the channel count in tests
 
