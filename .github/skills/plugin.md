@@ -25,8 +25,8 @@ server/plugins/
     ├── <plugin_name>_article.eml  ← Required: NNTP article as an email with two attachments
     ├── <plugin_name>_item.json    ← Required: A JSON record for one item imported from the source OER platform
     ├── <plugin_name>_models.py    ← Required: Pydantic model(s) for understanding and transforming imported items
-    ├── bulk_import.py             ← Required: utilities for batch importing data
-    ├── plugin.py                  ← Required: subclass of OMEPlugin
+    ├── bulk_import.py             ← Required: Utilities for batch importing source metadata records using asyncio
+    ├── plugin.py                  ← Required: Subclass of OMEPlugin
     └── README.md                  ← Required: Information about the plugin source, API, URLs, etc.
 ```
 
@@ -192,7 +192,7 @@ if __name__ == "__main__":
   git add --chmod=+x server/plugins/<plugin_name>/<plugin_name>_models.py
   ```
 
-#### 4. (Optional) Create `bulk_import.py` — batch import utilities
+#### 4. (Required) Create `bulk_import.py` — batch import utilities
 
 If the source provides a bulk data export (CSV, JSON dump, API pagination), or requires web
 scraping, add a `bulk_import.py` to handle fetching and converting that data into
