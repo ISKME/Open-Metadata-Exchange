@@ -43,9 +43,8 @@ class OapenBooksPlugin(OMEPlugin):
 
     def make_metadata_card(self, item: OapenItem) -> EducationResource:
         """Translate an OapenItem into an OME EducationResource."""
-        year_str = item.get_metadata_value("dc.date.issued")
         pub_date: datetime | None = None
-        if year_str:
+        if year_str := item.get_metadata_value("dc.date.issued"):
             try:
                 year = int(year_str[:4])
                 pub_date = datetime(year, 1, 1, tzinfo=UTC)

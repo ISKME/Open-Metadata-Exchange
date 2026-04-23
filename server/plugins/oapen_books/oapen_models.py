@@ -12,7 +12,7 @@
 
 from types import MappingProxyType
 
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, ConfigDict, Field, RootModel
 
 # Map OAPEN dc.rights values (URLs and short strings) to SPDX expressions.
 OAPEN_LICENSE_TO_SPDX: MappingProxyType[str, str] = MappingProxyType(
@@ -62,7 +62,9 @@ class OapenMetadataEntry(BaseModel):
 
     key: str = Field(description="Dublin Core metadata field name (e.g. 'dc.title').")
     value: str = Field(description="Field value.")
-    language: str = Field(default="", description="BCP-47 language tag or empty string.")
+    language: str = Field(
+        default="", description="BCP-47 language tag or empty string."
+    )
 
 
 class OapenItem(BaseModel):
@@ -72,6 +74,8 @@ class OapenItem(BaseModel):
     Endpoint: GET https://library.oapen.org/rest/search?query=<q>&expand=metadata
     """
 
+    model_config = ConfigDict(populate_by_name=True)
+
     uuid: str = Field(description="OAPEN item UUID.")
     name: str = Field(default="", description="Item name (book title).")
     handle: str = Field(
@@ -79,8 +83,10 @@ class OapenItem(BaseModel):
     )
     type: str = Field(default="item", description="DSpace object type.")
     link: str = Field(default="", description="REST API link for this item.")
-    lastModified: str = Field(  # noqa: N815
-        default="", description="Last-modified timestamp string from the API."
+    last_modified: str = Field(
+        default="",
+        alias="lastModified",
+        description="Last-modified timestamp string from the API.",
     )
     metadata: list[OapenMetadataEntry] = Field(
         default_factory=list, description="Dublin Core metadata entries."
