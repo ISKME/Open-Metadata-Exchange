@@ -53,8 +53,8 @@ lint.pylint.allow-magic-value-types = [ "int", "str" ]
 [tool.codespell]
 ignore-words-list = "astroid,formend,oen,thur"
 skip = """\
-  *.csv,*.ctl,*.eml,*/ERIC_open_records.json,*/package-lock.json,*/whg.json,./fe*/node_modules/*,static/api/imls/v2/**/\
-  *.json\
+  *.csv,*.ctl,*.eml,*/ERIC_open_records.json,*/oapen_python_books.json,*/package-lock.json,*/whg.json,./fe*/node_module\
+  s/*,static/api/imls/v2/**/*.json\
   """
 
 [tool.pyproject-fmt]
