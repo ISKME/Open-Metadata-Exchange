@@ -1,0 +1,21 @@
+{
+  "title": "Introduction to Population Genetics in Python",
+  "description": "This module introduces students to fundamental concepts in population genetics using Python programming. Topics include Hardy-Weinberg equilibrium, genetic drift, selection, and mutation. Students simulate evolutionary processes and visualize allele frequency changes over time.",
+  "authors": [
+    "Aaron A. King",
+    "Weston Testo"
+  ],
+  "authoring_institution": "https://qubeshub.org/publications/1975/1",
+  "subject_tags": [
+    "population genetics",
+    "Python",
+    "computational biology",
+    "Hardy-Weinberg equilibrium",
+    "genetic drift"
+  ],
+  "creation_date": "2023-06-15T00:00:00Z",
+  "last_modified_date": "2023-06-15T00:00:00Z",
+  "source_url": "",
+  "version_url": "",
+  "spdx_license_expression": ""
+}

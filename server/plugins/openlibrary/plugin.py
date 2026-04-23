@@ -51,7 +51,7 @@ class OpenLibraryPlugin(OMEPlugin):
         return EducationResource(
             title=oercommons_item.title,
             description=oercommons_item.description,
-            authors=[str(author for author in oercommons_item.authors)],
+            authors=[a.author.key for a in oercommons_item.authors],
             authoring_institution="Open Library (https://openlibrary.org)",
             subject_tags=oercommons_item.subjects,
             creation_date=oercommons_item.created.value,
