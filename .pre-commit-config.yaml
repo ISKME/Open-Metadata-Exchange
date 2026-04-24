@@ -81,3 +81,35 @@ repos:
     rev: 0.11.7
     hooks:
       - id: uv-lock
+
+  # Astral's `ty` — Python type checker (pre-release). Tracking ISKME#237.
+  # No upstream pre-commit repo yet (astral-sh/ty#269), so we declare a
+  # local hook and install ty into pre-commit's managed venv.
+  # The --ignore list reflects ty 0.0.31's ruleset; entries should be
+  # ratcheted off as the underlying issues get fixed.
+  - repo: local
+    hooks:
+      - id: ty
+        name: ty (astral) — Python type checker
+        language: python
+        additional_dependencies:
+          - ty==0.0.31
+        entry: ty check
+        args:
+          - --ignore=invalid-argument-type
+          - --ignore=invalid-assignment
+          - --ignore=invalid-method-override
+          - --ignore=invalid-parameter-default
+          - --ignore=invalid-return-type
+          - --ignore=no-matching-overload
+          - --ignore=not-subscriptable
+          - --ignore=possibly-missing-attribute
+          - --ignore=unknown-argument
+          - --ignore=unresolved-attribute
+          - --ignore=unresolved-global
+          - --ignore=unresolved-import
+          - --ignore=unresolved-reference
+          - --ignore=unsupported-operator
+          - --output-format=concise
+        pass_filenames: false
+        types: [python]
