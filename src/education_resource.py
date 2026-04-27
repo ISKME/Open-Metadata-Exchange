@@ -3,7 +3,8 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class EducationResource(BaseModel):
+# CAUTION: Use `server.plugins.ome_plugin.EducationResource` instead!!
+class EducationResource(BaseModel):  # CAUTION: Do not use this EducationResource!!
     """
     The metadata for an education resource to be communicated in the Exchange.  This
     could be a lesson plan, one or more datasets, documents, worksheets, images, or

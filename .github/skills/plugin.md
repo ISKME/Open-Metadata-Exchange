@@ -18,13 +18,16 @@ Each plugin lives in its own subdirectory under `server/plugins/` and inherits f
 
 ```tree
 server/plugins/
-├── ome_plugin.py          ← Base class (do not modify)
+├── ome_plugin.py                  ← Base class (do not modify)
 ├── README.md
 └── <plugin_name>/
-    ├── __init__.py        ← Optional but recommended
-    ├── plugin.py          ← Required: subclass of OMEPlugin
-    ├── <name>_models.py   ← Required: one or more Pydantic model files for source data
-    └── bulk_import.py     ← Optional: utilities for batch importing data
+    ├── __init__.py                ← Required: Python convention
+    ├── <plugin_name>_article.eml  ← Required: NNTP article as an email with two attachments
+    ├── <plugin_name>_item.json    ← Required: A JSON record for one item imported from the source OER platform
+    ├── <plugin_name>_models.py    ← Required: Pydantic model(s) for understanding and transforming imported items
+    ├── bulk_import.py             ← Required: Utilities for batch importing source metadata records using asyncio
+    ├── plugin.py                  ← Required: Subclass of OMEPlugin
+    └── README.md                  ← Required: Information about the plugin source, API, URLs, etc.
 ```
 
 > **Reference implementation**: `server/plugins/eric/` is the most advanced plugin and
@@ -49,7 +52,9 @@ Replace `<plugin_name>` with a short, lowercase name for the data source (e.g., 
 Before writing any code, check whether the source site exposes a public API:
 
 - **JSON/REST API available** → fetch data with `httpx` and generate Pydantic models from
-  a sample response using `datamodel-codegen` (see below).
+  a sample response using `datamodel-codegen` (see below).  Prefer
+  `httpx.AsyncClient` with `asyncio.gather()` for paginated APIs (see
+  [Async / concurrent page fetching](#async--concurrent-page-fetching) below).
 - **No public API (Drupal, WordPress, static HTML, etc.)** → use web scraping with
   `httpx` + `BeautifulSoup` (see [Web-scraping variant](#web-scraping-variant) below).
 
@@ -119,12 +124,12 @@ class <PluginName>Plugin(OMEPlugin):
     """Plugin for <Source Name> metadata integration."""
 
     # MIME type for JSON enclosures stored in INN articles.
-    # Convention: application/vnd.<org>.<source>+json
+    # Naming convention: application/vnd.<org>.<source>+json
     mimetypes: tuple[str, ...] = ("application/vnd.<org>.<source>+json",)
 
     # INN newsgroup(s) for this source.
     # newsgroups is a dict but make it immutable for safety. `ruff rule RUF012`
-    # Convention: ome.<source_name>
+    # Naming convention: ome.<source_name>
     newsgroups: dict[str, str] = MappingProxyType(
         {
             "ome.<source_name>": (
@@ -187,7 +192,7 @@ if __name__ == "__main__":
   git add --chmod=+x server/plugins/<plugin_name>/<plugin_name>_models.py
   ```
 
-#### 4. (Optional) Create `bulk_import.py` — batch import utilities
+#### 4. (Required) Create `bulk_import.py` — batch import utilities
 
 If the source provides a bulk data export (CSV, JSON dump, API pagination), or requires web
 scraping, add a `bulk_import.py` to handle fetching and converting that data into
@@ -198,15 +203,184 @@ the site.  Mark the file executable the same way as other scripts:
 git add --chmod=+x server/plugins/<plugin_name>/bulk_import.py
 ```
 
-See `server/plugins/eric/bulk_import.py` for an API/JSON reference implementation and
-`server/plugins/early_learning/bulk_import.py` for a web-scraping reference.
+See `server/plugins/eric/bulk_import.py` for an API/JSON reference implementation,
+`server/plugins/early_learning/bulk_import.py` for a web-scraping reference, and
+`server/plugins/pressbooks/bulk_import.py` for an async/concurrent pagination example.
 
-#### 5. Update the channel count in tests
+---
+
+### HTTP requests: always chain `.raise_for_status()`
+
+When making HTTP requests with `httpx`, chain `.raise_for_status()` directly onto
+the `.get()` (or `.post()`, etc.) call instead of calling it on a separate line.
+`httpx.Response.raise_for_status()` returns `self`, so the response object is still
+available for further use:
+
+```python
+# Preferred — chain raise_for_status() on the same line
+response = client.get(url, params=params, headers=HEADERS).raise_for_status()
+data = response.json()
+
+# Also valid for one-liners when only the text/json is needed
+soup = BeautifulSoup(
+    client.get(url, headers=HEADERS, follow_redirects=True).raise_for_status().text,
+    "html.parser",
+)
+
+# Discouraged — two-line raise_for_status
+response = client.get(url)   # ← do not do this
+response.raise_for_status()  # ← do not do this
+```
+
+This applies to both synchronous (`httpx.Client`) and asynchronous
+(`httpx.AsyncClient`) usage.
+
+---
+
+### Exception suppression: prefer `contextlib.suppress` over `try/except/continue`
+
+When a `try` block in a loop only catches an exception to continue to the next
+iteration (i.e., the `except` body is just `continue` or `pass`), use
+`contextlib.suppress` instead.  This is required by ruff rule **SIM105**
+(`suppressible-exception`):
+
+```python
+# Preferred — contextlib.suppress
+from contextlib import suppress
+
+for fmt, length in DATE_FORMATS:
+    with suppress(ValueError):
+        return datetime.strptime(date_str[:length], fmt)
+return None
+
+# Discouraged — bare except/continue (ruff SIM105 will flag this)
+for fmt, length in DATE_FORMATS:
+    try:
+        return datetime.strptime(date_str[:length], fmt)
+    except ValueError:
+        continue
+return None
+```
+
+---
+
+### Async / concurrent page fetching
+
+When a REST API exposes pagination headers (e.g., WordPress REST APIs return
+`X-WP-TotalPages` and `X-WP-Total`), use `httpx.AsyncClient` with
+`asyncio.gather()` to fetch all pages concurrently instead of looping
+sequentially:
+
+```python
+import asyncio
+
+import httpx
+
+
+async def _fetch_page(httpx_async_client: httpx.AsyncClient, params: dict) -> list:
+    return await httpx_async_client.get(API_URL, params=params).raise_for_status().json()
+
+
+async def fetch_all(*, per_page: int = 100, **filters) -> list:
+    base_params = {"per_page": per_page, **filters}
+    async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as httpx_async_client:
+        first = await httpx_async_client.get(API_URL, params={**base_params, "page": 1})
+        first.raise_for_status()
+        total_pages = int(first.headers.get("X-WP-TotalPages", "1"))
+        first_items = first.json()
+        if total_pages <= 1:
+            return first_items
+        remaining = await asyncio.gather(
+            *[
+                _fetch_page(httpx_async_client, {**base_params, "page": p})
+                for p in range(2, total_pages + 1)
+            ]
+        )
+        return first_items + [item for page in remaining for item in page]
+
+
+# Call from synchronous code:
+all_items = asyncio.run(fetch_all(search="python"))
+```
+
+See `server/plugins/pressbooks/bulk_import.py` for a full working example.
+
+---
+
+### Exception Groups for validation loops
+
+This project targets **Python 3.13+**.  When validating a list of records
+(e.g., after a bulk API fetch), use an `ExceptionGroup` to collect *all*
+`ValidationError` exceptions and report them together rather than raising on
+the first failure or silently discarding errors one at a time:
+
+```python
+from pydantic import ValidationError
+
+
+def _parse_records(items: list) -> list[MyModel]:
+    records: list[MyModel] = []
+    errors: list[ValidationError] = []
+    for item in items:
+        try:
+            records.append(MyModel.model_validate(item))
+        except ValidationError as exc:
+            errors.append(exc)
+    if errors:
+        try:
+            raise ExceptionGroup(
+                f"Skipping {len(errors)} malformed record(s)", errors
+            )
+        except* ValidationError as eg:
+            for exc in eg.exceptions:
+                logger.warning("Malformed record: %s", exc)
+    return records
+```
+
+The `try / raise ExceptionGroup / except*` idiom logs every bad record in a
+single structured report while still returning all valid records to the caller.
+
+---
+
+#### 5. Create an NNTP news article for each imported item
+
+After writing each item's raw source data to
+`server/plugins/<plugin_name>/<plugin_name>_item.json`, create an NNTP news article
+using `server/nntp_article.py`.
+
+`make_plugin_article()` handles the full pipeline in one call:
+it derives the OME metadata via the plugin, writes the `_ome_item.json` file, and
+returns a MIME-multipart `EmailMessage` with both JSON files attached.
+
+```python
+from pathlib import Path
+
+from server.nntp_article import make_plugin_article
+from server.plugins.<plugin_name>.plugin import <PluginName>Plugin
+
+plugin = <PluginName>Plugin()
+here = Path(__file__).resolve().parent
+
+# Build the NNTP article and write the _ome_item.json side-effect:
+#   - body:             the OME JSON for this item
+#   - first enclosure:  the original source JSON file (<plugin_name>_item.json)
+#   - second enclosure: the OME JSON file  (<plugin_name>_ome_item.json)
+article = make_plugin_article(plugin, here / "<plugin_name>_item.json")
+(here / "<plugin_name>_article.eml").write_text(str(article))
+```
+
+> **Note:** `make_plugin_article()` is defined in `server/nntp_article.py`.  It derives
+> the `_ome_item.json` path automatically from the `_item.json` path (replacing the
+> `_item` suffix with `_ome_item`), but you can pass an explicit `ome_json_path=` keyword
+> argument to override it.  Pass the returned `EmailMessage` to `pynntp_client.post()`
+> (or write it to disk as shown above) when you are ready to publish.
+
+#### 6. Update the channel count in tests
 
 `tests/test_ome_node.py` hard-codes the expected number of channels.  Increment it by 1
 for each new plugin you add.  Search for `len(channels) ==` and update every occurrence.
 
-#### 6. Verify the plugin is discovered
+#### 7. Verify the plugin is discovered
 
 Run `get_ome_plugins.py` as an executable (it has a `#!/usr/bin/env -S uv run --script` shebang) to confirm the new plugin is detected:
 
@@ -216,7 +390,7 @@ Run `get_ome_plugins.py` as an executable (it has a `#!/usr/bin/env -S uv run --
 
 The output should include your new plugin's class name, `mimetypes`, and `newsgroups`.
 
-#### 7. Run pre-commit to validate your changes
+#### 8. Run pre-commit to validate your changes
 
 **Always run `pre-commit run --all-files` after adding or modifying any files:**
 
@@ -277,8 +451,6 @@ class <PluginName>Model(RootModel[list[<PluginName>Item]]):
 # dependencies = ["beautifulsoup4", "httpx", "pydantic"]
 # ///
 
-from __future__ import annotations
-
 from datetime import datetime
 from pathlib import Path
 
@@ -300,9 +472,9 @@ def _absolute_url(href: str) -> str:
     return href if href.startswith("http") else BASE_URL + href
 
 
-def scrape_resource_page(client: httpx.Client, url: str) -> <PluginName>Item:
+async def scrape_resource_page(httpx_async_client: httpx.AsyncClient, url: str) -> <PluginName>Item:
     soup = BeautifulSoup(
-        client.get(url, headers=HEADERS, follow_redirects=True).raise_for_status().text,
+        (await httpx_async_client.get(url, headers=HEADERS, follow_redirects=True)).raise_for_status().text,
         "html.parser",
     )
     title = (soup.select_one("h1") or soup.new_tag("span")).get_text(strip=True)
@@ -310,11 +482,11 @@ def scrape_resource_page(client: httpx.Client, url: str) -> <PluginName>Item:
     return <PluginName>Item(title=title, url=url)
 
 
-def scrape_search_results(
-    client: httpx.Client, url: str = SEARCH_URL, max_results: int = MAX_RESULTS
+async def scrape_search_results(
+    httpx_async_client: httpx.AsyncClient, url: str = SEARCH_URL, max_results: int = MAX_RESULTS
 ) -> list[str]:
     soup = BeautifulSoup(
-        client.get(url, headers=HEADERS, follow_redirects=True).raise_for_status().text,
+        (await httpx_async_client.get(url, headers=HEADERS, follow_redirects=True)).raise_for_status().text,
         "html.parser",
     )
     urls: list[str] = []
@@ -327,20 +499,20 @@ def scrape_search_results(
     return urls
 
 
-def bulk_import(url: str = SEARCH_URL, max_results: int = MAX_RESULTS) -> list[<PluginName>Item]:
+async def bulk_import(url: str = SEARCH_URL, max_results: int = MAX_RESULTS) -> list[<PluginName>Item]:
     cache = Path(__file__).resolve().parent / "<plugin_name>_resources.json"
     if cache.exists():
         return <PluginName>Model.model_validate_json(cache.read_text()).root
     items: list[<PluginName>Item] = []
-    with httpx.Client(timeout=30) as client:
-        for resource_url in scrape_search_results(client, url, max_results):
-            items.append(scrape_resource_page(client, resource_url))
+    async with httpx.AsyncClient(timeout=30) as httpx_async_client:
+        for resource_url in await scrape_search_results(httpx_async_client, url, max_results):
+            items.append(await scrape_resource_page(httpx_async_client, resource_url))
     cache.write_text(<PluginName>Model(root=items).model_dump_json(indent=2))
     return items
 
 
 if __name__ == "__main__":
-    for i, item in enumerate(bulk_import(), start=1):
+    for i, item in enumerate(asyncio.run(bulk_import()), start=1):
         print(f"{i:>2}. {item.title!r}")
 ```
 

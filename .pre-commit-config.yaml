@@ -56,19 +56,19 @@ repos:
           - tomli
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.10
+    rev: v0.15.12
     hooks:
       - id: ruff-check
       - id: ruff-format
 
   - repo: https://github.com/rvben/rumdl-pre-commit
-    rev: v0.1.71
+    rev: v0.1.83
     hooks:
       - id: rumdl      # Lint only (fails on issues)
       # - id: rumdl-fmt  # Auto-format and fail if issues remain
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.21.0
+    rev: v2.21.1
     hooks:
       - id: pyproject-fmt
 
@@ -78,6 +78,24 @@ repos:
       - id: validate-pyproject
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.11.6
+    rev: 0.11.7
     hooks:
       - id: uv-lock
+
+  # Astral's `ty` — Python type checker (pre-release). Tracking ISKME#237.
+  # No upstream pre-commit repo yet (astral-sh/ty#269), so we declare a
+  # local hook and install ty into pre-commit's managed venv.
+  # Rule ignores live in pyproject.toml [tool.ty.rules]; ratchet them off
+  # as the underlying issues get fixed.
+  - repo: local
+    hooks:
+      - id: ty
+        name: ty (astral) — Python type checker
+        language: python
+        additional_dependencies:
+          - ty==0.0.32  # https://github.com/astral-sh/ty/releases
+        entry: ty check
+        args:
+          - --output-format=github
+        pass_filenames: false
+        types: [python]

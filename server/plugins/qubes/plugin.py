@@ -47,12 +47,22 @@ class QubesPlugin(OMEPlugin):
         It currently does not implement any functionality.
         """
         qubes_record = ModelItem.model_validate_json(json_payload)
+        creators = (
+            [qubes_record.creator]
+            if isinstance(qubes_record.creator, str)
+            else qubes_record.creator
+        )
+        subjects = (
+            [qubes_record.subject]
+            if isinstance(qubes_record.subject, str)
+            else qubes_record.subject
+        )
         return EducationResource(
             title=qubes_record.title,
             description=qubes_record.description,
-            authors=qubes_record.creator,
-            authoring_institution=qubes_record.identifier,
-            subject_tags=qubes_record.subjects,
+            authors=creators,
+            authoring_institution=qubes_record.identifier or "",
+            subject_tags=subjects,
             creation_date=qubes_record.date,
             last_modified_date=qubes_record.date,
         )

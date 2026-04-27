@@ -1,0 +1,52 @@
+[
+  {
+    "identifier": "0486_Finland_01_30_14_00",
+    "title": "Finland",
+    "description": "A short documentary exploring the geography, culture, and daily life of Finland, highlighting its lakes, forests, and Nordic traditions. Produced as part of the Encyclopaedia Britannica Films series.",
+    "creator": ["Encyclopaedia Britannica Films"],
+    "subject": ["Finland", "Geography", "Travelogue", "Documentary films", "Nordic countries"],
+    "date": "1939",
+    "licenseurl": "https://creativecommons.org/licenses/publicdomain/",
+    "mediatype": "movies"
+  },
+  {
+    "identifier": "0487_Finland_Builds_01_07_00_00",
+    "title": "Finland Builds",
+    "description": "An industrial and architectural documentary showing Finland's post-war reconstruction efforts, featuring modern buildings, factories, and infrastructure projects that symbolised national recovery.",
+    "creator": ["Finnish Film Foundation"],
+    "subject": ["Finland", "Architecture", "Reconstruction", "Industry", "Post-war"],
+    "date": "1952",
+    "licenseurl": "https://creativecommons.org/licenses/publicdomain/",
+    "mediatype": "movies"
+  },
+  {
+    "identifier": "0488_Land_of_the_Midnight_Sun_01_00_00_00",
+    "title": "Land of the Midnight Sun",
+    "description": "A travelogue film showcasing Finland's natural beauty under the midnight sun phenomenon, with scenes of Lapland, reindeer herding, and traditional Sami culture in the far north.",
+    "creator": ["Oy Suomi-Filmi Ab"],
+    "subject": ["Finland", "Lapland", "Midnight sun", "Travelogue", "Sami people", "Nature"],
+    "date": "1948",
+    "licenseurl": "https://creativecommons.org/licenses/publicdomain/",
+    "mediatype": "movies"
+  },
+  {
+    "identifier": "0489_Finnish_Farmer_01_00_00_00",
+    "title": "The Finnish Farmer",
+    "description": "Documents rural agricultural life in Finland, depicting traditional farming practices, seasonal work cycles, and the close relationship Finnish farmers maintained with the land and forests.",
+    "creator": ["Oy Suomi-Filmi Ab"],
+    "subject": ["Finland", "Agriculture", "Rural life", "Farming", "Documentary films"],
+    "date": "1945",
+    "licenseurl": "https://creativecommons.org/licenses/publicdomain/",
+    "mediatype": "movies"
+  },
+  {
+    "identifier": "0490_Helsinki_City_of_Design_01_00_00_00",
+    "title": "Helsinki: City of Design",
+    "description": "A promotional film celebrating Helsinki as a centre of modern Scandinavian design, showcasing furniture, glassware, ceramics, and architecture that brought Finnish craftsmanship to the world stage.",
+    "creator": ["Finnish Design Council"],
+    "subject": ["Finland", "Helsinki", "Design", "Architecture", "Finnish culture"],
+    "date": "1955",
+    "licenseurl": "https://creativecommons.org/licenses/publicdomain/",
+    "mediatype": "movies"
+  }
+]

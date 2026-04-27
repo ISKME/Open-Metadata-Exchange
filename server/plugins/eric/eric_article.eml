@@ -1,0 +1,137 @@
+Subject: Impact of Educational Technology-Based Learning Environment on
+ Students&apos; Achievement Goals, Motivational Constructs, and Engagement
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============7349004118996959101=="
+
+--===============7349004118996959101==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+{
+  "title": "Impact of Educational Technology-Based Learning Environment on St=
+udents&apos; Achievement Goals, Motivational Constructs, and Engagement",
+  "description": "Passive learning environments to teach programming concepts=
+, especially in large lecture classes, hinder students' motivation, performan=
+ce and may adversely affect their achievement goals. The study presents the u=
+se of two instructional strategies, teamwork, and reflective thinking, using =
+educational technologies introduced in a class of 120 first-year engineering =
+students. This study also presents the impact of educational technologies bas=
+ed learning environment on students' motivation, achievement goals, and engag=
+ement. [This paper was published in: \"Proceedings of ACM International Compu=
+ting Education Research (ICER'19), August 12-14, 2019, Toronto, ON, Canada,\"=
+ ACM, 2019, pp.321-322.]",
+  "authors": [
+    "Anwar, Saira"
+  ],
+  "authoring_institution": "",
+  "subject_tags": [
+    "Educational Technology",
+    "Technology Integration",
+    "Instructional Effectiveness",
+    "Teamwork",
+    "Active Learning",
+    "Reflection",
+    "Academic Achievement",
+    "Student Motivation",
+    "Goal Orientation",
+    "Learner Engagement",
+    "College Freshmen",
+    "Engineering Education",
+    "Computer Science Education",
+    "Programming",
+    "Introductory Courses",
+    "Lecture Method",
+    "Class Size"
+  ],
+  "creation_date": "2019-01-01T00:00:00Z",
+  "last_modified_date": "2019-01-01T00:00:00Z",
+  "source_url": "",
+  "version_url": "",
+  "spdx_license_expression": ""
+}
+
+--===============7349004118996959101==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="eric_item.json"
+MIME-Version: 1.0
+
+ewogICJpZCI6ICJFRDYxNjY3MSIsCiAgInBkZi11cmwiOiAiaHR0cHM6Ly9maWxlcy5lcmljLmVk
+Lmdvdi9mdWxsdGV4dC9FRDYxNjY3MS5wZGYiLAogICJ0aXRsZSI6ICJJbXBhY3Qgb2YgRWR1Y2F0
+aW9uYWwgVGVjaG5vbG9neS1CYXNlZCBMZWFybmluZyBFbnZpcm9ubWVudCBvbiBTdHVkZW50cyZh
+cG9zOyBBY2hpZXZlbWVudCBHb2FscywgTW90aXZhdGlvbmFsIENvbnN0cnVjdHMsIGFuZCBFbmdh
+Z2VtZW50IiwKICAiZGVzY3JpcHRpb24iOiAiUGFzc2l2ZSBsZWFybmluZyBlbnZpcm9ubWVudHMg
+dG8gdGVhY2ggcHJvZ3JhbW1pbmcgY29uY2VwdHMsIGVzcGVjaWFsbHkgaW4gbGFyZ2UgbGVjdHVy
+ZSBjbGFzc2VzLCBoaW5kZXIgc3R1ZGVudHMnIG1vdGl2YXRpb24sIHBlcmZvcm1hbmNlIGFuZCBt
+YXkgYWR2ZXJzZWx5IGFmZmVjdCB0aGVpciBhY2hpZXZlbWVudCBnb2Fscy4gVGhlIHN0dWR5IHBy
+ZXNlbnRzIHRoZSB1c2Ugb2YgdHdvIGluc3RydWN0aW9uYWwgc3RyYXRlZ2llcywgdGVhbXdvcmss
+IGFuZCByZWZsZWN0aXZlIHRoaW5raW5nLCB1c2luZyBlZHVjYXRpb25hbCB0ZWNobm9sb2dpZXMg
+aW50cm9kdWNlZCBpbiBhIGNsYXNzIG9mIDEyMCBmaXJzdC15ZWFyIGVuZ2luZWVyaW5nIHN0dWRl
+bnRzLiBUaGlzIHN0dWR5IGFsc28gcHJlc2VudHMgdGhlIGltcGFjdCBvZiBlZHVjYXRpb25hbCB0
+ZWNobm9sb2dpZXMgYmFzZWQgbGVhcm5pbmcgZW52aXJvbm1lbnQgb24gc3R1ZGVudHMnIG1vdGl2
+YXRpb24sIGFjaGlldmVtZW50IGdvYWxzLCBhbmQgZW5nYWdlbWVudC4gW1RoaXMgcGFwZXIgd2Fz
+IHB1Ymxpc2hlZCBpbjogXCJQcm9jZWVkaW5ncyBvZiBBQ00gSW50ZXJuYXRpb25hbCBDb21wdXRp
+bmcgRWR1Y2F0aW9uIFJlc2VhcmNoIChJQ0VSJzE5KSwgQXVndXN0IDEyLTE0LCAyMDE5LCBUb3Jv
+bnRvLCBPTiwgQ2FuYWRhLFwiIEFDTSwgMjAxOSwgcHAuMzIxLTMyMi5dIiwKICAiZV9mdWxsdGV4
+dGF1dGgiOiAiMSIsCiAgInNvdXJjZSI6ICJHcmFudGVlIFN1Ym1pc3Npb24iLAogICJwdWJsaWNh
+dGlvbmRhdGV5ZWFyIjogIjIwMTkiLAogICJhYnN0cmFjdG9yIjogIkFzIFByb3ZpZGVkIiwKICAi
+cGVlcnJldmlld2VkIjogIlQiLAogICJlX3llYXJhZGRlZCI6ICIyMDIyIiwKICAiaWVzZnVuZGVk
+IjogIlkiLAogICJlX2RhdGVtb2RpZmllZCI6ICIiLAogICJwdWJsaXNoZXIiOiAiIiwKICAiaWVz
+bGlua3B1YmxpY2F0aW9uIjogIiIsCiAgInVybCI6ICJodHRwczovL2RvaS5vcmcvMTAuMTE0NS8z
+MjkxMjc5LjMzMzk0NDEiLAogICJzb3VyY2VpZCI6ICJQYXBlciBwcmVzZW50ZWQgYXQgdGhlIEFD
+TSBDb25mZXJlbmNlIG9uIEludGVybmF0aW9uYWwgQ29tcHV0aW5nIEVkdWNhdGlvbiBSZXNlYXJj
+aCAoSUNFUicxOSkgKFRvcm9udG8sIENhbmFkYSwgQXVnIDEyLTE0LCAyMDE5KSIsCiAgImllc3d3
+Y3Jldmlld2VkIjogIiIsCiAgImllc2xpbmt3d2NyZXZpZXdndWlkZSI6ICIiLAogICJpZXNsaW5r
+ZGF0YXNvdXJjZSI6ICIiLAogICJzdWJqZWN0IjogIkVkdWNhdGlvbmFsIFRlY2hub2xvZ3l8VGVj
+aG5vbG9neSBJbnRlZ3JhdGlvbnxJbnN0cnVjdGlvbmFsIEVmZmVjdGl2ZW5lc3N8VGVhbXdvcmt8
+QWN0aXZlIExlYXJuaW5nfFJlZmxlY3Rpb258QWNhZGVtaWMgQWNoaWV2ZW1lbnR8U3R1ZGVudCBN
+b3RpdmF0aW9ufEdvYWwgT3JpZW50YXRpb258TGVhcm5lciBFbmdhZ2VtZW50fENvbGxlZ2UgRnJl
+c2htZW58RW5naW5lZXJpbmcgRWR1Y2F0aW9ufENvbXB1dGVyIFNjaWVuY2UgRWR1Y2F0aW9ufFBy
+b2dyYW1taW5nfEludHJvZHVjdG9yeSBDb3Vyc2VzfExlY3R1cmUgTWV0aG9kfENsYXNzIFNpemUi
+LAogICJhdXRob3IiOiAiQW53YXIsIFNhaXJhIiwKICAiYXV0aG9yeGxpbmsiOiAiIiwKICAiZWR1
+Y2F0aW9ubGV2ZWwiOiAiSGlnaGVyIEVkdWNhdGlvbnxQb3N0c2Vjb25kYXJ5IEVkdWNhdGlvbiIs
+CiAgInB1YmxpY2F0aW9udHlwZSI6ICJSZXBvcnRzIC0gUmVzZWFyY2h8U3BlZWNoZXMvTWVldGlu
+ZyBQYXBlcnMiLAogICJpZXNncmFudGNvbnRyYWN0bnVtIjogIlIzMDVBMTgwNDc3IiwKICAiaWVz
+Z3JhbnRjb250cmFjdG51bXhsaW5rIjogImh0dHBzOi8vaWVzLmVkLmdvdi9mdW5kaW5nL2dyYW50
+c2VhcmNoL2RldGFpbHMuYXNwP0lEPTIxMzAiLAogICJsYW5ndWFnZSI6ICJFbmdsaXNoIiwKICAi
+aW5zdGl0dXRpb24iOiAiIiwKICAiaWRlbnRpZmllcnNnZW8iOiAiIiwKICAic3BvbnNvciI6ICJJ
+bnN0aXR1dGUgb2YgRWR1Y2F0aW9uIFNjaWVuY2VzIChFRCkiLAogICJpZGVudGlmaWVyc3Rlc3Qi
+OiAiIiwKICAiaXNzbiI6ICJFSVNTTi0iLAogICJpZXNjaXRlZCI6ICIiLAogICJpZGVudGlmaWVy
+c2xhdyI6ICIiLAogICJhdWRpZW5jZSI6ICIiLAogICJpc2JuIjogIiIKfQo=
+
+--===============7349004118996959101==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="eric_ome_item.json"
+MIME-Version: 1.0
+
+ewogICJ0aXRsZSI6ICJJbXBhY3Qgb2YgRWR1Y2F0aW9uYWwgVGVjaG5vbG9neS1CYXNlZCBMZWFy
+bmluZyBFbnZpcm9ubWVudCBvbiBTdHVkZW50cyZhcG9zOyBBY2hpZXZlbWVudCBHb2FscywgTW90
+aXZhdGlvbmFsIENvbnN0cnVjdHMsIGFuZCBFbmdhZ2VtZW50IiwKICAiZGVzY3JpcHRpb24iOiAi
+UGFzc2l2ZSBsZWFybmluZyBlbnZpcm9ubWVudHMgdG8gdGVhY2ggcHJvZ3JhbW1pbmcgY29uY2Vw
+dHMsIGVzcGVjaWFsbHkgaW4gbGFyZ2UgbGVjdHVyZSBjbGFzc2VzLCBoaW5kZXIgc3R1ZGVudHMn
+IG1vdGl2YXRpb24sIHBlcmZvcm1hbmNlIGFuZCBtYXkgYWR2ZXJzZWx5IGFmZmVjdCB0aGVpciBh
+Y2hpZXZlbWVudCBnb2Fscy4gVGhlIHN0dWR5IHByZXNlbnRzIHRoZSB1c2Ugb2YgdHdvIGluc3Ry
+dWN0aW9uYWwgc3RyYXRlZ2llcywgdGVhbXdvcmssIGFuZCByZWZsZWN0aXZlIHRoaW5raW5nLCB1
+c2luZyBlZHVjYXRpb25hbCB0ZWNobm9sb2dpZXMgaW50cm9kdWNlZCBpbiBhIGNsYXNzIG9mIDEy
+MCBmaXJzdC15ZWFyIGVuZ2luZWVyaW5nIHN0dWRlbnRzLiBUaGlzIHN0dWR5IGFsc28gcHJlc2Vu
+dHMgdGhlIGltcGFjdCBvZiBlZHVjYXRpb25hbCB0ZWNobm9sb2dpZXMgYmFzZWQgbGVhcm5pbmcg
+ZW52aXJvbm1lbnQgb24gc3R1ZGVudHMnIG1vdGl2YXRpb24sIGFjaGlldmVtZW50IGdvYWxzLCBh
+bmQgZW5nYWdlbWVudC4gW1RoaXMgcGFwZXIgd2FzIHB1Ymxpc2hlZCBpbjogXCJQcm9jZWVkaW5n
+cyBvZiBBQ00gSW50ZXJuYXRpb25hbCBDb21wdXRpbmcgRWR1Y2F0aW9uIFJlc2VhcmNoIChJQ0VS
+JzE5KSwgQXVndXN0IDEyLTE0LCAyMDE5LCBUb3JvbnRvLCBPTiwgQ2FuYWRhLFwiIEFDTSwgMjAx
+OSwgcHAuMzIxLTMyMi5dIiwKICAiYXV0aG9ycyI6IFsKICAgICJBbndhciwgU2FpcmEiCiAgXSwK
+ICAiYXV0aG9yaW5nX2luc3RpdHV0aW9uIjogIiIsCiAgInN1YmplY3RfdGFncyI6IFsKICAgICJF
+ZHVjYXRpb25hbCBUZWNobm9sb2d5IiwKICAgICJUZWNobm9sb2d5IEludGVncmF0aW9uIiwKICAg
+ICJJbnN0cnVjdGlvbmFsIEVmZmVjdGl2ZW5lc3MiLAogICAgIlRlYW13b3JrIiwKICAgICJBY3Rp
+dmUgTGVhcm5pbmciLAogICAgIlJlZmxlY3Rpb24iLAogICAgIkFjYWRlbWljIEFjaGlldmVtZW50
+IiwKICAgICJTdHVkZW50IE1vdGl2YXRpb24iLAogICAgIkdvYWwgT3JpZW50YXRpb24iLAogICAg
+IkxlYXJuZXIgRW5nYWdlbWVudCIsCiAgICAiQ29sbGVnZSBGcmVzaG1lbiIsCiAgICAiRW5naW5l
+ZXJpbmcgRWR1Y2F0aW9uIiwKICAgICJDb21wdXRlciBTY2llbmNlIEVkdWNhdGlvbiIsCiAgICAi
+UHJvZ3JhbW1pbmciLAogICAgIkludHJvZHVjdG9yeSBDb3Vyc2VzIiwKICAgICJMZWN0dXJlIE1l
+dGhvZCIsCiAgICAiQ2xhc3MgU2l6ZSIKICBdLAogICJjcmVhdGlvbl9kYXRlIjogIjIwMTktMDEt
+MDFUMDA6MDA6MDBaIiwKICAibGFzdF9tb2RpZmllZF9kYXRlIjogIjIwMTktMDEtMDFUMDA6MDA6
+MDBaIiwKICAic291cmNlX3VybCI6ICIiLAogICJ2ZXJzaW9uX3VybCI6ICIiLAogICJzcGR4X2xp
+Y2Vuc2VfZXhwcmVzc2lvbiI6ICIiCn0K
+
+--===============7349004118996959101==--

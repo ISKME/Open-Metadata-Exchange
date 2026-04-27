@@ -1,30 +1,38 @@
 {
-  "id": "EJ1166550",
-  "title": "On Parallel Software Engineering Education Using Python",
-  "author": [
-    "Marowka, Ami"
-  ],
-  "description": "Python is gaining popularity in academia as the preferred language to teach novices serial programming. The syntax of Python is clean, easy, and simple to understand. At the same time, it is a high-level programming language that supports multi programming paradigms such as imperative, functional, and object-oriented. Therefore, by default, it is almost obvious to believe that Python is also the appropriate language for teaching parallel programming paradigms. This paper presents an in-depth study that examines to what extent Python language is suitable for teaching parallel programming to inexperienced students. The findings show that Python has stumbling blocks that prevent it from preserving its advantages when shifting from serial programming to parallel programming. Therefore, choosing Python as the first language for teaching parallel programming calls for strong justifications, especially when better solutions exist in the community.",
-  "subject": [
-    "Computer Science Education",
-    "Programming Languages",
-    "Computer Software",
-    "Engineering Education",
-    "Novices",
-    "Educational Benefits",
-    "Barriers"
-  ],
-  "publicationtype": [
-    "Journal Articles",
-    "Reports - Research"
-  ],
-  "publicationdateyear": 2018,
-  "language": [
-    "English"
-  ],
-  "issn": [
-    "ISSN-1360-2357"
-  ],
-  "publisher": "Springer. 233 Spring Street, New York, NY 10013. Tel: 800-777-4643; Tel: 212-460-1500; Fax: 212-348-4505; e-mail: service-ny@springer.com; Web site: http://www.springerlink.com",
-  "peerreviewed": "T"
+  "id": "ED616671",
+  "pdf-url": "https://files.eric.ed.gov/fulltext/ED616671.pdf",
+  "title": "Impact of Educational Technology-Based Learning Environment on Students&apos; Achievement Goals, Motivational Constructs, and Engagement",
+  "description": "Passive learning environments to teach programming concepts, especially in large lecture classes, hinder students' motivation, performance and may adversely affect their achievement goals. The study presents the use of two instructional strategies, teamwork, and reflective thinking, using educational technologies introduced in a class of 120 first-year engineering students. This study also presents the impact of educational technologies based learning environment on students' motivation, achievement goals, and engagement. [This paper was published in: \"Proceedings of ACM International Computing Education Research (ICER'19), August 12-14, 2019, Toronto, ON, Canada,\" ACM, 2019, pp.321-322.]",
+  "e_fulltextauth": "1",
+  "source": "Grantee Submission",
+  "publicationdateyear": "2019",
+  "abstractor": "As Provided",
+  "peerreviewed": "T",
+  "e_yearadded": "2022",
+  "iesfunded": "Y",
+  "e_datemodified": "",
+  "publisher": "",
+  "ieslinkpublication": "",
+  "url": "https://doi.org/10.1145/3291279.3339441",
+  "sourceid": "Paper presented at the ACM Conference on International Computing Education Research (ICER'19) (Toronto, Canada, Aug 12-14, 2019)",
+  "ieswwcreviewed": "",
+  "ieslinkwwcreviewguide": "",
+  "ieslinkdatasource": "",
+  "subject": "Educational Technology|Technology Integration|Instructional Effectiveness|Teamwork|Active Learning|Reflection|Academic Achievement|Student Motivation|Goal Orientation|Learner Engagement|College Freshmen|Engineering Education|Computer Science Education|Programming|Introductory Courses|Lecture Method|Class Size",
+  "author": "Anwar, Saira",
+  "authorxlink": "",
+  "educationlevel": "Higher Education|Postsecondary Education",
+  "publicationtype": "Reports - Research|Speeches/Meeting Papers",
+  "iesgrantcontractnum": "R305A180477",
+  "iesgrantcontractnumxlink": "https://ies.ed.gov/funding/grantsearch/details.asp?ID=2130",
+  "language": "English",
+  "institution": "",
+  "identifiersgeo": "",
+  "sponsor": "Institute of Education Sciences (ED)",
+  "identifierstest": "",
+  "issn": "EISSN-",
+  "iescited": "",
+  "identifierslaw": "",
+  "audience": "",
+  "isbn": ""
 }
