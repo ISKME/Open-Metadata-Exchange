@@ -16,7 +16,7 @@ import pytest
 
 try:
     import tomllib
-except ModuleNotFoundError:
+except ImportError:
     import tomli as tomllib  # type: ignore[no-redef]
 
 import yaml
@@ -59,8 +59,9 @@ def test_ty_hook_is_declared(ty_hook: dict) -> None:
 
 def test_ty_hook_has_pinned_dependency(ty_hook: dict) -> None:
     deps = ty_hook.get("additional_dependencies", [])
+    ty_deps = [d for d in deps if d.lower().startswith("ty")]
     assert any(d.startswith("ty==") for d in deps), (
-        f"ty must be pinned to an exact version in additional_dependencies; got {deps}"
+        f"ty must be pinned to an exact version in additional_dependencies; got {ty_deps}"
     )
 
 
