@@ -61,7 +61,8 @@ def test_ty_hook_has_pinned_dependency(ty_hook: dict) -> None:
     deps = ty_hook.get("additional_dependencies", [])
     ty_deps = [d for d in deps if d.lower().startswith("ty")]
     assert any(d.startswith("ty==") for d in deps), (
-        f"ty must be pinned to an exact version in additional_dependencies; got {ty_deps}"
+        "ty must be pinned to an exact version in additional_dependencies; "
+        f"got {ty_deps}"
     )
 
 
@@ -87,7 +88,8 @@ def test_ty_hook_has_no_ignore_args(ty_hook: dict) -> None:
     # Ignore rules live in pyproject.toml [tool.ty.rules], not in hook args.
     ignore_args = [a for a in ty_hook.get("args", []) if a.startswith("--ignore=")]
     assert ignore_args == [], (
-        f"--ignore flags should be in pyproject.toml [tool.ty.rules], not hook args; found: {ignore_args}"
+        "--ignore flags should be in pyproject.toml [tool.ty.rules], not hook args; "
+        f"found: {ignore_args}"
     )
 
 
