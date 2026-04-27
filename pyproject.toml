@@ -74,6 +74,8 @@ rules.no-matching-overload = "ignore"
 rules.not-subscriptable = "ignore"
 rules.unresolved-attribute = "ignore"
 rules.unresolved-import = "ignore"
+rules.unresolved-reference = "ignore"
+src.exclude = [ "server/plugins/moodle/extract-mbz3.py" ]
 
 [tool.rumdl]
 disable = [

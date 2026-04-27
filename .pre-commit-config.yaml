@@ -56,13 +56,13 @@ repos:
           - tomli
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.11
+    rev: v0.15.12
     hooks:
       - id: ruff-check
       - id: ruff-format
 
   - repo: https://github.com/rvben/rumdl-pre-commit
-    rev: v0.1.76
+    rev: v0.1.83
     hooks:
       - id: rumdl      # Lint only (fails on issues)
       # - id: rumdl-fmt  # Auto-format and fail if issues remain
@@ -93,9 +93,9 @@ repos:
         name: ty (astral) — Python type checker
         language: python
         additional_dependencies:
-          - ty==0.0.31
+          - ty==0.0.32  # https://github.com/astral-sh/ty/releases
         entry: ty check
         args:
-          - --output-format=concise
+          - --output-format=github
         pass_filenames: false
         types: [python]
