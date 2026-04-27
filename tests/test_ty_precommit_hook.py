@@ -28,9 +28,6 @@ REQUIRED_IGNORED_RULES = frozenset(
     {
         "invalid-argument-type",
         "invalid-assignment",
-        "invalid-return-type",
-        "no-matching-overload",
-        "not-subscriptable",
         "unresolved-attribute",
         "unresolved-import",
     },
