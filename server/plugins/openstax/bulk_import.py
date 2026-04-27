@@ -76,7 +76,7 @@ def _extract_json_ld_books(payload: object) -> Iterator[OpenStaxBook]:
             )
             yield OpenStaxBook(
                 title=title.strip(),
-                description=str(payload.get("description", "")).strip(),
+                description=str(payload.get("description") or "").strip(),
                 authors=_authors_from_value(payload.get("author")),
                 subject_tags=["computer science"],
                 source_url=source_url,
