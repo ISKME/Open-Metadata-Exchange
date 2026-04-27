@@ -58,3 +58,30 @@ git push
 ```
 
 You should perform the `pre-commit` steps above to ensure some local testing before your work gets reviewed.
+
+## Make a release
+
+Releases use [calendar versioning](https://calver.org) in the format `yyyy.mm.dd`.
+
+### Required permissions
+
+Creating a release requires **Write** (or higher) repository access on GitHub.
+
+### Using GitHub Actions (recommended)
+
+1. Go to [Actions → release](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/release.yml).
+2. Click **Run workflow**.
+3. Enter the version in `yyyy.mm.dd` format (e.g. `2026.04.27`).
+4. Click **Run workflow** to confirm.
+
+GitHub will create a tag on `main`, generate release notes from merged pull requests since the
+previous tag, and publish the release at <https://github.com/ISKME/Open-Metadata-Exchange/releases>.
+
+### Manual alternative
+
+1. Go to <https://github.com/ISKME/Open-Metadata-Exchange/releases> and click **Draft a new release**.
+2. In **Choose a tag**, type the new version (e.g. `2026.04.27`) and select **Create new tag on publish**.
+3. Set **Target** to `main`.
+4. Set the release title to the tag name.
+5. Click **Generate release notes**.
+6. Click **Publish release**.
