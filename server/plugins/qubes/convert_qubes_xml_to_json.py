@@ -104,7 +104,7 @@ def convert_xml_to_json(xml_file: os.PathLike, json_file: os.PathLike) -> None:
     root = tree.getroot()
 
     # Convert XML to dictionary
-    xml_dict = xml_to_dict(root)
+    xml_dict = xml_to_dict(root) or {}
     # For each record in the ListRecords tag, keep only the data in the metadata dc tag
     # "{http://www.openarchives.org/OAI/2.0/}ListRecords": {
     #    "{http://www.openarchives.org/OAI/2.0/}record": [
