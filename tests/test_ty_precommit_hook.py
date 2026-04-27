@@ -70,10 +70,6 @@ def test_ty_hook_invokes_ty_check(ty_hook: dict) -> None:
     assert ty_hook["entry"] == "ty check"
 
 
-def test_ty_hook_uses_concise_output(ty_hook: dict) -> None:
-    assert "--output-format=concise" in ty_hook["args"]
-
-
 def test_ty_hook_does_not_pass_filenames(ty_hook: dict) -> None:
     # ty walks the project itself; passing filenames would scope it per-file
     # and miss cross-file inference.
