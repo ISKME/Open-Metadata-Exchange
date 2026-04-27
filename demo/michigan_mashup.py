@@ -50,7 +50,8 @@ def getty(page: str) -> str:
 async def fetch_text(url: str) -> str:
     async with httpx.AsyncClient() as httpx_async_client:
         try:
-            return (await httpx_async_client.get(url)).check_for_status().text
+            response = await httpx_async_client.get(url)
+            return response.check_for_status().text
         except httpx.HTTPStatusError:
             print(f"Failed to fetch {url}: {response.status_code}")
             raise

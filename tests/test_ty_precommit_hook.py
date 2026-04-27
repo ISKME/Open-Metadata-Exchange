@@ -8,29 +8,20 @@ The ignore list reflects the current ty pre-release ruleset.  Ratchet these
 off in follow-up PRs as the codebase cleans up.
 """
 
-from __future__ import annotations
-
+import tomllib
 from pathlib import Path
 
 import pytest
-
-try:
-    import tomllib
-except ImportError:
-    import tomli as tomllib  # type: ignore[no-redef]
-
 import yaml
 
-CONFIG_PATH = Path(__file__).parent.parent / ".pre-commit-config.yaml"
-PYPROJECT_PATH = Path(__file__).parent.parent / "pyproject.toml"
+HERE = Path(__file__).parent.parent
+CONFIG_PATH = HERE / ".pre-commit-config.yaml"
+PYPROJECT_PATH = HERE / "pyproject.toml"
 
 REQUIRED_IGNORED_RULES = frozenset(
     {
         "invalid-argument-type",
         "invalid-assignment",
-        "invalid-return-type",
-        "no-matching-overload",
-        "not-subscriptable",
         "unresolved-attribute",
         "unresolved-import",
     },
