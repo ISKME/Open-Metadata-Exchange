@@ -64,6 +64,17 @@ skip = """\
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
 
+[tool.ty]
+# These rules produce errors in the current codebase; ratchet off as issues are fixed.
+# Rules from PR #293's --ignore list that produced zero errors have been omitted.
+rules.invalid-argument-type = "ignore"
+rules.invalid-assignment = "ignore"
+rules.invalid-return-type = "ignore"
+rules.no-matching-overload = "ignore"
+rules.not-subscriptable = "ignore"
+rules.unresolved-attribute = "ignore"
+rules.unresolved-import = "ignore"
+
 [tool.rumdl]
 disable = [
   "MD001",
