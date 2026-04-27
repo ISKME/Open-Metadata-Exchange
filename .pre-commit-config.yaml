@@ -81,3 +81,21 @@ repos:
     rev: 0.11.7
     hooks:
       - id: uv-lock
+
+  # Astral's `ty` — Python type checker (pre-release). Tracking ISKME#237.
+  # No upstream pre-commit repo yet (astral-sh/ty#269), so we declare a
+  # local hook and install ty into pre-commit's managed venv.
+  # Rule ignores live in pyproject.toml [tool.ty.rules]; ratchet them off
+  # as the underlying issues get fixed.
+  - repo: local
+    hooks:
+      - id: ty
+        name: ty (astral) — Python type checker
+        language: python
+        additional_dependencies:
+          - ty==0.0.31
+        entry: ty check
+        args:
+          - --output-format=concise
+        pass_filenames: false
+        types: [python]
