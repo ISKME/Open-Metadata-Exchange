@@ -32,6 +32,23 @@ docker compose build
 docker compose up
 open http://localhost:5001
 ```
+
+## Prebuilt Docker images
+
+Prebuilt OME images are published as releases on GitHub (GitHub
+Container Registry, under this repository's **Packages** tab):
+
+```bash
+# Backend (FastAPI server)
+docker pull ghcr.io/iskme/open-metadata-exchange/server:latest
+
+# Frontend (nginx + React)
+docker pull ghcr.io/iskme/open-metadata-exchange/frontend:latest
+```
+
+Each push to `main` publishes `:latest` and `:main-<shortsha>`. Git tags
+matching `v*.*.*` publish semver tags (`:1.2.3`, `:1.2`, `:1`). See
+[`.github/workflows/docker-publish.yml`](./.github/workflows/docker-publish.yml).
 * [InterNetNews](https://github.com/InterNetNews/inn) (INN) backend that houses the metadata.
     * <https://www.isc.org/othersoftware/#INN>
     * <https://www.eyrie.org/~eagle/software/inn/docs-2.7>
