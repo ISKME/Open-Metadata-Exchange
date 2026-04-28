@@ -1,17 +1,17 @@
-/* eslint-disable no-console */
 /* eslint-disable max-len */
 // @ts-nocheck
-import axios from 'axios'
-import qs from 'qs'
-import { AppDispatch } from 'app/providers/StoreProvider/config/store'
-import { casesSlice } from '../slice/CasesSlice'
+import axios from 'axios';
+import qs from 'qs';
+import { AppDispatch } from 'app/providers/StoreProvider/config/store';
 import { extractUrlParams } from 'shared/lib/global';
+import { debug } from 'shared/debug';
+import { casesSlice } from '../slice/CasesSlice';
 
 export const fetchCases = (URL, groupId = '', folderId = '', subFolderId = '', resources = false) => async (dispatch: AppDispatch) => {
-  const params = extractUrlParams()
-  if (groupId) params['f.group'] = groupId
-  if (folderId) params['f.folder'] = folderId
-  if (subFolderId) params['f.subfolder'] = subFolderId
+  const params = extractUrlParams();
+  if (groupId) params['f.group'] = groupId;
+  if (folderId) params['f.folder'] = folderId;
+  if (subFolderId) params['f.subfolder'] = subFolderId;
   try {
     // const paramsSerializer = (params) => qs.stringify(params, { arrayFormat: 'repeat' })
     // const { data } = await axios.get(URL, { params, paramsSerializer })
@@ -27,10 +27,10 @@ export const fetchCases = (URL, groupId = '', folderId = '', subFolderId = '', r
     //   framework.tags = tags
     // }
     // dispatch(casesSlice.actions.casesFetching({ ...data.resources, framework }))
-    params.source = resources ? 'submitted' : 'courseware'
-    const { data } = await axios.get(URL, { params, paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }) })
-    dispatch(casesSlice.actions.casesFetching(data.resources))
+    params.source = resources ? 'submitted' : 'courseware';
+    const { data } = await axios.get(URL, { params, paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }) });
+    dispatch(casesSlice.actions.casesFetching(data.resources));
   } catch (e) {
-    console.log(e)
+    debug(e);
   }
 };

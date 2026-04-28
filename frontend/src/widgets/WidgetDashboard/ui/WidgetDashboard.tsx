@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
   Dialog,
   DialogActions,
@@ -10,22 +10,23 @@ import {
   Checkbox,
   FormControlLabel,
   Switch,
-} from "@mui/material";
+} from '@mui/material';
 
-import styles from "./WidgetDashboard.module.scss";
-import { generateDefaultContent } from "../constants";
+import { debug } from 'shared/debug';
+import styles from './WidgetDashboard.module.scss';
+import { generateDefaultContent } from '../constants';
 
 export const WidgetDashboard: React.FC = () => {
   const [pages, setPages] = useState<any[]>([]);
   const [images, setImages] = useState<any[]>([]);
-  const [csrfToken, setCsrfToken] = useState<string>("");
+  const [csrfToken, setCsrfToken] = useState<string>('');
   const [editingPageId, setEditingPageId] = useState<number | null>(null);
-  const [editingPageName, setEditingPageName] = useState<string>("");
+  const [editingPageName, setEditingPageName] = useState<string>('');
   const [openModal, setOpenModal] = useState(false);
-  const [pageName, setPageName] = useState("");
+  const [pageName, setPageName] = useState('');
   const [enabled, setEnabled] = useState(false);
   const [editingImageId, setEditingImageId] = useState<number | null>(null);
-  const [editingImageName, setEditingImageName] = useState<string>("");
+  const [editingImageName, setEditingImageName] = useState<string>('');
 
   // Open modal to create a new page
   const handleOpenModal = () => {
@@ -40,20 +41,18 @@ export const WidgetDashboard: React.FC = () => {
   // Load pages and images on component mount
   useEffect(() => {
     axios
-      .get("/api/csrf-token/")
+      .get('/api/csrf-token/')
       .then((response) => {
         setCsrfToken(response.data.token);
-        return axios.get("/api/pages/v1/admin/");
+        return axios.get('/api/pages/v1/admin/');
       })
       .then((response) => setPages(response.data))
-      .catch((error) =>
-        console.error("Error loading pages or CSRF token:", error)
-      );
+      .catch((error) => console.error('Error loading pages or CSRF token:', error));
 
     axios
-      .get("/api/pages/v1/images/")
+      .get('/api/pages/v1/images/')
       .then((response) => setImages(response.data))
-      .catch((error) => console.error("Error loading images:", error));
+      .catch((error) => console.error('Error loading images:', error));
   }, []);
 
   // Delete page
@@ -61,14 +60,14 @@ export const WidgetDashboard: React.FC = () => {
     axios
       .delete(`/api/pages/v1/admin/${id}/`, {
         headers: {
-          "X-CSRFToken": csrfToken,
+          'X-CSRFToken': csrfToken,
         },
       })
       .then(() => {
         setPages(pages.filter((page) => page.id !== id));
-        alert("Page deleted successfully");
+        alert('Page deleted successfully');
       })
-      .catch((error) => console.error("Error deleting page:", error));
+      .catch((error) => console.error('Error deleting page:', error));
   };
 
   // Edit page
@@ -79,38 +78,36 @@ export const WidgetDashboard: React.FC = () => {
   // Save new page and reload list
   const handleSave = () => {
     if (!pageName) {
-      alert("Please enter a widget name");
+      alert('Please enter a widget name');
       return;
     }
 
     const data = {
       name: pageName,
       content: JSON.stringify(generateDefaultContent()),
-      styles: "",
+      styles: '',
       enabled,
     };
 
     axios
-      .post("/api/pages/v1/admin/", data, {
+      .post('/api/pages/v1/admin/', data, {
         headers: {
-          "X-CSRFToken": csrfToken,
-          "Content-Type": "application/json",
+          'X-CSRFToken': csrfToken,
+          'Content-Type': 'application/json',
         },
       })
       .then(() => {
         setOpenModal(false);
         // Reload the page list
-        return axios.get("/api/pages/v1/admin/");
+        return axios.get('/api/pages/v1/admin/');
       })
       .then((response) => setPages(response.data))
-      .catch((error) => console.error("Error saving widget:", error));
+      .catch((error) => console.error('Error saving widget:', error));
   };
 
   // Enable or disable a page
   const handleEnabledChange = (id: number, enabled: boolean) => {
-    const updatedPages = pages.map((page) =>
-      page.id === id ? { ...page, enabled } : page
-    );
+    const updatedPages = pages.map((page) => (page.id === id ? { ...page, enabled } : page));
     setPages(updatedPages);
 
     const pageToUpdate = updatedPages.find((page) => page.id === id);
@@ -118,12 +115,12 @@ export const WidgetDashboard: React.FC = () => {
       axios
         .put(`/api/pages/v1/admin/${id}/`, pageToUpdate, {
           headers: {
-            "X-CSRFToken": csrfToken,
-            "Content-Type": "application/json",
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json',
           },
         })
-        .then(() => console.log("Page updated successfully"))
-        .catch((error) => console.error("Error updating page:", error));
+        .then(() => debug('Page updated successfully'))
+        .catch((error) => console.error('Error updating page:', error));
     }
   };
 
@@ -137,43 +134,41 @@ export const WidgetDashboard: React.FC = () => {
           { ...pageToUpdate, name: newName },
           {
             headers: {
-              "X-CSRFToken": csrfToken,
-              "Content-Type": "application/json",
+              'X-CSRFToken': csrfToken,
+              'Content-Type': 'application/json',
             },
-          }
+          },
         )
         .then(() => {
           setPages(
-            pages.map((page) =>
-              page.id === id ? { ...page, name: newName } : page
-            )
+            pages.map((page) => (page.id === id ? { ...page, name: newName } : page)),
           );
           setEditingPageId(null);
         })
-        .catch((error) => console.error("Error updating page name:", error));
+        .catch((error) => console.error('Error updating page name:', error));
     }
   };
 
   // Add new image
   const handleAddNewImages = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
+    const { files } = event.target;
     if (files && files.length === 1) {
       const formData = new FormData();
-      formData.append("image", files[0]);
+      formData.append('image', files[0]);
 
       axios
-        .post("/api/pages/v1/images/", formData, {
+        .post('/api/pages/v1/images/', formData, {
           headers: {
-            "X-CSRFToken": csrfToken,
-            "Content-Type": "multipart/form-data",
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'multipart/form-data',
           },
         })
         .then((response) => {
           setImages([response.data, ...images]);
         })
-        .catch((error) => console.error("Error uploading image:", error));
+        .catch((error) => console.error('Error uploading image:', error));
     } else {
-      alert("Please select only one file.");
+      alert('Please select only one file.');
     }
   };
 
@@ -182,14 +177,14 @@ export const WidgetDashboard: React.FC = () => {
     axios
       .delete(`/api/pages/v1/images/${id}/`, {
         headers: {
-          "X-CSRFToken": csrfToken,
+          'X-CSRFToken': csrfToken,
         },
       })
       .then(() => {
         setImages(images.filter((image) => image.id !== id));
-        alert("Image deleted successfully");
+        alert('Image deleted successfully');
       })
-      .catch((error) => console.error("Error deleting image:", error));
+      .catch((error) => console.error('Error deleting image:', error));
   };
 
   // Edit image name with auto-save
@@ -197,24 +192,22 @@ export const WidgetDashboard: React.FC = () => {
     const imageToUpdate = images.find((image) => image.id === id);
     if (imageToUpdate) {
       const formData = new FormData();
-      formData.append("name", editingImageName);
+      formData.append('name', editingImageName);
 
       axios
         .put(`/api/pages/v1/images/${id}/`, formData, {
           headers: {
-            "X-CSRFToken": csrfToken,
-            "Content-Type": "multipart/form-data",
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'multipart/form-data',
           },
         })
         .then((response) => {
           setImages(
-            images.map((image) =>
-              image.id === id ? { ...response.data } : image
-            )
+            images.map((image) => (image.id === id ? { ...response.data } : image)),
           );
           setEditingImageId(null);
         })
-        .catch((error) => console.error("Error updating image name:", error));
+        .catch((error) => console.error('Error updating image name:', error));
     }
   };
 
@@ -235,13 +228,13 @@ export const WidgetDashboard: React.FC = () => {
             onChange={(e) => setPageName(e.target.value)}
           />
           <FormControlLabel
-            control={
+            control={(
               <Checkbox
                 checked={enabled}
                 onChange={(e) => setEnabled(e.target.checked)}
                 color="primary"
               />
-            }
+            )}
             label="Enabled"
           />
         </DialogContent>
@@ -262,7 +255,7 @@ export const WidgetDashboard: React.FC = () => {
           <button
             onClick={() => {
               handleOpenModal();
-              setPageName("");
+              setPageName('');
             }}
             className="btn btn-primary"
           >
@@ -288,11 +281,9 @@ export const WidgetDashboard: React.FC = () => {
                           type="text"
                           value={editingPageName}
                           onChange={(e) => setEditingPageName(e.target.value)}
-                          onBlur={() =>
-                            handleEditPageName(page.id, editingPageName)
-                          }
+                          onBlur={() => handleEditPageName(page.id, editingPageName)}
                           onKeyDown={(e) => {
-                            if (e.key === "Enter") {
+                            if (e.key === 'Enter') {
                               handleEditPageName(page.id, editingPageName);
                             }
                           }}
@@ -314,9 +305,7 @@ export const WidgetDashboard: React.FC = () => {
                   <td>
                     <Switch
                       checked={page.enabled}
-                      onChange={(e) =>
-                        handleEnabledChange(page.id, e.target.checked)
-                      }
+                      onChange={(e) => handleEnabledChange(page.id, e.target.checked)}
                       color="primary"
                     />
                   </td>
@@ -350,7 +339,7 @@ export const WidgetDashboard: React.FC = () => {
               type="file"
               accept="image/*"
               onChange={handleAddNewImages}
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
             />
             Add new image
           </label>
@@ -371,13 +360,13 @@ export const WidgetDashboard: React.FC = () => {
                   value={editingImageName}
                   onChange={(e) => setEditingImageName(e.target.value)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") {
+                    if (e.key === 'Enter') {
                       handleEditImageName(image.id);
                     }
                   }}
                   onBlur={() => {
                     setEditingImageId(null);
-                    setEditingImageName("");
+                    setEditingImageName('');
                   }}
                 />
               ) : (
@@ -388,7 +377,11 @@ export const WidgetDashboard: React.FC = () => {
                     setEditingImageName(image.name);
                   }}
                 >
-                  <p> {image.name} </p>
+                  <p>
+                    {' '}
+                    {image.name}
+                    {' '}
+                  </p>
                   <EditIcon />
                 </div>
               )}

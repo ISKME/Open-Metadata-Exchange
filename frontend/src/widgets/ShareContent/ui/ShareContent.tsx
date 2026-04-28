@@ -1,7 +1,6 @@
 /* eslint-disable no-useless-computed-key */
 /* eslint-disable react/button-has-type */
 /* eslint-disable array-callback-return */
-/* eslint-disable no-console */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable max-len */
 /* eslint-disable eqeqeq */
@@ -12,6 +11,7 @@ import {
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { classNames } from 'shared/lib/classNames/classNames';
+import { debug } from 'shared/debug';
 
 import {
   fetchCollections,
@@ -23,13 +23,13 @@ import {
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { Button } from 'shared/ui/Button/Button';
 import { AppLink } from 'shared/ui/AppLink/AppLink';
+import { Paging } from 'components/paging';
 import ArrowIcon from '../../../shared/assets/icons/arrow-back.svg';
 import { SearchBar } from '../../../features/SearchBar';
 import { Select } from '../../../features/Select';
 import { Filter } from '../../../features/Filter';
 import { ShareItemCard } from '../../../entities/ShareItemCard';
 import cls from './ShareContent.module.scss';
-import { Paging } from 'components/paging';
 
 interface ShareContentProps {
   className?: string;
@@ -104,7 +104,7 @@ export function ShareContent({ className }: ShareContentProps) {
 
   function handleInputChange(event: any) {
     const cleanedUpQuery = event.target.value.trim().toLowerCase();
-    console.log(cleanedUpQuery);
+    debug(cleanedUpQuery);
     if (cleanedUpQuery === '') {
       setFilteredData(data);
     } else {
@@ -136,13 +136,13 @@ export function ShareContent({ className }: ShareContentProps) {
   function select(id) {
     if (!selects.includes(id)) selects.push(id);
     if (deselects.includes(id)) remove(deselects, id);
-    console.log(selects, deselects);
+    debug(selects, deselects);
   }
 
   function deselect(id) {
     if (!deselects.includes(id)) deselects.push(id);
     if (selects.includes(id)) remove(selects, id);
-    console.log(selects, deselects);
+    debug(selects, deselects);
   }
 
   return (
