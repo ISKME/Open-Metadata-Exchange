@@ -5,6 +5,8 @@
 # * Use localhost:119
 # host.docker.internal would be used if the INN server was running on your localhost machine.
 
+# docker compose looks for .env file
+
 services:
   nntp-server:
     hostname: nntp-server
@@ -17,7 +19,7 @@ services:
       my_network:
         ipv4_address: 172.21.0.2
     ports:
-      - 119:119
+      - 1119:119
     post_start:
       - command:  sh -c "/usr/local/bin/wait_for_tcp.sh 119 20 && /usr/local/bin/preseed.sh"
 
@@ -31,7 +33,7 @@ services:
     build:
       dockerfile: Dockerfile
     environment:
-      CMS_PLUGIN: server.plugins.qubes.plugin.QubesPlugin
+      CMS_PLUGIN: server.plugins.${OME_CMS_PLUGIN}
       INN_SERVER_NAME: nntp-server
       # TODO: need to add the username/password that the NNTP server
       # now needs via .env or some such

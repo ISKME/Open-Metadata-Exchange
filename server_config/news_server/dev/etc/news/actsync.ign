@@ -8,14 +8,17 @@
 i *
 
 ##  Sync on the 8 majors.
-c comp.*
-c humanities.*
-c misc.*
-c news.*
-c rec.*
-c sci.*
-c soc.*
-c talk.*
+# c comp.*
+# c humanities.*
+# c misc.*
+# c news.*
+# c rec.*
+# c sci.*
+# c soc.*
+# c talk.*
+
+## Sync the ome groups
+c ome.*
 
 ##  Sync only moderated gnu.* groups.
 #c gnu.* m
