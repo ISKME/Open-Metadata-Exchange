@@ -36,6 +36,7 @@ def ty_hook() -> dict:
             if hook.get("id") == "ty":
                 return hook
     pytest.fail("No `ty` hook found in .pre-commit-config.yaml")
+    return {}
 
 
 @pytest.fixture(scope="module")
