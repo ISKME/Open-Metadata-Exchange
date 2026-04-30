@@ -69,10 +69,8 @@ max_supported_python = "3.14"
 # Rules from PR #293's --ignore list that produced zero errors have been omitted.
 rules.invalid-argument-type = "ignore"
 rules.invalid-assignment = "ignore"
-rules.invalid-return-type = "ignore"
 rules.unresolved-attribute = "ignore"
 rules.unresolved-import = "ignore"
-rules.unresolved-reference = "ignore"
 src.exclude = [ "server/plugins/moodle/extract-mbz3.py" ]
 
 [tool.rumdl]
