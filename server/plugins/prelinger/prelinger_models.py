@@ -15,9 +15,9 @@ from pydantic import BaseModel, Field, RootModel, field_validator
 
 def _coerce_to_list(item: str | list[str]) -> list[str]:
     """Normalize a string or list value to a flat list of strings."""
-    if isinstance(item, str):
-        return [item]
-    return list(item)
+    if not item:
+        return []
+    return [item] if isinstance(item, str) else list(item)
 
 
 class PrelingerItem(BaseModel):
