@@ -96,6 +96,6 @@ repos:
           - ty==0.0.32  # https://github.com/astral-sh/ty/releases
         entry: ty check
         args:
-          - --output-format=github
+          - --output-format=concise
         pass_filenames: false
         types: [python]

@@ -18,10 +18,10 @@
 # that may be worthwhile adding to the default sendmail command.
 
 mta:                         "/usr/sbin/sendmail -oi -oem %s"
-organization:                "A poorly-installed InterNetNews site"
+organization:                "{{ organization }}"
 ovmethod:                    tradindexed
 hismethod:                   hisv6
-pathhost:                    server.example.net
+pathhost:                    {{ hostname }}
 pathnews:                    /usr/lib/news
 
 #runasuser:
@@ -29,10 +29,10 @@ pathnews:                    /usr/lib/news
 
 # General Settings
 
-domain:	  local
+domain:				localdomain
 #innflags:
 mailcmd:                     /usr/lib/news/bin/innmail
-server:	localhost
+#server:
 #syntaxchecks:               [ no-laxmid ]
 
 # Feed Configuration
@@ -70,6 +70,7 @@ groupbaseexpiry:             true
 mergetogroups:               false
 nfswriter:                   false
 overcachesize:               128
+ovflushcount:                50
 #ovgrouppat:
 storeonxref:                 true
 useoverchan:                 false

@@ -13,11 +13,11 @@
 from pydantic import BaseModel, Field, RootModel, field_validator
 
 
-def _coerce_to_list(item: object) -> list[str]:
-    """Normalize a string, list, or None value to a flat list of strings."""
-    if isinstance(item, str):
-        return [item]
-    return list(item) if item is not None else []
+def _coerce_to_list(item: str | list[str]) -> list[str]:
+    """Normalize a string or list value to a flat list of strings."""
+    if not item:
+        return []
+    return [item] if isinstance(item, str) else list(item)
 
 
 class PrelingerItem(BaseModel):
@@ -42,8 +42,8 @@ class PrelingerItem(BaseModel):
 
     @field_validator("creator", "subject", mode="before")
     @classmethod
-    def coerce_to_list(cls, item: object) -> list[str]:
-        """Normalize string or None values to a list of strings."""
+    def coerce_to_list(cls, item: str | list[str]) -> list[str]:
+        """Normalize string values to a list of strings."""
         return _coerce_to_list(item)
 
 

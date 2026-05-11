@@ -21,7 +21,7 @@ import time
 from server.get_ome_plugins import get_newsgroups_from_plugins
 
 
-def create_newsgroups(newsgroups: dict[str, str], server_name: str) -> str:
+def create_newsgroups(newsgroups: dict[str, str], server_name: str) -> None:
     """
     Create newsgroups on the NNTP server using `ctlinnd newgroup newsgroup` command.
     Then append newsgroup descriptions to the end of the `db/newsgroups` file.

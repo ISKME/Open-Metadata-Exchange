@@ -12,7 +12,7 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  "fastapi[standard]>=0.136",
+  "fastapi[standard]>=0.136.1",
   "madoka>=0.7.2.1",
   "pondpond",
   "pynntp>=2.0.1",
@@ -69,9 +69,6 @@ max_supported_python = "3.14"
 # Rules from PR #293's --ignore list that produced zero errors have been omitted.
 rules.invalid-argument-type = "ignore"
 rules.invalid-assignment = "ignore"
-rules.invalid-return-type = "ignore"
-rules.no-matching-overload = "ignore"
-rules.not-subscriptable = "ignore"
 rules.unresolved-attribute = "ignore"
 rules.unresolved-import = "ignore"
 src.exclude = [ "server/plugins/moodle/extract-mbz3.py" ]
