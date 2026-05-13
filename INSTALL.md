@@ -56,7 +56,7 @@ the file should look as follows:
 | nntp\_debug\_user.password | debugging password                           |                                                                        |
 | cms_plugin                 | python classpath for the plugin for your CMS | e.g. server.plugins.qubes.plugin.QubesPlugin                           |
 
-[^1]: The IP address that would seen inside your docker container might be a NATted. e.g. 172.21.0.1, the gateway of the docker network.
+[^1]: The IP address that is seen inside your docker container might be a NATted. e.g. 172.21.0.1, the gateway of the docker network.
 
 ## Backend
 
