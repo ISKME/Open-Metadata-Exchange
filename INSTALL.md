@@ -8,6 +8,7 @@ You will need the following:
 1. Make sure that the peer can access your node
    1. IP address reachable from the outside by the peer.
    1. port 119 (and 563) unblocked for the peer.
+   1. port 119 on the host forwarded to port 1119 where docker is listening.
 
 ## Peering Configuration
 
@@ -39,31 +40,23 @@ the file should look as follows:
 }
 ```
 
-* organization (string) - Name of your organization
-* hostname (string) - publicly resolvable hostname where your OME node can be reached
+| **Variable**               | **Value type**                               | **Comment**                                                            |
+|----------------------------|----------------------------------------------|------------------------------------------------------------------------|
+| organization               | Name of your organization                    |                                                                        |
+| hostname                   | publicly resolvable hostname                 |                                                                        |
+| peers                      | List of peers                                | At least one, preferably two                                           |
+| peers[i].name              | Org name of the peer                         |                                                                        |
+| peers[i].dns\_name         | hostname of the peer                         |                                                                        |
+| peers[i].incoming\_ip      | IP address.[^1]                              | The IP address of the peer you want to allow to connect.               |
+| nntp\_user                 |                                              | The username/password that the FastAPI backend uses to connect to NNTP |
+| nntp\_user.username        | username                                     |                                                                        |
+| nntp\_user.password        | password                                     |                                                                        |
+| nntp\_debug\_user          |                                              | you can use this with a NNTP reader to access the NNTP directly        |
+| nntp\_debug\_user.username | debugging username                           |                                                                        |
+| nntp\_debug\_user.password | debugging password                           |                                                                        |
+| cms_plugin                 | python classpath for the plugin for your CMS | e.g. server.plugins.qubes.plugin.QubesPlugin                           |
 
-| **Variable**               | **Value type**                               | **Comment**                                                     |
-|----------------------------|----------------------------------------------|-----------------------------------------------------------------|
-| organization               | Name of your organization                    |                                                                 |
-| hostname                   | publicly resolvable hostname                 |                                                                 |
-| peers                      | List of peers                                | At least one, preferably two                                    |
-| peers[i].name              | Org name of the peer                         |                                                                 |
-| peers[i].dns\_name         | hostname of the peer                         |                                                                 |
-| peers[i].incoming\_ip      | IP address                                   | The IP address that would                                       |
-|                            |                                              | be seen by your docker                                          |
-|                            |                                              | container when the peer                                         |
-|                            |                                              | connects to it. Because of                                      |
-|                            |                                              | docker (or inbound port-forwarding), it's                       |
-|                            |                                              | typically something like                                        |
-|                            |                                              | 172.21.0.1                                                      |
-| nntp\_user                 |                                              | Used by FastAPI server to access the NNTP                       |
-| nntp\_user.username        | username                                     |                                                                 |
-| nntp\_user.password        | password                                     |                                                                 |
-| nntp\_debug\_user          |                                              | you can use this with a NNTP reader to access the NNTP directly |
-| nntp\_debug\_user.username | debugging username                           |                                                                 |
-| nntp\_debug\_user.password | debugging password                           |                                                                 |
-| cms_plugin                 | python classpath for the plugin for your CMS | e.g. server.plugins.qubes.plugin.QubesPlugin                    |
-|                            |                                              |                                                                 |
+[^1]: The IP address that would seen inside your docker container might be a NATted. e.g. 172.21.0.1, the gateway of the docker network.
 
 ## Backend
 
