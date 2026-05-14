@@ -72,7 +72,7 @@ def _dedupe_strings(values: list[str]) -> list[str]:
 def _topic_labels(listing: MITOCWCourseListing) -> list[str]:
     labels: list[str] = []
     for topic in listing.topics:
-        labels.extend([topic.sub_cat, topic.speciality])
+        labels.extend([topic.sub_category, topic.speciality])
     return _dedupe_strings(labels)
 
 
@@ -272,7 +272,9 @@ async def search_courses(
         seen_urls: set[str] = set()
         details_cache: dict[str, MITOCWCourse] = {}
 
-        async def get_details(listing: MITOCWCourseListing) -> MITOCWCourse:
+        async def fetch_and_cache_course_details(
+            listing: MITOCWCourseListing,
+        ) -> MITOCWCourse:
             course_url = _normalize_course_url(listing.href)
             if course_url not in details_cache:
                 details_cache[course_url] = await fetch_course_details(
@@ -286,7 +288,7 @@ async def search_courses(
                     continue
                 if not require_listing_match and _listing_matches_query(listing, query):
                     continue
-                course = await get_details(listing)
+                course = await fetch_and_cache_course_details(listing)
                 if course.source_url in seen_urls or not _course_matches_query(
                     course, query
                 ):

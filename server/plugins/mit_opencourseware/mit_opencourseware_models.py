@@ -20,7 +20,7 @@ class MITOCWTopicIndexItem(BaseModel):
 class MITOCWTopicTag(BaseModel):
     model_config = ConfigDict(extra="ignore", populate_by_name=True)
 
-    sub_cat: str = Field(default="", alias="subCat")
+    sub_category: str = Field(default="", alias="subCat")
     speciality: str = ""
 
 
