@@ -17,7 +17,6 @@ import json
 import logging
 from collections.abc import Iterator
 from pathlib import Path
-from typing import Any
 from urllib.parse import urljoin
 
 import httpx
@@ -27,7 +26,6 @@ from server.plugins.mit_opencourseware.mit_opencourseware_models import (
     MITOCWCourse,
     MITOCWCourseListing,
     MITOCWTopicIndexItem,
-    MITOCWTopicTag,
 )
 from server.plugins.mit_opencourseware.plugin import MITOpenCourseWarePlugin
 from server.plugins.ome_plugin import EducationResource
@@ -40,6 +38,10 @@ DEFAULT_LIMIT = 50
 
 logger = logging.getLogger(__name__)
 plugin = MITOpenCourseWarePlugin()
+
+
+def _status_code_from_http_error(exc: httpx.HTTPError) -> str | int:
+    return exc.response.status_code if isinstance(exc, httpx.HTTPStatusError) else "N/A"
 
 
 def _normalize_course_url(href: str) -> str:
@@ -70,7 +72,7 @@ def _dedupe_strings(values: list[str]) -> list[str]:
 def _topic_labels(listing: MITOCWCourseListing) -> list[str]:
     labels: list[str] = []
     for topic in listing.topics:
-        labels.extend([topic.subCat, topic.speciality])
+        labels.extend([topic.sub_cat, topic.speciality])
     return _dedupe_strings(labels)
 
 
@@ -113,8 +115,8 @@ def _extract_json_ld_course_values(payload: object) -> tuple[str, str, list[str]
 
     if isinstance(payload, list):
         for item in payload:
-            child_title, child_description, child_authors = _extract_json_ld_course_values(
-                item
+            child_title, child_description, child_authors = (
+                _extract_json_ld_course_values(item)
             )
             title = title or child_title
             description = description or child_description
@@ -167,8 +169,8 @@ def parse_course_page(html: str, listing: MITOCWCourseListing) -> MITOCWCourse:
             payload = json.loads(script_text)
         except json.JSONDecodeError:
             continue
-        json_ld_title, json_ld_description, json_ld_authors = _extract_json_ld_course_values(
-            payload
+        json_ld_title, json_ld_description, json_ld_authors = (
+            _extract_json_ld_course_values(payload)
         )
         title = json_ld_title or title
         description = json_ld_description or description
@@ -184,13 +186,18 @@ def parse_course_page(html: str, listing: MITOCWCourseListing) -> MITOCWCourse:
     )
 
 
-async def _fetch_json(httpx_async_client: httpx.AsyncClient, url: str) -> Any:
+async def _fetch_json_list(
+    httpx_async_client: httpx.AsyncClient, url: str
+) -> list[dict[str, object]]:
     try:
         response = await httpx_async_client.get(url)
         response.raise_for_status()
     except httpx.HTTPError as exc:
-        status_code = exc.response.status_code if isinstance(exc, httpx.HTTPStatusError) else "N/A"
-        msg = f"Failed to fetch MIT OpenCourseWare JSON from {url} (Status: {status_code}). {exc!s}"
+        status_code = _status_code_from_http_error(exc)
+        msg = (
+            f"Failed to fetch MIT OpenCourseWare JSON from {url} "
+            f"(Status: {status_code}). {exc!s}"
+        )
         raise RuntimeError(msg) from exc
     return response.json()
 
@@ -200,8 +207,11 @@ async def _fetch_text(httpx_async_client: httpx.AsyncClient, url: str) -> str:
         response = await httpx_async_client.get(url)
         response.raise_for_status()
     except httpx.HTTPError as exc:
-        status_code = exc.response.status_code if isinstance(exc, httpx.HTTPStatusError) else "N/A"
-        msg = f"Failed to fetch MIT OpenCourseWare page {url} (Status: {status_code}). {exc!s}"
+        status_code = _status_code_from_http_error(exc)
+        msg = (
+            f"Failed to fetch MIT OpenCourseWare page {url} "
+            f"(Status: {status_code}). {exc!s}"
+        )
         raise RuntimeError(msg) from exc
     return response.text
 
@@ -209,14 +219,14 @@ async def _fetch_text(httpx_async_client: httpx.AsyncClient, url: str) -> str:
 async def fetch_topic_index(
     httpx_async_client: httpx.AsyncClient,
 ) -> list[MITOCWTopicIndexItem]:
-    payload = await _fetch_json(httpx_async_client, MIT_OCW_TOPICS_INDEX_URL)
+    payload = await _fetch_json_list(httpx_async_client, MIT_OCW_TOPICS_INDEX_URL)
     return [MITOCWTopicIndexItem.model_validate(item) for item in payload]
 
 
 async def fetch_topic_course_listings(
     httpx_async_client: httpx.AsyncClient, topic_file: str
 ) -> list[MITOCWCourseListing]:
-    payload = await _fetch_json(
+    payload = await _fetch_json_list(
         httpx_async_client, urljoin(MIT_OCW_TOPIC_URL_PREFIX, topic_file)
     )
     return [MITOCWCourseListing.model_validate(item) for item in payload]
@@ -227,15 +237,19 @@ async def _collect_unique_course_listings(
 ) -> list[MITOCWCourseListing]:
     listings_by_url: dict[str, MITOCWCourseListing] = {}
     for topic in await fetch_topic_index(httpx_async_client):
-        for listing in await fetch_topic_course_listings(httpx_async_client, topic.file):
+        topic_listings = await fetch_topic_course_listings(
+            httpx_async_client, topic.file
+        )
+        for listing in topic_listings:
             course_url = _normalize_course_url(listing.href)
             if course_url not in listings_by_url:
                 listings_by_url[course_url] = listing.model_copy(deep=True)
                 continue
             existing = listings_by_url[course_url]
             existing.topics.extend(listing.topics)
-            existing.topics = [MITOCWTopicTag.model_validate(tag.model_dump()) for tag in existing.topics]
-    return sorted(listings_by_url.values(), key=lambda listing: listing.title.casefold())
+    return sorted(
+        listings_by_url.values(), key=lambda listing: listing.title.casefold()
+    )
 
 
 async def fetch_course_details(
@@ -273,7 +287,9 @@ async def search_courses(
                 if not require_listing_match and _listing_matches_query(listing, query):
                     continue
                 course = await get_details(listing)
-                if course.source_url in seen_urls or not _course_matches_query(course, query):
+                if course.source_url in seen_urls or not _course_matches_query(
+                    course, query
+                ):
                     continue
                 seen_urls.add(course.source_url)
                 selected.append(course)
@@ -304,7 +320,10 @@ def bulk_import(
             json.dumps([course.model_dump() for course in courses], indent=2) + "\n"
         )
 
-    courses = [MITOCWCourse.model_validate(item).model_dump() for item in json.loads(cache_path.read_text())]
+    courses = [
+        MITOCWCourse.model_validate(item).model_dump()
+        for item in json.loads(cache_path.read_text())
+    ]
     return [card.model_dump() for card in bulk_translate(courses)]
 
 

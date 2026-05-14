@@ -18,9 +18,9 @@ class MITOCWTopicIndexItem(BaseModel):
 
 
 class MITOCWTopicTag(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
 
-    subCat: str = ""
+    sub_cat: str = Field(default="", alias="subCat")
     speciality: str = ""
 
 

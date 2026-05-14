@@ -1,3 +1,4 @@
+import asyncio
 import json
 from pathlib import Path
 
@@ -6,17 +7,14 @@ import pytest
 from server.plugins.mit_opencourseware.bulk_import import (
     MITOCWCourse,
     MITOCWCourseListing,
-    MITOCWTopicIndexItem,
-    MITOCWTopicTag,
     bulk_import,
     parse_course_page,
     search_courses,
 )
+from server.plugins.mit_opencourseware.mit_opencourseware_models import MITOCWTopicTag
 from server.plugins.mit_opencourseware.plugin import MITOpenCourseWarePlugin
 
-MIT_OCW_DIR = (
-    Path(__file__).parent.parent / "server" / "plugins" / "mit_opencourseware"
-)
+MIT_OCW_DIR = Path(__file__).parent.parent / "server" / "plugins" / "mit_opencourseware"
 
 
 @pytest.fixture
@@ -52,7 +50,10 @@ def test_parse_course_page_extracts_json_ld_and_meta_description(
     html = """
     <html>
       <head>
-        <meta name="description" content="Learn Python for computational problem solving." />
+        <meta
+          name="description"
+          content="Learn Python for computational problem solving."
+        />
         <script type="application/ld+json">
         {
           "@context": "https://schema.org",
@@ -91,7 +92,9 @@ def test_search_courses_prefers_listing_matches_and_limits_results(
         for index in range(60)
     ]
 
-    async def fake_collect_unique_course_listings(_httpx_async_client: object) -> list[MITOCWCourseListing]:
+    async def fake_collect_unique_course_listings(
+        _httpx_async_client: object,
+    ) -> list[MITOCWCourseListing]:
         return listings
 
     async def fake_fetch_course_details(
@@ -114,8 +117,6 @@ def test_search_courses_prefers_listing_matches_and_limits_results(
         "server.plugins.mit_opencourseware.bulk_import.fetch_course_details",
         fake_fetch_course_details,
     )
-
-    import asyncio
 
     courses = asyncio.run(search_courses(query="python", limit=50))
 
