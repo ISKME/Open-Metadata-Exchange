@@ -1,0 +1,17 @@
+{
+  "title": "Introduction to Computer Science and Programming in Python",
+  "description": "An introduction to computer science as a tool to solve real-world analytical problems using Python.",
+  "authors": [
+    "Eric Grimson",
+    "John Guttag"
+  ],
+  "authoring_institution": "MIT OpenCourseWare",
+  "subject_tags": [
+    "Computer Science",
+    "Programming",
+    "Python"
+  ],
+  "source_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+  "version_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+  "spdx_license_expression": "CC-BY-NC-SA-4.0"
+}
