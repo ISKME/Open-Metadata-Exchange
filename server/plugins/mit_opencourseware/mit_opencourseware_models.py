@@ -27,7 +27,7 @@ class MITOCWTopicTag(BaseModel):
 class MITOCWCourseListing(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
-    id: str | int = ""
+    id: str = ""
     title: str
     href: str
     topics: list[MITOCWTopicTag] = Field(default_factory=list)

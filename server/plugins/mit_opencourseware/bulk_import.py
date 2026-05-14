@@ -158,8 +158,9 @@ def parse_course_page(html: str, listing: MITOCWCourseListing) -> MITOCWCourse:
     authors: list[str] = []
 
     meta_description = soup.select_one('meta[name="description"]')
-    if meta_description and isinstance(meta_description.get("content"), str):
-        description = meta_description["content"].strip()
+    content = meta_description.get("content", "") if meta_description else ""
+    if isinstance(content, str):
+        description = content.strip()
 
     for script in soup.select('script[type="application/ld+json"]'):
         script_text = script.string
