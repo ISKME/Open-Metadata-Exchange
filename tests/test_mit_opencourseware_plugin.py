@@ -31,7 +31,9 @@ def test_mit_opencourseware_plugin_attributes() -> None:
     plugin = MITOpenCourseWarePlugin()
     assert plugin.mimetypes == ("application/vnd.mit.opencourseware.course+json",)
     assert "ome.mit_opencourseware" in plugin.newsgroups
-    assert "ocw.mit.edu" in plugin.newsgroups["ome.mit_opencourseware"]
+    assert plugin.newsgroups["ome.mit_opencourseware"] == (
+        "Metadata from MIT OpenCourseWare courses https://ocw.mit.edu"
+    )
 
 
 def test_make_metadata_card_from_json() -> None:
