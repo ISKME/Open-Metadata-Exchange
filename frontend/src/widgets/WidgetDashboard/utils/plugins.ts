@@ -1,29 +1,27 @@
-import { Editor } from "grapesjs";
-import { createElement } from "react";
-import axios from "axios";
+import { Editor } from 'grapesjs';
+import { createElement } from 'react';
+import axios from 'axios';
+import { debug } from 'shared/debug';
 
 const createButton = (text: string, styles: object = {}) => {
-  const button = document.createElement("button");
+  const button = document.createElement('button');
   button.innerText = text;
   Object.assign(button.style, styles);
   return button;
 };
 
 const createDivContainer = (styles: object = {}) => {
-  const div = document.createElement("div");
+  const div = document.createElement('div');
   Object.assign(div.style, styles);
   return div;
 };
 
-const getCollectionItemHTML = (collection: any) => {
-  return `
+const getCollectionItemHTML = (collection: any) => `
     <img src="${collection.image}" alt="${collection.title}" width="200" style="border-radius: 8px; margin-bottom: 10px;">
     <p style="font-weight: bold; text-align: center;">${collection.title}</p>
   `;
-};
 
-const getCollectionComponentHTML = (collection: any) => {
-  return `
+const getCollectionComponentHTML = (collection: any) => `
     <style>
     .curated-collection-li h4 {
         margin: 0;
@@ -97,26 +95,25 @@ const getCollectionComponentHTML = (collection: any) => {
       </a>
     </li>
   `;
-};
 
 const createCollectionItem = (collection: any) => {
   const collectionItem = createDivContainer({
-    cursor: "pointer",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "10px",
-    border: "1px solid #ddd",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    borderRadius: "8px",
-    transition: "transform 0.3s",
+    cursor: 'pointer',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '10px',
+    border: '1px solid #ddd',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    borderRadius: '8px',
+    transition: 'transform 0.3s',
   });
 
   collectionItem.onmouseover = () => {
-    collectionItem.style.transform = "scale(1.05)";
+    collectionItem.style.transform = 'scale(1.05)';
   };
   collectionItem.onmouseout = () => {
-    collectionItem.style.transform = "scale(1)";
+    collectionItem.style.transform = 'scale(1)';
   };
 
   collectionItem.innerHTML = getCollectionItemHTML(collection);
@@ -125,37 +122,37 @@ const createCollectionItem = (collection: any) => {
 };
 
 const partners = (editor: Editor) => {
-  editor.BlockManager.add("my-component-block", {
+  editor.BlockManager.add('my-component-block', {
     label: createElement(
-      "div",
+      'div',
       {
         style: {
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         },
       },
-      createElement("i", {
-        className: "fa fa-cube",
-        style: { fontSize: "40px", marginBottom: "8px" },
+      createElement('i', {
+        className: 'fa fa-cube',
+        style: { fontSize: '40px', marginBottom: '8px' },
       }),
-      createElement("span", null, "Partners")
+      createElement('span', null, 'Partners'),
     ) as unknown as string,
-    content: { type: "my-component" },
-    category: "Custom Components",
+    content: { type: 'my-component' },
+    category: 'Custom Components',
   });
 
-  editor.DomComponents.addType("my-component", {
+  editor.DomComponents.addType('my-component', {
     model: {
       defaults: {
-        tagName: "div",
+        tagName: 'div',
         draggable: true,
         droppable: true,
-        attributes: { class: "my-custom-component" },
+        attributes: { class: 'my-custom-component' },
         components: [
           {
-            type: "text",
-            content: "[[ partners ]]",
+            type: 'text',
+            content: '[[ partners ]]',
           },
         ],
       },
@@ -167,60 +164,60 @@ const partners = (editor: Editor) => {
 };
 
 const extendImageComponent = (editor: Editor) => {
-  editor.DomComponents.addType("image", {
+  editor.DomComponents.addType('image', {
     model: {
       defaults: {
         traits: [
           {
-            type: "text",
-            name: "alt",
-            label: "Alt",
+            type: 'text',
+            name: 'alt',
+            label: 'Alt',
           },
           {
-            type: "text",
-            name: "href",
-            label: "Link",
+            type: 'text',
+            name: 'href',
+            label: 'Link',
           },
           {
-            type: "text",
-            name: "target_blank",
-            label: "Open in new tab (Yes/No)",
-            value: "No",
+            type: 'text',
+            name: 'target_blank',
+            label: 'Open in new tab (Yes/No)',
+            value: 'No',
           },
           {
-            type: "text",
-            name: "overlay_text",
-            label: "Overlay Text (max 255 chars)",
+            type: 'text',
+            name: 'overlay_text',
+            label: 'Overlay Text (max 255 chars)',
           },
         ],
       },
 
       init() {
-        this.on("change:attributes:overlay_text", this.handleOverlayTextChange);
-        this.on("removed", this.handleComponentRemoval);
+        this.on('change:attributes:overlay_text', this.handleOverlayTextChange);
+        this.on('removed', this.handleComponentRemoval);
         this.overlayText = null;
         setTimeout(() => {
           this.handleOverlayTextChange();
         }, 400);
-        this.listenTo(editor, "component:drag:end", this.handleDragEnd);
+        this.listenTo(editor, 'component:drag:end', this.handleDragEnd);
       },
 
       handleOverlayTextChange() {
         let overlayText = this.attributes.attributes.overlay_text;
         if (overlayText && overlayText.length > 255) {
           overlayText = overlayText.substring(0, 255);
-          this.set("overlay_text", overlayText);
+          this.set('overlay_text', overlayText);
         }
 
         const imgEl = this.view?.el;
 
         if (!imgEl) {
-          console.log("Image element not found!");
+          debug('Image element not found!');
           return;
         }
 
         // Save overlay_text attribute to img tag
-        imgEl.setAttribute("overlay_text", overlayText || "");
+        imgEl.setAttribute('overlay_text', overlayText || '');
 
         if (!overlayText) {
           if (this.overlayText) {
@@ -234,13 +231,13 @@ const extendImageComponent = (editor: Editor) => {
 
         // Ensure imgContainer is created or properly identified
         if (
-          !imgContainer ||
-          !imgContainer.classList.contains("img-text-container")
+          !imgContainer
+          || !imgContainer.classList.contains('img-text-container')
         ) {
-          imgContainer = document.createElement("div");
-          imgContainer.classList.add("img-text-container");
-          imgContainer.style.position = "relative";
-          imgContainer.style.display = "inline-block";
+          imgContainer = document.createElement('div');
+          imgContainer.classList.add('img-text-container');
+          imgContainer.style.position = 'relative';
+          imgContainer.style.display = 'inline-block';
 
           if (imgEl.parentNode) {
             imgEl.parentNode.insertBefore(imgContainer, imgEl);
@@ -249,7 +246,7 @@ const extendImageComponent = (editor: Editor) => {
         }
 
         if (!this.overlayText) {
-          this.overlayText = document.createElement("div");
+          this.overlayText = document.createElement('div');
           const overlayTextStyle = `
               position: absolute;
               top: 50%;
@@ -264,12 +261,12 @@ const extendImageComponent = (editor: Editor) => {
               text-align: center;
               pointer-events: none;
           `;
-          this.overlayText.setAttribute("style", overlayTextStyle);
+          this.overlayText.setAttribute('style', overlayTextStyle);
 
           imgContainer.appendChild(this.overlayText);
         }
 
-        this.overlayText.innerText = overlayText || "";
+        this.overlayText.innerText = overlayText || '';
       },
 
       handleComponentRemoval() {
@@ -278,8 +275,8 @@ const extendImageComponent = (editor: Editor) => {
         if (imgEl) {
           const imgContainer = imgEl.parentElement;
           if (
-            imgContainer &&
-            imgContainer.classList.contains("img-text-container")
+            imgContainer
+            && imgContainer.classList.contains('img-text-container')
           ) {
             imgContainer.remove();
           }
@@ -295,72 +292,72 @@ const extendImageComponent = (editor: Editor) => {
 
 const collections = (editor: Editor) => {
   const cache = {};
-  editor.BlockManager.add("collections-block", {
+  editor.BlockManager.add('collections-block', {
     label: createElement(
-      "div",
+      'div',
       {
         style: {
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         },
       },
-      createElement("i", {
-        className: "fa fa-folder-open",
-        style: { fontSize: "40px", marginBottom: "8px" },
+      createElement('i', {
+        className: 'fa fa-folder-open',
+        style: { fontSize: '40px', marginBottom: '8px' },
       }),
-      createElement("span", null, "Collections")
+      createElement('span', null, 'Collections'),
     ) as unknown as string,
-    content: { type: "collections-component" },
-    category: "Custom Components",
+    content: { type: 'collections-component' },
+    category: 'Custom Components',
   });
 
-  editor.DomComponents.addType("collections-component", {
+  editor.DomComponents.addType('collections-component', {
     model: {
       defaults: {
-        tagName: "div",
+        tagName: 'div',
         draggable: true,
         droppable: true,
-        attributes: { class: "collections-component" },
+        attributes: { class: 'collections-component' },
         components: [],
-        content: "",
+        content: '',
         style: {
-          width: "350px",
-          height: "fit-content",
-          "border-radius": "2px",
-          "box-shadow": "0 2px 8px rgba(0, 0, 0, 0.2)",
-          "margin": "0 auto"
+          width: '350px',
+          height: 'fit-content',
+          'border-radius': '2px',
+          'box-shadow': '0 2px 8px rgba(0, 0, 0, 0.2)',
+          margin: '0 auto',
         },
       },
       init() {
-        this.on("change:style:width", () => {
+        this.on('change:style:width', () => {
           try {
             let currentPage = 1;
             let totalPages = 1;
 
             const modal = editor.Modal;
-            modal.setTitle("Select Collection");
+            modal.setTitle('Select Collection');
 
             const content = createDivContainer({
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              padding: "20px",
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              padding: '20px',
             });
 
             const paginationContainer = createDivContainer({
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: "20px",
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: '20px',
             });
 
-            const prevButton = createButton("Previous", {
-              marginRight: "10px",
+            const prevButton = createButton('Previous', {
+              marginRight: '10px',
             });
-            const pageIndicator = document.createElement("span");
-            pageIndicator.style.margin = "0 10px";
-            const nextButton = createButton("Next", { marginLeft: "10px" });
+            const pageIndicator = document.createElement('span');
+            pageIndicator.style.margin = '0 10px';
+            const nextButton = createButton('Next', { marginLeft: '10px' });
 
             paginationContainer.appendChild(prevButton);
             paginationContainer.appendChild(pageIndicator);
@@ -368,10 +365,10 @@ const collections = (editor: Editor) => {
             content.appendChild(paginationContainer);
 
             const collectionsContainer = createDivContainer({
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "20px",
-              padding: "20px",
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: '20px',
+              padding: '20px',
             });
             content.appendChild(collectionsContainer);
 
@@ -382,12 +379,12 @@ const collections = (editor: Editor) => {
               }
 
               const response = await axios.get(
-                `/api/curatedcollections/v1/curatedcollections?page=${page}`
+                `/api/curatedcollections/v1/curatedcollections?page=${page}`,
               );
               const collections = response.data.results;
 
               cache[page] = {
-                collections: collections,
+                collections,
                 totalCount: response.data.count,
               };
               totalPages = Math.ceil(response.data.count / 24);
@@ -396,7 +393,7 @@ const collections = (editor: Editor) => {
             };
 
             const renderCollections = async (page: number) => {
-              collectionsContainer.innerHTML = "";
+              collectionsContainer.innerHTML = '';
 
               const collections = await fetchCollections(page);
               collections.forEach((collection) => {
@@ -405,15 +402,15 @@ const collections = (editor: Editor) => {
                   editor.Modal.close();
                   try {
                     const response = await axios.get(
-                      `/api/curatedcollections/v1/curatedcollections/${collection.id}`
+                      `/api/curatedcollections/v1/curatedcollections/${collection.id}`,
                     );
                     const selectedCollection = response.data;
                     this.set(
-                      "content",
-                      getCollectionComponentHTML(selectedCollection)
+                      'content',
+                      getCollectionComponentHTML(selectedCollection),
                     );
                   } catch (error) {
-                    console.error("Error fetching collection data: ", error);
+                    console.error('Error fetching collection data: ', error);
                   }
                 };
                 collectionsContainer.appendChild(collectionItem);
@@ -442,7 +439,7 @@ const collections = (editor: Editor) => {
             modal.setContent(content);
             modal.open();
           } catch (error) {
-            console.error("Error fetching collections:", error);
+            console.error('Error fetching collections:', error);
           }
         });
       },
@@ -452,37 +449,37 @@ const collections = (editor: Editor) => {
 };
 
 const plugin2 = (editor: Editor) => {
-  editor.BlockManager.add("my-second-component-block", {
+  editor.BlockManager.add('my-second-component-block', {
     label: createElement(
-      "div",
+      'div',
       {
         style: {
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         },
       },
-      createElement("i", {
-        className: "fa fa-star",
-        style: { fontSize: "40px", marginBottom: "8px", color: "gold" },
+      createElement('i', {
+        className: 'fa fa-star',
+        style: { fontSize: '40px', marginBottom: '8px', color: 'gold' },
       }),
-      createElement("span", null, "My Second Component")
+      createElement('span', null, 'My Second Component'),
     ) as unknown as string,
-    content: { type: "my-second-component" },
-    category: "Custom Components",
+    content: { type: 'my-second-component' },
+    category: 'Custom Components',
   });
 
-  editor.DomComponents.addType("my-second-component", {
+  editor.DomComponents.addType('my-second-component', {
     model: {
       defaults: {
-        tagName: "div",
+        tagName: 'div',
         draggable: true,
         droppable: true,
-        attributes: { class: "my-second-custom-component" },
+        attributes: { class: 'my-second-custom-component' },
         components: [
           {
-            type: "text",
-            content: "This is my second custom component",
+            type: 'text',
+            content: 'This is my second custom component',
           },
         ],
       },

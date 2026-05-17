@@ -1,18 +1,19 @@
 // @ts-nocheck
-import { CircularProgress } from "@mui/material";
-import { PieChart, LineChart } from "@mui/x-charts";
-import Pagination from "@mui/material/Pagination";
-import axios from "axios";
-import { useState, useEffect, useRef } from "react";
+import { CircularProgress } from '@mui/material';
+import { PieChart, LineChart } from '@mui/x-charts';
+import Pagination from '@mui/material/Pagination';
+import axios from 'axios';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DateRange } from "widgets/enum";
-import { Tabs } from "./";
+import { DateRange } from 'widgets/enum';
+import req from 'shared/lib/req';
+import { debug } from 'shared/debug';
+import { Tabs } from '.';
 // ToDo: Make it Global
-import colors from './colors'
-import cls from './styles.module.scss'
-import req from "shared/lib/req";
+import colors from './colors';
+import cls from './styles.module.scss';
 
-export default function({
+export default function ({
   title,
   description,
   description_heading,
@@ -38,7 +39,7 @@ export default function({
   widgetTypes = [],
   link = '#',
 }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [selectedView, setSelectedView] = useState(viewOptions?.[0]?.slug || null);
   const [isOpen, setIsOpen] = useState(true);
   const [fullDataByView, setFullDataByView] = useState({});
@@ -55,14 +56,14 @@ export default function({
   const [rowsPerPage] = useState(50);
   const [totalCount, setTotalCount] = useState(0);
   const currentData = (() => {
-     if (searchPerformed && searchContext === selectedView) return searchResults;
-     if (selectedView === 'line') {
-       return selectedSection === 1 ? timelineAllData : timelineData;
-     }
-     return selectedSection === 1
-       ? (fullDataByView[selectedView] || [])
-       : (data?.[selectedView] || []);
-   })();
+    if (searchPerformed && searchContext === selectedView) return searchResults;
+    if (selectedView === 'line') {
+      return selectedSection === 1 ? timelineAllData : timelineData;
+    }
+    return selectedSection === 1
+      ? (fullDataByView[selectedView] || [])
+      : (data?.[selectedView] || []);
+  })();
 
   const paginatedData = Array.isArray(currentData)
     ? currentData.slice((page - 1) * rowsPerPage, page * rowsPerPage)
@@ -79,20 +80,18 @@ export default function({
     };
   };
 
-  const isTabLoading =
-    isLoading ||
-    (selectedView === 'line'
+  const isTabLoading = isLoading
+    || (selectedView === 'line'
       ? (selectedSection === 1 ? timelineAllData : timelineData).length === 0
       : (selectedSection === 1
-          ? !Array.isArray(fullDataByView[selectedView])
-          : !Array.isArray(data[selectedView])));
+        ? !Array.isArray(fullDataByView[selectedView])
+        : !Array.isArray(data[selectedView])));
 
   const hasTableData = selectedSection === 1 && !isTabLoading && totalCount > 0;
 
-  const baseReady =
-    selectedView === 'line'
-      ? timelineAllData.length > 0
-      : Array.isArray(fullDataByView[selectedView]);
+  const baseReady = selectedView === 'line'
+    ? timelineAllData.length > 0
+    : Array.isArray(fullDataByView[selectedView]);
 
   const resetSearch = () => {
     setSearchText('');
@@ -110,10 +109,8 @@ export default function({
       if (needFull) {
         if (timelineAllData.length === 0) fetchTimelineData(true);
         else setTotalCount(timelineAllData.length);
-      } else {
-        if (timelineData.length === 0) fetchTimelineData(false);
-        else setTotalCount(timelineData.length);
-      }
+      } else if (timelineData.length === 0) fetchTimelineData(false);
+      else setTotalCount(timelineData.length);
       return;
     }
 
@@ -153,15 +150,13 @@ export default function({
   }, [searchText, selectedView, selectedSection, timelineAllData, fullDataByView]);
 
   const timelineAbortController = useRef<AbortController | null>(null);
-  const viewAbortController     = useRef<AbortController | null>(null);
+  const viewAbortController = useRef<AbortController | null>(null);
 
-  useEffect(() => {
-    return () => {
-      timelineAbortController.current?.abort();
-      viewAbortController.current?.abort();
-      timelineAbortController.current = null;
-      viewAbortController.current = null;
-    };
+  useEffect(() => () => {
+    timelineAbortController.current?.abort();
+    viewAbortController.current?.abort();
+    timelineAbortController.current = null;
+    viewAbortController.current = null;
   }, []);
 
   const selectedViewRef = useRef(selectedView);
@@ -174,10 +169,9 @@ export default function({
     if (page > pageCount) setPage(1);
   }, [totalCount, rowsPerPage]);
 
-  const getBaseTableData = () =>
-    selectedView === 'line'
-      ? timelineAllData
-      : (fullDataByView[selectedView] || []);
+  const getBaseTableData = () => (selectedView === 'line'
+    ? timelineAllData
+    : (fullDataByView[selectedView] || []));
 
   const runLocalSearch = (query: string) => {
     setPage(1);
@@ -194,14 +188,10 @@ export default function({
 
     let filtered: any[] = [];
     if (selectedView === 'line') {
-      filtered = base.filter(r =>
-        (r.eventCategory || '').toLowerCase().includes(q) ||
-        String(r.date || '').toLowerCase().includes(q)
-      );
+      filtered = base.filter((r) => (r.eventCategory || '').toLowerCase().includes(q)
+        || String(r.date || '').toLowerCase().includes(q));
     } else {
-      filtered = base.filter(r =>
-        (r.label || r.name || '').toLowerCase().includes(q)
-      );
+      filtered = base.filter((r) => (r.label || r.name || '').toLowerCase().includes(q));
     }
 
     setSearchResults(filtered);
@@ -238,25 +228,22 @@ export default function({
         setTimelineData(timeline);
       }
       setTotalCount(timeline.length);
-
     } catch (err) {
       if (axios.isCancel(err)) {
-        console.log("Timeline request cancelled");
+        debug('Timeline request cancelled');
       } else {
-        console.error("Error loading timeline data", err);
+        console.error('Error loading timeline data', err);
       }
     }
   };
 
-
   const transformTimelineData = (data) => {
-
     if (!data || data.length === 0) {
       return { series: [], xAxis: [] };
     }
 
     const allDates = Array.from(
-      new Set(data.map(({ date }) => date))
+      new Set(data.map(({ date }) => date)),
     ).sort();
 
     const grouped = {};
@@ -273,7 +260,7 @@ export default function({
     });
 
     const series = Object.entries(grouped).map(([category, counts], index) => {
-      const seriesData = allDates.map(date => counts[date] || 0);
+      const seriesData = allDates.map((date) => counts[date] || 0);
 
       return {
         id: category,
@@ -297,13 +284,13 @@ export default function({
     const controller = new AbortController();
     viewAbortController.current = controller;
 
-    setWidgetLoadingMap(prev => ({ ...prev, [widgetId]: true }));
+    setWidgetLoadingMap((prev) => ({ ...prev, [widgetId]: true }));
 
     try {
       const params = {
         ...buildBaseParams(),
         limit: full ? 100000 : itemsCount,
-        sort_by: viewSlug === "all" ? sortBy : viewSlug,
+        sort_by: viewSlug === 'all' ? sortBy : viewSlug,
       };
 
       const { data: response } = await axios.get(endpoint, {
@@ -312,7 +299,7 @@ export default function({
       });
 
       const filteredData = response.data.filter(
-        (item) => (item[params.sort_by] ?? 0) > 0
+        (item) => (item[params.sort_by] ?? 0) > 0,
       );
       const chartData = filteredData.map((item, index) => ({
         id: index,
@@ -326,9 +313,9 @@ export default function({
 
       setTotalCount(chartData.length);
       if (full) {
-        setFullDataByView(prev => ({ ...prev, [viewSlug]: chartData }));
+        setFullDataByView((prev) => ({ ...prev, [viewSlug]: chartData }));
       } else {
-        setWidgetDataMap(prev => ({
+        setWidgetDataMap((prev) => ({
           ...prev,
           [widgetId]: {
             ...(prev[widgetId] || {}),
@@ -343,7 +330,7 @@ export default function({
       }
     } finally {
       if (viewAbortController.current === controller) {
-        setWidgetLoadingMap(prev => ({ ...prev, [widgetId]: false }));
+        setWidgetLoadingMap((prev) => ({ ...prev, [widgetId]: false }));
       }
     }
   };
@@ -351,18 +338,18 @@ export default function({
   const handleFavoriteClick = async () => {
     try {
       const data = await req.post('/reports/widget/favorites', { widget_id: widgetId });
-      const status = data.status;
+      const { status } = data;
       const updated = new Set(favoriteWidgetIds);
-      if (status === "added") {
+      if (status === 'added') {
         updated.add(widgetId);
         setIsFavorite(true);
-      } else if (status === "removed") {
+      } else if (status === 'removed') {
         updated.delete(widgetId);
         setIsFavorite(false);
       }
       setFavoriteWidgetIds(updated);
     } catch (error) {
-      console.error("Error toggling favorite", error);
+      console.error('Error toggling favorite', error);
     }
   };
 
@@ -374,16 +361,16 @@ export default function({
     }
 
     switch (range) {
-      case DateRange.LAST_30_DAYS:
-        return 'Last 30 days';
-      case DateRange.LAST_90_DAYS:
-        return 'Last 90 days';
-      case DateRange.LAST_YEAR:
-        return 'Last year';
-      case DateRange.ALL_TIME:
-        return 'All time';
-      default:
-        return '';
+    case DateRange.LAST_30_DAYS:
+      return 'Last 30 days';
+    case DateRange.LAST_90_DAYS:
+      return 'Last 90 days';
+    case DateRange.LAST_YEAR:
+      return 'Last year';
+    case DateRange.ALL_TIME:
+      return 'All time';
+    default:
+      return '';
     }
   };
 
@@ -400,7 +387,7 @@ export default function({
 
   const handleDownloadCSV = async () => {
     if (selectedSection !== 1 || !hasTableData) {
-      console.warn("Download is only available in Table view");
+      console.warn('Download is only available in Table view');
       return;
     }
 
@@ -425,26 +412,24 @@ export default function({
           raw = Array.isArray(resp?.data) ? resp.data : (Array.isArray(resp) ? resp : []);
         }
         const columns = ['Date', title, 'Views'];
-        const rows = raw.map(item => ({
-          'Date': item.date || '',
+        const rows = raw.map((item) => ({
+          Date: item.date || '',
           [title]: item.eventCategory || '—',
-          'Views': Number(item.eventCount ?? 0),
+          Views: Number(item.eventCount ?? 0),
         }));
 
         if (!rows.length) {
-          console.warn("No data to export");
+          console.warn('No data to export');
           return;
         }
 
         const csvContent = [
           columns.join(','),
-          ...rows.map(row =>
-            columns.map(col => {
-              const v = row[col];
-              if (typeof v === 'number') return String(v);
-              return `"${String(v ?? '').replace(/"/g, '""')}"`;
-            }).join(',')
-          ),
+          ...rows.map((row) => columns.map((col) => {
+            const v = row[col];
+            if (typeof v === 'number') return String(v);
+            return `"${String(v ?? '').replace(/"/g, '""')}"`;
+          }).join(',')),
         ].join('\n');
 
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -458,7 +443,7 @@ export default function({
         return;
       }
 
-      const sort_field = selectedView === "all" ? sortBy : selectedView;
+      const sort_field = selectedView === 'all' ? sortBy : selectedView;
       const valueTitle = viewOptions.find((v) => v.slug === selectedView)?.title?.replace(/^By /, '') || 'Value';
 
       const params = {
@@ -470,30 +455,28 @@ export default function({
 
       let filteredData;
       if (searchPerformed && searchText.trim()) {
-        filteredData = searchResults.map(r => ({ name: r.label, [params.sort_by]: r.value }));
+        filteredData = searchResults.map((r) => ({ name: r.label, [params.sort_by]: r.value }));
       } else if (fullDataByView[selectedView]?.length) {
-        filteredData = fullDataByView[selectedView].map(r => ({ name: r.label, [params.sort_by]: r.value }));
+        filteredData = fullDataByView[selectedView].map((r) => ({ name: r.label, [params.sort_by]: r.value }));
       } else {
         const { data: response } = await axios.get(endpoint, { params });
-        filteredData = response.data.filter(item => (item[params.sort_by] ?? 0) > 0);
+        filteredData = response.data.filter((item) => (item[params.sort_by] ?? 0) > 0);
       }
 
       const columns = [title, valueTitle];
-      const rows = filteredData.map(item => ({
+      const rows = filteredData.map((item) => ({
         [title]: item.name || '—',
         [valueTitle]: Number(item[params.sort_by] ?? 0),
       }));
 
       if (!rows.length) {
-        console.warn("No data to export");
+        console.warn('No data to export');
         return;
       }
 
       const csvContent = [
         columns.join(','),
-        ...rows.map(row =>
-          columns.map(col => `"${String(row[col] ?? '').replace(/"/g, '""')}"`).join(',')
-        ),
+        ...rows.map((row) => columns.map((col) => `"${String(row[col] ?? '').replace(/"/g, '""')}"`).join(',')),
       ].join('\n');
 
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -504,9 +487,8 @@ export default function({
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
     } catch (error) {
-      console.error("Error downloading CSV", error);
+      console.error('Error downloading CSV', error);
     } finally {
       setIsDownloading(false);
     }
@@ -516,34 +498,43 @@ export default function({
     <div className={cls.widgetCard}>
       <div className={cls.widgetHeaderRow}>
         <div className={cls.favIcon} onClick={handleFavoriteClick}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill={isFavorite ? "black" : "none"} stroke="black" strokeWidth="2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill={isFavorite ? 'black' : 'none'} stroke="black" strokeWidth="2">
             <path d="M20.84 4.61c-1.54-1.41-4.04-1.33-5.49.26L12 7.77l-3.35-2.9C7.2 3.28 4.7 3.2 3.16 4.61c-1.64 1.51-1.72 4.01-.21 5.65l8.09 8.48a1 1 0 0 0 1.42 0l8.09-8.48c1.51-1.64 1.43-4.14-.21-5.65z" />
           </svg>
         </div>
         <div className={cls.widgetTitle}>
           <p><span>{title}</span></p>
         </div>
-        <div style={{ flex: 1 }}></div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} onClick={() => navigate(!full ? link : '/reports/dashboard')}>
-          {!full ? <>
-            <svg width="22" height="17" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12.8445 1L20.4 8.55554L12.8445 16.1111" stroke="#3A853A"/>
-              <path d="M19.6444 8.55566H0" stroke="#3A853A"/>
-            </svg>
-            <span>View more</span>
-          </> : <>
-            <svg xmlns="http://www.w3.org/2000/svg" width="6" height="10" viewBox="0 0 6 10" fill="none">
-              <path d="M5 9L1 5L5 1" stroke="#3A853A"/>
-            </svg>
-            <span>Back</span>
-          </>}
+        <div style={{ flex: 1 }} />
+        <div
+          style={{
+            display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer',
+          }}
+          onClick={() => navigate(!full ? link : '/reports/dashboard')}
+        >
+          {!full ? (
+            <>
+              <svg width="22" height="17" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.8445 1L20.4 8.55554L12.8445 16.1111" stroke="#3A853A" />
+                <path d="M19.6444 8.55566H0" stroke="#3A853A" />
+              </svg>
+              <span>View more</span>
+            </>
+          ) : (
+            <>
+              <svg xmlns="http://www.w3.org/2000/svg" width="6" height="10" viewBox="0 0 6 10" fill="none">
+                <path d="M5 9L1 5L5 1" stroke="#3A853A" />
+              </svg>
+              <span>Back</span>
+            </>
+          )}
         </div>
       </div>
       {/* <p className={cls.fullReportLink}>
         View Full Report
       </p> */}
 
-      {full && <>
+      {full && (
         <div className={cls.widgetDescriptionBox}>
           <div className={cls.descriptionHeader} onClick={() => setIsOpen(!isOpen)}>
             <div className={cls.descriptionTitle}>
@@ -573,165 +564,165 @@ export default function({
             </p>
           )}
         </div>
-      </>}
+      )}
 
       {/* Dynamic Tabs */}
-      {full && <>
-        <span>Select View</span>
-        <div className={cls.tabRowWrap} >
-          <div className={cls.tabOptions} >
-            {viewOptions.map(option => (
-              <div
-                key={option.slug}
-                className={`${cls.tabOption} ${selectedView === option.slug ? cls.tabOptionActive : ''}`}
-                onClick={() => setSelectedView(option.slug)}
-              >
-                {option.title}
-              </div>
-            ))}
-            {full && widgetTypes.includes('line') && (
-              <div
-                className={`${cls.tabOption} ${selectedView === 'line' ? cls.tabOptionActive : ''}`}
-                onClick={() => setSelectedView('line')}
-              >
-                Over time
-              </div>
-            )}
+      {full && (
+        <>
+          <span>Select View</span>
+          <div className={cls.tabRowWrap}>
+            <div className={cls.tabOptions}>
+              {viewOptions.map((option) => (
+                <div
+                  key={option.slug}
+                  className={`${cls.tabOption} ${selectedView === option.slug ? cls.tabOptionActive : ''}`}
+                  onClick={() => setSelectedView(option.slug)}
+                >
+                  {option.title}
+                </div>
+              ))}
+              {full && widgetTypes.includes('line') && (
+                <div
+                  className={`${cls.tabOption} ${selectedView === 'line' ? cls.tabOptionActive : ''}`}
+                  onClick={() => setSelectedView('line')}
+                >
+                  Over time
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </>}
+        </>
+      )}
 
       <div className={cls.widgetBodyWrapper}>
         {full && widgetTypes.includes('table') && (
-        <>
-          <div className={cls.tabSwitcherRow} >
-            <div></div>
-            <Tabs label="" items={['Graph', 'Table']} onChange={setSelectedSection} />
-          </div>
-
-          {download && selectedSection === 1 && (
-            <div className={cls.actionBar}>
-              {enable_search && (
-                <>
-                  <div className={cls.searchInputWrap}>
-                    <input
-                      value={searchText}
-                      onChange={(e) => setSearchText(e.target.value)}
-                      onKeyDown={(e) =>
-                        e.key === 'Enter' && searchText.trim().length >= 3 && handleSearch()
-                      }
-                      placeholder="Search..."
-                      className={cls.searchInput}
-                    />
-                    {searchText && (
-                      <button
-                        type="button"
-                        aria-label="Clear search"
-                        className={cls.clearBtn}
-                        onClick={() => {
-                          setSearchText('');
-                          setPage(1);
-                        }}
-                      >
-                        ×
-                      </button>
-                    )}
-                  </div>
-
-                  <button
-                    onClick={handleSearch}
-                    disabled={searchText.trim().length < 3 || !baseReady}
-                    className={cls.actionButton}
-                  >
-                    Search
-                  </button>
-                </>
-              )}
-
-              <button
-                onClick={handleDownloadCSV}
-                disabled={isDownloading || !hasTableData}
-                className={cls.actionButton}
-              >
-                {isDownloading ? (
-                  <>
-                    <span>Downloading…</span>
-                    <span className="spinner" />
-                  </>
-                ) : (
-                  'Download CSV'
-                )}
-              </button>
+          <>
+            <div className={cls.tabSwitcherRow}>
+              <div />
+              <Tabs label="" items={['Graph', 'Table']} onChange={setSelectedSection} />
             </div>
+
+            {download && selectedSection === 1 && (
+              <div className={cls.actionBar}>
+                {enable_search && (
+                  <>
+                    <div className={cls.searchInputWrap}>
+                      <input
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && searchText.trim().length >= 3 && handleSearch()}
+                        placeholder="Search..."
+                        className={cls.searchInput}
+                      />
+                      {searchText && (
+                        <button
+                          type="button"
+                          aria-label="Clear search"
+                          className={cls.clearBtn}
+                          onClick={() => {
+                            setSearchText('');
+                            setPage(1);
+                          }}
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={handleSearch}
+                      disabled={searchText.trim().length < 3 || !baseReady}
+                      className={cls.actionButton}
+                    >
+                      Search
+                    </button>
+                  </>
+                )}
+
+                <button
+                  onClick={handleDownloadCSV}
+                  disabled={isDownloading || !hasTableData}
+                  className={cls.actionButton}
+                >
+                  {isDownloading ? (
+                    <>
+                      <span>Downloading…</span>
+                      <span className="spinner" />
+                    </>
+                  ) : (
+                    'Download CSV'
+                  )}
+                </button>
+              </div>
             )}
           </>
         )}
 
         {/* Chart */}
         {selectedSection === 0 && (
-        ((
-          selectedView === 'line'
-            ? (timelineData.length === 0)
-            : (!data[selectedView] && !searchPerformed)
-        ) || isLoading) ? (
-          <div className={cls.chartLoading}>
-            <CircularProgress />
-          </div>
-        ) : (
-          (currentData?.length > 0 || series.length > 0) ? (
-            <div className={cls.chartSection}>
-              <div className={cls.chartContainer}>
-                {selectedView !== 'line' && (
-                  <PieChart
-                    series={[{ data: currentData, arcLabel: () => '' }]}
-                    width={300}
-                    height={300}
-                    slotProps={{ legend: { hidden: true } }}
-                  />
-                )}
-                {selectedView === 'line' && series.length > 0 && xAxis.length > 0 && (
-                  <div style={{ width: '100%', overflowX: 'auto' }}>
-                    <LineChart
-                      xAxis={[{
-                        id: 'timeline',
-                        data: xAxis,
-                        scaleType: 'band',
-                        valueFormatter: (val) => val,
-                        label: 'Date',
-                      }]}
-                      series={series}
-                      height={420}
-                      width={Math.max(640, xAxis.length * 60)}
-                      slotProps={{ legend: { hidden: true } }}
-                    />
-                  </div>
-                )}
+          ((
+            selectedView === 'line'
+              ? (timelineData.length === 0)
+              : (!data[selectedView] && !searchPerformed)
+          ) || isLoading) ? (
+            <div className={cls.chartLoading}>
+                <CircularProgress />
               </div>
-              <div className={cls.chartLegend}>
-                {(selectedView === 'line' ? series : currentData).map((item, i) => (
-                  <div key={item.id || item.url || item.label} className={cls.legendItem}>
-                    <div
-                      className={cls.legendColor}
-                      style={{ background: item.color || colors[i % colors.length] }}
-                    />
-                    {item.url ? (
-                      <a href={item.url} target="_blank" rel="noopener noreferrer" className={cls.legendLabel}>
-                        {item.label}
-                      </a>
-                    ) : (
-                      <span className={cls.legendLabel}>{item.label}</span>
+            ) : (
+              (currentData?.length > 0 || series.length > 0) ? (
+                <div className={cls.chartSection}>
+                  <div className={cls.chartContainer}>
+                    {selectedView !== 'line' && (
+                      <PieChart
+                        series={[{ data: currentData, arcLabel: () => '' }]}
+                        width={300}
+                        height={300}
+                        slotProps={{ legend: { hidden: true } }}
+                      />
+                    )}
+                    {selectedView === 'line' && series.length > 0 && xAxis.length > 0 && (
+                      <div style={{ width: '100%', overflowX: 'auto' }}>
+                        <LineChart
+                          xAxis={[{
+                            id: 'timeline',
+                            data: xAxis,
+                            scaleType: 'band',
+                            valueFormatter: (val) => val,
+                            label: 'Date',
+                          }]}
+                          series={series}
+                          height={420}
+                          width={Math.max(640, xAxis.length * 60)}
+                          slotProps={{ legend: { hidden: true } }}
+                        />
+                      </div>
                     )}
                   </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className={cls.chartEmpty}>
-              No data to display
-            </div>
-          )
-        )
-      )}
+                  <div className={cls.chartLegend}>
+                    {(selectedView === 'line' ? series : currentData).map((item, i) => (
+                      <div key={item.id || item.url || item.label} className={cls.legendItem}>
+                        <div
+                          className={cls.legendColor}
+                          style={{ background: item.color || colors[i % colors.length] }}
+                        />
+                        {item.url ? (
+                          <a href={item.url} target="_blank" rel="noopener noreferrer" className={cls.legendLabel}>
+                            {item.label}
+                          </a>
+                        ) : (
+                          <span className={cls.legendLabel}>{item.label}</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className={cls.chartEmpty}>
+                  No data to display
+                </div>
+              )
+            )
+        )}
 
         {selectedSection === 1 && (
           <div>
@@ -816,5 +807,5 @@ export default function({
         )}
       </div>
     </div>
-  )
+  );
 }
