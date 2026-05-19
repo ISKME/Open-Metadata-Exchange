@@ -27,7 +27,7 @@ dev = [
   "pytest-run-parallel>=0.3",
 ]
 docs = [
-  "myst-parser>=4.0.1",
+  "myst-parser>=5.1",
   "sphinx>=8.0.2",
   "sphinx-autoapi>=3.6",
   "sphinx-pyproject>=0.3",
