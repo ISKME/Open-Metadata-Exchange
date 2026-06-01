@@ -65,13 +65,13 @@ skip = """\
 max_supported_python = "3.14"
 
 [tool.ty]
+src.exclude = [ "server/plugins/moodle/extract-mbz3.py" ]
 # These rules produce errors in the current codebase; ratchet off as issues are fixed.
 # Rules from PR #293's --ignore list that produced zero errors have been omitted.
 rules.invalid-argument-type = "ignore"
 rules.invalid-assignment = "ignore"
 rules.unresolved-attribute = "ignore"
 rules.unresolved-import = "ignore"
-src.exclude = [ "server/plugins/moodle/extract-mbz3.py" ]
 
 [tool.rumdl]
 disable = [
