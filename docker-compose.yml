@@ -13,8 +13,8 @@ services:
     # TODO: the network name in /etc/news/inn.conf should be
     # different. Should come from .env file.
     build:
-      context: ./server_config/news_server
-      dockerfile: Dockerfile
+      # context: ./server_config/news_server
+      dockerfile: Dockerfile-nntp
     networks:
       my_network:
         ipv4_address: 172.21.0.2
