@@ -10,8 +10,6 @@
 services:
   nntp-server:
     hostname: nntp-server
-    # TODO: the network name in /etc/news/inn.conf should be
-    # different. Should come from .env file.
     build:
       # context: ./server_config/news_server
       dockerfile: Dockerfile-nntp
@@ -31,7 +29,7 @@ services:
       - ./static:/app/static:rw
       - ./templates:/app/templates:rw
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-api
     environment:
       CMS_PLUGIN: server.plugins.${OME_CMS_PLUGIN}
       INN_SERVER_NAME: nntp-server
