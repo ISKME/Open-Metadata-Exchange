@@ -12,8 +12,6 @@ RUN /templatize.sh /j2_filters.py /etc/news /config.json
 
 RUN chown root:root /etc/news -R
 
-RUN mkdir -p /var/lib/news && chown news:news /var/lib/news
-
 COPY ./server_config/news_server/var/lib/news/newsusers.j2 /var/lib/news/newsusers.j2
 RUN /templatize.sh /j2_filters.py /var/lib/news/ /config.json
 
