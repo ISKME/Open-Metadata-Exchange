@@ -1,12 +1,3 @@
-# Accessing the INN server:
-# Internally (from other containers like the FastAPI containers):
-# * Use nntp-server:119
-# Externally (from your host):
-# * Use localhost:119
-# host.docker.internal would be used if the INN server was running on your localhost machine.
-
-# docker compose looks for .env file
-
 services:
   nntp-server:
     hostname: nntp-server
