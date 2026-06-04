@@ -13,7 +13,7 @@ FROM ghcr.io/astral-sh/uv:python3.12-trixie-slim
 
 ARG SERVER_PORT
 
-RUN apt-get update && apt-get install -y build-essential
+RUN apt-get update && apt-get install -y build-essential j2cli
 
 RUN uv venv && uv pip install "fastapi[standard]" pydantic pynntp beautifulsoup4 dateparser pondpond && mkdir -p /app/server
 
@@ -25,11 +25,12 @@ COPY ./config.json /tmp/config.json
 WORKDIR /app
 
 COPY env.j2 /app/.env.j2
-RUN /tmp/templatize.sh /tmp/j2_filters.py /app /tmp/config.json
+RUN env
+RUN INN_SERVER_NAME=${INN_SERVER_NAME} /tmp/templatize.sh /tmp/j2_filters.py /app /tmp/config.json
 
 
-# Expose port 5001
-EXPOSE ${SERVER_PORT}
+# Expose port 8000
+EXPOSE 8000
 
 # Command to run the FastAPI server, binding it to port 5001
-CMD ["uv", "run", "--env-file=.env", "fastapi", "dev", "--host=0.0.0.0", "--port=${SERVER_PORT}", "server/main.py"]
+CMD ["uv", "run", "--env-file=.env", "fastapi", "dev", "--host=0.0.0.0", "server/main.py"]
