@@ -21,7 +21,6 @@ services:
     build:
       dockerfile: Dockerfile-api
       args:
-        SERVER_PORT: 5001
         INN_SERVER_NAME: nntp-server
     networks:
       my_network:
