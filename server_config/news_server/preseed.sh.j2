@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+{% for peer in peers %}
+/usr/lib/news/bin/actsync -v 4 -m -ox -p 0  localhost {{peer.dns_name}}:{{peer.port}}
+/usr/lib/news/bin/getlist -h localhost | \
+    sed -n 's/^\(ome\.[^ ]*\) .*/\t\1/pg' | \
+    awk 'BEGIN{print("{{peer.dns_name}}:{{peer.port}}");}{print($0);}' > /root/pullnews.marks
+/usr/lib/news/bin/pullnews
+
+{% endfor %}

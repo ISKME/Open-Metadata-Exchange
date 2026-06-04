@@ -94,6 +94,7 @@ streaming:                false
 {% for peer in peers %}
 peer {{ peer.name }} {
      ip-name: {{ peer.dns_name }}
+     port-number: {{ peer.port }}
 }
 {% endfor %}
 
