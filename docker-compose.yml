@@ -11,7 +11,6 @@ services:
   nntp-server:
     hostname: nntp-server
     build:
-      # context: ./server_config/news_server
       dockerfile: Dockerfile-nntp
     networks:
       my_network:
@@ -31,11 +30,9 @@ services:
     build:
       dockerfile: Dockerfile-api
     environment:
-      CMS_PLUGIN: server.plugins.${OME_CMS_PLUGIN}
-      INN_SERVER_NAME: nntp-server
-      # TODO: need to add the username/password that the NNTP server
-      # now needs via .env or some such
-      SERVER_PORT: 5001
+      - INN_SERVER_NAME: nntp-server
+    args:
+      - SERVER_PORT: 5001
     networks:
       my_network:
         ipv4_address: 172.21.0.3

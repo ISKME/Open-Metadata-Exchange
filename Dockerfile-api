@@ -11,21 +11,25 @@
 # Use Astral's uv Debian Trixie Slim Python 3.12 base image
 FROM ghcr.io/astral-sh/uv:python3.12-trixie-slim
 
+ARG SERVER_PORT
+
 RUN apt-get update && apt-get install -y build-essential
 
 RUN uv venv && uv pip install "fastapi[standard]" pydantic pynntp beautifulsoup4 dateparser pondpond && mkdir -p /app/server
 
+COPY ./tools/docker_tools/j2_related/templatize.sh /tmp/templatize.sh
+COPY ./tools/docker_tools/j2_related/j2_filters.py /tmp/j2_filters.py
+COPY ./config.json /tmp/config.json
+
 # Create a directory for the FastAPI app
 WORKDIR /app
 
-# # Copy the FastAPI app code to the container
-# DO NOT DO this. Using the 'bind mount' instead (see the docker compose file).
-# COPY ./server /app/server
-# COPY ./static /app/static
-# COPY ./templates /app/templates
+COPY env.j2 /app/.env.j2
+RUN /tmp/templatize.sh /tmp/j2_filters.py /app /tmp/config.json
+
 
 # Expose port 5001
-EXPOSE 5001
+EXPOSE ${SERVER_PORT}
 
 # Command to run the FastAPI server, binding it to port 5001
-CMD ["uv", "run", "fastapi", "dev", "--host=0.0.0.0", "--port=5001", "server/main.py"]
+CMD ["uv", "run", "--env-file=.env", "fastapi", "dev", "--host=0.0.0.0", "--port=${SERVER_PORT}", "server/main.py"]
