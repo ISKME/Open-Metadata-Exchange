@@ -19,6 +19,8 @@ services:
     ports:  # external:internal
       - 119:119
       - 563:563
+    post_start:
+      - command: sh -c 'echo "in Post Start hook"'
     restart: always
 
   internetnews-server-boston:
@@ -32,6 +34,8 @@ services:
     ports:
       - 1119:119
       - 1563:563
+    post_start:
+      - command: sh -c 'echo "in Post Start hook"'
     restart: always
 
   fastapi-server-austin:
