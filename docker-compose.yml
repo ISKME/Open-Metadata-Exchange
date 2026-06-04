@@ -22,13 +22,12 @@ services:
       dockerfile: Dockerfile-api
       args:
         SERVER_PORT: 5001
-    environment:
-      - INN_SERVER_NAME=nntp-server
+        INN_SERVER_NAME: nntp-server
     networks:
       my_network:
         ipv4_address: 172.21.0.3
     ports:
-      - 5001:5001
+      - 5001:8000
     depends_on:
       - nntp-server
 
