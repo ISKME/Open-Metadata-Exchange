@@ -21,7 +21,8 @@ RUN mkdir -p /var/www/inn
 RUN chown news:news /var/www/inn
 
 COPY ./server_config/news_server/wait_for_tcp.sh /usr/local/bin/
-COPY ./server_config/news_server/preseed.sh /usr/local/bin/
+COPY ./server_config/news_server/preseed.sh.j2 /usr/local/bin/
+RUN /templatize.sh /j2_filters.py /usr/local/bin/ /config.json
 
 RUN rm /config.json
 
