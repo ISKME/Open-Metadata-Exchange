@@ -11,7 +11,7 @@
 # Use Astral's uv Debian Trixie Slim Python 3.12 base image
 FROM ghcr.io/astral-sh/uv:python3.12-trixie-slim
 
-ARG SERVER_PORT
+ARG INN_SERVER_NAME
 
 RUN apt-get update && apt-get install -y build-essential j2cli
 
