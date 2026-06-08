@@ -20,7 +20,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-  "beautifulsoup4>=4.15.0",
+  "beautifulsoup4>=4.15",
   "dateparser>=1.2",
   "httpx>=0.28",
   "pytest>=9.0.3",
