@@ -81,7 +81,7 @@ pre-commit install
   (as required by `ruff rule EM101`).
 - **Do not use `from __future__ import annotations`** in Pydantic model files that contain
   `datetime` fields — ruff rule `TC003` flags the runtime `datetime` import as needing a
-  type-checking-only block, which breaks Pydantic's runtime validation.  Omit the future
+  type-checking-only block, which breaks Pydantic's runtime validation. Omit the future
   import and let Python >= 3.13 handle the annotations natively.
 - Avoid where possible variables that can be polymorphic with `None` as in `s: str | None`.
 - Use assignment expresstions (:=) where it makes sense.
@@ -97,6 +97,7 @@ source-specific data into standardized `EducationResource` objects.
 See `.github/skills/plugin.md` for step-by-step instructions on creating a new plugin.
 
 Key files:
+
 - `server/plugins/ome_plugin.py` — Base `OMEPlugin` class and `EducationResource` model.
 - `server/get_ome_plugins.py` — Discovers and loads all plugins at runtime.
 - `server/plugins/README.md` — Plugin architecture documentation.
