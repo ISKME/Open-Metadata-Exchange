@@ -65,15 +65,15 @@ wheels = [
 
 [[package]]
 name = "beautifulsoup4"
-version = "4.14.3"
+version = "4.15.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "soupsieve" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c3/b0/1c6a16426d389813b48d95e26898aff79abbde42ad353958ad95cc8c9b21/beautifulsoup4-4.14.3.tar.gz", hash = "sha256:6292b1c5186d356bba669ef9f7f051757099565ad9ada5dd630bd9de5fa7fb86", size = 627737, upload-time = "2025-11-30T15:08:26.084Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/65/318323f98dbee45d42dff61d8f047181bc6f2268a9068cfad035a46be5af/beautifulsoup4-4.15.0.tar.gz", hash = "sha256:288e3ca7d54b06f2ac191970bc275c1939cb46d450b255bf6718b04aa37ab4f7", size = 632571, upload-time = "2026-06-07T16:44:20.453Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1a/39/47f9197bdd44df24d67ac8893641e16f386c984a0619ef2ee4c51fbbc019/beautifulsoup4-4.14.3-py3-none-any.whl", hash = "sha256:0918bfe44902e6ad8d57732ba310582e98da931428d231a5ecb9e7c703a735bb", size = 107721, upload-time = "2025-11-30T15:08:24.087Z" },
+    { url = "https://files.pythonhosted.org/packages/88/c6/92fcd42f1ba33e1184263f25bfabf3d27c383410470f169e4b8163bf9c17/beautifulsoup4-4.15.0-py3-none-any.whl", hash = "sha256:d6f88de62e1d4e38ecb1077eb9724cd0eff29d2a08ca16a401e9b9e93f117cf9", size = 109924, upload-time = "2026-06-07T16:44:21.566Z" },
 ]
 
 [[package]]
@@ -654,11 +654,11 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "beautifulsoup4", specifier = ">=4.13" },
+    { name = "beautifulsoup4", specifier = ">=4.15.0" },
     { name = "dateparser", specifier = ">=1.2" },
     { name = "httpx", specifier = ">=0.28" },
     { name = "pytest", specifier = ">=9.0.3" },
-    { name = "pytest-run-parallel", specifier = ">=0.9" },
+    { name = "pytest-run-parallel", specifier = ">=0.9.1" },
 ]
 docs = [
     { name = "myst-parser", specifier = ">=5.1" },
@@ -837,14 +837,14 @@ wheels = [
 
 [[package]]
 name = "pytest-run-parallel"
-version = "0.9.0"
+version = "0.9.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pytest" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6e/30/93e117c777ff035affc62f7693a8265cd092ffd4e3179df2a29269e6e924/pytest_run_parallel-0.9.0.tar.gz", hash = "sha256:653b1f946d4c525588c3bde1a9ba56ec3176bf96c5df5649e57bfa3173534247", size = 65939, upload-time = "2026-05-27T15:33:37.136Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e9/c2/e94d5db442c975425ec7da0f66d29e191371a3aad4f4d9872bfeaf506cf7/pytest_run_parallel-0.9.1.tar.gz", hash = "sha256:9972ad8e66340a83819abae9cb3cefd7b3ca7b69b884d19521137767c6a69b58", size = 66001, upload-time = "2026-06-03T20:14:11.678Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4c/a1/b80c7db9830cc02019bcc4e54f72ba52248c0169892d83c5a8dfa782c125/pytest_run_parallel-0.9.0-py3-none-any.whl", hash = "sha256:ada1021b87895be857a8b181601dbfea24e460c7b5a5622ea040ea777f52740f", size = 19476, upload-time = "2026-05-27T15:33:35.834Z" },
+    { url = "https://files.pythonhosted.org/packages/19/88/b09e7e1be1847e61f0602fe691cefb3363dc45bb08564568999a23e484c4/pytest_run_parallel-0.9.1-py3-none-any.whl", hash = "sha256:623d1fc7f7a2bec5487addf791f559e7814de5b135c43434e1740fd63eff3c7f", size = 19506, upload-time = "2026-06-03T20:14:10.328Z" },
 ]
 
 [[package]]
