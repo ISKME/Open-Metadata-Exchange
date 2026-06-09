@@ -52,7 +52,7 @@ Replace `<plugin_name>` with a short, lowercase name for the data source (e.g., 
 Before writing any code, check whether the source site exposes a public API:
 
 - **JSON/REST API available** → fetch data with `httpx` and generate Pydantic models from
-  a sample response using `datamodel-codegen` (see below).  Prefer
+  a sample response using `datamodel-codegen` (see below). Prefer
   `httpx.AsyncClient` with `asyncio.gather()` for paginated APIs (see
   [Async / concurrent page fetching](#async--concurrent-page-fetching) below).
 - **No public API (Drupal, WordPress, static HTML, etc.)** → use web scraping with
@@ -179,14 +179,17 @@ if __name__ == "__main__":
 - Define `newsgroups` as `MappingProxyType({...})` (required by `ruff rule RUF012`).
 - Implement `make_metadata_card_from_json()` and optionally `make_metadata_card_from_dict()`.
 - Use `NotImplementedError` with a message variable for unimplemented methods:
+
   ```python
   def make_metadata_card_from_url(self, url: str) -> EducationResource:
       msg = "This method is not implemented yet."
       raise NotImplementedError(msg)
   ```
+
 - Add an `if __name__ == "__main__":` block for single-file testing.
 - **Mark the file executable** after creation so that `check-shebang-scripts-are-executable`
   (a pre-commit hook) does not fail:
+
   ```bash
   git add --chmod=+x server/plugins/<plugin_name>/plugin.py
   git add --chmod=+x server/plugins/<plugin_name>/<plugin_name>_models.py
@@ -196,8 +199,8 @@ if __name__ == "__main__":
 
 If the source provides a bulk data export (CSV, JSON dump, API pagination), or requires web
 scraping, add a `bulk_import.py` to handle fetching and converting that data into
-`EducationResource` objects.  Cache results locally so that repeated runs do not re-fetch
-the site.  Mark the file executable the same way as other scripts:
+`EducationResource` objects. Cache results locally so that repeated runs do not re-fetch
+the site. Mark the file executable the same way as other scripts:
 
 ```bash
 git add --chmod=+x server/plugins/<plugin_name>/bulk_import.py
@@ -241,7 +244,7 @@ This applies to both synchronous (`httpx.Client`) and asynchronous
 
 When a `try` block in a loop only catches an exception to continue to the next
 iteration (i.e., the `except` body is just `continue` or `pass`), use
-`contextlib.suppress` instead.  This is required by ruff rule **SIM105**
+`contextlib.suppress` instead. This is required by ruff rule **SIM105**
 (`suppressible-exception`):
 
 ```python
@@ -309,7 +312,7 @@ See `server/plugins/pressbooks/bulk_import.py` for a full working example.
 
 ### Exception Groups for validation loops
 
-This project targets **Python 3.13+**.  When validating a list of records
+This project targets **Python 3.13+**. When validating a list of records
 (e.g., after a bulk API fetch), use an `ExceptionGroup` to collect *all*
 `ValidationError` exceptions and report them together rather than raising on
 the first failure or silently discarding errors one at a time:
@@ -369,16 +372,16 @@ article = make_plugin_article(plugin, here / "<plugin_name>_item.json")
 (here / "<plugin_name>_article.eml").write_text(str(article))
 ```
 
-> **Note:** `make_plugin_article()` is defined in `server/nntp_article.py`.  It derives
+> **Note:** `make_plugin_article()` is defined in `server/nntp_article.py`. It derives
 > the `_ome_item.json` path automatically from the `_item.json` path (replacing the
 > `_item` suffix with `_ome_item`), but you can pass an explicit `ome_json_path=` keyword
-> argument to override it.  Pass the returned `EmailMessage` to `pynntp_client.post()`
+> argument to override it. Pass the returned `EmailMessage` to `pynntp_client.post()`
 > (or write it to disk as shown above) when you are ready to publish.
 
 #### 6. Update the channel count in tests
 
-`tests/test_ome_node.py` hard-codes the expected number of channels.  Increment it by 1
-for each new plugin you add.  Search for `len(channels) ==` and update every occurrence.
+`tests/test_ome_node.py` hard-codes the expected number of channels. Increment it by 1
+for each new plugin you add. Search for `len(channels) ==` and update every occurrence.
 
 #### 7. Verify the plugin is discovered
 
@@ -405,13 +408,13 @@ Fix any issues reported before committing.
 ### Web-scraping variant
 
 Use this when the source site has **no public REST or JSON API** (e.g., Drupal, WordPress,
-or static HTML sites).  The pattern uses `httpx` for HTTP fetches and `BeautifulSoup` for
+or static HTML sites). The pattern uses `httpx` for HTTP fetches and `BeautifulSoup` for
 HTML parsing.
 
 #### Models (`<name>_models.py`)
 
 Write the Pydantic model by hand from the fields you intend to scrape — there is no JSON
-response to feed into `datamodel-codegen`.  Omit `from __future__ import annotations` if
+response to feed into `datamodel-codegen`. Omit `from __future__ import annotations` if
 any field has a `datetime` type:
 
 ```python
