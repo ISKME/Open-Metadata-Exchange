@@ -50,11 +50,21 @@ class GutenbergBook(BaseModel):
 
     @property
     def author_names(self) -> list[str]:
-        """Return author names in natural order (first last)."""
+        """Return author names in natural order (first last).
+
+        Gutenberg stores names as "Last, First"; split on the first comma
+        and reassemble as "First Last".
+        """
         names = []
         for author in self.authors:
+            # Split "Last, First" into two parts; leave unchanged if no comma.
             parts = author.name.split(", ", 1)
-            names.append(f"{parts[1]} {parts[0]}" if len(parts) == 2 else author.name)  # noqa: PLR2004
+            last_first_parts = 2
+            names.append(
+                f"{parts[1]} {parts[0]}"
+                if len(parts) == last_first_parts
+                else author.name
+            )
         return names
 
 

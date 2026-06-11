@@ -36,8 +36,7 @@ class ProjectGutenbergPlugin(OMEPlugin):
     newsgroups: dict[str, str] = MappingProxyType(
         {
             "ome.project_gutenberg": (
-                "Metadata from Project Gutenberg free e-books "
-                "https://www.gutenberg.org"
+                "Metadata from Project Gutenberg free e-books https://www.gutenberg.org"
             ),
         }
     )
@@ -84,7 +83,7 @@ class ProjectGutenbergPlugin(OMEPlugin):
     def make_metadata_cards_from_search_json(
         self, json_payload: str
     ) -> list[EducationResource]:
-        """Create EducationResource cards from a Gutendex search response JSON string."""
+        """Create EducationResource cards from a Gutendex search JSON string."""
         search = GutenbergSearchResponse.model_validate_json(json_payload)
         return [self.make_metadata_card(book) for book in search.results]
 

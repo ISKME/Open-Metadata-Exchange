@@ -18,7 +18,9 @@ def _sample_book_dict() -> dict:
     return {
         "id": 1661,
         "title": "The Adventures of Sherlock Holmes",
-        "authors": [{"name": "Doyle, Arthur Conan", "birth_year": 1859, "death_year": 1930}],
+        "authors": [
+            {"name": "Doyle, Arthur Conan", "birth_year": 1859, "death_year": 1930}
+        ],
         "subjects": [
             "Detective and mystery stories, English",
             "Holmes, Sherlock (Fictitious character) -- Fiction",

@@ -37,6 +37,7 @@ from server.plugins.project_gutenberg.plugin import ProjectGutenbergPlugin
 GUTENDEX_BOOKS_URL = "https://gutendex.com/books/"
 DEFAULT_SEARCH_QUERY = "Sherlock Holmes"
 DEFAULT_LIMIT = 32
+API_TIMEOUT_SECONDS = 30.0
 
 logger = logging.getLogger(__name__)
 
@@ -68,7 +69,7 @@ async def fetch_books(
     params: dict[str, str | int] = {"search": query}
 
     async with httpx.AsyncClient(
-        follow_redirects=True, timeout=30.0
+        follow_redirects=True, timeout=API_TIMEOUT_SECONDS
     ) as httpx_async_client:
         while url and len(books) < limit:
             try:
@@ -123,9 +124,7 @@ def bulk_import(
         dicts.
     """
     if cache_path is None:
-        cache_path = (
-            Path(__file__).resolve().parent / "gutenberg_sherlock_holmes.json"
-        )
+        cache_path = Path(__file__).resolve().parent / "gutenberg_sherlock_holmes.json"
 
     if not cache_path.exists():
         books = asyncio.run(fetch_books(query=query, limit=limit))
