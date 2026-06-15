@@ -23,7 +23,7 @@ dev = [
   "beautifulsoup4>=4.15",
   "dateparser>=1.4.1",
   "httpx>=0.28",
-  "pytest>=9.1.0",
+  "pytest>=9.1",
   "pytest-run-parallel>=0.9.1",
 ]
 docs = [
