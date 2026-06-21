@@ -1,33 +1,40 @@
 // @ts-nocheck
-import { useState, useEffect } from 'react'
-import { Box, Grid, GlobalStyles, TextField, Button } from '@mui/material'
-import styles from './Ticket.styles'
+import { useState, useEffect } from 'react';
+import {
+  Box, Grid, GlobalStyles, TextField, Button,
+} from '@mui/material';
+import styles from './Ticket.styles';
 
-(function() {
-  const originalLog = console.info
-  console.info = function(message) {
-    originalLog.apply(console, arguments)
-    if (message === '[webpack-dev-server] App hot update...') window.location.reload()
-  }
-})()
+(function () {
+  // eslint-disable-next-line no-console
+  const originalLog = console.info;
+  // eslint-disable-next-line no-console
+  console.info = function (message) {
+    originalLog.apply(console, arguments);
+    if (message === '[webpack-dev-server] App hot update...') window.location.reload();
+  };
+}());
 
 export function Ticket() {
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(0);
   useEffect(() => {
-    const head = document.querySelector('head')
-    const link = document.createElement('link')
-    link.rel = 'stylesheet'
-    link.href = 'https://fonts.cdnfonts.com/css/inter'
-    head.appendChild(link)
+    const head = document.querySelector('head');
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.cdnfonts.com/css/inter';
+    head.appendChild(link);
     return () => {
-      head.removeChild(link)
-    }
-  }, [])
+      head.removeChild(link);
+    };
+  }, []);
   return (
     <Box sx={styles.box}>
       <GlobalStyles styles={styles.global} />
       <h1>Submit a Ticket</h1>
-      <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: '28px', marginTop: '56px' }}>
+      <div style={{
+        display: 'grid', gridTemplateColumns: '200px 1fr', gap: '28px', marginTop: '56px',
+      }}
+      >
         <span>Your Email * </span>
         <TextField label="Tell us your email here..." variant="outlined" size="small" sx={{ height: '32px' }} />
         <span>Subject * </span>

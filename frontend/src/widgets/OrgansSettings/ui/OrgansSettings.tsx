@@ -11,9 +11,10 @@ import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import { Uploader } from 'components/uploader';
-import cls from './OrgansSettings.module.scss';
 import axios from 'axios';
+import { debug } from 'shared/debug';
 import { useSearchParams } from 'react-router-dom';
+import cls from './OrgansSettings.module.scss';
 
 const style = {
   marginLeft: '16px',
@@ -45,7 +46,7 @@ export function OrgansSettings({ id: propsId }) {
 
   useEffect(() => {
     if (!id) return;
-    axios('/api/organizations/v1/organizations/' + id).then(({ data }) => {
+    axios(`/api/organizations/v1/organizations/${id}`).then(({ data }) => {
       const { name, cover, group_cover } = data;
       setTitle(name);
       setCover(cover);
@@ -65,7 +66,7 @@ export function OrgansSettings({ id: propsId }) {
         'Content-Type': 'multipart/form-data',
         'X-Csrftoken': data.token,
       };
-      axios.put('/api/organizations/v1/organizations/' + id, formData, { headers }).then(console.log);
+      axios.put(`/api/organizations/v1/organizations/${id}`, formData, { headers }).then(debug);
       alert('Changes saved!');
     });
   }

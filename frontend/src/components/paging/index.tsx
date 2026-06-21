@@ -4,6 +4,7 @@ import { SyncPaging } from './sync';
 import { AsyncPaging } from './async';
 import { AsyncQueryPaging } from './query';
 import axios from 'axios';
+import { debug } from 'shared/debug';
 import { useEffect, useState, useRef } from 'react';
 
 const style = {
@@ -67,7 +68,7 @@ export const Paging = ({ path = '', items = null, query = false, children = null
   const fetchPage = fetchPath(path, done);
   const [key, setKey] = useState(0);
   useEffect(() => {
-    console.log(prevAmount?.path, path)
+    debug(prevAmount?.path, path)
     if(prevAmount && (prevAmount?.path?.path !== path))
       setKey(key + 1)
   }, [path]);
