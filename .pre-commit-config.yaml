@@ -56,19 +56,19 @@ repos:
           - tomli
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.17
+    rev: v0.15.18
     hooks:
       - id: ruff-check
       - id: ruff-format
 
   - repo: https://github.com/rvben/rumdl-pre-commit
-    rev: v0.2.16
+    rev: v0.2.20
     hooks:
       - id: rumdl      # Lint only (fails on issues)
       # - id: rumdl-fmt  # Auto-format and fail if issues remain
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.24.1
+    rev: v2.25.0
     hooks:
       - id: pyproject-fmt
 
@@ -78,7 +78,7 @@ repos:
       - id: validate-pyproject
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.11.21
+    rev: 0.11.23
     hooks:
       - id: uv-lock
 
