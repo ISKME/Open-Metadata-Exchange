@@ -1,0 +1,448 @@
+[
+  {
+    "workId": "1d9e18b4-6a3f-4e2d-9c7b-8f5d2a1e0c3b",
+    "workType": "MONOGRAPH",
+    "workStatus": "ACTIVE",
+    "doi": "https://doi.org/10.11647/obp.0271",
+    "publicationDate": "2022-03-01",
+    "place": "Cambridge, UK",
+    "updatedAt": "2023-11-15T09:42:00.000Z",
+    "titles": [
+      {
+        "titleId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "localeCode": "en",
+        "fullTitle": "Programming for Linguists: Python and Praat in Speech Science",
+        "title": "Programming for Linguists",
+        "subtitle": "Python and Praat in Speech Science",
+        "canonical": true
+      }
+    ],
+    "abstracts": [
+      {
+        "abstractId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+        "localeCode": "en",
+        "content": "This book provides an accessible introduction to programming for linguists and speech scientists, covering Python and Praat. It is designed for students and researchers in linguistics, phonetics, and related fields who want to automate tasks, process data, and conduct computational analyses. The book requires no prior programming experience and builds from first principles to more advanced topics such as data wrangling, statistical computing, and acoustic analysis.",
+        "abstractType": "SHORT",
+        "canonical": true
+      }
+    ],
+    "contributions": [
+      {
+        "contributionId": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+        "contributionType": "AUTHOR",
+        "fullName": "Margaret E. L. Renwick",
+        "contributionOrdinal": 1
+      },
+      {
+        "contributionId": "d4e5f6a7-b8c9-0123-defa-234567890123",
+        "contributionType": "AUTHOR",
+        "fullName": "Jon Forrest",
+        "contributionOrdinal": 2
+      }
+    ],
+    "subjects": [
+      {
+        "subjectId": "e5f6a7b8-c9d0-1234-efab-345678901234",
+        "subjectType": "KEYWORD",
+        "subjectCode": "Python",
+        "subjectOrdinal": 1
+      },
+      {
+        "subjectId": "f6a7b8c9-d0e1-2345-fabc-456789012345",
+        "subjectType": "KEYWORD",
+        "subjectCode": "linguistics",
+        "subjectOrdinal": 2
+      },
+      {
+        "subjectId": "a7b8c9d0-e1f2-3456-abcd-567890123456",
+        "subjectType": "KEYWORD",
+        "subjectCode": "phonetics",
+        "subjectOrdinal": 3
+      },
+      {
+        "subjectId": "b8c9d0e1-f2a3-4567-bcde-678901234567",
+        "subjectType": "KEYWORD",
+        "subjectCode": "speech science",
+        "subjectOrdinal": 4
+      },
+      {
+        "subjectId": "c9d0e1f2-a3b4-5678-cdef-789012345678",
+        "subjectType": "THEMA",
+        "subjectCode": "UMP",
+        "subjectOrdinal": 5
+      }
+    ],
+    "publications": [
+      {
+        "publicationId": "d0e1f2a3-b4c5-6789-defa-890123456789",
+        "publicationType": "PDF",
+        "isbn": "978-1-80064-271-6"
+      },
+      {
+        "publicationId": "e1f2a3b4-c5d6-7890-efab-901234567890",
+        "publicationType": "EPUB",
+        "isbn": "978-1-80064-272-3"
+      }
+    ],
+    "imprint": {
+      "imprintId": "f2a3b4c5-d6e7-8901-fabc-012345678901",
+      "imprintName": "Open Book Publishers",
+      "publisher": {
+        "publisherId": "a3b4c5d6-e7f8-9012-abcd-123456789012",
+        "publisherName": "Open Book Publishers",
+        "publisherShortname": "OBP",
+        "publisherUrl": "https://www.openbookpublishers.com"
+      }
+    }
+  },
+  {
+    "workId": "2e0f29c5-7b4e-5f3e-ad8c-9e6e3b2f1d4c",
+    "workType": "MONOGRAPH",
+    "workStatus": "ACTIVE",
+    "doi": "https://doi.org/10.21428/58768ee9.05670d3d",
+    "publicationDate": "2020-09-15",
+    "place": "Montreal, Canada",
+    "updatedAt": "2023-08-10T14:30:00.000Z",
+    "titles": [
+      {
+        "titleId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+        "localeCode": "en",
+        "fullTitle": "Introduction to Cultural Analytics and Python",
+        "title": "Introduction to Cultural Analytics and Python",
+        "subtitle": "",
+        "canonical": true
+      }
+    ],
+    "abstracts": [
+      {
+        "abstractId": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+        "localeCode": "en",
+        "content": "This book offers a practical introduction to computational methods for the humanities and social sciences, with a focus on textual data analysis using Python. Topics include data collection and cleaning, exploratory data analysis, natural language processing, machine learning, and network analysis. The book uses real cultural datasets and is designed for students with no prior programming experience.",
+        "abstractType": "SHORT",
+        "canonical": true
+      }
+    ],
+    "contributions": [
+      {
+        "contributionId": "d4e5f6a7-b8c9-0123-defa-234567890123",
+        "contributionType": "AUTHOR",
+        "fullName": "Melanie Walsh",
+        "contributionOrdinal": 1
+      }
+    ],
+    "subjects": [
+      {
+        "subjectId": "e5f6a7b8-c9d0-1234-efab-345678901235",
+        "subjectType": "KEYWORD",
+        "subjectCode": "Python",
+        "subjectOrdinal": 1
+      },
+      {
+        "subjectId": "f6a7b8c9-d0e1-2345-fabc-456789012346",
+        "subjectType": "KEYWORD",
+        "subjectCode": "digital humanities",
+        "subjectOrdinal": 2
+      },
+      {
+        "subjectId": "a7b8c9d0-e1f2-3456-abcd-567890123457",
+        "subjectType": "KEYWORD",
+        "subjectCode": "cultural analytics",
+        "subjectOrdinal": 3
+      },
+      {
+        "subjectId": "b8c9d0e1-f2a3-4567-bcde-678901234568",
+        "subjectType": "KEYWORD",
+        "subjectCode": "text analysis",
+        "subjectOrdinal": 4
+      },
+      {
+        "subjectId": "c9d0e1f2-a3b4-5678-cdef-789012345679",
+        "subjectType": "THEMA",
+        "subjectCode": "UMP",
+        "subjectOrdinal": 5
+      }
+    ],
+    "publications": [
+      {
+        "publicationId": "d0e1f2a3-b4c5-6789-defa-890123456780",
+        "publicationType": "PDF",
+        "isbn": null
+      }
+    ],
+    "imprint": {
+      "imprintId": "e1f2a3b4-c5d6-7890-efab-901234567891",
+      "imprintName": "Manifold",
+      "publisher": {
+        "publisherId": "f2a3b4c5-d6e7-8901-fabc-012345678902",
+        "publisherName": "University of Minnesota Libraries Publishing",
+        "publisherShortname": "UMN Libraries",
+        "publisherUrl": "https://www.lib.umn.edu"
+      }
+    }
+  },
+  {
+    "workId": "3f1a3ad6-8c5f-6e4f-be9d-af7f4c3e2e5d",
+    "workType": "EDITED_BOOK",
+    "workStatus": "ACTIVE",
+    "doi": "https://doi.org/10.53288/0337.1.00",
+    "publicationDate": "2021-06-30",
+    "place": "Berlin, Germany",
+    "updatedAt": "2024-01-20T11:15:00.000Z",
+    "titles": [
+      {
+        "titleId": "c3d4e5f6-a7b8-9012-cdef-123456789013",
+        "localeCode": "en",
+        "fullTitle": "Python in the Humanities: Computational Methods for Scholars",
+        "title": "Python in the Humanities",
+        "subtitle": "Computational Methods for Scholars",
+        "canonical": true
+      }
+    ],
+    "abstracts": [
+      {
+        "abstractId": "d4e5f6a7-b8c9-0123-defa-234567890124",
+        "localeCode": "en",
+        "content": "A collection of scholarly contributions demonstrating the application of Python programming in humanistic inquiry. Chapters cover corpus linguistics, historical data analysis, literary text mining, archival metadata processing, and geospatial history. The volume is addressed to humanities scholars at all stages of their careers who wish to incorporate computational methods into their research practice.",
+        "abstractType": "SHORT",
+        "canonical": true
+      }
+    ],
+    "contributions": [
+      {
+        "contributionId": "e5f6a7b8-c9d0-1234-efab-345678901236",
+        "contributionType": "EDITOR",
+        "fullName": "Anne Baillot",
+        "contributionOrdinal": 1
+      },
+      {
+        "contributionId": "f6a7b8c9-d0e1-2345-fabc-456789012347",
+        "contributionType": "EDITOR",
+        "fullName": "Laurent Romary",
+        "contributionOrdinal": 2
+      }
+    ],
+    "subjects": [
+      {
+        "subjectId": "a7b8c9d0-e1f2-3456-abcd-567890123458",
+        "subjectType": "KEYWORD",
+        "subjectCode": "Python",
+        "subjectOrdinal": 1
+      },
+      {
+        "subjectId": "b8c9d0e1-f2a3-4567-bcde-678901234569",
+        "subjectType": "KEYWORD",
+        "subjectCode": "digital humanities",
+        "subjectOrdinal": 2
+      },
+      {
+        "subjectId": "c9d0e1f2-a3b4-5678-cdef-789012345670",
+        "subjectType": "KEYWORD",
+        "subjectCode": "computational methods",
+        "subjectOrdinal": 3
+      },
+      {
+        "subjectId": "d0e1f2a3-b4c5-6789-defa-890123456781",
+        "subjectType": "THEMA",
+        "subjectCode": "UMP",
+        "subjectOrdinal": 4
+      }
+    ],
+    "publications": [
+      {
+        "publicationId": "e1f2a3b4-c5d6-7890-efab-901234567892",
+        "publicationType": "PDF",
+        "isbn": "978-3-96110-337-1"
+      },
+      {
+        "publicationId": "f2a3b4c5-d6e7-8901-fabc-012345678903",
+        "publicationType": "EPUB",
+        "isbn": "978-3-96110-338-8"
+      }
+    ],
+    "imprint": {
+      "imprintId": "a3b4c5d6-e7f8-9012-abcd-123456789013",
+      "imprintName": "Language Science Press",
+      "publisher": {
+        "publisherId": "b4c5d6e7-f8a9-0123-bcde-234567890124",
+        "publisherName": "Language Science Press",
+        "publisherShortname": "LSP",
+        "publisherUrl": "https://langsci-press.org"
+      }
+    }
+  },
+  {
+    "workId": "4a2b4be7-9d6e-7f5e-cf0e-be8e5d4f3f6e",
+    "workType": "MONOGRAPH",
+    "workStatus": "ACTIVE",
+    "doi": "https://doi.org/10.11647/obp.0366",
+    "publicationDate": "2023-05-22",
+    "place": "Cambridge, UK",
+    "updatedAt": "2024-03-01T16:00:00.000Z",
+    "titles": [
+      {
+        "titleId": "d4e5f6a7-b8c9-0123-defa-234567890125",
+        "localeCode": "en",
+        "fullTitle": "Python for Social Scientists: Data Collection, Analysis, and Visualization",
+        "title": "Python for Social Scientists",
+        "subtitle": "Data Collection, Analysis, and Visualization",
+        "canonical": true
+      }
+    ],
+    "abstracts": [
+      {
+        "abstractId": "e5f6a7b8-c9d0-1234-efab-345678901237",
+        "localeCode": "en",
+        "content": "This open access textbook teaches Python programming within a social science context. It covers survey data processing, API-based data collection, statistical modelling, and data visualization using libraries such as pandas, matplotlib, and scikit-learn. Each chapter includes exercises drawn from real social science research problems. The book is suitable for advanced undergraduates and graduate students in sociology, political science, economics, and adjacent disciplines.",
+        "abstractType": "SHORT",
+        "canonical": true
+      }
+    ],
+    "contributions": [
+      {
+        "contributionId": "f6a7b8c9-d0e1-2345-fabc-456789012348",
+        "contributionType": "AUTHOR",
+        "fullName": "Philipp Masur",
+        "contributionOrdinal": 1
+      }
+    ],
+    "subjects": [
+      {
+        "subjectId": "a7b8c9d0-e1f2-3456-abcd-567890123459",
+        "subjectType": "KEYWORD",
+        "subjectCode": "Python",
+        "subjectOrdinal": 1
+      },
+      {
+        "subjectId": "b8c9d0e1-f2a3-4567-bcde-678901234560",
+        "subjectType": "KEYWORD",
+        "subjectCode": "social science",
+        "subjectOrdinal": 2
+      },
+      {
+        "subjectId": "c9d0e1f2-a3b4-5678-cdef-789012345671",
+        "subjectType": "KEYWORD",
+        "subjectCode": "data analysis",
+        "subjectOrdinal": 3
+      },
+      {
+        "subjectId": "d0e1f2a3-b4c5-6789-defa-890123456782",
+        "subjectType": "KEYWORD",
+        "subjectCode": "data visualization",
+        "subjectOrdinal": 4
+      },
+      {
+        "subjectId": "e1f2a3b4-c5d6-7890-efab-901234567893",
+        "subjectType": "THEMA",
+        "subjectCode": "JHB",
+        "subjectOrdinal": 5
+      }
+    ],
+    "publications": [
+      {
+        "publicationId": "f2a3b4c5-d6e7-8901-fabc-012345678904",
+        "publicationType": "PDF",
+        "isbn": "978-1-80064-366-9"
+      }
+    ],
+    "imprint": {
+      "imprintId": "a3b4c5d6-e7f8-9012-abcd-123456789014",
+      "imprintName": "Open Book Publishers",
+      "publisher": {
+        "publisherId": "b4c5d6e7-f8a9-0123-bcde-234567890125",
+        "publisherName": "Open Book Publishers",
+        "publisherShortname": "OBP",
+        "publisherUrl": "https://www.openbookpublishers.com"
+      }
+    }
+  },
+  {
+    "workId": "5b3c5cf8-ae7f-8e6f-de1f-cf9f6e5e4e7f",
+    "workType": "MONOGRAPH",
+    "workStatus": "ACTIVE",
+    "doi": "https://doi.org/10.53288/0301.1.00",
+    "publicationDate": "2019-11-01",
+    "place": "Berlin, Germany",
+    "updatedAt": "2023-05-05T08:00:00.000Z",
+    "titles": [
+      {
+        "titleId": "e5f6a7b8-c9d0-1234-efab-345678901238",
+        "localeCode": "en",
+        "fullTitle": "Statistics and Data Analysis for the Behavioural Sciences Using Python",
+        "title": "Statistics and Data Analysis for the Behavioural Sciences Using Python",
+        "subtitle": "",
+        "canonical": true
+      }
+    ],
+    "abstracts": [
+      {
+        "abstractId": "f6a7b8c9-d0e1-2345-fabc-456789012349",
+        "localeCode": "en",
+        "content": "An open access textbook that introduces statistical methods and data analysis for students in psychology, education, and the behavioural sciences using Python. Topics include descriptive statistics, probability distributions, hypothesis testing, correlation, regression, and ANOVA, all implemented with NumPy, SciPy, and statsmodels. The book emphasises conceptual understanding alongside practical Python skills.",
+        "abstractType": "SHORT",
+        "canonical": true
+      }
+    ],
+    "contributions": [
+      {
+        "contributionId": "a7b8c9d0-e1f2-3456-abcd-567890123450",
+        "contributionType": "AUTHOR",
+        "fullName": "Paul Sharpe",
+        "contributionOrdinal": 1
+      }
+    ],
+    "subjects": [
+      {
+        "subjectId": "b8c9d0e1-f2a3-4567-bcde-678901234561",
+        "subjectType": "KEYWORD",
+        "subjectCode": "Python",
+        "subjectOrdinal": 1
+      },
+      {
+        "subjectId": "c9d0e1f2-a3b4-5678-cdef-789012345672",
+        "subjectType": "KEYWORD",
+        "subjectCode": "statistics",
+        "subjectOrdinal": 2
+      },
+      {
+        "subjectId": "d0e1f2a3-b4c5-6789-defa-890123456783",
+        "subjectType": "KEYWORD",
+        "subjectCode": "behavioural science",
+        "subjectOrdinal": 3
+      },
+      {
+        "subjectId": "e1f2a3b4-c5d6-7890-efab-901234567894",
+        "subjectType": "KEYWORD",
+        "subjectCode": "data analysis",
+        "subjectOrdinal": 4
+      },
+      {
+        "subjectId": "f2a3b4c5-d6e7-8901-fabc-012345678905",
+        "subjectType": "THEMA",
+        "subjectCode": "MMJ",
+        "subjectOrdinal": 5
+      }
+    ],
+    "publications": [
+      {
+        "publicationId": "a3b4c5d6-e7f8-9012-abcd-123456789015",
+        "publicationType": "PDF",
+        "isbn": "978-3-96110-301-2"
+      },
+      {
+        "publicationId": "b4c5d6e7-f8a9-0123-bcde-234567890126",
+        "publicationType": "EPUB",
+        "isbn": "978-3-96110-302-9"
+      }
+    ],
+    "imprint": {
+      "imprintId": "c5d6e7f8-a9b0-1234-cdef-345678901237",
+      "imprintName": "Language Science Press",
+      "publisher": {
+        "publisherId": "d6e7f8a9-b0c1-2345-defa-456789012348",
+        "publisherName": "Language Science Press",
+        "publisherShortname": "LSP",
+        "publisherUrl": "https://langsci-press.org"
+      }
+    }
+  }
+]
