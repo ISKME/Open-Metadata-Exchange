@@ -126,14 +126,18 @@ class ThothBook(BaseModel):
         for t in self.titles:
             if t.canonical:
                 return t.full_title or t.title
-        return self.titles[0].full_title if self.titles else ""
+        if self.titles:
+            return self.titles[0].full_title
+        return ""
 
     def canonical_abstract(self) -> str:
         """Return the canonical abstract content, falling back to the first."""
         for a in self.abstracts:
             if a.canonical:
                 return a.content
-        return self.abstracts[0].content if self.abstracts else ""
+        if self.abstracts:
+            return self.abstracts[0].content
+        return ""
 
     def author_names(self) -> list[str]:
         """Return author full names sorted by contribution ordinal."""

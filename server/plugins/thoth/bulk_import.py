@@ -58,9 +58,9 @@ def fetch_books(
     Raises:
         RuntimeError: If the Thoth API request fails.
     """
-    thoth_client = ThothClient(thoth_endpoint=THOTH_ENDPOINT)
+    thoth_graphql_client = ThothClient(thoth_endpoint=THOTH_ENDPOINT)
     try:
-        raw_books = thoth_client.books(search=query, limit=limit, offset=offset)
+        raw_books = thoth_graphql_client.books(search=query, limit=limit, offset=offset)
     except Exception as exc:
         msg = f"Failed to fetch books from Thoth API ({THOTH_ENDPOINT}): {exc!s}"
         raise RuntimeError(msg) from exc
