@@ -383,6 +383,15 @@ article = make_plugin_article(plugin, here / "<plugin_name>_item.json")
 `tests/test_ome_node.py` hard-codes the expected number of channels. Increment it by 1
 for each new plugin you add. Search for `len(channels) ==` and update every occurrence.
 
+> **⚠️ This step is required — the CI pipeline will fail if you skip it.**
+> Run the following command to find and verify all occurrences that need updating:
+>
+> ```bash
+> grep -n "len(channels) ==" tests/test_ome_node.py
+> ```
+>
+> Every match must be incremented by 1. Missing even one will cause `pytest` to fail.
+
 #### 7. Verify the plugin is discovered
 
 Run `get_ome_plugins.py` as an executable (it has a `#!/usr/bin/env -S uv run --script` shebang) to confirm the new plugin is detected:
