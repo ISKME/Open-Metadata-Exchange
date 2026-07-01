@@ -6,7 +6,6 @@
 
 docs/overview.md
 README.md
-fe2/README.md
 server/README.md
 server/plugins/README.md
 server/plugins/eric/README.md
