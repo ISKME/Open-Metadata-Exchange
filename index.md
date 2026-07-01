@@ -1,6 +1,6 @@
 # Open Metadata Exchange documentation
 
-```text {toctree}
+```{toctree}
 :maxdepth: 2
 :caption: index.md
 
