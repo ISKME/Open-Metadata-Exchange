@@ -1,4 +1,5 @@
-# Open Metadata Exchange plugin for Prelinger
+# Prelinger
+## Open Metadata Exchange (OME) plugin
 
 An OME plugin defines how to import and publish metadata from an Open Education Resources system.
 
@@ -16,14 +17,28 @@ The plugin is composed of at least three code files.
 * `bulk_import.py`: Utilities to convert data directly from the Internet Archive Prelinger collection into OME EducationalResources.
 * `fetch_prelinger_videos.py`: Downloads Prelinger video records from the Internet Archive.
 
-```tree
-server/plugins/prelinger/
+> [!NOTE]
+>
+> Please ***do NOT edit*** this line and below because when the docs are rebuilt, these lines will be overwritten by scripts/sync_plugin_docs.py.
+
+**MIMETYPES:**
+1. application/vnd.prelinger.video+json
+
+**NEWSGROUPS:**
+
+{'ome.prelinger': 'Metadata from Prelinger Videos at the Internet Archive https://archive.org/details/prelinger'}
+```text
+server/plugins/prelinger
+├── __init__.py
 ├── bulk_import.py
 ├── fetch_prelinger_videos.py
+├── plugin.py
+├── prelinger_article.eml
+├── prelinger_finland_videos.json
+├── prelinger_item.json
 ├── prelinger_models.py
-└── plugin.py
+├── prelinger_ome_item.json
+└── README.md
+
+1 directory, 10 files
 ```
-
-## Prelinger newsgroup
-
-* `ome.prelinger`: Metadata from Prelinger Videos at the Internet Archive <https://archive.org/details/prelinger>
