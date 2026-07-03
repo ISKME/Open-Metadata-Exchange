@@ -18,7 +18,7 @@ plugins_dir = server_dir / "server" / "plugins"
 
 def py_literal_to_md_list(text: str) -> str:
     """Convert a Python literal (list or tuple) to a Markdown list.
-    "['a', 'b', 'c']") --> '1. a\n2. b\n3. c'
+    "['a', 'b', 'c']" --> '1. a\n2. b\n3. c'
     """
     return "\n".join(
         f"{i}. {line}" for i, line in enumerate(literal_eval(text), start=1)
@@ -34,7 +34,14 @@ def get_plugin_readmes(plugins_dir: Path) -> Iterable[Path]:
 def get_tree_of_plugin(plugin_dir: Path) -> str:
     """Return a tree of all files in the plugin directory."""
     tree_cmd = ["tree", "--gitignore", str(plugin_dir.relative_to(server_dir))]
-    result = run(tree_cmd, capture_output=True, check=True, text=True)  # noqa: S603
+    try:
+        result = run(tree_cmd, capture_output=True, check=True, text=True)  # noqa: S603
+    except FileNotFoundError:
+        msg = (
+            "The 'tree' command is not installed. "
+            "Please install it (e.g., 'apt install tree' or 'brew install tree')."
+        )
+        raise FileNotFoundError(msg) from None
     return f"```text\n{result.stdout}```\n"
 
 
@@ -50,7 +57,7 @@ def get_plugin_mimetypes_and_newsgroups(plugin_dir: Path) -> str:
         if issubclass(cls, OMEPlugin) and cls is not OMEPlugin
     )
     mimetypes = py_literal_to_md_list(str(getattr(plugin_class, "mimetypes", ())))
-    newsgroups = str(getattr(plugin_class, "newsgroups", {}))
+    newsgroups = str(dict(getattr(plugin_class, "newsgroups", {})))
     return f"**MIMETYPES:**\n{mimetypes}\n\n**NEWSGROUPS:**\n\n{newsgroups}"
 
 
@@ -71,8 +78,8 @@ def append_text_to_file(file_path: Path, text: str) -> int:
 
 def sync_plugin_docs(readme_path: Path) -> int:
     """
-    Edit a plugin README.md fileby finding the sentence that contains `script_name` and
-    all lines below with:
+    Edit a plugin README.md file by finding the sentence that contains `script_name`
+    and replace all lines below with:
     1. The mimetypes and newsgroups defined in the OME plugin class in `plugin.py`
     2. A tree of all files in the plugin directory
     """

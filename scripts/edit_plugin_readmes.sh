@@ -17,7 +17,9 @@ find_editor() {
 }
 
 # Find an editor or exit with an error if none is found.
-EDITOR=$(find_editor $EDITOR code nano vim emacs) || exit 1
+EDITORS="code vi emacs"
+# shellcheck disable=SC2086
+EDITOR=$(find_editor "${EDITOR%% *}" $EDITORS) || exit 1
 
 readmes=(server/plugins/*/README.md)
 "$EDITOR" "${readmes[@]}"
