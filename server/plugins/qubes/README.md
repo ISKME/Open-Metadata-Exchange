@@ -1,4 +1,5 @@
-# Open Metadata Exchange plugin for QUBES
+# QUBES
+## Open Metadata Exchange (OME) plugin
 
 An OME plugin defines how to import and publish metadata from an Open Education Resources system.
 
@@ -16,59 +17,33 @@ The plugin is composed of at least three code files.
 * `load_qubes_records_to_nntp.py`: Convert `qubes_records.json` into OME EducationalResources and load them into the default NNTP server.
 * `convert_qubes_xml_to_json.py`: Data utility that can probably be dropped by adding the dependency `pydantic-xml`.
 
-```tree
-server/plugins/qubes/
+> [!NOTE]
+>
+> Please ***do NOT edit*** this line and below because when the docs are rebuilt, these lines will be overwritten by scripts/sync_plugin_docs.py.
+
+**MIMETYPES:**
+1. application/vnd.qubes+json
+
+**NEWSGROUPS:**
+
+{'ome.qubes': 'Metadata from QUBES https://qubeshub.org'}
+```text
+server/plugins/qubes
+├── __init__.py
+├── bulk_import.py
 ├── convert_qubes_xml_to_json.py
+├── course_source.json
 ├── load_qubes_records_to_nntp.py
 ├── plugin.py
+├── qubes_article.eml
+├── qubes_item.json
 ├── qubes_models.py
+├── qubes_ome_item.json
 ├── qubes_records.json
-└── qubes_records.xml
+├── qubes_records.xml
+├── README.md
+├── utils.py
+└── was_qubes_models.py
+
+1 directory, 15 files
 ```
-
-## Steps to import QUBES metadata and post it as InterNetNews articles
-
-1. Use cURL or wget to create a `qubes_records.xml` file as discussed in `convert_qubes_xml_to_json.py`.
-2. Run `server/plugins/qubes/convert_qubes_xml_to_json.py` to generate `qubes_records.json`.
-3. [Optional]: Run `server/plugins/qubes/qubes_models.py` to ensure that `qubes_records.json` can be parsed.
-4. [Optional]: Run `PYTHONPATH="." server/plugins/qubes/plugin.py` to ensure that `qubes_records.json` can be parsed.
-5. `docker compose build`
-6. `open http://localhost:5001/newsgroups && docker compose up` -- The webpage will be blank until the FastAPI server starts.
-7. `PYTHONPATH="." scripts/create_newsgroups.py`
-8. Refresh webpage to show that the newsgroups were created.
-9. [Optional]: `open http://localhost:5001/api/channel/ome.qubes` -- Ensure total=0, first=1, last=0
-10. `server/plugins/qubes/load_qubes_records_to_nntp.py`
-11. [Optional]: Refresh the webpage and ensure total=51, first=1, last=51
-12. Change URL from 5001 (Austin) to 5002 (Boston) to ensure total=0, first=1, last=0
-13. `PYTHONPATH="." scripts/nntp_sync.py` to transfer Austin articles to Boston...
-14. Refresh web page to ensure total=51, first=1, last=51
-15. `open http://localhost:5001/api/channel/ome.qubes/cards` to show individual records
-
-### QUBES API
-
-Gets list of publications
-<https://qubeshub.ddev.site/oaipmh/?verb=ListRecords&metadataPrefix=qdc&set=publications>
-
-Gets metadata for a specific publication based on url
-<https://qubeshub.ddev.site/oaipmh/?verb=GetRecord&metadataPrefix=qdc&identifier=https://qubeshub.ddev.site/publications/1/1>
-
-### Setting up newsgroups
-
-Currently not working:
-
-```bash
-PYTHONPATH="." scripts/create_newsgroups.py
-```
-
-Manual method (might need to only run `newgroup` commands one, even after docker restart).
-
-```bash
-docker compose up
-docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup ome.eric"
-docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup ome.oer"
-docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup ome.openlibrary"
-docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup ome.qubes"
-docker exec -it ome-internetnews-server-austin-1 sh -c "ctlinnd newgroup ome.whg"
-```
-
-Visit <http://localhost:5001/>.

@@ -1,4 +1,5 @@
-# Open Metadata Exchange plugin for ERIC
+# ERIC
+## Open Metadata Exchange (OME) plugin
 
 An OME plugin defines how to import and publish metadata from an Open Education Resources system.
 
@@ -17,23 +18,36 @@ The plugin is composed of at least three code files.
 * `fetch_eric_open_records.py`: Downloads ERIC open records from the ERIC API.
 * `load_eric_open_records_to_nntp.py`: Loads ERIC records into the default NNTP server.
 
-```tree
-server/plugins/eric/
+> [!NOTE]
+>
+> Please ***do NOT edit*** this line and below because when the docs are rebuilt, these lines will be overwritten by scripts/sync_plugin_docs.py.
+
+**MIMETYPES:**
+1. application/vnd.eric.eric+json
+
+**NEWSGROUPS:**
+
+{'ome.eric': "Metadata from US DoE's Education Resources Information Center (ERIC) https://eric.ed.gov"}
+```text
+server/plugins/eric
+├── __init__.py
 ├── bulk_import.py
 ├── convert_eric_csv_to_json.py
+├── eric_article.eml
+├── eric_bulk.json
+├── eric_item.json
 ├── eric_models.py
+├── eric_ome_item.json
+├── eric_ome_metadata.json
+├── ERIC_open_records.csv
+├── ERIC_open_records.json
+├── eric.json
 ├── fetch_eric_open_records.py
+├── fetched_ERIC_open_records.json
 ├── load_eric_open_records_to_nntp.py
-└── plugin.py
+├── old_eric_models.py
+├── plugin.py
+└── README.md
+
+1 directory, 18 files
 ```
-
-## ERIC newsgroup
-
-* `ome.eric`: Metadata from US DoE's Education Resources Information Center (ERIC) <https://eric.ed.gov>
-
-## ERIC API
-
-The Education Resources Information Center (ERIC) is the US Department of Education's
-database of education research and information.
-
-<https://eric.ed.gov/?api>

@@ -1,4 +1,5 @@
-# Open Metadata Exchange plugin for Open Library
+# Open Library
+## Open Metadata Exchange (OME) plugin
 
 An OME plugin defines how to import and publish metadata from an Open Education Resources system.
 
@@ -19,14 +20,32 @@ The plugin is composed of at least three code files.
 Open Library is an example of dealing with linked metadata where one API call accesses a Work
 (e.g. a book) and a second API call is required to access linked metadata about that Work's Authors.
 
-```tree
-server/plugins/openlibrary/
+{py:mod}`OpenLibrary module <openlibrary>`
+
+> [!NOTE]
+>
+> Please ***do NOT edit*** this line and below because when the docs are rebuilt, these lines will be overwritten by scripts/sync_plugin_docs.py.
+
+**MIMETYPES:**
+1. application/vnd.openlibrary.authors+json
+2. application/vnd.openlibrary.work+json
+
+**NEWSGROUPS:**
+
+{'ome.openlibrary': "Metadata from the Internet Archive's Open Library https://openlibrary.org"}
+```text
+server/plugins/openlibrary
+├── __init__.py
 ├── bulk_import.py
+├── openlibrary_article.eml
 ├── openlibrary_authors_models.py
+├── openlibrary_authors.json
+├── openlibrary_item.json
+├── openlibrary_ome_item.json
 ├── openlibrary_work_models.py
-└── plugin.py
+├── openlibrary_work.json
+├── plugin.py
+└── README.md
+
+1 directory, 11 files
 ```
-
-## Open Library newsgroup
-
-* `ome.openlibrary`: Metadata from the Internet Archive's Open Library <https://openlibrary.org>
