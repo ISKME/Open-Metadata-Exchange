@@ -50,7 +50,7 @@ jobs:
           - 563:563
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@v8.3.0
         with:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
