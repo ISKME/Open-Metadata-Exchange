@@ -654,7 +654,7 @@ docs = [
 
 [package.metadata]
 requires-dist = [
-    { name = "fastapi", extras = ["standard"], specifier = ">=0.138.2" },
+    { name = "fastapi", extras = ["standard"], specifier = ">=0.139.0" },
     { name = "madoka", specifier = ">=0.7.2.1" },
     { name = "pondpond" },
     { name = "pynntp", specifier = ">=2.0.1" },
