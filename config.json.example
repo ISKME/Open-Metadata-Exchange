@@ -5,6 +5,7 @@
 	{
 	    "name": "ISKME",
 	    "dns_name": "nntp.dev.ome.oercommons.org",
+	    "port": 119,
 	    "incoming_ip": "172.21.0.1"
 	}
     ],

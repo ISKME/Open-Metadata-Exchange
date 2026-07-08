@@ -1,20 +1,8 @@
-# Accessing the INN server:
-# Internally (from other containers like the FastAPI containers):
-# * Use nntp-server:119
-# Externally (from your host):
-# * Use localhost:119
-# host.docker.internal would be used if the INN server was running on your localhost machine.
-
-# docker compose looks for .env file
-
 services:
   nntp-server:
     hostname: nntp-server
-    # TODO: the network name in /etc/news/inn.conf should be
-    # different. Should come from .env file.
     build:
-      context: ./server_config/news_server
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-nntp
     networks:
       my_network:
         ipv4_address: 172.21.0.2
@@ -31,18 +19,14 @@ services:
       - ./static:/app/static:rw
       - ./templates:/app/templates:rw
     build:
-      dockerfile: Dockerfile
-    environment:
-      CMS_PLUGIN: server.plugins.${OME_CMS_PLUGIN}
-      INN_SERVER_NAME: nntp-server
-      # TODO: need to add the username/password that the NNTP server
-      # now needs via .env or some such
-      SERVER_PORT: 5001
+      dockerfile: Dockerfile-api
+      args:
+        INN_SERVER_NAME: nntp-server
     networks:
       my_network:
         ipv4_address: 172.21.0.3
     ports:
-      - 5001:5001
+      - 5001:8000
     depends_on:
       - nntp-server
 

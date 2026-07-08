@@ -72,6 +72,7 @@ rules.invalid-argument-type = "ignore"
 rules.invalid-assignment = "ignore"
 rules.unresolved-attribute = "ignore"
 rules.unresolved-import = "ignore"
+rules.unresolved-reference = "ignore"
 
 [tool.rumdl]
 disable = [

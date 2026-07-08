@@ -17,11 +17,9 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
-var/
 wheels/
 share/python-wheels/
 *.egg-info/
@@ -178,6 +176,6 @@ cython_debug/
 
 *~
 
-fe/node_modules/
-fe2/node_modules/
-fe2/webpack-stats.json
+frontend/src/shared/lib/
+frontend/src/widgets/Align/lib/
+frontend/src/widgets/Filters/lib/
