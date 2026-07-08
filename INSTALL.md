@@ -1,4 +1,4 @@
-# OMEInstallation
+# OME Installation
 
 ## Before you install
 

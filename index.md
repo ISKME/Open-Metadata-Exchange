@@ -7,6 +7,7 @@
 docs/overview.md
 README.md
 server/README.md
+INSTALL.md
 server/plugins/README.md
 demo/README.md
 CONTRIBUTING.md
