@@ -2,8 +2,10 @@
 
 ## A backend for the FE2 user interface
 
-Backend: Network News Transfer Protocol (NNTP) server
-Middle Tier: FastAPI server for API and business logic.
+Transport: Network News Transfer Protocol (NNTP) server
+
+Backend: FastAPI server for API and business logic.
+
 Frontend: IMLS user interface in React.js (FE2).
 
 ### Using Docker
