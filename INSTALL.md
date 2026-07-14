@@ -7,13 +7,12 @@ You will need the following:
 1. At least one OME peer node that has agreed to allow you to peer with them.
 1. Make sure that the peer can access your node
    1. IP address reachable from the outside by the peer.
-   1. port 119 (and 563) unblocked for the peer.
-   1. port 119 on the host forwarded to port 1119 where docker is listening.
+   1. Port 119 (and 563) is unblocked for the peer.
+   1. Port 119 on the host forwarded to port 1119, where Docker is listening.
 
 ## Peering Configuration
 
-Edit the file `server_config/news_server/config.json`. The contents of
-the file should look as follows:
+Edit the file `./config.json`. The contents of the file should look as follows:
 
 ```json
 {
@@ -56,7 +55,7 @@ the file should look as follows:
 | nntp\_debug\_user.password | debugging password                           |                                                                        |
 | cms_plugin                 | python classpath for the plugin for your CMS | e.g. server.plugins.qubes.plugin.QubesPlugin                           |
 
-[^1]: The IP address that is seen inside your docker container might be a NATted. e.g. 172.21.0.1, the gateway of the docker network.
+[^1]: The IP address that is seen inside your Docker container might be NATted. e.g., 172.21.0.1, the gateway of the docker network.
 
 ## Backend
 
