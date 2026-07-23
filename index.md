@@ -5,6 +5,7 @@
 :caption: index.md
 
 docs/overview.md
+ome_faq.md
 README.md
 server/README.md
 INSTALL.md
