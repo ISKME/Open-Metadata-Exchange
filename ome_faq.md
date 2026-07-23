@@ -8,7 +8,7 @@ Further reading: [docs/overview.md](docs/overview.md), [docs/nontechnical_descri
 
 ### What is OME trying to achieve?
 
-The Open Metadata Exchange connects Open Educational Resource (OER) platforms so they can share metadata to facilitate discovery and sharing.
+The Open Metadata Exchange connects platforms of open educational materials so they can share metadata to facilitate discovery and sharing.
 
 ### What problem does OME solve for OER ecosystems?
 
@@ -65,8 +65,6 @@ Use respectful, transparent issue and PR discussions aligned with project norms.
 
 Further reading: [CONTRIBUTING.md](CONTRIBUTING.md), [README.md](README.md), [INSTALL.md](INSTALL.md)
 
-
-
 ### How do I get started as a new contributor?
 
 Fork the repository, clone your fork, configure upstream, create a branch, and open a PR.
@@ -117,7 +115,7 @@ Further reading: [INSTALL.md](INSTALL.md), [README.md](README.md), [server/READM
 
 ### What is an OME node?
 
-An OME node is a deployable participant that can publish, replicate, and consume metadata.
+An OME node is a deployable participant that can publish, replicate, and consume metadata.  It runs
 
 ### What do I need to connect a node to peers?
 
