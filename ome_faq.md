@@ -8,15 +8,15 @@ Further reading: [docs/overview.md](docs/overview.md), [docs/nontechnical_descri
 
 ### What is OME trying to achieve?
 
-The Open Metadata Exchange connects platforms of open educational materials so they can share metadata to facilitate discovery and sharing.
+The Open Metadata Exchange connects platforms of open educational materials so they can share metadata to facilitate discovery and sharing.  The OME network is designed to be decentralized so that it is resilient and not controlled by any single entity.  While the project is focused on the capture and exchange of metadata about resources, it is already being used to archive the resources themselves to ensure that they are backed up and remain available to the public.
 
 ### What problem does OME solve for OER ecosystems?
 
-Open Educational Resource (OER) platforms have become "islands of information".  OME provides a decentralized way to connect these islands and allow discovery and sharing of valuable educational resources.
+Open Educational Resource (OER) platforms have become "islands of information".  OME provides a decentralized and resilient network to connect these islands and allow discovery and sharing of valuable educational resources.
 
 ### Who benefits most from OME?
 
-Libraries, teachers, and students will benefit from access to a wider range of educational resources.
+Libraries, teachers, and students will benefit from access to a wider range of educational resources.  The project wants to create communities of practice around metadata and OER to help improve the discoverability of educational resources worldwide.
 
 ## Licensing
 
@@ -24,9 +24,11 @@ Further reading: [README.md](README.md), [LICENSE](LICENSE)
 
 ### What license does OME use?
 
-The OME software is licensed under GNU Affero General Public License v3.0 (AGPL-3.0-only).
+The OME software is open source and licensed under GNU Affero General Public License v3.0 (AGPL-3.0-only).
 
 The educational resources shared through OME are licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+
+The OME community recognizes that attribution only licenses are broadly being ignored by those who seek to profit from the open work of others.  This includes the training of AI models without proper permission as well as republishing of open educational resources without proper attribution.  The project will work to create community norms of acceptable behavior and look for ways to publicly shame those who engage in profiteering.
 
 ### What does AGPL mean for contributors to the source code?
 
@@ -83,7 +85,7 @@ Further reading: [README.md](README.md), [server/README.md](server/README.md), [
 
 ### Which primary technologies are used?
 
-OME uses FastAPI (backend), React on Node (frontend), and INN/NNTP for metadata transport/storage.
+OME uses React on Node (frontend), FastAPI (backend), and INN/NNTP for metadata transport/storage.
 
 ### What Python version should contributors target?
 
@@ -105,6 +107,10 @@ Browser → FE2/Node server → FastAPI backend → InterNetNews (INN) → respo
 
 OME is decentralized and designed for metadata replication across multiple participants.
 
+### Does the OME network use Application Programming Interface (API) for node-to-node communication?
+
+Node-to-node communication is done by publishing and subscribing to network news articles over NNTP.  This is not done via API calls but is done by the exchange of NNTP articles which contain metadata.  Instead of point-to-point API calls, the OME network uses a publish/subscribe model where nodes can publish metadata articles to the network and other nodes can subscribe to receive those articles.
+
 ### Where is business logic implemented?
 
 Business logic and API handling are primarily implemented in the FastAPI server (`server/`).
@@ -115,7 +121,7 @@ Further reading: [INSTALL.md](INSTALL.md), [README.md](README.md), [server/READM
 
 ### What is an OME node?
 
-An OME node is a deployable participant that can publish, replicate, and consume metadata.  It runs
+An OME node is a Docker-based software bundle that enables a participant to publish, replicate, and consume metadata.  It runs an optional FE2 React/Node frontend, the FastAPI backend, and the InterNetNews (INN) server for the distribution of network news articles.
 
 ### What do I need to connect a node to peers?
 
@@ -141,7 +147,7 @@ Most plugins include `plugin.py`, generated/maintained model definitions, and op
 
 ### Which plugin is best to study first?
 
-The ERIC plugin is one of the most advanced reference implementation.
+While the ERIC plugin is one of the most advanced reference implementations, all plugins have to deal with very different data sources.  Lessons can be learned by studying several different plugins.  An AI skill for generating plugins can be found in the [.github/skills/plugin.md](.github/skills/plugin.md) file.
 
 ## Frontend
 
@@ -165,11 +171,15 @@ Further reading: [README.md](README.md), [server/README.md](server/README.md), [
 
 ### Why does OME use Network News / NNTP?
 
-Network News Transport Protocol (NNTP) (via INN) is the network transport layer which allows network nodes to share network news articles containing metadata.  NNTP provides a proven publish/subscribe model suitable for distributed metadata exchange.
+Network News Transport Protocol (NNTP) (via INN) is the network transport layer which allows network nodes to share network news articles containing metadata.  NNTP provides a proven publish/subscribe model suitable for distributed information exchange without relying on point-to-point API calls.  It is a mature protocol that has been used for decades to share information globally across the Internet.
+
+### What is the format of an OME network news article?
+
+An OME network news article is much like an email message with a header and body.  The header contains metadata about title, source,and newsgroup(s) of the educational resource.  The body contains a json-encoded representation of the OME metadata for the educational resource.  The body also contains two json-encoded enclosures: one is the source metadata just as the plugin captured it and one for the OME metadata for the educational resource.  This allows the article to be human-readable yet still contain a "lessless" record of the original source metadata.
 
 ### What role does InterNetNews (INN) play?
 
-[InterNetNews (INN) software](https://github.com/InterNetNews/inn) is the proven implementation of the NNTP protocol which stores and replicates metadata articles that nodes publish and subscribe to.
+[InterNetNews (INN) software](https://github.com/InterNetNews/inn) is the proven implementation of the NNTP protocol which stores and replicates OME metadata articles that nodes publish and subscribe to.
 
 ### Do contributors need NNTP knowledge to help?
 
