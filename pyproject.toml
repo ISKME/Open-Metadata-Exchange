@@ -41,6 +41,7 @@ exclude = [ ".git/", "server/plugins/moodle/extract-mbz3.py" ]
 lint.select = [ "ALL" ]
 lint.ignore = [
   "COM812", # May cause conflicts with ruff format
+  "CPY001", # copyright notices
   "D",      # pydocstyle
   "ERA",    # eradicate
   "FIX002", # Line contains TODO, consider resolving the issue
