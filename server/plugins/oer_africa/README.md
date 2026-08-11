@@ -80,3 +80,7 @@ The plugin normalises OER Africa license strings to SPDX expressions:
 | `CC BY-ND 4.0` | `CC-BY-ND-4.0` |
 | `CC BY-NC-ND 4.0` | `CC-BY-NC-ND-4.0` |
 | `CC0` | `CC0-1.0` |
+
+> [!NOTE]
+>
+> Please ***do NOT edit*** this line and below because when the docs are rebuilt, these lines will be overwritten by scripts/sync_plugin_docs.py.

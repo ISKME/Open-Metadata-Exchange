@@ -60,6 +60,7 @@ early_learning/README.md
 eric/README.md
 mit_opencourseware/README.md
 oapen_books/README.md
+oer_africa/README.md
 oercommons/README.md
 open_education_network/README.md
 openlibrary/README.md
