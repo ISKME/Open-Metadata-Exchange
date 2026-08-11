@@ -378,19 +378,31 @@ article = make_plugin_article(plugin, here / "<plugin_name>_item.json")
 > argument to override it. Pass the returned `EmailMessage` to `pynntp_client.post()`
 > (or write it to disk as shown above) when you are ready to publish.
 
-#### 6. Update the channel count in tests
+#### 6. Update every hard-coded channel count in `tests/test_ome_node.py`
 
-`tests/test_ome_node.py` hard-codes the expected number of channels. Increment it by 1
-for each new plugin you add. Search for `len(channels) ==` and update every occurrence.
+`tests/test_ome_node.py` hard-codes the expected number of channels returned by
+`utils.get_channels()`. **Whenever you add a plugin, you must update every
+`len(channels) == ...` assertion in that file before opening a PR.**
 
-> **⚠️ This step is required — the CI pipeline will fail if you skip it.**
-> Run the following command to find and verify all occurrences that need updating:
+> **⚠️ This step is required — CI will fail with an `AssertionError` if you skip it.**
+>
+> Use these commands to update and verify the expected count:
 >
 > ```bash
 > grep -n "len(channels) ==" tests/test_ome_node.py
+> find server/plugins -mindepth 1 -maxdepth 1 -type d | wc -l
 > ```
 >
-> Every match must be incremented by 1. Missing even one will cause `pytest` to fail.
+> - The `grep` command shows **every assertion** that must be edited.
+> - The `find ... | wc -l` command shows the **correct total number of plugin
+>   directories**.
+> - After adding one plugin, the current expected value of `15` should become
+>   `16`.
+> - If you add more than one plugin, do **not** just add 1 blindly; set every
+>   assertion to the actual directory count reported by `find`.
+>
+> A safe final check is: **the number in every `len(channels) == ...` assertion
+> must exactly match the number of plugin directories in `server/plugins/`.**
 
 #### 7. Verify the plugin is discovered
 
