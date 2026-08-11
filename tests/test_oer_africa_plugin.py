@@ -1,10 +1,15 @@
 import json
 from pathlib import Path
 
+import httpx
 import pytest
 
 from server.plugins.oer_africa.oer_africa_models import OERAFricaResource
-from server.plugins.oer_africa.plugin import OERAFricaPlugin, _normalise_license, _strip_html
+from server.plugins.oer_africa.plugin import (
+    OERAFricaPlugin,
+    _normalise_license,
+    _strip_html,
+)
 
 OER_AFRICA_DIR = Path(__file__).parent.parent / "server" / "plugins" / "oer_africa"
 
@@ -43,17 +48,17 @@ def test_make_metadata_card_from_json() -> None:
 
 
 def test_make_metadata_card_from_url_not_implemented_raises() -> None:
-    """make_metadata_card_from_url raises NotImplementedError when called on a bad URL."""
+    """make_metadata_card_from_url raises httpx.ConnectError on an invalid hostname."""
     plugin = OERAFricaPlugin()
-    with pytest.raises(Exception):  # noqa: B017
-        plugin.make_metadata_card_from_url("https://www.oerafrica.org/node/99999999")
+    with pytest.raises(httpx.ConnectError):
+        plugin.make_metadata_card_from_url(
+            "https://www.oerafrica.invalid/node/99999999"
+        )
 
 
 def test_sample_dataset_is_list_of_resources() -> None:
     """Milk sample dataset fixture is a non-empty list of valid OER Africa resources."""
-    resources = json.loads(
-        (OER_AFRICA_DIR / "oer_africa_milk_books.json").read_text()
-    )
+    resources = json.loads((OER_AFRICA_DIR / "oer_africa_milk_books.json").read_text())
     assert isinstance(resources, list)
     assert resources
     parsed = [OERAFricaResource(**r) for r in resources]
@@ -65,9 +70,7 @@ def test_sample_dataset_is_list_of_resources() -> None:
 def test_bulk_translate_sample_dataset() -> None:
     """All five milk-book fixtures can be translated to EducationResource cards."""
     plugin = OERAFricaPlugin()
-    resources = json.loads(
-        (OER_AFRICA_DIR / "oer_africa_milk_books.json").read_text()
-    )
+    resources = json.loads((OER_AFRICA_DIR / "oer_africa_milk_books.json").read_text())
     cards = [plugin.make_metadata_card_from_dict(r) for r in resources]
     assert len(cards) == 5
     for card in cards:

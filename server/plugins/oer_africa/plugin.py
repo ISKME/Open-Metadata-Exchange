@@ -3,19 +3,23 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
+#     "httpx",
 #     "pydantic",
 # ]
 # ///
 
+import asyncio
 import re
 from datetime import UTC, datetime
 from types import MappingProxyType
+
+import httpx
 
 from server.plugins.oer_africa.oer_africa_models import OERAFricaResource
 from server.plugins.ome_plugin import EducationResource, OMEPlugin
 
 # Mapping from OER Africa license strings to SPDX expressions
-_LICENSE_MAP: dict[str, str] = MappingProxyType(
+_LICENSE_MAP: MappingProxyType[str, str] = MappingProxyType(
     {
         "cc by 4.0": "CC-BY-4.0",
         "cc by-sa 4.0": "CC-BY-SA-4.0",
@@ -112,12 +116,15 @@ class OERAFricaPlugin(OMEPlugin):
           https://www.oerafrica.org/node/<nid>?_format=json
         or the canonical resource URL.
         """
-        import httpx
-
         json_url = url if "_format=json" in url else f"{url.rstrip('/')}?_format=json"
-        with httpx.Client() as httpx_client:
-            response = httpx_client.get(json_url).raise_for_status()
-        return self.make_metadata_card_from_json(response.text)
+
+        async def _fetch() -> str:
+            async with httpx.AsyncClient() as httpx_async_client:
+                response = await httpx_async_client.get(json_url)
+                response.raise_for_status()
+                return response.text
+
+        return self.make_metadata_card_from_json(asyncio.run(_fetch()))
 
 
 if __name__ == "__main__":
@@ -136,4 +143,5 @@ if __name__ == "__main__":
     print(f"{card.subject_tags = }")
     print(f"{card.spdx_license_expression = }")
     print(f"{card.creation_date = }")
-    print(f"UTC creation: {card.creation_date.astimezone(UTC) if card.creation_date else None}")
+    utc_creation = card.creation_date.astimezone(UTC) if card.creation_date else None
+    print(f"UTC creation: {utc_creation}")
