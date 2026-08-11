@@ -1,6 +1,6 @@
-# OER Africa Plugin
+# OER Africa
 
-This OME plugin harvests open educational resource (OER) metadata from
+This OME plugin gathers open educational resource (OER) metadata from
 [OER Africa](https://www.oerafrica.org) — a continental repository of African OER
 operated by the Saide OER Africa programme.
 
