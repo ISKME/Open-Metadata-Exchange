@@ -1,0 +1,247 @@
+[
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "type": "node--resource",
+    "attributes": {
+      "drupal_internal__nid": 5842,
+      "status": true,
+      "title": "Milk Production and Dairy Development in Africa: A Practical Guide for Smallholder Farmers",
+      "body": {
+        "value": "<p>This open educational resource covers the fundamentals of milk production, dairy herd management, and smallholder dairy enterprise development in sub-Saharan Africa. Topics include breed selection, feeding strategies, milking hygiene, milk handling, and marketing of dairy products.</p>",
+        "summary": "A practical guide covering milk production, herd management, and dairy enterprise development for smallholder farmers in sub-Saharan Africa."
+      },
+      "created": "2019-03-12T08:00:00+00:00",
+      "changed": "2022-07-20T10:30:00+00:00",
+      "field_license": "CC BY 4.0",
+      "field_subjects": [
+        "Agriculture",
+        "Dairy Farming",
+        "Animal Husbandry",
+        "Food Science",
+        "Rural Development"
+      ],
+      "field_language": "English",
+      "field_url": "https://www.oerafrica.org/resource/milk-production-dairy-development-africa"
+    },
+    "relationships": {
+      "field_institution": {
+        "data": {
+          "type": "node--institution",
+          "id": "inst-f1e2d3c4-b5a6-7890-1234-567890abcdef"
+        },
+        "meta": {
+          "drupal_internal__target_id": 301
+        }
+      },
+      "field_authors": {
+        "data": [
+          {
+            "type": "node--person",
+            "id": "person-11223344-5566-7788-99aa-bbccddeeff00"
+          }
+        ]
+      }
+    },
+    "meta": {
+      "drupal_internal__nid": 5842,
+      "field_institution_title": "Food and Agriculture Organization of the United Nations",
+      "field_authors_names": ["FAO Animal Production and Health Division"]
+    }
+  },
+  {
+    "id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+    "type": "node--resource",
+    "attributes": {
+      "drupal_internal__nid": 6103,
+      "status": true,
+      "title": "Hygienic Milk Handling and Processing: A Training Manual for African Dairy Cooperatives",
+      "body": {
+        "value": "<p>This manual provides training content on hygienic collection, cooling, transport, and processing of milk for dairy cooperatives in Africa. It addresses the key microbial hazards in raw milk, good hygiene practices at the farm and collection centre levels, and simple processing techniques suitable for small-scale dairy enterprises.</p>",
+        "summary": "Training manual on hygienic milk handling, cooling, transport, and processing for dairy cooperatives in Africa."
+      },
+      "created": "2020-08-05T09:15:00+00:00",
+      "changed": "2023-01-18T14:00:00+00:00",
+      "field_license": "CC BY-SA 4.0",
+      "field_subjects": [
+        "Food Safety",
+        "Dairy Processing",
+        "Cooperative Development",
+        "Public Health",
+        "Agriculture"
+      ],
+      "field_language": "English",
+      "field_url": "https://www.oerafrica.org/resource/hygienic-milk-handling-processing-training-manual"
+    },
+    "relationships": {
+      "field_institution": {
+        "data": {
+          "type": "node--institution",
+          "id": "inst-a9b8c7d6-e5f4-3210-fedc-ba9876543210"
+        },
+        "meta": {
+          "drupal_internal__target_id": 215
+        }
+      },
+      "field_authors": {
+        "data": [
+          {
+            "type": "node--person",
+            "id": "person-aabbccdd-eeff-0011-2233-445566778899"
+          }
+        ]
+      }
+    },
+    "meta": {
+      "drupal_internal__nid": 6103,
+      "field_institution_title": "East Africa Dairy Development Programme",
+      "field_authors_names": ["EADD Technical Team", "International Livestock Research Institute"]
+    }
+  },
+  {
+    "id": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+    "type": "node--resource",
+    "attributes": {
+      "drupal_internal__nid": 6278,
+      "status": true,
+      "title": "Nutrition and Human Health: Understanding the Role of Milk and Dairy in the African Diet",
+      "body": {
+        "value": "<p>This open textbook examines the nutritional composition of milk and dairy foods, their contribution to human health, and strategies for improving dietary diversity and nutrition security in African communities through increased access to dairy. It includes discussion of lactose intolerance, traditional fermented dairy products, and fortification approaches.</p>",
+        "summary": "Open textbook on the nutritional role of milk and dairy in the African diet, covering health benefits, fermented products, and nutrition security."
+      },
+      "created": "2021-02-22T11:00:00+00:00",
+      "changed": "2023-05-30T08:45:00+00:00",
+      "field_license": "CC BY 4.0",
+      "field_subjects": [
+        "Nutrition",
+        "Human Health",
+        "Food Science",
+        "Public Health",
+        "Dairy Science"
+      ],
+      "field_language": "English",
+      "field_url": "https://www.oerafrica.org/resource/nutrition-human-health-role-milk-dairy-african-diet"
+    },
+    "relationships": {
+      "field_institution": {
+        "data": {
+          "type": "node--institution",
+          "id": "inst-12345678-90ab-cdef-1234-567890abcdef"
+        },
+        "meta": {
+          "drupal_internal__target_id": 187
+        }
+      },
+      "field_authors": {
+        "data": [
+          {
+            "type": "node--person",
+            "id": "person-00112233-4455-6677-8899-aabbccddeeff"
+          }
+        ]
+      }
+    },
+    "meta": {
+      "drupal_internal__nid": 6278,
+      "field_institution_title": "University of Nairobi, Department of Food Science and Nutrition",
+      "field_authors_names": ["Dr. Judith Kimiywe", "Prof. Wilkister Moturi"]
+    }
+  },
+  {
+    "id": "d4e5f6a7-b8c9-0123-defa-234567890123",
+    "type": "node--resource",
+    "attributes": {
+      "drupal_internal__nid": 6512,
+      "status": true,
+      "title": "Dairy Cattle Breeding and Milk Yield Improvement in East Africa",
+      "body": {
+        "value": "<p>This resource provides an overview of dairy cattle breeds suited to East African conditions, selection criteria for improving milk yield, crossbreeding strategies, and the role of national breeding programmes. It is intended for use in veterinary and agricultural science courses at African universities and technical colleges.</p>",
+        "summary": "Overview of dairy cattle breeds, selection criteria, crossbreeding strategies, and national breeding programmes for milk yield improvement in East Africa."
+      },
+      "created": "2018-11-14T07:30:00+00:00",
+      "changed": "2022-03-09T16:20:00+00:00",
+      "field_license": "CC BY-NC 4.0",
+      "field_subjects": [
+        "Animal Breeding",
+        "Veterinary Science",
+        "Agriculture",
+        "Dairy Science",
+        "Livestock Management"
+      ],
+      "field_language": "English",
+      "field_url": "https://www.oerafrica.org/resource/dairy-cattle-breeding-milk-yield-improvement-east-africa"
+    },
+    "relationships": {
+      "field_institution": {
+        "data": {
+          "type": "node--institution",
+          "id": "inst-fedcba98-7654-3210-fedc-ba9876543210"
+        },
+        "meta": {
+          "drupal_internal__target_id": 142
+        }
+      },
+      "field_authors": {
+        "data": [
+          {
+            "type": "node--person",
+            "id": "person-99887766-5544-3322-1100-ffeeddccbbaa"
+          }
+        ]
+      }
+    },
+    "meta": {
+      "drupal_internal__nid": 6512,
+      "field_institution_title": "Kenya Agricultural and Livestock Research Organization",
+      "field_authors_names": ["KALRO Dairy Research Programme"]
+    }
+  },
+  {
+    "id": "e5f6a7b8-c9d0-1234-efab-345678901234",
+    "type": "node--resource",
+    "attributes": {
+      "drupal_internal__nid": 7034,
+      "status": true,
+      "title": "Fermented Milk Products of Africa: Traditional Knowledge and Modern Applications",
+      "body": {
+        "value": "<p>This book documents the diversity of traditional fermented milk products found across Africa, including amasi, mursik, suusac, and leben, exploring their cultural significance, microbiology, nutritional properties, and potential for commercialisation. It draws on both traditional knowledge and contemporary food science to provide a comprehensive reference for students, researchers, and food entrepreneurs.</p>",
+        "summary": "Documentation of traditional African fermented milk products—their cultural significance, microbiology, nutritional properties, and commercial potential."
+      },
+      "created": "2022-06-01T13:00:00+00:00",
+      "changed": "2023-09-12T09:00:00+00:00",
+      "field_license": "CC BY 4.0",
+      "field_subjects": [
+        "Food Science",
+        "Microbiology",
+        "Cultural Heritage",
+        "Nutrition",
+        "Entrepreneurship"
+      ],
+      "field_language": "English",
+      "field_url": "https://www.oerafrica.org/resource/fermented-milk-products-africa-traditional-knowledge"
+    },
+    "relationships": {
+      "field_institution": {
+        "data": {
+          "type": "node--institution",
+          "id": "inst-abcdef01-2345-6789-abcd-ef0123456789"
+        },
+        "meta": {
+          "drupal_internal__target_id": 388
+        }
+      },
+      "field_authors": {
+        "data": [
+          {
+            "type": "node--person",
+            "id": "person-fedcba98-7654-3210-fedc-ba9876543210"
+          }
+        ]
+      }
+    },
+    "meta": {
+      "drupal_internal__nid": 7034,
+      "field_institution_title": "African Union Commission — Department of Rural Economy and Agriculture",
+      "field_authors_names": ["Dr. Adewale Olatunji", "Dr. Ama Owusu-Mensah"]
+    }
+  }
+]
