@@ -80,3 +80,26 @@ The plugin normalises OER Africa license strings to SPDX expressions:
 | `CC BY-ND 4.0` | `CC-BY-ND-4.0` |
 | `CC BY-NC-ND 4.0` | `CC-BY-NC-ND-4.0` |
 | `CC0` | `CC0-1.0` |
+
+> [!NOTE]
+>
+> Please ***do NOT edit*** this line and below because when the docs are rebuilt, these lines will be overwritten by scripts/sync_plugin_docs.py.
+
+**MIMETYPES:**
+1. application/vnd.oer-africa.resource+json
+
+**NEWSGROUPS:**
+
+{'ome.oer_africa': 'Metadata from OER Africa open educational resources https://www.oerafrica.org'}
+```text
+server/plugins/oer_africa
+├── README.md
+├── __init__.py
+├── bulk_import.py
+├── oer_africa_item.json
+├── oer_africa_milk_books.json
+├── oer_africa_models.py
+└── plugin.py
+
+1 directory, 7 files
+```

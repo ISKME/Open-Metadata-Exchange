@@ -27,7 +27,7 @@ server/plugins/
     ├── <plugin_name>_models.py    ← Required: Pydantic model(s) for understanding and transforming imported items
     ├── bulk_import.py             ← Required: Utilities for batch importing source metadata records using asyncio
     ├── plugin.py                  ← Required: Subclass of OMEPlugin
-    └── README.md                  ← Required: Information about the plugin source, API, URLs, etc.
+    └── README.md                  ← Required: plugin overview + Sphinx documentation page
 ```
 
 > **Reference implementation**: `server/plugins/eric/` is the most advanced plugin and
@@ -47,7 +47,46 @@ touch server/plugins/<plugin_name>/__init__.py
 Replace `<plugin_name>` with a short, lowercase name for the data source (e.g., `khan`,
 `mit_ocw`, `merlot`).
 
-#### 2. Determine the data access strategy
+#### 2. Create `README.md` and register the Sphinx page
+
+Every plugin must ship with a Markdown page at
+`server/plugins/<plugin_name>/README.md`, and that page must be linked from the
+plugins overview toctree so Sphinx publishes it to GitHub Pages.
+
+Your plugin README should include:
+
+- A short description of the source and plugin purpose
+- The source API/search URLs or scraping entry points
+- Sample datasets / fixture files
+- A table describing the key plugin files
+- This exact generated-docs marker near the end of the file:
+
+  ```md
+  > [!NOTE]
+  >
+  > Please ***do NOT edit*** this line and below because when the docs are rebuilt, these lines will be overwritten by scripts/sync_plugin_docs.py.
+  ```
+
+Then register the page in `server/plugins/README.md` by adding:
+
+```md
+<plugin_name>/README.md
+```
+
+inside the existing ```{toctree}``` block.
+
+After creating the README and toctree entry, run:
+
+```bash
+PYTHONPATH="." scripts/sync_plugin_docs.py
+uv run sphinx-build -c docs . docs/_build/html
+test -f docs/_build/html/server/plugins/<plugin_name>/README.html
+```
+
+If that final `test -f ...` command fails, your plugin documentation has not been
+wired into Sphinx correctly.
+
+#### 3. Determine the data access strategy
 
 Before writing any code, check whether the source site exposes a public API:
 
@@ -58,7 +97,7 @@ Before writing any code, check whether the source site exposes a public API:
 - **No public API (Drupal, WordPress, static HTML, etc.)** → use web scraping with
   `httpx` + `BeautifulSoup` (see [Web-scraping variant](#web-scraping-variant) below).
 
-#### 3. Create `<name>_models.py` — Pydantic models for source data
+#### 4. Create `<name>_models.py` — Pydantic models for source data
 
 Generate models from a sample JSON response using `datamodel-codegen`:
 
@@ -104,7 +143,7 @@ class Model(BaseModel):
     docs: list[ModelItem] = []
 ```
 
-#### 3. Create `plugin.py` — the OMEPlugin subclass
+#### 5. Create `plugin.py` — the OMEPlugin subclass
 
 ```python
 #!/usr/bin/env -S uv run --script
@@ -195,7 +234,7 @@ if __name__ == "__main__":
   git add --chmod=+x server/plugins/<plugin_name>/<plugin_name>_models.py
   ```
 
-#### 4. (Required) Create `bulk_import.py` — batch import utilities
+#### 6. (Required) Create `bulk_import.py` — batch import utilities
 
 If the source provides a bulk data export (CSV, JSON dump, API pagination), or requires web
 scraping, add a `bulk_import.py` to handle fetching and converting that data into
@@ -345,7 +384,7 @@ single structured report while still returning all valid records to the caller.
 
 ---
 
-#### 5. Create an NNTP news article for each imported item
+#### 7. Create an NNTP news article for each imported item
 
 After writing each item's raw source data to
 `server/plugins/<plugin_name>/<plugin_name>_item.json`, create an NNTP news article
@@ -378,7 +417,7 @@ article = make_plugin_article(plugin, here / "<plugin_name>_item.json")
 > argument to override it. Pass the returned `EmailMessage` to `pynntp_client.post()`
 > (or write it to disk as shown above) when you are ready to publish.
 
-#### 6. Update every hard-coded channel count in `tests/test_ome_node.py`
+#### 8. Update every hard-coded channel count in `tests/test_ome_node.py`
 
 `tests/test_ome_node.py` hard-codes the expected number of channels returned by
 `utils.get_channels()`. **Whenever you add a plugin, you must update every
@@ -404,7 +443,7 @@ article = make_plugin_article(plugin, here / "<plugin_name>_item.json")
 > A safe final check is: **the number in every `len(channels) == ...` assertion
 > must exactly match the number of plugin directories in `server/plugins/`.**
 
-#### 7. Verify the plugin is discovered
+#### 9. Verify the plugin is discovered
 
 Run `get_ome_plugins.py` as an executable (it has a `#!/usr/bin/env -S uv run --script` shebang) to confirm the new plugin is detected:
 
@@ -414,12 +453,12 @@ Run `get_ome_plugins.py` as an executable (it has a `#!/usr/bin/env -S uv run --
 
 The output should include your new plugin's class name, `mimetypes`, and `newsgroups`.
 
-#### 8. Run pre-commit to validate your changes
+#### 10. Run pre-commit to validate your changes
 
-**Always run `pre-commit run --all-files` after adding or modifying any files:**
+**Always run `uvx pre-commit run --all-files` after adding or modifying any files:**
 
 ```bash
-pre-commit run --all-files
+uvx pre-commit run --all-files
 ```
 
 Fix any issues reported before committing.
