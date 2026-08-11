@@ -396,8 +396,8 @@ article = make_plugin_article(plugin, here / "<plugin_name>_item.json")
 > - The `grep` command shows **every assertion** that must be edited.
 > - The `find ... | wc -l` command shows the **correct total number of plugin
 >   directories**.
-> - After adding one plugin, the current expected value of `15` should become
->   `16`.
+> - After adding a single plugin, each `len(channels) == ...` assertion should
+>   increase by 1 from its previous value.
 > - If you add more than one plugin, do **not** just add 1 blindly; set every
 >   assertion to the actual directory count reported by `find`.
 >
