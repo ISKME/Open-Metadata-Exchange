@@ -30,7 +30,9 @@ def test_oer_africa_plugin_attributes() -> None:
     plugin = OERAFricaPlugin()
     assert plugin.mimetypes == ("application/vnd.oer-africa.resource+json",)
     assert "ome.oer_africa" in plugin.newsgroups
-    assert "oerafrica.org" in plugin.newsgroups["ome.oer_africa"]
+    assert plugin.newsgroups["ome.oer_africa"].startswith(
+        "Metadata from OER Africa open educational resources "
+    )
 
 
 def test_make_metadata_card_from_json() -> None:
