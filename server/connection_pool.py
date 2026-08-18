@@ -1,4 +1,5 @@
 import os
+from typing import Any
 
 from nntp import NNTPClient, NNTPError
 from pond import Pond, PooledObject, PooledObjectFactory
@@ -22,7 +23,7 @@ class ClientFactory(PooledObjectFactory):
     def destroy(self, pooled_object: PooledObject) -> None:
         del pooled_object
 
-    def reset(self, pooled_object: PooledObject) -> PooledObject:
+    def reset(self, pooled_object: PooledObject, **_kwargs: Any) -> PooledObject:  # noqa: ANN401
         # do whatever we need to do for resetting a connection.
         # e.g. commit or abort a transaction, in the case of an RDBMS.
         return pooled_object
