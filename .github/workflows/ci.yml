@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
-
+permissions: {}
 jobs:
   shellcheck:
     runs-on: ubuntu-slim
