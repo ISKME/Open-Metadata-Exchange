@@ -10,7 +10,7 @@ jobs:
   shellcheck:
     runs-on: ubuntu-slim
     steps:  # See configuration in .shellcheckrc
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
     - run: find . -type f -name "*.sh" -exec shellcheck {} +
@@ -46,15 +46,15 @@ jobs:
     runs-on: ubuntu-latest
     services:
       inn-service:
-        image: ${{ matrix.service-image }}
+        image: ${{ matrix.service-image }}  # zizmor: ignore[unpinned-images]
         ports:
           - 119:119
           - 563:563
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: astral-sh/setup-uv@v9.0.0
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
@@ -69,10 +69,10 @@ jobs:
         node-version: [18.19.0]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ matrix.node-version }}
       - run: cd frontend && npm ci || npm install
