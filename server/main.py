@@ -17,7 +17,6 @@ from server.schemas import (
     CardRef,
     Channel,
     ChannelResourcesResponse,
-    ChannelSummary,
     ChannelSummaryResponse,
     ExploreSummary,
     MiniMetadata,
@@ -73,7 +72,7 @@ async def main() -> list[Channel]:
 
 
 @app.get("/api/channel/{name}")
-async def get_channel_synopsis(name: str) -> ChannelSummary:
+async def get_channel_synopsis(name: str) -> ChannelSummaryResponse:
     return get_channel_summary(name)
 
 

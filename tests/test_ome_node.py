@@ -1,6 +1,6 @@
 # uvx -w=beautifulsoup4,dateparser,httpx,pydantic,pynntp pytest -vv
 from collections.abc import Generator, Iterator
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import nntp
 import pytest
@@ -171,7 +171,7 @@ def test_create_post(metadata: schemas.Metadata) -> None:
     assert metadata.title in sue_grafton_books
     ome_node.create_post(
         schemas.Post(
-            id=int(datetime.now(timezone.utc).timestamp() * 1000),  # noqa: UP017
+            id=int(datetime.now(UTC).timestamp() * 1000),
             channels=["local.test"],
             admin_contact="sue@grafton.com",
             subject=metadata.title,
@@ -185,7 +185,6 @@ def test_create_post(metadata: schemas.Metadata) -> None:
 @pytest.mark.skipif(
     not hasattr(ome_node, "channel_cards"),
     reason="channel_cards was removed",
-    strict=True,
 )
 @pytest.mark.usefixtures("enable_a_default_newsgroup")
 def test_channel_cards() -> None:

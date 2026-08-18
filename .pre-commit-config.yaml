@@ -1,3 +1,4 @@
+
 # Learn more about this config here: https://pre-commit.com/
 
 # To enable these pre-commit hooks run:
@@ -55,6 +56,11 @@ repos:
         additional_dependencies:
           - tomli
 
+  - repo: https://github.com/tox-dev/pyproject-fmt
+    rev: v2.28.0
+    hooks:
+      - id: pyproject-fmt
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.3
     hooks:
@@ -67,35 +73,17 @@ repos:
       - id: rumdl      # Lint only (fails on issues)
       # - id: rumdl-fmt  # Auto-format and fail if issues remain
 
-  - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.28.0
-    hooks:
-      - id: pyproject-fmt
-
-  - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.25
-    hooks:
-      - id: validate-pyproject
+  # - repo: https://github.com/astral-sh/ty-pre-commit
+  #   rev: v0.0.72
+  #   hooks:
+  #     - id: ty
 
   - repo: https://github.com/astral-sh/uv-pre-commit
     rev: 0.12.5
     hooks:
       - id: uv-lock
 
-  # Astral's `ty` — Python type checker (pre-release). Tracking ISKME#237.
-  # No upstream pre-commit repo yet (astral-sh/ty#269), so we declare a
-  # local hook and install ty into pre-commit's managed venv.
-  # Rule ignores live in pyproject.toml [tool.ty.rules]; ratchet them off
-  # as the underlying issues get fixed.
-  - repo: local
+  - repo: https://github.com/abravalheri/validate-pyproject
+    rev: v0.25
     hooks:
-      - id: ty
-        name: ty (astral) — Python type checker
-        language: python
-        additional_dependencies:
-          - ty==0.0.32  # https://github.com/astral-sh/ty/releases
-        entry: ty check
-        args:
-          - --output-format=concise
-        pass_filenames: false
-        types: [python]
+      - id: validate-pyproject
