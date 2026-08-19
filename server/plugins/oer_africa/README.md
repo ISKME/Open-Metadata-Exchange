@@ -12,11 +12,9 @@ https://www.oerafrica.org/search/site?search_api_views_fulltext=<query>
 
 ## REST/JSON API
 
-OER Africa is built on Drupal and exposes a standard Drupal JSON:API at:
+~OER Africa is built on Drupal and exposes a standard Drupal JSON:API at:~
+> ~https://www.oerafrica.org/jsonapi/node/resource~
 
-```
-https://www.oerafrica.org/jsonapi/node/resource
-```
 
 Example — search for resources related to "Milk":
 
