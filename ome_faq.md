@@ -125,7 +125,7 @@ An OME node is a Docker-based software bundle that enables a participant to publ
 
 ### What does an OME node need in terms of compute resources, software, and firewall (connectivity)?
 
-OME Nodes need to run up to three different Docker containers (frontend, backend, NNTP), but they can be started and stopped together via `docker compose`.  The NNTP ports (119 and/or 563) for  transferring resources to and from other network participants will need to be opened to those partners.  It is advised to put the OME Node behind a firewall, but the software stack does not currently provide any firewall.
+OME Nodes need to run up to three different Docker containers (frontend, backend, NNTP), but they can be started and stopped together via `docker compose`.  The NNTP ports (119 and/or 563) for transferring resources to and from other network participants will need to be opened to those partners.  It is advisable to put the OME Node behind a firewall, but the software stack does not currently provide any firewall.
 
 ### What do I need to connect a node to peers?
 
