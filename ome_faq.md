@@ -28,7 +28,7 @@ The OME software is open source and licensed under GNU Affero General Public Lic
 
 The educational resources shared through OME are licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
 
-The OME community recognizes that attribution only licenses are broadly being ignored by those who seek to profit from the open work of others.  This includes the training of AI models without proper permission as well as republishing of open educational resources without proper attribution.  The project will work to create community norms of acceptable behavior and look for ways to publicly shame those who engage in profiteering.
+The OME community recognizes that attribution-only licenses are broadly being ignored by those who seek to profit from the open work of others.  This includes the training of AI models without proper permission as well as republishing of open educational resources without proper attribution.  The project will work to create community norms of acceptable behavior and look for ways to publicly shame those who engage in profiteering.
 
 ### What does AGPL mean for contributors to the source code?
 
@@ -43,7 +43,7 @@ Yes, but they should review AGPL obligations with their legal/compliance teams.
 Further reading: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ### How is the project governed?
-The project is governed by the OME Steering Committee, which is responsible for guiding the project's direction and making decisions on contributions and releases.  The committee is composed of representatives from active participatints in the OME Network.
+The project is governed by the OME Steering Committee, which is responsible for guiding the project's direction and making decisions on contributions and releases.  The committee is composed of representatives from active participants in the OME Network.
 
 Under the guidance of the Steering Committee, the project has working groups focused on specific areas such as standards, development, documentation, and community engagement.  There is regular communication and coordination among these groups to ensure alignment with the project's goals.
 
@@ -85,7 +85,7 @@ Further reading: [README.md](README.md), [server/README.md](server/README.md), [
 
 ### Which primary technologies are used?
 
-OME uses React on Node (frontend), FastAPI (backend), and INN/NNTP for metadata transport/storage.
+OME uses React on Node.js (frontend), FastAPI (backend), and INN/NNTP for metadata transport/storage.
 
 ### What Python version should contributors target?
 
@@ -101,7 +101,7 @@ Further reading: [README.md](README.md), [docs/overview.md](docs/overview.md)
 
 ### What is the high-level request flow?
 
-Browser → FE2/Node server → FastAPI backend → InterNetNews (INN) → response back to frontend.
+Browser → FE2/Node.js server → FastAPI backend → InterNetNews (INN) → response back to the frontend.
 
 ### Is OME centralized or decentralized?
 
@@ -109,7 +109,7 @@ OME is decentralized and designed for metadata replication across multiple parti
 
 ### Does the OME network use Application Programming Interface (API) for node-to-node communication?
 
-Node-to-node communication is done by publishing and subscribing to network news articles over NNTP.  This is not done via API calls but is done by the exchange of NNTP articles which contain metadata.  Instead of point-to-point API calls, the OME network uses a publish/subscribe model where nodes can publish metadata articles to the network and other nodes can subscribe to receive those articles.
+Node-to-node communication is done by publishing and subscribing to network news articles over NNTP.  This is not done via API calls but is done by the exchange of NNTP articles, which contain metadata.  Instead of point-to-point API calls, the OME network uses a publish/subscribe model where nodes can publish metadata articles to the network and other nodes can subscribe to receive those articles.
 
 ### Where is business logic implemented?
 
@@ -122,6 +122,10 @@ Further reading: [INSTALL.md](INSTALL.md), [README.md](README.md), [server/READM
 ### What is an OME node?
 
 An OME node is a Docker-based software bundle that enables a participant to publish, replicate, and consume metadata.  It runs an optional FE2 React/Node frontend, the FastAPI backend, and the InterNetNews (INN) server for the distribution of network news articles.
+
+### What does an OME node need in terms of compute resources, software, and firewall (connectivity)?
+
+OME Nodes need to run up to three different Docker containers (frontend, backend, NNTP), but they can be started and stopped together via `docker compose`.  The NNTP ports (119 and/or 563) for  transferring resources to and from other network participants will need to be opened to those partners.  It is advised to put the OME Node behind a firewall, but the software stack does not currently provide any firewall.
 
 ### What do I need to connect a node to peers?
 
