@@ -4,7 +4,7 @@
 # requires-python = ">=3.13"
 # dependencies = [
 #   "beautifulsoup4",
-#   "httpx",
+#   "httpx2",
 # ]
 # ///
 
@@ -22,7 +22,7 @@ On macOS, /usr/bin/open will open images in the default image viewer.
 
 import asyncio
 
-import httpx
+import httpx2
 from bs4 import BeautifulSoup
 
 
@@ -48,11 +48,11 @@ def getty(page: str) -> str:
 
 
 async def fetch_text(url: str) -> str:
-    async with httpx.AsyncClient() as httpx_async_client:
+    async with httpx2.AsyncClient() as httpx_async_client:
         try:
             response = await httpx_async_client.get(url)
             return response.check_for_status().text
-        except httpx.HTTPStatusError:
+        except httpx2.HTTPStatusError:
             print(f"Failed to fetch {url}: {response.status_code}")
             raise
 

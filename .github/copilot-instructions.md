@@ -85,7 +85,7 @@ pre-commit install
   import and let Python >= 3.13 handle the annotations natively.
 - Avoid where possible variables that can be polymorphic with `None` as in `s: str | None`.
 - Use assignment expresstions (:=) where it makes sense.
-- Prefer the use of `httpx.AsyncClient()` instead of `httpx.Client()`.
+- Prefer the use of `httpx2.AsyncClient()` instead of `httpx2.Client()`.
 - The variable name `client` is unclear so instead use `httpx_async_client`, `nntp_client`, etc.
 
 ## Plugin Architecture

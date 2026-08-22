@@ -3,7 +3,7 @@
 # /// script
 # dependencies = [
 #     "beautifulsoup4",
-#     "httpx",
+#     "httpx2",
 #     "rich",
 # ]
 # ///
@@ -12,7 +12,7 @@ import argparse
 import json
 from collections.abc import Iterator
 
-import httpx
+import httpx2
 from bs4 import BeautifulSoup, Tag
 from rich.console import Console
 from rich.table import Table
@@ -21,7 +21,7 @@ URL = "https://qubeshub.org/community/groups/coursesource/publications"
 
 
 def fetch_page(url: str) -> str:
-    return httpx.get(url, follow_redirects=True).raise_for_status().text
+    return httpx2.get(url, follow_redirects=True).raise_for_status().text
 
 
 def parse_a_metadata_record(item: Tag) -> dict:

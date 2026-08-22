@@ -90,12 +90,12 @@ wired into Sphinx correctly.
 
 Before writing any code, check whether the source site exposes a public API:
 
-- **JSON/REST API available** → fetch data with `httpx` and generate Pydantic models from
+- **JSON/REST API available** → fetch data with `httpx2` and generate Pydantic models from
   a sample response using `datamodel-codegen` (see below). Prefer
-  `httpx.AsyncClient` with `asyncio.gather()` for paginated APIs (see
+  `httpx2.AsyncClient` with `asyncio.gather()` for paginated APIs (see
   [Async / concurrent page fetching](#async--concurrent-page-fetching) below).
 - **No public API (Drupal, WordPress, static HTML, etc.)** → use web scraping with
-  `httpx` + `BeautifulSoup` (see [Web-scraping variant](#web-scraping-variant) below).
+  `httpx2` + `BeautifulSoup` (see [Web-scraping variant](#web-scraping-variant) below).
 
 #### 4. Create `<name>_models.py` — Pydantic models for source data
 
@@ -253,9 +253,9 @@ See `server/plugins/eric/bulk_import.py` for an API/JSON reference implementatio
 
 ### HTTP requests: always chain `.raise_for_status()`
 
-When making HTTP requests with `httpx`, chain `.raise_for_status()` directly onto
+When making HTTP requests with `httpx2`, chain `.raise_for_status()` directly onto
 the `.get()` (or `.post()`, etc.) call instead of calling it on a separate line.
-`httpx.Response.raise_for_status()` returns `self`, so the response object is still
+`httpx2.Response.raise_for_status()` returns `self`, so the response object is still
 available for further use:
 
 ```python
@@ -274,8 +274,8 @@ response = client.get(url)   # ← do not do this
 response.raise_for_status()  # ← do not do this
 ```
 
-This applies to both synchronous (`httpx.Client`) and asynchronous
-(`httpx.AsyncClient`) usage.
+This applies to both synchronous (`httpx2.Client`) and asynchronous
+(`httpx2.AsyncClient`) usage.
 
 ---
 
@@ -309,23 +309,23 @@ return None
 ### Async / concurrent page fetching
 
 When a REST API exposes pagination headers (e.g., WordPress REST APIs return
-`X-WP-TotalPages` and `X-WP-Total`), use `httpx.AsyncClient` with
+`X-WP-TotalPages` and `X-WP-Total`), use `httpx2.AsyncClient` with
 `asyncio.gather()` to fetch all pages concurrently instead of looping
 sequentially:
 
 ```python
 import asyncio
 
-import httpx
+import httpx2
 
 
-async def _fetch_page(httpx_async_client: httpx.AsyncClient, params: dict) -> list:
+async def _fetch_page(httpx_async_client: httpx2.AsyncClient, params: dict) -> list:
     return await httpx_async_client.get(API_URL, params=params).raise_for_status().json()
 
 
 async def fetch_all(*, per_page: int = 100, **filters) -> list:
     base_params = {"per_page": per_page, **filters}
-    async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as httpx_async_client:
+    async with httpx2.AsyncClient(follow_redirects=True, timeout=30.0) as httpx_async_client:
         first = await httpx_async_client.get(API_URL, params={**base_params, "page": 1})
         first.raise_for_status()
         total_pages = int(first.headers.get("X-WP-TotalPages", "1"))
@@ -468,7 +468,7 @@ Fix any issues reported before committing.
 ### Web-scraping variant
 
 Use this when the source site has **no public REST or JSON API** (e.g., Drupal, WordPress,
-or static HTML sites). The pattern uses `httpx` for HTTP fetches and `BeautifulSoup` for
+or static HTML sites). The pattern uses `httpx2` for HTTP fetches and `BeautifulSoup` for
 HTML parsing.
 
 #### Models (`<name>_models.py`)
@@ -511,13 +511,13 @@ class <PluginName>Model(RootModel[list[<PluginName>Item]]):
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.13"
-# dependencies = ["beautifulsoup4", "httpx", "pydantic"]
+# dependencies = ["beautifulsoup4", "httpx2", "pydantic"]
 # ///
 
 from datetime import datetime
 from pathlib import Path
 
-import httpx
+import httpx2
 from bs4 import BeautifulSoup
 
 from server.plugins.<plugin_name>.<plugin_name>_models import (
@@ -535,7 +535,7 @@ def _absolute_url(href: str) -> str:
     return href if href.startswith("http") else BASE_URL + href
 
 
-async def scrape_resource_page(httpx_async_client: httpx.AsyncClient, url: str) -> <PluginName>Item:
+async def scrape_resource_page(httpx_async_client: httpx2.AsyncClient, url: str) -> <PluginName>Item:
     soup = BeautifulSoup(
         (await httpx_async_client.get(url, headers=HEADERS, follow_redirects=True)).raise_for_status().text,
         "html.parser",
@@ -546,7 +546,7 @@ async def scrape_resource_page(httpx_async_client: httpx.AsyncClient, url: str) 
 
 
 async def scrape_search_results(
-    httpx_async_client: httpx.AsyncClient, url: str = SEARCH_URL, max_results: int = MAX_RESULTS
+    httpx_async_client: httpx2.AsyncClient, url: str = SEARCH_URL, max_results: int = MAX_RESULTS
 ) -> list[str]:
     soup = BeautifulSoup(
         (await httpx_async_client.get(url, headers=HEADERS, follow_redirects=True)).raise_for_status().text,
@@ -567,7 +567,7 @@ async def bulk_import(url: str = SEARCH_URL, max_results: int = MAX_RESULTS) -> 
     if cache.exists():
         return <PluginName>Model.model_validate_json(cache.read_text()).root
     items: list[<PluginName>Item] = []
-    async with httpx.AsyncClient(timeout=30) as httpx_async_client:
+    async with httpx2.AsyncClient(timeout=30) as httpx_async_client:
         for resource_url in await scrape_search_results(httpx_async_client, url, max_results):
             items.append(await scrape_resource_page(httpx_async_client, resource_url))
     cache.write_text(<PluginName>Model(root=items).model_dump_json(indent=2))
@@ -611,7 +611,7 @@ Defined in `server/plugins/ome_plugin.py`:
 | Plugin | Directory | Notable Feature |
 |--------|-----------|----------------|
 | ERIC | `server/plugins/eric/` | Most advanced; bulk CSV/JSON import |
-| Early Learning | `server/plugins/early_learning/` | Web scraping (no API); BeautifulSoup + httpx |
+| Early Learning | `server/plugins/early_learning/` | Web scraping (no API); BeautifulSoup + httpx2 |
 | OERCommons | `server/plugins/oercommons/` | Simple JSON transform |
 | Open Library | `server/plugins/openlibrary/` | Linked metadata (two API calls) |
 | Qubes | `server/plugins/qubes/` | XML-to-JSON conversion |

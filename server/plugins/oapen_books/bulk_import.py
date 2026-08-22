@@ -12,7 +12,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -23,7 +23,7 @@ import logging
 from collections.abc import Iterator
 from pathlib import Path
 
-import httpx
+import httpx2
 
 from server.plugins.oapen_books.oapen_models import OapenItem, OapenSearchResponse
 from server.plugins.oapen_books.plugin import OapenBooksPlugin
@@ -62,16 +62,16 @@ async def fetch_books(
         "offset": offset,
         "expand": "metadata",
     }
-    async with httpx.AsyncClient(
+    async with httpx2.AsyncClient(
         follow_redirects=True, timeout=30.0
     ) as httpx_async_client:
         try:
             response = await httpx_async_client.get(OAPEN_REST_URL, params=params)
             response.raise_for_status()
-        except httpx.HTTPError as exc:
+        except httpx2.HTTPError as exc:
             status_code = (
                 exc.response.status_code
-                if isinstance(exc, httpx.HTTPStatusError)
+                if isinstance(exc, httpx2.HTTPStatusError)
                 else "N/A"
             )
             msg = (

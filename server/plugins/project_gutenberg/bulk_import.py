@@ -14,7 +14,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -25,7 +25,7 @@ import logging
 from collections.abc import Iterator
 from pathlib import Path
 
-import httpx
+import httpx2
 
 from server.plugins.ome_plugin import EducationResource
 from server.plugins.project_gutenberg.gutenberg_models import (
@@ -68,17 +68,17 @@ async def fetch_books(
     url: str | None = GUTENDEX_BOOKS_URL
     params: dict[str, str | int] = {"search": query}
 
-    async with httpx.AsyncClient(
+    async with httpx2.AsyncClient(
         follow_redirects=True, timeout=API_TIMEOUT_SECONDS
     ) as httpx_async_client:
         while url and len(books) < limit:
             try:
                 response = await httpx_async_client.get(url, params=params)
                 response.raise_for_status()
-            except httpx.HTTPError as exc:
+            except httpx2.HTTPError as exc:
                 status_code = (
                     exc.response.status_code
-                    if isinstance(exc, httpx.HTTPStatusError)
+                    if isinstance(exc, httpx2.HTTPStatusError)
                     else "N/A"
                 )
                 msg = (

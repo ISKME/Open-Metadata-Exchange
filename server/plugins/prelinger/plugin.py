@@ -11,7 +11,7 @@ from contextlib import suppress
 from datetime import datetime
 from types import MappingProxyType
 
-import httpx
+import httpx2
 
 from server.plugins.ome_plugin import EducationResource, OMEPlugin
 from server.plugins.prelinger.prelinger_models import (
@@ -99,7 +99,7 @@ class PrelingerPlugin(OMEPlugin):
         Calls ``GET https://archive.org/metadata/{identifier}`` where
         *identifier* is extracted from the supplied *url*.
         """
-        with httpx.Client(follow_redirects=True, timeout=30.0) as client:
+        with httpx2.Client(follow_redirects=True, timeout=30.0) as client:
             # Accept both https://archive.org/details/{id} and
             # https://archive.org/metadata/{id}
             identifier = url.rstrip("/").rsplit("/", 1)[-1]

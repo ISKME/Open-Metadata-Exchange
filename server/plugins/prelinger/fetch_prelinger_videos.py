@@ -6,7 +6,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -30,7 +30,7 @@ Results are cached in ``prelinger_finland_videos.json`` inside this directory.
 
 from pathlib import Path
 
-import httpx
+import httpx2
 
 from server.plugins.prelinger.plugin import PrelingerPlugin
 from server.plugins.prelinger.prelinger_models import (
@@ -55,7 +55,7 @@ def search_prelinger(
     query: str,
     rows: int = 50,
     *,
-    httpx_client: httpx.Client,
+    httpx_client: httpx2.Client,
 ) -> list[str]:
     """
     Search the Prelinger collection and return a list of item identifiers.
@@ -77,7 +77,7 @@ def search_prelinger(
 
 
 def fetch_item_metadata(
-    identifier: str, *, httpx_client: httpx.Client
+    identifier: str, *, httpx_client: httpx2.Client
 ) -> PrelingerItem:
     """
     Fetch the full metadata for a single Prelinger item via the md-read API.
@@ -106,7 +106,7 @@ def bulk_import(query: str = "finland", rows: int = 50) -> list[PrelingerItem]:
         return PrelingerModel.model_validate_json(cache_path.read_text()).root
 
     items: list[PrelingerItem] = []
-    with httpx.Client(follow_redirects=True, timeout=30.0) as httpx_client:
+    with httpx2.Client(follow_redirects=True, timeout=30.0) as httpx_client:
         identifiers = search_prelinger(query, rows=rows, httpx_client=httpx_client)
         for identifier in identifiers:
             item = fetch_item_metadata(identifier, httpx_client=httpx_client)
