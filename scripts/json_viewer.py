@@ -4,7 +4,7 @@
 # requires-python = ">=3.9"
 # dependencies = [
 #     "fastapi",
-#     "httpx",
+#     "httpx2",
 #     "jinja2",
 #     "pydantic",
 #     "toga",
@@ -22,7 +22,7 @@ import webbrowser
 from pathlib import Path
 from typing import Any
 
-import httpx
+import httpx2
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
@@ -113,7 +113,7 @@ if not (json_file := Path(__file__).with_suffix(".json")).exists():
         msg = "Please set the URL environment variable"
         raise ValueError(msg)
 
-    if not (json_payload := httpx.get(url).raise_for_status().json()):
+    if not (json_payload := httpx2.get(url).raise_for_status().json()):
         msg = f"Failed to fetch JSON payload from {url=}"
         raise ValueError(msg)
 

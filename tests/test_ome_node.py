@@ -1,4 +1,4 @@
-# uvx -w=beautifulsoup4,dateparser,httpx,pydantic,pynntp pytest -vv
+# uvx -w=beautifulsoup4,dateparser,httpx2,pydantic,pynntp pytest -vv
 from collections.abc import Generator, Iterator
 from datetime import UTC, datetime
 

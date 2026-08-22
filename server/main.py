@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-import httpx
+import httpx2
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
@@ -29,7 +29,7 @@ from server.utils import (
     get_channel_summary,
 )
 
-unused = httpx
+unused = httpx2
 
 app = FastAPI()
 

@@ -6,7 +6,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -23,7 +23,7 @@ import logging
 from collections.abc import Iterator
 from pathlib import Path
 
-import httpx
+import httpx2
 from pydantic import ValidationError
 
 from server.plugins.ome_plugin import EducationResource
@@ -73,12 +73,12 @@ def fetch_datasets(url: str = WHG_DATASETS_URL) -> list[Feature]:
         A list of :class:`Feature` records.
     """
     try:
-        with httpx.Client(follow_redirects=True, timeout=30.0) as httpx_client:
+        with httpx2.Client(follow_redirects=True, timeout=30.0) as httpx_client:
             response = httpx_client.get(url).raise_for_status()
-    except httpx.HTTPError as exc:
+    except httpx2.HTTPError as exc:
         status_code = (
             exc.response.status_code
-            if isinstance(exc, httpx.HTTPStatusError)
+            if isinstance(exc, httpx2.HTTPStatusError)
             else "N/A"
         )
         msg = (

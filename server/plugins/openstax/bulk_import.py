@@ -4,7 +4,7 @@
 # requires-python = ">=3.13"
 # dependencies = [
 #     "beautifulsoup4",
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -16,7 +16,7 @@ from collections.abc import Iterator
 from pathlib import Path
 from urllib.parse import urljoin
 
-import httpx
+import httpx2
 from bs4 import BeautifulSoup
 
 from server.plugins.ome_plugin import EducationResource
@@ -131,15 +131,15 @@ async def fetch_subject_page(url: str = COMPUTER_SCIENCE_SUBJECT_URL) -> str:
     """
     Fetch OpenStax subject page HTML.
     """
-    async with httpx.AsyncClient(
+    async with httpx2.AsyncClient(
         follow_redirects=True, timeout=30.0
     ) as httpx_async_client:
         try:
             return (await httpx_async_client.get(url)).raise_for_status().text
-        except httpx.HTTPError as exc:
+        except httpx2.HTTPError as exc:
             status_code = (
                 exc.response.status_code
-                if isinstance(exc, httpx.HTTPStatusError)
+                if isinstance(exc, httpx2.HTTPStatusError)
                 else "N/A"
             )
             msg = (
