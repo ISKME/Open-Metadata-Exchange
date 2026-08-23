@@ -6,7 +6,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -16,7 +16,7 @@ import json
 from collections.abc import Iterator
 from pathlib import Path
 
-import httpx
+import httpx2
 
 from server.plugins.oer_africa.oer_africa_models import OERAFricaResource
 from server.plugins.oer_africa.plugin import OERAFricaPlugin
@@ -49,7 +49,7 @@ def bulk_translate_to_json(resources: list[dict]) -> str:
 
 
 async def _fetch_raw(url: str) -> str:
-    async with httpx.AsyncClient() as httpx_async_client:
+    async with httpx2.AsyncClient() as httpx_async_client:
         response = await httpx_async_client.get(url)
         response.raise_for_status()
         return response.text

@@ -7,7 +7,7 @@
 # requires-python = ">=3.13"
 # dependencies = [
 #     "beautifulsoup4",
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -19,7 +19,7 @@ from collections.abc import Iterator
 from pathlib import Path
 from urllib.parse import urljoin
 
-import httpx
+import httpx2
 from bs4 import BeautifulSoup
 
 from server.plugins.mit_opencourseware.mit_opencourseware_models import (
@@ -40,8 +40,10 @@ logger = logging.getLogger(__name__)
 plugin = MITOpenCourseWarePlugin()
 
 
-def _status_code_from_http_error(exc: httpx.HTTPError) -> str | int:
-    return exc.response.status_code if isinstance(exc, httpx.HTTPStatusError) else "N/A"
+def _status_code_from_http_error(exc: httpx2.HTTPError) -> str | int:
+    return (
+        exc.response.status_code if isinstance(exc, httpx2.HTTPStatusError) else "N/A"
+    )
 
 
 def _normalize_course_url(href: str) -> str:
@@ -188,12 +190,12 @@ def parse_course_page(html: str, listing: MITOCWCourseListing) -> MITOCWCourse:
 
 
 async def _fetch_json_list(
-    httpx_async_client: httpx.AsyncClient, url: str
+    httpx_async_client: httpx2.AsyncClient, url: str
 ) -> list[dict[str, object]]:
     try:
         response = await httpx_async_client.get(url)
         response.raise_for_status()
-    except httpx.HTTPError as exc:
+    except httpx2.HTTPError as exc:
         status_code = _status_code_from_http_error(exc)
         msg = (
             f"Failed to fetch MIT OpenCourseWare JSON from {url} "
@@ -203,11 +205,11 @@ async def _fetch_json_list(
     return response.json()
 
 
-async def _fetch_text(httpx_async_client: httpx.AsyncClient, url: str) -> str:
+async def _fetch_text(httpx_async_client: httpx2.AsyncClient, url: str) -> str:
     try:
         response = await httpx_async_client.get(url)
         response.raise_for_status()
-    except httpx.HTTPError as exc:
+    except httpx2.HTTPError as exc:
         status_code = _status_code_from_http_error(exc)
         msg = (
             f"Failed to fetch MIT OpenCourseWare page {url} "
@@ -218,14 +220,14 @@ async def _fetch_text(httpx_async_client: httpx.AsyncClient, url: str) -> str:
 
 
 async def fetch_topic_index(
-    httpx_async_client: httpx.AsyncClient,
+    httpx_async_client: httpx2.AsyncClient,
 ) -> list[MITOCWTopicIndexItem]:
     payload = await _fetch_json_list(httpx_async_client, MIT_OCW_TOPICS_INDEX_URL)
     return [MITOCWTopicIndexItem.model_validate(item) for item in payload]
 
 
 async def fetch_topic_course_listings(
-    httpx_async_client: httpx.AsyncClient, topic_file: str
+    httpx_async_client: httpx2.AsyncClient, topic_file: str
 ) -> list[MITOCWCourseListing]:
     payload = await _fetch_json_list(
         httpx_async_client, urljoin(MIT_OCW_TOPIC_URL_PREFIX, topic_file)
@@ -234,7 +236,7 @@ async def fetch_topic_course_listings(
 
 
 async def _collect_unique_course_listings(
-    httpx_async_client: httpx.AsyncClient,
+    httpx_async_client: httpx2.AsyncClient,
 ) -> list[MITOCWCourseListing]:
     listings_by_url: dict[str, MITOCWCourseListing] = {}
     for topic in await fetch_topic_index(httpx_async_client):
@@ -254,7 +256,7 @@ async def _collect_unique_course_listings(
 
 
 async def fetch_course_details(
-    httpx_async_client: httpx.AsyncClient, listing: MITOCWCourseListing
+    httpx_async_client: httpx2.AsyncClient, listing: MITOCWCourseListing
 ) -> MITOCWCourse:
     html = await _fetch_text(httpx_async_client, _normalize_course_url(listing.href))
     return parse_course_page(html, listing)
@@ -264,7 +266,7 @@ async def search_courses(
     query: str = DEFAULT_QUERY,
     limit: int = DEFAULT_LIMIT,
 ) -> list[MITOCWCourse]:
-    async with httpx.AsyncClient(
+    async with httpx2.AsyncClient(
         follow_redirects=True,
         timeout=30.0,
     ) as httpx_async_client:

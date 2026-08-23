@@ -17,7 +17,7 @@ Queries:
 
 ## `ome_demo.py`
 
-Use [FastAPI](https://fastapi.tiangolo.com) and [httpx](https://www.python-httpx.org) to retrieve multiple different open education resources:
+Use [FastAPI](https://fastapi.tiangolo.com) and [httpx2](https://github.com/pydantic/httpx2) to retrieve multiple different open education resources:
 
 1. An image from <https://michmemories.org>
 2. A dataset from <https://github.com/WorldHistoricalGazetteer>

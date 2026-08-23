@@ -1,13 +1,13 @@
 """Tests that verify each OME plugin has a documentation page at GitHub Pages.
 
-Uses httpx to check https://iskme.github.io/Open-Metadata-Exchange for
+Uses httpx2 to check https://iskme.github.io/Open-Metadata-Exchange for
 a page for each plugin in the server/plugins directory.
 """
 
 import asyncio
 from pathlib import Path
 
-import httpx
+import httpx2
 import pytest
 
 PLUGINS_DIR = Path(__file__).resolve().parent.parent / "server" / "plugins"
@@ -23,8 +23,8 @@ def _plugin_names() -> list[str]:
     )
 
 
-async def _get(url: str) -> httpx.Response:
-    async with httpx.AsyncClient() as httpx_async_client:
+async def _get(url: str) -> httpx2.Response:
+    async with httpx2.AsyncClient() as httpx_async_client:
         return await httpx_async_client.get(url, follow_redirects=True)
 
 

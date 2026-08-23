@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-import httpx
+import httpx2
 import pytest
 
 from server.plugins.oer_africa.oer_africa_models import OERAFricaResource
@@ -50,9 +50,9 @@ def test_make_metadata_card_from_json() -> None:
 
 
 def test_make_metadata_card_from_url_not_implemented_raises() -> None:
-    """make_metadata_card_from_url raises httpx.ConnectError on an invalid hostname."""
+    """make_metadata_card_from_url raises httpx2.ConnectError on an invalid hostname."""
     plugin = OERAFricaPlugin()
-    with pytest.raises(httpx.ConnectError):
+    with pytest.raises(httpx2.ConnectError):
         plugin.make_metadata_card_from_url(
             "https://www.oerafrica.invalid/node/99999999"
         )

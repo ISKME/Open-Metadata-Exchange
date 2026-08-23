@@ -3,7 +3,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -13,7 +13,7 @@ import re
 from datetime import UTC, datetime
 from types import MappingProxyType
 
-import httpx
+import httpx2
 
 from server.plugins.oer_africa.oer_africa_models import OERAFricaResource
 from server.plugins.ome_plugin import EducationResource, OMEPlugin
@@ -119,7 +119,7 @@ class OERAFricaPlugin(OMEPlugin):
         json_url = url if "_format=json" in url else f"{url.rstrip('/')}?_format=json"
 
         async def _fetch() -> str:
-            async with httpx.AsyncClient() as httpx_async_client:
+            async with httpx2.AsyncClient() as httpx_async_client:
                 response = await httpx_async_client.get(json_url)
                 response.raise_for_status()
                 return response.text

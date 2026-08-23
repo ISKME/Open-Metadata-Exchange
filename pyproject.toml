@@ -22,7 +22,7 @@ dependencies = [
 dev = [
   "beautifulsoup4>=4.15",
   "dateparser>=1.4.2",
-  "httpx>=0.28",
+  "httpx2>=2.12",
   "pytest>=9.1.1",
   "pytest-run-parallel>=0.10",
 ]

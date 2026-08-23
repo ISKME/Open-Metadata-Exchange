@@ -6,7 +6,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     import json
     from pathlib import Path
 
-    from httpx import Client
+    from httpx2 import Client
 
     here = Path(__file__).resolve().parent
     # Conditionally create an whg.json file that should contain whg dataset items.

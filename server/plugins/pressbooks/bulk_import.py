@@ -8,7 +8,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -19,7 +19,7 @@ import logging
 from collections.abc import Iterator
 from pathlib import Path
 
-import httpx
+import httpx2
 from pydantic import ValidationError
 
 from server.plugins.ome_plugin import EducationResource
@@ -61,17 +61,17 @@ def _parse_page(items: list) -> list[PressbooksBook]:
 
 
 async def _fetch_page(
-    httpx_async_client: httpx.AsyncClient,
+    httpx_async_client: httpx2.AsyncClient,
     params: dict[str, str | int],
 ) -> list[PressbooksBook]:
     """Fetch and parse a single page of books from the Pressbooks Directory API."""
     try:
         response = await httpx_async_client.get(BOOKS_API_URL, params=params)
         response.raise_for_status()
-    except httpx.HTTPError as exc:
+    except httpx2.HTTPError as exc:
         status_code = (
             exc.response.status_code
-            if isinstance(exc, httpx.HTTPStatusError)
+            if isinstance(exc, httpx2.HTTPStatusError)
             else "N/A"
         )
         msg = (
@@ -111,7 +111,7 @@ async def fetch_all_books(
     if institution:
         base_params["institution"] = institution
 
-    async with httpx.AsyncClient(
+    async with httpx2.AsyncClient(
         follow_redirects=True, timeout=30.0
     ) as httpx_async_client:
         # Fetch the first page and read the total page count from the response header.
@@ -119,10 +119,10 @@ async def fetch_all_books(
             first_response = await httpx_async_client.get(
                 BOOKS_API_URL, params={**base_params, "page": 1}
             ).raise_for_status()
-        except httpx.HTTPError as exc:
+        except httpx2.HTTPError as exc:
             status_code = (
                 exc.response.status_code
-                if isinstance(exc, httpx.HTTPStatusError)
+                if isinstance(exc, httpx2.HTTPStatusError)
                 else "N/A"
             )
             msg = (

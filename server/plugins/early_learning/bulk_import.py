@@ -3,14 +3,14 @@
 # Source: https://www.earlylearningresourcenetwork.org/books/search?f%5B0%5D=language%3A712
 #
 # The Early Learning Resource Network site does not expose a public REST or JSON API.
-# This module uses web scraping (httpx + BeautifulSoup) to gather metadata from the
+# This module uses web scraping (httpx2 + BeautifulSoup) to gather metadata from the
 # first 8 English-language resources listed on the search results page.
 
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
 #     "beautifulsoup4",
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -19,7 +19,7 @@ import asyncio
 from datetime import datetime
 from pathlib import Path
 
-import httpx
+import httpx2
 from bs4 import BeautifulSoup
 
 from server.plugins.early_learning.early_learning_models import (
@@ -68,7 +68,7 @@ def _text_list(soup: BeautifulSoup, selector: str) -> list[str]:
 
 
 async def scrape_resource_page(
-    httpx_async_client: httpx.AsyncClient, url: str
+    httpx_async_client: httpx2.AsyncClient, url: str
 ) -> EarlyLearningItem:
     """
     Fetch a single resource page and extract metadata.
@@ -157,7 +157,7 @@ async def scrape_resource_page(
 
 
 async def scrape_search_results(
-    httpx_async_client: httpx.AsyncClient,
+    httpx_async_client: httpx2.AsyncClient,
     url: str = SEARCH_URL,
     max_results: int = MAX_RESULTS,
 ) -> list[str]:
@@ -202,7 +202,7 @@ async def scrape_search_results(
 async def _fetch_all_items(url: str, max_results: int) -> list[EarlyLearningItem]:
     """Async helper that scrapes the search page and each resource page."""
     items: list[EarlyLearningItem] = []
-    async with httpx.AsyncClient(timeout=30) as httpx_async_client:
+    async with httpx2.AsyncClient(timeout=30) as httpx_async_client:
         resource_urls = await scrape_search_results(
             httpx_async_client, url, max_results
         )
