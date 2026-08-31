@@ -270,7 +270,7 @@ soup = BeautifulSoup(
 )
 
 # Discouraged — two-line raise_for_status
-response = client.get(url)   # ← do not do this
+response = client.get(url)  # ← do not do this
 response.raise_for_status()  # ← do not do this
 ```
 
@@ -320,12 +320,16 @@ import httpx2
 
 
 async def _fetch_page(httpx_async_client: httpx2.AsyncClient, params: dict) -> list:
-    return await httpx_async_client.get(API_URL, params=params).raise_for_status().json()
+    return (
+        await httpx_async_client.get(API_URL, params=params).raise_for_status().json()
+    )
 
 
 async def fetch_all(*, per_page: int = 100, **filters) -> list:
     base_params = {"per_page": per_page, **filters}
-    async with httpx2.AsyncClient(follow_redirects=True, timeout=30.0) as httpx_async_client:
+    async with httpx2.AsyncClient(
+        follow_redirects=True, timeout=30.0
+    ) as httpx_async_client:
         first = await httpx_async_client.get(API_URL, params={**base_params, "page": 1})
         first.raise_for_status()
         total_pages = int(first.headers.get("X-WP-TotalPages", "1"))
@@ -370,9 +374,7 @@ def _parse_records(items: list) -> list[MyModel]:
             errors.append(exc)
     if errors:
         try:
-            raise ExceptionGroup(
-                f"Skipping {len(errors)} malformed record(s)", errors
-            )
+            raise ExceptionGroup(f"Skipping {len(errors)} malformed record(s)", errors)
         except* ValidationError as eg:
             for exc in eg.exceptions:
                 logger.warning("Malformed record: %s", exc)
