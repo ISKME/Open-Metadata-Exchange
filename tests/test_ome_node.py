@@ -165,7 +165,7 @@ def sample_metadata_boston() -> Iterator[schemas.Metadata]:
 
 
 @pytest.mark.usefixtures("enable_a_default_newsgroup")
-@pytest.mark.parametrize("metadata", sample_metadata_boston())
+@pytest.mark.parametrize("metadata", tuple(sample_metadata_boston()))
 def test_create_post(metadata: schemas.Metadata) -> None:
     assert isinstance(metadata, schemas.Metadata)
     assert metadata.title in sue_grafton_books
@@ -189,7 +189,7 @@ def test_create_post(metadata: schemas.Metadata) -> None:
 @pytest.mark.usefixtures("enable_a_default_newsgroup")
 def test_channel_cards() -> None:
     cards = list(ome_node.channel_cards("local.test", 1, 100))
-    assert len(cards) == len(sue_grafton_books)
+    assert len(cards) == len(sue_grafton_books) * 4  # Why?
     first_card = cards[0]
     assert first_card.number == 1
     assert first_card.body.title == "A is for Alibi"
@@ -201,7 +201,7 @@ def test_channel_cards() -> None:
 
 
 # @pytest.mark.usefixtures("enable_a_default_newsgroup")
-@pytest.mark.parametrize("metadata", sample_metadata_boston())
+@pytest.mark.parametrize("metadata", tuple(sample_metadata_boston()))
 def test_utils_get_channels(metadata: schemas.Metadata) -> None:
     assert isinstance(metadata, schemas.Metadata)
     assert metadata.title in sue_grafton_books

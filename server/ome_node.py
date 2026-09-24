@@ -21,12 +21,15 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import dateparser
+from pydantic import ValidationError
 
 from server.get_ome_plugins import get_newsgroups_from_plugins, load_plugin
 from server.schemas import (
     Attachment,
+    Card,
     Channel,
     ChannelSummary,
+    Metadata,
     NewsgroupPost,
     Post,
 )
@@ -161,6 +164,37 @@ def get_last_n_posts(channel: str, num: int = 3) -> Iterator[Post]:
                     id=post_number, channel=channel, headers=headers, body=body
                 )
             )
+
+
+def channel_cards(channel: str, start: int, end: int) -> Iterator[Card]:
+    with ClientContextManager() as nntp_client:
+        _est_total, first, last, _name = nntp_client.group(channel)
+        start = max(start, first)
+        end = min(end, last)
+        for i in range(start, end + 1):
+            post_number, headers, body = nntp_client.article(i)
+            post = from_post(
+                NewsgroupPost(
+                    id=post_number, channel=channel, headers=headers, body=body
+                )
+            )
+            body_text = post.body if isinstance(post.body, str) else post.body.decode()
+            try:
+                card_body: Metadata | str = Metadata.model_validate_json(body_text)
+            except ValidationError:
+                card_body = body_text
+            yield Card(
+                number=post.id,
+                headers=dict(headers),
+                subject=post.subject,
+                body=card_body,
+            )
+
+
+def import_post(channel: str, message_id: int) -> bool:
+    """Fetch a post from a channel and republish it as a new local post."""
+    post = get_post(channel, message_id)
+    return create_post(post)
 
 
 if __name__ == "__main__":
