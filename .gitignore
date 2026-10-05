@@ -17,9 +17,11 @@ dist/
 downloads/
 eggs/
 .eggs/
+lib/
 lib64/
 parts/
 sdist/
+var/
 wheels/
 share/python-wheels/
 *.egg-info/
@@ -176,6 +178,12 @@ cython_debug/
 
 *~
 
-frontend/src/shared/lib/
-frontend/src/widgets/Align/lib/
-frontend/src/widgets/Filters/lib/
+fe/node_modules/
+fe2/node_modules/
+fe2/webpack-stats.json
+
+# Allow frontend source lib/ directories (overrides the Python lib/ exclusion above)
+!frontend/src/**/lib/
+!frontend/src/**/lib/**
+!frontend/config/build/
+!frontend/config/build/**
