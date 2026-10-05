@@ -64,6 +64,7 @@ export function Collection() {
         <CasesAll
           titles={name}
           URL={`/api/search/v2/browse/?f.collection=${id}`}
+          exportUrl={admin ? `/curated-collections/${id}?f.collection=${id}` : ''}
         />
       </Box>
     </>

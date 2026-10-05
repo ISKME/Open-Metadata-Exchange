@@ -19,7 +19,7 @@ export default function SearchBar({ value, onChange, onSearch, placeholder = "Se
 
   return (
     <FormControl sx={{
-      width: 730,
+      width: { md: 730 },
       borderRadius: '8px',
       fontFamily: 'Inter, sans-serif',
       bgcolor: 'ark.inputsBackgroundColor',

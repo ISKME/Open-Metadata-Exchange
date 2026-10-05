@@ -61,6 +61,7 @@ export function MyItemsList({
   defaultPage,
   setDefaultPage,
   canRemoveItems = false,
+  headerTitle = 'My Items',
 }) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -329,7 +330,7 @@ export function MyItemsList({
 
   const createNewFolder = () => {
     setCreatingFolder(true)
-    selectValue('', 'My Saved Cases')
+    selectValue('', 'My Saved Items')
   }
 
   return (
@@ -341,7 +342,7 @@ export function MyItemsList({
           marginBottom: "15px",
         }}
       >
-        My Items ({count})
+        {headerTitle} ({count})
       </Typography>
       <Paper
         elevation={3}
@@ -422,12 +423,12 @@ export function MyItemsList({
                           onClick={() =>
                             selectValue(
                               '',
-                              'My Saved Cases'
+                              'My Saved Items'
                             )
                           }
                           className={cls.mySAvedCases}
                         >
-                          My Saved Cases
+                          My Saved Items
                         </MenuItem>
 
                         {/* User folders */}
@@ -638,7 +639,7 @@ export function MyItemsList({
             <TextField
               id="outlined-basic"
               type="search"
-              label="Search within cases"
+              label="Search within items"
               variant="outlined"
               sx={{ flex: 1, backgroundColor: "white" }}
               value={searchText}

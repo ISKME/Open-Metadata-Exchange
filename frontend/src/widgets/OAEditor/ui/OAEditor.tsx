@@ -3,6 +3,7 @@ import { OATitleForm, OAImageForm, OASection } from 'entities/OAEditor';
 import { ILesson, ISection } from 'entities/Lesson';
 import { RelatedResource } from 'entities/RelatedResource';
 import { BlockUI, buiStyle } from 'shared/ui/BlockUI/BlockUI';
+import { StatusMessage } from 'shared/lib/statusMessage';
 import req from 'shared/lib/req';
 
 const createSectionsMap = (sections) => {
@@ -12,10 +13,11 @@ const createSectionsMap = (sections) => {
   }, {});
 }
 
-export function OAEditor({ lesson }: { lesson: any }) {
+export function OAEditor({ lesson, videoUploadStrategy }: { lesson: any, videoUploadStrategy?: string }) {
   const [processing, setProcessing] = useState(false);
   const [sections, setSections] = useState(lesson.sections || []);
   const [sectionsMap, setSectionsMap] = useState(createSectionsMap(sections));
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
 
   const lessonRef = useRef(lesson);
   const sectionsRef = useRef(sections);
@@ -81,8 +83,21 @@ export function OAEditor({ lesson }: { lesson: any }) {
   }
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      req.post(lesson.lock_url, { lock: 'refresh' }, true).catch(() => {
+        clearInterval(interval);
+      })
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (!lesson?.sections?.length) {
+      addSection();
+    }
     document.addEventListener('oa:submit', (e: any) => {
       setProcessing(true);
+      setErrors({});
       const currentLesson = lessonRef.current;
       const currentSections = sectionsRef.current;
       const currentSectionsMap = sectionsMapRef.current;
@@ -97,15 +112,19 @@ export function OAEditor({ lesson }: { lesson: any }) {
         if (e?.detail?.nextURL) {
           location.href = e.detail.nextURL;
         }
-      })
+      }).catch((error) => {
+        setProcessing(false);
+        setErrors(error || {});
+        StatusMessage.error('Please correct the indicated errors.');
+      });
     });
   }, []);
 
   return (
     <div style={buiStyle.uiBox}>
       {processing && (<BlockUI text='Saving...'/>)}
-      <OATitleForm lesson={lesson} onChange={onLessonChange} />
-      <OAImageForm lesson={lesson} onChange={onLessonChange} />
+      <OATitleForm lesson={lesson} onChange={onLessonChange} errors={errors?.title} />
+      <OAImageForm lesson={lesson} />
       <div className="lesson-editor-task-list">
         {sections.map((section, i) => (
           <OASection key={section.task_id}
@@ -117,6 +136,7 @@ export function OAEditor({ lesson }: { lesson: any }) {
                      onSectionDelete={onSectionDelete}
                      createURL={lesson.section_create_url}
                      RelatedResourceWidget={RelatedResource}
+                     videoUploadStrategy={videoUploadStrategy}
           />
         ))}
         <button className="btn btn-primary task-list-new-task-btn" type="button" onClick={addSection}>Insert New Section</button>
@@ -125,10 +145,10 @@ export function OAEditor({ lesson }: { lesson: any }) {
   )
 }
 
-export function QAEditorAction({ title, event, className, nextURL = null }) {
+export function QAEditorAction({ title, event, className, nextURL=null, action=null }) {
   const dispatchEvent = (e) => {
     e.preventDefault();
-    document.dispatchEvent(new CustomEvent(event, { detail: { nextURL } }));
+    document.dispatchEvent(new CustomEvent(event, { detail: { nextURL, action } }));
   }
 
   return <button onClick={dispatchEvent} className={className}>{title}</button>;

@@ -159,3 +159,168 @@
         padding: 16px 8px;
     }
 }
+
+.widgetSectionSelect {
+    position: absolute;
+    top: 16px;
+    left: 70%;
+    transform: translateX(-70%);
+    z-index: 2;
+}
+
+@media (min-width: 651px) and (max-width: 1199px) {
+    .dashboard {
+        align-items: center;
+        overflow-x: hidden;
+    }
+
+    .filtersRow {
+        width: min(100%, 520px);
+        max-width: 520px;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        box-sizing: border-box;
+
+        & > * {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            flex: 1 1 auto;
+            box-sizing: border-box;
+        }
+
+        & > div:not(:first-child) {
+            border-left: 0;
+            border-top: 1px solid #cbcbcb;
+        }
+
+        & > :global(.dashboard-date-range-picker) {
+            border-left: 0;
+            border-top: 1px solid #cbcbcb;
+        }
+
+        :global(.MuiFormControl-root),
+        :global(.MuiAutocomplete-root),
+        :global(.dashboard-date-range-picker),
+        :global(.dashboard-date-range-picker .react-daterange-picker),
+        :global(.dashboard-date-range-picker .react-daterange-picker__wrapper) {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+    }
+
+    .pageLinksContainer {
+        position: static;
+        height: auto;
+        padding: 12px 0;
+    }
+
+    .pageLinksContainer .pageLinks {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .pageLinksContainer .pageLinkItem {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .bigCard {
+        width: min(100%, 1120px);
+        max-width: 1120px;
+        padding: 24px;
+        margin-top: 24px;
+        box-sizing: border-box;
+    }
+
+    .widgetsSection {
+        grid-template-columns: 1fr !important;
+        width: 100%;
+        gap: 16px;
+    }
+
+    .widgetsSection > div {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .widgetSectionSelect {
+        position: static;
+        transform: none;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 650px) {
+    .dashboard {
+        align-items: stretch;
+        overflow-x: hidden;
+    }
+
+    .filtersRow {
+        width: 100%;
+        max-width: 100%;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+
+        & > div {
+            flex: 1 1 100%;
+            width: 100%;
+            min-width: 0;
+        }
+
+        & > div:not(:first-child) {
+            border-left: 0;
+            border-top: 1px solid #cbcbcb;
+        }
+    }
+
+    .pageLinksContainer {
+        position: static;
+        height: auto;
+        padding: 12px 0;
+    }
+
+    .pageLinksContainer .pageLinks {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .pageLinksContainer .pageLinkItem {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .bigCard {
+        width: 100%;
+        padding: 16px;
+        margin-top: 24px;
+        box-sizing: border-box;
+    }
+
+    .widgetsSection {
+        grid-template-columns: 1fr !important;
+        width: 100%;
+        gap: 16px;
+    }
+
+    .widgetsSection > div {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .widgetSectionSelect {
+        position: static;
+        transform: none;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: flex-end;
+    }
+}

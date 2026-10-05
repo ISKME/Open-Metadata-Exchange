@@ -1,0 +1,273 @@
+/* stylelint-disable selector-pseudo-class-no-unknown */
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  color: #263442;
+}
+
+.sectionCard {
+  min-width: 0;
+  overflow: hidden;
+  border-color: #dce2e7 !important;
+  border-radius: 4px !important;
+  box-shadow: 0 1px 2px rgb(31 52 73 / 5%);
+}
+
+.sectionHeading,
+.tableHeading {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22px;
+}
+
+.sectionHeading :global(.MuiTypography-h6),
+.tableHeading :global(.MuiTypography-h6) {
+  color: #263442;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.sectionHeading :global(.MuiTypography-body1),
+.tableHeading :global(.MuiTypography-body1) {
+  margin-top: 3px;
+  font-size: 14px;
+}
+
+.countryCount,
+.tableNote {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 7px;
+  align-items: center;
+  color: #637180;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.countryCount :global(.MuiSvgIcon-root),
+.tableNote :global(.MuiSvgIcon-root) {
+  color: #4f7edb;
+  font-size: 19px;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid #edf0f2;
+  border-bottom: 1px solid #dce2e7;
+}
+
+.summaryItem {
+  min-width: 0;
+  padding: 18px 22px;
+  border-right: 1px solid #edf0f2;
+}
+
+.summaryItem:first-child {
+  box-shadow: inset 0 -3px #2457a7;
+}
+
+.summaryItem:last-child {
+  border-right: 0;
+}
+
+.summaryLabel {
+  color: #5f6e7c;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+.summaryValue {
+  margin-top: 7px !important;
+  color: #263442;
+  font-size: 26px !important;
+  font-weight: 600 !important;
+  line-height: 1.15 !important;
+}
+
+.summaryHelper {
+  margin-top: 4px !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+}
+
+.mapFigure {
+  margin: 0;
+  padding: 22px;
+  background: #fbfcfd;
+}
+
+.worldMap {
+  display: block;
+  width: min(100%, 900px);
+  height: auto;
+  margin: 0 auto;
+  aspect-ratio: 2 / 1;
+}
+
+.mapCountry {
+  stroke: #9aabb9;
+  stroke-width: 0.5px;
+  vector-effect: non-scaling-stroke;
+}
+
+.mapCountry:hover {
+  stroke: #263442;
+  stroke-width: 1.5px;
+}
+
+.mapCaption {
+  margin-top: 14px !important;
+  text-align: center;
+  font-size: 12px !important;
+}
+
+.tableHeading {
+  border-bottom: 1px solid #dce2e7;
+}
+
+.tableScroller {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.countriesTable {
+  min-width: 720px;
+}
+
+.countriesTable :global(.MuiTableCell-head) {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #66727e;
+  background: #f7f8fa;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.countriesTable :global(.MuiTableCell-body) {
+  padding-top: 11px;
+  padding-bottom: 11px;
+  border-color: #e8ecef;
+  color: #344353;
+  font-size: 13px;
+}
+
+.rankColumn {
+  width: 54px;
+  color: #87929d !important;
+}
+
+.countryName {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-width: 180px;
+  color: #2457a7;
+  font-weight: 600;
+}
+
+.countryFlag {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-width: 25px;
+  height: 22px;
+  font-size: 19px;
+  line-height: 1;
+}
+
+.distributionCell {
+  display: grid;
+  grid-template-columns: 52px minmax(120px, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-width: 230px;
+}
+
+.distributionBar {
+  height: 8px !important;
+  border-radius: 4px;
+  background-color: #e0e4e8 !important;
+}
+
+.distributionBar :global(.MuiLinearProgress-bar) {
+  border-radius: 4px;
+  background-color: #4f7edb;
+}
+
+.trendUp,
+.trendDown,
+.trendNeutral {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.trendUp {
+  color: #07856f;
+}
+
+.trendDown {
+  color: #dc3545;
+}
+
+.trendNeutral {
+  color: #87929d;
+}
+
+.compact .summaryGrid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.compact .summaryItem {
+  border-right: 0;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.compact .summaryItem:last-child {
+  border-bottom: 0;
+}
+
+@media (max-width: 720px) {
+  .sectionHeading,
+  .tableHeading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .summaryGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .summaryItem {
+    border-right: 0;
+    border-bottom: 1px solid #edf0f2;
+  }
+
+  .summaryItem:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .sectionHeading,
+  .tableHeading,
+  .mapFigure {
+    padding: 16px;
+  }
+
+  .summaryItem {
+    padding: 16px;
+  }
+
+  .mapBubble {
+    border-width: 2px;
+    font-size: 8px;
+  }
+}

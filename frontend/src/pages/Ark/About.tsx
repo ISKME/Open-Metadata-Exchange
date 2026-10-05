@@ -5,25 +5,25 @@ import cls from './styles.module.scss';
 
 export default function ArkAbout() {
   useEffect(() => {
-    document.title = 'About | Digital Public Goods Library';
+    document.title = 'About | The Ark: A Digital Public Goods Library';
   }, []);
 
   return (
     <>
       <Typography variant="h4" gutterBottom className={cls.header} color="ark.mainFontColor">
-        The Digital Public Goods Library
+        The Ark: A Digital Public Goods Library
       </Typography>
       <Typography variant="h5" gutterBottom className={cls.title} color="ark.mainFontColor">
         Open for Education
       </Typography>
       <Typography className={cls.text} color="ark.mainFontColor">
-        This library of digital public goods contains public domain and openly licensed educational materials that have either lost their digital home, or are at risk. Over time, shifting priorities and budgetary constraints of digital libraries containing educational resources in the U.S. and around the world have resulted in the disappearance of a huge amount of high-quality public domain and openly licensed educational materials. Working with other collection partners and archives, the goal of this library is to ensure that these resources are in circulation for educators, researchers, and librarians in K-12 and higher education.
+        The Ark is a library of digital public goods that contains public domain and openly licensed educational materials which have either lost their digital home, or are at risk. Over time, shifting priorities and budgetary constraints of digital libraries containing educational resources in the U.S. and around the world have resulted in the disappearance of a huge amount of high-quality public domain and openly licensed educational materials. Working with other collection partners and archives, the goal of this library is to ensure that these resources are in circulation for educators, researchers, and librarians in K-12 and higher education.
       </Typography>
       <Typography variant="h5" gutterBottom className={cls.title} color="ark.mainFontColor">
         Our Mission
       </Typography>
       <Typography className={cls.text} color="ark.mainFontColor">
-        The Digital Public Goods Library is committed to serve as an exemplary steward of public domain and openly licensed educational content to ensure that resource collections are preserved, regenerated, and available to all educators who wish to adopt and adapt them.
+        The Ark is committed to serve as an exemplary steward of public domain and openly licensed educational content to ensure that resource collections are preserved, regenerated, and available to all educators who wish to adopt and adapt them.
       </Typography>
       <Typography variant="h5" gutterBottom className={cls.title} color="ark.mainFontColor">
         Take Action
@@ -34,10 +34,21 @@ export default function ArkAbout() {
         <a href="#">openforeducation@gmail.com</a>
       </Typography>
       <Typography paragraph className={cls.text} color="ark.mainFontColor">
-        Are you a metadata librarian, archivist, or developer interested in contributing to the Digital Public Goods Library, please email
+        Are you a metadata librarian, archivist, or developer interested in contributing to The Ark? Please email
         {' '}
         <a href="#">openforeducation@gmail.com</a>
       </Typography>
+      <hr style={{ marginBottom: '32px' }} />
+      <Typography paragraph className={cls.text} color="ark.mainFontColor">
+        In partnership with the Institute for the Study of Knowledge Management in Education, the Internet Archive, the Data Rescue Project, and the American Association of Colleges & Universities, The Ark was created to ensure that public domain and openly licensed educational content resource collections are preserved, regenerated, and available to all educators who wish to adopt and adapt them.
+      </Typography>
+      <div className={cls.partnership}>
+        {/* <img src="/static/ark/images/1.png" /> */}
+        <img src="/static/newdesign/images/ark/1.png" style={{ transform: 'scale(.85)' }} />
+        <img src="/static/newdesign/images/ark/2.png" />
+        <img src="/static/newdesign/images/ark/3.png" style={{ width: '217px',  height: '75px', marginTop: '37px' }} />
+        <img src="/static/newdesign/images/ark/4.png" />
+      </div>
     </>
   );
 }

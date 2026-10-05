@@ -23,7 +23,7 @@ export const SidebarItemsList: SidebarItemType[] = [
     },
     {
         // path: RoutePath.library,
-        path: '/imls/site-collections/main',
+        path: '/imls/site-collections/',
         Icon: LibraryIcon,
         text: 'My Library',
     },

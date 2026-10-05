@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
   Button, Container, Radio, RadioGroup, FormControlLabel, FormControl, Grid, Alert,
 } from '@mui/material';
+import { OrgPendingInvitations } from 'widgets/OrgPendingInvitations';
 import cls from './MyOrganizations.module.scss';
 
 export function MyOrganizations() {
@@ -12,7 +13,7 @@ export function MyOrganizations() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  useEffect(() => {
+  const loadOrganizations = () => {
     axios.get('/api/csrf-token/')
       .then((response) => {
         setCsrfToken(response.data.token);
@@ -28,7 +29,9 @@ export function MyOrganizations() {
       .catch((error) => {
         console.error('Error fetching user data or CSRF token:', error);
       });
-  }, []);
+  };
+
+  useEffect(loadOrganizations, []);
 
   const setCookie = (name, value, days) => {
     const date = new Date();
@@ -70,6 +73,7 @@ export function MyOrganizations() {
         {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       </div>
       <Container maxWidth="md">
+        <OrgPendingInvitations onAccepted={loadOrganizations} />
         <form onSubmit={handleSubmit}>
           <FormControl component="fieldset" className={cls['form-control']}>
             <RadioGroup

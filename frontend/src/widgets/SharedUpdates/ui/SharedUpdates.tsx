@@ -1,5 +1,11 @@
 // @ts-ignore
-import { Collapse } from 'widgets/Collapse';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import cls from './SharedUpdates.module.scss';
 
 interface SharedUpdatesProps {
@@ -78,30 +84,63 @@ export function SharedUpdates({ className }: SharedUpdatesProps) {
         <a href="#">Clear update notifications</a>
       </div>
       <div className={cls.row}>
-        <Collapse number={1} title="URL update">
-          <div className={cls.collapseContent}>
-            <CardItem />
-            <span>View collection</span>
-          </div>
-        </Collapse>
-        <Collapse number={1} title="Metadata update">
-          <div className={cls.collapseContent}>
-            <CardItem />
-            <span>View collection</span>
-          </div>
-        </Collapse>
+        <Accordion elevation={1} className={cls.accordionRoot}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Box display="flex" alignItems="center" gap={1}>
+              <Typography variant="subtitle1">URL update</Typography>
+              <Box className={cls.countBadge}>1</Box>
+            </Box>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className={cls.collapseContent}>
+              <CardItem />
+              <span>View collection</span>
+            </div>
+          </AccordionDetails>
+        </Accordion>
+
+        <Accordion elevation={1} className={cls.accordionRoot}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Box display="flex" alignItems="center" gap={1}>
+              <Typography variant="subtitle1">Metadata update</Typography>
+              <Box className={cls.countBadge}>1</Box>
+            </Box>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className={cls.collapseContent}>
+              <CardItem />
+              <span>View collection</span>
+            </div>
+          </AccordionDetails>
+        </Accordion>
       </div>
       <div>
-        <Collapse number={1} title="Deaccessioned">
-          <div className={`${cls.collapseContent} ${cls.left}`}>
-            <CardItem />
-            <span>View collection</span>
-          </div>
-        </Collapse>
+        <Accordion elevation={1} className={cls.accordionRoot}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Box display="flex" alignItems="center" gap={1}>
+              <Typography variant="subtitle1">Deaccessioned</Typography>
+              <Box className={cls.countBadge}>1</Box>
+            </Box>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className={`${cls.collapseContent} ${cls.left}`}>
+              <CardItem />
+              <span>View collection</span>
+            </div>
+          </AccordionDetails>
+        </Accordion>
       </div>
       <div className={cls.row}>
-        <Collapse number={0} title="Content additions" />
-        <Collapse number={0} title="Content Engagements" />
+        <Accordion elevation={1} className={cls.accordionRoot}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1">Content additions</Typography>
+          </AccordionSummary>
+        </Accordion>
+        <Accordion elevation={1} className={cls.accordionRoot}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1">Content Engagements</Typography>
+          </AccordionSummary>
+        </Accordion>
       </div>
     </div>
   );

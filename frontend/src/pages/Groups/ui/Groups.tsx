@@ -41,7 +41,7 @@ const getCanCreate = (): boolean => {
 };
 
 export function Groups() {
-  const [create, setCreate] = React.useState(false)
+  const [create, setCreate] = React.useState(window.location.search.includes('create'))
   const [value, setValue] = React.useState(0);
   const [data, setData] = React.useState([]);
   const [canCreate] = React.useState<boolean>(() => getCanCreate());
