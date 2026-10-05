@@ -6,13 +6,14 @@
 /* eslint-disable max-len */
 /* eslint-disable eqeqeq */
 // @ts-nocheck
-import { useLocation, useParams, useSearchParams, useNavigate } from 'react-router-dom';
+import { useLocation, useParams, useSearchParams, useNavigate, Link } from 'react-router-dom';
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import * as qs from 'query-string';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Drawer from '@mui/material/Drawer';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -29,6 +30,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import SortIcon from '@mui/icons-material/Sort';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CircularProgress from '@mui/material/CircularProgress';
+import { FilterAlt } from '@mui/icons-material';
 
 let PAGE = 1;
 
@@ -95,6 +97,7 @@ export function CollectionDetails() {
   const [sections, setSections] = useState([]);
   const [changes, setChanges] = useState({});
   const [stats, setStats] = useState({});
+  const [small, setSmall] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
 
   fSearch = inputValue;
   fSubject = checked;
@@ -195,6 +198,10 @@ export function CollectionDetails() {
         }
       }
     });
+    const handleResize = () => setSmall(window.innerWidth < 1024);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const handleSelectChange = useCallback(({ target }) => {
@@ -308,14 +315,48 @@ export function CollectionDetails() {
     e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png'
   }
 
+  const FiltersBox = () => (
+    <Box sx={{ minWidth: 260, p: 2 }}>
+      <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}><FilterListIcon sx={{ mr: 1 }} />Filters</Typography>
+      {filters && filters.map((el) => (
+        <Accordion key={el.name} defaultExpanded>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1" fontWeight={600}>{el.name}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {el.items?.map((item) => (
+              <Box key={item.slug} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                <input
+                  type="checkbox"
+                  checked={checked[el.keyword]?.includes(item.slug) || false}
+                  data-slug={el.keyword}
+                  value={item.slug}
+                  onChange={handleFilterChange}
+                />
+                <Typography variant="body2" sx={{ ml: 1 }}>{item.name}</Typography>
+              </Box>
+            ))}
+          </AccordionDetails>
+        </Accordion>
+      ))}
+      <Button variant="outlined" onClick={handleClearSearchParams} sx={{ mt: 2 }}>Reset Filters</Button>
+    </Box>
+  )
+
+  const [open, setOpen] = useState(false);
+  const toggleDrawer = (newOpen) => () => setOpen(newOpen);
+
   return (
     <Box sx={{ mx: 'auto', mt: 4, p: 2 }}>
+      <Drawer open={open} onClose={toggleDrawer(false)}>
+        <FiltersBox />
+      </Drawer>
       <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/imls/explore-oer-exchange')} sx={{ mb: 2 }}>
         Back to Explore OER Exchange
       </Button>
       {!done && (
         <Box>
-          <Card sx={{ display: 'flex', mb: 3 }}>
+          <Card sx={{ display: 'flex', mb: 3, flexDirection: { sm: 'column', xs: 'column', md: 'row' } }}>
             <CardMedia
               component="img"
               sx={{ width: 180, height: 180, objectFit: 'cover', overflow: 'hidden', borderRadius: 2, m: 2 }}
@@ -327,7 +368,7 @@ export function CollectionDetails() {
               <Typography variant="h5" fontWeight={700}>{collectionName}</Typography>
               <Typography variant="subtitle1" color="text.secondary" gutterBottom>{collectionMicrositeName}</Typography>
               <div dangerouslySetInnerHTML={{ __html: abstract }} />
-              <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
+              <Stack direction="row" sx={{ mt: 1 }} flexDirection={{ sm: 'column', xs: 'column', md: 'row' }} gap="8px">
                 <Typography variant="body2">{numResources} resources</Typography>
                 {educationLevels && <Typography variant="body2">Education: {educationLevels?.slice(0, 3)?.join(', ')}</Typography>}
                 <Typography variant="body2">Last Updated: {new Date(updatedOn).toDateString().substring(4)}</Typography>
@@ -370,34 +411,23 @@ export function CollectionDetails() {
                 </select>
               </Stack>
             </Box>
+            {small && <Button
+              size="large"
+              variant="contained"
+              endIcon={<FilterAlt />}
+              onClick={toggleDrawer(true)}
+              sx={{
+                paddingLeft: '32px',
+                paddingRight: '32px',
+                height: '48px',
+                boxShadow: 'none',
+                borderRadius: '8px',
+              }}
+            >Filters</Button>}
           </Stack>
           <Divider sx={{ mb: 2 }} />
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} alignItems="flex-start">
-            <Box sx={{ minWidth: 260 }}>
-              <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}><FilterListIcon sx={{ mr: 1 }} />Filters</Typography>
-              {filters && filters.map((el) => (
-                <Accordion key={el.name} defaultExpanded>
-                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography variant="subtitle1" fontWeight={600}>{el.name}</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    {el.items?.map((item) => (
-                      <Box key={item.slug} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                        <input
-                          type="checkbox"
-                          checked={checked[el.keyword]?.includes(item.slug) || false}
-                          data-slug={el.keyword}
-                          value={item.slug}
-                          onChange={handleFilterChange}
-                        />
-                        <Typography variant="body2" sx={{ ml: 1 }}>{item.name}</Typography>
-                      </Box>
-                    ))}
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-              <Button variant="outlined" color="secondary" onClick={handleClearSearchParams} sx={{ mt: 2 }}>Reset Filters</Button>
-            </Box>
+            {!small && <FiltersBox />}
             <Box sx={{ flex: 1, position: 'relative' }}>
               <Typography variant="subtitle1" sx={{ mb: 1 }}>{totalNumber} Resources</Typography>
               <ul style={{ listStyle: 'none', padding: 0 }}>
@@ -418,6 +448,8 @@ export function CollectionDetails() {
                         justifyContent: 'center',
                         borderLeft: { sm: '1px solid #eee' },
                       }}
+                      component={Link}
+                      to={`/imls/asset/${resource.detailURL?.split('/v2/resources/')?.pop()}`}
                     >
                       <img
                         src={resource.thumbnail}
@@ -431,8 +463,8 @@ export function CollectionDetails() {
                     </CardContent>
                     <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', sm: 'block' } }} />
                     <CardContent>
-                      <Typography variant="h6" fontWeight={600}>{resource.title || resource.name}</Typography>
-                      <Typography variant="body2" color="text.secondary">{resource.micrositeName || resource.site}</Typography>
+                      <Typography variant="h6" fontWeight={600} component={Link} to={`/imls/asset/${resource.detailURL?.split('/v2/resources/')?.pop()}`}>{resource.title || resource.name}</Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{resource.micrositeName || resource.site}</Typography>
                       <Typography variant="body2" color="text.secondary">Updated {new Date(resource.updateDate).toDateString()}</Typography>
                       <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{resource.abstract?.split(' ').slice(0, 20).join(' ')}...</Typography>
                     </CardContent>

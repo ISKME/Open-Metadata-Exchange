@@ -1,9 +1,9 @@
-import cls from './styles.module.scss'
+import cls from "./styles.module.scss";
 
-export default function({ children, onClick = () => {} }) {
+export default function ({ children, onClick = () => {} }) {
   return (
-    <div className={cls.rButton} onClick={onClick}>
+    <button type="button" className={cls.rButton} onClick={onClick}>
       {children}
-    </div>
-  )
+    </button>
+  );
 }

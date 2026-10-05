@@ -60,7 +60,7 @@ export default function DrillControls({
               ...params.InputProps,
               endAdornment: (
                 <>
-                  {busy0 ? <CircularProgress size={18} /> : null}
+                  {busy0 ? <CircularProgress size={18} aria-label={`Loading ${l0Label} options`} /> : null}
                   {params.InputProps.endAdornment}
                 </>
               ),
@@ -91,7 +91,7 @@ export default function DrillControls({
                 ...params.InputProps,
                 endAdornment: (
                   <>
-                    {lvl1Loading ? <CircularProgress size={18} /> : null}
+                    {lvl1Loading ? <CircularProgress size={18} aria-label={`Loading ${l1Label} options`} /> : null}
                     {params.InputProps.endAdornment}
                   </>
                 ),

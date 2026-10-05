@@ -34,3 +34,15 @@ export const fetchCases = (URL, groupId = '', folderId = '', subFolderId = '', r
     console.log(e)
   }
 };
+
+export const fetchStaticCasesData = (URL, resources = false) => async (dispatch: AppDispatch) => {
+  try {
+    const params = {
+      source: resources ? 'submitted' : 'courseware'
+    };
+    const { data } = await axios.get(URL, { params, paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }) })
+    dispatch(casesSlice.actions.setStaticData(data.resources))
+  } catch (e) {
+    console.log('Error fetching static cases data:', e)
+  }
+};

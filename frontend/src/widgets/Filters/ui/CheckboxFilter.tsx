@@ -4,7 +4,7 @@ function updateProps(props, newProps) {
   return { ...props, ...newProps }
 }
 
-function Checkbox(props) {
+function Checkbox(props, showNumResources = false) {
   const { filter, item, checked, onSelect, onUnSelect } = props
 
   const handleChange = (e) => {
@@ -20,7 +20,7 @@ function Checkbox(props) {
     <label>
       <input type='checkbox' name={filter.keyword} checked={checked} value={item.slug} onChange={handleChange}/>
       {item.name}
-      <span className='facet-count'>({item.numResources})</span>
+      {showNumResources ? <span className='facet-count'>({item.numResources})</span> : ''}
     </label>
   )
 }
@@ -42,7 +42,7 @@ function CheckboxWrapper(props) {
     li: () => {
       return (
         <li key={getKey()} className={getClassName()}>
-          {Checkbox(itemProps)}
+          {Checkbox(itemProps, props.filter.name === 'Grade Level')}
           {item.items.length > 0 && CheckboxUL(updateProps(props, { items: item.items }))}
         </li>
       )
@@ -51,7 +51,7 @@ function CheckboxWrapper(props) {
       return (
         <>
           <dt key={getKey()} className={getClassName() + (collapsed ? ' collapsed' : '')}>
-            {Checkbox(itemProps)}
+            {Checkbox(itemProps, true)}
             <button
                 type="button"
                 className="filter-block-chevron btn btn-icon toggle-collapse"

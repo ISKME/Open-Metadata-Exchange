@@ -9,5 +9,8 @@ export interface ISection {
 }
 
 export interface ILesson {
+  edit_next_url?: string | null
   sections: Array<ISection>
+  is_content_use_permission_accepted?: boolean
+  is_resource_accessibility_accepted?: boolean
 }

@@ -153,7 +153,7 @@ export function AllCollections() {
           onChange={({ target }) => setInputValue(target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') handleSearchEnter(); }}
           variant="outlined"
-          placeholder="Search individual learning materials"
+          placeholder="Search Collections"
           sx={sxStyles.searchInput}
           size="small"
         />
@@ -161,7 +161,7 @@ export function AllCollections() {
           Search
         </Button>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mb: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', flexDirection: { sm: 'column', xs: 'column', md: 'row' }, gap: 2, mb: 2 }}>
         <Select label="Collection publisher" value={selectedTenants} options={tenants} onChange={setSelectedTenants} />
         <Select label="Subject area" value={selectedSubjects} options={subjects} onChange={setSelectedSubjects} />
         <Select label="Educational level" value={selectedLevels} options={levels} onChange={setSelectedLevels} />

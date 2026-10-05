@@ -99,13 +99,19 @@ export function OrgansUsers({ id }) {
   const [pendingCount, setPendingCount] = useState(0)
   const [count, setCount] = useState(0)
   const [pendingPage, setPendingPage] = useState(1)
+  const [pendingOrder, setPendingOrder] = useState({ by: 'timestamp', dir: 'desc' })
   const [page, setPage] = useState(1)
   const [term, setTerm] = useState('')
   const [name, setName] = useState('')
   const [last, setLast] = useState('')
   const [mail, setMail] = useState('')
   const [role, setRole] = useState()
+  const [statusFilter, setStatusFilter] = useState('1')
+  const [roleFilter, setRoleFilter] = useState('')
   const [tab, setTab] = useState(0)
+  const [activeMembersCount, setActiveMembersCount] = useState(0)
+  const [activeMembersLimit, setActiveMembersLimit] = useState(0)
+  const [pendingMembersCount, setPendingMembersCount] = useState(0)
   const [importPage, setImportPage] = useState(false)
   const [sortBy, setSortBy] = useState('user__first_name')
   const [sortDir, setSortDir] = useState('asc')
@@ -113,6 +119,7 @@ export function OrgansUsers({ id }) {
     firstName: 'user__first_name',
     lastName: 'user__last_name',
     email: 'user__email',
+    role: 'role',
     joined: 'user__date_joined',
     lastLogin: 'user__last_login'
   };
@@ -121,9 +128,11 @@ export function OrgansUsers({ id }) {
     try {
       const response = await axios.get(`/api/organizations/v1/organizations/${id}/members`, {
           params: {
+              role: roleFilter || undefined,
+              status: statusFilter || undefined,
               ...params,
               page_size: pageSize,
-              ordering: `${sortDir === 'asc' ? '' : '-'}${sortBy}`
+              ordering: `${sortDir === 'asc' ? '' : '-'}${sortBy}`,
           }
       });
 
@@ -158,7 +167,16 @@ export function OrgansUsers({ id }) {
 
   const fetchPendingMembers = async (params = {}) => {
     try {
-      const { data } = await axios.get(`/api/organizations/v2/organizations/${id}/invitations`, { params: { ...params, page_size: pendingPageSize } })
+      const orderingField = pendingOrder.by === 'role_display' ? 'role' : pendingOrder.by
+      const { data } = await axios.get(`/api/organizations/v2/organizations/${id}/invitations`, {
+        params: {
+          q: search,
+          page: pendingPage,
+          ...params,
+          page_size: pendingPageSize,
+          ordering: `${pendingOrder.dir === 'asc' ? '' : '-'}${orderingField}`,
+        },
+      })
       setPendingMembers(data?.results?.map(({ id, email, first_name, last_name, role_display, timestamp }, index) => ({
         id,
         email,
@@ -188,6 +206,11 @@ export function OrgansUsers({ id }) {
     })
     axios.get('/api/users/v1/profile').then(({ data }) => {
       if (data?.user?.is_staff || data?.user?.is_superuser) setAdmin(true)
+    })
+    axios.get(`/api/organizations/v1/organizations/${id}`).then(({ data }) => {
+      setActiveMembersCount(data.active_members_count)
+      setActiveMembersLimit(data.active_members_limit)
+      setPendingMembersCount(data.pending_members_count)
     })
   }, [])
 
@@ -268,11 +291,15 @@ export function OrgansUsers({ id }) {
   function handleSearch() {
     setSearch(term)
     setPage(1)
+    setPendingPage(1)
     fetchMembers({ q: term })
-    fetchPendingMembers({ q: term })
   }
 
-  useEffect(handleSearch, [pageSize, pendingPageSize])
+  useEffect(handleSearch, [pageSize])
+
+  useEffect(() => {
+    fetchPendingMembers()
+  }, [id, search, pendingPage, pendingPageSize, pendingOrder])
 
   useEffect(() => {
     fetchMembers({
@@ -281,13 +308,27 @@ export function OrgansUsers({ id }) {
         page_size: pageSize,
         ordering: `${sortDir === 'asc' ? '' : '-'}${sortBy}`
     });
-  }, [sortBy, sortDir, page, pageSize]);
+  }, [sortBy, sortDir, page, pageSize, roleFilter, statusFilter]);
+
+  function handleRoleFilterChange(value) {
+    setRoleFilter(value);
+    setPage(1);
+  }
+
+  function handleStatusFilterChange(value) {
+    setStatusFilter(value);
+    setPage(1);
+  }
 
   function exportMembers() {
     axios.get('/api/csrf-token').then(({ data }) => {
       const form = document.createElement('form');
       form.method = 'POST';
-      form.action = `/api/organizations/v1/organizations/${id}/members/export?q=${term}`;
+      const exportParams = new URLSearchParams();
+      if (term) exportParams.set('q', term);
+      if (statusFilter) exportParams.set('status', statusFilter);
+      if (roleFilter) exportParams.set('role', roleFilter);
+      form.action = `/api/organizations/v1/organizations/${id}/members/export?${exportParams.toString()}`;
 
       const csrf = document.createElement('input');
       csrf.type = 'hidden';
@@ -354,7 +395,8 @@ export function OrgansUsers({ id }) {
       );
 
       alert('Deleted successfully');
-      fetchPendingMembers();
+      setPendingPage(1);
+      fetchPendingMembers({ page: 1 });
       setPendingSelected([]);
     } catch (err) {
       console.error('Delete failed:', err);
@@ -477,7 +519,7 @@ export function OrgansUsers({ id }) {
       </div>}
       {!importPage && <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '920px' }}>
         <Typography component="div" variant="h5">
-          Users
+          {activeMembersLimit > 0 ? `Users (${activeMembersCount} out of ${activeMembersLimit})` : 'Users'}
         </Typography>
         <Typography>
           <b>NOTE: </b>
@@ -524,6 +566,34 @@ export function OrgansUsers({ id }) {
           <Button sx={buttonStyles} onClick={() => setImportPage(true)}>Import</Button>
           <Button style={buttonStyles} disabled={!active} onClick={exportMembers}>Export</Button>
           {admin && <Button style={buttonStyles} disabled={!active} onClick={() => setMoveModal(true)}>Move</Button>}
+          <FormControl size="small" sx={{ minWidth: 140, backgroundColor: 'white' }}>
+            <InputLabel id="status-filter-label">Status</InputLabel>
+            <Select
+              labelId="status-filter-label"
+              label="Status"
+              value={statusFilter}
+              onChange={({ target }) => handleStatusFilterChange(target.value)}
+            >
+              <MenuItem value="">All</MenuItem>
+              {Object.entries(statusChoices).sort(([, a], [, b]) => a.localeCompare(b)).map(([key, val]) => (
+                <MenuItem key={key} value={key}>{val}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl size="small" sx={{ minWidth: 140, backgroundColor: 'white' }}>
+            <InputLabel id="role-filter-label">Role</InputLabel>
+            <Select
+              labelId="role-filter-label"
+              label="Role"
+              value={roleFilter}
+              onChange={({ target }) => handleRoleFilterChange(target.value)}
+            >
+              <MenuItem value="">All</MenuItem>
+              {Object.entries(roleChoices).map(([key, val]) => (
+                <MenuItem key={key} value={key}>{val}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <TextField
             id="outlined-basic"
             label="Search"
@@ -543,12 +613,15 @@ export function OrgansUsers({ id }) {
           </IconButton>
         </Paper>)}
         <Tabs value={tab} onChange={(_event, newValue) => setTab(newValue)} centered sx={{ paddingLeft: '0' }}>
-          <Tab label="Current Members" />
-          <Tab label="Pending Members" />
+          <Tab label={`Current Members (${count})`} />
+          <Tab label={`Pending Members (${pendingMembersCount})`} />
         </Tabs>
         {tab === 1 && (<>
           <Table
             rows={pendingMembers}
+            page={pendingPage - 1}
+            rowsPerPage={pendingPageSize}
+            order={pendingOrder}
             headers={[
               { id: 'first_name', label: 'First name', width: 89 },
               { id: 'last_name', label: 'Last name', width: 89 },
@@ -565,12 +638,14 @@ export function OrgansUsers({ id }) {
                 setPendingSelected(members)
               }
             }}
-            onPageChanged={(page) => {
-              setPendingPage(page)
-              fetchPendingMembers({ q: search, page })
-            }}
+            onPageChanged={setPendingPage}
             onLimitChanged={(limit) => {
               setPendingPageSize(limit)
+              setPendingPage(1)
+            }}
+            onSortChanged={(order) => {
+              setPendingOrder(order)
+              setPendingPage(1)
             }}
           />
         </>)}

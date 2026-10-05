@@ -15,7 +15,7 @@ repos:
       - id: check-docstring-first
       - id: check-executables-have-shebangs
       - id: check-json
-        exclude: ".*fe2/tsconfig.json$"
+        exclude: "frontend/tsconfig.json$"
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
         exclude_types: [perl]

@@ -10,7 +10,7 @@ export default function Dropdown({
 }) {
   return (
     <FormControl size="small" sx={{
-      width: 200,
+      width: 240,
       bgcolor: 'ark.inputsBackgroundColor',
       borderRadius: 2,
       '& .MuiInputBase-root': {

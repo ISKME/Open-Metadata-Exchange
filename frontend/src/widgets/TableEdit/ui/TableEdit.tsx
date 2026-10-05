@@ -413,14 +413,14 @@ export const TableEdit = ({
             </Box>
           </Box>
           <Box className={cls.modalFooter}>
-            <Link href={`/groups/new/${groupID}?settings=true`} rel="noopener">
+            <Link href={groupID ? `/groups/new/${groupID}?settings=true` : '/groups/new/?create'} rel="noopener">
               Open in Edit Mode
             </Link>
             <Box mt={3} display="flex" justifyContent="flex-end" gap={1}>
               <Button onClick={handleCloseModal} className={cls.cancelButton}>
                 Cancel
               </Button>
-              <Button onClick={handleSaveGroup} className={cls.saveButton}>
+              <Button onClick={handleSaveGroup} className={cls.saveButton} disabled={!currentGroup.leaders?.length} sx={{ opacity: !currentGroup.leaders?.length ? .5 : 1 }}>
                 Save
               </Button>
             </Box>

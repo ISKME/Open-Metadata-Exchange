@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { setupStore } from 'app/providers/StoreProvider/config/store';
@@ -11,13 +11,14 @@ const store = setupStore();
 const recaptchaSiteKey = RECAPTCHA_PUBLIC_KEY;
 
 function bootstrapApp() {
-  render(
+  const container = document.getElementById('root')
+  const root = createRoot(container!)
+  root.render(
     <BrowserRouter>
       <Provider store={store}>
         <App />
       </Provider>
-    </BrowserRouter>,
-    document.getElementById('root')
+    </BrowserRouter>
   );
 }
 
@@ -42,4 +43,17 @@ function initRecaptcha() {
   document.head.appendChild(script);
 }
 
-initRecaptcha();
+(function start() {
+  if (typeof window === 'undefined') {
+    bootstrapApp();
+    return;
+  }
+
+  const recaptchaEnabled = (window as any).RECAPTCHA_ENABLED;
+
+  if (recaptchaEnabled === false) {
+    bootstrapApp();
+  } else {
+    initRecaptcha();
+  }
+})();

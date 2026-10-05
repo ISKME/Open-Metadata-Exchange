@@ -280,7 +280,7 @@ export function ResourcesAll({
             <CardResource
               id={item.id}
               key={item.id}
-              title={`${item.title} - Case ${item?.id?.split(".")?.pop()}`}
+              title={item.title}
               description={item.abstract}
               url={item.url}
               items={item.metadata.filter((meta) => ['Subjects', 'Grade Levels', 'Frameworks'].includes(meta.label))}

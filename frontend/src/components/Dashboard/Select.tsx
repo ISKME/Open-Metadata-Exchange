@@ -6,7 +6,9 @@ export default function({
   options = [],
   value = null,
   loading = false,
-  onChange = () => {}
+  onChange = () => {},
+  disableClearable = false,
+  ...rest
 }) {
   return (
     <Autocomplete
@@ -15,6 +17,8 @@ export default function({
       loading={loading}
       value={value || null}
       onChange={onChange}
+      disableClearable={Boolean(disableClearable)}
+      {...rest}
       renderInput={(params) => (
         // variant="standard"
         <TextField
@@ -32,7 +36,7 @@ export default function({
             type: 'search',
             endAdornment: (
               <>
-                {loading ? <CircularProgress size={20} /> : null}
+                {loading ? <CircularProgress size={20} aria-label="Loading options" /> : null}
                 {params.InputProps.endAdornment}
               </>
             ),
