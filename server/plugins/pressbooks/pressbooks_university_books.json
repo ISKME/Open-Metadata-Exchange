@@ -1,0 +1,202 @@
+[
+  {
+    "id": 8101,
+    "link": "https://ubpressbooks.lib.buffalo.edu/openaccess",
+    "title": {
+      "rendered": "Open Access and the Transformation of Scholarly Communication"
+    },
+    "metadata": {
+      "pb_title": "Open Access and the Transformation of Scholarly Communication",
+      "pb_subtitle": "",
+      "pb_short_title": "Open Access",
+      "pb_authors": "Samuel E. Trosow",
+      "pb_editors": "",
+      "pb_description": "This book explores the open access movement and its implications for scholarly communication, libraries, and research dissemination. Covers major policy frameworks, licensing models, and institutional repository strategies.",
+      "pb_publisher": "University at Buffalo Libraries",
+      "pb_publisher_city": "Buffalo",
+      "pb_publication_date": "2021",
+      "pb_copyright_holder": "Samuel E. Trosow",
+      "pb_keywords_tags": "open access, scholarly communication, libraries, copyright",
+      "pb_subject": "Library and Information Science",
+      "pb_language": "en",
+      "pb_license": "cc-by",
+      "pb_cover_image": "https://ubpressbooks.lib.buffalo.edu/openaccess/wp-content/uploads/sites/10/cover.jpg",
+      "pb_url": "https://ubpressbooks.lib.buffalo.edu/openaccess"
+    }
+  },
+  {
+    "id": 8204,
+    "link": "https://ubpressbooks.lib.buffalo.edu/statisticsintro",
+    "title": {
+      "rendered": "Introduction to Statistics for the Social Sciences"
+    },
+    "metadata": {
+      "pb_title": "Introduction to Statistics for the Social Sciences",
+      "pb_subtitle": "",
+      "pb_short_title": "Statistics for Social Sciences",
+      "pb_authors": "Meagan Heerschap; Lori Rae Murray",
+      "pb_editors": "",
+      "pb_description": "A practical introduction to statistical methods used in the social sciences. Topics include descriptive statistics, probability, hypothesis testing, correlation, and regression, with real-world social science examples throughout.",
+      "pb_publisher": "University at Buffalo",
+      "pb_publisher_city": "Buffalo",
+      "pb_publication_date": "2022",
+      "pb_copyright_holder": "Meagan Heerschap; Lori Rae Murray",
+      "pb_keywords_tags": "statistics, social sciences, research methods, quantitative",
+      "pb_subject": "Statistics",
+      "pb_language": "en",
+      "pb_license": "cc-by-sa",
+      "pb_cover_image": "",
+      "pb_url": "https://ubpressbooks.lib.buffalo.edu/statisticsintro"
+    }
+  },
+  {
+    "id": 8317,
+    "link": "https://ubpressbooks.lib.buffalo.edu/writingforengineers",
+    "title": {
+      "rendered": "Technical Writing for Engineers and Scientists"
+    },
+    "metadata": {
+      "pb_title": "Technical Writing for Engineers and Scientists",
+      "pb_subtitle": "",
+      "pb_short_title": "Technical Writing",
+      "pb_authors": "David McMurrey; Joanne Buckley",
+      "pb_editors": "",
+      "pb_description": "A comprehensive guide to technical writing for engineering and science students. Covers reports, proposals, instructions, and presentations, with emphasis on clarity, precision, and audience awareness.",
+      "pb_publisher": "University at Buffalo",
+      "pb_publisher_city": "Buffalo",
+      "pb_publication_date": "2020",
+      "pb_copyright_holder": "David McMurrey; Joanne Buckley",
+      "pb_keywords_tags": "technical writing, engineering, communication, professional writing",
+      "pb_subject": "English",
+      "pb_language": "en",
+      "pb_license": "cc-by",
+      "pb_cover_image": "",
+      "pb_url": "https://ubpressbooks.lib.buffalo.edu/writingforengineers"
+    }
+  },
+  {
+    "id": 8456,
+    "link": "https://rochester.pressbooks.pub/psychologyintro",
+    "title": {
+      "rendered": "Principles of Psychology: A Bilingual Approach"
+    },
+    "metadata": {
+      "pb_title": "Principles of Psychology: A Bilingual Approach",
+      "pb_subtitle": "A Bilingual Approach",
+      "pb_short_title": "Principles of Psychology",
+      "pb_authors": "R. Biswas-Diener; E. Diener",
+      "pb_editors": "Louis Castonguay",
+      "pb_description": "An introductory psychology textbook developed at the University of Rochester. Covers sensation and perception, learning and memory, cognition, development, personality, social psychology, and clinical psychology.",
+      "pb_publisher": "University of Rochester Press",
+      "pb_publisher_city": "Rochester",
+      "pb_publication_date": "2021",
+      "pb_copyright_holder": "University of Rochester",
+      "pb_keywords_tags": "psychology, introductory, mental health, cognition, behavior",
+      "pb_subject": "Psychology",
+      "pb_language": "en",
+      "pb_license": "cc-by-nc-sa",
+      "pb_cover_image": "https://rochester.pressbooks.pub/psychologyintro/wp-content/uploads/sites/5/cover.jpg",
+      "pb_url": "https://rochester.pressbooks.pub/psychologyintro"
+    }
+  },
+  {
+    "id": 8572,
+    "link": "https://rochester.pressbooks.pub/economicsprimer",
+    "title": {
+      "rendered": "Principles of Economics: Microeconomics and Macroeconomics"
+    },
+    "metadata": {
+      "pb_title": "Principles of Economics: Microeconomics and Macroeconomics",
+      "pb_subtitle": "Microeconomics and Macroeconomics",
+      "pb_short_title": "Principles of Economics",
+      "pb_authors": "N. Gregory Mankiw; Ronald D. Kneebone; Kenneth J. McKenzie",
+      "pb_editors": "",
+      "pb_description": "A combined introduction to microeconomics and macroeconomics developed for students at the University of Rochester. Uses real-world examples from the Rochester metropolitan area and Western New York.",
+      "pb_publisher": "University of Rochester",
+      "pb_publisher_city": "Rochester",
+      "pb_publication_date": "2022",
+      "pb_copyright_holder": "University of Rochester",
+      "pb_keywords_tags": "economics, microeconomics, macroeconomics, introductory",
+      "pb_subject": "Economics",
+      "pb_language": "en",
+      "pb_license": "cc-by",
+      "pb_cover_image": "",
+      "pb_url": "https://rochester.pressbooks.pub/economicsprimer"
+    }
+  },
+  {
+    "id": 8683,
+    "link": "https://rochester.pressbooks.pub/labmanual",
+    "title": {
+      "rendered": "General Chemistry Laboratory Manual"
+    },
+    "metadata": {
+      "pb_title": "General Chemistry Laboratory Manual",
+      "pb_subtitle": "",
+      "pb_short_title": "Chemistry Lab Manual",
+      "pb_authors": "Department of Chemistry, University of Rochester",
+      "pb_editors": "Patricia Clark",
+      "pb_description": "A laboratory manual for the two-semester general chemistry sequence at the University of Rochester. Includes pre-lab questions, safety procedures, data collection sheets, and post-lab analysis for each experiment.",
+      "pb_publisher": "University of Rochester",
+      "pb_publisher_city": "Rochester",
+      "pb_publication_date": "2023",
+      "pb_copyright_holder": "University of Rochester",
+      "pb_keywords_tags": "chemistry, laboratory, general chemistry, experiments",
+      "pb_subject": "Chemistry",
+      "pb_language": "en",
+      "pb_license": "cc-by-nc",
+      "pb_cover_image": "",
+      "pb_url": "https://rochester.pressbooks.pub/labmanual"
+    }
+  },
+  {
+    "id": 8791,
+    "link": "https://rctc.pressbooks.pub/computerbasics",
+    "title": {
+      "rendered": "Computer Basics for Everyone"
+    },
+    "metadata": {
+      "pb_title": "Computer Basics for Everyone",
+      "pb_subtitle": "",
+      "pb_short_title": "Computer Basics",
+      "pb_authors": "Pamela Fox; Katie Seaborn",
+      "pb_editors": "",
+      "pb_description": "An introductory textbook covering computer fundamentals, operating systems, productivity software, internet navigation, digital citizenship, and basic cybersecurity. Designed for students with little or no prior computer experience.",
+      "pb_publisher": "Rochester Community and Technical College",
+      "pb_publisher_city": "Rochester",
+      "pb_publication_date": "2021",
+      "pb_copyright_holder": "Rochester Community and Technical College",
+      "pb_keywords_tags": "computers, technology, digital literacy, internet, introductory",
+      "pb_subject": "Computer Science",
+      "pb_language": "en",
+      "pb_license": "cc-by-sa",
+      "pb_cover_image": "https://rctc.pressbooks.pub/computerbasics/wp-content/uploads/sites/3/cover.jpg",
+      "pb_url": "https://rctc.pressbooks.pub/computerbasics"
+    }
+  },
+  {
+    "id": 8904,
+    "link": "https://rctc.pressbooks.pub/nursingfundamentals",
+    "title": {
+      "rendered": "Nursing Fundamentals: A Practical Approach"
+    },
+    "metadata": {
+      "pb_title": "Nursing Fundamentals: A Practical Approach",
+      "pb_subtitle": "A Practical Approach",
+      "pb_short_title": "Nursing Fundamentals",
+      "pb_authors": "Chippewa Valley Technical College",
+      "pb_editors": "Jennifer Lapum; Oona St-Amant; Bruce Jakubec",
+      "pb_description": "A comprehensive textbook for nursing students covering the fundamental concepts and skills needed to practice professional nursing. Topics include patient assessment, medication administration, infection control, and therapeutic communication.",
+      "pb_publisher": "Rochester Community and Technical College",
+      "pb_publisher_city": "Rochester",
+      "pb_publication_date": "2022",
+      "pb_copyright_holder": "Rochester Community and Technical College",
+      "pb_keywords_tags": "nursing, healthcare, patient care, clinical skills, health sciences",
+      "pb_subject": "Nursing",
+      "pb_language": "en",
+      "pb_license": "cc-by",
+      "pb_cover_image": "",
+      "pb_url": "https://rctc.pressbooks.pub/nursingfundamentals"
+    }
+  }
+]

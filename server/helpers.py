@@ -4,7 +4,6 @@ import stat
 
 # import typing
 # from email.utils import parsedate
-import anyio
 import anyio.to_thread
 
 # from starlette.types import Receive, Scope, Send
@@ -43,7 +42,7 @@ class MocAPI(StaticFiles):
         Returns an HTTP response, given the incoming path, method and request headers.
         """
 
-        if scope["method"] not in ("GET", "HEAD"):
+        if scope["method"] not in {"GET", "HEAD"}:
             raise HTTPException(status_code=405)
 
         try:

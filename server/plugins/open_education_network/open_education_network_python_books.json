@@ -1,0 +1,128 @@
+[
+  {
+    "id": 960,
+    "title": "Python for Everybody: Exploring Data in Python 3",
+    "description": "This book is designed to introduce students to programming and computational thinking through the lens of exploring data. You can think of the Python programming language as your tool to solve data problems that are beyond the capability of a spreadsheet.",
+    "url": "https://open.umn.edu/opentextbooks/textbooks/python-for-everybody-exploring-data-in-python-3",
+    "cover_url": "",
+    "license": {
+      "name": "Creative Commons Attribution Non-Commercial Share-Alike",
+      "abbreviation": "CC BY-NC-SA",
+      "url": "http://creativecommons.org/licenses/by-nc-sa/4.0/"
+    },
+    "subjects": [
+      {
+        "name": "Computing & Information Technology",
+        "child_subject": {
+          "name": "Programming Languages"
+        }
+      }
+    ],
+    "contributors": [
+      {
+        "first_name": "Charles",
+        "last_name": "Severance",
+        "contribution_type": "author"
+      }
+    ],
+    "formats": [
+      {
+        "format": "eBook",
+        "url": "https://www.py4e.com/html3/01-intro"
+      },
+      {
+        "format": "PDF",
+        "url": "http://do1.dr-chuck.com/pythonlearn/EN_us/pythonlearn.pdf"
+      }
+    ]
+  },
+  {
+    "id": 824,
+    "title": "How to Think Like a Computer Scientist: Learning with Python 3",
+    "description": "This open book is an introduction to computer science and programming, aimed at readers with no prior programming experience. It covers the Python programming language and the fundamentals of computer science.",
+    "url": "https://open.umn.edu/opentextbooks/textbooks/how-to-think-like-a-computer-scientist-learning-with-python-3",
+    "cover_url": "",
+    "license": {
+      "name": "Creative Commons Attribution Non-Commercial Share-Alike",
+      "abbreviation": "CC BY-NC-SA",
+      "url": "http://creativecommons.org/licenses/by-nc-sa/3.0/"
+    },
+    "subjects": [
+      {
+        "name": "Computing & Information Technology",
+        "child_subject": {
+          "name": "Programming Languages"
+        }
+      }
+    ],
+    "contributors": [
+      {
+        "first_name": "Peter",
+        "last_name": "Wentworth",
+        "contribution_type": "author"
+      },
+      {
+        "first_name": "Jeffrey",
+        "last_name": "Elkner",
+        "contribution_type": "author"
+      },
+      {
+        "first_name": "Allen B.",
+        "last_name": "Downey",
+        "contribution_type": "author"
+      },
+      {
+        "first_name": "Chris",
+        "last_name": "Meyers",
+        "contribution_type": "author"
+      }
+    ],
+    "formats": [
+      {
+        "format": "eBook",
+        "url": "https://openbookproject.net/thinkcs/python/english3e/"
+      },
+      {
+        "format": "PDF",
+        "url": "https://openbookproject.net/thinkcs/python/english3e/thinkcs.pdf"
+      }
+    ]
+  },
+  {
+    "id": 1019,
+    "title": "Introduction to Python Programming",
+    "description": "This textbook is an introduction to programming using Python. It covers basic programming concepts, data types, control flow, functions, and object-oriented programming.",
+    "url": "https://open.umn.edu/opentextbooks/textbooks/introduction-to-python-programming",
+    "cover_url": "",
+    "license": {
+      "name": "Creative Commons Attribution",
+      "abbreviation": "CC BY",
+      "url": "http://creativecommons.org/licenses/by/4.0/"
+    },
+    "subjects": [
+      {
+        "name": "Computing & Information Technology",
+        "child_subject": {
+          "name": "Programming Languages"
+        }
+      }
+    ],
+    "contributors": [
+      {
+        "first_name": "Wikibooks",
+        "last_name": "Contributors",
+        "contribution_type": "author"
+      }
+    ],
+    "formats": [
+      {
+        "format": "eBook",
+        "url": "https://en.wikibooks.org/wiki/A_Beginner%27s_Python_Tutorial"
+      },
+      {
+        "format": "PDF",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Python_Programming.pdf"
+      }
+    ]
+  }
+]

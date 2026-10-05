@@ -72,18 +72,14 @@ export function Cases() {
 
   return (
     <Box sx={{ width: '100%', paddingBottom: '64px' }}>
-      <div className="page-description">
+      <div className="page-description mod-launch">
         <div style={{ padding: '0 10%' }}>
-          ATLAS is a unique, searchable online library of authentic video cases showing National Board Certified
-          Teachers at work in the classroom. Learn more about
-          <a href="https://www.nbpts.org/" target="_blank">
-            National Board Certification
-            <span className="sr-only">Opens in a new window</span>
-          </a>.
+          We&apos;ve launched the newest version of ATLAS, with key updates that strengthen security,
+          boost reliability, and improve overall platform performance. Jump in and explore the refreshed experience!
         </div>
       </div>
       <GlobalStyles styles={globalStyles} />
-      <Box sx={{ width: '100%', paddingLeft: '10%', paddingTop: '24px' }}>
+      {/* <Box sx={{ width: '100%', paddingLeft: '10%', paddingTop: '24px' }}>
         <Tabs
           value={value}
           onChange={(_event, newValue) => setValue(newValue)}
@@ -92,7 +88,7 @@ export function Cases() {
           <Tab value="one" label="All Cases" onClick={() => changeTab('one')} />
           <Tab value="two" label="Resources" onClick={() => changeTab('two')} />
         </Tabs>
-      </Box>
+      </Box> */}
       {value === 'one' && <CasesAll />}
       {value === 'two' && <Resources />}
     </Box>

@@ -1,0 +1,58 @@
+Subject: African Ports, 1887
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============1755756633973144889=="
+
+--===============1755756633973144889==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+{
+  "title": "African Ports, 1887",
+  "description": "305 settlements and ports on the West African coast",
+  "authors": [
+    "Dr. Patricia Seed",
+    "Atteoudeyi Azizou",
+    "Patrick Manning"
+  ],
+  "authoring_institution": "WHG Admin",
+  "subject_tags": [
+    "place"
+  ],
+  "creation_date": "2020-06-17T14:56:01.812576",
+  "last_modified_date": "2020-06-17T14:56:01.812576",
+  "source_url": "",
+  "version_url": "",
+  "spdx_license_expression": ""
+}
+
+--===============1755756633973144889==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="whg_item.json"
+MIME-Version: 1.0
+
+ewogICJpZCI6IDY1NywKICAicGxhY2VfY291bnQiOiAzMDUsCiAgIm93bmVyIjogIldIRyBBZG1p
+biIsCiAgImxhYmVsIjogImFmcmljYW5wb3J0czE4ODciLAogICJ0aXRsZSI6ICJBZnJpY2FuIFBv
+cnRzLCAxODg3IiwKICAiZGVzY3JpcHRpb24iOiAiMzA1IHNldHRsZW1lbnRzIGFuZCBwb3J0cyBv
+biB0aGUgV2VzdCBBZnJpY2FuIGNvYXN0IiwKICAiZGF0YXR5cGUiOiAicGxhY2UiLAogICJkc19z
+dGF0dXMiOiAiaW5kZXhlZCIsCiAgImNyZWF0ZV9kYXRlIjogIjIwMjAtMDYtMTdUMTQ6NTY6MDEu
+ODEyNTc2IiwKICAicHVibGljIjogdHJ1ZSwKICAiY29yZSI6IGZhbHNlLAogICJjcmVhdG9yIjog
+IkRyLiBQYXRyaWNpYSBTZWVkIiwKICAid2VicGFnZSI6IG51bGwsCiAgImNvbnRyaWJ1dG9ycyI6
+ICJBdHRlb3VkZXlpIEF6aXpvdTsgUGF0cmljayBNYW5uaW5nIgp9Cg==
+
+--===============1755756633973144889==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="whg_ome_item.json"
+MIME-Version: 1.0
+
+ewogICJ0aXRsZSI6ICJBZnJpY2FuIFBvcnRzLCAxODg3IiwKICAiZGVzY3JpcHRpb24iOiAiMzA1
+IHNldHRsZW1lbnRzIGFuZCBwb3J0cyBvbiB0aGUgV2VzdCBBZnJpY2FuIGNvYXN0IiwKICAiYXV0
+aG9ycyI6IFsKICAgICJEci4gUGF0cmljaWEgU2VlZCIsCiAgICAiQXR0ZW91ZGV5aSBBeml6b3Ui
+LAogICAgIlBhdHJpY2sgTWFubmluZyIKICBdLAogICJhdXRob3JpbmdfaW5zdGl0dXRpb24iOiAi
+V0hHIEFkbWluIiwKICAic3ViamVjdF90YWdzIjogWwogICAgInBsYWNlIgogIF0sCiAgImNyZWF0
+aW9uX2RhdGUiOiAiMjAyMC0wNi0xN1QxNDo1NjowMS44MTI1NzYiLAogICJsYXN0X21vZGlmaWVk
+X2RhdGUiOiAiMjAyMC0wNi0xN1QxNDo1NjowMS44MTI1NzYiLAogICJzb3VyY2VfdXJsIjogIiIs
+CiAgInZlcnNpb25fdXJsIjogIiIsCiAgInNwZHhfbGljZW5zZV9leHByZXNzaW9uIjogIiIKfQo=
+
+--===============1755756633973144889==--

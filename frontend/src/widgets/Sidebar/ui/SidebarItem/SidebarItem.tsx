@@ -13,7 +13,12 @@ export const SidebarItem = memo(({ item }: SidebarItemProps) => {
         <NavLink
             to={item.path + '/'}
             end={true}
-            className={({ isActive }) => (isActive ? cls.active : cls.inactive)}
+            className={({ isActive }) => {
+                if (item.path.startsWith('/imls/site-collections')) {
+                    return window.location.pathname.startsWith('/imls/site-collections') ? cls.active : cls.inactive;
+                }
+                return isActive ? cls.active : cls.inactive
+            }}
         >
             <item.Icon className={cls.icon} />
             <span>

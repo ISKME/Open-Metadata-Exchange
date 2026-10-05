@@ -4,7 +4,7 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import * as qs from 'query-string';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
@@ -18,6 +18,7 @@ import Search from '@mui/icons-material/Search';
 import { CasesList } from 'widgets/CasesList';
 import cls from './CasesAll.module.scss';
 import axios from 'axios';
+import { fetchStaticCasesData } from 'pages/Cases/model/services/ActionCreators';
 import { getSelectedItems } from 'widgets/Filters/lib'
 import { AlignWidget } from './Align';
 import { extractUrlParams } from 'shared/lib/global';
@@ -111,16 +112,23 @@ const FilterItems = ({ items = [] }) => {
   );
 };
 
-let tempTopics = [];
-let tempGrades = [];
 const makeArray = (arg) => arg !== undefined ? Array.isArray(arg) ? arg : [arg] : []
 
-const Subject = ({ data = {}, onSelect = () => {} }) => {
+const Subject = ({ data = {}, onSelect = () => {}, tempTopics = [] }) => {
   const [expanded, setExpanded] = useState(false);
+
+  const isSelected = tempTopics.some(item => item.slug === data.slug);
+  const childrenWithSelection = data.children?.map(child => ({
+    ...child,
+    parent: data.slug,
+    isSelected: tempTopics.some(item => item.slug === child.slug)
+  })) || [];
+  const hasSelectedChild = childrenWithSelection.some(child => child.isSelected);
+
   useEffect(() => {
-    const child = data.children.findIndex((item) => item.isSelected) >= 0
-    setExpanded(data.isSelected || child)
-  }, [data]);
+    setExpanded(isSelected || hasSelectedChild)
+  }, [isSelected, hasSelectedChild]);
+
   return (
     <Accordion
       expanded={expanded}
@@ -139,7 +147,7 @@ const Subject = ({ data = {}, onSelect = () => {} }) => {
       </AccordionSummary>
       {data.children && data.children.length ? (
         <AccordionDetails>
-          {data.children.map((item, j) => (
+          {childrenWithSelection.map((item, j) => (
             <Typography
               sx={{
                 color: '#56788f',
@@ -147,7 +155,7 @@ const Subject = ({ data = {}, onSelect = () => {} }) => {
                 cursor: 'pointer',
                 backgroundColor: item.isSelected ? '#ececec' : '',
               }}
-              key={`panel${name}-${data.name}-${j}`}
+              key={`panel${data.slug}-${data.name}-${j}`}
               onClick={() => onSelect(item)}
             >
               {item.name} ({item.numResources})
@@ -159,10 +167,10 @@ const Subject = ({ data = {}, onSelect = () => {} }) => {
   )
 };
 
-const urlParams = extractUrlParams()
-
-export function CasesAll({ titles = '', URL = '/api/search/v2/browse/' }) {
-  const { cases, count, pages, sorts, order, topics, grades, standards } = useAppSelector((state) => state.CasesSlice);
+export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUrl = '' }) {
+  const dispatch = useAppDispatch();
+  const { cases, count, pages, sorts, order, topics, grades, standards, staticTopics, staticGrades } = useAppSelector((state) => state.CasesSlice);
+  const urlParams = extractUrlParams();
   let [searchParams, setSearchParams] = useSearchParams();
   const [defaultPage, setDefaultPage] = useState(() => {
     const page = parseInt(urlParams.page, 10);
@@ -173,10 +181,43 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/' }) {
   const [expandFrame, setExpandFrame] = useState(false);
   const [filteredTopics, setFilteredTopics] = useState([]);
   const [filteredGrades, setFilteredGrades] = useState([]);
+  const [tempTopics, setTempTopics] = useState([]);
+  const [tempGrades, setTempGrades] = useState([]);
+  const [displayGrades, setDisplayGrades] = useState([]);
   const [check, setCheck] = useState([]);
   const [clearCommand, setClearCommand] = useState('')
+  const [staticDataLoaded, setStaticDataLoaded] = useState(false);
 
   const selectedStandards = getSelectedItems(standards)
+  const deduplicateBySlug = useCallback((items) => {
+    const seen = new Set();
+    return items.filter(item => {
+      if (seen.has(item.slug)) return false;
+      seen.add(item.slug);
+      return true;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!staticDataLoaded) {
+      dispatch(fetchStaticCasesData(URL));
+      setStaticDataLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (staticGrades.length > 0) {
+      const updatedGrades = staticGrades.map(grade => {
+        const gradeFromAPI = grades.find(g => g.slug === grade.slug);
+        return {
+          ...grade,
+          numResources: gradeFromAPI ? gradeFromAPI.numResources : 0,
+          isSelected: tempGrades.some(selected => selected.slug === grade.slug)
+        };
+      });
+      setDisplayGrades(updatedGrades);
+    }
+  }, [staticGrades, tempGrades, grades]);
 
   const setParams = (key, value) => {
     const params = extractUrlParams()
@@ -192,63 +233,71 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/' }) {
   const applyFilter = (topic) => {
     setDefaultPage(1)
     const index = tempTopics.findIndex((item) => item.slug === topic.slug)
+    let newTempTopics = [...tempTopics];
     if (index < 0) { // add topic
-      tempTopics = tempTopics.filter((item) => item.slug !== topic.parent) // rem parent if child
-      tempTopics.push(topic)
+      newTempTopics = newTempTopics.filter((item) => item.slug !== topic.parent) // rem parent if child
+      newTempTopics.push(topic)
     } else { // rem topic
-      const more = tempTopics.filter((item) => item.parent == topic.parent).length === 1
-      tempTopics.splice(index, 1)
-      if (topic.parent && more) tempTopics.push(topics.find((item) => item.slug === topic.parent))
+      const more = newTempTopics.filter((item) => item.parent == topic.parent).length === 1
+      newTempTopics.splice(index, 1)
+      if (topic.parent && more) {
+        const parentItem = staticTopics.find((item) => item.slug === topic.parent)
+        if (parentItem) newTempTopics.push(parentItem)
+      }
     }
-    tempTopics = tempTopics.filter((item) => item.parent !== topic.slug) // rem children
-    setFilteredTopics(tempTopics)
-    setParams('f.general_subject', tempTopics.map((item) => item.slug))
+    newTempTopics = newTempTopics.filter((item) => item.parent !== topic.slug) // rem children
+    newTempTopics = deduplicateBySlug(newTempTopics);
+    setTempTopics(newTempTopics)
+    setFilteredTopics(newTempTopics)
+    setParams('f.general_subject', newTempTopics.map((item) => item.slug))
     setParams('page', 1)
   }
 
-  const firstRender = useRef(true);
   useEffect(() => {
-    if (firstRender.current && grades.length) {
-      firstRender.current = false;
-    } else return;
-    const filteredGradesLoc = grades.filter((item) => makeArray(urlParams['f.grade_codes']).includes(item.slug))
-    setFilteredGrades(filteredGradesLoc)
-    tempGrades = filteredGrades
-    if (urlParams['f.general_subject']) {
-      let first = []
-      setExpandTopic(true);
+    if (staticTopics.length > 0 && tempTopics.length === 0 && urlParams['f.general_subject']) {
+      let newTempTopics = [];
       for (const filter of makeArray(urlParams['f.general_subject'])) {
-        const subject = topics.find((item) => item.slug === filter)
+        const subject = staticTopics.find((item) => item.slug === filter)
         if (subject) {
           setExpandTopic(true);
-          tempTopics.push(subject)
-          first.push(subject.slug)
+          newTempTopics.push(subject)
         }
-        const parent = topics.find((item) => item.children.findIndex((child) => child.slug == filter) >= 0)
+        const parent = staticTopics.find((item) => item.children.findIndex((child) => child.slug == filter) >= 0)
         if (parent) {
-          if (!first.includes(parent.slug)) {
-            first.push(parent.slug)
-          }
           setExpandTopic(true);
           let temp = parent.children.find((item) => item.slug === filter)
           temp = { ...temp, parent: parent.slug }
-          tempTopics.push(temp)
+          newTempTopics.push(temp)
         }
       }
-      setFilteredTopics(tempTopics)
+      newTempTopics = deduplicateBySlug(newTempTopics);
+      setTempTopics(newTempTopics)
+      setFilteredTopics(newTempTopics)
     }
-  }, [grades])
+
+    if (staticGrades.length > 0 && tempGrades.length === 0 && urlParams['f.grade_codes']) {
+      const filteredGradesLoc = staticGrades.filter((item) => makeArray(urlParams['f.grade_codes']).includes(item.slug))
+      let newTempGrades = [...filteredGradesLoc];
+      newTempGrades = deduplicateBySlug(newTempGrades);
+      setTempGrades(newTempGrades)
+      setFilteredGrades(newTempGrades)
+      setExpandGrade(true)
+    }
+  }, [staticTopics, staticGrades, deduplicateBySlug])
 
   const applyGradeFilter = (grade) => {
     setDefaultPage(1)
     const index = tempGrades.findIndex((item) => item.slug === grade.slug)
-    if (index < 0) { // add topic
-      tempGrades.push(grade)
-    } else { // rem topic
-      tempGrades.splice(index, 1)
+    let newTempGrades = [...tempGrades];
+    if (index < 0) { // add grade
+      newTempGrades.push(grade)
+    } else { // remove grade
+      newTempGrades.splice(index, 1)
     }
-    setFilteredGrades(tempGrades)
-    setParams('f.grade_codes', tempGrades.map((item) => item.slug))
+    newTempGrades = deduplicateBySlug(newTempGrades);
+    setTempGrades(newTempGrades)
+    setFilteredGrades(newTempGrades)
+    setParams('f.grade_codes', newTempGrades.map((item) => item.slug))
     setParams('page', 1)
   }
 
@@ -285,8 +334,8 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/' }) {
             <Typography>Subject & Topic</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: '8px 0 0' }}>
-            {topics.map((topic, j) => (
-              <Subject key={topic.slug} data={topic} onSelect={(item) => applyFilter(item)} />
+            {staticTopics.map((topic, j) => (
+              <Subject key={topic.slug} data={topic} onSelect={(item) => applyFilter(item)} tempTopics={tempTopics} />
             ))}
           </AccordionDetails>
         </Accordion>
@@ -303,7 +352,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/' }) {
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 0 }}>
             <ul className={cls.grades}>
-              {grades.map((grade) => (
+              {displayGrades.map((grade) => (
                 <li
                   key={grade.slug}
                   className={cls.grade}
@@ -357,6 +406,9 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/' }) {
           unselectGrade={applyGradeFilter}
           onUnselectFilter={clearFilter}
           onClear={() => {
+            setTempTopics([])
+            setTempGrades([])
+
             setFilteredTopics([])
             setFilteredGrades([])
             setClearCommand('framework')
@@ -371,6 +423,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/' }) {
           check={check}
           titles={titles}
           URL={URL}
+          exportUrl={exportUrl}
         />
       </Grid>
     </Grid>

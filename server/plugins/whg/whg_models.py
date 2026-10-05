@@ -6,7 +6,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -19,8 +19,6 @@
 # uv tool run --from=datamodel-code-generator datamodel-codegen \
 #             --input whg.json --input-file-type json \
 #             --output whg_models.py
-
-from __future__ import annotations
 
 from typing import Any
 
@@ -54,7 +52,7 @@ if __name__ == "__main__":
     import json
     from pathlib import Path
 
-    from httpx import Client
+    from httpx2 import Client
 
     here = Path(__file__).resolve().parent
     # Conditionally create an whg.json file that should contain whg dataset items.

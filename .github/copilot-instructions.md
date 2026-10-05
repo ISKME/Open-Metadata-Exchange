@@ -39,10 +39,10 @@ sequenceDiagram
 
 ## Code Quality — Always Run pre-commit
 
-**Always run `pre-commit run --all-files` after making any code changes.**
+**Always run `uvx pre-commit run --all-files` after making any code changes.**
 
 ```bash
-pre-commit run --all-files
+uvx pre-commit run --all-files
 ```
 
 This project uses [`pre-commit`](https://pre-commit.com) to enforce formatting, linting,
@@ -51,7 +51,7 @@ and correctness. The hooks include:
 | Hook | Purpose |
 |------|---------|
 | `pre-commit-hooks` | AST checks, trailing whitespace, file validation, case conflicts |
-| `auto-walrus` | Walrus operator optimizations |
+| `auto-walrus` | Walrus operator optimizations using Python := assignment expressions |
 | `codespell` | Spell checking |
 | `ruff` | Python linting and formatting (configured in `pyproject.toml`) |
 | `rumdl` | Markdown linting |
@@ -62,7 +62,7 @@ and correctness. The hooks include:
 ### Setup
 
 ```bash
-uv --python=3.13 venv
+uv venv --python 3.13
 source .venv/bin/activate
 uv pip install --upgrade pip
 pip install --editable .
@@ -72,13 +72,21 @@ pre-commit install
 
 ## Python Conventions
 
-- **Python 3.13+** is required (`requires-python = ">=3.13.0"`).
+- **Python >= 3.13** is required (`requires-python = ">=3.13"`).
 - Use [`uv`](https://docs.astral.sh/uv) for all package management.
-- Follow [Ruff](https://docs.astral.sh/ruff/) rules (all rules enabled except `D`, `COM812`,
-  `ERA`, `FIX002`, `ISC001`, `T201`, `TD003`).
+- Follow [Ruff](https://docs.astral.sh/ruff/) rules (see `tool.ruff` setting in `pyproject.toml`).
 - Use [Pydantic](https://docs.pydantic.dev/) `BaseModel` for all data models.
-- Use `MappingProxyType` for immutable dict class attributes (required by `ruff rule RUF012`).
-- Raise `NotImplementedError` with a message variable: `msg = "..."; raise NotImplementedError(msg)`.
+- Use `MappingProxyType` for immutable dict class attributes (as required by `ruff rule RUF012`).
+- Raise `NotImplementedError` with a message variable: `msg = "..."; raise NotImplementedError(msg)`
+  (as required by `ruff rule EM101`).
+- **Do not use `from __future__ import annotations`** in Pydantic model files that contain
+  `datetime` fields — ruff rule `TC003` flags the runtime `datetime` import as needing a
+  type-checking-only block, which breaks Pydantic's runtime validation. Omit the future
+  import and let Python >= 3.13 handle the annotations natively.
+- Avoid where possible variables that can be polymorphic with `None` as in `s: str | None`.
+- Use assignment expresstions (:=) where it makes sense.
+- Prefer the use of `httpx2.AsyncClient()` instead of `httpx2.Client()`.
+- The variable name `client` is unclear so instead use `httpx_async_client`, `nntp_client`, etc.
 
 ## Plugin Architecture
 
@@ -86,9 +94,10 @@ Plugins live in `server/plugins/<plugin_name>/` and connect external OER data so
 Each plugin inherits from `OMEPlugin` (defined in `server/plugins/ome_plugin.py`) and transforms
 source-specific data into standardized `EducationResource` objects.
 
-See `SKILL.md` for step-by-step instructions on creating a new plugin.
+See `.github/skills/plugin.md` for step-by-step instructions on creating a new plugin.
 
 Key files:
+
 - `server/plugins/ome_plugin.py` — Base `OMEPlugin` class and `EducationResource` model.
 - `server/get_ome_plugins.py` — Discovers and loads all plugins at runtime.
 - `server/plugins/README.md` — Plugin architecture documentation.

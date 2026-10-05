@@ -1,0 +1,76 @@
+Subject: Cell Division: Mitosis and Meiosis Illustrated
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============2601985001643182262=="
+
+--===============2601985001643182262==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+{
+  "title": "Cell Division: Mitosis and Meiosis Illustrated",
+  "description": "A high-resolution educational photograph collection illustr=
+ating the stages of mitosis and meiosis in plant and animal cells, suitable f=
+or biology coursework at secondary and undergraduate levels.",
+  "authors": [
+    "Dr. Elena Martinez"
+  ],
+  "authoring_institution": "ISKME / OER Commons",
+  "subject_tags": [
+    "biology",
+    "cell biology",
+    "mitosis",
+    "meiosis",
+    "microscopy",
+    "science education"
+  ],
+  "creation_date": "2022-09-01T00:00:00Z",
+  "last_modified_date": "2022-09-01T00:00:00Z",
+  "source_url": "https://oercommons.org/courses/cell-division-mitosis-and-mei=
+osis-illustrated",
+  "version_url": "https://oercommons.org/courses/cell-division-mitosis-and-me=
+iosis-illustrated",
+  "spdx_license_expression": "CC-BY-4.0"
+}
+
+--===============2601985001643182262==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="collage_photos_item.json"
+MIME-Version: 1.0
+
+ewogICJpZCI6ICJjb2xsYWdlLXBob3RvLTAwMSIsCiAgInRpdGxlIjogIkNlbGwgRGl2aXNpb246
+IE1pdG9zaXMgYW5kIE1laW9zaXMgSWxsdXN0cmF0ZWQiLAogICJkZXNjcmlwdGlvbiI6ICJBIGhp
+Z2gtcmVzb2x1dGlvbiBlZHVjYXRpb25hbCBwaG90b2dyYXBoIGNvbGxlY3Rpb24gaWxsdXN0cmF0
+aW5nIHRoZSBzdGFnZXMgb2YgbWl0b3NpcyBhbmQgbWVpb3NpcyBpbiBwbGFudCBhbmQgYW5pbWFs
+IGNlbGxzLCBzdWl0YWJsZSBmb3IgYmlvbG9neSBjb3Vyc2V3b3JrIGF0IHNlY29uZGFyeSBhbmQg
+dW5kZXJncmFkdWF0ZSBsZXZlbHMuIiwKICAidXJsIjogImh0dHBzOi8vb2VyY29tbW9ucy5vcmcv
+Y291cnNlcy9jZWxsLWRpdmlzaW9uLW1pdG9zaXMtYW5kLW1laW9zaXMtaWxsdXN0cmF0ZWQiLAog
+ICJhdXRob3JzIjogWwogICAgIkRyLiBFbGVuYSBNYXJ0aW5leiIKICBdLAogICJzdWJqZWN0cyI6
+IFsKICAgICJiaW9sb2d5IiwKICAgICJjZWxsIGJpb2xvZ3kiLAogICAgIm1pdG9zaXMiLAogICAg
+Im1laW9zaXMiLAogICAgIm1pY3Jvc2NvcHkiLAogICAgInNjaWVuY2UgZWR1Y2F0aW9uIgogIF0s
+CiAgImxpY2Vuc2UiOiAiQ0MtQlktNC4wIiwKICAicHVibGlzaGVyIjogIklTS01FIC8gT0VSIENv
+bW1vbnMiLAogICJkYXRlIjogIjIwMjItMDktMDFUMDA6MDA6MDBaIgp9Cg==
+
+--===============2601985001643182262==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="collage_photos_ome_item.json"
+MIME-Version: 1.0
+
+ewogICJ0aXRsZSI6ICJDZWxsIERpdmlzaW9uOiBNaXRvc2lzIGFuZCBNZWlvc2lzIElsbHVzdHJh
+dGVkIiwKICAiZGVzY3JpcHRpb24iOiAiQSBoaWdoLXJlc29sdXRpb24gZWR1Y2F0aW9uYWwgcGhv
+dG9ncmFwaCBjb2xsZWN0aW9uIGlsbHVzdHJhdGluZyB0aGUgc3RhZ2VzIG9mIG1pdG9zaXMgYW5k
+IG1laW9zaXMgaW4gcGxhbnQgYW5kIGFuaW1hbCBjZWxscywgc3VpdGFibGUgZm9yIGJpb2xvZ3kg
+Y291cnNld29yayBhdCBzZWNvbmRhcnkgYW5kIHVuZGVyZ3JhZHVhdGUgbGV2ZWxzLiIsCiAgImF1
+dGhvcnMiOiBbCiAgICAiRHIuIEVsZW5hIE1hcnRpbmV6IgogIF0sCiAgImF1dGhvcmluZ19pbnN0
+aXR1dGlvbiI6ICJJU0tNRSAvIE9FUiBDb21tb25zIiwKICAic3ViamVjdF90YWdzIjogWwogICAg
+ImJpb2xvZ3kiLAogICAgImNlbGwgYmlvbG9neSIsCiAgICAibWl0b3NpcyIsCiAgICAibWVpb3Np
+cyIsCiAgICAibWljcm9zY29weSIsCiAgICAic2NpZW5jZSBlZHVjYXRpb24iCiAgXSwKICAiY3Jl
+YXRpb25fZGF0ZSI6ICIyMDIyLTA5LTAxVDAwOjAwOjAwWiIsCiAgImxhc3RfbW9kaWZpZWRfZGF0
+ZSI6ICIyMDIyLTA5LTAxVDAwOjAwOjAwWiIsCiAgInNvdXJjZV91cmwiOiAiaHR0cHM6Ly9vZXJj
+b21tb25zLm9yZy9jb3Vyc2VzL2NlbGwtZGl2aXNpb24tbWl0b3Npcy1hbmQtbWVpb3Npcy1pbGx1
+c3RyYXRlZCIsCiAgInZlcnNpb25fdXJsIjogImh0dHBzOi8vb2VyY29tbW9ucy5vcmcvY291cnNl
+cy9jZWxsLWRpdmlzaW9uLW1pdG9zaXMtYW5kLW1laW9zaXMtaWxsdXN0cmF0ZWQiLAogICJzcGR4
+X2xpY2Vuc2VfZXhwcmVzc2lvbiI6ICJDQy1CWS00LjAiCn0K
+
+--===============2601985001643182262==--

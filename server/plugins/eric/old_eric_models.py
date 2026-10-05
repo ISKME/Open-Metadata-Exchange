@@ -6,7 +6,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -22,8 +22,6 @@
 #   timestamp: 2025-04-29T07:21:06+00:00
 
 # ruff: noqa: N815 -- mixed-case-variable-in-class-scope
-
-from __future__ import annotations
 
 from pydantic import BaseModel
 
@@ -57,7 +55,7 @@ if __name__ == "__main__":
     import json
     from pathlib import Path
 
-    from httpx import Client
+    from httpx2 import Client
 
     here = Path(__file__).resolve().parent
     # Conditionally create an eric.json file that should contain multiple items (docs).

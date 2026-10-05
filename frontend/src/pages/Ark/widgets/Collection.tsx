@@ -28,6 +28,7 @@ export const CollectionItemCard = memo(({ collection, className, isNew = false }
       || educationLevels.includes('adult education')
     ) level.push('ContinuingEd');
   }
+  const handleImageError = (e) => { e.target.onerror = null; e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png'; };
 
   return (
     <Box
@@ -88,6 +89,28 @@ export const CollectionItemCard = memo(({ collection, className, isNew = false }
           aria-label="Go to Collection page"
           sx={{ display: 'block', textAlign: 'left', height: '100%' }}
         >
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 600,
+              fontSize: 18,
+              mb: 0.5,
+              overflow: 'hidden',
+              // textOverflow: 'ellipsis',
+              // whiteSpace: 'nowrap',
+              position: 'absolute',
+              height: '150px',
+              display: 'flex',
+              alignItems: 'flex-end',
+              padding: '4px 12px',
+              color: 'white',
+              background: 'linear-gradient(0, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, .6) 50%, transparent)',
+              width: '100%',
+            }}
+            className="item_name"
+          >
+            {collection.name}
+          </Typography>
           <CardMedia
             component="img"
             image={collection.thumbnail}
@@ -98,36 +121,9 @@ export const CollectionItemCard = memo(({ collection, className, isNew = false }
               objectFit: 'cover',
               borderBottom: '1px solid #eee',
             }}
+            onError={handleImageError}
           />
           <Box sx={{ p: 2 }}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 600,
-                fontSize: 18,
-                mb: 0.5,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-              className="item_name"
-            >
-              {collection.name}
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              sx={{
-                color: '#888',
-                fontSize: 15,
-                mb: 0.5,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-              className="site_name"
-            >
-              {collection.micrositeName}
-            </Typography>
             <Typography
               variant="body2"
               sx={{

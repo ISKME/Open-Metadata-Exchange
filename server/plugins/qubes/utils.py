@@ -1,6 +1,6 @@
 # /// script
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 #     "rich",
 # ]
 # ///
@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 from datetime import UTC, datetime
 from urllib.parse import urlparse
 
-import httpx
+import httpx2
 
 from server.plugins.ome_plugin import EducationResource
 
@@ -41,7 +41,7 @@ def license_url_to_spdx_id(url: str) -> str:
 def extract_from_url(url: str) -> EducationResource:
     api_url = f"http://qubeshub.org/oaipmh/?verb=GetRecord&metadataPrefix=qdc&identifier={url}"
     # api_url = f"http://ddev-qubeshub-web:80/oaipmh/?verb=GetRecord&metadataPrefix=qdc&identifier={url}"
-    response = httpx.get(
+    response = httpx2.get(
         api_url,
         follow_redirects=True,
         timeout=30,

@@ -110,7 +110,7 @@ export function AdvancedSearchGlobal() {
   }
 
   useEffect(() => {
-    axios.get('/api/search/v2/browse/filters').then(({ data }) => {
+    axios.get('/api/search/v2/browse/filters?source=courseware').then(({ data }) => {
       let filtersTree = {}
       let filters: IFilterMap = data.filters
       Object.entries(filters).forEach(([name, filter]) => {

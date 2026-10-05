@@ -28,7 +28,7 @@ def nntp_pick_newsgroup(newsgroup: str = "ome.qubes") -> tuple[str, ...]:
     Returns:
         tuple(total, first, last, group) -- See pynntp docs.
     """
-    return tuple(pynntp_client.group(newsgroup))
+    return tuple(nntp_client.group(newsgroup))
 
 
 def nntp_write(payload: dict, newsgroup: str = "") -> bool:
@@ -54,7 +54,7 @@ def nntp_write(payload: dict, newsgroup: str = "") -> bool:
     # body=json.dumps(payload)
     # print(f"{body = }")
     # exit(1)
-    return pynntp_client.post(headers=headers, body=json.dumps(payload, indent=2))
+    return nntp_client.post(headers=headers, body=json.dumps(payload, indent=2))
 
 
 def nntp_read(newsgroup: str = "") -> dict:
@@ -70,7 +70,7 @@ def nntp_read(newsgroup: str = "") -> dict:
     """
     if newsgroup:
         _total_first_last_group = nntp_pick_newsgroup(newsgroup)
-    _article_number, _headers, body = pynntp_client.article()
+    _article_number, _headers, body = nntp_client.article()
     print(f"{body = }")
     return json.loads(body)
 
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     print(f"Loaded {len(records)} records from {json_filepath.name}")
 
     try:
-        with NNTPClient("localhost", port=119) as pynntp_client:
+        with NNTPClient("localhost", port=119) as nntp_client:
             _total_first_last_group = nntp_pick_newsgroup("ome.qubes")
             for record in records:
                 try:

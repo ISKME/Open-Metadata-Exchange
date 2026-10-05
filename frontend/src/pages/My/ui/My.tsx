@@ -12,8 +12,8 @@ import axios from 'axios';
 
 export function My() {
   const [tabs, setTabs] = useState(['items', 'groups', 'hubs', 'account'])
-  const find = (address) => {
-    const index = tabs.findIndex((tab) => address.includes(`my/new/${tab}`))
+  const find = (address, list = tabs) => {
+    const index = list.findIndex((tab) => address.includes(`my/new/${tab}`))
     return index > 0 ? index : 0
   }
 
@@ -24,12 +24,15 @@ export function My() {
   useEffect(async () => {
     const { data } = await axios.get('/api/hubs/v1/my/')
     if (data.count === 0) {
-      setTabs(['items', 'groups', 'account'])
+      const withoutHubs = ['items', 'groups', 'account']
+      setTabs(withoutHubs)
+      setTab(find(location.pathname, withoutHubs))
     }
   }, [])
 
   useEffect(() => {
-    if (tab >= 0) navigate(`/my/new/${tabs[tab]}`);
+    const target = `/my/new/${tabs[tab]}`;
+    if (tab >= 0 && !location.pathname.startsWith(target)) navigate(target);
   }, [tab]);
 
   const handleChange = (event, newValue) => {

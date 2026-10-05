@@ -19,6 +19,7 @@ import { OrgansUsers } from 'widgets/OrgansUsers';
 import { OrgansGroups } from 'widgets/OrgansGroups/ui/OrgansGroups';
 import { OrgansCaseAnalytics } from 'widgets/OrgansCaseAnalytics';
 import { OrgansUserAnalytics } from 'widgets/OrgansUserAnalytics';
+import { VideoAnalytics } from 'widgets/VideoAnalytics';
 import { useSearchParams } from 'react-router-dom';
 
 const primaryColor = '#303e48';
@@ -98,12 +99,16 @@ function getCookie(name) {
 
 export function Organs() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedMenu, setSelectedMenu] = React.useState(Number(searchParams.get('menu')) || 0);
   const [organizationId, setOrganizationId] = React.useState(null);
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
   const ORGANIZATION_ADMIN_ROLE_ID = 2;
+  const menuItems = ['Settings', 'Users', 'Groups', 'Case Analytics', 'User Analytics', 'Video Analytics'];
+  const requestedMenu = Number(searchParams.get('menu')) || 0;
+  const selectedMenu = Number.isInteger(requestedMenu) && requestedMenu >= 0 && requestedMenu < menuItems.length
+    ? requestedMenu
+    : 0;
 
   React.useEffect(() => {
     const urlOrgId = searchParams.get('id');
@@ -149,7 +154,6 @@ export function Organs() {
     const newParams = new URLSearchParams(searchParams);
     newParams.set('menu', index);
     setSearchParams(newParams);
-    setSelectedMenu(index);
   };
 
   return (
@@ -159,7 +163,7 @@ export function Organs() {
         <Grid item xs={3}>
           <Paper elevation={0} sx={{ width: 320, maxWidth: '100%' }}>
             <MenuList>
-              {['Settings', 'Users', 'Groups', 'Case Analytics', 'User Analytics'].map((item, index) => (
+              {menuItems.map((item, index) => (
                 <MenuItem
                   onClick={() => handleMenuClick(index)}
                   key={index}
@@ -187,6 +191,7 @@ export function Organs() {
           {selectedMenu === 2 && <OrgansGroups id={organizationId} />}
           {selectedMenu === 3 && <OrgansCaseAnalytics id={organizationId} />}
           {selectedMenu === 4 && <OrgansUserAnalytics id={organizationId} />}
+          {selectedMenu === 5 && <VideoAnalytics organizationId={organizationId} />}
         </Grid>
       </Grid>
     </Box>

@@ -1,0 +1,90 @@
+[
+  {
+    "title": "Counting and Colors: A Math Journey for Preschoolers",
+    "url": "https://www.earlylearningresourcenetwork.org/books/counting-colors-math-journey-preschoolers",
+    "description": "An interactive guide introducing basic math concepts of counting and color recognition for children ages 3\u20135. Includes activities, songs, and printable worksheets aligned with early learning standards.",
+    "authors": ["Sarah Johnson"],
+    "subjects": ["Mathematics", "Early Childhood Education"],
+    "language": "English",
+    "license": "CC-BY-4.0",
+    "publisher": "Early Learning Resource Network",
+    "date": "2023-08-15T00:00:00"
+  },
+  {
+    "title": "Phonics Fun: Building Early Literacy Skills",
+    "url": "https://www.earlylearningresourcenetwork.org/books/phonics-fun-building-early-literacy-skills",
+    "description": "A comprehensive phonics resource designed for kindergarten and pre-K classrooms. Covers letter sounds, blending, and segmenting with engaging illustrations and read-aloud activities.",
+    "authors": ["Maria Gonzalez", "Tom Ellis"],
+    "subjects": ["Literacy", "Language Arts", "Early Childhood Education"],
+    "language": "English",
+    "license": "CC-BY-SA-4.0",
+    "publisher": "National Early Literacy Institute",
+    "date": "2022-03-10T00:00:00"
+  },
+  {
+    "title": "Social-Emotional Learning for Little Learners",
+    "url": "https://www.earlylearningresourcenetwork.org/books/social-emotional-learning-little-learners",
+    "description": "A teacher\u2019s guide to fostering emotional intelligence in children ages 3\u20136. Features classroom strategies, picture book recommendations, and family engagement activities focused on empathy and self-regulation.",
+    "authors": ["Priya Nair"],
+    "subjects": ["Social-Emotional Learning", "Early Childhood Education", "Health"],
+    "language": "English",
+    "license": "CC-BY-4.0",
+    "publisher": "Early Learning Resource Network",
+    "date": "2023-11-01T00:00:00"
+  },
+  {
+    "title": "Exploring Science with Young Children",
+    "url": "https://www.earlylearningresourcenetwork.org/books/exploring-science-young-children",
+    "description": "Hands-on science investigations for preschool and kindergarten. Encourages curiosity and observation skills through simple experiments with everyday materials. Aligned with NGSS foundational concepts.",
+    "authors": ["David Park"],
+    "subjects": ["Science", "STEM", "Early Childhood Education"],
+    "language": "English",
+    "license": "CC-BY-4.0",
+    "publisher": "STEM Early Learning Collaborative",
+    "date": "2021-09-20T00:00:00"
+  },
+  {
+    "title": "Music and Movement: Creative Arts for Early Learners",
+    "url": "https://www.earlylearningresourcenetwork.org/books/music-movement-creative-arts-early-learners",
+    "description": "An arts-integrated curriculum resource integrating music, dance, and visual art into daily early childhood routines. Includes lesson plans, song recordings, and printable art activities.",
+    "authors": ["Lisa Chen", "Amara Osei"],
+    "subjects": ["Arts", "Music", "Early Childhood Education"],
+    "language": "English",
+    "license": "CC-BY-NC-4.0",
+    "publisher": "Arts in Early Learning Project",
+    "date": "2022-06-05T00:00:00"
+  },
+  {
+    "title": "Growing Up Healthy: Physical Development in Early Childhood",
+    "url": "https://www.earlylearningresourcenetwork.org/books/growing-up-healthy-physical-development-early-childhood",
+    "description": "A resource for educators and families on supporting gross and fine motor development in children birth to age 5. Includes activity cards, developmental milestones, and guidance for inclusive settings.",
+    "authors": ["James Whitmore"],
+    "subjects": ["Physical Development", "Health", "Early Childhood Education"],
+    "language": "English",
+    "license": "CC-BY-4.0",
+    "publisher": "Early Learning Resource Network",
+    "date": "2020-04-12T00:00:00"
+  },
+  {
+    "title": "Family Engagement Toolkit for Early Childhood Programs",
+    "url": "https://www.earlylearningresourcenetwork.org/books/family-engagement-toolkit-early-childhood-programs",
+    "description": "Practical strategies and tools for building strong partnerships between early childhood educators and families. Covers communication, home learning activities, and culturally responsive practices.",
+    "authors": ["Rosa Martinez", "Wei Zhang"],
+    "subjects": ["Family Engagement", "Community", "Early Childhood Education"],
+    "language": "English",
+    "license": "CC-BY-SA-4.0",
+    "publisher": "Family and Community Engagement Center",
+    "date": "2023-02-28T00:00:00"
+  },
+  {
+    "title": "Multicultural Storytime: Books and Activities for Diverse Classrooms",
+    "url": "https://www.earlylearningresourcenetwork.org/books/multicultural-storytime-books-activities-diverse-classrooms",
+    "description": "A curated collection of multicultural picture books and extension activities celebrating diversity for pre-K through Grade 1. Includes discussion guides, art projects, and family connection letters.",
+    "authors": ["Fatima Al-Hassan", "Carlos Rivera"],
+    "subjects": ["Multicultural Education", "Literacy", "Early Childhood Education"],
+    "language": "English",
+    "license": "CC-BY-4.0",
+    "publisher": "Inclusive Early Learning Initiative",
+    "date": "2024-01-18T00:00:00"
+  }
+]

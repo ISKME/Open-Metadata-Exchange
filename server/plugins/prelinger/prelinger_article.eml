@@ -1,0 +1,72 @@
+Subject: Finland
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============1072255383579023747=="
+
+--===============1072255383579023747==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+{
+  "title": "Finland",
+  "description": "A short documentary exploring the geography, culture, and d=
+aily life of Finland, highlighting its lakes, forests, and Nordic traditions.=
+ Produced as part of the Encyclopaedia Britannica Films series.",
+  "authors": [
+    "Encyclopaedia Britannica Films"
+  ],
+  "authoring_institution": "Internet Archive / Prelinger Archives",
+  "subject_tags": [
+    "Finland",
+    "Geography",
+    "Travelogue",
+    "Documentary films",
+    "Nordic countries"
+  ],
+  "creation_date": "1939-01-01T00:00:00",
+  "last_modified_date": "1939-01-01T00:00:00",
+  "source_url": "https://archive.org/details/0486_Finland_01_30_14_00",
+  "version_url": "https://archive.org/details/0486_Finland_01_30_14_00",
+  "spdx_license_expression": "https://creativecommons.org/licenses/publicdoma=
+in/"
+}
+
+--===============1072255383579023747==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="prelinger_item.json"
+MIME-Version: 1.0
+
+ewogICJpZGVudGlmaWVyIjogIjA0ODZfRmlubGFuZF8wMV8zMF8xNF8wMCIsCiAgInRpdGxlIjog
+IkZpbmxhbmQiLAogICJkZXNjcmlwdGlvbiI6ICJBIHNob3J0IGRvY3VtZW50YXJ5IGV4cGxvcmlu
+ZyB0aGUgZ2VvZ3JhcGh5LCBjdWx0dXJlLCBhbmQgZGFpbHkgbGlmZSBvZiBGaW5sYW5kLCBoaWdo
+bGlnaHRpbmcgaXRzIGxha2VzLCBmb3Jlc3RzLCBhbmQgTm9yZGljIHRyYWRpdGlvbnMuIFByb2R1
+Y2VkIGFzIHBhcnQgb2YgdGhlIEVuY3ljbG9wYWVkaWEgQnJpdGFubmljYSBGaWxtcyBzZXJpZXMu
+IiwKICAiY3JlYXRvciI6IFsiRW5jeWNsb3BhZWRpYSBCcml0YW5uaWNhIEZpbG1zIl0sCiAgInN1
+YmplY3QiOiBbIkZpbmxhbmQiLCAiR2VvZ3JhcGh5IiwgIlRyYXZlbG9ndWUiLCAiRG9jdW1lbnRh
+cnkgZmlsbXMiLCAiTm9yZGljIGNvdW50cmllcyJdLAogICJkYXRlIjogIjE5MzkiLAogICJsaWNl
+bnNldXJsIjogImh0dHBzOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9wdWJsaWNkb21h
+aW4vIiwKICAibWVkaWF0eXBlIjogIm1vdmllcyIKfQo=
+
+--===============1072255383579023747==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="prelinger_ome_item.json"
+MIME-Version: 1.0
+
+ewogICJ0aXRsZSI6ICJGaW5sYW5kIiwKICAiZGVzY3JpcHRpb24iOiAiQSBzaG9ydCBkb2N1bWVu
+dGFyeSBleHBsb3JpbmcgdGhlIGdlb2dyYXBoeSwgY3VsdHVyZSwgYW5kIGRhaWx5IGxpZmUgb2Yg
+RmlubGFuZCwgaGlnaGxpZ2h0aW5nIGl0cyBsYWtlcywgZm9yZXN0cywgYW5kIE5vcmRpYyB0cmFk
+aXRpb25zLiBQcm9kdWNlZCBhcyBwYXJ0IG9mIHRoZSBFbmN5Y2xvcGFlZGlhIEJyaXRhbm5pY2Eg
+RmlsbXMgc2VyaWVzLiIsCiAgImF1dGhvcnMiOiBbCiAgICAiRW5jeWNsb3BhZWRpYSBCcml0YW5u
+aWNhIEZpbG1zIgogIF0sCiAgImF1dGhvcmluZ19pbnN0aXR1dGlvbiI6ICJJbnRlcm5ldCBBcmNo
+aXZlIC8gUHJlbGluZ2VyIEFyY2hpdmVzIiwKICAic3ViamVjdF90YWdzIjogWwogICAgIkZpbmxh
+bmQiLAogICAgIkdlb2dyYXBoeSIsCiAgICAiVHJhdmVsb2d1ZSIsCiAgICAiRG9jdW1lbnRhcnkg
+ZmlsbXMiLAogICAgIk5vcmRpYyBjb3VudHJpZXMiCiAgXSwKICAiY3JlYXRpb25fZGF0ZSI6ICIx
+OTM5LTAxLTAxVDAwOjAwOjAwIiwKICAibGFzdF9tb2RpZmllZF9kYXRlIjogIjE5MzktMDEtMDFU
+MDA6MDA6MDAiLAogICJzb3VyY2VfdXJsIjogImh0dHBzOi8vYXJjaGl2ZS5vcmcvZGV0YWlscy8w
+NDg2X0ZpbmxhbmRfMDFfMzBfMTRfMDAiLAogICJ2ZXJzaW9uX3VybCI6ICJodHRwczovL2FyY2hp
+dmUub3JnL2RldGFpbHMvMDQ4Nl9GaW5sYW5kXzAxXzMwXzE0XzAwIiwKICAic3BkeF9saWNlbnNl
+X2V4cHJlc3Npb24iOiAiaHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL3B1Ymxp
+Y2RvbWFpbi8iCn0K
+
+--===============1072255383579023747==--

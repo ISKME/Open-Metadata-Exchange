@@ -3,7 +3,7 @@
 # /// script
 # requires-python = ">=3.9"
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 # ]
 # ///
 
@@ -18,7 +18,7 @@ ERIC_open_records.csv must exist in the same directory as this script.
 import csv
 from pathlib import Path
 
-from httpx import AsyncClient
+from httpx2 import AsyncClient
 
 here = Path(__file__).parent
 

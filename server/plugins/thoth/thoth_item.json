@@ -1,0 +1,96 @@
+{
+  "workId": "1d9e18b4-6a3f-4e2d-9c7b-8f5d2a1e0c3b",
+  "workType": "MONOGRAPH",
+  "workStatus": "ACTIVE",
+  "doi": "https://doi.org/10.11647/obp.0271",
+  "publicationDate": "2022-03-01",
+  "place": "Cambridge, UK",
+  "updatedAt": "2023-11-15T09:42:00.000Z",
+  "titles": [
+    {
+      "titleId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "localeCode": "en",
+      "fullTitle": "Programming for Linguists: Python and Praat in Speech Science",
+      "title": "Programming for Linguists",
+      "subtitle": "Python and Praat in Speech Science",
+      "canonical": true
+    }
+  ],
+  "abstracts": [
+    {
+      "abstractId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+      "localeCode": "en",
+      "content": "This book provides an accessible introduction to programming for linguists and speech scientists, covering Python and Praat. It is designed for students and researchers in linguistics, phonetics, and related fields who want to automate tasks, process data, and conduct computational analyses. The book requires no prior programming experience and builds from first principles to more advanced topics such as data wrangling, statistical computing, and acoustic analysis.",
+      "abstractType": "SHORT",
+      "canonical": true
+    }
+  ],
+  "contributions": [
+    {
+      "contributionId": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+      "contributionType": "AUTHOR",
+      "fullName": "Margaret E. L. Renwick",
+      "contributionOrdinal": 1
+    },
+    {
+      "contributionId": "d4e5f6a7-b8c9-0123-defa-234567890123",
+      "contributionType": "AUTHOR",
+      "fullName": "Jon Forrest",
+      "contributionOrdinal": 2
+    }
+  ],
+  "subjects": [
+    {
+      "subjectId": "e5f6a7b8-c9d0-1234-efab-345678901234",
+      "subjectType": "KEYWORD",
+      "subjectCode": "Python",
+      "subjectOrdinal": 1
+    },
+    {
+      "subjectId": "f6a7b8c9-d0e1-2345-fabc-456789012345",
+      "subjectType": "KEYWORD",
+      "subjectCode": "linguistics",
+      "subjectOrdinal": 2
+    },
+    {
+      "subjectId": "a7b8c9d0-e1f2-3456-abcd-567890123456",
+      "subjectType": "KEYWORD",
+      "subjectCode": "phonetics",
+      "subjectOrdinal": 3
+    },
+    {
+      "subjectId": "b8c9d0e1-f2a3-4567-bcde-678901234567",
+      "subjectType": "KEYWORD",
+      "subjectCode": "speech science",
+      "subjectOrdinal": 4
+    },
+    {
+      "subjectId": "c9d0e1f2-a3b4-5678-cdef-789012345678",
+      "subjectType": "THEMA",
+      "subjectCode": "UMP",
+      "subjectOrdinal": 5
+    }
+  ],
+  "publications": [
+    {
+      "publicationId": "d0e1f2a3-b4c5-6789-defa-890123456789",
+      "publicationType": "PDF",
+      "isbn": "978-1-80064-271-6"
+    },
+    {
+      "publicationId": "e1f2a3b4-c5d6-7890-efab-901234567890",
+      "publicationType": "EPUB",
+      "isbn": "978-1-80064-272-3"
+    }
+  ],
+  "imprint": {
+    "imprintId": "f2a3b4c5-d6e7-8901-fabc-012345678901",
+    "imprintName": "Open Book Publishers",
+    "publisher": {
+      "publisherId": "a3b4c5d6-e7f8-9012-abcd-123456789012",
+      "publisherName": "Open Book Publishers",
+      "publisherShortname": "OBP",
+      "publisherUrl": "https://www.openbookpublishers.com"
+    }
+  }
+}

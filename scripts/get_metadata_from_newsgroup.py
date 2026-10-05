@@ -3,7 +3,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#   "httpx",
+#   "httpx2",
 #   "pydantic",
 # ]
 # ///
@@ -12,7 +12,7 @@
 
 from collections.abc import Iterator
 
-import httpx
+import httpx2
 
 from server.plugins.ome_plugin import EducationResource
 
@@ -30,7 +30,7 @@ def get_metadata_from_newsgroup(
         Yield EducationResources containing metadata from the newsgroup.
     """
     url = f"http://localhost:5001/api/channel/{newsgroup}/cards?page_size=1000"
-    for article in httpx.get(url).raise_for_status().json():
+    for article in httpx2.get(url).raise_for_status().json():
         yield EducationResource.model_validate_json(article["body"])
 
 

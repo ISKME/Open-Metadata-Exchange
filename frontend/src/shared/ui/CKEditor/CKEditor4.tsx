@@ -3,6 +3,8 @@ import { useState, useRef } from 'react';
 import { BlockUI } from '../BlockUI/BlockUI';
 import req from 'shared/lib/req';
 
+const devLicenseKey = 'WkhwNE9USm5ZV3cyTUhBMFpEWnlZWEozZEhWdmJuY3gtTnpVMU9UTTVORFU1TkRZME5EazQ=';
+
 const plugins = [
   "about",
   "basicstyles",
@@ -19,7 +21,7 @@ const plugins = [
   "link",
   "list",
   "notificationaggregator",
-  // "quicktable",
+  "quicktable",
   "resize",
   "tabletools",
   "tableresize",
@@ -28,7 +30,7 @@ const plugins = [
   "wysiwygarea",
   "pastefromword",
   "uploadfile",
-  // "a11ychecker",
+  "a11ychecker",
   "video",
   "image2",
   "uploadimage",
@@ -36,22 +38,23 @@ const plugins = [
   "showblocks",
   // "abbr",
   "mathjax",
+  "removeformat",
 ];
 
-const config = {
+const defaultConfig = {
   uiColor: "#FAFAFA",
   toolbar: [
     { name: 'document', items: [ 'A11ychecker' ] },
     { name: 'clipboard', items: [ 'PasteFromWord', 'Undo', "Redo" ] },
     { name: 'styles', items: [ 'Format' ] },
-    { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'] },
+    { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'RemoveFormat'] },
     { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
     { name: 'links', items: [ 'Link', 'Unlink' ] },
-    { name: 'insert', items: [ 'Image', 'Table', 'Video', 'Mathjax', 'Abbr' ] },
+    { name: 'insert', items: [ 'Image', 'Table', 'Video', 'Mathjax' ] },
     { name: 'tools', items: [ 'ShowBlocks' ] },
   ],
   removeButtons: "Cut,Copy,Paste,JustifyBlock,Anchor,About",
-  format_tags: "p;h1;h2;h3;h4;pre",
+  format_tags: "p;h3;h4;pre",
   indentClasses: ["indent-1", "indent-2", "indent-3"],
   plugins: plugins.join(','),
   oembedUrl: '/oembed/client',
@@ -67,6 +70,11 @@ const config = {
   filebrowserLinkUploadUrl: '/editor/documents/upload',
   kalturaUploadInitUrl: '/editor/videos/upload/init',
   kalturaUploadAddUrl: '/editor/videos/upload/add',
+  videoUploadStrategy: 's3',
+  s3UploadInitUrl: '/editor/videos/upload/s3/init',
+  s3UploadPartUrl: '/editor/videos/upload/s3/part',
+  s3UploadCompleteUrl: '/editor/videos/upload/s3/complete',
+  s3UploadAbortUrl: '/editor/videos/upload/s3/abort',
   image2_altRequired: true,
   contentsLangDirection: 'ltr',
   stylesSet: false,
@@ -78,10 +86,11 @@ const config = {
   language: 'en',
 }
 
-export function CKEditorWidget({ content, onChange }) {
+export function CKEditorWidget({ content, onChange, config={}, googleImport=true }) {
   const [importing, setImporting] = useState(false);
   const editorRef = useRef(null);
   const googleAPI = window['googleapiShowPicker'];
+  config['licenseKey'] = window['CKEDITOR_4_LICENSE_KEY'] || devLicenseKey;
 
   const onGoogleFileSelect = (docId, accessToken) => {
     setImporting(true);
@@ -105,13 +114,16 @@ export function CKEditorWidget({ content, onChange }) {
   return (
     <>
     { importing && <BlockUI /> }
-    <CKEditor config={ config }
+    <CKEditor editorUrl="/static/ckeditor4-lts/ckeditor.js"
+              config={ {...defaultConfig, ...config} }
               initData={ content }
               onChange={onChange} onInstanceReady={(e) => {
                 editorRef.current = e.editor
               }}
     />
-    <button type="button" className="btn btn-ckeditor-import mod-google-drive" onClick={importFromGoogle}>Import from Google Drive</button>
+    {googleImport && (
+      <button type="button" className="btn btn-ckeditor-import mod-google-drive" onClick={importFromGoogle}>Import from Google Drive</button>
+    )}
     </>
   )
 }

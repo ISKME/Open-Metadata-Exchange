@@ -1,0 +1,78 @@
+Subject: Introduction to Population Genetics in Python
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============8413458384823016204=="
+
+--===============8413458384823016204==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+{
+  "title": "Introduction to Population Genetics in Python",
+  "description": "This module introduces students to fundamental concepts in =
+population genetics using Python programming. Topics include Hardy-Weinberg e=
+quilibrium, genetic drift, selection, and mutation. Students simulate evoluti=
+onary processes and visualize allele frequency changes over time.",
+  "authors": [
+    "Aaron A. King",
+    "Weston Testo"
+  ],
+  "authoring_institution": "https://qubeshub.org/publications/1975/1",
+  "subject_tags": [
+    "population genetics",
+    "Python",
+    "computational biology",
+    "Hardy-Weinberg equilibrium",
+    "genetic drift"
+  ],
+  "creation_date": "2023-06-15T00:00:00Z",
+  "last_modified_date": "2023-06-15T00:00:00Z",
+  "source_url": "",
+  "version_url": "",
+  "spdx_license_expression": ""
+}
+
+--===============8413458384823016204==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="qubes_item.json"
+MIME-Version: 1.0
+
+ewogICJpZGVudGlmaWVyIjogImh0dHBzOi8vcXViZXNodWIub3JnL3B1YmxpY2F0aW9ucy8xOTc1
+LzEiLAogICJzZXRTcGVjIjogInB1YmxpY2F0aW9ucyIsCiAgInRpdGxlIjogIkludHJvZHVjdGlv
+biB0byBQb3B1bGF0aW9uIEdlbmV0aWNzIGluIFB5dGhvbiIsCiAgImNyZWF0b3IiOiBbCiAgICAi
+QWFyb24gQS4gS2luZyIsCiAgICAiV2VzdG9uIFRlc3RvIgogIF0sCiAgInN1YmplY3QiOiBbCiAg
+ICAicG9wdWxhdGlvbiBnZW5ldGljcyIsCiAgICAiUHl0aG9uIiwKICAgICJjb21wdXRhdGlvbmFs
+IGJpb2xvZ3kiLAogICAgIkhhcmR5LVdlaW5iZXJnIGVxdWlsaWJyaXVtIiwKICAgICJnZW5ldGlj
+IGRyaWZ0IgogIF0sCiAgImRhdGUiOiAiMjAyMy0wNi0xNVQwMDowMDowMFoiLAogICJkZXNjcmlw
+dGlvbiI6ICJUaGlzIG1vZHVsZSBpbnRyb2R1Y2VzIHN0dWRlbnRzIHRvIGZ1bmRhbWVudGFsIGNv
+bmNlcHRzIGluIHBvcHVsYXRpb24gZ2VuZXRpY3MgdXNpbmcgUHl0aG9uIHByb2dyYW1taW5nLiBU
+b3BpY3MgaW5jbHVkZSBIYXJkeS1XZWluYmVyZyBlcXVpbGlicml1bSwgZ2VuZXRpYyBkcmlmdCwg
+c2VsZWN0aW9uLCBhbmQgbXV0YXRpb24uIFN0dWRlbnRzIHNpbXVsYXRlIGV2b2x1dGlvbmFyeSBw
+cm9jZXNzZXMgYW5kIHZpc3VhbGl6ZSBhbGxlbGUgZnJlcXVlbmN5IGNoYW5nZXMgb3ZlciB0aW1l
+LiIsCiAgInR5cGUiOiAiTGVzc29uIiwKICAicmlnaHRzIjogImh0dHA6Ly9jcmVhdGl2ZWNvbW1v
+bnMub3JnL2xpY2Vuc2VzL2J5LzQuMC8iLAogICJyZWxhdGlvbiI6ICJodHRwczovL3F1YmVzaHVi
+Lm9yZy9wdWJsaWNhdGlvbnMvMTk3NS8xIgp9Cg==
+
+--===============8413458384823016204==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="qubes_ome_item.json"
+MIME-Version: 1.0
+
+ewogICJ0aXRsZSI6ICJJbnRyb2R1Y3Rpb24gdG8gUG9wdWxhdGlvbiBHZW5ldGljcyBpbiBQeXRo
+b24iLAogICJkZXNjcmlwdGlvbiI6ICJUaGlzIG1vZHVsZSBpbnRyb2R1Y2VzIHN0dWRlbnRzIHRv
+IGZ1bmRhbWVudGFsIGNvbmNlcHRzIGluIHBvcHVsYXRpb24gZ2VuZXRpY3MgdXNpbmcgUHl0aG9u
+IHByb2dyYW1taW5nLiBUb3BpY3MgaW5jbHVkZSBIYXJkeS1XZWluYmVyZyBlcXVpbGlicml1bSwg
+Z2VuZXRpYyBkcmlmdCwgc2VsZWN0aW9uLCBhbmQgbXV0YXRpb24uIFN0dWRlbnRzIHNpbXVsYXRl
+IGV2b2x1dGlvbmFyeSBwcm9jZXNzZXMgYW5kIHZpc3VhbGl6ZSBhbGxlbGUgZnJlcXVlbmN5IGNo
+YW5nZXMgb3ZlciB0aW1lLiIsCiAgImF1dGhvcnMiOiBbCiAgICAiQWFyb24gQS4gS2luZyIsCiAg
+ICAiV2VzdG9uIFRlc3RvIgogIF0sCiAgImF1dGhvcmluZ19pbnN0aXR1dGlvbiI6ICJodHRwczov
+L3F1YmVzaHViLm9yZy9wdWJsaWNhdGlvbnMvMTk3NS8xIiwKICAic3ViamVjdF90YWdzIjogWwog
+ICAgInBvcHVsYXRpb24gZ2VuZXRpY3MiLAogICAgIlB5dGhvbiIsCiAgICAiY29tcHV0YXRpb25h
+bCBiaW9sb2d5IiwKICAgICJIYXJkeS1XZWluYmVyZyBlcXVpbGlicml1bSIsCiAgICAiZ2VuZXRp
+YyBkcmlmdCIKICBdLAogICJjcmVhdGlvbl9kYXRlIjogIjIwMjMtMDYtMTVUMDA6MDA6MDBaIiwK
+ICAibGFzdF9tb2RpZmllZF9kYXRlIjogIjIwMjMtMDYtMTVUMDA6MDA6MDBaIiwKICAic291cmNl
+X3VybCI6ICIiLAogICJ2ZXJzaW9uX3VybCI6ICIiLAogICJzcGR4X2xpY2Vuc2VfZXhwcmVzc2lv
+biI6ICIiCn0K
+
+--===============8413458384823016204==--

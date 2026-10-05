@@ -1,0 +1,71 @@
+/* stylelint-disable selector-pseudo-class-no-unknown */
+
+.videoAnalytics {
+  width: 100%;
+  min-width: 0;
+}
+
+.analyticsWorkspace {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.tabNavigation {
+  min-width: 0;
+  border-bottom: 1px solid #dce2e7;
+  background: #fff;
+}
+
+// Reports and Organization define global MUI tab styles for their primary navigation.
+// The doubled local selector keeps this secondary navigation visually independent.
+.analyticsTabs.analyticsTabs:global(.MuiTabs-root) {
+  min-height: 44px;
+  padding-left: 0;
+  background: #fff;
+}
+
+.analyticsTabs.analyticsTabs :global(.MuiTabs-flexContainer) {
+  padding-top: 0;
+}
+
+.analyticsTabs.analyticsTabs :global(.MuiTabs-indicator) {
+  display: block;
+  height: 3px;
+  background-color: #2457a7;
+}
+
+.analyticsTabs.analyticsTabs :global(.MuiButtonBase-root.MuiTab-root) {
+  min-width: auto;
+  min-height: 44px;
+  padding: 10px 20px;
+  color: #566675;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+.analyticsTabs.analyticsTabs :global(.MuiButtonBase-root.MuiTab-root.Mui-selected) {
+  color: #2457a7;
+  background: #fff;
+}
+
+.analyticsTabs.analyticsTabs :global(.MuiButtonBase-root.MuiTab-root:hover) {
+  color: #2457a7;
+  background: #f5f8fc;
+}
+
+.tabPanel {
+  min-width: 0;
+  outline-offset: 4px;
+}
+
+@media (max-width: 700px) {
+  .analyticsTabs.analyticsTabs :global(.MuiButtonBase-root.MuiTab-root) {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+}

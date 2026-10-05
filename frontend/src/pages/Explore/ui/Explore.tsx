@@ -60,7 +60,7 @@ export function Explore({ className }: ExploreProps) {
   }
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto', mt: 4, p: 2 }}>
+    <Box sx={{ maxWidth: 1200, mx: { sm: '', xs: '', md: 'auto' }, mt: 4, p: 2, width: { sm: 'calc(100% - 64px)', xs: 'calc(100% - 64px)', md: '100%' } }}>
       <Typography variant="h4" gutterBottom fontWeight={700} textAlign="center">
         Explore Learning Materials
       </Typography>
@@ -73,9 +73,6 @@ export function Explore({ className }: ExploreProps) {
             placeholder="Search Individual Learning Materials"
           />
         </Box>
-        <Button variant="outlined" color="secondary" onClick={() => navigate('/imls/advanced-resource-search')} sx={{ minWidth: 220, height: 40 }}>
-          Advanced search
-        </Button>
       </Stack>
       {/* <Divider sx={{ mb: 4 }} /> */}
       {sections.map((section, index) => (
@@ -139,7 +136,7 @@ export function Explore({ className }: ExploreProps) {
                       <Typography variant="h6" fontWeight={600}>{microsite.name}</Typography>
                       <Typography variant="body2" color="text.secondary">{microsite.numCollections} Collections</Typography>
                       <Typography variant="body2" color="text.secondary">{microsite.educationalLevels?.slice(0, 3)?.join(', ')}</Typography>
-                      <Button variant="outlined" size="small" sx={{ mt: 2 }} onClick={() => navigate(`/imls/search/?tenant=${microsite.slug}`)}>
+                      <Button variant="outlined" size="small" sx={{ mt: 2 }} onClick={() => navigate(`/imls/browse/?tenant=${microsite.slug}`)}>
                         Explore Microsite
                       </Button>
                     </CardContent>

@@ -1,0 +1,152 @@
+[
+  {
+    "id": 2458,
+    "link": "https://python.youcanlearnit.net",
+    "title": {
+      "rendered": "Python for Everybody: Exploring Data Using Python 3"
+    },
+    "metadata": {
+      "pb_title": "Python for Everybody: Exploring Data Using Python 3",
+      "pb_subtitle": "Exploring Data Using Python 3",
+      "pb_short_title": "Python for Everybody",
+      "pb_authors": "Charles R. Severance",
+      "pb_editors": "",
+      "pb_description": "This book is designed to introduce students to programming and computational thinking through the lens of exploring data. Python is an easy to use and easy to learn programming language that is freely available on Macintosh, Windows, or Linux computers.",
+      "pb_publisher": "University of Michigan",
+      "pb_publisher_city": "Ann Arbor",
+      "pb_publication_date": "2016",
+      "pb_copyright_holder": "Charles R. Severance",
+      "pb_keywords_tags": "python, programming, data science, introductory",
+      "pb_subject": "Computer Science",
+      "pb_language": "en",
+      "pb_license": "cc-by",
+      "pb_cover_image": "https://python.youcanlearnit.net/app/themes/pressbooks-book/images/default-book-cover.jpg",
+      "pb_url": "https://python.youcanlearnit.net"
+    }
+  },
+  {
+    "id": 3871,
+    "link": "https://opentextbc.ca/programminginpython",
+    "title": {
+      "rendered": "Programming in Python 3"
+    },
+    "metadata": {
+      "pb_title": "Programming in Python 3",
+      "pb_subtitle": "",
+      "pb_short_title": "Programming in Python 3",
+      "pb_authors": "Brad Miller; David Ranum",
+      "pb_editors": "",
+      "pb_description": "A comprehensive introduction to programming using Python 3. Covers fundamental concepts such as variables, control flow, functions, data structures, and object-oriented programming with practical exercises throughout.",
+      "pb_publisher": "BCcampus",
+      "pb_publisher_city": "Victoria",
+      "pb_publication_date": "2019",
+      "pb_copyright_holder": "Brad Miller; David Ranum",
+      "pb_keywords_tags": "python, programming, computer science, open textbook",
+      "pb_subject": "Computer Science",
+      "pb_language": "en",
+      "pb_license": "cc-by-sa",
+      "pb_cover_image": "https://opentextbc.ca/programminginpython/wp-content/uploads/sites/20/cover.jpg",
+      "pb_url": "https://opentextbc.ca/programminginpython"
+    }
+  },
+  {
+    "id": 4102,
+    "link": "https://runestone.academy/ns/books/published/pythonds3/index.html",
+    "title": {
+      "rendered": "Problem Solving with Algorithms and Data Structures Using Python"
+    },
+    "metadata": {
+      "pb_title": "Problem Solving with Algorithms and Data Structures Using Python",
+      "pb_subtitle": "Third Edition",
+      "pb_short_title": "Problem Solving with Python",
+      "pb_authors": "Bradley N. Miller; David L. Ranum; Roman Yasinovskyy",
+      "pb_editors": "",
+      "pb_description": "This textbook is designed as a text for a first course in data structures and algorithms, using Python. The book builds on a strong foundation of core computer science knowledge and introduces students to abstract data types and data structures.",
+      "pb_publisher": "Luther College",
+      "pb_publisher_city": "Decorah",
+      "pb_publication_date": "2023",
+      "pb_copyright_holder": "Bradley N. Miller; David L. Ranum",
+      "pb_keywords_tags": "python, algorithms, data structures, computer science",
+      "pb_subject": "Computer Science",
+      "pb_language": "en",
+      "pb_license": "cc-by",
+      "pb_cover_image": "",
+      "pb_url": "https://runestone.academy/ns/books/published/pythonds3/index.html"
+    }
+  },
+  {
+    "id": 5219,
+    "link": "https://inferentialthinking.com",
+    "title": {
+      "rendered": "Computational and Inferential Thinking: The Foundations of Data Science"
+    },
+    "metadata": {
+      "pb_title": "Computational and Inferential Thinking: The Foundations of Data Science",
+      "pb_subtitle": "The Foundations of Data Science",
+      "pb_short_title": "Computational Thinking",
+      "pb_authors": "Ani Adhikari; John DeNero; David Wagner",
+      "pb_editors": "",
+      "pb_description": "The textbook for Data 8: Foundations of Data Science at UC Berkeley. The book combines three perspectives: inferential thinking, computational thinking, and real-world relevance. Uses Python extensively for data analysis.",
+      "pb_publisher": "University of California, Berkeley",
+      "pb_publisher_city": "Berkeley",
+      "pb_publication_date": "2022",
+      "pb_copyright_holder": "Ani Adhikari; John DeNero; David Wagner",
+      "pb_keywords_tags": "python, data science, statistics, inference, computation",
+      "pb_subject": "Statistics",
+      "pb_language": "en",
+      "pb_license": "cc-by-nc-nd",
+      "pb_cover_image": "",
+      "pb_url": "https://inferentialthinking.com"
+    }
+  },
+  {
+    "id": 6033,
+    "link": "https://opentextbc.ca/introtopython",
+    "title": {
+      "rendered": "Introduction to Python for Data Science"
+    },
+    "metadata": {
+      "pb_title": "Introduction to Python for Data Science",
+      "pb_subtitle": "",
+      "pb_short_title": "Python for Data Science",
+      "pb_authors": "Jake VanderPlas",
+      "pb_editors": "",
+      "pb_description": "An introduction to the Python programming language for data science applications. Topics include NumPy, Pandas, Matplotlib, and Scikit-Learn, with a focus on practical data analysis workflows.",
+      "pb_publisher": "BCcampus",
+      "pb_publisher_city": "Victoria",
+      "pb_publication_date": "2020",
+      "pb_copyright_holder": "Jake VanderPlas",
+      "pb_keywords_tags": "python, data science, numpy, pandas, machine learning",
+      "pb_subject": "Computer Science",
+      "pb_language": "en",
+      "pb_license": "cc-by-nc-nd",
+      "pb_cover_image": "https://opentextbc.ca/introtopython/wp-content/uploads/sites/30/cover.jpg",
+      "pb_url": "https://opentextbc.ca/introtopython"
+    }
+  },
+  {
+    "id": 7441,
+    "link": "https://greenteapress.pressbooks.com/thinkpython2e",
+    "title": {
+      "rendered": "Think Python: How to Think Like a Computer Scientist, 2nd Edition"
+    },
+    "metadata": {
+      "pb_title": "Think Python: How to Think Like a Computer Scientist, 2nd Edition",
+      "pb_subtitle": "How to Think Like a Computer Scientist",
+      "pb_short_title": "Think Python 2e",
+      "pb_authors": "Allen B. Downey",
+      "pb_editors": "",
+      "pb_description": "Think Python is an introduction to Python programming for beginners. It starts with basic concepts of programming, and is carefully designed to define all terms when they are first used and to develop each new concept in a logical progression.",
+      "pb_publisher": "Green Tea Press",
+      "pb_publisher_city": "Needham",
+      "pb_publication_date": "2015",
+      "pb_copyright_holder": "Allen B. Downey",
+      "pb_keywords_tags": "python, programming, introductory, computer science",
+      "pb_subject": "Computer Science",
+      "pb_language": "en",
+      "pb_license": "cc-by-nc",
+      "pb_cover_image": "",
+      "pb_url": "https://greenteapress.pressbooks.com/thinkpython2e"
+    }
+  }
+]

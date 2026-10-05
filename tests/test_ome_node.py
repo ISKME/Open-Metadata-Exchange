@@ -1,6 +1,6 @@
-# uvx -w=beautifulsoup4,dateparser,httpx,pydantic,pynntp pytest -vv
+# uvx -w=beautifulsoup4,dateparser,httpx2,pydantic,pynntp pytest -vv
 from collections.abc import Generator, Iterator
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import nntp
 import pytest
@@ -39,13 +39,13 @@ def enable_a_default_newsgroup(newsgroup: str = "local.test") -> Generator[None]
 
 
 def test_pynntp_client() -> None:
-    with ClientContextManager() as pynntp_client:
-        assert isinstance(pynntp_client, nntp.NNTPClient)
+    with ClientContextManager() as nntp_client:
+        assert isinstance(nntp_client, nntp.NNTPClient)
         # See https://github.com/greenbender/pynntp/issues/95
-        newsgroups = set(pynntp_client.list_newsgroups())
+        newsgroups = set(nntp_client.list_newsgroups())
         assert newsgroups == DEFAULT_NEWSGROUPS
         newsgroup_names = {
-            name for name, _low, _high, _status in pynntp_client.list_active()
+            name for name, _low, _high, _status in nntp_client.list_active()
         }
         assert newsgroup_names == ome_node.DEFAULT_NEWSGROUP_NAMES, (
             f"Expected names {ome_node.DEFAULT_NEWSGROUP_NAMES}, but got "
@@ -105,6 +105,7 @@ def sample_metadata_austin() -> Iterator[schemas.Metadata]:
             description=f"{title} is a novel by Jane Austen",
             subject="Sensibility",
             author="Jane Austen",
+            spdx_license="MIT",
             alignment_tags=["Sensibility", "Jane Austen", keyword],
             keywords=[
                 "Sensibility",
@@ -152,6 +153,7 @@ def sample_metadata_boston() -> Iterator[schemas.Metadata]:
             description=f"{title} is a mystery novel by Sue Grafton",
             subject="Mystery",
             author="Sue Grafton",
+            spdx_license="MIT",
             alignment_tags=["Mystery", "Sue Grafton", "Kinsey Millhone", keyword],
             keywords=[
                 "Mystery",
@@ -169,7 +171,7 @@ def test_create_post(metadata: schemas.Metadata) -> None:
     assert metadata.title in sue_grafton_books
     ome_node.create_post(
         schemas.Post(
-            id=int(datetime.now(timezone.utc).timestamp() * 1000),  # noqa: UP017
+            id=int(datetime.now(UTC).timestamp() * 1000),
             channels=["local.test"],
             admin_contact="sue@grafton.com",
             subject=metadata.title,
@@ -183,7 +185,6 @@ def test_create_post(metadata: schemas.Metadata) -> None:
 @pytest.mark.skipif(
     not hasattr(ome_node, "channel_cards"),
     reason="channel_cards was removed",
-    strict=True,
 )
 @pytest.mark.usefixtures("enable_a_default_newsgroup")
 def test_channel_cards() -> None:
@@ -205,32 +206,32 @@ def test_utils_get_channels(metadata: schemas.Metadata) -> None:
     assert isinstance(metadata, schemas.Metadata)
     assert metadata.title in sue_grafton_books
     channels = list(utils.get_channels())
-    assert len(channels) == 5
+    assert len(channels) == 16
     slug, description, plugin = channels[0]
-    assert slug == "ome.eric"
+    assert slug == "ome.collage_photos"
     assert description == (
-        "Metadata from US DoE's Education Resources Information Center (ERIC) "
-        "https://eric.ed.gov"
+        "Metadata from Collage Photos educational image collection "
+        "https://oercommons.org"
     )
-    assert plugin.mimetypes == ("application/vnd.eric.eric+json",)
-    assert dict(plugin.newsgroups) == {"ome.eric": description}
-    assert plugin.site_name == "Generic OME Library"
+    assert plugin.mimetypes == ("application/vnd.collage.photos+json",)
+    assert dict(plugin.newsgroups) == {"ome.collage_photos": description}
+    assert plugin.site_name == "Collage Photos"
     assert plugin.librarian_contact == "info@iskme.org"
     assert plugin.logo
 
 
 def test_utils_get_channels_filters() -> None:
     channels = list(utils.get_channels())
-    assert len(channels) == 5
+    assert len(channels) == 16
     slug, description, plugin = channels[0]
-    assert slug == "ome.eric"
+    assert slug == "ome.collage_photos"
     assert description == (
-        "Metadata from US DoE's Education Resources Information Center (ERIC) "
-        "https://eric.ed.gov"
+        "Metadata from Collage Photos educational image collection "
+        "https://oercommons.org"
     )
-    assert plugin.mimetypes == ("application/vnd.eric.eric+json",)
-    assert dict(plugin.newsgroups) == {"ome.eric": description}
-    assert plugin.site_name == "Generic OME Library"
+    assert plugin.mimetypes == ("application/vnd.collage.photos+json",)
+    assert dict(plugin.newsgroups) == {"ome.collage_photos": description}
+    assert plugin.site_name == "Collage Photos"
     assert plugin.librarian_contact == "info@iskme.org"
 
 

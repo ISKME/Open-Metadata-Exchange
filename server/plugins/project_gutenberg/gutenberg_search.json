@@ -1,0 +1,175 @@
+{
+  "count": 5,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 1661,
+      "title": "The Adventures of Sherlock Holmes",
+      "authors": [
+        {
+          "name": "Doyle, Arthur Conan",
+          "birth_year": 1859,
+          "death_year": 1930
+        }
+      ],
+      "translators": [],
+      "subjects": [
+        "Detective and mystery stories, English",
+        "Holmes, Sherlock (Fictitious character) -- Fiction",
+        "Private investigators -- England -- Fiction"
+      ],
+      "bookshelves": [
+        "Mystery Fiction"
+      ],
+      "languages": [
+        "en"
+      ],
+      "copyright": false,
+      "media_type": "Text",
+      "formats": {
+        "text/html": "https://www.gutenberg.org/ebooks/1661.html.images",
+        "application/epub+zip": "https://www.gutenberg.org/ebooks/1661.epub.images",
+        "application/x-mobipocket-ebook": "https://www.gutenberg.org/ebooks/1661.kindle.images",
+        "application/rdf+xml": "https://www.gutenberg.org/ebooks/1661.rdf",
+        "image/jpeg": "https://www.gutenberg.org/cache/epub/1661/pg1661.cover.medium.jpg",
+        "text/plain; charset=us-ascii": "https://www.gutenberg.org/ebooks/1661.txt.utf-8",
+        "application/octet-stream": "https://www.gutenberg.org/cache/epub/1661/pg1661-images.epub"
+      },
+      "download_count": 99654
+    },
+    {
+      "id": 2852,
+      "title": "The Hound of the Baskervilles",
+      "authors": [
+        {
+          "name": "Doyle, Arthur Conan",
+          "birth_year": 1859,
+          "death_year": 1930
+        }
+      ],
+      "translators": [],
+      "subjects": [
+        "Detective and mystery stories, English",
+        "Holmes, Sherlock (Fictitious character) -- Fiction",
+        "Dogs -- Fiction",
+        "Dartmoor (England) -- Fiction"
+      ],
+      "bookshelves": [
+        "Mystery Fiction"
+      ],
+      "languages": [
+        "en"
+      ],
+      "copyright": false,
+      "media_type": "Text",
+      "formats": {
+        "text/html": "https://www.gutenberg.org/ebooks/2852.html.images",
+        "application/epub+zip": "https://www.gutenberg.org/ebooks/2852.epub.images",
+        "application/x-mobipocket-ebook": "https://www.gutenberg.org/ebooks/2852.kindle.images",
+        "application/rdf+xml": "https://www.gutenberg.org/ebooks/2852.rdf",
+        "image/jpeg": "https://www.gutenberg.org/cache/epub/2852/pg2852.cover.medium.jpg",
+        "text/plain; charset=us-ascii": "https://www.gutenberg.org/ebooks/2852.txt.utf-8"
+      },
+      "download_count": 75321
+    },
+    {
+      "id": 108,
+      "title": "Adventures of Sherlock Holmes",
+      "authors": [
+        {
+          "name": "Doyle, Arthur Conan",
+          "birth_year": 1859,
+          "death_year": 1930
+        }
+      ],
+      "translators": [],
+      "subjects": [
+        "Detective and mystery stories, English",
+        "Holmes, Sherlock (Fictitious character) -- Fiction"
+      ],
+      "bookshelves": [
+        "Mystery Fiction"
+      ],
+      "languages": [
+        "en"
+      ],
+      "copyright": false,
+      "media_type": "Text",
+      "formats": {
+        "text/html": "https://www.gutenberg.org/ebooks/108.html.images",
+        "application/epub+zip": "https://www.gutenberg.org/ebooks/108.epub.images",
+        "application/rdf+xml": "https://www.gutenberg.org/ebooks/108.rdf",
+        "text/plain; charset=us-ascii": "https://www.gutenberg.org/ebooks/108.txt.utf-8"
+      },
+      "download_count": 45210
+    },
+    {
+      "id": 834,
+      "title": "Memoirs of Sherlock Holmes",
+      "authors": [
+        {
+          "name": "Doyle, Arthur Conan",
+          "birth_year": 1859,
+          "death_year": 1930
+        }
+      ],
+      "translators": [],
+      "subjects": [
+        "Detective and mystery stories, English",
+        "Holmes, Sherlock (Fictitious character) -- Fiction",
+        "Private investigators -- England -- Fiction"
+      ],
+      "bookshelves": [
+        "Mystery Fiction"
+      ],
+      "languages": [
+        "en"
+      ],
+      "copyright": false,
+      "media_type": "Text",
+      "formats": {
+        "text/html": "https://www.gutenberg.org/ebooks/834.html.images",
+        "application/epub+zip": "https://www.gutenberg.org/ebooks/834.epub.images",
+        "application/x-mobipocket-ebook": "https://www.gutenberg.org/ebooks/834.kindle.images",
+        "application/rdf+xml": "https://www.gutenberg.org/ebooks/834.rdf",
+        "text/plain; charset=us-ascii": "https://www.gutenberg.org/ebooks/834.txt.utf-8"
+      },
+      "download_count": 38741
+    },
+    {
+      "id": 244,
+      "title": "A Study in Scarlet",
+      "authors": [
+        {
+          "name": "Doyle, Arthur Conan",
+          "birth_year": 1859,
+          "death_year": 1930
+        }
+      ],
+      "translators": [],
+      "subjects": [
+        "Detective and mystery stories, English",
+        "Holmes, Sherlock (Fictitious character) -- Fiction",
+        "Private investigators -- England -- Fiction",
+        "Utah -- Fiction"
+      ],
+      "bookshelves": [
+        "Mystery Fiction"
+      ],
+      "languages": [
+        "en"
+      ],
+      "copyright": false,
+      "media_type": "Text",
+      "formats": {
+        "text/html": "https://www.gutenberg.org/ebooks/244.html.images",
+        "application/epub+zip": "https://www.gutenberg.org/ebooks/244.epub.images",
+        "application/x-mobipocket-ebook": "https://www.gutenberg.org/ebooks/244.kindle.images",
+        "application/rdf+xml": "https://www.gutenberg.org/ebooks/244.rdf",
+        "text/plain; charset=us-ascii": "https://www.gutenberg.org/ebooks/244.txt.utf-8"
+      },
+      "download_count": 52890
+    }
+  ]
+}

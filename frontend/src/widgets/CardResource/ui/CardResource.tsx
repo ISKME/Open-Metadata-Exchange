@@ -45,7 +45,7 @@ export function CardResource({ id, title, description, url, items = [] }) {
           </a>
           <a href={url} className={cls.downloadButton} target="_blank" title={`Download resource ${title}`}>
             Download
-            <i class="fa fa-file-word-o" aria-hidden="true"></i>
+            <i className="fa fa-file-word-o" aria-hidden="true"></i>
           </a>
         </div>
         <div style={{ display: 'flex' }}>

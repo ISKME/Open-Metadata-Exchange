@@ -197,6 +197,7 @@ export function Asset() {
         p: 2,
         // bgcolor: 'ark.innerCardsBackgroundColor',
         // color: 'ark.innerCardsTextColor'
+        flexDirection: { sm: 'column', xs: 'column', md: 'row' },
       }}>
         <CardMedia
           component="img"

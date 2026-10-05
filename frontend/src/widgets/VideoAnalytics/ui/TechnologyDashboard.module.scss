@@ -1,0 +1,284 @@
+/* stylelint-disable selector-pseudo-class-no-unknown */
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  color: #263442;
+}
+
+.sectionCard {
+  min-width: 0;
+  padding: 22px;
+  overflow: hidden;
+  border-color: #dce2e7 !important;
+  border-radius: 4px !important;
+  box-shadow: 0 1px 2px rgb(31 52 73 / 5%);
+}
+
+.sectionHeading {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+}
+
+.sectionTitleRow :global(.MuiTypography-root) {
+  color: #263442;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.sectionDescription {
+  margin-top: 3px !important;
+  font-size: 14px !important;
+}
+
+.sectionAction {
+  flex: 0 0 auto;
+}
+
+.infoButton {
+  margin-left: 2px !important;
+  color: #7d8894 !important;
+}
+
+.metricSelect {
+  width: 210px;
+}
+
+.deviceSummary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 14px;
+  border: 1px solid #e6eaee;
+  border-radius: 4px;
+  background: #f8fafb;
+}
+
+.deviceSummary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 18px;
+  border-right: 1px solid #e6eaee;
+}
+
+.deviceSummary > div:last-child {
+  border-right: 0;
+}
+
+.deviceSummary :global(.MuiTypography-root) {
+  font-size: 12px;
+}
+
+.deviceSummary strong {
+  color: #263442;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.deviceRows {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #e7ebef;
+}
+
+.deviceRow {
+  display: grid;
+  grid-template-columns: 150px 100px minmax(180px, 1fr) 70px;
+  gap: 14px;
+  align-items: center;
+  min-width: 0;
+  padding: 15px 0;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.deviceIdentity {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.deviceIdentity :global(.MuiTypography-root) {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.deviceIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  color: #4d6d8b;
+  border-radius: 50%;
+  background: #edf4fb;
+}
+
+.deviceIcon :global(.MuiSvgIcon-root) {
+  font-size: 18px;
+}
+
+.deviceValue {
+  text-align: right;
+  font-size: 13px;
+}
+
+.deviceBar,
+.distributionBar {
+  height: 9px !important;
+  border-radius: 5px;
+  background-color: #e1e5e9 !important;
+}
+
+.deviceBar :global(.MuiLinearProgress-bar),
+.distributionBar :global(.MuiLinearProgress-bar) {
+  border-radius: 5px;
+  background-color: #4b7edb;
+}
+
+.tableScroller {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.technologyTable {
+  min-width: 1060px;
+}
+
+.technologyTable :global(.MuiTableCell-head) {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #66727e;
+  background: #f7f8fa;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.technologyTable :global(.MuiTableCell-body) {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-color: #e8ecef;
+  color: #344353;
+  font-size: 13px;
+}
+
+.brandName {
+  display: inline-flex;
+  gap: 9px;
+  align-items: center;
+  min-width: 150px;
+  color: #2457a7;
+  font-weight: 600;
+}
+
+.brandName > svg {
+  flex: 0 0 auto;
+}
+
+.distributionCell {
+  display: grid;
+  grid-template-columns: 50px minmax(100px, 1fr);
+  gap: 8px;
+  align-items: center;
+  min-width: 180px;
+}
+
+.positiveTrend,
+.negativeTrend,
+.neutralTrend {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.positiveTrend {
+  color: #14856f;
+}
+
+.negativeTrend {
+  color: #d74343;
+}
+
+.neutralTrend {
+  color: #7d8894;
+}
+
+.reportNote {
+  padding: 0 4px 8px;
+  font-size: 12px !important;
+}
+
+.compact .deviceRow {
+  grid-template-columns: 130px 90px minmax(140px, 1fr) 64px;
+}
+
+@media (max-width: 760px) {
+  .sectionHeading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sectionCard {
+    padding: 16px;
+  }
+
+  .sectionAction,
+  .metricSelect {
+    width: 100%;
+  }
+
+  .deviceSummary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .deviceSummary > div {
+    border-right: 0;
+    border-bottom: 1px solid #e6eaee;
+  }
+
+  .deviceSummary > div:last-child {
+    border-bottom: 0;
+  }
+
+  .deviceRow,
+  .compact .deviceRow {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 8px 12px;
+  }
+
+  .deviceValue {
+    text-align: right;
+  }
+
+  .deviceBar {
+    grid-column: 1 / -1;
+  }
+
+  .deviceRow > .positiveTrend,
+  .deviceRow > .negativeTrend,
+  .deviceRow > .neutralTrend {
+    grid-row: 1;
+    grid-column: 3;
+  }
+}
+
+@media (max-width: 520px) {
+  .deviceRow {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .deviceRow > .positiveTrend,
+  .deviceRow > .negativeTrend,
+  .deviceRow > .neutralTrend {
+    display: none;
+  }
+}

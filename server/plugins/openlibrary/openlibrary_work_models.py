@@ -16,8 +16,6 @@
 #             --input openlibrary_work.json --input-file-type json \
 #             --output openlibrary_work_models.py
 
-from __future__ import annotations
-
 from pydantic import BaseModel
 
 

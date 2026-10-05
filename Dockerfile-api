@@ -1,0 +1,36 @@
+# Build and run the server in background mode and follow the logs.
+# https://docs.astral.sh/uv/guides/integration/docker/
+# https://docs.astral.sh/uv/guides/integration/fastapi/
+
+# docker build --tag=fastapi-server --no-cache --progress=plain . \
+# && docker run --detach --publish=5001:5001 fastapi-server \
+# && docker logs -f $(docker ps -lq)
+
+# To kill the background container, run `docker kill $(docker ps -lq)`
+
+# Use Astral's uv Debian Trixie Slim Python 3.12 base image
+FROM ghcr.io/astral-sh/uv:python3.13-trixie-slim
+
+ARG INN_SERVER_NAME
+
+RUN apt-get update && apt-get install -y build-essential j2cli
+
+RUN uv venv && uv pip install "fastapi[standard]" httpx2 pydantic pynntp beautifulsoup4 dateparser pondpond && mkdir -p /app/server
+
+COPY ./tools/docker_tools/j2_related/templatize.sh /tmp/templatize.sh
+COPY ./tools/docker_tools/j2_related/j2_filters.py /tmp/j2_filters.py
+COPY ./config.json /tmp/config.json
+
+# Create a directory for the FastAPI app
+WORKDIR /app
+
+COPY env.j2 /app/.env.j2
+RUN env
+RUN INN_SERVER_NAME=${INN_SERVER_NAME} /tmp/templatize.sh /tmp/j2_filters.py /app /tmp/config.json
+
+
+# Expose port 8000
+EXPOSE 8000
+
+# Command to run the FastAPI server, binding it to port 5001
+CMD ["uv", "run", "--env-file=.env", "fastapi", "dev", "--host=0.0.0.0", "server/main.py"]

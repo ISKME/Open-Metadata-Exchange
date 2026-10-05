@@ -26,7 +26,7 @@ export default function SearchBar({ value, onChange, onSearch, placeholder = "Se
       }
       placeholder={placeholder}
       sx={{
-        width,
+        width: { md: width, sm: '100%', xs: '100%' },
         padding: '0 24px',
         '& input': {
           height: '3.5em',

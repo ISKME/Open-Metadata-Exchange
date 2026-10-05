@@ -1,0 +1,42 @@
+[
+  {
+    "title": "AP Computer Science Principles",
+    "description": "An OpenStax textbook designed for introductory high school computer science principles.",
+    "authors": [
+      "OpenStax"
+    ],
+    "subject_tags": [
+      "computer science"
+    ],
+    "source_url": "https://openstax.org/details/books/ap-computer-science-principles",
+    "version_url": "",
+    "spdx_license_expression": "CC-BY-4.0"
+  },
+  {
+    "title": "Information Systems",
+    "description": "An OpenStax textbook introducing information systems concepts and their role in organizations.",
+    "authors": [
+      "OpenStax"
+    ],
+    "subject_tags": [
+      "computer science"
+    ],
+    "source_url": "https://openstax.org/details/books/information-systems",
+    "version_url": "",
+    "spdx_license_expression": "CC-BY-4.0"
+  },
+  {
+    "title": "Introduction to Python Programming",
+    "description": "An OpenStax introductory computer science textbook focused on Python programming fundamentals.",
+    "authors": [
+      "OpenStax"
+    ],
+    "subject_tags": [
+      "computer science",
+      "programming"
+    ],
+    "source_url": "https://openstax.org/details/books/introduction-python-programming",
+    "version_url": "",
+    "spdx_license_expression": "CC-BY-4.0"
+  }
+]

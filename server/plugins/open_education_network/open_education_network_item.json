@@ -1,0 +1,37 @@
+{
+  "id": 960,
+  "title": "Python for Everybody: Exploring Data in Python 3",
+  "description": "This book is designed to introduce students to programming and computational thinking through the lens of exploring data. You can think of the Python programming language as your tool to solve data problems that are beyond the capability of a spreadsheet.",
+  "url": "https://open.umn.edu/opentextbooks/textbooks/python-for-everybody-exploring-data-in-python-3",
+  "cover_url": "https://open.umn.edu/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaWdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--python-cover.jpg",
+  "license": {
+    "name": "Creative Commons Attribution Non-Commercial Share-Alike",
+    "abbreviation": "CC BY-NC-SA",
+    "url": "http://creativecommons.org/licenses/by-nc-sa/4.0/"
+  },
+  "subjects": [
+    {
+      "name": "Computing & Information Technology",
+      "child_subject": {
+        "name": "Programming Languages"
+      }
+    }
+  ],
+  "contributors": [
+    {
+      "first_name": "Charles",
+      "last_name": "Severance",
+      "contribution_type": "author"
+    }
+  ],
+  "formats": [
+    {
+      "format": "eBook",
+      "url": "https://www.py4e.com/html3/01-intro"
+    },
+    {
+      "format": "PDF",
+      "url": "http://do1.dr-chuck.com/pythonlearn/EN_us/pythonlearn.pdf"
+    }
+  ]
+}

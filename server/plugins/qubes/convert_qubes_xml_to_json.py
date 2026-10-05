@@ -73,9 +73,9 @@ def old_to_new_dict(old_dict: dict[str, dict | str]) -> dict[str, str]:
             new_dict.update(old_to_new_dict(value))
         else:
             # Remove the namespace from the key
-            new_key = key.split("}")[-1]
+            new_key: str = key.split("}")[-1]
             new_dict[new_key] = value
-    new_dict.pop("datestamp", None)  # Duplicates new_dict["date"]
+    new_dict.pop("datestamp", "")  # Duplicates new_dict["date"]
     return new_dict
 
 
@@ -104,7 +104,7 @@ def convert_xml_to_json(xml_file: os.PathLike, json_file: os.PathLike) -> None:
     root = tree.getroot()
 
     # Convert XML to dictionary
-    xml_dict = xml_to_dict(root)
+    xml_dict = xml_to_dict(root) or {}
     # For each record in the ListRecords tag, keep only the data in the metadata dc tag
     # "{http://www.openarchives.org/OAI/2.0/}ListRecords": {
     #    "{http://www.openarchives.org/OAI/2.0/}record": [

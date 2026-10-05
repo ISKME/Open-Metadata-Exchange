@@ -1,0 +1,92 @@
+Subject: Python for Everybody: Exploring Data Using Python 3
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============7827953883432155853=="
+
+--===============7827953883432155853==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+{
+  "title": "Python for Everybody: Exploring Data Using Python 3",
+  "description": "This book is designed to introduce students to programming =
+and computational thinking through the lens of exploring data. You can think =
+of Python as your tool to solve data problems that are beyond the capability =
+of a spreadsheet. Python is an easy to use and easy to learn programming lang=
+uage that is freely available on Macintosh, Windows, or Linux computers. Ther=
+e are free textbooks, free instructional videos, and a free learning manageme=
+nt system available at www.py4e.com.",
+  "authors": [
+    "Charles R. Severance"
+  ],
+  "authoring_institution": "University of Michigan",
+  "subject_tags": [
+    "Computer Science",
+    "python",
+    "programming",
+    "data science",
+    "introductory"
+  ],
+  "creation_date": null,
+  "last_modified_date": null,
+  "source_url": "https://python.youcanlearnit.net",
+  "version_url": "",
+  "spdx_license_expression": "CC-BY-4.0"
+}
+
+--===============7827953883432155853==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="pressbooks_item.json"
+MIME-Version: 1.0
+
+ewogICJpZCI6IDI0NTgsCiAgImxpbmsiOiAiaHR0cHM6Ly9weXRob24ueW91Y2FubGVhcm5pdC5u
+ZXQiLAogICJ0aXRsZSI6IHsKICAgICJyZW5kZXJlZCI6ICJQeXRob24gZm9yIEV2ZXJ5Ym9keTog
+RXhwbG9yaW5nIERhdGEgVXNpbmcgUHl0aG9uIDMiCiAgfSwKICAibWV0YWRhdGEiOiB7CiAgICAi
+cGJfdGl0bGUiOiAiUHl0aG9uIGZvciBFdmVyeWJvZHk6IEV4cGxvcmluZyBEYXRhIFVzaW5nIFB5
+dGhvbiAzIiwKICAgICJwYl9zdWJ0aXRsZSI6ICJFeHBsb3JpbmcgRGF0YSBVc2luZyBQeXRob24g
+MyIsCiAgICAicGJfc2hvcnRfdGl0bGUiOiAiUHl0aG9uIGZvciBFdmVyeWJvZHkiLAogICAgInBi
+X2F1dGhvcnMiOiAiQ2hhcmxlcyBSLiBTZXZlcmFuY2UiLAogICAgInBiX2VkaXRvcnMiOiAiIiwK
+ICAgICJwYl9kZXNjcmlwdGlvbiI6ICJUaGlzIGJvb2sgaXMgZGVzaWduZWQgdG8gaW50cm9kdWNl
+IHN0dWRlbnRzIHRvIHByb2dyYW1taW5nIGFuZCBjb21wdXRhdGlvbmFsIHRoaW5raW5nIHRocm91
+Z2ggdGhlIGxlbnMgb2YgZXhwbG9yaW5nIGRhdGEuIFlvdSBjYW4gdGhpbmsgb2YgUHl0aG9uIGFz
+IHlvdXIgdG9vbCB0byBzb2x2ZSBkYXRhIHByb2JsZW1zIHRoYXQgYXJlIGJleW9uZCB0aGUgY2Fw
+YWJpbGl0eSBvZiBhIHNwcmVhZHNoZWV0LiBQeXRob24gaXMgYW4gZWFzeSB0byB1c2UgYW5kIGVh
+c3kgdG8gbGVhcm4gcHJvZ3JhbW1pbmcgbGFuZ3VhZ2UgdGhhdCBpcyBmcmVlbHkgYXZhaWxhYmxl
+IG9uIE1hY2ludG9zaCwgV2luZG93cywgb3IgTGludXggY29tcHV0ZXJzLiBUaGVyZSBhcmUgZnJl
+ZSB0ZXh0Ym9va3MsIGZyZWUgaW5zdHJ1Y3Rpb25hbCB2aWRlb3MsIGFuZCBhIGZyZWUgbGVhcm5p
+bmcgbWFuYWdlbWVudCBzeXN0ZW0gYXZhaWxhYmxlIGF0IHd3dy5weTRlLmNvbS4iLAogICAgInBi
+X3B1Ymxpc2hlciI6ICJVbml2ZXJzaXR5IG9mIE1pY2hpZ2FuIiwKICAgICJwYl9wdWJsaXNoZXJf
+Y2l0eSI6ICJBbm4gQXJib3IiLAogICAgInBiX3B1YmxpY2F0aW9uX2RhdGUiOiAiMjAxNiIsCiAg
+ICAicGJfY29weXJpZ2h0X2hvbGRlciI6ICJDaGFybGVzIFIuIFNldmVyYW5jZSIsCiAgICAicGJf
+a2V5d29yZHNfdGFncyI6ICJweXRob24sIHByb2dyYW1taW5nLCBkYXRhIHNjaWVuY2UsIGludHJv
+ZHVjdG9yeSIsCiAgICAicGJfc3ViamVjdCI6ICJDb21wdXRlciBTY2llbmNlIiwKICAgICJwYl9s
+YW5ndWFnZSI6ICJlbiIsCiAgICAicGJfbGljZW5zZSI6ICJjYy1ieSIsCiAgICAicGJfY292ZXJf
+aW1hZ2UiOiAiaHR0cHM6Ly9weXRob24ueW91Y2FubGVhcm5pdC5uZXQvYXBwL3RoZW1lcy9wcmVz
+c2Jvb2tzLWJvb2svaW1hZ2VzL2RlZmF1bHQtYm9vay1jb3Zlci5qcGciLAogICAgInBiX3VybCI6
+ICJodHRwczovL3B5dGhvbi55b3VjYW5sZWFybml0Lm5ldCIKICB9Cn0K
+
+--===============7827953883432155853==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="pressbooks_ome_item.json"
+MIME-Version: 1.0
+
+ewogICJ0aXRsZSI6ICJQeXRob24gZm9yIEV2ZXJ5Ym9keTogRXhwbG9yaW5nIERhdGEgVXNpbmcg
+UHl0aG9uIDMiLAogICJkZXNjcmlwdGlvbiI6ICJUaGlzIGJvb2sgaXMgZGVzaWduZWQgdG8gaW50
+cm9kdWNlIHN0dWRlbnRzIHRvIHByb2dyYW1taW5nIGFuZCBjb21wdXRhdGlvbmFsIHRoaW5raW5n
+IHRocm91Z2ggdGhlIGxlbnMgb2YgZXhwbG9yaW5nIGRhdGEuIFlvdSBjYW4gdGhpbmsgb2YgUHl0
+aG9uIGFzIHlvdXIgdG9vbCB0byBzb2x2ZSBkYXRhIHByb2JsZW1zIHRoYXQgYXJlIGJleW9uZCB0
+aGUgY2FwYWJpbGl0eSBvZiBhIHNwcmVhZHNoZWV0LiBQeXRob24gaXMgYW4gZWFzeSB0byB1c2Ug
+YW5kIGVhc3kgdG8gbGVhcm4gcHJvZ3JhbW1pbmcgbGFuZ3VhZ2UgdGhhdCBpcyBmcmVlbHkgYXZh
+aWxhYmxlIG9uIE1hY2ludG9zaCwgV2luZG93cywgb3IgTGludXggY29tcHV0ZXJzLiBUaGVyZSBh
+cmUgZnJlZSB0ZXh0Ym9va3MsIGZyZWUgaW5zdHJ1Y3Rpb25hbCB2aWRlb3MsIGFuZCBhIGZyZWUg
+bGVhcm5pbmcgbWFuYWdlbWVudCBzeXN0ZW0gYXZhaWxhYmxlIGF0IHd3dy5weTRlLmNvbS4iLAog
+ICJhdXRob3JzIjogWwogICAgIkNoYXJsZXMgUi4gU2V2ZXJhbmNlIgogIF0sCiAgImF1dGhvcmlu
+Z19pbnN0aXR1dGlvbiI6ICJVbml2ZXJzaXR5IG9mIE1pY2hpZ2FuIiwKICAic3ViamVjdF90YWdz
+IjogWwogICAgIkNvbXB1dGVyIFNjaWVuY2UiLAogICAgInB5dGhvbiIsCiAgICAicHJvZ3JhbW1p
+bmciLAogICAgImRhdGEgc2NpZW5jZSIsCiAgICAiaW50cm9kdWN0b3J5IgogIF0sCiAgImNyZWF0
+aW9uX2RhdGUiOiBudWxsLAogICJsYXN0X21vZGlmaWVkX2RhdGUiOiBudWxsLAogICJzb3VyY2Vf
+dXJsIjogImh0dHBzOi8vcHl0aG9uLnlvdWNhbmxlYXJuaXQubmV0IiwKICAidmVyc2lvbl91cmwi
+OiAiIiwKICAic3BkeF9saWNlbnNlX2V4cHJlc3Npb24iOiAiQ0MtQlktNC4wIgp9Cg==
+
+--===============7827953883432155853==--

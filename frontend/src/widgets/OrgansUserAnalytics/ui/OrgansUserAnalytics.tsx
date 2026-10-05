@@ -29,8 +29,20 @@ import { Autocomplete, CircularProgress } from '@mui/material';
 import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { AnalyticsPageSize, AnalyticsPagination, analyticsTableProps } from 'shared/ui/AnalyticsTable/AnalyticsTable';
 import cls from './OrgansUserAnalytics.module.scss'
-import { DateRange, UserType, ChartColors } from '../../enum';
+import { DateRange, UserIsActiveStatus, ChartColors } from '../../enum';
+
+
+const USER_LABELS = {
+  login: 'Logins',
+  resourceView: 'Cases Viewed',
+  search: 'Searches',
+  groups: 'Groups',
+  downloads: 'Resources downloaded',
+  allNotes: 'Notes',
+  saves: 'Cases Saved',
+};
 
 
 let globalSearchValue = '';
@@ -57,6 +69,7 @@ function EditUserToolbar({ onSearch, onExport, onClear }) {
 
   return (
     <GridToolbarContainer>
+      <AnalyticsPageSize />
       <TextField
         id="outlined-basic"
         label="Search"
@@ -65,9 +78,9 @@ function EditUserToolbar({ onSearch, onExport, onClear }) {
         value={searchValue}
         onChange={(event) => setSearchValue(event.target.value)}
         onKeyDown={handleKeyDown}
-        sx={{ width: '50%' }}
+        sx={{ flex: 1, minWidth: 180 }}
       />
-      <div style={{ display: 'flex', justifyContent: 'space-between', width: '48%' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex' }}>
           <Button color="primary" onClick={handleSearchClick}>
             Search
@@ -94,9 +107,10 @@ export function OrgansUserAnalytics({ id }) {
   const defaultEndDate = new Date();
   const defaultStartDate = new Date(new Date().setDate(defaultEndDate.getDate() - 30));
   const [date, setDate] = React.useState([defaultStartDate, defaultEndDate]);
+  const [latestAvailableDate, setLatestAvailableDate] = React.useState(null);
+  const latestAnalyticsRequest = React.useRef(null);
   const [range, setRange] = React.useState(DateRange.LAST_30_DAYS);
-  const [selectedUserType, setSelectedUserType] = React.useState('');
-  const [userTypeOptions, setUserTypeOptions] = React.useState([]);
+  const [userFilters, setUserFilters] = React.useState({ userType: '', atlasRole: '', isActive: '', state: '' });
   const [groups, setGroups] = React.useState([]);
   const [chartData, setChartData] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -106,37 +120,39 @@ export function OrgansUserAnalytics({ id }) {
   const [users, setUsers] = React.useState([]);
   const [selectedParams, setSelectedParams] = React.useState({
     users: [],
-    selectedUsers: [],
-    typeStatusUsers: [],
     group: null,
   });
   const [activeItems, setActiveItems] = React.useState({
-    resourceView: true,
-    visitsCount: true,
-    downloads: true,
-    saves: true,
-    allNotes: true,
     login: true,
+    resourceView: true,
     search: true,
+    groups: true,
+    downloads: true,
+    allNotes: true,
+    saves: true,
   });
   const columns = [
     { field: 'user', headerName: 'User', width: 158 },
-    { field: 'userType', headerName: 'User Type', width: 80 },
-    { field: 'view', headerName: 'Resource View', width: 80 },
-    { field: 'count', headerName: 'Visits Count', width: 80 },
-    { field: 'downloads', headerName: 'Downloads', width: 80 },
-    { field: 'saves', headerName: 'Saves', width: 80 },
-    { field: 'notes', headerName: 'All Notes', width: 80 },
-    { field: 'login', headerName: 'Login', width: 80 },
-    { field: 'search', headerName: 'Search', width: 80 },
-  ]; // SUM 798px
+    { field: 'userType', headerName: 'Role', width: 100 },
+    { field: 'login', headerName: 'Logins', width: 90 },
+    { field: 'view', headerName: 'Cases Viewed', width: 100 },
+    { field: 'search', headerName: 'Searches', width: 90 },
+    { field: 'groups', headerName: 'Groups', width: 80 },
+    {
+      field: 'downloads',
+      headerName: 'Resources downloaded',
+      width: 140,
+    },
+    { field: 'notes', headerName: 'Notes', width: 80 },
+    { field: 'saves', headerName: 'Cases Saved', width: 100 },
+  ];
   const colors = {
+    login: ChartColors.GREEN,
     resourceView: ChartColors.RED,
-    visitsCount: ChartColors.PINK,
+    search: ChartColors.BLUE,
+    groups: ChartColors.ORANGE,
     downloads: ChartColors.CYAN,
     allNotes: ChartColors.GRAY,
-    login: ChartColors.GREEN,
-    search: ChartColors.BLUE,
     saves: ChartColors.BROWN,
   };
 
@@ -146,10 +162,31 @@ export function OrgansUserAnalytics({ id }) {
     const userIds = [];
     const group = null;
 
-    fetchConfigs(startDate, endDate);
-    fetchData(startDate, endDate);
-    fetchTableData(startDate, endDate, userIds, group);
+    let cancelled = false;
+    setIsLoading(true);
+    const initialRequest = fetchData(startDate, endDate);
+    initialRequest.then(availableDate => {
+      if (cancelled || latestAnalyticsRequest.current !== initialRequest) return;
+      const reportingEndDate = availableDate || endDate;
+      const reportingStartDate = new Date(reportingEndDate);
+      reportingStartDate.setDate(reportingEndDate.getDate() - 30);
+      setDate([reportingStartDate, reportingEndDate]);
+      if (formatDate(startDate) !== formatDate(reportingStartDate)
+        || formatDate(endDate) !== formatDate(reportingEndDate)) {
+        fetchData(reportingStartDate, reportingEndDate);
+      }
+      fetchConfigs(reportingStartDate, reportingEndDate);
+      fetchTableData(reportingStartDate, reportingEndDate, userIds, group);
+    });
+    return () => { cancelled = true; };
   }, []);
+
+  React.useEffect(() => {
+    if (!latestAvailableDate) return;
+    setDate(current => current[1] > latestAvailableDate
+      ? [new Date(Math.min(current[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate]
+      : current);
+  }, [latestAvailableDate]);
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -167,24 +204,35 @@ export function OrgansUserAnalytics({ id }) {
       group: group || undefined,
     };
 
-    axios
+    const request = axios
       .get('/clickhouse/overall/user-analytics', { params })
       .then(({ data }) => {
+        const latest = data.reduce((maximum, item) => item.date > maximum ? item.date : maximum, '');
+        let availableDate = null;
+        if (latest) {
+          const [year, month, day] = latest.split('-').map(Number);
+          availableDate = new Date(year, month - 1, day);
+          // Keep the latest known day when loading an older or filtered range.
+          setLatestAvailableDate(previous => previous && previous >= availableDate ? previous : availableDate);
+        }
         const formattedData = data.map((item) => ({
           date: item.date,
-          resourceView: item.resourceView,
-          visitsCount: item.visitsCount,
-          downloads: item.downloads,
-          saves: item.saves,
-          allNotes: item.allNotes,
-          login: item.login,
-          search: item.search,
+          login: item.logins,
+          resourceView: item.casesViewed,
+          search: item.searches,
+          groups: item.groups,
+          downloads: item.resourcesDownloaded,
+          allNotes: item.notes,
+          saves: item.casesSaved,
         }));
-        setChartData(formattedData);
+        if (latestAnalyticsRequest.current === request) setChartData(formattedData);
+        return availableDate;
       })
       .catch((error) => {
         console.error('Error fetching analytics data:', error);
       });
+    latestAnalyticsRequest.current = request;
+    return request;
   };
 
   const fetchTableData = async (startDate, endDate, users = [], group = null) => {
@@ -205,7 +253,11 @@ export function OrgansUserAnalytics({ id }) {
       const userConfigs = configResponse.data.users;
 
       const userMap = userConfigs.reduce((map, user) => {
-        map[user.id] = `${user.first_name} ${user.last_name}`.trim() || 'Unnamed User';
+        map[user.id] =
+          `${user.first_name || ''} ${user.last_name || ''}`.trim()
+          || user.email?.trim()
+          || `User ID: ${user.id}`;
+
         return map;
       }, {});
 
@@ -218,14 +270,16 @@ export function OrgansUserAnalytics({ id }) {
         return {
           id: userId || 'unlogged',
           user: fullName,
-          userType: userConfigs.find(user => +user.id === +userId)?.user_type || 'Unknown',
-          view: item.resourceView,
-          count: item.visitsCount,
-          downloads: item.downloads,
-          saves: item.saves,
-          notes: item.allNotes,
-          login: item.login,
-          search: item.search,
+          userType:
+            userConfigs.find(user => +user.id === +userId)?.user_type
+            || 'Unknown',
+          login: item.logins,
+          view: item.casesViewed,
+          search: item.searches,
+          groups: item.groups,
+          downloads: item.resourcesDownloaded,
+          notes: item.notes,
+          saves: item.casesSaved,
         };
       });
 
@@ -252,17 +306,9 @@ export function OrgansUserAnalytics({ id }) {
     try {
       const { data } = await axios.get('/clickhouse/configs', { params });
 
-      const uniqueUserTypes = Array.from(new Set(data.users.map((user) => user.user_type)));
-
-      setUsers(
-        data.users.map((user) => ({
-          id: user.id,
-          label: `${user.first_name} ${user.last_name}`.trim() || 'Unnamed User',
-          user_type: user.user_type,
-        }))
-      );
+      setUsers(data.users);
       setGroups(data.groups.map((group) => ({ label: group })));
-      setUserTypeOptions(uniqueUserTypes);
+      return data.users;
     } catch (error) {
       console.error('Error fetching configs:', error);
     } finally {
@@ -271,8 +317,8 @@ export function OrgansUserAnalytics({ id }) {
   };
 
   const resetFilters = () => {
-    setSelectedParams({ users: [], group: null, selectedUsers: [], typeStatusUsers: []});
-    setSelectedUserType("");
+    setSelectedParams({ users: [], group: null });
+    setUserFilters({ userType: '', atlasRole: '', isActive: '', state: '' });
     setGroups([]);
   };
 
@@ -284,25 +330,29 @@ export function OrgansUserAnalytics({ id }) {
 
     switch (selectedRange) {
       case DateRange.LAST_30_DAYS:
-        endDate = new Date();
-        startDate = new Date(new Date().setDate(endDate.getDate() - 30));
+        endDate = latestAvailableDate || new Date();
+        startDate = new Date(endDate);
+        startDate.setDate(endDate.getDate() - 30);
         break;
       case DateRange.LAST_90_DAYS:
-        endDate = new Date();
-        startDate = new Date(new Date().setDate(endDate.getDate() - 90));
+        endDate = latestAvailableDate || new Date();
+        startDate = new Date(endDate);
+        startDate.setDate(endDate.getDate() - 90);
         break;
       case DateRange.LAST_YEAR:
-        endDate = new Date();
+        endDate = latestAvailableDate || new Date();
         startDate = new Date(endDate.getFullYear() - 1, endDate.getMonth(), endDate.getDate());
         break;
       case DateRange.ALL_TIME:
-        startDate = new Date("2010-01-01");
-        endDate = new Date();
+        startDate = new Date(2010, 0, 1);
+        endDate = latestAvailableDate || new Date();
         break;
       case DateRange.CUSTOM:
       default:
         return;
     }
+    if (latestAvailableDate && endDate > latestAvailableDate) endDate = latestAvailableDate;
+    if (startDate > endDate) startDate = endDate;
     setDate([startDate, endDate]);
     fetchConfigs(startDate, endDate);
     fetchData(startDate, endDate, [], null);
@@ -311,15 +361,19 @@ export function OrgansUserAnalytics({ id }) {
   };
 
   const handleDateRangeChange = (newDate) => {
+    if (latestAvailableDate && newDate?.[0] && newDate?.[1] > latestAvailableDate) {
+      newDate = [new Date(Math.min(newDate[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate];
+    }
     if (!newDate) {
-      const defaultEndDate = new Date();
-      const defaultStartDate = new Date(new Date().setDate(defaultEndDate.getDate() - 30));
+      const defaultEndDate = latestAvailableDate || new Date();
+      const defaultStartDate = new Date(defaultEndDate);
+      defaultStartDate.setDate(defaultEndDate.getDate() - 30);
       setDate([defaultStartDate, defaultEndDate]);
       setRange(DateRange.LAST_30_DAYS);
       fetchData(defaultStartDate, defaultEndDate, [], null);
       fetchTableData(defaultStartDate, defaultEndDate, [], null);
       fetchConfigs(defaultStartDate, defaultEndDate);
-    } else if (newDate && newDate.length === 2) {
+    } else if (newDate && newDate.length === 2 && newDate[0] && newDate[1]) {
       setDate(newDate);
       setRange(DateRange.CUSTOM);
       fetchData(newDate[0], newDate[1], [], null);
@@ -329,56 +383,48 @@ export function OrgansUserAnalytics({ id }) {
     resetFilters();
   };
 
-  const handleUserChange = (event, newValue) => {
-    const updatedUsers = newValue ? newValue.map((user) => user.id) : [];
+  const getFilteredUserIds = (sourceUsers, filters) => {
+    if (Object.values(filters).every(value => value === '')) return [];
 
-    const filteredUsers = applyFilters(updatedUsers, selectedParams.typeStatusUsers);
-
-    setSelectedParams((prev) => ({
-      ...prev,
-      selectedUsers: updatedUsers,
-      users: filteredUsers,
-    }));
-
-    fetchData(date[0], date[1], filteredUsers, selectedParams.group);
-    fetchTableData(date[0], date[1], filteredUsers, selectedParams.group);
-  };
-
-  const handleUserTypeChange = (event) => {
-    const updatedUserType = event.target.value;
-
-    let filteredTypeStatusUsers = [];
-    if (updatedUserType !== UserType.ALL && updatedUserType) {
-      filteredTypeStatusUsers = users
-        .filter(user => user.user_type === updatedUserType)
-        .map(user => user.id);
-
-      if (filteredTypeStatusUsers.length === 0) {
-        filteredTypeStatusUsers = [-1];
-      }
-    } else if (updatedUserType === UserType.ALL) {
-      filteredTypeStatusUsers = [];
-    }
-
-    const filteredUsers = applyFilters(selectedParams.selectedUsers, filteredTypeStatusUsers);
-
-    setSelectedParams((prev) => ({
-      ...prev,
-      typeStatusUsers: filteredTypeStatusUsers,
-      users: filteredUsers,
-    }));
-    setSelectedUserType(updatedUserType);
-    fetchData(date[0], date[1], filteredUsers, selectedParams.group);
-    fetchTableData(date[0], date[1], filteredUsers, selectedParams.group);
-  };
-
-  const applyFilters = (selectedUsers, typeStatusUsers) => {
-    if (!selectedUsers.length) return typeStatusUsers;
-    if (!typeStatusUsers.length) return selectedUsers;
-
-    const filteredUsers = selectedUsers.filter(id => typeStatusUsers.includes(id));
+    const filteredUsers = sourceUsers.filter(user => (
+      (!filters.userType || (user.user_types || []).includes(filters.userType))
+      && (!filters.atlasRole || user.user_type === filters.atlasRole)
+      && (!filters.isActive || Boolean(user.is_active) === (filters.isActive === UserIsActiveStatus.ACTIVE))
+      && (!filters.state || user.state === filters.state)
+    )).map(user => user.id);
     return filteredUsers.length ? filteredUsers : [-1];
   };
+
+  const handleUserFilterChange = (field, value) => {
+    const filters = { ...userFilters, [field]: value };
+    const filteredUsers = getFilteredUserIds(users, filters);
+    setUserFilters(filters);
+    setSelectedParams(prev => ({ ...prev, users: filteredUsers }));
+    fetchData(date[0], date[1], filteredUsers, selectedParams.group);
+    fetchTableData(date[0], date[1], filteredUsers, selectedParams.group);
+  };
+
+  const renderUserFilter = (field, label, options) => (
+    <Grid item xs={12} sm={6} md={4}>
+      <FormControl size="small" sx={{ width: '100%' }}>
+        <InputLabel className={cls.formInputLabel} shrink>{label}</InputLabel>
+        <Select
+          className={cls.formSelect}
+          value={userFilters[field]}
+          label={label}
+          displayEmpty
+          onChange={event => handleUserFilterChange(field, event.target.value)}
+        >
+          <MenuItem value="">All</MenuItem>
+          {options.map(option => (
+            <MenuItem key={option.value ?? option} value={option.value ?? option}>
+              {option.label ?? option}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Grid>
+  );
 
   const handleGroupChange = (event, newValue) => {
     const updatedGroup = newValue ? newValue.label : null;
@@ -404,7 +450,7 @@ export function OrgansUserAnalytics({ id }) {
     .filter(([key, value]) => value)
     .map(([key]) => ({
       data: chartData.map(item => item[key]),
-      label: key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1'),
+      label: USER_LABELS[key],
       connectNulls: true,
       color: colors[key],
     }));
@@ -435,17 +481,27 @@ export function OrgansUserAnalytics({ id }) {
 
   const handleExport = () => {
     const csvContent = [
-      ['User', 'User Type', 'Resource View', 'Visits Count', 'Downloads', 'Saves', 'All Notes', 'Login', 'Search'],
+      [
+        'User',
+        'Role',
+        'Logins',
+        'Cases Viewed',
+        'Searches',
+        'Groups',
+        'Resources downloaded',
+        'Notes',
+        'Cases Saved',
+      ],
       ...tableData.map((row) => [
         row.user,
         row.userType,
-        row.view,
-        row.count,
-        row.downloads,
-        row.saves,
-        row.notes,
         row.login,
+        row.view,
         row.search,
+        row.groups,
+        row.downloads,
+        row.notes,
+        row.saves,
       ]),
     ]
       .map((e) => e.join(','))
@@ -460,11 +516,20 @@ export function OrgansUserAnalytics({ id }) {
     document.body.removeChild(link);
   };
 
+  const totalUsers = originalTableData.filter(
+    (row) => row.id !== 'unlogged'
+  ).length;
+
   return (
     <div className={cls.userAnalytics}>
       <Typography variant="h5">
         User Analytics
       </Typography>
+      {latestAvailableDate && (
+        <Typography sx={{ fontWeight: 400, mb: 1, color: 'red' }}>
+          Data is updated weekly. Data is currently available through {latestAvailableDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}.
+        </Typography>
+      )}
       <div>
         <FormControl size="small" sx={{ width: '350px', marginRight: '24px' }}>
           <InputLabel id="demo-simple-select-label">Date Range</InputLabel>
@@ -483,73 +548,29 @@ export function OrgansUserAnalytics({ id }) {
           </Select>
         </FormControl>
         <DateRangePicker
+          maxDate={latestAvailableDate || undefined}
           onChange={handleDateRangeChange}
           value={date.length === 2 ? date : undefined}
         />
       </div>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <Autocomplete
-            multiple
-            id="users-autocomplete"
-            options={users || []}
-            loading={isLoading}
-            value={selectedParams.selectedUsers
-              .map((id) => users.find((user) => user.id === id))
-              .filter(Boolean)}
-            onChange={handleUserChange}
-            renderOption={(props, option) => (
-              <li {...props} key={option.id}>
-                {option.label}
-              </li>
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Users"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
-                }}
-              />
-            )}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <FormControl size="small" sx={{ width: '100%' }}>
-            <InputLabel className={cls.formInputLabel}>User Type</InputLabel>
-            <Select
-              className={cls.formSelect}
-              value={selectedUserType || ''}
-              label="User Type"
-              onChange={handleUserTypeChange}
-            >
-              <MenuItem value={UserType.ALL}>All</MenuItem>
-              {userTypeOptions.map((type) => (
-                <MenuItem key={type} value={type}>
-                  {type}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={4}>
+        {renderUserFilter('userType', 'User Type', [...new Set(users.flatMap(user => user.user_types || []))].sort())}
+        {renderUserFilter('atlasRole', 'ATLAS Role', [...new Set(users.map(user => user.user_type).filter(Boolean))].sort())}
+        {renderUserFilter('isActive', 'User Is Active', [
+          { value: UserIsActiveStatus.ACTIVE, label: 'Yes' },
+          { value: UserIsActiveStatus.INACTIVE, label: 'No' },
+        ])}
+        <Grid item xs={12} sm={6} md={4}>
           <Autocomplete
             id="groups-autocomplete"
             options={groups || []}
             loading={isLoading}
-            value={selectedParams.group || null}
+            value={groups.find(option => option.label === selectedParams.group) || null}
             onChange={handleGroupChange}
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Groups"
+                label="Group"
                 InputProps={{
                   ...params.InputProps,
                   type: 'search',
@@ -564,6 +585,7 @@ export function OrgansUserAnalytics({ id }) {
             )}
           />
         </Grid>
+        {renderUserFilter('state', 'State', [...new Set(users.map(user => user.state).filter(Boolean))].sort())}
       </Grid>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
         {Object.keys(activeItems).map((key) => (
@@ -581,7 +603,7 @@ export function OrgansUserAnalytics({ id }) {
                 }}
               />
             }
-            label={key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
+            label={USER_LABELS[key]}
           />
         ))}
         <Button
@@ -611,11 +633,15 @@ export function OrgansUserAnalytics({ id }) {
         <Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
+              <CellWithRightBorder>
+                Users
+              </CellWithRightBorder>
+
               {Object.keys(chartData[0] || {})
                 .filter((key) => key !== 'date')
                 .map((key) => (
                   <CellWithRightBorder key={key}>
-                    {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
+                    {USER_LABELS[key]}
                   </CellWithRightBorder>
                 ))}
             </TableRow>
@@ -623,11 +649,18 @@ export function OrgansUserAnalytics({ id }) {
           <TableBody>
             {chartData.length > 0 && (
               <TableRow>
+                <CellWithRightBorder>
+                  {totalUsers}
+                </CellWithRightBorder>
+
                 {Object.keys(chartData[0] || {})
                   .filter((key) => key !== 'date')
                   .map((key) => (
                     <CellWithRightBorder key={key}>
-                      {chartData.reduce((sum, item) => sum + (item[key] || 0), 0)}
+                      {chartData.reduce(
+                        (sum, item) => sum + (item[key] || 0),
+                        0
+                      )}
                     </CellWithRightBorder>
                   ))}
               </TableRow>
@@ -635,12 +668,15 @@ export function OrgansUserAnalytics({ id }) {
           </TableBody>
         </Table>
       </TableContainer>
+      <Typography variant="h6">Details by User</Typography>
       <div>
       {isLoading ? (
         <CircularProgress />
       ) : (
         <DataGrid
+          {...analyticsTableProps}
           slots={{
+            pagination: AnalyticsPagination,
             toolbar: () => (
               <EditUserToolbar
                 onSearch={handleSearch}
@@ -651,7 +687,6 @@ export function OrgansUserAnalytics({ id }) {
           }}
           rows={tableData}
           columns={columns}
-          pageSize={5}
           getRowHeight={() => 'auto'}
           disableRowSelectionOnClick
           showCellVerticalBorder

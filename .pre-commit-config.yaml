@@ -1,3 +1,4 @@
+
 # Learn more about this config here: https://pre-commit.com/
 
 # To enable these pre-commit hooks run:
@@ -15,7 +16,7 @@ repos:
       - id: check-docstring-first
       - id: check-executables-have-shebangs
       - id: check-json
-        exclude: ".*fe2/tsconfig.json$"
+        exclude: "frontend/tsconfig.json"
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
         exclude_types: [perl]
@@ -49,35 +50,45 @@ repos:
       - id: auto-walrus
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.2
+    rev: v2.4.3
     hooks:
       - id: codespell # See pyproject.toml for args
         additional_dependencies:
           - tomli
 
+  - repo: https://github.com/tox-dev/pyproject-fmt
+    rev: v2.29.4
+    hooks:
+      - id: pyproject-fmt
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.7
+    rev: v0.16.9
     hooks:
       - id: ruff-check
       - id: ruff-format
 
   - repo: https://github.com/rvben/rumdl-pre-commit
-    rev: v0.1.58
+    rev: v0.2.77
     hooks:
       - id: rumdl      # Lint only (fails on issues)
       # - id: rumdl-fmt  # Auto-format and fail if issues remain
 
-  - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.20.0
+  # - repo: https://github.com/astral-sh/ty-pre-commit
+  #   rev: v0.0.72
+  #   hooks:
+  #     - id: ty
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.12.19
     hooks:
-      - id: pyproject-fmt
+      - id: uv-lock
 
   - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.25
+    rev: '0.26'
     hooks:
       - id: validate-pyproject
 
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.10.12
+  - repo: https://github.com/zizmorcore/zizmor-pre-commit
+    rev: v1.30.1
     hooks:
-      - id: uv-lock
+    - id: zizmor

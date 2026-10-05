@@ -13,7 +13,7 @@
 .sidebar_content {
   width: inherit;
   position: sticky;
-  top: 40vh;
+  top: 10vh;
 }
 
 .Sidebar .links {
@@ -23,4 +23,18 @@
 
 .Sidebar .links li {
   margin-top: 10px;
+}
+
+@media screen and (max-width: 900px) {
+  .Sidebar {
+    width: 68px;
+    a {
+      svg {
+        margin-right: 0;
+      }
+      span {
+        display: none;
+      }
+    }
+  }
 }

@@ -53,8 +53,7 @@ export default function ArkHome() {
       {/* color="ark.mainFontColor"
       sx={{ fontFamily: 'ark.fontFamilyMain' }} */}
       <Typography variant="h4" gutterBottom className={cls.header} color="ark.mainFontColor">
-        The Digital
-        Public Goods Library
+        The Ark: A Digital Public Goods Library
       </Typography>
       <Typography className={cls.subHeader} color="ark.mainFontColor">
         Open for Education
@@ -64,7 +63,7 @@ export default function ArkHome() {
       </Link>
       <Box className={cls.browseSamples}>
         <Typography sx={{ color: 'ark.mainFontColor' }}>
-          Browse Sources:
+          Browse Collections:
         </Typography>
         {collections.map((collection) => (
           <Link

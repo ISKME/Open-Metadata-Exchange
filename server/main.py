@@ -1,11 +1,12 @@
 from datetime import UTC, datetime
 
-import httpx
+import httpx2
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from jinja2 import Environment, FileSystemLoader
 
 from server import ome_node
 from server.helpers import MocAPI
@@ -16,7 +17,6 @@ from server.schemas import (
     CardRef,
     Channel,
     ChannelResourcesResponse,
-    ChannelSummary,
     ChannelSummaryResponse,
     ExploreSummary,
     MiniMetadata,
@@ -29,7 +29,7 @@ from server.utils import (
     get_channel_summary,
 )
 
-unused = httpx
+unused = httpx2
 
 app = FastAPI()
 
@@ -47,8 +47,9 @@ async def show_channels(request: Request) -> HTMLResponse:
     channels = ome_node.channels()
     channel_list = [ome_node.channel_summary(channel.name) for channel in channels]
     return templates.TemplateResponse(
+        request,
         "channels.html",
-        {"request": request, "channels": channel_list},
+        {"channels": channel_list},
     )
 
 
@@ -57,8 +58,9 @@ async def show_channel_details(request: Request, channel_name: str) -> HTMLRespo
     summary = ome_node.channel_summary(channel_name)
     posts = list(ome_node.get_last_n_posts(channel_name, 10))
     return templates.TemplateResponse(
+        request,
         "channel_details.html",
-        {"request": request, "channel_summary": summary, "posts": posts},
+        {"channel_summary": summary, "posts": posts},
     )
 
 
@@ -70,7 +72,7 @@ async def main() -> list[Channel]:
 
 
 @app.get("/api/channel/{name}")
-async def get_channel_synopsis(name: str) -> ChannelSummary:
+async def get_channel_synopsis(name: str) -> ChannelSummaryResponse:
     return get_channel_summary(name)
 
 
@@ -148,5 +150,5 @@ app.mount(
     name="Mock API",
 )
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
-templates = Jinja2Templates(directory="templates")
-# print(f"Templates directory: {templates.directory=}", flush=True)
+jinja_env = Environment(loader=FileSystemLoader("templates"), autoescape=True)
+templates = Jinja2Templates(env=jinja_env)

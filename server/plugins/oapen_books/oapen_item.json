@@ -1,0 +1,70 @@
+{
+  "uuid": "a3b4c5d6-e7f8-4a9b-c0d1-e2f3a4b5c6d7",
+  "name": "Think Python: How to Think Like a Computer Scientist",
+  "handle": "20.500.12657/54321",
+  "type": "item",
+  "link": "/rest/items/a3b4c5d6-e7f8-4a9b-c0d1-e2f3a4b5c6d7",
+  "lastModified": "2023-04-10 08:15:00",
+  "metadata": [
+    {
+      "key": "dc.title",
+      "value": "Think Python: How to Think Like a Computer Scientist",
+      "language": "en"
+    },
+    {
+      "key": "dc.contributor.author",
+      "value": "Downey, Allen B.",
+      "language": "en"
+    },
+    {
+      "key": "dc.description.abstract",
+      "value": "Think Python is an introduction to Python programming for beginners. It starts with basic concepts of programming, and is carefully designed to define all terms when they are first used and to develop each new concept in a logical progression. Larger pieces, like recursion and object-oriented programming are divided into a sequence of smaller steps and introduced over the course of several chapters.",
+      "language": "en"
+    },
+    {
+      "key": "dc.subject",
+      "value": "Python",
+      "language": "en"
+    },
+    {
+      "key": "dc.subject",
+      "value": "programming",
+      "language": "en"
+    },
+    {
+      "key": "dc.subject",
+      "value": "computer science",
+      "language": "en"
+    },
+    {
+      "key": "dc.date.issued",
+      "value": "2015",
+      "language": "en"
+    },
+    {
+      "key": "dc.publisher",
+      "value": "Green Tea Press",
+      "language": "en"
+    },
+    {
+      "key": "dc.rights",
+      "value": "https://creativecommons.org/licenses/by/4.0/",
+      "language": "en"
+    },
+    {
+      "key": "dc.language.iso",
+      "value": "en",
+      "language": "en"
+    },
+    {
+      "key": "dc.type",
+      "value": "book",
+      "language": "en"
+    },
+    {
+      "key": "dc.identifier.uri",
+      "value": "https://library.oapen.org/handle/20.500.12657/54321",
+      "language": "en"
+    }
+  ]
+}

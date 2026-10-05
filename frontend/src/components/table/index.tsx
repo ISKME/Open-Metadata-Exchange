@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from 'react'
 import { Table, TableContainer, TableBody, TableCell, TableHead, TableRow, TableSortLabel, TablePagination, Checkbox, Box, Paper, IconButton, Select, MenuItem } from '@mui/material'
 import { Edit, Save, Cancel } from '@mui/icons-material'
@@ -53,6 +54,9 @@ export default function EnhancedTable({
   rows = [],
   total = 0,
   edit = true,
+  page: controlledPage = undefined,
+  rowsPerPage: controlledRowsPerPage = undefined,
+  order: controlledOrder = undefined,
   onPageChanged = (page) => {},
   onLimitChanged = (limit) => {},
   onModify = (data) => {},
@@ -62,11 +66,14 @@ export default function EnhancedTable({
   const [selected, setSelected] = useState([])
   const [unselect, setUnselect] = useState([])
   const [all, setAll] = useState(false)
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(25)
+  const [internalPage, setPage] = useState(0)
+  const [internalRowsPerPage, setRowsPerPage] = useState(25)
   const [editRowId, setEditRowId] = useState(null)
   const [editRowData, setEditRowData] = useState({})
-  const [order, setOrder] = useState({ dir: 'asc', by: 'firstName' })
+  const [internalOrder, setOrder] = useState({ dir: 'asc', by: 'firstName' })
+  const page = controlledPage ?? internalPage
+  const rowsPerPage = controlledRowsPerPage ?? internalRowsPerPage
+  const order = controlledOrder ?? internalOrder
 
   const handleSelectAllClick = ({ target }) => {
     const all = target.checked
@@ -244,6 +251,14 @@ export default function EnhancedTable({
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{
+            '& .MuiTablePagination-selectIcon': {
+              m: 0,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              '&.MuiSelect-iconOpen': { transform: 'translateY(-50%) rotate(180deg)' },
+            },
+          }}
           rowsPerPageOptions={[25, 50, 100, 500]}
           component="div"
           count={total}

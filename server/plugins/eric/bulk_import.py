@@ -6,7 +6,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "httpx",
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -24,7 +24,7 @@ import json
 from collections.abc import Iterator
 from pathlib import Path
 
-from httpx import Client
+from httpx2 import Client
 
 from server.plugins.eric.plugin import EricPlugin
 from server.plugins.ome_plugin import EducationResource

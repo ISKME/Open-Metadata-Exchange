@@ -11,6 +11,8 @@ updates:
           - "*"  # Group all Actions updates into a single larger pull request
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
   - package-ecosystem: "uv"
     directory: /
     groups:
@@ -19,3 +21,5 @@ updates:
           - "*"  # Group all uv updates into a single larger pull request
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7

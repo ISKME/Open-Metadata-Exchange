@@ -1,18 +1,23 @@
 // @ts-nocheck
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Tooltip, IconButton } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { PieChart, LineChart } from "@mui/x-charts";
 import Pagination from "@mui/material/Pagination";
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { DateRange } from "widgets/enum";
+import DrillControls, { useDrill, buildTimelineDrill } from "./DrillControls";
+import colors from "./colors";
+import { buildSectionChartData } from "./chartUtils";
 import { Tabs } from "./";
 // ToDo: Make it Global
-import colors from './colors'
-import cls from './styles.module.scss'
+import cls from "./styles.module.scss";
 import req from "shared/lib/req";
 
-export default function({
+export default function ({
   title,
   description,
   description_heading,
@@ -36,17 +41,21 @@ export default function({
   full = false,
   download = false,
   widgetTypes = [],
-  link = '#',
+  link = "#",
+  disableAutoFetch = false,
 }) {
-  const navigate = useNavigate()
-  const [selectedView, setSelectedView] = useState(viewOptions?.[0]?.slug || null);
+  const navigate = useNavigate();
+  const [selectedView, setSelectedView] = useState(
+    viewOptions?.[0]?.slug || null,
+  );
   const [isOpen, setIsOpen] = useState(true);
   const [fullDataByView, setFullDataByView] = useState({});
+  const [viewMetaByView, setViewMetaByView] = useState({});
   const [timelineAllData, setTimelineAllData] = useState([]);
   const [isFavorite, setIsFavorite] = useState(favoriteWidgetIds.has(widgetId));
   const [timelineData, setTimelineData] = useState([]);
   const [selectedSection, setSelectedSection] = useState(0);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [searchContext, setSearchContext] = useState(null);
@@ -54,19 +63,11 @@ export default function({
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(50);
   const [totalCount, setTotalCount] = useState(0);
-  const currentData = (() => {
-     if (searchPerformed && searchContext === selectedView) return searchResults;
-     if (selectedView === 'line') {
-       return selectedSection === 1 ? timelineAllData : timelineData;
-     }
-     return selectedSection === 1
-       ? (fullDataByView[selectedView] || [])
-       : (data?.[selectedView] || []);
-   })();
-
-  const paginatedData = Array.isArray(currentData)
-    ? currentData.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-    : [];
+  const [hasDrillSections, setHasDrillSections] = useState(false);
+  const urlSectionHint =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("section")
+      : null;
 
   const buildBaseParams = () => {
     const [startDate, endDate] = dateRange;
@@ -79,55 +80,160 @@ export default function({
     };
   };
 
+  const getSortField = () => {
+    if (selectedView === "line") return "visits_count";
+    return selectedView === "all" ? sortBy : selectedView;
+  };
+  const drillLimit = selectedSection === 1 ? 100000 : itemsCount;
+  const {
+    sections: drillSections,
+    setSectionsFromResponse,
+    lvl0Options,
+    selL0,
+    onL0Change,
+    lvl1Options,
+    selL1,
+    onL1Change,
+    chartData: drillChartData,
+    loading0: drillLoading0,
+    loading1: drillLoading1,
+  } = useDrill({
+    full,
+    endpoint,
+    buildBaseParams,
+    getSortField,
+    itemsCount: drillLimit,
+    deps: [dateRange, selectedParams, selectedView, selectedSection],
+    isTimeline: selectedView === "line",
+    sectionHint: urlSectionHint,
+  });
+
+  const selectionActive = Boolean(selL0 || selL1);
+
+  const currentData = (() => {
+    if (searchPerformed && searchContext === selectedView) return searchResults;
+
+    if (
+      full &&
+      selectedView !== "line" &&
+      Array.isArray(drillChartData) &&
+      selectionActive
+    ) {
+      return selectedSection === 0
+        ? drillChartData.slice(0, itemsCount)
+        : drillChartData;
+    }
+
+    if (selectedView === "line") {
+      return selectedSection === 1 ? timelineAllData : timelineData;
+    }
+
+    return selectedSection === 1
+      ? fullDataByView[selectedView] || []
+      : data?.[selectedView] || [];
+  })();
+
+  function getBaseTableData() {
+    if (selectedView === "line") return timelineAllData;
+
+    if (
+      full &&
+      hasDrillSections &&
+      selectionActive &&
+      Array.isArray(drillChartData)
+    ) {
+      return drillChartData;
+    }
+    return fullDataByView[selectedView] || [];
+  }
+
+  const tableBase = getBaseTableData();
+
+  const tableSource =
+    selectedSection === 1
+      ? searchPerformed && searchContext === selectedView
+        ? searchResults
+        : tableBase
+      : currentData;
+
+  const paginatedData = Array.isArray(tableSource)
+    ? tableSource.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+    : [];
+
   const isTabLoading =
     isLoading ||
-    (selectedView === 'line'
-      ? (selectedSection === 1 ? timelineAllData : timelineData).length === 0
-      : (selectedSection === 1
-          ? !Array.isArray(fullDataByView[selectedView])
-          : !Array.isArray(data[selectedView])));
+    (selectedView === "line"
+      ? selectedSection === 1
+        ? timelineAllData.length === 0
+        : timelineData.length === 0
+      : selectedSection === 1
+        ? // TABLE:
+          hasDrillSections && (selL0 || selL1)
+          ? drillLoading0 || drillLoading1 || !Array.isArray(drillChartData)
+          : !Array.isArray(fullDataByView[selectedView])
+        : // GRAPH:
+          !Array.isArray(data[selectedView]));
 
   const hasTableData = selectedSection === 1 && !isTabLoading && totalCount > 0;
 
   const baseReady =
-    selectedView === 'line'
+    selectedView === "line"
       ? timelineAllData.length > 0
-      : Array.isArray(fullDataByView[selectedView]);
+      : full && hasDrillSections && selectionActive
+        ? Array.isArray(drillChartData)
+        : Array.isArray(fullDataByView[selectedView]);
 
   const resetSearch = () => {
-    setSearchText('');
+    setSearchText("");
     setSearchResults([]);
     setSearchPerformed(false);
     setSearchContext(null);
   };
 
   useEffect(() => {
+    if (disableAutoFetch && selectedSection === 0 && selectedView !== "line") {
+      return;
+    }
     setPage(1);
     if (selectedSection !== 1) resetSearch();
 
-    if (selectedView === 'line' && widgetTypes.includes('line')) {
+    if (selectedView === "line" && widgetTypes.includes("line")) {
       const needFull = selectedSection === 1;
-      if (needFull) {
-        if (timelineAllData.length === 0) fetchTimelineData(true);
-        else setTotalCount(timelineAllData.length);
-      } else {
-        if (timelineData.length === 0) fetchTimelineData(false);
-        else setTotalCount(timelineData.length);
-      }
+      fetchTimelineData(needFull);
       return;
     }
 
     const needFull = selectedSection === 1;
+
     if (needFull) {
-      const arr = fullDataByView[selectedView];
-      if (!Array.isArray(arr)) fetchViewData(selectedView, true);
-      else setTotalCount(arr.length);
+      if (hasDrillSections && selectionActive) {
+        setTotalCount(
+          Array.isArray(drillChartData) ? drillChartData.length : 0,
+        );
+      } else {
+        const arr = fullDataByView[selectedView];
+        if (!Array.isArray(arr)) {
+          fetchViewData(selectedView, true);
+        } else {
+          setTotalCount(arr.length);
+        }
+      }
     } else {
       const arr = data[selectedView];
       if (!Array.isArray(arr)) fetchViewData(selectedView, false);
       else setTotalCount(arr.length);
     }
-  }, [selectedView, selectedSection, widgetTypes, dateRange, selectedParams]);
+  }, [
+    selectedView,
+    selectedSection,
+    widgetTypes,
+    dateRange,
+    selectedParams,
+    selL0,
+    selL1,
+    hasDrillSections,
+    disableAutoFetch,
+  ]);
 
   const prevResetRef = useRef(null);
 
@@ -136,7 +242,7 @@ export default function({
     prevResetRef.current = resetViewSignal;
 
     if (resetViewSignal) {
-      setSelectedView('all');
+      setSelectedView("all");
     }
   }, [resetViewSignal]);
 
@@ -145,15 +251,21 @@ export default function({
   }, [favoriteWidgetIds, widgetId]);
 
   useEffect(() => {
-    if (searchText.trim() === '') {
+    if (searchText.trim() === "") {
       resetSearch();
       const base = getBaseTableData();
       setTotalCount(Array.isArray(base) ? base.length : 0);
     }
-  }, [searchText, selectedView, selectedSection, timelineAllData, fullDataByView]);
+  }, [
+    searchText,
+    selectedView,
+    selectedSection,
+    timelineAllData,
+    fullDataByView,
+  ]);
 
   const timelineAbortController = useRef<AbortController | null>(null);
-  const viewAbortController     = useRef<AbortController | null>(null);
+  const viewAbortController = useRef<AbortController | null>(null);
 
   useEffect(() => {
     return () => {
@@ -174,10 +286,42 @@ export default function({
     if (page > pageCount) setPage(1);
   }, [totalCount, rowsPerPage]);
 
-  const getBaseTableData = () =>
-    selectedView === 'line'
-      ? timelineAllData
-      : (fullDataByView[selectedView] || []);
+  useEffect(() => {
+    if (!full || selectedView === "line" || selectedSection !== 1) return;
+    const base = getBaseTableData();
+    setTotalCount(Array.isArray(base) ? base.length : 0);
+    setPage(1);
+  }, [drillChartData, hasDrillSections, selectedView, selectedSection]);
+
+  useEffect(() => {
+    if (!full || selectedView === "line" || selectedSection !== 1) return;
+    setPage(1);
+    const base = getBaseTableData();
+    setTotalCount(Array.isArray(base) ? base.length : 0);
+  }, [selL0, selL1]);
+
+  useEffect(() => {
+    if (!full || selectedView === "line" || selectedSection === 1) return;
+    if (!hasDrillSections) return;
+
+    const noSelection = !selL0 && !selL1;
+    if (!noSelection) return;
+
+    const base = data?.[selectedView];
+    if (!Array.isArray(base)) {
+      fetchViewData(selectedView, false);
+    } else {
+      setTotalCount(base.length);
+    }
+  }, [
+    selL0,
+    selL1,
+    selectedView,
+    selectedSection,
+    full,
+    hasDrillSections,
+    data,
+  ]);
 
   const runLocalSearch = (query: string) => {
     setPage(1);
@@ -193,14 +337,17 @@ export default function({
     if (!Array.isArray(base)) return;
 
     let filtered: any[] = [];
-    if (selectedView === 'line') {
-      filtered = base.filter(r =>
-        (r.eventCategory || '').toLowerCase().includes(q) ||
-        String(r.date || '').toLowerCase().includes(q)
+    if (selectedView === "line") {
+      filtered = base.filter(
+        (r) =>
+          (r.eventCategory || "").toLowerCase().includes(q) ||
+          String(r.date || "")
+            .toLowerCase()
+            .includes(q),
       );
     } else {
-      filtered = base.filter(r =>
-        (r.label || r.name || '').toLowerCase().includes(q)
+      filtered = base.filter((r) =>
+        (r.label || r.name || "").toLowerCase().includes(q),
       );
     }
 
@@ -219,26 +366,33 @@ export default function({
     timelineAbortController.current = controller;
 
     try {
+      const drillParam = hasDrillSections
+        ? buildTimelineDrill(drillSections, selL0, selL1)
+        : null;
+
       const params = {
         ...buildBaseParams(),
         limit: full ? 100000 : itemsCount,
+        ...(drillParam ? { drill: drillParam } : {}),
       };
 
-      const response = await axios.get(`${endpoint}-timeline`, {
+      const cleanEndpoint = endpoint.replace(/\/$/, "");
+      const response = await axios.get(`${cleanEndpoint}-timeline/`, {
         params,
         signal: controller.signal,
       });
 
-      const timeline = Array.isArray(response.data?.data) ? response.data.data : [];
+      const timeline = Array.isArray(response.data?.data)
+        ? response.data.data
+        : [];
 
-      if (selectedViewRef.current !== 'line') return;
+      if (selectedViewRef.current !== "line") return;
       if (full) {
         setTimelineAllData(timeline);
       } else {
         setTimelineData(timeline);
       }
       setTotalCount(timeline.length);
-
     } catch (err) {
       if (axios.isCancel(err)) {
         console.log("Timeline request cancelled");
@@ -248,36 +402,36 @@ export default function({
     }
   };
 
-
   const transformTimelineData = (data) => {
-
     if (!data || data.length === 0) {
       return { series: [], xAxis: [] };
     }
 
-    const allDates = Array.from(
-      new Set(data.map(({ date }) => date))
-    ).sort();
+    const allDates = Array.from(new Set(data.map(({ date }) => date))).sort();
 
     const grouped = {};
 
-    data.forEach(({ date, eventCategory, eventCount }) => {
-      if (!date || !eventCategory) {
-        return;
-      }
-      if (!grouped[eventCategory]) {
-        grouped[eventCategory] = {};
+    const defs: Record<string, string> = {};
+
+    data.forEach(({ date, eventCategory, eventCount, definition }) => {
+      if (!date || !eventCategory) return;
+
+      if (definition && !defs[eventCategory]) {
+        defs[eventCategory] = definition;
       }
 
-      grouped[eventCategory][date] = (grouped[eventCategory][date] || 0) + Number(eventCount || 0);
+      if (!grouped[eventCategory]) grouped[eventCategory] = {};
+      grouped[eventCategory][date] =
+        (grouped[eventCategory][date] || 0) + Number(eventCount || 0);
     });
 
     const series = Object.entries(grouped).map(([category, counts], index) => {
-      const seriesData = allDates.map(date => counts[date] || 0);
+      const seriesData = allDates.map((date) => counts[date] || 0);
 
       return {
         id: category,
         label: category,
+        definition: defs[category] || "",
         data: seriesData,
         area: true,
         showMark: false,
@@ -290,14 +444,21 @@ export default function({
 
   const { series, xAxis } = transformTimelineData(timelineData);
 
-  const fetchViewData = async (viewSlug, full = false) => {
+  const withTrailingSlash = (url: string) => {
+    if (!url) return url;
+    const [path, qs] = url.split("?");
+    const fixed = path.endsWith("/") ? path : `${path}/`;
+    return qs ? `${fixed}?${qs}` : fixed;
+  };
+
+  const fetchViewData = async (viewSlug: string, full = false) => {
     if (viewAbortController.current) {
       viewAbortController.current.abort();
     }
     const controller = new AbortController();
     viewAbortController.current = controller;
 
-    setWidgetLoadingMap(prev => ({ ...prev, [widgetId]: true }));
+    setWidgetLoadingMap((prev) => ({ ...prev, [widgetId]: true }));
 
     try {
       const params = {
@@ -306,29 +467,72 @@ export default function({
         sort_by: viewSlug === "all" ? sortBy : viewSlug,
       };
 
-      const { data: response } = await axios.get(endpoint, {
+      const { data: response } = await axios.get(withTrailingSlash(endpoint), {
         params,
         signal: controller.signal,
       });
+      const responseMeta = response?.meta || {};
+      setViewMetaByView((prev) => ({ ...prev, [viewSlug]: responseMeta }));
 
-      const filteredData = response.data.filter(
-        (item) => (item[params.sort_by] ?? 0) > 0
-      );
-      const chartData = filteredData.map((item, index) => ({
-        id: index,
-        value: item[params.sort_by],
-        label: item.name || '—',
-        url: item.url || '',
-        color: colors[index % colors.length],
-      }));
+      const hasSections =
+        Array.isArray(response?.sections) && response.sections.length > 0;
+
+      setHasDrillSections(hasSections);
+
+      if (hasSections) {
+        setSectionsFromResponse(response);
+      }
+
+      let chartData: any[] = [];
+
+      if (hasSections) {
+        const sectionList: string[] = response.sections;
+        const firstSection: string = sectionList[0];
+
+        const raw: any[] = Array.isArray(response?.[firstSection])
+          ? response[firstSection]
+          : [];
+
+        const filtered = raw.filter(
+          (it: any) => Number(it?.[params.sort_by] ?? 0) > 0,
+        );
+
+        chartData = buildSectionChartData(
+          filtered,
+          sectionList,
+          firstSection,
+          params.sort_by,
+        );
+      } else {
+        const raw: any[] = Array.isArray(response?.data)
+          ? response.data
+          : Array.isArray(response)
+            ? response
+            : [];
+
+        const filtered = raw.filter(
+          (item: any) => Number(item?.[params.sort_by] ?? 0) > 0,
+        );
+
+        chartData = filtered.map((item: any, index: number) => ({
+          ...item,
+          id: index,
+          value: Number(item?.[params.sort_by] ?? 0),
+          label: item?.name || "—",
+          url: item?.url || "",
+          definition: item?.definition || "",
+          color: colors[index % colors.length],
+        }));
+      }
 
       if (selectedViewRef.current !== viewSlug) return;
 
       setTotalCount(chartData.length);
+
       if (full) {
-        setFullDataByView(prev => ({ ...prev, [viewSlug]: chartData }));
+        setFullDataByView((prev) => ({ ...prev, [viewSlug]: chartData }));
       } else {
-        setWidgetDataMap(prev => ({
+        setWidgetDataMap((prev) => ({
           ...prev,
           [widgetId]: {
             ...(prev[widgetId] || {}),
@@ -343,14 +547,16 @@ export default function({
       }
     } finally {
       if (viewAbortController.current === controller) {
-        setWidgetLoadingMap(prev => ({ ...prev, [widgetId]: false }));
+        setWidgetLoadingMap((prev) => ({ ...prev, [widgetId]: false }));
       }
     }
   };
 
   const handleFavoriteClick = async () => {
     try {
-      const data = await req.post('/reports/widget/favorites', { widget_id: widgetId });
+      const data = await req.post("/reports/widget/favorites/", {
+        widget_id: widgetId,
+      });
       const status = data.status;
       const updated = new Set(favoriteWidgetIds);
       if (status === "added") {
@@ -366,32 +572,11 @@ export default function({
     }
   };
 
-  const getDateRangeText = () => {
-    if (range === DateRange.CUSTOM && dateRange?.length === 2) {
-      const [start, end] = dateRange;
-      const diffDays = Math.round((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24));
-      return `${diffDays} ${diffDays === 1 ? 'day' : 'days'}`;
-    }
-
-    switch (range) {
-      case DateRange.LAST_30_DAYS:
-        return 'Last 30 days';
-      case DateRange.LAST_90_DAYS:
-        return 'Last 90 days';
-      case DateRange.LAST_YEAR:
-        return 'Last year';
-      case DateRange.ALL_TIME:
-        return 'All time';
-      default:
-        return '';
-    }
-  };
-
   const handleSearch = () => {
     if (!enable_search) return;
     const q = searchText.trim();
     if (q.length < 3) {
-      alert('Please enter at least 3 characters.');
+      alert("Please enter at least 3 characters.");
       return;
     }
     setPage(1);
@@ -407,28 +592,47 @@ export default function({
     setIsDownloading(true);
 
     try {
-      if (selectedView === 'line') {
+      if (selectedView === "line") {
         const trimmed = searchText.trim();
+        const drillParam = hasDrillSections
+          ? buildTimelineDrill(drillSections, selL0, selL1)
+          : null;
+
         const params = {
           ...buildBaseParams(),
           limit: 100000,
-          ...(searchPerformed && trimmed.length >= 3 ? { search: trimmed } : {}),
+          ...(drillParam ? { drill: drillParam } : {}),
+          ...(searchPerformed && trimmed.length >= 3
+            ? { search: trimmed }
+            : {}),
         };
 
         let raw = [];
-        if (searchPerformed && trimmed.length >= 3 && Array.isArray(searchResults) && searchResults.length) {
+        if (
+          searchPerformed &&
+          trimmed.length >= 3 &&
+          Array.isArray(searchResults) &&
+          searchResults.length
+        ) {
           raw = searchResults;
         } else if (timelineAllData.length) {
           raw = timelineAllData;
         } else {
-          const { data: resp } = await axios.get(`${endpoint}-timeline`, { params });
-          raw = Array.isArray(resp?.data) ? resp.data : (Array.isArray(resp) ? resp : []);
+          const cleanEndpoint = endpoint.replace(/\/$/, "");
+          const { data: resp } = await axios.get(`${cleanEndpoint}-timeline/`, {
+            params,
+          });
+          raw = Array.isArray(resp?.data)
+            ? resp.data
+            : Array.isArray(resp)
+              ? resp
+              : [];
         }
-        const columns = ['Date', title, 'Views'];
-        const rows = raw.map(item => ({
-          'Date': item.date || '',
-          [title]: item.eventCategory || '—',
-          'Views': Number(item.eventCount ?? 0),
+        const columns = ["Date", title, "Views"];
+        const rows = raw.map((item) => ({
+          Date: item.date || "",
+          [title]: item.eventCategory || "—",
+          Views: Number(item.eventCount ?? 0),
         }));
 
         if (!rows.length) {
@@ -437,21 +641,28 @@ export default function({
         }
 
         const csvContent = [
-          columns.join(','),
-          ...rows.map(row =>
-            columns.map(col => {
-              const v = row[col];
-              if (typeof v === 'number') return String(v);
-              return `"${String(v ?? '').replace(/"/g, '""')}"`;
-            }).join(',')
+          columns.join(","),
+          ...rows.map((row) =>
+            columns
+              .map((col) => {
+                const v = row[col];
+                if (typeof v === "number") return String(v);
+                return `"${String(v ?? "").replace(/"/g, '""')}"`;
+              })
+              .join(","),
           ),
-        ].join('\n');
+        ].join("\n");
 
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob([csvContent], {
+          type: "text/csv;charset=utf-8;",
+        });
         const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = url;
-        link.setAttribute('download', `${title.replace(/\s+/g, '_')}_over_time.csv`);
+        link.setAttribute(
+          "download",
+          `${title.replace(/\s+/g, "_")}_over_time.csv`,
+        );
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -459,28 +670,59 @@ export default function({
       }
 
       const sort_field = selectedView === "all" ? sortBy : selectedView;
-      const valueTitle = viewOptions.find((v) => v.slug === selectedView)?.title?.replace(/^By /, '') || 'Value';
+      const valueTitle =
+        viewOptions
+          .find((v) => v.slug === selectedView)
+          ?.title?.replace(/^By /, "") || "Value";
 
       const params = {
         ...buildBaseParams(),
         limit: 100000,
         sort_by: sort_field,
-        ...(searchPerformed && searchText.trim() && { search: searchText.trim() }),
+        ...(searchPerformed &&
+          searchText.trim() && { search: searchText.trim() }),
       };
 
       let filteredData;
       if (searchPerformed && searchText.trim()) {
-        filteredData = searchResults.map(r => ({ name: r.label, [params.sort_by]: r.value }));
-      } else if (fullDataByView[selectedView]?.length) {
-        filteredData = fullDataByView[selectedView].map(r => ({ name: r.label, [params.sort_by]: r.value }));
+        filteredData = searchResults.map((r) => ({
+          name: r.label,
+          [params.sort_by]: r.value,
+        }));
+      } else if (Array.isArray(tableBase) && tableBase.length) {
+        filteredData = tableBase.map((r) => ({
+          name: r.label,
+          [params.sort_by]: r.value,
+        }));
       } else {
-        const { data: response } = await axios.get(endpoint, { params });
-        filteredData = response.data.filter(item => (item[params.sort_by] ?? 0) > 0);
+        const { data: response } = await axios.get(
+          withTrailingSlash(endpoint),
+          { params },
+        );
+
+        let raw: any[] = [];
+        if (Array.isArray(response?.sections) && response.sections.length) {
+          const sectionList: string[] = response.sections;
+          const firstSection: string = sectionList[0];
+          raw = Array.isArray(response[firstSection])
+            ? response[firstSection]
+            : [];
+        } else {
+          raw = Array.isArray(response?.data)
+            ? response.data
+            : Array.isArray(response)
+              ? response
+              : [];
+        }
+
+        filteredData = raw.filter(
+          (item: any) => Number(item?.[params.sort_by] ?? 0) > 0,
+        );
       }
 
       const columns = [title, valueTitle];
-      const rows = filteredData.map(item => ({
-        [title]: item.name || '—',
+      const rows = filteredData.map((item) => ({
+        [title]: item.name || "—",
         [valueTitle]: Number(item[params.sort_by] ?? 0),
       }));
 
@@ -490,21 +732,25 @@ export default function({
       }
 
       const csvContent = [
-        columns.join(','),
-        ...rows.map(row =>
-          columns.map(col => `"${String(row[col] ?? '').replace(/"/g, '""')}"`).join(',')
+        columns.join(","),
+        ...rows.map((row) =>
+          columns
+            .map((col) => `"${String(row[col] ?? "").replace(/"/g, '""')}"`)
+            .join(","),
         ),
-      ].join('\n');
+      ].join("\n");
 
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.setAttribute('download', `${title.replace(/\s+/g, '_')}_${selectedView}.csv`);
+      link.setAttribute(
+        "download",
+        `${title.replace(/\s+/g, "_")}_${selectedView}.csv`,
+      );
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
     } catch (error) {
       console.error("Error downloading CSV", error);
     } finally {
@@ -515,227 +761,419 @@ export default function({
   return (
     <div className={cls.widgetCard}>
       <div className={cls.widgetHeaderRow}>
-        <div className={cls.favIcon} onClick={handleFavoriteClick}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill={isFavorite ? "black" : "none"} stroke="black" strokeWidth="2">
-            <path d="M20.84 4.61c-1.54-1.41-4.04-1.33-5.49.26L12 7.77l-3.35-2.9C7.2 3.28 4.7 3.2 3.16 4.61c-1.64 1.51-1.72 4.01-.21 5.65l8.09 8.48a1 1 0 0 0 1.42 0l8.09-8.48c1.51-1.64 1.43-4.14-.21-5.65z" />
-          </svg>
-        </div>
+        <IconButton
+          type="button"
+          className={cls.favIcon}
+          onClick={handleFavoriteClick}
+          aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          size="small"
+        >
+          {isFavorite ? (
+            <FavoriteIcon fontSize="small" />
+          ) : (
+            <FavoriteBorderIcon fontSize="small" />
+          )}
+        </IconButton>
         <div className={cls.widgetTitle}>
-          <p><span>{title}</span></p>
+          <p className={cls.titleRow}>
+            <span>{title}</span>
+
+            {!full && description?.trim() ? (
+              <Tooltip title={description} arrow placement="top">
+                <IconButton
+                  type="button"
+                  size="small"
+                  className={cls.titleInfoIcon}
+                  aria-label={`Show description for ${title}`}
+                >
+                  <InfoOutlinedIcon
+                    fontSize="small"
+                    className={cls.infoSvgIcon}
+                  />
+                </IconButton>
+              </Tooltip>
+            ) : null}
+          </p>
         </div>
         <div style={{ flex: 1 }}></div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} onClick={() => navigate(!full ? link : '/reports/dashboard')}>
-          {!full ? <>
-            <svg width="22" height="17" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12.8445 1L20.4 8.55554L12.8445 16.1111" stroke="#3A853A"/>
-              <path d="M19.6444 8.55566H0" stroke="#3A853A"/>
-            </svg>
-            <span>View more</span>
-          </> : <>
-            <svg xmlns="http://www.w3.org/2000/svg" width="6" height="10" viewBox="0 0 6 10" fill="none">
-              <path d="M5 9L1 5L5 1" stroke="#3A853A"/>
-            </svg>
-            <span>Back</span>
-          </>}
-        </div>
+        <button
+          type="button"
+          className={cls.viewMoreButton}
+          onClick={() => navigate(!full ? link : "/reports/dashboard")}
+          aria-label={
+            !full ? `View more about ${title}` : "Back to reports dashboard"
+          }
+        >
+          {!full ? (
+            <>
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                width="22"
+                height="17"
+                viewBox="0 0 22 17"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12.8445 1L20.4 8.55554L12.8445 16.1111"
+                  stroke="currentColor"
+                />
+                <path d="M19.6444 8.55566H0" stroke="currentColor" />
+              </svg>
+              <span>View more</span>
+            </>
+          ) : (
+            <>
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="6"
+                height="10"
+                viewBox="0 0 6 10"
+                fill="none"
+              >
+                <path d="M5 9L1 5L5 1" stroke="currentColor" />
+              </svg>
+              <span>Back</span>
+            </>
+          )}
+        </button>
       </div>
       {/* <p className={cls.fullReportLink}>
         View Full Report
       </p> */}
 
-      {full && <>
-        <div className={cls.widgetDescriptionBox}>
-          <div className={cls.descriptionHeader} onClick={() => setIsOpen(!isOpen)}>
-            <div className={cls.descriptionTitle}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="10" stroke="black" strokeWidth="2" />
-                <path
-                  d="M12 8C11.2044 8 10.4413 8.31607 9.87868 8.87868C9.31607 9.44129 9 10.2044 9 11H11C11 10.7348 11.1054 10.4804 11.2929
-                  10.2929C11.4804 10.1054 11.7348 10 12 10C12.2652 10 12.5196 10.1054 12.7071 10.2929C12.8946 10.4804 13 10.7348 13 11C13
-                  11.5523 12.5523 12 12 12C11.4477 12 11 12.4477 11 13V14H13V13.5C13.7956 13.5 14.5587 13.1839 15.1213 12.6213C15.6839
-                  12.0587 16 11.2956 16 10.5C16 9.70435 15.6839 8.94129 15.1213 8.37868C14.5587 7.81607 13.7956 7.5 13 7.5H12Z"
-                  fill="black"
-                />
-                <rect x="11" y="16" width="2" height="2" fill="black" />
-              </svg>
-              <span>{description_heading}</span>
-            </div>
-            <div className={`${cls.viewArrow} ${isOpen ? cls.viewArrowOpen : ''}`}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="#000" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </div>
-          </div>
+      {full && (
+        <>
+          <div className={cls.widgetDescriptionBox}>
+            <button
+              type="button"
+              className={cls.descriptionHeader}
+              onClick={() => setIsOpen(!isOpen)}
+              aria-expanded={isOpen}
+              aria-controls={`widget-description-${widgetId}`}
+            >
+              <span className={cls.descriptionTitle}>
+                <span className={cls.questionIcon} aria-hidden="true">
+                  ?
+                </span>
+                <span>{description_heading}</span>
+              </span>
 
-          {isOpen && (
-            <p className={cls.descriptionText}>
-              {description}
-            </p>
-          )}
-        </div>
-      </>}
+              <span
+                className={`${cls.viewArrow} ${
+                  isOpen ? cls.viewArrowOpen : ""
+                }`}
+                aria-hidden="true"
+              >
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M6 9l6 6 6-6"
+                    stroke="#000"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
+            </button>
+
+            {isOpen && (
+              <p
+                id={`widget-description-${widgetId}`}
+                className={cls.descriptionText}
+              >
+                {description}
+              </p>
+            )}
+          </div>
+        </>
+      )}
 
       {/* Dynamic Tabs */}
-      {full && <>
-        <span>Select View</span>
-        <div className={cls.tabRowWrap} >
-          <div className={cls.tabOptions} >
-            {viewOptions.map(option => (
-              <div
-                key={option.slug}
-                className={`${cls.tabOption} ${selectedView === option.slug ? cls.tabOptionActive : ''}`}
-                onClick={() => setSelectedView(option.slug)}
-              >
-                {option.title}
-              </div>
-            ))}
-            {full && widgetTypes.includes('line') && (
-              <div
-                className={`${cls.tabOption} ${selectedView === 'line' ? cls.tabOptionActive : ''}`}
-                onClick={() => setSelectedView('line')}
-              >
-                Over time
+      {full && (
+        <>
+          <span>Select View</span>
+          <div className={cls.tabRowWrap}>
+            <div className={cls.tabOptions} role="tablist" aria-label="Select view">
+              {viewOptions.map((option) => {
+                const definition = option?.definition?.trim();
+                const isSelected = selectedView === option.slug;
+
+                return (
+                  <Tooltip
+                    key={option.slug}
+                    title={definition || ""}
+                    arrow
+                    placement="top"
+                    disableHoverListener={!definition}
+                    disableFocusListener={!definition}
+                    disableTouchListener={!definition}
+                  >
+                    <button
+                      type="button"
+                      role="tab"
+                      className={`${cls.tabOption} ${
+                        isSelected ? cls.tabOptionActive : ""
+                      }`}
+                      aria-selected={isSelected}
+                      onClick={() => {
+                        if (selectedView !== option.slug) {
+                          resetSearch();
+                          setPage(1);
+                        }
+                        setSelectedView(option.slug);
+                      }}
+                    >
+                      {option.title}
+                    </button>
+                  </Tooltip>
+                );
+              })}
+
+              {full && widgetTypes.includes("line") && (
+                <Tooltip
+                  title="Total count of events over time"
+                  arrow
+                  placement="top"
+                >
+                  <button
+                    type="button"
+                    role="tab"
+                    className={`${cls.tabOption} ${
+                      selectedView === "line" ? cls.tabOptionActive : ""
+                    }`}
+                    aria-selected={selectedView === "line"}
+                    onClick={() => {
+                      if (selectedView !== "line") {
+                        resetSearch();
+                        setPage(1);
+                      }
+                      setSelectedView("line");
+                    }}
+                  >
+                    Over time
+                  </button>
+                </Tooltip>
+              )}
+            </div>
+
+            {hasDrillSections && (
+              <div className={cls.controlsRow}>
+                <DrillControls
+                  widgetId={widgetId}
+                  sections={drillSections}
+                  lvl0Options={lvl0Options}
+                  selL0={selL0}
+                  onL0Change={onL0Change}
+                  lvl1Options={lvl1Options}
+                  selL1={selL1}
+                  onL1Change={onL1Change}
+                  lvl0Loading={drillLoading0 || !lvl0Options.length}
+                  lvl1Loading={
+                    drillLoading1 || (Boolean(selL0) && !lvl1Options.length)
+                  }
+                />
               </div>
             )}
           </div>
-        </div>
-      </>}
+        </>
+      )}
 
       <div className={cls.widgetBodyWrapper}>
-        {full && widgetTypes.includes('table') && (
-        <>
-          <div className={cls.tabSwitcherRow} >
-            <div></div>
-            <Tabs label="" items={['Graph', 'Table']} onChange={setSelectedSection} />
-          </div>
-
-          {download && selectedSection === 1 && (
-            <div className={cls.actionBar}>
-              {enable_search && (
-                <>
-                  <div className={cls.searchInputWrap}>
-                    <input
-                      value={searchText}
-                      onChange={(e) => setSearchText(e.target.value)}
-                      onKeyDown={(e) =>
-                        e.key === 'Enter' && searchText.trim().length >= 3 && handleSearch()
-                      }
-                      placeholder="Search..."
-                      className={cls.searchInput}
-                    />
-                    {searchText && (
-                      <button
-                        type="button"
-                        aria-label="Clear search"
-                        className={cls.clearBtn}
-                        onClick={() => {
-                          setSearchText('');
-                          setPage(1);
-                        }}
-                      >
-                        ×
-                      </button>
-                    )}
-                  </div>
-
-                  <button
-                    onClick={handleSearch}
-                    disabled={searchText.trim().length < 3 || !baseReady}
-                    className={cls.actionButton}
-                  >
-                    Search
-                  </button>
-                </>
-              )}
-
-              <button
-                onClick={handleDownloadCSV}
-                disabled={isDownloading || !hasTableData}
-                className={cls.actionButton}
-              >
-                {isDownloading ? (
-                  <>
-                    <span>Downloading…</span>
-                    <span className="spinner" />
-                  </>
-                ) : (
-                  'Download CSV'
-                )}
-              </button>
+        {full && widgetTypes.includes("table") && (
+          <>
+            <div className={cls.tabSwitcherRow}>
+              <div></div>
+              <Tabs
+                label=""
+                items={["Graph", "Table"]}
+                onChange={setSelectedSection}
+              />
             </div>
+
+            {download && selectedSection === 1 && (
+              <div className={cls.actionBar}>
+                {enable_search && (
+                  <>
+                    <div className={cls.searchInputWrap}>
+                      <input
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onKeyDown={(e) =>
+                          e.key === "Enter" &&
+                          searchText.trim().length >= 3 &&
+                          handleSearch()
+                        }
+                        placeholder="Search..."
+                        className={cls.searchInput}
+                      />
+                      {searchText && (
+                        <button
+                          type="button"
+                          aria-label="Clear search"
+                          className={cls.clearBtn}
+                          onClick={() => {
+                            setSearchText("");
+                            setPage(1);
+                          }}
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={handleSearch}
+                      disabled={searchText.trim().length < 3 || !baseReady}
+                      className={cls.actionButton}
+                    >
+                      Search
+                    </button>
+                  </>
+                )}
+
+                <button
+                  onClick={handleDownloadCSV}
+                  disabled={isDownloading || !hasTableData}
+                  className={cls.actionButton}
+                >
+                  {isDownloading ? (
+                    <>
+                      <span>Downloading…</span>
+                      <span className="spinner" />
+                    </>
+                  ) : (
+                    "Download CSV"
+                  )}
+                </button>
+              </div>
             )}
           </>
         )}
 
         {/* Chart */}
-        {selectedSection === 0 && (
-        ((
-          selectedView === 'line'
-            ? (timelineData.length === 0)
-            : (!data[selectedView] && !searchPerformed)
-        ) || isLoading) ? (
-          <div className={cls.chartLoading}>
-            <CircularProgress />
-          </div>
-        ) : (
-          (currentData?.length > 0 || series.length > 0) ? (
+        {selectedSection === 0 &&
+          ((selectedView === "line"
+            ? timelineData.length === 0
+            : !data[selectedView] && !searchPerformed) || isLoading ? (
+            <div className={cls.chartLoading}>
+              <CircularProgress aria-label="Loading chart data" />
+            </div>
+          ) : currentData?.length > 0 || series.length > 0 ? (
             <div className={cls.chartSection}>
               <div className={cls.chartContainer}>
-                {selectedView !== 'line' && (
-                  <PieChart
-                    series={[{ data: currentData, arcLabel: () => '' }]}
-                    width={300}
-                    height={300}
-                    slotProps={{ legend: { hidden: true } }}
-                  />
-                )}
-                {selectedView === 'line' && series.length > 0 && xAxis.length > 0 && (
-                  <div style={{ width: '100%', overflowX: 'auto' }}>
-                    <LineChart
-                      xAxis={[{
-                        id: 'timeline',
-                        data: xAxis,
-                        scaleType: 'band',
-                        valueFormatter: (val) => val,
-                        label: 'Date',
-                      }]}
-                      series={series}
-                      height={420}
-                      width={Math.max(640, xAxis.length * 60)}
+                {selectedView !== "line" && (
+                  <div aria-hidden="true" className={cls.chartGraphic}>
+                    <PieChart
+                      series={[{ data: currentData, arcLabel: () => "" }]}
+                      width={300}
+                      height={300}
                       slotProps={{ legend: { hidden: true } }}
                     />
                   </div>
                 )}
+
+                {selectedView === "line" &&
+                  series.length > 0 &&
+                  xAxis.length > 0 && (
+                    <div
+                      aria-hidden="true"
+                      className={cls.chartGraphic}
+                      style={{ width: "100%", overflowX: "auto" }}
+                    >
+                      <LineChart
+                        xAxis={[
+                          {
+                            id: "timeline",
+                            data: xAxis,
+                            scaleType: "band",
+                            valueFormatter: (val) => val,
+                            label: "Date",
+                          },
+                        ]}
+                        series={series}
+                        height={420}
+                        width={Math.max(640, xAxis.length * 60)}
+                        slotProps={{ legend: { hidden: true } }}
+                      />
+                    </div>
+                  )}
               </div>
               <div className={cls.chartLegend}>
-                {(selectedView === 'line' ? series : currentData).map((item, i) => (
-                  <div key={item.id || item.url || item.label} className={cls.legendItem}>
-                    <div
-                      className={cls.legendColor}
-                      style={{ background: item.color || colors[i % colors.length] }}
-                    />
-                    {item.url ? (
-                      <a href={item.url} target="_blank" rel="noopener noreferrer" className={cls.legendLabel}>
+                {(selectedView === "line" ? series : currentData).map(
+                  (item, i) => {
+                    const labelNode = item.url ? (
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cls.legendLabel}
+                      >
                         {item.label}
                       </a>
                     ) : (
                       <span className={cls.legendLabel}>{item.label}</span>
-                    )}
-                  </div>
-                ))}
+                    );
+
+                    return (
+                      <div
+                        key={item.id || item.url || item.label}
+                        className={cls.legendItem}
+                      >
+                        <div
+                          className={cls.legendColor}
+                          style={{
+                            background: item.color || colors[i % colors.length],
+                          }}
+                        />
+
+                        {labelNode}
+
+                        {selectedView !== "line" &&
+                        typeof item.value === "number" ? (
+                          <span className={cls.legendValue}>
+                            {item.value.toLocaleString()}
+                          </span>
+                        ) : null}
+
+                        {item.definition ? (
+                          <Tooltip
+                            title={item.definition}
+                            arrow
+                            placement="top"
+                          >
+                            <IconButton
+                              type="button"
+                              size="small"
+                              className={cls.infoIcon}
+                              aria-label={`Show definition for ${item.label}`}
+                            >
+                              <InfoOutlinedIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                        ) : null}
+                      </div>
+                    );
+                  },
+                )}
               </div>
             </div>
           ) : (
-            <div className={cls.chartEmpty}>
-              No data to display
-            </div>
-          )
-        )
-      )}
+            <div className={cls.chartEmpty}>No data to display</div>
+          ))}
 
         {selectedSection === 1 && (
           <div>
-            {selectedView === 'line' ? (
+            {selectedView === "line" ? (
               <div className={cls.table}>
                 {paginatedData.length > 0 ? (
                   <table>
@@ -749,15 +1187,19 @@ export default function({
                     <tbody>
                       {paginatedData.map((row, i) => (
                         <tr key={i}>
-                          <td>{row?.date || ''}</td>
-                          <td>{row?.eventCategory || '—'}</td>
-                          <td>{Number(row?.eventCount ?? 0).toLocaleString()}</td>
+                          <td>{row?.date || ""}</td>
+                          <td>{row?.eventCategory || "—"}</td>
+                          <td>
+                            {Number(row?.eventCount ?? 0).toLocaleString()}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 ) : isTabLoading ? (
-                  <div className={cls.chartLoading}><CircularProgress /></div>
+                  <div className={cls.chartLoading}>
+                    <CircularProgress aria-label="Loading table data" />
+                  </div>
                 ) : (
                   <div className={cls.chartEmpty}>No data to display</div>
                 )}
@@ -768,31 +1210,107 @@ export default function({
                   <table>
                     <thead>
                       <tr>
-                        <th style={{ width: '80%' }}>{title}</th>
-                        <th style={{ width: '20%' }}>
-                          {viewOptions.find((v) => v.slug === selectedView)?.title?.replace(/^By /, '') || 'Value'}
-                        </th>
+                        {Array.isArray(
+                          viewMetaByView?.[selectedView]?.table_columns,
+                        ) &&
+                        viewMetaByView[selectedView].table_columns.length ? (
+                          viewMetaByView[selectedView].table_columns.map(
+                            (c) => <th key={c.key}>{c.label}</th>,
+                          )
+                        ) : (
+                          <>
+                            <th style={{ width: "80%" }}>{title}</th>
+                            <th style={{ width: "20%" }}>
+                              {viewOptions
+                                .find((v) => v.slug === selectedView)
+                                ?.title?.replace(/^By /, "") || "Value"}
+                            </th>
+                          </>
+                        )}
                       </tr>
                     </thead>
+
                     <tbody>
-                      {paginatedData.map((item, i) => (
-                        <tr key={i}>
-                          <td style={{ width: '70%' }}>
-                            {item.url ? (
-                              <a href={item.url} target="_blank" rel="noopener noreferrer">
-                                {item.label}
-                              </a>
-                            ) : (
-                              item.label
-                            )}
-                          </td>
-                          <td style={{ width: '30%' }}>{Number(item?.value ?? 0).toLocaleString()}</td>
-                        </tr>
-                      ))}
+                      {paginatedData.map((item, i) => {
+                        const cols =
+                          Array.isArray(
+                            viewMetaByView?.[selectedView]?.table_columns,
+                          ) && viewMetaByView[selectedView].table_columns.length
+                            ? viewMetaByView[selectedView].table_columns
+                            : null;
+
+                        if (!cols) {
+                          return (
+                            <tr key={i}>
+                              <td style={{ width: "70%" }}>
+                                {item.url ? (
+                                  <a
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {item.label}
+                                  </a>
+                                ) : (
+                                  item.label
+                                )}
+                              </td>
+                              <td style={{ width: "30%" }}>
+                                {Number(item?.value ?? 0).toLocaleString()}
+                              </td>
+                            </tr>
+                          );
+                        }
+
+                        return (
+                          <tr key={i}>
+                            {cols.map((c) => {
+                              const raw = item?.[c.key];
+
+                              if (c.key === "name" || c.key === "label") {
+                                const text = item?.label ?? item?.name ?? "—";
+                                return (
+                                  <td key={c.key}>
+                                    {item?.url ? (
+                                      <a
+                                        href={item.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {text}
+                                      </a>
+                                    ) : (
+                                      text
+                                    )}
+                                  </td>
+                                );
+                              }
+
+                              if (
+                                raw === null ||
+                                raw === undefined ||
+                                raw === ""
+                              ) {
+                                return <td key={c.key}>—</td>;
+                              }
+
+                              if (typeof raw === "number") {
+                                return (
+                                  <td key={c.key}>{raw.toLocaleString()}</td>
+                                );
+                              }
+
+                              return <td key={c.key}>{String(raw)}</td>;
+                            })}
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 ) : isTabLoading ? (
-                  <div className={cls.chartLoading}><CircularProgress /></div>
+                  <div className={cls.chartLoading}>
+                    <CircularProgress aria-label="Loading table data" />
+                  </div>
                 ) : searchPerformed ? (
                   <div className={cls.chartEmpty}>No results found.</div>
                 ) : (
@@ -802,7 +1320,13 @@ export default function({
             )}
 
             {!isTabLoading && totalCount > 0 && (
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "1rem",
+                }}
+              >
                 <Pagination
                   key={selectedView}
                   count={Math.ceil(totalCount / rowsPerPage) || 1}
@@ -816,5 +1340,5 @@ export default function({
         )}
       </div>
     </div>
-  )
+  );
 }

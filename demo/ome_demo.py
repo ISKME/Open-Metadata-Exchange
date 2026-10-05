@@ -4,7 +4,7 @@
 # requires-python = ">=3.13"
 # dependencies = [
 #   "fastapi",
-#   "httpx",
+#   "httpx2",
 #   "python-multipart",
 # ]
 # ///
@@ -18,7 +18,7 @@ Import FastAPI and use it retrieve multiple different resources
 
 from typing import Annotated
 
-import httpx
+import httpx2
 from fastapi import FastAPI, File, Form, UploadFile
 
 app = FastAPI()
@@ -46,7 +46,7 @@ async def image() -> bytes:
         "https://digitalcollections.detroitpubliclibrary.org/islandora/object"
         "/islandora%3A236607/datastream/IMAGE/view"
     )
-    async with httpx.AsyncClient() as httpx_async_client:
+    async with httpx2.AsyncClient() as httpx_async_client:
         return await httpx_async_client.get(image_url).raise_for_status().content
 
 

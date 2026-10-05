@@ -4,7 +4,13 @@
     background: #E3E3E3;
     padding: 8px 12px;
     font-size: 16px;
+    font-family: inherit;
     cursor: pointer;
+
+    &:focus-visible {
+        outline: 2px solid #005fcc;
+        outline-offset: 2px;
+    }
 }
 
 .widgetSectionHeader {
@@ -44,11 +50,10 @@
         margin-bottom: 20px;
 
         .favIcon {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2px;
+            width: 32px;
+            height: 32px;
+            padding: 4px;
+            color: #1e1e1e;
             transition: transform 0.2s ease;
 
             svg {
@@ -56,7 +61,12 @@
             }
 
             &:hover {
-                transform: scale(1.3);
+                transform: scale(1.15);
+            }
+
+            &:focus-visible {
+                outline: 2px solid #005fcc;
+                outline-offset: 2px;
             }
         }
 
@@ -142,10 +152,22 @@
         gap: 8px;
         flex: 0 0 auto;
         white-space: nowrap;
+
         &:disabled {
             cursor: not-allowed;
         }
+
+        &:focus-visible {
+            outline: 2px solid #005fcc;
+            outline-offset: 2px;
+        }
     }
+}
+
+.widgetCard a:focus-visible {
+    outline: 2px solid #005fcc;
+    outline-offset: 3px;
+    border-radius: 2px;
 }
 
 .widgetDescriptionBox {
@@ -156,10 +178,23 @@
     background: #FAFAFA;
 
     .descriptionHeader {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        font: inherit;
+        color: inherit;
+        text-align: left;
         display: flex;
         align-items: center;
         justify-content: space-between;
         cursor: pointer;
+
+        &:focus-visible {
+            outline: 2px solid #005fcc;
+            outline-offset: 4px;
+        }
 
         .descriptionTitle {
             display: flex;
@@ -190,17 +225,23 @@
 
 .tabRowWrap {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+    justify-content: flex-start;
+    align-items: center;
     flex-wrap: wrap;
     gap: 8px;
+}
+
+.controlsRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 12px;
 }
 
 .tabOptions {
     display: flex;
     margin-top: 8px;
     background: #F2F2F7;
-    cursor: pointer;
     border-radius: 8px;
     overflow: hidden;
     width: fit-content;
@@ -209,13 +250,22 @@
     gap: 8px;
 
     .tabOption {
+        border: 0;
         padding: 8px 24px;
         background: transparent;
         color: inherit;
+        font: inherit;
+        cursor: pointer;
+        min-height: 44px;
 
         &.tabOptionActive {
             background: black;
             color: white;
+        }
+
+        &:focus-visible {
+            outline: 2px solid #005fcc;
+            outline-offset: -2px;
         }
     }
 }
@@ -261,10 +311,27 @@
                 flex-shrink: 0;
             }
 
+            .legendValue {
+                color: #8d8d8d;
+                font-size: 11px;
+                font-weight: 400;
+                white-space: nowrap;
+            }
+
             .legendLabel {
-                font-size: 14px;
-                text-decoration: none;
                 color: #023774;
+                text-decoration: none;
+                border-radius: 2px;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+
+                &:focus-visible {
+                    outline: 2px solid #005fcc;
+                    outline-offset: 3px;
+                    text-decoration: underline;
+                }
             }
         }
     }
@@ -277,10 +344,12 @@
     display: flex;
     gap: 12px;
     margin-bottom: 16px;
+
     input {
         border: none;
         box-shadow: none;
         flex: 1;
+
         &::placeholder {
             font-style: normal;
         }
@@ -293,8 +362,10 @@
     padding: 16px;
     max-height: 496px;
     overflow-y: auto;
+
     table {
         width: 100%;
+
         thead {
             tr {
                 background: #f4f4f5;
@@ -303,13 +374,16 @@
                 font-size: 12px;
                 overflow: hidden;
                 padding: 12px;
+
                 th {
                     padding: 12px;
                     text-align: left;
+
                     &:first-child {
                         border-top-left-radius: 8px;
                         border-bottom-left-radius: 8px;
                     }
+
                     &:last-child {
                         border-top-right-radius: 8px;
                         border-bottom-right-radius: 8px;
@@ -317,17 +391,21 @@
                 }
             }
         }
+
         tbody {
             tr:nth-child(even) {
                 background: #f4f4f5;
             }
+
             td {
                 padding: 12px;
                 font-size: 14px;
+
                 &:first-child {
                     border-top-left-radius: 8px;
                     border-bottom-left-radius: 8px;
                 }
+
                 &:last-child {
                     border-top-right-radius: 8px;
                     border-bottom-right-radius: 8px;
@@ -345,8 +423,296 @@
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
 }
+
 @keyframes spin {
     to {
         transform: rotate(360deg);
     }
+}
+
+.filtersRow :global(.MuiAutocomplete-option) {
+    font-size: 0.95rem;
+}
+
+.filtersRow :global(.MuiAutocomplete-input) {
+    font-size: 0.95rem;
+}
+
+.titleRow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.infoIcon,
+.titleInfoIcon {
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    margin-left: 2px;
+    color: #6f6f6f !important;
+    line-height: 0;
+
+    &:hover {
+        color: #303030 !important;
+    }
+
+    &:focus-visible {
+        outline: 2px solid #005fcc;
+        outline-offset: 2px;
+    }
+}
+
+.infoSvgIcon {
+    color: inherit !important;
+}
+
+.infoSvgIcon path {
+    fill: currentColor;
+}
+
+.questionIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #bdbdbd;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #6f6f6f;
+}
+
+.viewMoreButton {
+    border: 0;
+    background: transparent;
+    padding: 4px;
+    margin: 0;
+    font: inherit;
+    color: #2B742F;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+
+    &:focus-visible {
+        outline: 2px solid #005fcc;
+        outline-offset: 2px;
+    }
+}
+
+@media (min-width: 651px) and (max-width: 1199px) {
+    .widgetCard {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .widgetBodyWrapper {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .chartSection {
+        width: 100%;
+        min-width: 0;
+        gap: 20px;
+
+        .chartContainer {
+            flex: 0 0 300px;
+            max-width: 300px !important;
+            min-width: 0;
+        }
+
+        .chartLegend {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .legendItem {
+            min-width: 0;
+        }
+
+        .legendLabel {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+    }
+}
+
+@media (max-width: 650px) {
+    .widgetCard {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        min-height: auto;
+        padding: 16px;
+        overflow: hidden;
+        box-sizing: border-box;
+
+        .widgetHeaderRow {
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .widgetTitle {
+            min-width: 0;
+            flex: 1 1 calc(100% - 48px);
+
+            p {
+                font-size: 20px;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+        }
+
+        .widgetBodyWrapper {
+            width: 100%;
+            min-width: 0;
+            padding: 0;
+            overflow: visible;
+            box-sizing: border-box;
+        }
+    }
+
+    .titleRow {
+        flex-wrap: wrap;
+        gap: 6px;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .viewMoreButton {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: 4px;
+    }
+
+    .chartSection {
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        width: 100%;
+        min-width: 0;
+        gap: 12px;
+
+        .chartContainer {
+            flex: 0 0 auto;
+            width: 100%;
+            max-width: 100% !important;
+            min-width: 0;
+            min-height: 260px;
+            overflow-x: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chartGraphic {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .chartGraphic :global(.MuiChartsSurface-root) {
+            width: 100%;
+            max-width: 260px;
+            height: auto;
+        }
+
+        .chartGraphic :global(.MuiChartsSurface-root) {
+            width: 100%;
+            max-width: 260px;
+            height: auto;
+        }
+
+        .chartLegend {
+            flex: 0 0 auto;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .legendItem {
+            align-items: flex-start;
+            min-width: 0;
+        }
+
+        .legendLabel {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+    }
+
+    .tabRowWrap,
+    .controlsRow,
+    .actionBar {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        min-width: 0;
+        margin-left: 0;
+        gap: 12px;
+    }
+
+    .tabOptions {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
+    .tabOption {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+
+    .searchInputWrap,
+    .searchInput,
+    .actionButton {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .table {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .table table {
+        min-width: 520px;
+    }
+
+    .widgetDescriptionBox {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .descriptionHeader,
+    .descriptionTitle {
+        min-width: 0;
+    }
+
+    .descriptionText {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+}
+
+.chartGraphic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
 }

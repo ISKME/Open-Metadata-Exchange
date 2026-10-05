@@ -19,8 +19,6 @@
 #   filename:  ERIC-open-records.json
 #   timestamp: 2025-05-11T10:03:25+00:00
 
-from __future__ import annotations
-
 from pydantic import BaseModel, Field, RootModel
 
 

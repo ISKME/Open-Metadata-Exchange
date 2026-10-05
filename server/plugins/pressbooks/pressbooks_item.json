@@ -1,0 +1,25 @@
+{
+  "id": 2458,
+  "link": "https://python.youcanlearnit.net",
+  "title": {
+    "rendered": "Python for Everybody: Exploring Data Using Python 3"
+  },
+  "metadata": {
+    "pb_title": "Python for Everybody: Exploring Data Using Python 3",
+    "pb_subtitle": "Exploring Data Using Python 3",
+    "pb_short_title": "Python for Everybody",
+    "pb_authors": "Charles R. Severance",
+    "pb_editors": "",
+    "pb_description": "This book is designed to introduce students to programming and computational thinking through the lens of exploring data. You can think of Python as your tool to solve data problems that are beyond the capability of a spreadsheet. Python is an easy to use and easy to learn programming language that is freely available on Macintosh, Windows, or Linux computers. There are free textbooks, free instructional videos, and a free learning management system available at www.py4e.com.",
+    "pb_publisher": "University of Michigan",
+    "pb_publisher_city": "Ann Arbor",
+    "pb_publication_date": "2016",
+    "pb_copyright_holder": "Charles R. Severance",
+    "pb_keywords_tags": "python, programming, data science, introductory",
+    "pb_subject": "Computer Science",
+    "pb_language": "en",
+    "pb_license": "cc-by",
+    "pb_cover_image": "https://python.youcanlearnit.net/app/themes/pressbooks-book/images/default-book-cover.jpg",
+    "pb_url": "https://python.youcanlearnit.net"
+  }
+}

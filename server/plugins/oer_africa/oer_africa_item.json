@@ -1,0 +1,49 @@
+{
+  "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "type": "node--resource",
+  "attributes": {
+    "drupal_internal__nid": 5842,
+    "status": true,
+    "title": "Milk Production and Dairy Development in Africa: A Practical Guide for Smallholder Farmers",
+    "body": {
+      "value": "<p>This open educational resource covers the fundamentals of milk production, dairy herd management, and smallholder dairy enterprise development in sub-Saharan Africa. Topics include breed selection, feeding strategies, milking hygiene, milk handling, and marketing of dairy products.</p>",
+      "summary": "A practical guide covering milk production, herd management, and dairy enterprise development for smallholder farmers in sub-Saharan Africa."
+    },
+    "created": "2019-03-12T08:00:00+00:00",
+    "changed": "2022-07-20T10:30:00+00:00",
+    "field_license": "CC BY 4.0",
+    "field_subjects": [
+      "Agriculture",
+      "Dairy Farming",
+      "Animal Husbandry",
+      "Food Science",
+      "Rural Development"
+    ],
+    "field_language": "English",
+    "field_url": "https://www.oerafrica.org/resource/milk-production-dairy-development-africa"
+  },
+  "relationships": {
+    "field_institution": {
+      "data": {
+        "type": "node--institution",
+        "id": "inst-f1e2d3c4-b5a6-7890-1234-567890abcdef"
+      },
+      "meta": {
+        "drupal_internal__target_id": 301
+      }
+    },
+    "field_authors": {
+      "data": [
+        {
+          "type": "node--person",
+          "id": "person-11223344-5566-7788-99aa-bbccddeeff00"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "drupal_internal__nid": 5842,
+    "field_institution_title": "Food and Agriculture Organization of the United Nations",
+    "field_authors_names": ["FAO Animal Production and Health Division"]
+  }
+}

@@ -176,9 +176,9 @@ export default function AllCollections() {
         All Collections
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
-        All of the collections shared to The Digital Public Goods Library
+        Browse all of the collections available on The Ark
       </Typography>
-      <Paper sx={{ p: 2, mb: 3, display: 'flex', alignItems: 'center', gap: 2 }}>
+      <Paper sx={{ p: 2, mb: 3, display: 'flex', alignItems: { xs: 'stretch', sm: 'center' }, gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
         <SearchBar value={query} onChange={({ target }) => setQuery(target.value)} onSearch={handleSearchChange} placeholder="Search Collections" matomoAction = 'collection search' />
         <Dropdown label="Sort" multiple={false} value={sortBy} options={sortOptions} onChange={handleSortChange} />
         <Button
@@ -196,7 +196,7 @@ export default function AllCollections() {
           sx={{
             width: 260,
             p: 2,
-            display: { sm: 'none', lg: 'block' },
+            display: { xs: 'none', sm: 'none', lg: 'block' },
             alignSelf: 'flex-start',
           }}
         >

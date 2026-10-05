@@ -135,7 +135,7 @@ export function Group() {
       setLeaders(Array.isArray(leaders) ? leaders : []);
       setContent(content_type_id)
     });
-  }, []);
+  }, [id]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -209,7 +209,7 @@ export function Group() {
       </CustomTabPanel>
       {canAdmin && (
         <CustomTabPanel value={value} index={1} key="members">
-          <GroupsMembers />
+          <GroupsMembers onMembersCountChange={setMembersCount} />
         </CustomTabPanel>
       )}
       {canAdmin && (

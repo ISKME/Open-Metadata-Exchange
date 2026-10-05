@@ -7,6 +7,7 @@
 # ]
 # ///
 
+from datetime import UTC, datetime
 from types import MappingProxyType
 
 from server.plugins.eric.eric_models import Model, ModelItem
@@ -33,14 +34,18 @@ class EricPlugin(OMEPlugin):
     )
 
     def make_metadata_card(self, doc: ModelItem) -> EducationResource:
+        pub_year = doc.publicationdateyear.strip()
+        pub_date = (
+            datetime(int(pub_year), 1, 1, tzinfo=UTC) if pub_year.isdigit() else None
+        )
         return EducationResource(
             title=doc.title,
             description=doc.description,
-            authors=doc.author,
+            authors=list(filter(None, (doc.author or "").split("|"))),
             authoring_institution=doc.publisher or "",
-            subject_tags=doc.subject,
-            creation_date=doc.publicationdateyear,
-            last_modified_date=doc.publicationdateyear,  # TODO(cclauss): fix me
+            subject_tags=list(filter(None, (doc.subject or "").split("|"))),
+            creation_date=pub_date,
+            last_modified_date=pub_date,  # TODO(cclauss): fix me
         )
 
     def make_metadata_card_from_dict(self, doc_dict: dict) -> EducationResource:

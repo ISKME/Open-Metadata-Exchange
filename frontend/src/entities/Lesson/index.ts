@@ -1,6 +1,6 @@
-import { ILesson, ISection } from './model/types';
+import type { ILesson, ISection } from './model/types';
 
-export {
+export type {
   ILesson,
   ISection,
 }

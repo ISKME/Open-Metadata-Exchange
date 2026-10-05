@@ -1,4 +1,5 @@
 import os
+from typing import Any
 
 from nntp import NNTPClient, NNTPError
 from pond import Pond, PooledObject, PooledObjectFactory
@@ -6,21 +7,23 @@ from pond import Pond, PooledObject, PooledObjectFactory
 
 class ClientFactory(PooledObjectFactory):
     def createInstance(self) -> PooledObject:  # noqa: N802
-        # Environment variable INN_SERVER_NAME is defined in docker-compose.yml file.
-        inn_server_name = os.getenv("INN_SERVER_NAME", "localhost")
+        # Environment variable NNTP_SERVER is defined in docker-compose.yml file.
+        inn_server_name = os.getenv("NNTP_SERVER", "localhost")
+        inn_username = os.getenv("NNTP_USER", "")
+        inn_password = os.getenv("NNTP_PASSWD", "")
         port = 119
-        client = NNTPClient(
+        nntp_client = NNTPClient(
             inn_server_name,
             port=port,
-            username="node",
-            password="node",  # noqa: S106
+            username=inn_username,
+            password=inn_password,
         )
-        return PooledObject(client)
+        return PooledObject(nntp_client)
 
     def destroy(self, pooled_object: PooledObject) -> None:
         del pooled_object
 
-    def reset(self, pooled_object: PooledObject) -> PooledObject:
+    def reset(self, pooled_object: PooledObject, **_kwargs: Any) -> PooledObject:  # noqa: ANN401
         # do whatever we need to do for resetting a connection.
         # e.g. commit or abort a transaction, in the case of an RDBMS.
         return pooled_object

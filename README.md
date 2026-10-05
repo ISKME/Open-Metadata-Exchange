@@ -1,7 +1,8 @@
 # OME Readme
-Distributed / Decentralized Network for Open Metadata Exchange
-* Documentation: https://iskme.github.io/Open-Metadata-Exchange
 
+Distributed / Decentralized Network for Open Metadata Exchange
+
+* Documentation: <https://iskme.github.io/Open-Metadata-Exchange>
 
 [![ome_build](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml)
 [![ome_docs](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/sphinx.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/sphinx.yml)
@@ -26,20 +27,24 @@ sequenceDiagram
 ```
 
 ## Run the components
+
 For local development and testing, start two INN2 servers, two FastAPI servers, and two React front ends with:
+
 ```bash
 docker compose build
 docker compose up
 open http://localhost:5001
 ```
+
 * [InterNetNews](https://github.com/InterNetNews/inn) (INN) backend that houses the metadata.
-    * <https://www.isc.org/othersoftware/#INN>
-    * <https://www.eyrie.org/~eagle/software/inn/docs-2.7>
-    * <https://github.com/cclauss/apt-get-inn2-docker>
+  * <https://www.isc.org/othersoftware/#INN>
+  * <https://www.eyrie.org/~eagle/software/inn/docs-2.7>
+  * <https://github.com/cclauss/apt-get-inn2-docker>
 * [FastAPI](https://fastapi.tiangolo.com/)-Server middle tier that connects the INN to the frontend.
 * [FE2](./fe2/README.md) user interface that connects to the FastAPI-Server.
 
 ### FE2 NodeServer
+
 ```bash
 cd fe2
 npm ci
@@ -49,6 +54,7 @@ open http://localhost:4000/imls
 ```
 
 ## Additional bits
+
 For those wanting to "integrate" with OERCommons (either from the
 local dev environment, or - with some changes to the script - the
 production environment). Install [tampermonkey](https://www.tampermonkey.net/)

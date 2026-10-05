@@ -28,6 +28,7 @@ import axios from "axios";
 import { GridDeleteIcon } from "@mui/x-data-grid";
 import { matomoTag } from "pages/Case/ui/helper";
 import { useAppDispatch } from 'hooks/redux';
+import { CasesExport } from './export/CasesExport';
 
 const CButton = styled(Button)(({ theme }) => ({
   padding: "6px 12px",
@@ -98,6 +99,7 @@ export function CasesList({
   pageName = '',
   titles = '',
   URL = '/api/search/v2/browse/',
+  exportUrl = '',
 }) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -148,6 +150,14 @@ export function CasesList({
   const [selectedFolder, setSelectedFolder] = useState("");
   const [filterNames, setFilterNames] = useState({});
   const [loading, setLoading] = useState(true);
+
+  const updateSavedItemsCountInDom = (nextCount) => {
+    if (typeof nextCount !== "number") return;
+    const nodes = document.querySelectorAll(".js-dashboard-saved-cases-counter");
+    nodes.forEach((n) => {
+      n.textContent = String(nextCount);
+    });
+  };
 
   const handlePageChange = (page) => {
     setDefaultPage(page);
@@ -294,9 +304,7 @@ export function CasesList({
         const { data: filtersData } = await axios.get('/api/search/v2/browse/filters');
         let { filters } = filtersData
         if (filters) filters = Object.values(filters)
-        if (data.length) {
-          filters = filters.filter((item) => !['f.general_subject', 'f.grade_codes', 'f.std'].includes(item.keyword))
-        }
+        filters = filters.filter((item) => !['f.general_subject', 'f.grade_codes', 'f.std'].includes(item.keyword))
         const extras = []
         filters.forEach(({ keyword, name, items }) => {
           const filterValues = searchParams.getAll(keyword)
@@ -357,6 +365,7 @@ export function CasesList({
         if (response?.status === 200) {
           alert(`Success! ${response?.data?.message}`)
         }
+        updateSavedItemsCountInDom(response?.data?.saved_items_count);
         get(groupId);
       } catch (error) {
         console.error("Failed to create folder", error);
@@ -406,6 +415,7 @@ export function CasesList({
       if (response?.status === 200) {
         alert(`Success! ${response?.data?.message}`) // You have saved ${itemIds.length} Cases to My Items → ${folderTitle}
       }
+      updateSavedItemsCountInDom(response?.data?.saved_items_count);
       get(groupId);
       if (selectedFolderIsDefault && selectGroupId && Number(selectGroupId) === Number(groupId)) {
         updateCasesData(itemIds);
@@ -445,6 +455,7 @@ export function CasesList({
         elevation={3}
         sx={{
           display: "flex",
+          flexWrap: exportUrl ? "wrap" : "nowrap",
           gap: "4px",
           backgroundColor: "#efeff0",
           padding: "8px",
@@ -738,7 +749,11 @@ export function CasesList({
               type="search"
               label="Search within cases"
               variant="outlined"
-              sx={{ flex: 1, backgroundColor: "white" }}
+              sx={{
+                flex: 1,
+                minWidth: exportUrl ? "180px" : undefined,
+                "& .MuiOutlinedInput-root": { backgroundColor: "white" },
+              }}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               onKeyUp={(event) => {
@@ -770,6 +785,15 @@ export function CasesList({
               </Select>
             </FormControl>
           </>
+        )}
+        {exportUrl && (
+          <CasesExport
+            exportUrl={exportUrl}
+            searchParams={location.search}
+            selectedIds={data.filter((_item, index) => check[index]).map((item) => item.id)}
+            csrfToken={csrfToken}
+            disabled={loading || !csrfToken || count === 0}
+          />
         )}
       </Paper>
       <Box

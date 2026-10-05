@@ -1,0 +1,60 @@
+Subject: Introduction to Python Programming
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============2335145849753301538=="
+
+--===============2335145849753301538==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+{
+  "title": "Introduction to Python Programming",
+  "description": "An OpenStax introductory computer science textbook focused =
+on Python programming fundamentals.",
+  "authors": [
+    "OpenStax"
+  ],
+  "authoring_institution": "OpenStax",
+  "subject_tags": [
+    "computer science",
+    "programming"
+  ],
+  "creation_date": null,
+  "last_modified_date": null,
+  "source_url": "https://openstax.org/details/books/introduction-python-progr=
+amming",
+  "version_url": "",
+  "spdx_license_expression": "CC-BY-4.0"
+}
+
+--===============2335145849753301538==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="openstax_item.json"
+MIME-Version: 1.0
+
+ewogICJ0aXRsZSI6ICJJbnRyb2R1Y3Rpb24gdG8gUHl0aG9uIFByb2dyYW1taW5nIiwKICAiZGVz
+Y3JpcHRpb24iOiAiQW4gT3BlblN0YXggaW50cm9kdWN0b3J5IGNvbXB1dGVyIHNjaWVuY2UgdGV4
+dGJvb2sgZm9jdXNlZCBvbiBQeXRob24gcHJvZ3JhbW1pbmcgZnVuZGFtZW50YWxzLiIsCiAgImF1
+dGhvcnMiOiBbCiAgICAiT3BlblN0YXgiCiAgXSwKICAic3ViamVjdF90YWdzIjogWwogICAgImNv
+bXB1dGVyIHNjaWVuY2UiLAogICAgInByb2dyYW1taW5nIgogIF0sCiAgInNvdXJjZV91cmwiOiAi
+aHR0cHM6Ly9vcGVuc3RheC5vcmcvZGV0YWlscy9ib29rcy9pbnRyb2R1Y3Rpb24tcHl0aG9uLXBy
+b2dyYW1taW5nIiwKICAidmVyc2lvbl91cmwiOiAiIiwKICAic3BkeF9saWNlbnNlX2V4cHJlc3Np
+b24iOiAiQ0MtQlktNC4wIgp9Cg==
+
+--===============2335145849753301538==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="openstax_ome_item.json"
+MIME-Version: 1.0
+
+ewogICJ0aXRsZSI6ICJJbnRyb2R1Y3Rpb24gdG8gUHl0aG9uIFByb2dyYW1taW5nIiwKICAiZGVz
+Y3JpcHRpb24iOiAiQW4gT3BlblN0YXggaW50cm9kdWN0b3J5IGNvbXB1dGVyIHNjaWVuY2UgdGV4
+dGJvb2sgZm9jdXNlZCBvbiBQeXRob24gcHJvZ3JhbW1pbmcgZnVuZGFtZW50YWxzLiIsCiAgImF1
+dGhvcnMiOiBbCiAgICAiT3BlblN0YXgiCiAgXSwKICAiYXV0aG9yaW5nX2luc3RpdHV0aW9uIjog
+Ik9wZW5TdGF4IiwKICAic3ViamVjdF90YWdzIjogWwogICAgImNvbXB1dGVyIHNjaWVuY2UiLAog
+ICAgInByb2dyYW1taW5nIgogIF0sCiAgImNyZWF0aW9uX2RhdGUiOiBudWxsLAogICJsYXN0X21v
+ZGlmaWVkX2RhdGUiOiBudWxsLAogICJzb3VyY2VfdXJsIjogImh0dHBzOi8vb3BlbnN0YXgub3Jn
+L2RldGFpbHMvYm9va3MvaW50cm9kdWN0aW9uLXB5dGhvbi1wcm9ncmFtbWluZyIsCiAgInZlcnNp
+b25fdXJsIjogIiIsCiAgInNwZHhfbGljZW5zZV9leHByZXNzaW9uIjogIkNDLUJZLTQuMCIKfQo=
+
+--===============2335145849753301538==--

@@ -76,6 +76,7 @@ def sample_metadata() -> Iterator[ome_node.Metadata]:
             description=f"{title} is a mystery novel by Sue Grafton",
             subject="Mystery",
             author="Sue Grafton",
+            spdx_license="MIT",
             alignment_tags=["Mystery", "Sue Grafton", "Kinsey Millhone", keyword],
             keywords=[
                 "Mystery",

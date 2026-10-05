@@ -307,17 +307,590 @@ export function matchDigitFormat(input) {
 export function filtering(data, duration) {
   return data
     ?.filter(({ quote, can_view, user }) => !quote && can_view && user)
+    ?.filter(({ text }) => !!text)
     ?.filter(({ start_position: s, end_position: e }) => (e <= duration && s >= 0 && s <= duration && e >= 0))
     || []
 }
 
-export const matomoTag = ({ category, action, name = '', value = null }) => {
-  window._paq = window._paq || [];
-  if (value) {
-    window._paq.push(['trackEvent', category, action, name, value]);
-  } else if (name) {
-    window._paq.push(['trackEvent', category, action, name]);
-  } else {
-    window._paq.push(['trackEvent', category, action]);
+const VIDEO_ANALYTICS_CATEGORY = 'Video Analytics'
+const VIDEO_ANALYTICS_DATA_LAYER_EVENT = 'videoAnalytics'
+const VIDEO_ANALYTICS_SCHEMA_VERSION = '1'
+const VIDEO_PROGRESS_MILESTONES = [25, 50, 75, 100]
+
+const hasValue = value => value !== null && value !== undefined && value !== ''
+
+const toFiniteNumber = (value, fallback = 0) => {
+  const number = Number(value)
+  return Number.isFinite(number) ? number : fallback
+}
+
+const roundMetric = value => Math.round(toFiniteNumber(value) * 1000) / 1000
+
+/**
+ * Related-resource URLs exist in two formats in Atlas: our local /video/:id
+ * URL and a Kaltura embed URL containing entry_id. Keep this parsing separate
+ * from the API response shape so analytics never changes the player contract.
+ */
+export const getVideoEntryId = (value) => {
+  if (!hasValue(value)) return ''
+
+  let url = String(value)
+  try {
+    url = decodeURIComponent(url)
+  } catch (error) {
+    // A malformed escape sequence must not prevent the video from loading.
   }
-};
+  url = url.replace(/&amp;/gi, '&')
+
+  const patterns = [
+    /\/video\/([^/?#&]+)/i,
+    /(?:^|[?&/])entry_id(?:=|\/)([^/?#&]+)/i,
+  ]
+  const match = patterns.map(pattern => url.match(pattern)).find(Boolean)
+  return match ? match[1] : ''
+}
+
+const getDimensionData = (dimensions = {}) => Object.entries(dimensions).reduce((result, [id, value]) => {
+  if (!hasValue(value)) return result
+  const key = String(id).startsWith('dimension') ? String(id) : `dimension${id}`
+  result[key] = String(value)
+  return result
+}, {})
+
+/**
+ * Send a regular Matomo event. `dimensions` are scoped to this action only,
+ * which prevents video metadata leaking into unrelated page events.
+ */
+export const matomoTag = ({
+  category,
+  action,
+  name = '',
+  value = null,
+  dimensions = {},
+}) => {
+  window._paq = window._paq || []
+  const customData = getDimensionData(dimensions)
+  const hasCustomData = Object.keys(customData).length > 0
+
+  if (value !== null && value !== undefined) {
+    window._paq.push([
+      'trackEvent', category, action, name, value,
+      ...(hasCustomData ? [customData] : []),
+    ])
+  } else if (hasCustomData) {
+    // Matomo's custom action data is the sixth trackEvent argument.
+    window._paq.push(['trackEvent', category, action, name, undefined, customData])
+  } else if (name) {
+    window._paq.push(['trackEvent', category, action, name])
+  } else {
+    window._paq.push(['trackEvent', category, action])
+  }
+}
+
+export const getMatomoDataLayerValue = (key) => {
+  const dataLayer = window.matomoDataLayer || []
+  for (let index = dataLayer.length - 1; index >= 0; index -= 1) {
+    const item = dataLayer[index]
+    if (item && typeof item === 'object' && Object.prototype.hasOwnProperty.call(item, key)) {
+      return item[key]
+    }
+  }
+  return undefined
+}
+
+const splitDataLayerIds = value => String(value || '')
+  .split('|')
+  .map(item => item.trim())
+  .filter(Boolean)
+
+const entityIds = values => (values || [])
+  .map(value => (value && typeof value === 'object' ? value.id : value))
+  .filter(hasValue)
+  .map(String)
+
+const entityNames = values => (values || [])
+  .map(value => (value && typeof value === 'object' ? value.name : ''))
+  .filter(Boolean)
+
+const canonicalPageData = () => {
+  if (!window.location) return { pageUrl: '', pageHost: '' }
+  return {
+    // Query strings can contain search terms or tokens and are not needed for
+    // the Case-level Page URL filter.
+    pageUrl: `${window.location.origin}${window.location.pathname}`,
+    pageHost: window.location.hostname,
+  }
+}
+
+const createPlaybackSessionId = () => {
+  if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+    return window.crypto.randomUUID()
+  }
+  return `${Date.now()}-${Math.random().toString(36).slice(2)}`
+}
+
+const getVideoDimensionMap = () => window.matomoVideoAnalyticsDimensions || {}
+
+const getVideoDimensions = data => {
+  const mapping = getVideoDimensionMap()
+  return Object.entries(mapping).reduce((dimensions, [field, id]) => {
+    if (hasValue(data[field]) && Number.isInteger(Number(id))) {
+      dimensions[id] = data[field]
+    }
+    return dimensions
+  }, {})
+}
+
+const pushVideoDataLayerEvent = attributes => {
+  if (typeof window.matomoDataLayerTrackEvent === 'function') {
+    window.matomoDataLayerTrackEvent(VIDEO_ANALYTICS_DATA_LAYER_EVENT, attributes)
+    return
+  }
+  window.matomoDataLayer = window.matomoDataLayer || []
+  window.matomoDataLayer.push({
+    event: VIDEO_ANALYTICS_DATA_LAYER_EVENT,
+    attributes,
+  })
+}
+
+/**
+ * Send a normalized Video Analytics event both to Matomo directly and to the
+ * data layer. Direct tracking is the production path; the data-layer copy is
+ * useful for preview/debugging and keeps a Tag Manager implementation possible
+ * without changing player code.
+ */
+export const matomoVideoEvent = (action, data = {}) => {
+  const attributes = {
+    schemaVersion: VIDEO_ANALYTICS_SCHEMA_VERSION,
+    eventAction: action,
+    ...canonicalPageData(),
+    ...data,
+  }
+  const videoId = attributes.kalturaEntryId || attributes.videoId || ''
+
+  pushVideoDataLayerEvent(attributes)
+  matomoTag({
+    category: VIDEO_ANALYTICS_CATEGORY,
+    action,
+    name: String(videoId),
+    dimensions: getVideoDimensions({
+      videoId,
+      lessonId: attributes.lessonId,
+      organizationId: attributes.organizationId,
+    }),
+  })
+}
+
+const callTracker = (tracker, method, ...args) => {
+  if (tracker && typeof tracker[method] === 'function') {
+    try {
+      return tracker[method](...args)
+    } catch (error) {
+      return undefined
+    }
+  }
+  return undefined
+}
+
+const setPersistentVideoDimensions = data => {
+  const dimensions = getVideoDimensions(data)
+  window._paq = window._paq || []
+  Object.entries(dimensions).forEach(([id, value]) => {
+    window._paq.push(['setCustomDimension', Number(id), String(value)])
+  })
+  return Object.keys(dimensions).map(Number)
+}
+
+const clearPersistentVideoDimensions = dimensionIds => {
+  window._paq = window._paq || []
+  dimensionIds.forEach(id => window._paq.push(['deleteCustomDimension', id]))
+}
+
+/**
+ * Connect a Video.js player to Matomo Media Analytics and the Atlas event
+ * contract. Matomo Media Analytics supplies watched_time/media_progress/etc.;
+ * regular events supply milestones and content interactions.
+ */
+export const createVideoAnalyticsTracker = ({
+  player,
+  videoId,
+  kalturaEntryId,
+  videoTitle = '',
+  lessonId,
+  resourceUrl = '',
+  organizationId = getMatomoDataLayerValue('currentOrganizationId'),
+  groups = splitDataLayerIds(getMatomoDataLayerValue('userGroupIds')),
+  owners = [],
+  tags = [],
+  subjects = [],
+  heartbeatSeconds = 10,
+  now = () => Date.now(),
+}) => {
+  if (!player || typeof player.on !== 'function') {
+    return { destroy: () => {}, trackInteraction: () => {} }
+  }
+
+  let playbackSessionId = createPlaybackSessionId()
+  let nativeTracker = null
+  let persistentDimensionIds = []
+  let destroyed = false
+  let hasPlayed = false
+  let ended = false
+  let buffering = false
+  let seeking = false
+  let nativeSuspended = false
+  let seekFrom = null
+  let watchStartedAt = null
+  let pendingWatchedSeconds = 0
+  let totalWatchedSeconds = 0
+  let sessionFinalized = false
+  let lastCaption = null
+  const reachedMilestones = new Set()
+  const handlers = []
+
+  const currentTime = () => roundMetric(callTracker(player, 'currentTime') || 0)
+  const duration = () => roundMetric(callTracker(player, 'duration') || 0)
+  const progress = () => {
+    const total = duration()
+    return total > 0 ? roundMetric(Math.min(100, (currentTime() / total) * 100)) : 0
+  }
+  const fullscreen = () => Boolean(callTracker(player, 'isFullscreen'))
+
+  const baseEventData = () => ({
+    videoId: hasValue(videoId) ? String(videoId) : '',
+    kalturaEntryId: hasValue(kalturaEntryId) ? String(kalturaEntryId) : '',
+    videoTitle,
+    lessonId: hasValue(lessonId) ? String(lessonId) : '',
+    organizationId: hasValue(organizationId) ? String(organizationId) : '',
+    groupIds: entityIds(groups),
+    ownerIds: entityIds(owners),
+    ownerNames: entityNames(owners),
+    tagIds: entityIds(tags),
+    tagNames: entityNames(tags),
+    // Subjects are intentionally not called categories until product defines
+    // that mapping.
+    subjectIds: entityIds(subjects),
+    subjectNames: entityNames(subjects),
+    playbackSessionId,
+    positionSeconds: currentTime(),
+    durationSeconds: duration(),
+    progressPercent: progress(),
+    totalWatchedSeconds: roundMetric(totalWatchedSeconds),
+    fullscreen: fullscreen(),
+  })
+
+  const emit = (action, extra = {}) => {
+    try {
+      matomoVideoEvent(action, { ...baseEventData(), ...extra })
+    } catch (error) {
+      // Tracking is fail-open: a Matomo/Tag Manager failure cannot affect playback.
+    }
+  }
+
+  const configureNativeTracker = () => {
+    if (nativeTracker) return nativeTracker
+    const mediaAnalytics = window.Matomo && window.Matomo.MediaAnalytics
+    if (!mediaAnalytics || typeof mediaAnalytics.MediaTracker !== 'function') return null
+
+    const stableVideoId = kalturaEntryId || videoId
+    const mediaResource = stableVideoId
+      ? `${window.location.origin}/video/${encodeURIComponent(stableVideoId)}`
+      : resourceUrl || canonicalPageData().pageUrl
+
+    try {
+      persistentDimensionIds = setPersistentVideoDimensions({ videoId: stableVideoId })
+      nativeTracker = new mediaAnalytics.MediaTracker(
+        'atlas-videojs',
+        (mediaAnalytics.mediaType && mediaAnalytics.mediaType.VIDEO) || 'video',
+        mediaResource,
+      )
+    } catch (error) {
+      clearPersistentVideoDimensions(persistentDimensionIds)
+      persistentDimensionIds = []
+      nativeTracker = null
+      return null
+    }
+    callTracker(nativeTracker, 'setMediaTitle', videoTitle || String(stableVideoId || ''))
+    callTracker(nativeTracker, 'setMediaTotalLengthInSeconds', duration())
+    callTracker(nativeTracker, 'setMediaProgressInSeconds', currentTime())
+    callTracker(nativeTracker, 'setWidth', callTracker(player, 'currentWidth') || 0)
+    callTracker(nativeTracker, 'setHeight', callTracker(player, 'currentHeight') || 0)
+    callTracker(nativeTracker, 'setFullscreen', fullscreen())
+    // The initial update is the native Media Analytics player impression.
+    callTracker(nativeTracker, 'trackUpdate')
+    return nativeTracker
+  }
+
+  const collectWatchedTime = () => {
+    if (watchStartedAt === null) return
+    const seconds = Math.max(0, (now() - watchStartedAt) / 1000)
+    watchStartedAt = now()
+    pendingWatchedSeconds += seconds
+    totalWatchedSeconds += seconds
+  }
+
+  const startWatchClock = () => {
+    if (watchStartedAt === null && !buffering && !seeking) watchStartedAt = now()
+  }
+
+  const stopWatchClock = () => {
+    collectWatchedTime()
+    watchStartedAt = null
+  }
+
+  const suspendNativeProgress = () => {
+    const tracker = configureNativeTracker()
+    if (tracker && !nativeSuspended) {
+      callTracker(tracker, 'seekStart')
+      nativeSuspended = true
+    }
+  }
+
+  const resumeNativeProgress = () => {
+    const tracker = configureNativeTracker()
+    if (tracker && nativeSuspended) {
+      callTracker(tracker, 'setMediaProgressInSeconds', currentTime())
+      callTracker(tracker, 'setMediaTotalLengthInSeconds', duration())
+      callTracker(tracker, 'seekFinish')
+      nativeSuspended = false
+    }
+  }
+
+  const emitReachedMilestones = () => {
+    const percentage = progress()
+    VIDEO_PROGRESS_MILESTONES.forEach((milestone) => {
+      if (percentage >= milestone && !reachedMilestones.has(milestone)) {
+        reachedMilestones.add(milestone)
+        emit(`progress_${milestone}`, { milestonePercent: milestone })
+      }
+    })
+  }
+
+  const flushFallbackHeartbeat = () => {
+    collectWatchedTime()
+    if (nativeTracker || pendingWatchedSeconds < 1) return
+    emit('heartbeat', { watchedSeconds: roundMetric(pendingWatchedSeconds) })
+    pendingWatchedSeconds = 0
+  }
+
+  const finalizeSession = (reason) => {
+    if (sessionFinalized || !hasPlayed) return
+    stopWatchClock()
+    sessionFinalized = true
+    emit('session_end', {
+      reason,
+      watchedSeconds: roundMetric(totalWatchedSeconds),
+    })
+  }
+
+  const on = (event, handler) => {
+    player.on(event, handler)
+    handlers.push([event, handler])
+  }
+
+  const onPlay = () => {
+    if (ended) {
+      playbackSessionId = createPlaybackSessionId()
+      reachedMilestones.clear()
+      totalWatchedSeconds = 0
+      pendingWatchedSeconds = 0
+      sessionFinalized = false
+      ended = false
+    }
+
+    const tracker = configureNativeTracker()
+    callTracker(tracker, 'play')
+    if (!hasPlayed || currentTime() < 0.25) {
+      emit('play')
+      hasPlayed = true
+    } else {
+      emit('resume')
+    }
+    startWatchClock()
+  }
+
+  const onPlaying = () => {
+    if (buffering) {
+      buffering = false
+      resumeNativeProgress()
+      emit('buffer_end')
+    }
+    startWatchClock()
+  }
+
+  const onPause = () => {
+    stopWatchClock()
+    if (ended) return
+    callTracker(configureNativeTracker(), 'pause')
+    emit('pause')
+  }
+
+  const onTimeUpdate = () => {
+    const tracker = configureNativeTracker()
+    callTracker(tracker, 'setMediaProgressInSeconds', currentTime())
+    callTracker(tracker, 'setMediaTotalLengthInSeconds', duration())
+    callTracker(tracker, 'update')
+    if (!seeking) emitReachedMilestones()
+  }
+
+  const onSeeking = () => {
+    seeking = true
+    seekFrom = currentTime()
+    stopWatchClock()
+    suspendNativeProgress()
+  }
+
+  const onSeeked = () => {
+    const to = currentTime()
+    seeking = false
+    resumeNativeProgress()
+    if (!callTracker(player, 'paused')) startWatchClock()
+    emit('seek', { seekFromSeconds: seekFrom, seekToSeconds: to })
+    seekFrom = null
+  }
+
+  const onWaiting = () => {
+    if (buffering) return
+    buffering = true
+    stopWatchClock()
+    suspendNativeProgress()
+    emit('buffer_start')
+  }
+
+  const onEnded = () => {
+    stopWatchClock()
+    ended = true
+    emitReachedMilestones()
+    if (!reachedMilestones.has(100)) {
+      reachedMilestones.add(100)
+      emit('progress_100', { milestonePercent: 100, progressPercent: 100 })
+    }
+    callTracker(configureNativeTracker(), 'finish')
+    emit('complete', { progressPercent: 100 })
+    finalizeSession('complete')
+  }
+
+  const getCaption = () => {
+    const tracks = callTracker(player, 'textTracks')
+    if (!tracks) return null
+    for (let index = 0; index < tracks.length; index += 1) {
+      const track = tracks[index]
+      if (track.mode === 'showing' && ['captions', 'subtitles'].includes(track.kind)) {
+        return track.label || track.language || 'captions'
+      }
+    }
+    return ''
+  }
+
+  const onCaptionChange = () => {
+    const caption = getCaption()
+    if (caption === null || caption === lastCaption) return
+    lastCaption = caption
+    emit(caption ? 'caption_selected' : 'caption_disabled', { caption })
+  }
+
+  const onFullscreenChange = () => {
+    const tracker = configureNativeTracker()
+    callTracker(tracker, 'setFullscreen', fullscreen())
+    callTracker(tracker, 'trackUpdate')
+    emit(fullscreen() ? 'fullscreen_enter' : 'fullscreen_exit')
+  }
+
+  const onRateChange = () => {
+    emit('playback_rate_change', {
+      playbackRate: roundMetric(callTracker(player, 'playbackRate') || 1),
+    })
+  }
+
+  const onResize = () => {
+    const tracker = configureNativeTracker()
+    callTracker(tracker, 'setWidth', callTracker(player, 'currentWidth') || 0)
+    callTracker(tracker, 'setHeight', callTracker(player, 'currentHeight') || 0)
+  }
+
+  const onError = () => {
+    const error = callTracker(player, 'error') || {}
+    emit('error', {
+      errorCode: hasValue(error.code) ? String(error.code) : '',
+      errorMessage: error.message || 'Video playback error',
+    })
+  }
+
+  const onPageHide = () => {
+    finalizeSession('page_hide')
+    callTracker(configureNativeTracker(), 'pause')
+  }
+
+  on('play', onPlay)
+  on('playing', onPlaying)
+  on('pause', onPause)
+  on('timeupdate', onTimeUpdate)
+  on('seeking', onSeeking)
+  on('seeked', onSeeked)
+  on('waiting', onWaiting)
+  on('ended', onEnded)
+  on('texttrackchange', onCaptionChange)
+  on('fullscreenchange', onFullscreenChange)
+  on('ratechange', onRateChange)
+  on('playerresize', onResize)
+  on('error', onError)
+  window.addEventListener('pagehide', onPageHide)
+
+  lastCaption = getCaption()
+  configureNativeTracker()
+  emit('player_impression')
+
+  const heartbeatId = window.setInterval(flushFallbackHeartbeat, Math.max(5, heartbeatSeconds) * 1000)
+
+  return {
+    trackInteraction: (action, extra = {}) => emit(action, extra),
+    destroy: (reason = 'player_destroyed') => {
+      if (destroyed) return
+      destroyed = true
+      finalizeSession(reason)
+      handlers.forEach(([event, handler]) => callTracker(player, 'off', event, handler))
+      window.removeEventListener('pagehide', onPageHide)
+      window.clearInterval(heartbeatId)
+      callTracker(nativeTracker, 'pause')
+      clearPersistentVideoDimensions(persistentDimensionIds)
+    },
+  }
+}
+
+export function sorting(a1, a2) {
+  try {
+    // a1 = [...a1]
+    const sortChildren = (children) => {
+      children.sort((a, b) =>
+        a.full_code.localeCompare(b.full_code, undefined, { numeric: true })
+      )
+    }
+    a1.sort((a, b) => a.name.localeCompare(b.name))
+    a1.forEach(item => {
+      sortChildren(item.children)
+    })
+    return a1
+  } catch (e) {
+    return a1
+  }
+}
+
+export function getVideoSegments(ranges) {
+  const segments = Array.isArray(ranges) ? ranges : [ranges]
+  return segments.filter(segment =>
+    !!segment &&
+    (!!segment.kaltura_entry_id || segment.video_id != null) &&
+    (!!segment.entire_video || segment.video_start != null || segment.video_stop != null)
+  )
+}
+
+export function videoSegmentToAnnotation(segment) {
+  const entire = !!segment.entire_video
+  return {
+    scope: 'video',
+    entire_entity: entire,
+    start_position: entire ? 0 : Number(segment.video_start || 0),
+    end_position: entire || segment.video_stop == null ? null : Number(segment.video_stop),
+    kaltura_entry_id: segment.kaltura_entry_id,
+  }
+}

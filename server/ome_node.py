@@ -33,8 +33,6 @@ from server.schemas import (
 
 from .connection_pool import ClientContextManager
 
-AUSTIN_PORT = 119
-BOSTON_PORT = AUSTIN_PORT + 1000
 DEFAULT_NEWSGROUP_NAMES: set[str] = {
     "control.cancel",
     "control.checkgroups",

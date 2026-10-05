@@ -1,0 +1,84 @@
+Subject: Python for Everybody: Exploring Data in Python 3
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============2231733125652691058=="
+
+--===============2231733125652691058==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+{
+  "title": "Python for Everybody: Exploring Data in Python 3",
+  "description": "This book is designed to introduce students to programming =
+and computational thinking through the lens of exploring data. You can think =
+of the Python programming language as your tool to solve data problems that a=
+re beyond the capability of a spreadsheet.",
+  "authors": [
+    "Charles Severance"
+  ],
+  "authoring_institution": "Open Education Network",
+  "subject_tags": [
+    "Computing & Information Technology",
+    "Programming Languages"
+  ],
+  "creation_date": null,
+  "last_modified_date": null,
+  "source_url": "https://open.umn.edu/opentextbooks/textbooks/python-for-ever=
+ybody-exploring-data-in-python-3",
+  "version_url": "",
+  "spdx_license_expression": "CC-BY-NC-SA-4.0"
+}
+
+--===============2231733125652691058==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="open_education_network_item.json"
+MIME-Version: 1.0
+
+ewogICJpZCI6IDk2MCwKICAidGl0bGUiOiAiUHl0aG9uIGZvciBFdmVyeWJvZHk6IEV4cGxvcmlu
+ZyBEYXRhIGluIFB5dGhvbiAzIiwKICAiZGVzY3JpcHRpb24iOiAiVGhpcyBib29rIGlzIGRlc2ln
+bmVkIHRvIGludHJvZHVjZSBzdHVkZW50cyB0byBwcm9ncmFtbWluZyBhbmQgY29tcHV0YXRpb25h
+bCB0aGlua2luZyB0aHJvdWdoIHRoZSBsZW5zIG9mIGV4cGxvcmluZyBkYXRhLiBZb3UgY2FuIHRo
+aW5rIG9mIHRoZSBQeXRob24gcHJvZ3JhbW1pbmcgbGFuZ3VhZ2UgYXMgeW91ciB0b29sIHRvIHNv
+bHZlIGRhdGEgcHJvYmxlbXMgdGhhdCBhcmUgYmV5b25kIHRoZSBjYXBhYmlsaXR5IG9mIGEgc3By
+ZWFkc2hlZXQuIiwKICAidXJsIjogImh0dHBzOi8vb3Blbi51bW4uZWR1L29wZW50ZXh0Ym9va3Mv
+dGV4dGJvb2tzL3B5dGhvbi1mb3ItZXZlcnlib2R5LWV4cGxvcmluZy1kYXRhLWluLXB5dGhvbi0z
+IiwKICAiY292ZXJfdXJsIjogImh0dHBzOi8vb3Blbi51bW4uZWR1L3JhaWxzL2FjdGl2ZV9zdG9y
+YWdlL2Jsb2JzL2V5SmZjbUZwYkhNaU9uc2liV1Z6YzJGblpTSTZJa0pCYUhCQmFXZENJaXdpWlho
+d0lqcHVkV3hzTENKd2RYSWlPaUppYkc5aVgybGtJbjE5LS1weXRob24tY292ZXIuanBnIiwKICAi
+bGljZW5zZSI6IHsKICAgICJuYW1lIjogIkNyZWF0aXZlIENvbW1vbnMgQXR0cmlidXRpb24gTm9u
+LUNvbW1lcmNpYWwgU2hhcmUtQWxpa2UiLAogICAgImFiYnJldmlhdGlvbiI6ICJDQyBCWS1OQy1T
+QSIsCiAgICAidXJsIjogImh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5j
+LXNhLzQuMC8iCiAgfSwKICAic3ViamVjdHMiOiBbCiAgICB7CiAgICAgICJuYW1lIjogIkNvbXB1
+dGluZyAmIEluZm9ybWF0aW9uIFRlY2hub2xvZ3kiLAogICAgICAiY2hpbGRfc3ViamVjdCI6IHsK
+ICAgICAgICAibmFtZSI6ICJQcm9ncmFtbWluZyBMYW5ndWFnZXMiCiAgICAgIH0KICAgIH0KICBd
+LAogICJjb250cmlidXRvcnMiOiBbCiAgICB7CiAgICAgICJmaXJzdF9uYW1lIjogIkNoYXJsZXMi
+LAogICAgICAibGFzdF9uYW1lIjogIlNldmVyYW5jZSIsCiAgICAgICJjb250cmlidXRpb25fdHlw
+ZSI6ICJhdXRob3IiCiAgICB9CiAgXSwKICAiZm9ybWF0cyI6IFsKICAgIHsKICAgICAgImZvcm1h
+dCI6ICJlQm9vayIsCiAgICAgICJ1cmwiOiAiaHR0cHM6Ly93d3cucHk0ZS5jb20vaHRtbDMvMDEt
+aW50cm8iCiAgICB9LAogICAgewogICAgICAiZm9ybWF0IjogIlBERiIsCiAgICAgICJ1cmwiOiAi
+aHR0cDovL2RvMS5kci1jaHVjay5jb20vcHl0aG9ubGVhcm4vRU5fdXMvcHl0aG9ubGVhcm4ucGRm
+IgogICAgfQogIF0KfQo=
+
+--===============2231733125652691058==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="open_education_network_ome_item.json"
+MIME-Version: 1.0
+
+ewogICJ0aXRsZSI6ICJQeXRob24gZm9yIEV2ZXJ5Ym9keTogRXhwbG9yaW5nIERhdGEgaW4gUHl0
+aG9uIDMiLAogICJkZXNjcmlwdGlvbiI6ICJUaGlzIGJvb2sgaXMgZGVzaWduZWQgdG8gaW50cm9k
+dWNlIHN0dWRlbnRzIHRvIHByb2dyYW1taW5nIGFuZCBjb21wdXRhdGlvbmFsIHRoaW5raW5nIHRo
+cm91Z2ggdGhlIGxlbnMgb2YgZXhwbG9yaW5nIGRhdGEuIFlvdSBjYW4gdGhpbmsgb2YgdGhlIFB5
+dGhvbiBwcm9ncmFtbWluZyBsYW5ndWFnZSBhcyB5b3VyIHRvb2wgdG8gc29sdmUgZGF0YSBwcm9i
+bGVtcyB0aGF0IGFyZSBiZXlvbmQgdGhlIGNhcGFiaWxpdHkgb2YgYSBzcHJlYWRzaGVldC4iLAog
+ICJhdXRob3JzIjogWwogICAgIkNoYXJsZXMgU2V2ZXJhbmNlIgogIF0sCiAgImF1dGhvcmluZ19p
+bnN0aXR1dGlvbiI6ICJPcGVuIEVkdWNhdGlvbiBOZXR3b3JrIiwKICAic3ViamVjdF90YWdzIjog
+WwogICAgIkNvbXB1dGluZyAmIEluZm9ybWF0aW9uIFRlY2hub2xvZ3kiLAogICAgIlByb2dyYW1t
+aW5nIExhbmd1YWdlcyIKICBdLAogICJjcmVhdGlvbl9kYXRlIjogbnVsbCwKICAibGFzdF9tb2Rp
+ZmllZF9kYXRlIjogbnVsbCwKICAic291cmNlX3VybCI6ICJodHRwczovL29wZW4udW1uLmVkdS9v
+cGVudGV4dGJvb2tzL3RleHRib29rcy9weXRob24tZm9yLWV2ZXJ5Ym9keS1leHBsb3JpbmctZGF0
+YS1pbi1weXRob24tMyIsCiAgInZlcnNpb25fdXJsIjogIiIsCiAgInNwZHhfbGljZW5zZV9leHBy
+ZXNzaW9uIjogIkNDLUJZLU5DLVNBLTQuMCIKfQo=
+
+--===============2231733125652691058==--
