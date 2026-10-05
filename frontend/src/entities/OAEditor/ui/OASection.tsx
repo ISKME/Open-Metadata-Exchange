@@ -6,7 +6,7 @@ import req from 'shared/lib/req';
 
 import cls from './OAEditor.module.scss';
 
-export function OASection({ section, number, totalNumber, onChange, onSectionMove, onSectionDelete, createURL, RelatedResourceWidget }) {
+export function OASection({ section, number, totalNumber, onChange, onSectionMove, onSectionDelete, createURL, RelatedResourceWidget, videoUploadStrategy=undefined }) {
   const [sectionLoc, setSectionLoc] = useState(section);
   const [isNew, setIsNew] = useState(section.is_new || false);
   const [opened, setOpened] = useState(number == 1);
@@ -140,7 +140,7 @@ export function OASection({ section, number, totalNumber, onChange, onSectionMov
                   Main Content
                 </label>
                 <div className="controls">
-                  <CKEditorWidget content={content} onChange={(e) => handleChange('content', e.editor.getData())} />
+                  <CKEditorWidget content={content} onChange={(e) => handleChange('content', e.editor.getData())} config={videoUploadStrategy ? { videoUploadStrategy } : {}} />
                 </div>
               </div>
               {/* BEGIN Attachments block */}
@@ -176,7 +176,7 @@ export function OASection({ section, number, totalNumber, onChange, onSectionMov
               <div className="lesson-step-instructor-content-ct">
                 <div className="form-group">
                   <div className="controls">
-                    <CKEditorWidget content={teacherDescription} onChange={(e) => handleChange('teacher_description', e.editor.getData())} />
+                    <CKEditorWidget content={teacherDescription} onChange={(e) => handleChange('teacher_description', e.editor.getData())} config={videoUploadStrategy ? { videoUploadStrategy } : {}} />
                   </div>
                 </div>
               </div>

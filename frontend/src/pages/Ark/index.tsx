@@ -2,12 +2,15 @@
 import { useEffect, useState, useMemo } from 'react';
 import api from './api/axios';
 import { Outlet, NavLink } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Box, Container, Link, CssBaseline } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box, Container, Link, CssBaseline, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, useTheme, useMediaQuery } from '@mui/material';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import MenuIcon from '@mui/icons-material/Menu';
 import cls from './styles.module.scss';
 import Loader from './icons/Loader';
 import { Button } from 'components/Dashboard';
 import Settings from './widgets/Settings';
+
+if (document.title === 'IMLS-React') document.title = 'The Ark: A Digital Public Goods Library'
 
 function addFont(font) {
   const head = document.querySelector('head');
@@ -22,6 +25,56 @@ function isColorString(str) {
   const s = new Option().style;
   s.color = str;
   return !!s.color // s.color === str;
+}
+
+function HeaderLinks({ fontFamily, fontSizeText }) {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down('md'));
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const fontStyleLocal = { fontFamily, fontSize: fontSizeText, color: 'ark.headerLinkColor' };
+
+  return (
+    <>
+      <Box sx={{ display: { sm: 'none', xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1 }}>
+        <Link href="/ark/browse" className={cls.navLink} color="ark.footerLinkColor" underline="hover" sx={{ ...fontStyleLocal, mr: 1 }}>
+          All Collections
+        </Link>
+        <Link href="/hubs/" className={cls.navLink} color="ark.footerLinkColor" underline="hover" sx={{ ...fontStyleLocal, mr: 1 }}>
+          Hubs
+        </Link>
+        <Link component={NavLink} to="about" className={cls.navLink} color="ark.footerLinkColor" underline="hover" sx={fontStyleLocal}>
+          About Us
+        </Link>
+      </Box>
+
+      <IconButton color="inherit" edge="end" sx={{ display: { sm: 'inline-flex', md: 'none' } }} onClick={() => setDrawerOpen(true)} aria-label="open menu">
+        <MenuIcon />
+      </IconButton>
+
+      <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <Box sx={{ width: 250, height: '100%', bgcolor: 'ark.contentBackgroundColor' }} role="presentation" onClick={() => setDrawerOpen(false)} onKeyDown={() => setDrawerOpen(false)}>
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton component="a" href="/ark/browse">
+                <ListItemText primary="All Collections" primaryTypographyProps={{ sx: fontStyleLocal }} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton component="a" href="/hubs/">
+                <ListItemText primary="Hubs" primaryTypographyProps={{ sx: fontStyleLocal }} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton component={NavLink} to="/ark/about">
+                <ListItemText primary="About Us" primaryTypographyProps={{ sx: fontStyleLocal }} />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
+    </>
+  );
+
 }
 
 export default function ArkLayout() {
@@ -45,6 +98,13 @@ export default function ArkLayout() {
   const [fontFamily, setFontFamily] = useState('Inter, sans-serif');
   const [fontSizeText, setFontSizeText] = useState('16px'); // default
   const [primary, setPrimary] = useState('#000000'); // default primary color
+
+  useEffect(() => {
+    const styleTag = document.createElement('style');
+    styleTag.textContent = `.page-wrapper{width:100% !important}`;
+    document.head.appendChild(styleTag);
+    return () => document.head.removeChild(styleTag);
+  }, [])
 
   useEffect(() => {
     (async () => {
@@ -124,26 +184,18 @@ export default function ArkLayout() {
         {/* Header */}
         <AppBar position="static" sx={{ bgcolor: 'ark.headerNavbarBackgroundColor', boxShadow: 'none' }}>
           <Toolbar className={cls.navToolbar}>
-            <Container maxWidth="lg" className={cls.navContainer}>
+            <Container className={cls.navContainer}>
               <Link component={NavLink} to="/ark" className={cls.navTitle} color="ark.footerTextColor" underline="none">
-                The Digital
-                Public Goods Library
+                The Ark: A Digital Public Goods Library
               </Link>
-              <section>
-                <Link href="/hubs/" className={cls.navLink} color="ark.footerLinkColor" underline="hover" sx={{ fontFamily, fontSize: fontSizeText, marginRight: '8px' }}>
-                  Hubs
-                </Link>
-                <Link component={NavLink} to="about" className={cls.navLink} color="ark.footerLinkColor" underline="hover" sx={{ fontFamily, fontSize: fontSizeText }}>
-                  About Us
-                </Link>
-              </section>
+              <HeaderLinks fontFamily={fontFamily} fontSizeText={fontSizeText} />
             </Container>
           </Toolbar>
         </AppBar>
 
         {/* Main Content */}
         <Box sx={{ flex: 1, px: 4, bgcolor: 'ark.contentBackgroundColor' }}>
-          <Container maxWidth="lg" sx={{ bgcolor: 'ark.cardBackgroundColor', borderRadius: 2, p: 4, minHeight: 400 }}>
+          <Container sx={{ bgcolor: 'ark.cardBackgroundColor', borderRadius: 2, p: 4, minHeight: 400 }}>
             <Outlet />
           </Container>
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4, gap: '120px' }}>
@@ -157,17 +209,16 @@ export default function ArkLayout() {
         </Box>
 
         <Box component="footer" sx={{ bgcolor: 'ark.footerColor', color: 'ark.footerTextColor', py: 2, mt: 2, textAlign: 'center' }}>
-          <Container maxWidth="lg">
+          <Container>
             <Typography variant="body2" className={cls.copyRight} color="ark.footerTextColor">
-              @ 2025 The Digital Public Goods Library
+              Copyright notice: Please see the terms of use for individual materials found on The Ark: A Digital Public Goods Library.
             </Typography>
             <Typography
               variant="body3"
               className={cls.footerText}
               color="ark.footerTextColor"
-              sx={{ fontFamily, fontSize: fontSizeText }}
             >
-              Except where otherwise noted, content on this site is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 Licence
+              Except where otherwise noted, content on this site is licensed under a Creative Commons Attribution-ShareAlike 4.0 Licence
             </Typography>
           </Container>
         </Box>

@@ -6,8 +6,7 @@
 // @ts-nocheck
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import * as qs from 'query-string';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { useAppSelector } from 'hooks/redux';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Accordion from '@mui/material/Accordion';
@@ -17,23 +16,20 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Search from '@mui/icons-material/Search';
 import { ResourcesAll } from 'widgets/ResourcesAll';
 import cls from './Resources.module.scss';
-import axios from 'axios';
 import { AlignWidget } from 'widgets/CasesAll/ui/Align';
 import { getSelectedItems } from 'widgets/Filters/lib';
 import { extractUrlParams } from 'shared/lib/global';
 import styles from './Resources.styles'
 
-const urlParams = extractUrlParams()
-
 let tempMaterials = []
 const makeArray = (arg) => arg !== undefined ? Array.isArray(arg) ? arg : [arg] : []
 
-const Subject = ({ data = {}, onSelect = () => {} }) => {
-  const [expanded, setExpanded] = useState(false)
+const Subject = ({ data = {}, isSelected = false, onSelect = () => {} }) => {
+  const [expanded, setExpanded] = useState(isSelected)
+
   useEffect(() => {
-    const index = tempMaterials.findIndex((item) => item.slug === data.slug)
-    setExpanded(index >= 0)
-  }, [data]);
+    setExpanded(isSelected)
+  }, [isSelected]);
   return (
     <Accordion
       expanded={expanded}
@@ -46,31 +42,63 @@ const Subject = ({ data = {}, onSelect = () => {} }) => {
       <AccordionSummary
         sx={styles.inner}
       >
-        <Typography>{data.name}</Typography>
+        <Typography>
+          {data.name + ' '}
+          {data?.numResources ? `(${data?.numResources})` : ''}
+        </Typography>
       </AccordionSummary>
     </Accordion>
   )
 };
 
+let allMaterials = []
 export function Resources({ titles = '', URL = '/api/materials/v1/courses' }) {
   let { cases, count, pages, materials, standards } = useAppSelector((state) => state.CasesSlice);
   materials = materials.length ? materials : [{ "name": "Case Analysis Prompt", "slug": "case-analysis-prompt" }]
+
+  if (materials?.length && allMaterials.length <= materials.length) {
+    allMaterials = materials
+  }
   let [searchParams, setSearchParams] = useSearchParams();
+
+  const urlParams = extractUrlParams()
+  const frameworkParam = makeArray(urlParams['f.std'])[0] || ''
+
   const [defaultPage, setDefaultPage] = useState(() => {
     const page = parseInt(urlParams.page, 10);
     return isNaN(page) ? 1 : page;
   });
-  const [expandFrame, setExpandFrame] = useState(false);
-  const [check, setCheck] = useState([]);
+  const [expandFrame, setExpandFrame] = useState(!!frameworkParam);
   const [expand, setExpand] = useState(false)
   const [filteredMaterials, setFilteredMaterials] = useState([])
-  const selectedStandards = getSelectedItems(standards)
+  const visibleStandardsRef = useRef(standards)
 
-  const setParams = (key, value) => {
+  useEffect(() => {
+    if (standards.length > 0) {
+      visibleStandardsRef.current = standards
+    }
+  }, [standards])
+
+  const visibleStandards =
+    standards.length > 0 ? standards : visibleStandardsRef.current
+
+  const selectedStandards =
+    frameworkParam ? getSelectedItems(visibleStandards) : []
+
+  const setParamsBulk = (updates) => {
     const params = extractUrlParams()
-    if (value === '' || value === undefined || value === null) {
-      delete params[key]
-    } else params[key] = value
+    Object.entries(updates).forEach(([key, value]) => {
+      if (
+        value === '' ||
+        value === undefined ||
+        value === null ||
+        (Array.isArray(value) && value.length === 0)
+      ) {
+        delete params[key]
+      } else {
+        params[key] = value
+      }
+    })
     setSearchParams(params)
   }
 
@@ -83,29 +111,44 @@ export function Resources({ titles = '', URL = '/api/materials/v1/courses' }) {
       tempMaterials.splice(index, 1)
     }
     setFilteredMaterials(tempMaterials)
-    setParams('f.material_types', tempMaterials.map((item) => item.slug))
-    setParams('page', 1)
+    setParamsBulk({
+      'f.material_types': tempMaterials.map((item) => item.slug),
+      page: 1,
+    })
   }
 
+  const searchParamsKey = searchParams.toString()
+
+  const firstRender = useRef(true)
   useEffect(() => {
-    tempMaterials = materials.filter((item) => makeArray(urlParams['f.material_types']).includes(item.slug))
-    if (tempMaterials.length) setExpand(true)
+    if (firstRender.current && materials.length) {
+      firstRender.current = false;
+    } else return;
+
+    const currentUrlParams = extractUrlParams()
+    tempMaterials = materials.filter((item) =>
+      makeArray(currentUrlParams['f.material_types']).includes(item.slug)
+    )
+
     setFilteredMaterials(tempMaterials)
-  }, [])
+    setExpand(tempMaterials.length > 0)
+  }, [materials, searchParamsKey])
 
   const applyFrameworkFilter = (value) => {
     setDefaultPage(1)
-    setParams('page', 1)
-    setParams('f.std', value)
+    setParamsBulk({
+      page: 1,
+      'f.std': value,
+    })
     setExpandFrame(true)
   }
 
-  const clearFilter = (param, value) => {
-    const val = value.split('-').slice(0, -1).join('-')
-
+  const clearFilter = (param) => {
     setDefaultPage(1)
-    setParams('page', 1)
-    setParams(param, val)
+    setParamsBulk({
+      page: 1,
+      [param]: undefined,
+    })
   }
 
   return (
@@ -126,9 +169,14 @@ export function Resources({ titles = '', URL = '/api/materials/v1/courses' }) {
             <Typography>Material Types</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: '8px 0 0' }}>
-            {materials.map((material, j) => (
-              <Subject key={material.slug} data={material} onSelect={applyFilter} />
-            ))}
+          {allMaterials.map((material) => (
+            <Subject
+              key={material.slug}
+              data={material}
+              isSelected={filteredMaterials.some((item) => item.slug === material.slug)}
+              onSelect={applyFilter}
+            />
+          ))}
           </AccordionDetails>
         </Accordion>
         <Accordion
@@ -144,7 +192,7 @@ export function Resources({ titles = '', URL = '/api/materials/v1/courses' }) {
           </AccordionSummary>
           <AccordionDetails sx={{ paddingLeft: 0, paddingRight: 0 }}>
             {/* selected */}
-            <AlignWidget onSelect={applyFrameworkFilter} standards={standards} selected={selectedStandards} />
+            <AlignWidget onSelect={applyFrameworkFilter} standards={visibleStandards} selected={selectedStandards} />
           </AccordionDetails>
         </Accordion>
         <Typography sx={{ display: 'flex', gap: '8px', cursor: 'pointer' }}>
@@ -154,17 +202,19 @@ export function Resources({ titles = '', URL = '/api/materials/v1/courses' }) {
       </Grid>
       <Grid item xs={8}>
         <ResourcesAll
+          key={`resources-all-${frameworkParam || 'none'}`}
           data={cases}
           pages={pages}
           count={count}
           materials={filteredMaterials}
           selectedStandards={selectedStandards}
           unselectMaterial={applyFilter}
-          unselectFramework={applyFrameworkFilter}
           onUnselectFilter={clearFilter}
           onClear={() => {
+            tempMaterials = []
             setFilteredMaterials([])
             setSearchParams({})
+            setExpand(false)
             setExpandFrame(false)
           }}
           defaultPage={defaultPage}

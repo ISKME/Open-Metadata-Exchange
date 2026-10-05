@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
+    "noImplicitAny": true,
     "module": "ESNext",
     "target": "es2017",
     "jsx": "react-jsx",
@@ -12,7 +13,14 @@
     },
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    // Required by the webpack build's ts-loader transpileOnly mode, which compiles each file
+    // independently and can't elide type-only imports/exports without explicit `import type`/`export type`.
+    "isolatedModules": true,
+    // @types/node is pinned far behind the installed typescript version, which causes spurious
+    // errors inside node_modules .d.ts files (e.g. Buffer/ArrayBuffer generics). Skip checking
+    // third-party declaration files instead of our own code.
+    "skipLibCheck": true
   },
   "ts-node": {
     "compilerOptions": {

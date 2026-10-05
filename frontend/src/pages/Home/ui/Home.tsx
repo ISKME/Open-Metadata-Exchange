@@ -1,3 +1,7 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+// @ts-nocheck
 // import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { useEffect, useState } from 'react';
@@ -104,14 +108,21 @@ export function Home({ className }: HomeProps) {
     }
   }
 
+  // useEffect(() => {
+  //   const styleTag = document.createElement('style');
+  //   styleTag.textContent = `@media screen and (max-width: 800px){#content{width:calc(100% - 64px) !important}}`;
+  //   document.head.appendChild(styleTag);
+  //   return () => document.head.removeChild(styleTag);
+  // }, [])
+
   return <div className={classNames(cls.Home, {}, [className])}>
-    <Box sx={sxStyles.searchBar}>
+    <Box sx={sxStyles.searchBar} className={cls.searchBar}>
       <TextField
         value={inputValue}
         onChange={({ target }) => setInputValue(target.value)}
         onKeyDown={onPress}
         variant="outlined"
-        placeholder="Search individual learning materials"
+        placeholder="Search Collections"
         sx={sxStyles.searchInput}
         size="small"
       />
@@ -119,7 +130,7 @@ export function Home({ className }: HomeProps) {
         Search
       </Button>
     </Box>
-    <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mb: 2 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mb: 2 }} className={cls.dropdowns}>
       <Select label="Collection publisher" value={selectedTenants} options={tenants} onChange={setSelectedTenants} />
       <Select label="Subject area" value={selectedSubjects} options={subjects} onChange={setSelectedSubjects} />
       <Select label="Educational level" value={selectedLevels} options={levels} onChange={setSelectedLevels} />

@@ -37,6 +37,8 @@ export function MyItems() {
   const [selectedFolderIsDefault, setSelectedFolderIsDefault] = React.useState(false);
 
   const { items, count, pages } = useAppSelector((state) => state.ItemsSlice);
+  const [displayCount, setDisplayCount] = React.useState(count);
+  const [headerTitle, setHeaderTitle] = React.useState('My Items');
   let [searchParams, setSearchParams] = useSearchParams();
   const [defaultPage, setDefaultPage] = React.useState(() => {
     const page = parseInt(new URLSearchParams(window.location.search).get("page"), 10);
@@ -45,6 +47,19 @@ export function MyItems() {
   let filters = searchParams.get('filters')
   if (filters) filters = JSON.parse(filters)
   else filters = {}
+
+  const computeHeaderTitle = React.useCallback(() => {
+    let title = 'My Items';
+    if (folderId) {
+      const f = folders.find((x) => x.id === folderId);
+      if (f) title = f.title || title;
+      if (subFolderId && f?.subfolders?.length) {
+        const sf = f.subfolders.find((s) => s.id === subFolderId);
+        if (sf) title = sf.title || title;
+      }
+    }
+    setHeaderTitle(title);
+  }, [folders, folderId, subFolderId]);
 
   React.useEffect(() => {
     get()
@@ -60,6 +75,35 @@ export function MyItems() {
         console.error("Failed to fetch CSRF token", error);
       });
   }, []);
+
+  React.useEffect(() => {
+    let title = 'My Items';
+    if (folderId) {
+      const f = folders.find((x) => x.id === folderId);
+      if (f?.title) title = f.title;
+      if (subFolderId && f?.subfolders?.length) {
+        const sf = f.subfolders.find((s) => s.id === subFolderId);
+        if (sf?.title) title = sf.title;
+      }
+    }
+    setHeaderTitle(title);
+
+    if (!folderId) {
+      setDisplayCount(count);
+    } else {
+      const f = folders.find((x) => x.id === folderId);
+      let n = f?.items_count ?? f?.count ?? f?.itemsCount ?? 0;
+      if (subFolderId && f?.subfolders?.length) {
+        const sf = f.subfolders.find((s) => s.id === subFolderId);
+        n = sf?.items_count ?? sf?.count ?? sf?.itemsCount ?? n;
+      }
+      setDisplayCount(n);
+    }
+  }, [folders, folderId, subFolderId, count]);
+
+  React.useEffect(() => {
+    computeHeaderTitle();
+  }, [computeHeaderTitle]);
 
   function get() {
     axios.get('/api/myitems/v1/save-widget/reload/')
@@ -154,7 +198,7 @@ export function MyItems() {
 
   const handleRemoveItems = async (items, ) => {
     if (!folderId) {
-      window.alert("Please select a folder from which you want to delete the cases.");
+      window.alert("Please select a folder from which you want to delete the items.");
       return;
     }
 
@@ -272,7 +316,7 @@ export function MyItems() {
             subFolderId={subFolderId}
             setDefaultPage={setDefaultPage}
             pages={pages}
-            count={count}
+            count={displayCount}
             handleRemoveItems={handleRemoveItems}
             updateCasesData={updateCasesData}
             get={get}
@@ -280,6 +324,7 @@ export function MyItems() {
             canRemoveItems={true}
             setCheck={setCheck}
             check={check}
+            headerTitle={headerTitle}
           />
         </Grid>
       </Grid>

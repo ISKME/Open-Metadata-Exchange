@@ -16,11 +16,53 @@ import "./WidgetDashboard.module.scss";
 import type { StorageManagerConfig } from "grapesjs";
 
 import { customPlugins } from "../utils/plugins";
+import { homepageHeroBlocks } from "../utils/homepageHeroBlocks";
 import { THEME, getGJSOptions } from "../constants";
 
 const fetchImageUrls = async (): Promise<string[]> => {
   const response = await axios.get("/api/pages/v1/images/");
-  return response.data.map((image: any) => image.image_url);
+  return response.data
+    .map((image: any) => image.original_url || image.image_url)
+    .filter(Boolean);
+};
+
+const injectTenantVarsToCanvas = (editor: any) => {
+  const frameEl = editor?.Canvas?.getFrameEl?.();
+  const doc: Document | null = frameEl?.contentDocument || null;
+  if (!doc) return;
+
+  const readVar = (name: string) => {
+    const htmlVal = getComputedStyle(document.documentElement)
+      .getPropertyValue(name)
+      .trim();
+    const bodyVal = getComputedStyle(document.body)
+      .getPropertyValue(name)
+      .trim();
+    return htmlVal || bodyVal;
+  };
+
+  const vars = {
+    "--button-primary-color": readVar("--button-primary-color"),
+    "--button-primary-color-hover": readVar("--button-primary-color-hover"),
+    "--font-family-main": readVar("--font-family-main"),
+  };
+
+  const styleId = "oerc-tenant-vars";
+  let styleEl = doc.getElementById(styleId) as HTMLStyleElement | null;
+  if (!styleEl) {
+    styleEl = doc.createElement("style");
+    styleEl.id = styleId;
+    doc.head.appendChild(styleEl);
+  }
+
+  const cssVars = Object.entries(vars)
+    .filter(([, v]) => v)
+    .map(([k, v]) => `${k}:${v};`)
+    .join("");
+
+  styleEl.textContent = `
+  :root{${cssVars}}
+`;
 };
 
 export default function DefaultEditor() {
@@ -28,27 +70,21 @@ export default function DefaultEditor() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storageManager = getGJSOptions.storageManager as StorageManagerConfig;
-
-    (storageManager.options.remote.onLoad = (result) => {
-      return JSON.parse(result.content);
-    }),
-      axios.get("/api/csrf-token/").then((response) => {
-        const storageManager =
-          getGJSOptions.storageManager as StorageManagerConfig;
-        storageManager.options.remote.fetchOptions = (opts) => {
-          if (opts.method !== "GET") {
-            return {
-              ...opts,
-              method: "PUT",
-              headers: {
-                "X-CSRFToken": response.data.token,
-                "Content-Type": "application/json",
-              },
-            };
-          }
-        };
-      });
+    axios.get("/api/csrf-token/").then((response) => {
+      const storageManager = getGJSOptions.storageManager as StorageManagerConfig;
+      storageManager.options.remote.fetchOptions = (opts) => {
+        if (opts.method !== "GET") {
+          return {
+            ...opts,
+            method: "PUT",
+            headers: {
+              "X-CSRFToken": response.data.token,
+              "Content-Type": "application/json",
+            },
+          };
+        }
+      };
+    });
   }, []);
 
   useEffect(() => {
@@ -57,6 +93,9 @@ export default function DefaultEditor() {
     storageManager.options.remote.urlLoad = `/api/pages/v1/admin/${id || ""}`;
     storageManager.options.remote.urlStore = `/api/pages/v1/admin/${id || ""}/`;
     storageManager.options.remote.onLoad = async (data, _editor) => {
+      if (data?.name === "Homepage Hero") {
+        homepageHeroBlocks(_editor);
+      }
       let projectData = JSON.parse(data.content);
       projectData.assets = await fetchImageUrls();
       return projectData;
@@ -89,9 +128,10 @@ export default function DefaultEditor() {
   const handleSave = async () => {
     const storageManager = getGJSOptions.storageManager as StorageManagerConfig;
     const fetchOptions = storageManager.options.remote.fetchOptions;
-    const headers = typeof fetchOptions === 'function'
-      ? fetchOptions({}).headers["X-CSRFToken"]
-      : null;
+    const headers =
+      typeof fetchOptions === "function"
+        ? fetchOptions({}).headers["X-CSRFToken"]
+        : null;
 
     if (!headers) {
       console.error("CSRF token not found");
@@ -107,17 +147,21 @@ export default function DefaultEditor() {
     }
 
     try {
-      await axios.put(`/api/pages/v1/admin/${id}/`, {
-        id: id,
-        content: JSON.stringify(editorInstance.getProjectData()),
-        html_content: editorInstance.editor.getHtml(),
-        styles: editorInstance.editor.getCss(),
-      }, {
-        headers: {
-          "X-CSRFToken": headers,
-          "Content-Type": "application/json",
+      await axios.put(
+        `/api/pages/v1/admin/${id}/`,
+        {
+          id: id,
+          content: JSON.stringify(editorInstance.getProjectData()),
+          html_content: editorInstance.editor.getHtml(),
+          styles: editorInstance.editor.getCss(),
         },
-      });
+        {
+          headers: {
+            "X-CSRFToken": headers,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       editorInstance.clearDirtyCount();
       alert("Saved successfully!");
       navigate("/new/my/page/dashboard/");
@@ -141,6 +185,17 @@ export default function DefaultEditor() {
             },
             customPlugins,
           ]}
+          onEditor={(editor) => {
+            if ((editor as any).__oercTenantVarsBound) return;
+            (editor as any).__oercTenantVarsBound = true;
+
+            const run = () => injectTenantVarsToCanvas(editor);
+
+            editor.on("load", run);
+            editor.on("canvas:frame:load", run);
+
+            run();
+          }}
         >
           <div className={`flex h-full border-t ${MAIN_BORDER_COLOR}`}>
             <div className="gjs-column-m flex flex-col flex-grow">
@@ -173,10 +228,7 @@ export default function DefaultEditor() {
             )}
           </AssetsProvider>
         </GjsEditor>
-        <button
-          onClick={handleSave}
-          className="m-2 p-2 bg-blue-500 text-white"
-        >
+        <button onClick={handleSave} className="m-2 p-2 bg-blue-500 text-white">
           Save
         </button>
         <button

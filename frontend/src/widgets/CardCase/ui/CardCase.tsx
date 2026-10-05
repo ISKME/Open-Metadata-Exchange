@@ -4,6 +4,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
@@ -66,18 +67,18 @@ export function CardCase({ id, title, picture, description, items = [], checked 
   return (
     <CardBlog sx={{ display: 'flex' }}>
       <Checkbox checked={checked} onChange={onCheck} inputProps={{ 'aria-label': 'Checkbox demo' }} />
-      <a href={'/courseware/new/' + id?.split('.')?.pop()}>
+      <Link to={'/courseware/new/' + id?.split('.')?.pop()}>
         <CardBlogMedia
           component="img"
           image={picture}
         />
-      </a>
+      </Link>
       <CardContent sx={{ flex: '1', paddingTop: '0' }}>
-        <a href={'/courseware/new/' + id?.split('.')?.pop()}>
+        <Link to={'/courseware/new/' + id?.split('.')?.pop()}>
           <Typography component="div" variant="h5" sx={{ color: '#56788f', font: '700 19px / 25px "DINPro", sans-serif', marginBottom: '5px' }}>
             {title}
           </Typography>
-        </a>
+        </Link>
         <div style={{ display: 'flex' }}>
           <Typography
             variant="subtitle1"

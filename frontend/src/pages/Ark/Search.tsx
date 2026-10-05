@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useState, useCallback, useEffect } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
 import api from './api/axios';
 import * as qs from 'query-string';
 import SearchBar from './components/Input';
@@ -49,6 +49,10 @@ export default function ArkSearch() {
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [small, setSmall] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
+  const [hubTitle, setHubTitle] = useState('')
+  const [hubLogo, setHubLogo] = useState('')
+
+  const navigate = useNavigate()
 
   fSearch = inputValue;
   fSubject = checked;
@@ -122,6 +126,13 @@ export default function ArkSearch() {
         // updatePath(null);
       });
 
+    const hub = window.location.search.toString().match(/network_hub=(\d+)/)
+    if (hub) api.get('/api/hubs/v1/hubs/' + hub[1]).then(({ data }) => {
+      if (!data) return
+      setHubTitle(data.title)
+      setHubLogo(data.logo)
+    })
+
     const handleResize = () => setSmall(window.innerWidth < 1024);
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -191,7 +202,10 @@ export default function ArkSearch() {
         </Box>}
       </Drawer>
       <div className={cls.searchBlock}>
-        <Button variant="text" onClick={() => navigate(-1)}>⬅</Button>
+        <Button variant="text" onClick={() => navigate(-1)}>
+          ⬅
+          {hubTitle ? <img src={hubLogo} alt={hubTitle} style={{ width: '46px', height: '46px', borderRadius: '50%', marginLeft: '16px', objectFit: 'contain', border: '1px solid rgba(0, 0, 0, .5)' }} /> : ''}
+        </Button>
         <SearchBar value={inputValue} onChange={({ target }) => setInputValue(target.value)} onSearch={handleInputChange} placeholder="Search" />
         <Dropdown label="Sort" multiple={false} value={sorted} options={sortBy} onChange={handleSelectChange} />
         {small && <Button
@@ -210,7 +224,7 @@ export default function ArkSearch() {
       </div>
       {/* {isLoading && <h3>Loading...</h3>}
       {error && <h3>{error}</h3>} */}
-      <div className={cls.searchResults}>
+      <div className={cls.searchLessons}>
         {!small && !!filters?.length && <Filters filters={filters} checked={checked} onChange={handleFilterChange} />}
         <div className={cls.resourcesList}>
           <span style={{ position: 'absolute', top: '-24px' }}>{`${totalNumber} Resources`}</span>

@@ -1,5 +1,6 @@
 import { Editor } from "grapesjs";
 import { createElement } from "react";
+import { homepageHeroBlocks } from "./homepageHeroBlocks";
 import axios from "axios";
 
 const createButton = (text: string, styles: object = {}) => {
@@ -84,14 +85,20 @@ const getCollectionComponentHTML = (collection: any) => {
     <li class="curated-collection-li">
       <a class="curated-collection-ct overlay" href="${collection.url}">
         <div class="curated-collection-image-wrapper">
-          <img class="curated-collection-image" src="${collection.image}" alt="${collection.title}" width="340" height="170" style="object-fit: contain">
+          <img class="curated-collection-image" src="${
+            collection.image
+          }" alt="${
+    collection.title
+  }" width="340" height="170" style="object-fit: contain">
           <div class="curated-collection-title">
             <h4 role="heading" aria-level="3">${collection.title}</h4>
           </div>
         </div>
         <div class="curated-collection-resources">
           <span class="notranslate">${collection.resource_count}</span>
-          <span class="tx">${Number(collection.resource_count) > 1 ? 'Resources' : 'Resource'}
+          <span class="tx">${
+            Number(collection.resource_count) > 1 ? "Resources" : "Resource"
+          }
           </span>
         </div>
       </a>
@@ -329,7 +336,7 @@ const collections = (editor: Editor) => {
           height: "fit-content",
           "border-radius": "2px",
           "box-shadow": "0 2px 8px rgba(0, 0, 0, 0.2)",
-          "margin": "0 auto"
+          margin: "0 auto",
         },
       },
       init() {
@@ -494,6 +501,7 @@ const plugin2 = (editor: Editor) => {
 };
 
 export const customPlugins = (editor: Editor) => {
+  homepageHeroBlocks(editor);
   partners(editor);
   extendImageComponent(editor);
   collections(editor);

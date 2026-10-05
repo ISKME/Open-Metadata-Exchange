@@ -11,6 +11,7 @@ import { Filter } from './widgets/Filter';
 import CircleLoader from './icons/Loader';
 import cls from './styles.module.scss';
 import { FilterAlt } from '@mui/icons-material';
+import { matomoTag } from "pages/Case/ui/helper";
 
 let PAGE = 1;
 
@@ -78,8 +79,9 @@ export default function ArkCollectionResources() {
 
   const fetcher = async (queries) => {
     queries += `${queries ? '&' : '?'}page=${PAGE}`
+    if (!queries.includes('__hub_id')) queries += '&source=courseware'
     try {
-      const { data } = await api.get(`/api/search/v2/browse/${queries}&f.collection=${details}&source=courseware`);
+      const { data } = await api.get(`/api/search/v2/browse/${queries}&f.collection=${details}`);
       return data.resources;
     } catch (e) { return [] }
   };
@@ -87,6 +89,8 @@ export default function ArkCollectionResources() {
   async function dataFetch() {
     const { data } = await api.get(`/api/curatedcollections/v2/curatedcollections/${details}`)
     setInfo(data?.collection)
+    matomoTag({ category: 'Collections', action: data?.collection?.name || '', name: `/ark/collection/${details}` || '' });
+
     // id, name, micrositeName, micrositeSlug, numResources, educationLevels, updatedOn, thumbnail, abstract, subscribed
 
     document.title = data?.collection?.name && data?.clientInfo?.name
@@ -239,8 +243,8 @@ export default function ArkCollectionResources() {
         </div>
         <h4><b>Overview:</b></h4>
         <div style={{ position: 'relative', fontFamily: 'Inter' }}>
-          <div id="compress" className={more && cls.compress} dangerouslySetInnerHTML={{ __html: info.abstract }} style={{ width: 'calc(100% - 100px)' }} />
-          {more && <Button className={cls.overview_link} onClick={() => setMore(false)}>Read More</Button>}
+          <div id="compress" className={more && cls.compress} dangerouslySetInnerHTML={{ __html: info.abstract }} style={{ width: small ? '' : 'calc(100% - 100px)' }} />
+          {more && <Button className={cls.overview_link} onClick={() => setMore(false)} style={{ top: small ? '24px' : '' }}>Read More</Button>}
         </div>
       </div>}
       <div className={cls.searchBlock}>
@@ -262,7 +266,7 @@ export default function ArkCollectionResources() {
       </div>
       {/* {isLoading && <h3>Loading...</h3>}
       {error && <h3>{error}</h3>} */}
-      <div className={cls.searchResults}>
+      <div className={cls.searchLessons}>
         {!small && !!filters?.length && <Filters filters={filters} checked={checked} onChange={handleFilterChange} />}
         <div className={cls.resourcesList}>
           <span style={{ position: 'absolute', top: '-24px' }}>{`${totalNumber} Resources`}</span>

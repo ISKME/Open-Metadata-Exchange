@@ -1,11 +1,33 @@
 // @ts-ignore
 import { useEffect, useState } from 'react';
-import { Dropdown } from 'widgets/Dropdown';
-import { SearchGrid } from 'widgets/SearchGrid/ui/SearchGrid';
-import { CollectionItemCard } from 'entities/CollectionItemCard';
-import { Portal } from 'features/Portal';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Checkbox,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  IconButton,
+  Pagination,
+  Snackbar,
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import axios from 'axios';
 import cls from './SharedContent.module.scss';
+import SearchBar from 'components/OERX/Input';
+// import Dropdown from 'components/OERX/Dropdown';
 
 interface SubscribedContentProps {
     className?: string;
@@ -14,127 +36,182 @@ interface SubscribedContentProps {
 let tempUnshareTitle = '';
 
 export const SharedContent = ({ className }: SubscribedContentProps) => {
-  const [isShown, setIsShown] = useState(false);
-  const [chosen, setChosen] = useState<any>('');
-  const [shareInfo, setShareInfo] = useState<any>('');
-  const [addInfo, setAddInfo] = useState<any>([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [added, setAdded] = useState([]);
+  const [collections, setCollections] = useState([]);
+  const [page, setPage] = useState(1);
+  const [perPage] = useState(9);
+  const [totalPages, setTotalPages] = useState(1);
+  const [inputValue, setInputValue] = useState('');
+  const [subjects, setSubjects] = useState([]);
+  const [levels, setLevels] = useState([]);
+  const [tenants, setTenants] = useState([]);
+  const [selectedSubjects, setSelectedSubjects] = useState([]);
+  const [selectedLevels, setSelectedLevels] = useState([]);
+  const [selectedTenants, setSelectedTenants] = useState([]);
+  const [unshareDialog, setUnshareDialog] = useState({ open: false, id: null, name: '' });
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [pickerItems, setPickerItems] = useState([]);
+  const [pickerSelected, setPickerSelected] = useState([]);
+  const [snackbar, setSnackbar] = useState({ open: false, message: '' });
 
+  // Fetch filters
   useEffect(() => {
-    if (!isShown) {
-      setChosen('');
-    }
-  }, [isShown]);
+    axios.get('/api/imls/v2/resources').then(({ data }) => {
+      setSubjects(data.resources.filters.find(f => f.keyword === 'f.general_subject')?.items || []);
+      setLevels(data.resources.filters.find(f => f.keyword === 'f.sublevel')?.items || []);
+      setTenants(data.resources.filters.find(f => f.keyword === 'tenant')?.items || []);
+    });
+  }, []);
 
-  const CardShare = ({ data, title, isNew = false }) => {
-    function unshare() {
-      setIsShown(true);
-      setChosen(data.id);
-      tempUnshareTitle = title;
-    }
+  function search() {
+    const params = new URLSearchParams();
+    params.set('per_page', String(perPage));
+    params.set('page', String(page));
+    if (inputValue) params.set('f.search', inputValue);
+    selectedSubjects.forEach(v => params.append('f.general_subject', v));
+    selectedLevels.forEach(v => params.append('f.sublevel', v));
+    selectedTenants.forEach(v => params.append('tenant', v));
+    axios.get('/api/imls/v2/collections/site-collections?' + params.toString()).then(({ data }) => {
+      setCollections(data.collections.items || []);
+      setTotalPages(Math.ceil((data.collections.pagination.count || 0) / perPage));
+    });
+  }
 
-    return (
-      <div>
-        <CollectionItemCard key={data.id} collection={data} className={cls.cardWidth} isNew={isNew} />
-        <div className={cls.labelText} onClick={unshare}>Unshare collection</div>
-      </div>
-    );
+  // Fetch shared collections
+  useEffect(search, [page, perPage, selectedSubjects, selectedLevels, selectedTenants]);
+
+  // Picker dialog: fetch available collections to add
+  const openPicker = () => {
+    axios.get('/api/imls/v2/collections/site-collections/picker').then(({ data }) => {
+      setPickerItems(data.collections.items || []);
+      setPickerSelected([]);
+      setPickerOpen(true);
+    });
   };
 
+  // Picker dialog: add selected collections
+  const handlePickerAdd = () => {
+    axios.post('/api/imls/v2/collections/site-collections/picker/', null, { params: { share: pickerSelected } })
+      .then(() => {
+        setPickerOpen(false);
+        setSnackbar({ open: true, message: 'Collections added to shared items.' });
+        setPage(1); // refresh
+      });
+  };
+
+  // Unshare dialog: remove collection
+  const handleUnshare = (id, name) => {
+    setUnshareDialog({ open: true, id, name });
+  };
+  const confirmUnshare = () => {
+    axios.post('/api/imls/v2/collections/site-collections/picker/', null, { params: { unshare: [unshareDialog.id] } })
+      .then(() => {
+        setUnshareDialog({ open: false, id: null, name: '' });
+        setSnackbar({ open: true, message: 'Collection unshared.' });
+        setPage(1); // refresh
+      });
+  };
+
+  const handleImageError = (e) => {
+    e.target.onerror = null;
+    e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png'
+  }
+
   return (
-    <div>
-      <Portal visible={isShown}>
-        <div className={cls['snackbar-but-cooler']}>
-          <div className={cls['frame']} />
-          <div className={cls['text-container']}>
-            <svg className={cls['vector']} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M12 0C5.376 0 0 5.376 0 12C0 18.624 5.376 24 12 24C18.624 24 24 18.624 24 12C24 5.376 18.624 0 12 0ZM18 13.2H6V10.8H18V13.2Z" fill="#FF507A"/>
-            </svg>
-            <div className={cls['text']}>
-              <div className={cls['text-only']}>
-                <div className={cls['head']}>Remove this collection from the OER Exchange</div>
-                <p className={cls['subhead']}>
-                By unsharing, this collection will no longer appear in the OER Exchange and be removed from other microsites. You may share that again later.
-                </p>
-              </div>
-              <div className={cls['div']}>
-                <button
-                  className={cls['button']}
-                  onClick={() => {
-                    axios.post('/api/imls/v2/collections/site-collections/picker/', null, { params: { unshare: [chosen] } }).then(() => {
-                      if (chosen) {
-                        setShareInfo(tempUnshareTitle);
-                        setChosen('');
-                        setIsShown(false);
-                      } else {
-                        window.location.reload();
-                      }
-                    });
-                  }}
-                >
-                  <div className={cls['label-text']}>Unshare this collection</div>
-                </button>
-                <p className={cls['text-wrapper']} onClick={() => setIsShown(false)}>I’ve decided to keep sharing the collection</p>
-              </div>
-            </div>
-            <div className={cls['action']}>
-              <div className={cls['button-icon']} onClick={() => setIsShown(false)}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M18.295 7.115C18.6844 6.72564 18.6844 6.09436 18.295 5.705C17.9056 5.31564 17.2744 5.31564 16.885 5.705L12 10.59L7.115 5.705C6.72564 5.31564 6.09436 5.31564 5.705 5.705C5.31564 6.09436 5.31564 6.72564 5.705 7.115L10.59 12L5.705 16.885C5.31564 17.2744 5.31564 17.9056 5.705 18.295C6.09436 18.6844 6.72564 18.6844 7.115 18.295L12 13.41L16.885 18.295C17.2744 18.6844 17.9056 18.6844 18.295 18.295C18.6844 17.9056 18.6844 17.2744 18.295 16.885L13.41 12L18.295 7.115Z" fill="black"/>
-              </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Portal>
-      <div className={cls.callout}>
-        <div className={cls.frame}>
-          <h1>Search shared content</h1>
-          <p>
-            All of the content you share to the OER Exchange is found here.
-          </p>
-        </div>
-        <div className={cls.calloutAction}>
-          <p>Share a new collection on the OER Exchange here</p>
-          <div className={cls.updates}>
-            <div className={cls.notificationIcon} onClick={() => setIsOpen(!isOpen)}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M11.5 1.75C11.5 0.920312 10.8297 0.25 10 0.25C9.17031 0.25 8.5 0.920312 8.5 1.75V8.5H1.75C0.920312 8.5 0.25 9.17031 0.25 10C0.25 10.8297 0.920312 11.5 1.75 11.5H8.5V18.25C8.5 19.0797 9.17031 19.75 10 19.75C10.8297 19.75 11.5 19.0797 11.5 18.25V11.5H18.25C19.0797 11.5 19.75 10.8297 19.75 10C19.75 9.17031 19.0797 8.5 18.25 8.5H11.5V1.75Z" fill="#FCFCFC" />
-              </svg>
-            </div>
-            <div className={cls.notificationButton} onClick={() => setIsOpen(!isOpen)}>
-              <div className={cls.textArrow}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
-                  <g clipPath="url(#clip0_5_71364)">
-                    <path d="M13.7061 7.49434C14.0967 7.88496 14.0967 8.51934 13.7061 8.90996L8.70605 13.91C8.31543 14.3006 7.68105 14.3006 7.29043 13.91C6.8998 13.5193 6.8998 12.885 7.29043 12.4943L10.5873 9.20059H0.999804C0.446679 9.20059 -0.000195503 8.75371 -0.000195503 8.20059C-0.000195503 7.64746 0.446679 7.20059 0.999804 7.20059H10.5842L7.29355 3.90684C6.90293 3.51621 6.90293 2.88184 7.29355 2.49121C7.68418 2.10059 8.31855 2.10059 8.70918 2.49121L13.7092 7.49121L13.7061 7.49434Z" fill="#1E1E1E" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_5_71364">
-                      <rect width="14" height="16" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                <p className={cls['text-wrapper-3']}>Add a new collection to shared items</p>
-              </div>
-            </div>
-            {isOpen && <Dropdown onAdd={(collections) => {
-              const newItems = [...collections, ...added];
-              setAdded(newItems);
-              setAddInfo(newItems);
-              setIsOpen(false);
-            }} />}
-          </div>
-        </div>
-      </div>
-      <SearchGrid api="collections/site-collections" title="shared collections from your digital library" share={shareInfo} add={addInfo}>
-        {(results) => (
-          <div className={cls.searchGrid}>
-            {added.map((item) => <CardShare key={`added-item-${item.id}`} data={item} title={item.name} isNew={true} />)}
-            {results.map((item) => <CardShare key={`shared-item-${item.id}`} data={item} title={item.name} />)}
-          </div>
-        )}
-      </SearchGrid>
-    </div>
+    <Box sx={{ p: 3 }}>
+      <Box>
+        {/* onSearch={handleSearch} */}
+        <SearchBar
+          value={inputValue}
+          onChange={({ target }) => { setInputValue(target.value) }}
+          onSearch={() => {
+            if (page !== 1) setPage(1)
+            else search()
+          }}
+          width="400px"
+        />
+        <Button variant="contained" startIcon={<AddIcon />} onClick={openPicker}>
+          Add to Shared
+        </Button>
+        {/* <Dropdown id="edu" label="Tenants" options={tenants} value={selectedTenants} onChange={e => setSelectedTenants(e.target.value)} />
+        <Dropdown id="sub" label="Subject area" options={subjects} value={selectedSubjects} onChange={e => setSelectedSubjects(e.target.value)} />
+        <Dropdown id="mat" label="Educational level" options={levels} value={selectedLevels} onChange={e => setSelectedLevels(e.target.value)} /> */}
+      </Box>
+      <Grid container spacing={4} justifyContent="center" sx={{ mt: 2 }}>
+        {collections.map((item) => (
+          <Grid item xs={12} sm={4} md={3} key={item.id}>
+            <Card sx={{ position: 'relative', height: '100%' }}>
+              <CardMedia
+                component="img"
+                sx={{ height: 180 }}
+                image={item.thumbnail}
+                title={item.name}
+                onError={handleImageError}
+              />
+                {/* startIcon={<RemoveIcon />} */}
+                <Button color="error" onClick={() => handleUnshare(item.id, item.name)} sx={{ mt: 1, position: 'absolute', right: '8px', top: '4px', textTransform: 'capitalize', background: 'white', fontWeight: 'bold' }}>
+                  Unshare
+                </Button>
+              <CardContent>
+                <Typography variant="h4" sx={{ fontSize: '1.2rem', mb: 1 }}>
+                  {item.name}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {item.levels?.join(', ') || 'PreK-12, HigherEd, ContinuingEd'}
+                </Typography>
+                <Typography variant="body2">
+                  {item.numResources} resources
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', margin: '24px' }}>
+        <Pagination count={totalPages} page={page} onChange={(_, value) => setPage(value)} variant="outlined" shape="rounded" />
+      </Box>
+      {/* Picker Dialog */}
+      <Dialog open={pickerOpen} onClose={() => setPickerOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Add Collections to Shared</DialogTitle>
+        <DialogContent>
+          <List>
+            {pickerItems.map(item => (
+              <ListItem key={item.id} button onClick={() => {
+                setPickerSelected(prev =>
+                  prev.includes(item.id)
+                    ? prev.filter(id => id !== item.id)
+                    : [...prev, item.id]
+                );
+              }}>
+                <ListItemIcon>
+                  <Checkbox checked={pickerSelected.includes(item.id)} />
+                </ListItemIcon>
+                <ListItemText primary={item.name} secondary={item.levels?.join(', ')} />
+              </ListItem>
+            ))}
+          </List>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setPickerOpen(false)}>Cancel</Button>
+          <Button variant="contained" onClick={handlePickerAdd} disabled={pickerSelected.length === 0}>Add Selected</Button>
+        </DialogActions>
+      </Dialog>
+      {/* Unshare Dialog */}
+      <Dialog open={unshareDialog.open} onClose={() => setUnshareDialog({ open: false, id: null, name: '' })}>
+        <DialogTitle>Unshare Collection?</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to unshare <b>{unshareDialog.name}</b>?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setUnshareDialog({ open: false, id: null, name: '' })}>Cancel</Button>
+          <Button color="error" onClick={confirmUnshare}>Unshare</Button>
+        </DialogActions>
+      </Dialog>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ open: false, message: '' })}
+        message={snackbar.message}
+      />
+    </Box>
   );
 };

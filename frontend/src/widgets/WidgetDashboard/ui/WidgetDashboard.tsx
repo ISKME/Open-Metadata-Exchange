@@ -43,7 +43,7 @@ export const WidgetDashboard: React.FC = () => {
       .get("/api/csrf-token/")
       .then((response) => {
         setCsrfToken(response.data.token);
-        return axios.get("/api/pages/v1/admin/");
+        return axios.get("/api/pages/v1/admin/?enabled=false");
       })
       .then((response) => setPages(response.data))
       .catch((error) =>
@@ -100,7 +100,7 @@ export const WidgetDashboard: React.FC = () => {
       .then(() => {
         setOpenModal(false);
         // Reload the page list
-        return axios.get("/api/pages/v1/admin/");
+        return axios.get("/api/pages/v1/admin/?enabled=false");
       })
       .then((response) => setPages(response.data))
       .catch((error) => console.error("Error saving widget:", error));
@@ -306,7 +306,15 @@ export const WidgetDashboard: React.FC = () => {
                           setEditingPageName(page.name);
                         }}
                       >
-                        <span title={page.name}>{page.name}</span>
+                        <span
+                          style={
+                            page.name === "Homepage Hero"
+                              ? { color: "green", fontWeight: 600 }
+                              : undefined
+                          }
+                        >
+                          {page.name}
+                        </span>
                         <EditIcon />
                       </div>
                     )}
