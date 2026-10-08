@@ -10,19 +10,17 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
 ]
 dependencies = [
-  "fastapi[standard]>=0.141.1",
-  "madoka>=0.7.2.1",
-  "pondpond",
-  "pynntp>=2.0.1",
-]
-
-[dependency-groups]
-dev = [
   "beautifulsoup4>=4.15",
   "dateparser>=1.4.2",
   "httpx2>=2.12",
+  "fastapi[standard]>=0.141.1",
+  "pynntp>=2.0.1",
+]
+[dependency-groups]
+dev = [
   "pytest>=9.1.1",
   "pytest-run-parallel>=0.10",
 ]
@@ -32,6 +30,10 @@ docs = [
   "sphinx-autoapi>=3.6",
   "sphinx-pyproject>=0.3",
   "sphinxcontrib-mermaid>=2.1",
+]
+pond = [
+  "madoka>=0.7.2.1",
+  "pondpond",
 ]
 
 [tool.ruff]
@@ -63,7 +65,7 @@ skip = """\
   """
 
 [tool.pyproject-fmt]
-max_supported_python = "3.14"
+max_supported_python = "3.15"
 
 [tool.ty]
 src.exclude = [ "server/plugins/moodle/extract-mbz3.py" ]
