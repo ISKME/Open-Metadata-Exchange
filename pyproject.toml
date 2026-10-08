@@ -15,10 +15,11 @@ classifiers = [
 dependencies = [
   "beautifulsoup4>=4.15",
   "dateparser>=1.4.2",
-  "httpx2>=2.12",
   "fastapi[standard]>=0.141.1",
+  "httpx2>=2.12",
   "pynntp>=2.0.1",
 ]
+
 [dependency-groups]
 dev = [
   "pytest>=9.1.1",
