@@ -58,7 +58,7 @@ jobs:
         with:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
-      - run: uv sync --group dev
+      - run: uv sync --group=dev --group=pond
       - run: uv run pytest --iterations=8 --parallel-threads=auto --ignore-gil-enabled
       - run: uv run scripts/nntp_io.py
 
