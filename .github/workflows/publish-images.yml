@@ -17,7 +17,9 @@ concurrency:
 
 jobs:
   publish:
-    # Only in the team fork, never upstream at ISKME.
+    # Runs only in the fork odisee-ome-2627/Open-Metadata-Exchange.
+    # In the source repository ISKME/Open-Metadata-Exchange (or any other fork)
+    # this job is skipped, so it has no effect if the file is ever copied upstream.
     if: github.repository_owner == 'odisee-ome-2627'
     runs-on: ubuntu-latest
     permissions:
