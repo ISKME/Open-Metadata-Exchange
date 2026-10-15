@@ -13,7 +13,8 @@ permissions: {}
 
 concurrency:
   group: publish-images-${{ github.ref_name }}
-  cancel-in-progress: true
+  # Never cancel a running production build: every promotion must be published.
+  cancel-in-progress: ${{ github.ref_name != 'production' }}
 
 jobs:
   publish:
@@ -42,6 +43,14 @@ jobs:
 
       - name: Use example config (no secrets in images)
         run: cp config.json.example config.json
+
+      - name: Make the API image self-contained
+        # Upstream Dockerfile-api expects ./server, ./static and ./templates as
+        # volume mounts (local development). For deployment the code must be in
+        # the image. Temporary until this is fixed upstream at ISKME.
+        if: matrix.image == 'ome-api'
+        run: |
+          printf '\nCOPY ./server /app/server\nCOPY ./static /app/static\nCOPY ./templates /app/templates\n' >> Dockerfile-api
 
       - name: Determine environment tag
         id: meta

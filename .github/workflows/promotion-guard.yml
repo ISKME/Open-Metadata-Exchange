@@ -6,7 +6,9 @@ name: promotion-guard
 on:
   pull_request:
     branches: [staging, production]
-    types: [opened, synchronize, reopend, edited]
+    # 'edited' re-runs the check when the base branch of an open PR is changed,
+    # so a PR cannot pass as main → staging and then be retargeted to production.
+    types: [opened, synchronize, reopened, edited]
 
 permissions: {}
 
