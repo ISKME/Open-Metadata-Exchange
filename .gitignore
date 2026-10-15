@@ -176,6 +176,10 @@ cython_debug/
 
 *~
 
-frontend/src/shared/lib/
-frontend/src/widgets/Align/lib/
-frontend/src/widgets/Filters/lib/
+# Don't know why there were ignored. Should not be ignored.
+# frontend/src/shared/lib/
+# frontend/src/widgets/Align/lib/
+# frontend/src/widgets/Filters/lib/
+
+# Un-Ignore the following directories
+!frontend/config/build
