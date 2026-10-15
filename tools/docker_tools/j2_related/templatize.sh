@@ -11,6 +11,6 @@ do
     DirName=$(dirname "${f}")
     BaseName=$(basename "${f}" .j2)
     FN="${DirName}/${BaseName}"
-    echo j2 --filters=${FILTERS} -o "${FN}" "${f}" "${CONFIG}";
-    j2 --filters=${FILTERS} -o "${FN}" "${f}" "${CONFIG}";
+    echo j2 --filters=${FILTERS} --format=json -o "${FN}" "${f}" "${CONFIG}";
+    j2 --filters=${FILTERS} --format=json -o "${FN}" "${f}" "${CONFIG}";
 done

@@ -12,7 +12,9 @@ You will need the following:
 
 ## Peering Configuration
 
-Edit the file `./config.json`. The contents of the file should look as follows:
+Copy `./config.json.example` to `./config.json` and edit it. It is not baked into the images:
+Docker Compose mounts it at runtime as the `ome_config` secret, so after editing it you only need
+to restart the containers, not rebuild them. The contents of the file should look as follows:
 
 ```json
 {
