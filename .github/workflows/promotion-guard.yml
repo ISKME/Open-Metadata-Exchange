@@ -6,6 +6,7 @@ name: promotion-guard
 on:
   pull_request:
     branches: [staging, production]
+    types: [opened, synchronize, reopend, edited]
 
 permissions: {}
 
