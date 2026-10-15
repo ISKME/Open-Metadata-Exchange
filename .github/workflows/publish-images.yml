@@ -1,0 +1,89 @@
+name: publish-images
+
+# Builds the frontend and API images and publishes them to GHCR.
+# Branch → environment tag: main → dev, staging → staging, production → production.
+# Watchtower on each server pulls the new image for its environment tag.
+
+on:
+  push:
+    branches: [main, staging, production]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: publish-images-${{ github.ref_name }}
+  # Never cancel a running production build: every promotion must be published.
+  cancel-in-progress: ${{ github.ref_name != 'production' }}
+
+jobs:
+  publish:
+    # Runs only in the fork odisee-ome-2627/Open-Metadata-Exchange.
+    # In the source repository ISKME/Open-Metadata-Exchange (or any other fork)
+    # this job is skipped, so it has no effect if the file is ever copied upstream.
+    if: github.repository_owner == 'odisee-ome-2627'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: ome-api
+            dockerfile: Dockerfile-api
+            build_args: INN_SERVER_NAME=nntp-server
+          - image: ome-frontend
+            dockerfile: Dockerfile-fe
+            build_args: ""
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Use example config (no secrets in images)
+        run: cp config.json.example config.json
+
+      - name: Make the API image self-contained
+        # Upstream Dockerfile-api expects ./server, ./static and ./templates as
+        # volume mounts (local development). For deployment the code must be in
+        # the image. Temporary until this is fixed upstream at ISKME.
+        if: matrix.image == 'ome-api'
+        run: |
+          printf '\nCOPY ./server /app/server\nCOPY ./static /app/static\nCOPY ./templates /app/templates\n' >> Dockerfile-api
+
+      - name: Determine environment tag
+        id: meta
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          case "$BRANCH" in
+            main)       echo "env=dev" >> "$GITHUB_OUTPUT" ;;
+            staging)    echo "env=staging" >> "$GITHUB_OUTPUT" ;;
+            production) echo "env=production" >> "$GITHUB_OUTPUT" ;;
+            *) echo "::error::Unknown branch $BRANCH"; exit 1 ;;
+          esac
+          echo "sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          build-args: ${{ matrix.build_args }}
+          push: true
+          tags: |
+            ghcr.io/odisee-ome-2627/${{ matrix.image }}:${{ steps.meta.outputs.env }}
+            ghcr.io/odisee-ome-2627/${{ matrix.image }}:${{ steps.meta.outputs.env }}-${{ steps.meta.outputs.sha }}
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+          cache-from: type=gha,scope=${{ matrix.image }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}
