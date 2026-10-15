@@ -1,0 +1,30 @@
+name: promotion-guard
+
+# Only allow promotions along the environment chain:
+# main → staging → production. Anything else into these branches fails.
+
+on:
+  pull_request:
+    branches: [staging, production]
+
+permissions: {}
+
+jobs:
+  check-source-branch:
+    # Only in the team fork, never upstream at ISKME.
+    if: github.repository_owner == 'odisee-ome-2627'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Only allow main → staging and staging → production
+        env:
+          BASE: ${{ github.base_ref }}
+          HEAD: ${{ github.head_ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          if [ "$HEAD_REPO" != "$REPO" ]; then
+            echo "::error::Promotion PRs must come from this repository"; exit 1
+          fi
+          if [ "$BASE" = "staging" ] && [ "$HEAD" = "main" ]; then exit 0; fi
+          if [ "$BASE" = "production" ] && [ "$HEAD" = "staging" ]; then exit 0; fi
+          echo "::error::$HEAD → $BASE is not an allowed promotion"; exit 1
