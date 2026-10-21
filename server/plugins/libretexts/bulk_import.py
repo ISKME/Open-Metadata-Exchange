@@ -21,7 +21,10 @@ from pathlib import Path
 import httpx2
 from pydantic import ValidationError
 
-from server.plugins.libretexts.libretexts_models import LibreTextsBook, LibreTextsBookList
+from server.plugins.libretexts.libretexts_models import (
+    LibreTextsBook,
+    LibreTextsBookList,
+)
 from server.plugins.libretexts.plugin import LibreTextsPlugin
 from server.plugins.ome_plugin import EducationResource
 
@@ -72,9 +75,7 @@ def bulk_translate(books: list[dict]) -> Iterator[EducationResource]:
     yield from (plugin.make_metadata_card_from_dict(book) for book in books)
 
 
-def bulk_import(
-    search: str = "Python", cache_path: Path | None = None
-) -> list[dict]:
+def bulk_import(search: str = "Python", cache_path: Path | None = None) -> list[dict]:
     """
     Fetch LibreTexts books and return serialised OME records.
 

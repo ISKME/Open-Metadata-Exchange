@@ -39,4 +39,3 @@ server/plugins/libretexts
 
 1 directory, 9 files
 ```
-
