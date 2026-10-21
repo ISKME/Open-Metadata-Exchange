@@ -72,4 +72,5 @@ project_gutenberg/README.md
 qubes/README.md
 thoth/README.md
 whg/README.md
+wikipedia_images/README.md
 ```
