@@ -3,6 +3,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
+#     "httpx2",
 #     "pydantic",
 # ]
 # ///
@@ -73,7 +74,7 @@ async def list_page_images(
 ) -> list[str]:
     """Return the ``File:`` titles of all images on a Wikipedia page."""
     data = (
-        await httpx_async_client.get(REST_URL + page, headers=HEADERS)
+        (await httpx_async_client.get(REST_URL + page, headers=HEADERS))
         .raise_for_status()
         .json()
     )
@@ -102,7 +103,7 @@ async def fetch_image_items(
             ),
         }
         data = (
-            await httpx_async_client.get(API_URL, params=params, headers=HEADERS)
+            (await httpx_async_client.get(API_URL, params=params, headers=HEADERS))
             .raise_for_status()
             .json()
         )
