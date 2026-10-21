@@ -90,8 +90,8 @@ wired into Sphinx correctly.
 
 Before writing any code, check whether the source site exposes a public API:
 
-- **JSON/REST API available** → fetch data with `httpx2` and generate Pydantic models from
-  a sample response using `datamodel-codegen` (see below). Prefer
+- **JSON/REST or GraphQL API available** → fetch data with `httpx2` and generate Pydantic
+  models from a sample response using `datamodel-codegen` (see below). Prefer
   `httpx2.AsyncClient` with `asyncio.gather()` for paginated APIs (see
   [Async / concurrent page fetching](#async--concurrent-page-fetching) below).
 - **No public API (Drupal, WordPress, static HTML, etc.)** → use web scraping with
@@ -123,7 +123,7 @@ Example structure (`server/plugins/eric/eric_models.py`):
 #
 # /// script
 # requires-python = ">=3.13"
-# dependencies = ["pydantic"]
+# dependencies = ["httpx2", "pydantic"]
 # ///
 
 from pydantic import BaseModel, Field
