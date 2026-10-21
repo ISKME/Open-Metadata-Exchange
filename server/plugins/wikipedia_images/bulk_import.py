@@ -32,7 +32,9 @@ from server.plugins.wikipedia_images.wikipedia_images_models import (
 
 API_URL = "https://en.wikipedia.org/w/api.php"
 REST_URL = "https://en.wikipedia.org/api/rest_v1/page/media-list/"
-HEADERS = {"User-Agent": "OME-Bot/1.0 (https://github.com/ISKME/Open-Metadata-Exchange)"}
+HEADERS = {
+    "User-Agent": "OME-Bot/1.0 (https://github.com/ISKME/Open-Metadata-Exchange)"
+}
 MAIN_PAGE = "French_Polynesia"
 # The 10 most populated islands of French Polynesia, most populated first.
 ISLANDS = (
@@ -95,7 +97,9 @@ async def fetch_image_items(
             "prop": "imageinfo",
             "iiprop": "url|extmetadata",
             "iiurlwidth": 1280,
-            "titles": "|".join(f"File:{t.removeprefix('File:')}" for t in titles[start : start + 50]),
+            "titles": "|".join(
+                f"File:{t.removeprefix('File:')}" for t in titles[start : start + 50]
+            ),
         }
         data = (
             await httpx_async_client.get(API_URL, params=params, headers=HEADERS)
@@ -144,7 +148,9 @@ async def bulk_import() -> list[WikipediaImagesItem]:
     """Return image records for French Polynesia plus a map per island (cached)."""
     if _CACHE.exists():
         return WikipediaImagesModel.model_validate_json(_CACHE.read_text()).root
-    async with httpx2.AsyncClient(timeout=60, follow_redirects=True) as httpx_async_client:
+    async with httpx2.AsyncClient(
+        timeout=60, follow_redirects=True
+    ) as httpx_async_client:
         main_titles = await list_page_images(httpx_async_client, MAIN_PAGE)
         items = await fetch_image_items(httpx_async_client, main_titles, MAIN_PAGE)
         for island in ISLANDS:

@@ -43,4 +43,3 @@ server/plugins/wikipedia_images
 
 1 directory, 8 files
 ```
-
