@@ -1,0 +1,18 @@
+{
+  "title": "Python Programming for Beginners",
+  "description": "An introduction to programming with Python for first-time programmers.",
+  "authors": [
+    "Jane Example"
+  ],
+  "authoring_institution": "Example Community College",
+  "subject_tags": [
+    "Engineering",
+    "Computer Science",
+    "CS 101"
+  ],
+  "creation_date": null,
+  "last_modified_date": "2025-01-15T12:00:00Z",
+  "source_url": "https://eng.libretexts.org/Bookshelves/Computer_Science/Programming_Languages/Python_Programming_for_Beginners",
+  "version_url": "",
+  "spdx_license_expression": "CC-BY-NC-SA-4.0"
+}

@@ -1,0 +1,68 @@
+Subject: Python Programming for Beginners
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============6442392686951759310=="
+
+--===============6442392686951759310==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+{
+  "title": "Python Programming for Beginners",
+  "description": "An introduction to programming with Python for first-time p=
+rogrammers.",
+  "authors": [
+    "Jane Example"
+  ],
+  "authoring_institution": "Example Community College",
+  "subject_tags": [
+    "Engineering",
+    "Computer Science",
+    "CS 101"
+  ],
+  "creation_date": null,
+  "last_modified_date": "2025-01-15T12:00:00Z",
+  "source_url": "https://eng.libretexts.org/Bookshelves/Computer_Science/Prog=
+ramming_Languages/Python_Programming_for_Beginners",
+  "version_url": "",
+  "spdx_license_expression": "CC-BY-NC-SA-4.0"
+}
+
+--===============6442392686951759310==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="libretexts_item.json"
+MIME-Version: 1.0
+
+ewogICJib29rSUQiOiAiMzQtMTQ2ODg5IiwKICAidGl0bGUiOiAiUHl0aG9uIFByb2dyYW1taW5n
+IGZvciBCZWdpbm5lcnMiLAogICJhdXRob3IiOiAiSmFuZSBFeGFtcGxlIiwKICAiaW5zdGl0dXRp
+b24iOiAiRXhhbXBsZSBDb21tdW5pdHkgQ29sbGVnZSIsCiAgImxpYnJhcnkiOiAiRW5naW5lZXJp
+bmciLAogICJzdWJqZWN0IjogIkNvbXB1dGVyIFNjaWVuY2UiLAogICJjb3Vyc2UiOiAiQ1MgMTAx
+IiwKICAicHJvZ3JhbSI6ICIiLAogICJsaWNlbnNlIjogIkNDIEJZLU5DLVNBIDQuMCIsCiAgInN1
+bW1hcnkiOiAiQW4gaW50cm9kdWN0aW9uIHRvIHByb2dyYW1taW5nIHdpdGggUHl0aG9uIGZvciBm
+aXJzdC10aW1lIHByb2dyYW1tZXJzLiIsCiAgInRodW1ibmFpbCI6ICJodHRwczovL2NvbW1vbnMu
+bGlicmV0ZXh0cy5vcmcvYXBpL3YxL2NvbW1vbnMvYm9va3MvMzQtMTQ2ODg5L3RodW1ibmFpbCIs
+CiAgImxpbmtzIjogewogICAgIm9ubGluZSI6ICJodHRwczovL2VuZy5saWJyZXRleHRzLm9yZy9C
+b29rc2hlbHZlcy9Db21wdXRlcl9TY2llbmNlL1Byb2dyYW1taW5nX0xhbmd1YWdlcy9QeXRob25f
+UHJvZ3JhbW1pbmdfZm9yX0JlZ2lubmVycyIsCiAgICAicGRmIjogIiIsCiAgICAiYnV5IjogIiIs
+CiAgICAiemlwIjogIiIsCiAgICAiZmlsZXMiOiAiIiwKICAgICJsbXMiOiAiIgogIH0sCiAgImxh
+c3RVcGRhdGVkIjogIjIwMjUtMDEtMTVUMTI6MDA6MDAuMDAwWiIKfQo=
+
+--===============6442392686951759310==
+Content-Type: application/json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="libretexts_ome_item.json"
+MIME-Version: 1.0
+
+ewogICJ0aXRsZSI6ICJQeXRob24gUHJvZ3JhbW1pbmcgZm9yIEJlZ2lubmVycyIsCiAgImRlc2Ny
+aXB0aW9uIjogIkFuIGludHJvZHVjdGlvbiB0byBwcm9ncmFtbWluZyB3aXRoIFB5dGhvbiBmb3Ig
+Zmlyc3QtdGltZSBwcm9ncmFtbWVycy4iLAogICJhdXRob3JzIjogWwogICAgIkphbmUgRXhhbXBs
+ZSIKICBdLAogICJhdXRob3JpbmdfaW5zdGl0dXRpb24iOiAiRXhhbXBsZSBDb21tdW5pdHkgQ29s
+bGVnZSIsCiAgInN1YmplY3RfdGFncyI6IFsKICAgICJFbmdpbmVlcmluZyIsCiAgICAiQ29tcHV0
+ZXIgU2NpZW5jZSIsCiAgICAiQ1MgMTAxIgogIF0sCiAgImNyZWF0aW9uX2RhdGUiOiBudWxsLAog
+ICJsYXN0X21vZGlmaWVkX2RhdGUiOiAiMjAyNS0wMS0xNVQxMjowMDowMFoiLAogICJzb3VyY2Vf
+dXJsIjogImh0dHBzOi8vZW5nLmxpYnJldGV4dHMub3JnL0Jvb2tzaGVsdmVzL0NvbXB1dGVyX1Nj
+aWVuY2UvUHJvZ3JhbW1pbmdfTGFuZ3VhZ2VzL1B5dGhvbl9Qcm9ncmFtbWluZ19mb3JfQmVnaW5u
+ZXJzIiwKICAidmVyc2lvbl91cmwiOiAiIiwKICAic3BkeF9saWNlbnNlX2V4cHJlc3Npb24iOiAi
+Q0MtQlktTkMtU0EtNC4wIgp9Cg==
+
+--===============6442392686951759310==--
