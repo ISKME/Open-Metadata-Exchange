@@ -479,15 +479,15 @@ wheels = [
 
 [[package]]
 name = "httpcore2"
-version = "2.15.1"
+version = "2.16.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "h11" },
     { name = "truststore" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c2/a9/11bc39967bb9dfaab0981ab4d49f519818acbee662a7e76d06813319c838/httpcore2-2.15.1.tar.gz", hash = "sha256:a94b6b3e6260e1a3f035915408d3dcd7dc8e844c2b544b642e227cf98a747af0", size = 69859, upload-time = "2026-10-19T20:14:23.824Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c0/61/afa9d6b7452f9eca73f73d45324eb0bb52f098fd5e6049bf6b8263be9b4e/httpcore2-2.16.0.tar.gz", hash = "sha256:c72cd0413563b17e1cd8354677dff887466f8ec2551679759e93126534428643", size = 69886, upload-time = "2026-10-21T07:09:45.31Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0d/9b/e2b556e26fbc67716ab1dfc18832eb6fe196d88363f7094cb1da3d7c0d3e/httpcore2-2.15.1-py3-none-any.whl", hash = "sha256:730f603058c260a3288378217b464713350c23e3b8fe8bba753701054032d98a", size = 85055, upload-time = "2026-10-19T20:14:21.363Z" },
+    { url = "https://files.pythonhosted.org/packages/af/c2/ce417c397afa5181f0e3c6ff01a4d01639414e1adef08730d97571297151/httpcore2-2.16.0-py3-none-any.whl", hash = "sha256:5c4358319f2602d984ad93182c9fee5160f22e9da7babdda870a5e7c4e2dc34f", size = 85070, upload-time = "2026-10-21T07:09:42.802Z" },
 ]
 
 [[package]]
@@ -536,7 +536,7 @@ wheels = [
 
 [[package]]
 name = "httpx2"
-version = "2.15.1"
+version = "2.16.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio", marker = "sys_platform != 'emscripten'" },
@@ -545,9 +545,9 @@ dependencies = [
     { name = "idna" },
     { name = "truststore", marker = "sys_platform != 'emscripten'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7f/85/07978f4afd168d6b408fa75c1dc13e3010653a81e182aa1b6d89ab94d9c6/httpx2-2.15.1.tar.gz", hash = "sha256:ff75485308fbe441e75b1218546e4e78d884df41e1a9741c1f79335ed8fcfef7", size = 101673, upload-time = "2026-10-19T20:14:24.587Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/73/5ca2cedf5e4e50423d1c258877865a6b62793633b561c58499f8aeb33b7e/httpx2-2.16.0.tar.gz", hash = "sha256:0d54c98128e8f2ff7fbbde0fca8c359e5f032edeaaaac443cdb7f31f685bcd7f", size = 103116, upload-time = "2026-10-21T07:09:46.348Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7a/bf/56068f774620330c8330e4b4915fae889a5b2d4b52667b3b7c8f66c4a9ad/httpx2-2.15.1-py3-none-any.whl", hash = "sha256:75841cd83d16b417f7d6da8f2089ce8120806efdbf96af37d46c5129c49015be", size = 96411, upload-time = "2026-10-19T20:14:22.789Z" },
+    { url = "https://files.pythonhosted.org/packages/7b/3d/2e4bc4fd1ef9770871669adb348d612a6e4786b303a23f9935b81c48dd60/httpx2-2.16.0-py3-none-any.whl", hash = "sha256:fd2c5d7909e8d86fe92d53020c310ca0e4e431b838c207c5754b9bbf0308d49a", size = 97880, upload-time = "2026-10-21T07:09:44.01Z" },
 ]
 
 [[package]]
@@ -1326,7 +1326,7 @@ wheels = [
 
 [[package]]
 name = "sphinx"
-version = "9.1.0"
+version = "9.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "alabaster" },
@@ -1347,9 +1347,9 @@ dependencies = [
     { name = "sphinxcontrib-qthelp" },
     { name = "sphinxcontrib-serializinghtml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/cd/bd/f08eb0f4eed5c83f1ba2a3bd18f7745a2b1525fad70660a1c00224ec468a/sphinx-9.1.0.tar.gz", hash = "sha256:7741722357dd75f8190766926071fed3bdc211c74dd2d7d4df5404da95930ddb", size = 8718324, upload-time = "2025-12-31T15:09:27.646Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/64/d4/413466f0be8b1cb0e3e43893a148b96d7462d0923d82b4166b21afc5f30c/sphinx-9.2.0.tar.gz", hash = "sha256:90470459f3cab15d9dfed146c71cf77694b0445df17b2e0e69059cb9f7fc9ee4", size = 8782438, upload-time = "2026-10-21T00:05:15.019Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/73/f7/b1884cb3188ab181fc81fa00c266699dab600f927a964df02ec3d5d1916a/sphinx-9.1.0-py3-none-any.whl", hash = "sha256:c84fdd4e782504495fe4f2c0b3413d6c2bf388589bb352d439b2a3bb99991978", size = 3921742, upload-time = "2025-12-31T15:09:25.561Z" },
+    { url = "https://files.pythonhosted.org/packages/c4/28/a0c50761cd215b7042f4bc617a6bc5c0cd7be62f75bc908e169e28a4d21e/sphinx-9.2.0-py3-none-any.whl", hash = "sha256:4c3ec13b612712c0d3ce4cbdd9e3eb91e68577e07a8e31f32f21cf178453578c", size = 3925388, upload-time = "2026-10-21T00:05:12.241Z" },
 ]
 
 [[package]]
