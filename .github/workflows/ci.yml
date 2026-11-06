@@ -81,4 +81,4 @@ jobs:
       - run: cd frontend && yes | npm init @eslint/config
       - run: cd frontend && npm run lint:scss || true
       - run: cd frontend && npm run lint:ts || true
-      - run: cd frontend && npm run unit || true
+      - run: cd frontend && npm run unit
