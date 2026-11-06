@@ -1,5 +1,5 @@
 # Build Stage
-FROM node:18-alpine AS build_image
+FROM node:26-alpine AS build_image
 WORKDIR /app
 COPY frontend/package*.json ./
 RUN npm install
