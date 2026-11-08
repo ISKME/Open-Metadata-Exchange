@@ -127,6 +127,7 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
             if (page !== 1) setPage(1)
             else search()
           }}
+          label="Search shared content"
           width="400px"
         />
         <Button variant="contained" startIcon={<AddIcon />} onClick={openPicker}>
