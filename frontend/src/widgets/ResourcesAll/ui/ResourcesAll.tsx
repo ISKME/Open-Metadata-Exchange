@@ -184,7 +184,7 @@ export function ResourcesAll({
             if (event.key === 'Enter') {
               handleSearch(searchText);
               setTerm(searchText);
-              if (pageName == 'group') {
+              if (pageName === 'group') {
                 matomoTag({ category: 'Search', action: 'group search', name: searchText });
               } else {
                 matomoTag({ category: 'Search', action: 'site search', name: searchText });

@@ -74,7 +74,7 @@ export function MyGroups() {
                         width="149"
                         height="149"
                         alt={item.title}
-                        onError={({ target }) => { target.src = customUrl; }}
+                        onError={(e) => { e.target.src = customUrl; }}
                         style={{ objectFit: 'contain' }}
                       />
                       <span className={cls['group-members-count']}>

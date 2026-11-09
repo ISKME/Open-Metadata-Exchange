@@ -68,7 +68,7 @@ function AlignmentSection({
           <CheckboxSection options={options} onChange={onSelect} />
         )}
       </div>
-      {selected && selected != BLANK_VALUE && field !== 'tag' && (
+      {selected && Number(selected) !== BLANK_VALUE && field !== 'tag' && (
         <AlignmentSection field={nextField} label={nextLabel} options={nextOptions} onChange={onChange} onSelect={onSelect} />
       )}
     </>
@@ -139,7 +139,7 @@ export function AlignmentWidget({ alignmentTags = [], label = 'Educational stand
             {tags.map((tag) => (
               <span className="multiple-alignment-tag-widget-tag" key={tag.full_code}>
                 {tag.full_code}
-                <button className="btn btn-link multiple-alignment-tag-widget-remove-btn" title="Remove tag" onClick={() => handleTagRemove(tag)}>
+                <button type="button" aria-label="Remove tag" className="btn btn-link multiple-alignment-tag-widget-remove-btn" title="Remove tag" onClick={() => handleTagRemove(tag)}>
                   <i className="fa fa-remove" />
                 </button>
               </span>
@@ -147,7 +147,7 @@ export function AlignmentWidget({ alignmentTags = [], label = 'Educational stand
           </div>
           <div className="multiple-alignment-tag-widget-selects">
             <AlignmentSection label="Standard" field="standard" options={standards} onChange={handleOnChange} onSelect={handleOnSelect} toggler={toggler} />
-            {standardSelected && standardSelected != BLANK_VALUE && (
+            {standardSelected && Number(standardSelected) !== BLANK_VALUE && (
               <>
                 <button type="button" className={`btn btn-default${tagsStack.length === 0 ? ' disabled' : ''}`} onClick={addTags}>Add Selected Tags</button>
                 <button type="button" className="btn btn-link" onClick={cancel}>Cancel</button>

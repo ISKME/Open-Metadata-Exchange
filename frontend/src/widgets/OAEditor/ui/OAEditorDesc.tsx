@@ -17,6 +17,7 @@ export function OAEditorDesc({ lesson, videoUploadStrategy = undefined }) {
   const lessonRef = useRef(lesson);
 
   const onLessonChange = (field, value) => {
+    // eslint-disable-next-line no-param-reassign -- the editor keeps the lesson object and reads it when saving
     lesson[field] = value;
   };
 
@@ -45,7 +46,7 @@ export function OAEditorDesc({ lesson, videoUploadStrategy = undefined }) {
     req.put(lesson.edit_url, payload).then((data: ILesson) => {
       setErrors({});
       if (data.edit_next_url) {
-        location.href = data.edit_next_url;
+        window.location.href = data.edit_next_url;
       }
     })
       .catch((err) => {

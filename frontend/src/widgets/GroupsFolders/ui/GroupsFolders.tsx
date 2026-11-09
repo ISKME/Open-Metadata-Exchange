@@ -43,7 +43,7 @@ export function GroupsFolders({ content }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [defaultPage, setDefaultPage] = React.useState(() => {
     const page = parseInt(new URLSearchParams(window.location.search).get('page'), 10);
-    return isNaN(page) ? 1 : page;
+    return Number.isNaN(Number(page)) ? 1 : page;
   });
   let filters = searchParams.get('filters');
   if (filters) filters = JSON.parse(filters);
@@ -215,8 +215,8 @@ export function GroupsFolders({ content }) {
             />
           </Box>
           <Box className={cls.buttonsGroup}>
-            <button onClick={() => setOpenAddSubfolder(false)} className={cls.cancel}>Cancel</button>
-            <button onClick={() => handleCreateSubfolder()} className={cls.primary}>Create</button>
+            <button type="button" onClick={() => setOpenAddSubfolder(false)} className={cls.cancel}>Cancel</button>
+            <button type="button" onClick={() => handleCreateSubfolder()} className={cls.primary}>Create</button>
           </Box>
         </Box>
       </Modal>
@@ -239,8 +239,8 @@ export function GroupsFolders({ content }) {
             />
           </Box>
           <Box className={cls.buttonsGroup}>
-            <button onClick={() => setOpenRename(false)} className={cls.cancel}>Cancel</button>
-            <button onClick={() => rename(isSubfolder)} className={cls.primary}>Confirm</button>
+            <button type="button" onClick={() => setOpenRename(false)} className={cls.cancel}>Cancel</button>
+            <button type="button" onClick={() => rename(isSubfolder)} className={cls.primary}>Confirm</button>
           </Box>
         </Box>
       </Modal>
@@ -257,8 +257,8 @@ export function GroupsFolders({ content }) {
           </Typography>
           <hr />
           <Box className={cls.buttonsGroup}>
-            <button onClick={() => setOpen(false)} className={cls.cancel}>Cancel</button>
-            <button onClick={() => del(isSubfolder)} className={cls.primary}>Confirm</button>
+            <button type="button" onClick={() => setOpen(false)} className={cls.cancel}>Cancel</button>
+            <button type="button" onClick={() => del(isSubfolder)} className={cls.primary}>Confirm</button>
           </Box>
         </Box>
       </Modal>

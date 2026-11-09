@@ -268,9 +268,9 @@ export function ReportsCaseAnalytics() {
       const optionsData = filteredIds.length ? initialResponseData : response.data;
       const subjects = Array.from(new Set(optionsData.flatMap((item) => item.subjects))).sort();
       const grades = Array.from(new Set(optionsData.flatMap((item) => item.grades)))
-        .sort((a, b) => parseInt(a) - parseInt(b));
+        .sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
       const ethnicities = Array.from(new Set(optionsData.flatMap((item) => item.ethnicities)))
-        .sort((a, b) => parseInt(a) - parseInt(b));
+        .sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
       const areas = Array.from(new Set(optionsData.map((item) => item.certificate_area).filter((area) => area !== null))).sort();
 
       setSubjectOptions(subjects);
@@ -341,10 +341,9 @@ export function ReportsCaseAnalytics() {
       return array.includes(value);
     };
 
-    const safeEquals = (a, b) => {
-      if (typeof a === 'object' && a?.value) a = a.value;
-      if (typeof b === 'object' && b?.value) b = b.value;
-      return a === b;
+    const safeEquals = (first, second) => {
+      const unwrap = (x) => (typeof x === 'object' && x?.value ? x.value : x);
+      return unwrap(first) === unwrap(second);
     };
 
     let filteredIds = [];
@@ -574,7 +573,8 @@ export function ReportsCaseAnalytics() {
     resetFilters();
   };
 
-  const handleDateRangeChange = (newDate) => {
+  const handleDateRangeChange = (selectedDate) => {
+    let newDate = selectedDate;
     if (latestAvailableDate && newDate?.[0] && newDate?.[1] > latestAvailableDate) {
       newDate = [new Date(Math.min(newDate[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate];
     }

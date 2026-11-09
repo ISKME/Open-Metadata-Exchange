@@ -37,7 +37,7 @@ export function MyHubs() {
                     width="149"
                     height="149"
                     alt={item.title}
-                    onError={({ target }) => { target.src = customUrl; }}
+                    onError={(e) => { e.target.src = customUrl; }}
                     style={{ objectFit: 'contain' }}
                   />
                 </div>

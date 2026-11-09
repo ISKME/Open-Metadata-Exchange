@@ -528,6 +528,7 @@ export const homepageHeroBlocks = (editor: Editor) => {
   });
 
   if (!(editor as any).__oercHomepageHeroThemeCssAdded) {
+    // eslint-disable-next-line no-param-reassign -- marks the GrapesJS editor so the CSS is added once
     (editor as any).__oercHomepageHeroThemeCssAdded = true;
 
     editor.addStyle(`

@@ -35,7 +35,7 @@ export function GroupsSettings() {
   const [duplicateFolders, setDuplicateFolders] = React.useState(true);
   const [duplicateMembers, setDuplicateMembers] = React.useState(true);
 
-  async function fetchGroupData() {
+  const fetchGroupData = async () => {
     try {
       const response = await axios.get(`/api/groups/v1/groups/${groupId}`);
       const groupData = response.data;
@@ -48,7 +48,7 @@ export function GroupsSettings() {
     } catch (error) {
       console.error('Error fetching group data:', error);
     }
-  }
+  };
 
   React.useEffect(() => {
     fetchGroupData();
@@ -75,7 +75,7 @@ export function GroupsSettings() {
       const response = await axios.put(`/api/groups/v1/groups/${groupId}`, formData, { headers });
       if (response.status === 200) {
         alert('Changes saved successfully.');
-        location.reload();
+        window.location.reload();
       } else {
         alert('An unexpected response was received. Please try again.');
       }

@@ -18,7 +18,7 @@ class Fetcher {
 
     this.url = baseURL;
 
-    if (this.field && this.value && this.value != BLANK_VALUE) {
+    if (this.field && this.value && Number(this.value) !== BLANK_VALUE) {
       this.url += `?field=${this.field}&${this.field}=${this.value}`;
       if (this.field !== 'standard' && this.standard) {
         this.url += `&standard=${this.standard}`;

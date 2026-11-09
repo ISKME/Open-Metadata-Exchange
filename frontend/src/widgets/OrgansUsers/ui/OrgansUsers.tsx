@@ -27,7 +27,7 @@ import { OrgansUsersImport } from 'widgets/OrgansUsersImport';
 function jsonToReadableText(json) {
   function processValue(value) {
     if (Array.isArray(value)) return value.map(processValue).join(', ');
-    if (typeof value === 'object' && value !== null) return Object.entries(value).map(([key, val]) => `${isNaN(key) ? `${key}: ` : ''} ${processValue(val)}`).join(', ');
+    if (typeof value === 'object' && value !== null) return Object.entries(value).map(([key, val]) => `${Number.isNaN(Number(key)) ? `${key}: ` : ''} ${processValue(val)}`).join(', ');
     return value;
   }
   return processValue(json);

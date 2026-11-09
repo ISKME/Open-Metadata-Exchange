@@ -235,7 +235,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
   };
 
   async function remove() {
-    if (!confirm('Are you sure you want to remove selected users?')) return;
+    if (!window.confirm('Are you sure you want to remove selected users?')) return;
 
     try {
       const headers = await getCsrfHeaders();
@@ -270,7 +270,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
   }
 
   async function reInvite() {
-    if (!confirm('Are you sure you want to re-invite selected users?')) return;
+    if (!window.confirm('Are you sure you want to re-invite selected users?')) return;
 
     const selectedPendingRows = pendingMembers.filter((member) => (
       selectedPendingMembers.includes(member.id)

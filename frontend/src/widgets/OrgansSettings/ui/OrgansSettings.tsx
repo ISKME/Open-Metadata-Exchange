@@ -53,7 +53,7 @@ export function OrgansSettings({ id: propsId }) {
   }, [id]);
 
   function handleSave() {
-    if (!confirm('Are you sure you want to save changes?')) return;
+    if (!window.confirm('Are you sure you want to save changes?')) return;
     const formData = new FormData();
     formData.append('name', title);
     if (image) formData.append('cover', image);

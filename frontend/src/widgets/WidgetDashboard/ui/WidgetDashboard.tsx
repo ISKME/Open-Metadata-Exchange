@@ -265,6 +265,7 @@ export const WidgetDashboard: React.FC = () => {
         <div className={styles.widgetExisting}>
           <h2>Existing Pages</h2>
           <button
+            type="button"
             onClick={() => {
               handleOpenModal();
               setPageName('');
@@ -331,12 +332,14 @@ export const WidgetDashboard: React.FC = () => {
                   </td>
                   <td>
                     <button
+                      type="button"
                       onClick={() => handleEdit(page.id)}
                       className="btn btn-warning"
                     >
                       Edit
                     </button>
                     <button
+                      type="button"
                       onClick={() => handleDelete(page.id)}
                       className="btn btn-danger"
                     >
@@ -406,6 +409,7 @@ export const WidgetDashboard: React.FC = () => {
                 </div>
               )}
               <button
+                type="button"
                 onClick={() => handleDeleteImage(image.id)}
                 className={`btn btn-danger ${styles.delete}`}
               >

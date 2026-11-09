@@ -28,6 +28,7 @@ export function OAEditor({ lesson, videoUploadStrategy }: { lesson: any, videoUp
   useEffect(() => { sectionsMapRef.current = sectionsMap; }, [sectionsMap]);
 
   const onLessonChange = (field, value) => {
+    // eslint-disable-next-line no-param-reassign -- the editor keeps the lesson object and reads it when saving
     lesson[field] = value;
   };
 
@@ -108,7 +109,7 @@ export function OAEditor({ lesson, videoUploadStrategy }: { lesson: any, videoUp
         setProcessing(false);
         setSections(data.sections);
         if (e?.detail?.nextURL) {
-          location.href = e.detail.nextURL;
+          window.location.href = e.detail.nextURL;
         }
       }).catch((error) => {
         setProcessing(false);
@@ -152,5 +153,5 @@ export function QAEditorAction({
     document.dispatchEvent(new CustomEvent(event, { detail: { nextURL, action } }));
   };
 
-  return <button onClick={dispatchEvent} className={className}>{title}</button>;
+  return <button type="button" onClick={dispatchEvent} className={className}>{title}</button>;
 }

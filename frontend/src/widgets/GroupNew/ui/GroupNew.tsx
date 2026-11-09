@@ -107,13 +107,13 @@ export function GroupNew() {
     [hasMore],
   );
 
-  function add() {
+  const add = () => {
     setSelectedItems([
       ...list.filter((item) => checkedEmails.includes(item.email)),
       ...text.split(',').map((email) => email.trim()).filter(Boolean),
     ]);
     setOpen(false);
-  }
+  };
 
   function removeItem(item) {
     if (item?.email) {
@@ -125,7 +125,7 @@ export function GroupNew() {
     }
   }
 
-  function create() {
+  const create = () => {
     req.post('groups/v1/groups', {
       title, description, group_type: 1, cover,
     }, true)
@@ -139,7 +139,7 @@ export function GroupNew() {
           .catch((data) => alert(`Invitation error:\n\n${jsonToReadableText(data)}`));
       })
       .catch((data) => alert(`Creation error:\n\n${jsonToReadableText(data)}`));
-  }
+  };
 
   useEffect(() => {
     if (!open) {

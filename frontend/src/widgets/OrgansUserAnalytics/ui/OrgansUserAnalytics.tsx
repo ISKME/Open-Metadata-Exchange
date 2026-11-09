@@ -175,12 +175,12 @@ export function OrgansUserAnalytics({ id }) {
       const configResponse = await axios.get('/clickhouse/configs', { params });
       const userConfigs = configResponse.data.users;
 
-      const userMap = userConfigs.reduce((map, user) => {
-        map[user.id] = `${user.first_name || ''} ${user.last_name || ''}`.trim()
+      const userMap = userConfigs.reduce((acc, user) => {
+        acc[user.id] = `${user.first_name || ''} ${user.last_name || ''}`.trim()
           || user.email?.trim()
           || `User ID: ${user.id}`;
 
-        return map;
+        return acc;
       }, {});
 
       const data = response.data.map((item) => {
@@ -356,7 +356,8 @@ export function OrgansUserAnalytics({ id }) {
     resetFilters();
   };
 
-  const handleDateRangeChange = (newDate) => {
+  const handleDateRangeChange = (selectedDate) => {
+    let newDate = selectedDate;
     if (latestAvailableDate && newDate?.[0] && newDate?.[1] > latestAvailableDate) {
       newDate = [new Date(Math.min(newDate[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate];
     }
