@@ -1,6 +1,5 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/prop-types */
-/* eslint-disable max-len */
 
 /* eslint-disable react/jsx-no-bind */
 

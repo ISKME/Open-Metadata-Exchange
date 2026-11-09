@@ -1123,8 +1123,8 @@ export default function ({
                           {selectedView !== 'line'
                         && typeof item.value === 'number' ? (
                           <span className={cls.legendValue}>
-                                {item.value.toLocaleString()}
-                              </span>
+                            {item.value.toLocaleString()}
+                          </span>
                             ) : null}
 
                           {item.definition ? (

@@ -2,8 +2,6 @@
 
 /* eslint-disable no-console */
 
-/* eslint-disable max-len */
-
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import qs from 'qs';

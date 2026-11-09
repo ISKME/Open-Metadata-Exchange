@@ -68,4 +68,34 @@ export default [
             globals: globals.node,
         },
     },
+    {
+        rules: {
+            // JSX is indented by react/jsx-indent. Airbnb leaves JSX out of indent; without that,
+            // both rules fix the same lines differently and never agree.
+            indent: [2, 2, {
+                ignoredNodes: [
+                    'JSXElement', 'JSXElement > *', 'JSXAttribute', 'JSXIdentifier', 'JSXNamespacedName',
+                    'JSXMemberExpression', 'JSXSpreadAttribute', 'JSXExpressionContainer', 'JSXOpeningElement',
+                    'JSXClosingElement', 'JSXFragment', 'JSXOpeningFragment', 'JSXClosingFragment', 'JSXText',
+                    'JSXEmptyExpression', 'JSXSpreadChild',
+                ],
+            }],
+            // Airbnb's ignore options, so long SVG paths, strings and URLs do not count
+            'max-len': ['error', {
+                code: 200,
+                ignoreComments: true,
+                ignoreUrls: true,
+                ignoreStrings: true,
+                ignoreTemplateLiterals: true,
+                ignoreRegExpLiterals: true,
+            }],
+        },
+    },
+    {
+        files: ['**/*.{ts,tsx}'],
+        rules: {
+            // TypeScript reports undefined names itself; ESLint's core rule does not know type-only names like React.ChangeEvent
+            'no-undef': 'off',
+        },
+    },
 ];
