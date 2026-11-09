@@ -1,7 +1,8 @@
 {
   "extends": "stylelint-config-standard-scss",
+  "plugins": ["@stylistic/stylelint-plugin"],
   "rules": {
-    "indentation": [2],
+    "@stylistic/indentation": [2],
     "selector-class-pattern": null
   }
 }

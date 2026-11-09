@@ -78,7 +78,6 @@ jobs:
       - run: cd frontend && npm ci || npm install
       - run: cd frontend && npm run  # To see available commands
       # TODO(@KevinEverywhere): Set up eslint/config and then remove `|| true`
-      - run: cd frontend && yes | npm init @eslint/config
       - run: cd frontend && npm run lint:scss || true
       - run: cd frontend && npm run lint:ts || true
       - run: cd frontend && npm run typecheck
