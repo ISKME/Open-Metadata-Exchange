@@ -51,7 +51,7 @@ export default function StylePropertyField({
       select: (asset, complete) => {
         console.log({ complete });
         prop.upValue(asset.getSrc(), { partial: !complete });
-        complete && Assets.close();
+        if (complete) Assets.close();
       },
       types: ['image'],
       accept: 'image/*',
@@ -114,34 +114,32 @@ export default function StylePropertyField({
     }
     break;
   case 'color':
-    {
-      inputToRender = (
-        <TextField
-          fullWidth
-          placeholder={defValue}
-          value={valueString}
-          onChange={onChange}
-          size="small"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <div
-                  className={`w-[15px] h-[15px] ${ROUND_BORDER_COLOR}`}
-                  style={{ backgroundColor: valueWithDef }}
-                >
-                  <input
-                    type="color"
-                    className="w-[15px] h-[15px] cursor-pointer opacity-0"
-                    value={valueWithDef}
-                    onChange={(ev) => handleChange(ev.target.value)}
-                  />
-                </div>
-              </InputAdornment>
-            ),
-          }}
-        />
-      );
-    }
+    inputToRender = (
+      <TextField
+        fullWidth
+        placeholder={defValue}
+        value={valueString}
+        onChange={onChange}
+        size="small"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <div
+                className={`w-[15px] h-[15px] ${ROUND_BORDER_COLOR}`}
+                style={{ backgroundColor: valueWithDef }}
+              >
+                <input
+                  type="color"
+                  className="w-[15px] h-[15px] cursor-pointer opacity-0"
+                  value={valueWithDef}
+                  onChange={(ev) => handleChange(ev.target.value)}
+                />
+              </div>
+            </InputAdornment>
+          ),
+        }}
+      />
+    );
     break;
   case 'slider':
     {
@@ -160,22 +158,20 @@ export default function StylePropertyField({
     }
     break;
   case 'file':
-    {
-      inputToRender = (
-        <div className="flex flex-col items-center gap-3">
-          {value && value !== defValue && (
-            <div
-              className="w-[50px] h-[50px] rounded inline-block bg-cover bg-center cursor-pointer"
-              style={{ backgroundImage: `url("${value}")` }}
-              onClick={() => handleChange('')}
-            />
-          )}
-          <button type="button" onClick={openAssets} className={BTN_CLS}>
-            Select Image
-          </button>
-        </div>
-      );
-    }
+    inputToRender = (
+      <div className="flex flex-col items-center gap-3">
+        {value && value !== defValue && (
+        <div
+          className="w-[50px] h-[50px] rounded inline-block bg-cover bg-center cursor-pointer"
+          style={{ backgroundImage: `url("${value}")` }}
+          onClick={() => handleChange('')}
+        />
+        )}
+        <button type="button" onClick={openAssets} className={BTN_CLS}>
+          Select Image
+        </button>
+      </div>
+    );
     break;
   case 'composite':
     {
@@ -249,6 +245,8 @@ export default function StylePropertyField({
         </div>
       );
     }
+    break;
+  default:
     break;
   }
 

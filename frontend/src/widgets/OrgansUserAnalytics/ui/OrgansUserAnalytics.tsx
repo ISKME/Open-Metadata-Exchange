@@ -233,6 +233,7 @@ export function OrgansUserAnalytics({ id }) {
       return data.users;
     } catch (error) {
       console.error('Error fetching configs:', error);
+      return undefined;
     } finally {
       setIsLoading(false);
     }

@@ -160,7 +160,7 @@ function findRowIndexForTime(rows: Row[], time: number): number {
   if (activeIndex !== -1) return activeIndex;
 
   let closestIndex = 0;
-  for (let i = 0; i < rows.length; i++) {
+  for (let i = 0; i < rows.length; i += 1) {
     if (vttTimeToSeconds(rows[i].start) <= time) closestIndex = i;
     else break;
   }
@@ -317,10 +317,10 @@ export function VideoAnnotationEditor({
   }, [editingRow]);
 
   useEffect(() => {
-    if (!inline && !open) return;
+    if (!inline && !open) return undefined;
 
     const { player } = (window as any);
-    if (!player || typeof player.on !== 'function') return;
+    if (!player || typeof player.on !== 'function') return undefined;
 
     const handleTimeUpdate = () => {
       const currentRows = rowsRef.current;

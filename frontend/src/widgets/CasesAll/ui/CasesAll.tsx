@@ -121,7 +121,10 @@ const FilterItems = ({ items = [] }) => {
   );
 };
 
-const makeArray = (arg) => (arg !== undefined ? Array.isArray(arg) ? arg : [arg] : []);
+const makeArray = (arg) => {
+  if (arg === undefined) return [];
+  return Array.isArray(arg) ? arg : [arg];
+};
 
 const Subject = ({ data = {}, onSelect = () => {}, tempTopics = [] }) => {
   const [expanded, setExpanded] = useState(false);

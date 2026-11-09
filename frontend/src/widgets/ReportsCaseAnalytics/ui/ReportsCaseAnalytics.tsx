@@ -321,6 +321,7 @@ export function ReportsCaseAnalytics() {
       return data.users;
     } catch (error) {
       console.error('Error fetching configs:', error);
+      return undefined;
     } finally {
       setIsLoading(false);
     }
@@ -372,7 +373,8 @@ export function ReportsCaseAnalytics() {
       && (!updatedParams.userIsActive || updatedParams.userIsActive === UserIsActiveStatus.ALL
         || (updatedParams.userIsActive === UserIsActiveStatus.ACTIVE ? user.is_active : !user.is_active))
       && (!updatedParams.state || user.state === updatedParams.state)).map((user) => user.id);
-    const usersParam = hasUserFilters ? (filteredUsers.length ? filteredUsers : [-1]) : [];
+    let usersParam = [];
+    if (hasUserFilters) usersParam = filteredUsers.length ? filteredUsers : [-1];
 
     fetchData(
       date[0],
@@ -598,7 +600,7 @@ export function ReportsCaseAnalytics() {
   const getYearOptions = () => {
     const currentYear = (latestAvailableDate || new Date()).getFullYear();
     const years = [];
-    for (let year = 2015; year <= currentYear; year++) {
+    for (let year = 2015; year <= currentYear; year += 1) {
       years.push(year);
     }
     return years.reverse();

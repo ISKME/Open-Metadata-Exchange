@@ -113,7 +113,7 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
   const scrollDiv = (amount) => {
     divRef.current.scrollTop += amount;
     if (divRef.current.scrollTop + divRef.current.offsetHeight >= divRef.current.scrollHeight - 70) {
-      PAGE++;
+      PAGE += 1;
       fetchData();
     }
   };

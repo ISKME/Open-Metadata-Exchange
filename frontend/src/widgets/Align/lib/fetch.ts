@@ -27,11 +27,11 @@ class Fetcher {
   }
 
   public async fetchStandards() {
-    return await axios(this.url);
+    return axios(this.url);
   }
 }
 
 export const fetchStandards = async (field = null, value = null, standard = null) => {
   const fetcher = new Fetcher(field, value, standard);
-  return await fetcher.fetchStandards();
+  return fetcher.fetchStandards();
 };

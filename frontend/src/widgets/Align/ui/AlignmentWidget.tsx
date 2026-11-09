@@ -92,7 +92,7 @@ export function AlignmentWidget({ alignmentTags = [], label = 'Educational stand
     if (field === 'standard') {
       setStandardSelected(value);
     }
-    return await fetchStandards(field, value, standardSelected);
+    return fetchStandards(field, value, standardSelected);
   };
 
   const handleOnSelect = (e) => {

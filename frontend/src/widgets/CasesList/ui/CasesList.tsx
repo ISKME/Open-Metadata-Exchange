@@ -528,7 +528,6 @@ export function CasesList({
 
                         >
                           <MenuItem
-
                             onClick={() => selectValue(
                               '',
                               'My Saved Cases',
@@ -725,7 +724,7 @@ export function CasesList({
             )}
           </>
         )}
-        {!check.reduce((a, b) => a = a || b, false) && (
+        {!check.reduce((a, b) => a || b, false) && (
           <>
             <TextField
               id="outlined-basic"

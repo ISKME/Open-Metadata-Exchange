@@ -62,6 +62,11 @@ export function SimpleTreeView({
     setSubFolderId(subSelected);
   }, [selectedFolder, subSelected]);
 
+  const folderStateClass = (folderId) => {
+    if (folderId !== selectedFolder) return '';
+    return subSelected ? cls.noSelected : cls.selected;
+  };
+
   return (
     <div>
       <div className={cls.foldersHeader}>
@@ -85,9 +90,7 @@ export function SimpleTreeView({
             onClick={() => handleFolderClick(folder.id, folder.is_default)}
           >
             <div
-              className={`${cls.foldersItem1} ${folder.id === selectedFolder && !subSelected ? cls.selected
-                : folder.id === selectedFolder && subSelected ? cls.noSelected : ''
-              }`}
+              className={`${cls.foldersItem1} ${folderStateClass(folder.id)}`}
             >
               <div className={`${cls.foldersItem2} ${folder.subfolders && folder.subfolders.length > 0 ? '' : cls.arrowSpace}`}>
                 {folder.subfolders && folder.subfolders.length > 0 && (
