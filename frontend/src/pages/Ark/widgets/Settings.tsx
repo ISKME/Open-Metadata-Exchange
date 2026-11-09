@@ -50,7 +50,11 @@ export default function ArkSettings({
 
         return (
           <div className={cls.item} key={font}>
-            <span>Font {idx + 1}</span>
+            <span>
+              Font
+              {' '}
+              {idx + 1}
+            </span>
             <input
               type="text"
               value={inputValue}

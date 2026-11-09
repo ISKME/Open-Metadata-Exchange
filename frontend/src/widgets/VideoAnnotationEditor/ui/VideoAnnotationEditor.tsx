@@ -91,6 +91,19 @@ async function bulkUpdate(rows: Row[]): Promise<void> {
   });
 }
 
+function vttTimeToSeconds(time: string): number {
+  // WebVTT allows both MM:SS.mmm (under an hour) and HH:MM:SS.mmm.
+  const match = /^(?:(\d+):)?(\d{2}):(\d{2})(?:\.(\d+))?$/.exec(time);
+  if (!match) return 0;
+  const [, hours, minutes, seconds, millis] = match;
+  return (
+    Number(hours ?? 0) * 3600
+    + Number(minutes) * 60
+    + Number(seconds)
+    + (millis ? Number(millis.padEnd(3, '0').slice(0, 3)) / 1000 : 0)
+  );
+}
+
 async function createAnnotation(videoUrl: string, start: string, end: string): Promise<Annotation> {
   const token = await getCsrfToken();
   const { data } = await axios.post<Annotation>('/api/annotations/annotate', {
@@ -124,19 +137,6 @@ function annotationsToRows(annotations: Annotation[]): Row[] {
     end: a.ranges?.end ?? '',
     text: a.text,
   }));
-}
-
-function vttTimeToSeconds(time: string): number {
-  // WebVTT allows both MM:SS.mmm (under an hour) and HH:MM:SS.mmm.
-  const match = /^(?:(\d+):)?(\d{2}):(\d{2})(?:\.(\d+))?$/.exec(time);
-  if (!match) return 0;
-  const [, hours, minutes, seconds, millis] = match;
-  return (
-    Number(hours ?? 0) * 3600
-    + Number(minutes) * 60
-    + Number(seconds)
-    + (millis ? Number(millis.padEnd(3, '0').slice(0, 3)) / 1000 : 0)
-  );
 }
 
 function secondsToVttTime(totalSeconds: number): string {

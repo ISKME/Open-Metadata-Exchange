@@ -262,6 +262,7 @@ export function CollectionDetails() {
 
   useEffect(() => {
     if (!done) return () => {};
+    let interval;
     const fetchData = async () => {
       axios.get(`/api/imls/v2/collections/${micrositeSlug}/${id}/status`).then(({ data }) => {
         if (data.replication_status === 'completed') {
@@ -273,7 +274,7 @@ export function CollectionDetails() {
         }
       });
     };
-    const interval = setInterval(fetchData, 10000);
+    interval = setInterval(fetchData, 10000);
     fetchData();
     return () => clearInterval(interval);
   }, [done]);
@@ -316,7 +317,10 @@ export function CollectionDetails() {
 
   const FiltersBox = () => (
     <Box sx={{ minWidth: 260, p: 2 }}>
-      <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}><FilterListIcon sx={{ mr: 1 }} />Filters</Typography>
+      <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+        <FilterListIcon sx={{ mr: 1 }} />
+        Filters
+      </Typography>
       {filters && filters.map((el) => (
         <Accordion key={el.name} defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -370,9 +374,23 @@ export function CollectionDetails() {
               <Typography variant="subtitle1" color="text.secondary" gutterBottom>{collectionMicrositeName}</Typography>
               <div dangerouslySetInnerHTML={{ __html: abstract }} />
               <Stack direction="row" sx={{ mt: 1 }} flexDirection={{ sm: 'column', xs: 'column', md: 'row' }} gap="8px">
-                <Typography variant="body2">{numResources} resources</Typography>
-                {educationLevels && <Typography variant="body2">Education: {educationLevels?.slice(0, 3)?.join(', ')}</Typography>}
-                <Typography variant="body2">Last Updated: {new Date(updatedOn).toDateString().substring(4)}</Typography>
+                <Typography variant="body2">
+                  {numResources}
+                  {' '}
+                  resources
+                </Typography>
+                {educationLevels && (
+                  <Typography variant="body2">
+                    Education:
+                    {' '}
+                    {educationLevels?.slice(0, 3)?.join(', ')}
+                  </Typography>
+                )}
+                <Typography variant="body2">
+                  Last Updated:
+                  {' '}
+                  {new Date(updatedOn).toDateString().substring(4)}
+                </Typography>
               </Stack>
               <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                 {!subscribed ? (
@@ -433,7 +451,8 @@ export function CollectionDetails() {
                   boxShadow: 'none',
                   borderRadius: '8px',
                 }}
-              >Filters
+              >
+                Filters
               </Button>
             )}
           </Stack>
@@ -441,7 +460,11 @@ export function CollectionDetails() {
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} alignItems="flex-start">
             {!small && <FiltersBox />}
             <Box sx={{ flex: 1, position: 'relative' }}>
-              <Typography variant="subtitle1" sx={{ mb: 1 }}>{totalNumber} Resources</Typography>
+              <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                {totalNumber}
+                {' '}
+                Resources
+              </Typography>
               <ul style={{ listStyle: 'none', padding: 0 }}>
                 {resources.map((resource) => (
                   <Card
@@ -480,8 +503,15 @@ export function CollectionDetails() {
                     <CardContent>
                       <Typography variant="h6" fontWeight={600} component={Link} to={`/imls/asset/${resource.detailURL?.split('/v2/resources/')?.pop()}`}>{resource.title || resource.name}</Typography>
                       <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{resource.micrositeName || resource.site}</Typography>
-                      <Typography variant="body2" color="text.secondary">Updated {new Date(resource.updateDate).toDateString()}</Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{resource.abstract?.split(' ').slice(0, 20).join(' ')}...</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Updated
+                        {' '}
+                        {new Date(resource.updateDate).toDateString()}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                        {resource.abstract?.split(' ').slice(0, 20).join(' ')}
+                        ...
+                      </Typography>
                     </CardContent>
                   </Card>
                 ))}
@@ -511,8 +541,23 @@ export function CollectionDetails() {
               <CheckCircleIcon color="success" sx={{ fontSize: 40 }} />
               <Box>
                 <Typography variant="h6" fontWeight={700}>Exchange Successful</Typography>
-                <Typography variant="body2">You published a new collection to <b>{clientInfo}</b> by subscribing.</Typography>
-                <Typography variant="body2">Any changes pushed to this content by <b>{collectionMicrositeName}</b> are automatically synced to <b>{clientInfo}</b>.</Typography>
+                <Typography variant="body2">
+                  You published a new collection to
+                  {' '}
+                  <b>{clientInfo}</b>
+                  {' '}
+                  by subscribing.
+                </Typography>
+                <Typography variant="body2">
+                  Any changes pushed to this content by
+                  {' '}
+                  <b>{collectionMicrositeName}</b>
+                  {' '}
+                  are automatically synced to
+                  {' '}
+                  <b>{clientInfo}</b>
+                  .
+                </Typography>
               </Box>
             </Stack>
             <Divider sx={{ my: 2 }} />
@@ -521,8 +566,16 @@ export function CollectionDetails() {
               <Box>
                 <Typography variant="h6" fontWeight={600}>{collectionName}</Typography>
                 <Typography variant="body2" color="text.secondary">{collectionMicrositeName}</Typography>
-                <Typography variant="body2">{numResources} resources</Typography>
-                <Typography variant="body2">Education: {educationLevels?.slice(0, 3)?.join(', ')}</Typography>
+                <Typography variant="body2">
+                  {numResources}
+                  {' '}
+                  resources
+                </Typography>
+                <Typography variant="body2">
+                  Education:
+                  {' '}
+                  {educationLevels?.slice(0, 3)?.join(', ')}
+                </Typography>
               </Box>
             </Card>
             {ready ? (
@@ -539,7 +592,11 @@ export function CollectionDetails() {
                   />
                 </Box>
                 <Typography variant="body2">TRANSFERRING</Typography>
-                <Typography variant="body2" sx={{ mt: 1 }}>We're getting your new collection ready!<br />We'll email you when the process is complete.</Typography>
+                <Typography variant="body2" sx={{ mt: 1 }}>
+                  We're getting your new collection ready!
+                  <br />
+                  We'll email you when the process is complete.
+                </Typography>
               </Box>
             )}
           </Card>
@@ -554,7 +611,11 @@ export function CollectionDetails() {
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle1" fontWeight={600}>{section.name}</Typography>
                 {Number(stats[section.name]) > 0 && (
-                  <Typography color="error" sx={{ ml: 2 }}>{stats[section.name]} value unmapped</Typography>
+                  <Typography color="error" sx={{ ml: 2 }}>
+                    {stats[section.name]}
+                    {' '}
+                    value unmapped
+                  </Typography>
                 )}
                 {Number(stats[section.name]) === -1 && (
                   <Typography color="success" sx={{ ml: 2 }}>All values mapped</Typography>
@@ -580,7 +641,11 @@ export function CollectionDetails() {
                         padding: '8px', borderRadius: 4, border: '1px solid #ccc', minWidth: 120,
                       }}
                     >
-                      <option value="">Select {section.name}</option>
+                      <option value="">
+                        Select
+                        {' '}
+                        {section.name}
+                      </option>
                       {section.metadata.map((meta) => (
                         <option key={meta.name} value={meta.name}>{meta.name}</option>
                       ))}

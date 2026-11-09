@@ -83,7 +83,8 @@ function HistoryModal({ open, onClose, history }) {
         {history?.map((item, idx) => (
           <Box key={idx} mb={2}>
             <Typography variant="body2" color="text.secondary">
-              {item?.change_type ? <b>{item.change_type}</b> : <b>update</b>}{' '}
+              {item?.change_type ? <b>{item.change_type}</b> : <b>update</b>}
+              {' '}
               {item?.date
                 ? `on ${new Date(item.date).toDateString().substring(4)}`
                 : ''}
@@ -101,7 +102,8 @@ function HistoryModal({ open, onClose, history }) {
 
             {item?.author_name && item?.author_url && (
               <Typography variant="body2">
-                by{' '}
+                by
+                {' '}
                 <MuiLink
                   href={item.author_url}
                   target="_blank"
@@ -338,13 +340,17 @@ export default function ArkCourse() {
           <Stack direction="row" spacing={1} alignItems="center" mb={1}>
             <StarRating rate={rate} />
             <Typography variant="body2" color="text.secondary">
-              ({rate || 0})
+              (
+              {rate || 0}
+              )
             </Typography>
           </Stack>
 
           {!!update && (
             <Typography variant="body2" color="text.secondary" mb={1}>
-              Updated {update}
+              Updated
+              {' '}
+              {update}
             </Typography>
           )}
 
@@ -354,9 +360,21 @@ export default function ArkCourse() {
             mb={2}
             sx={{ alignItems: 'center' }}
           >
-            <Typography variant="body2">{visits} Views</Typography>
-            <Typography variant="body2">{saves} Saves</Typography>
-            <Typography variant="body2">{downloadsCount} Downloads</Typography>
+            <Typography variant="body2">
+              {visits}
+              {' '}
+              Views
+            </Typography>
+            <Typography variant="body2">
+              {saves}
+              {' '}
+              Saves
+            </Typography>
+            <Typography variant="body2">
+              {downloadsCount}
+              {' '}
+              Downloads
+            </Typography>
           </Stack>
 
           <Stack direction="row" spacing={2} flexWrap="wrap">
@@ -410,67 +428,88 @@ export default function ArkCourse() {
           <Typography variant="body2" color="ark.mainFontColor" paragraph>
             {!!subjects?.length && (
               <>
-                <b>Subject:</b> {subjects?.join(', ')}
+                <b>Subject:</b>
+                {' '}
+                {subjects?.join(', ')}
                 <br />
               </>
             )}
             {!!levels?.length && (
               <>
-                <b>Level:</b> {levels?.join(' / ')}
+                <b>Level:</b>
+                {' '}
+                {levels?.join(' / ')}
                 <br />
               </>
             )}
             {!!grades?.length && (
               <>
-                <b>Grades:</b> {grades.join(' / ')}
+                <b>Grades:</b>
+                {' '}
+                {grades.join(' / ')}
                 <br />
               </>
             )}
             {!!materials?.length && (
               <>
-                <b>Material Type:</b> {materials?.join(', ')}
+                <b>Material Type:</b>
+                {' '}
+                {materials?.join(', ')}
                 <br />
               </>
             )}
             {!!authors?.length && (
               <>
-                <b>Author:</b> {authors?.join(', ')}
+                <b>Author:</b>
+                {' '}
+                {authors?.join(', ')}
                 <br />
               </>
             )}
             {!!provider && (
               <>
-                <b>Provider:</b> {provider}
+                <b>Provider:</b>
+                {' '}
+                {provider}
                 <br />
               </>
             )}
             {!!dateAdded && (
               <>
-                <b>Date Added:</b> {dateAdded}
+                <b>Date Added:</b>
+                {' '}
+                {dateAdded}
                 <br />
               </>
             )}
             {!!collections?.length && (
               <>
-                <b>Collection:</b> {collections?.join(', ')}
+                <b>Collection:</b>
+                {' '}
+                {collections?.join(', ')}
                 <br />
               </>
             )}
             {!!languages?.length && (
               <>
-                <b>Language:</b> {languages?.join(', ')}
+                <b>Language:</b>
+                {' '}
+                {languages?.join(', ')}
                 <br />
               </>
             )}
             {!!formats?.length && (
               <>
-                <b>Media Format:</b> {formats?.join(' / ')}
+                <b>Media Format:</b>
+                {' '}
+                {formats?.join(' / ')}
                 <br />
               </>
             )}
             {license && (
               <span style={{ display: 'inline-flex', alignItems: 'center' }}>
-                <b>License:</b>&nbsp;
+                <b>License:</b>
+&nbsp;
                 <span>{license}</span>
                 {!!licenseImage && (
                   <>
@@ -542,7 +581,9 @@ export default function ArkCourse() {
             <Box display="flex" alignItems="center" gap={1}>
               <HistoryIcon color="action" />
               <Typography variant="body2" color="ark.mainFontColor">
-                {history?.length || 0} Updates/Edits
+                {history?.length || 0}
+                {' '}
+                Updates/Edits
                 {create ? ` since first published ${create}` : ''}
               </Typography>
             </Box>
@@ -551,7 +592,9 @@ export default function ArkCourse() {
               <Box display="flex" alignItems="center" gap={1}>
                 <RemixIcon color="action" />
                 <Typography variant="body2" color="ark.mainFontColor">
-                  {history.length} History items
+                  {history.length}
+                  {' '}
+                  History items
                 </Typography>
               </Box>
             )}

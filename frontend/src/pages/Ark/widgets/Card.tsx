@@ -102,7 +102,11 @@ function MetaData({ metadata }) {
           color="text.secondary"
           sx={{ mb: 0.5 }}
         >
-          <strong>{item.label}:</strong>{' '}
+          <strong>
+            {item.label}
+            :
+          </strong>
+          {' '}
           <span>{join(item.items?.map((el) => el.name))}</span>
         </Typography>
       ) : null))}
@@ -194,7 +198,9 @@ export const ArkResourceCard = memo(({ resource }) => {
           </MuiLink>
         </Box>
         <Typography variant="caption" color="text.secondary" sx={{ mb: 1 }}>
-          Updated {new Date(resource.updateDate).toDateString()}
+          Updated
+          {' '}
+          {new Date(resource.updateDate).toDateString()}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
           <StarRating rating={Number(resource.rating) || 0} />
@@ -203,7 +209,9 @@ export const ArkResourceCard = memo(({ resource }) => {
               color: '#428bca', fontWeight: 'bold', fontSize: 15, ml: 1,
             }}
           >
-            ({resource.ratings_number || 0})
+            (
+            {resource.ratings_number || 0}
+            )
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
@@ -231,7 +239,8 @@ export const ArkResourceCard = memo(({ resource }) => {
           </Box>
         </Box>
         <Typography variant="body2" sx={{ mt: 1 }}>
-          <strong>Overview:</strong>{' '}
+          <strong>Overview:</strong>
+          {' '}
           <span dangerouslySetInnerHTML={{
             __html: see
               ? resource.abstract?.replace(/\r\n/g, '<br />')?.replace(/\n/g, '<br />')

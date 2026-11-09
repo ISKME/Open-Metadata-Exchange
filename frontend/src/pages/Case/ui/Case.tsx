@@ -78,6 +78,16 @@ import req from 'shared/lib/req';
 import Alert from './Alert';
 import { Folders } from 'widgets/Folders';
 
+const notesByComments = [];
+let annotationUri;
+let fullHtml = '';
+let quote;
+let duration = 1000;
+let tempTime;
+let tempEndTime = null;
+let textRange = {};
+let loadedPlayer;
+
 const FilterInnerItems = ({
   name,
   items = [],
@@ -105,7 +115,9 @@ const FilterInnerItems = ({
             sx={accordionStyles.inner}
           >
             <Typography>
-              {item.full_code} {item.name}
+              {item.full_code}
+              {' '}
+              {item.name}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -262,6 +274,66 @@ const FilterItems = ({
   );
 };
 
+function Groups({
+  options,
+  init = { id: -1, leader: false },
+  onChange = (item) => {},
+}) {
+  const [selected, setSelected] = useState(
+    !init ? -1 : init.leader ? `${init.id}l` : init.id,
+  );
+  const handleClick = (id, leaders = false) => {
+    setSelected(leaders ? `${id}l` : id);
+    onChange(id, leaders);
+  };
+
+  const boxStyles = {
+    padding: '8px',
+    border: '1px solid rgba(0, 0, 0, .2)',
+    cursor: 'pointer',
+  };
+
+  return (
+    <div style={{ fontFamily: '"DINPro", sans-serif', padding: '0 8px' }}>
+      <Typography style={{ margin: '4px 0' }}>Who Can See this Note</Typography>
+      <div
+        style={{
+          background: selected === -1 ? 'rgba(0, 0, 0, .1)' : '',
+          ...boxStyles,
+        }}
+        onClick={() => handleClick(-1)}
+      >
+        Only Me
+      </div>
+      <Typography style={{ margin: '4px 0' }}>Share With</Typography>
+      {options.map((option, index) => (
+        <div key={index}>
+          <div
+            style={{
+              background: selected === option.id ? 'rgba(0, 0, 0, .1)' : '',
+              ...boxStyles,
+            }}
+            onClick={() => handleClick(option.id)}
+          >
+            {option.title}
+          </div>
+          <div
+            style={{
+              background:
+                selected === `${option.id}l` ? 'rgba(0, 0, 0, .1)' : '',
+              ...boxStyles,
+              paddingLeft: '32px',
+            }}
+            onClick={() => handleClick(option.id, true)}
+          >
+            Group Leaders Only
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Note({
   id,
   name,
@@ -306,6 +378,8 @@ function Note({
     }
   }, [editing]);
 
+  const handleMenuClose = () => setAnchorEl(null);
+
   const handleEdit = () => {
     setEditing(true);
     handleMenuClose();
@@ -315,7 +389,6 @@ function Note({
     setContent(text);
   };
   const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
-  const handleMenuClose = () => setAnchorEl(null);
   const handleDelete = () => {
     setDialog(true);
     handleMenuClose();
@@ -481,7 +554,9 @@ function Note({
                 color="text.secondary"
                 sx={{ marginTop: '8px', display: 'block' }}
               >
-                Framework: {framework.name}
+                Framework:
+                {' '}
+                {framework.name}
               </Typography>
             ) : (
               ''
@@ -500,7 +575,8 @@ function Note({
                   <span
                     style={{ cursor: 'pointer' }}
                     onClick={jump}
-                  >{`Time: ${start} - ${end}`}
+                  >
+                    {`Time: ${start} - ${end}`}
                   </span>
                 )}
                 {!video && (!all ? `${start} - ${end}` : 'Entire File')}
@@ -527,6 +603,28 @@ function Note({
         </CardActions>
       )}
     </Card>
+  );
+}
+
+function AlignDialog({ onClose, open, onSelect = (tag) => {} }) {
+  const [selected, setSelected] = useState({});
+  const handleSelect = () => {
+    onSelect(selected);
+    onClose();
+  };
+  return (
+    <Dialog onClose={() => onClose(/* selectedValue */)} open={open}>
+      <DialogTitle>Framework Select</DialogTitle>
+      <DialogContent>
+        <AlignWidget onSelect={setSelected} />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleSelect} autoFocus>
+          Add Selected Tag
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 
@@ -865,88 +963,6 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
   );
 }
 
-function AlignDialog({ onClose, open, onSelect = (tag) => {} }) {
-  const [selected, setSelected] = useState({});
-  const handleSelect = () => {
-    onSelect(selected);
-    onClose();
-  };
-  return (
-    <Dialog onClose={() => onClose(/* selectedValue */)} open={open}>
-      <DialogTitle>Framework Select</DialogTitle>
-      <DialogContent>
-        <AlignWidget onSelect={setSelected} />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSelect} autoFocus>
-          Add Selected Tag
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-}
-
-function Groups({
-  options,
-  init = { id: -1, leader: false },
-  onChange = (item) => {},
-}) {
-  const [selected, setSelected] = useState(
-    !init ? -1 : init.leader ? `${init.id}l` : init.id,
-  );
-  const handleClick = (id, leaders = false) => {
-    setSelected(leaders ? `${id}l` : id);
-    onChange(id, leaders);
-  };
-
-  const boxStyles = {
-    padding: '8px',
-    border: '1px solid rgba(0, 0, 0, .2)',
-    cursor: 'pointer',
-  };
-
-  return (
-    <div style={{ fontFamily: '"DINPro", sans-serif', padding: '0 8px' }}>
-      <Typography style={{ margin: '4px 0' }}>Who Can See this Note</Typography>
-      <div
-        style={{
-          background: selected === -1 ? 'rgba(0, 0, 0, .1)' : '',
-          ...boxStyles,
-        }}
-        onClick={() => handleClick(-1)}
-      >
-        Only Me
-      </div>
-      <Typography style={{ margin: '4px 0' }}>Share With</Typography>
-      {options.map((option, index) => (
-        <div key={index}>
-          <div
-            style={{
-              background: selected === option.id ? 'rgba(0, 0, 0, .1)' : '',
-              ...boxStyles,
-            }}
-            onClick={() => handleClick(option.id)}
-          >
-            {option.title}
-          </div>
-          <div
-            style={{
-              background:
-                selected === `${option.id}l` ? 'rgba(0, 0, 0, .1)' : '',
-              ...boxStyles,
-              paddingLeft: '32px',
-            }}
-            onClick={() => handleClick(option.id, true)}
-          >
-            Group Leaders Only
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function NoteForm({
   uri,
   video = false,
@@ -1101,16 +1117,6 @@ function NoteForm({
   );
 }
 
-const notesByComments = [];
-let annotationUri;
-let fullHtml = '';
-let quote;
-let duration = 1000;
-let tempTime;
-let tempEndTime = null;
-let textRange = {};
-let loadedPlayer;
-
 export function Case() {
   const { id } = useParams();
   const [value, setValue] = useState(0);
@@ -1237,6 +1243,17 @@ export function Case() {
           setResources(resources);
         }
         //
+        function oncontroldown(event) {
+          setActive(-1);
+          quote = this.text;
+          setSelectedComment(
+            paragraphNumber(fullHtml, textRange.startPos.paragraph),
+          );
+          this.remove();
+          document.getSelection().removeAllRanges();
+          event.stopPropagation();
+        }
+
         const control = document.querySelector('template').querySelector('span');
         const commentary = document.querySelector('.commentary');
         control.addEventListener('pointerdown', oncontroldown, true);
@@ -1264,16 +1281,6 @@ export function Case() {
           action: 'Overview Courseware',
           name: id,
         });
-        function oncontroldown(event) {
-          setActive(-1);
-          quote = this.text;
-          setSelectedComment(
-            paragraphNumber(fullHtml, textRange.startPos.paragraph),
-          );
-          this.remove();
-          document.getSelection().removeAllRanges();
-          event.stopPropagation();
-        }
         document.onpointerdown = () => {
           const control = document.querySelector('#control');
           if (control !== null) {
@@ -1478,7 +1485,10 @@ export function Case() {
       >
         <Grid item xs={4}>
           <div className="sidebar">
-            <p className="case-id">Case #{id}</p>
+            <p className="case-id">
+              Case #
+              {id}
+            </p>
             <h1>{title}</h1>
             <div
               className="description"
@@ -1612,7 +1622,9 @@ export function Case() {
                   onClick={() => setVideo(videos[index])}
                   disabled={videos[index].title === video?.title}
                 >
-                  Video {index + 1}
+                  Video
+                  {' '}
+                  {index + 1}
                 </Button>
               ))}
             </div>
@@ -1671,7 +1683,9 @@ export function Case() {
                       onClick={() => setSelectedNotes(item.data)}
                     >
                       <span className="tooltiptext">
-                        {item.data.length} Video Note
+                        {item.data.length}
+                        {' '}
+                        Video Note
                         {item.data.length > 1 ? 's' : ''}
                       </span>
                     </div>
@@ -1703,7 +1717,11 @@ export function Case() {
                   justifyContent: 'space-between',
                 }}
               >
-                <h4>Video Notes ({selectedNotes.length})</h4>
+                <h4>
+                  Video Notes (
+                  {selectedNotes.length}
+                  )
+                </h4>
                 <Button
                   onClick={() => setSelectedNotes([])}
                   sx={{ padding: '0' }}
@@ -1882,7 +1900,11 @@ export function Case() {
                                   <IconButton onClick={() => setActive(index)}>
                                     <Comment />
                                   </IconButton>
-                                  <span>({filtered.length})</span>
+                                  <span>
+                                    (
+                                    {filtered.length}
+                                    )
+                                  </span>
                                 </>
                               );
                             })()}
@@ -2117,7 +2139,8 @@ export function Case() {
                           }
                         >
                           {' '}
-                          |{' '}
+                          |
+                          {' '}
                         </span>
                         {resource.title}
                       </a>
@@ -2130,7 +2153,8 @@ export function Case() {
                         }
                         title={`Download resource ${resource.title}`}
                       >
-                        Download{' '}
+                        Download
+                        {' '}
                         <i className="fa fa-file-word-o" aria-hidden="true" />
                       </a>
                     </div>

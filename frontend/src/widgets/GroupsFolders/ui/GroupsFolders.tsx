@@ -49,21 +49,6 @@ export function GroupsFolders({ content }) {
   if (filters) filters = JSON.parse(filters);
   else filters = {};
 
-  React.useEffect(() => {
-    get(groupId);
-  }, []);
-
-  React.useEffect(() => {
-    axios
-      .get('/api/csrf-token/')
-      .then((response) => {
-        setCsrfToken(response.data.token);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch CSRF token', error);
-      });
-  }, []);
-
   function get(groupId) {
     axios.get(`/api/groups/v1/groups/${groupId}/folders`)
       .then(({ data }) => {
@@ -81,6 +66,21 @@ export function GroupsFolders({ content }) {
         console.error('Error fetching user data:', error);
       });
   }
+
+  React.useEffect(() => {
+    get(groupId);
+  }, []);
+
+  React.useEffect(() => {
+    axios
+      .get('/api/csrf-token/')
+      .then((response) => {
+        setCsrfToken(response.data.token);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch CSRF token', error);
+      });
+  }, []);
 
   function del(isSubfolder) {
     const url = isSubfolder
@@ -200,7 +200,10 @@ export function GroupsFolders({ content }) {
       <Modal open={openAddSubfolder} onClose={() => setOpenAddSubfolder(false)}>
         <Box sx={modalStyle}>
           <Typography variant="h6" component="h2">
-            Enter the title for the new {isGroup ? 'folder' : 'subfolder'}.
+            Enter the title for the new
+            {' '}
+            {isGroup ? 'folder' : 'subfolder'}
+            .
           </Typography>
           <Box className={cls.modalInput}>
             <TextField
@@ -221,7 +224,10 @@ export function GroupsFolders({ content }) {
       <Modal open={openRename} onClose={() => setOpenRename(false)}>
         <Box sx={{ ...modalStyle }}>
           <Typography variant="h6" component="h2">
-            Enter a new name for the {isSubfolder ? 'subfolder' : 'folder'}.
+            Enter a new name for the
+            {' '}
+            {isSubfolder ? 'subfolder' : 'folder'}
+            .
           </Typography>
           <Box className={cls.modalInput}>
             <TextField
@@ -242,7 +248,10 @@ export function GroupsFolders({ content }) {
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box sx={{ ...modalStyle }}>
           <Typography variant="h6" component="h2">
-            Are you sure you want to delete this {isSubfolder ? 'subfolder' : 'folder'}?
+            Are you sure you want to delete this
+            {' '}
+            {isSubfolder ? 'subfolder' : 'folder'}
+            ?
             <br />
             All its contents will be permanently removed.
           </Typography>

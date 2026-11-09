@@ -143,7 +143,11 @@ const Filters = ({ filters, filterValues, setFilterValues }) => (
               ? [
                 // sx={{ background: `linear-gradient(90deg, white, 90%, ${btnStyles.backgroundColor?.replace(' !important', '')})` }}
                 <ListSubheader key={`${item.slug}-sub`}>{item.name}</ListSubheader>,
-                <MenuItem key={item.slug} value={item.slug}>Subject: {item.name}</MenuItem>,
+                <MenuItem key={item.slug} value={item.slug}>
+                  Subject:
+                  {' '}
+                  {item.name}
+                </MenuItem>,
               ]
               : <MenuItem key={item.slug} value={item.slug} sx={{ '&::before': { content: '"• "', marginRight: '8px' } }}>{item.name}</MenuItem>
           ))}

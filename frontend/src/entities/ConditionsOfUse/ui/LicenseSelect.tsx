@@ -21,7 +21,9 @@ export function LicenseSelect({ license, onChange }) {
 
   const formatOptionLabel = ({ label, icons }) => (
     <div>
-      <span>{label}</span> -
+      <span>{label}</span>
+      {' '}
+      -
       {icons.map((icon) => (
         <i className={icon} key={icon} />
       ))}
@@ -34,7 +36,10 @@ export function LicenseSelect({ license, onChange }) {
       <div className="resource-license-picker-choice-description">
         <a className="description-name" target="_blank" href={url}>{label}</a>
         <p>
-          <span className="description-type">{type}</span>: <span className="description-content">{description}</span>
+          <span className="description-type">{type}</span>
+          :
+          {' '}
+          <span className="description-content">{description}</span>
         </p>
       </div>
       <div className="resource-license-picker-field-ct controls">

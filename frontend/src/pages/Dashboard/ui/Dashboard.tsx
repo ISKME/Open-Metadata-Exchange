@@ -132,71 +132,6 @@ export function Dashboard() {
     '0',
   )}-${String(date.getDate()).padStart(2, '0')}`;
 
-  const fetchData = (
-    start,
-    end,
-    selectedGroups,
-    selectedOrg,
-    selectedHubs,
-    allWidgetsArg = null,
-  ) => {
-    const params = {
-      date_range_start: formatDate(start),
-      date_range_end: formatDate(end),
-      organization: isHubAdmin ? null : selectedOrg,
-      hub: selectedHubs,
-      group: selectedGroups,
-    };
-    loadAllWidgetData(params, allWidgetsArg);
-  };
-
-  const fetchPageTypesAndWidgets = async () => {
-    try {
-      const { data } = await axios.get('/reports/widget/');
-      setPageTypesWithWidgets(data);
-      const allWidgets = data.flatMap((pt) => pt.widgets || []);
-      const [startDate, endDate] = date;
-      fetchData(
-        startDate,
-        endDate,
-        selectedParams.group,
-        selectedParams.organization,
-        selectedParams.hub,
-        allWidgets,
-      );
-    } catch (err) {
-      console.error('Failed to fetch page types with widgets', err);
-    }
-  };
-
-  const handleWidgetSectionChange = (
-    widget: any,
-    newSection: string | null,
-  ) => {
-    if (!newSection) return;
-    const defaultView = widget.view_options?.[0]?.slug || 'all';
-    const bySection = widgetSectionChartData[widget.id] || {};
-    const dataset = bySection[newSection] || [];
-
-    setSelectedWidgetSection((prev) => ({ ...prev, [widget.id]: newSection }));
-    setWidgetDataMap((prev) => ({
-      ...prev,
-      [widget.id]: {
-        ...(prev[widget.id] || {}),
-        [defaultView]: dataset,
-      },
-    }));
-  };
-
-  const fetchNavigation = async () => {
-    try {
-      const { data } = await axios.get('/reports/widget/navigation/');
-      setNavigation(data);
-    } catch (err) {
-      console.error('Failed to fetch page types with widgets', err);
-    }
-  };
-
   const withTrailingSlash = (url: string) => {
     if (!url) return url;
     const [path, qs] = url.split('?');
@@ -223,8 +158,6 @@ export function Dashboard() {
       sectionList, bySection, initialSection, dataset,
     };
   }
-
-  type Task<T = void> = () => Promise<T>;
 
   async function runWithConcurrency<T>(tasks: Task<T>[], limit: number) {
     const results: T[] = new Array(tasks.length);
@@ -365,6 +298,73 @@ export function Dashboard() {
     }
   };
 
+  const fetchData = (
+    start,
+    end,
+    selectedGroups,
+    selectedOrg,
+    selectedHubs,
+    allWidgetsArg = null,
+  ) => {
+    const params = {
+      date_range_start: formatDate(start),
+      date_range_end: formatDate(end),
+      organization: isHubAdmin ? null : selectedOrg,
+      hub: selectedHubs,
+      group: selectedGroups,
+    };
+    loadAllWidgetData(params, allWidgetsArg);
+  };
+
+  const fetchPageTypesAndWidgets = async () => {
+    try {
+      const { data } = await axios.get('/reports/widget/');
+      setPageTypesWithWidgets(data);
+      const allWidgets = data.flatMap((pt) => pt.widgets || []);
+      const [startDate, endDate] = date;
+      fetchData(
+        startDate,
+        endDate,
+        selectedParams.group,
+        selectedParams.organization,
+        selectedParams.hub,
+        allWidgets,
+      );
+    } catch (err) {
+      console.error('Failed to fetch page types with widgets', err);
+    }
+  };
+
+  const handleWidgetSectionChange = (
+    widget: any,
+    newSection: string | null,
+  ) => {
+    if (!newSection) return;
+    const defaultView = widget.view_options?.[0]?.slug || 'all';
+    const bySection = widgetSectionChartData[widget.id] || {};
+    const dataset = bySection[newSection] || [];
+
+    setSelectedWidgetSection((prev) => ({ ...prev, [widget.id]: newSection }));
+    setWidgetDataMap((prev) => ({
+      ...prev,
+      [widget.id]: {
+        ...(prev[widget.id] || {}),
+        [defaultView]: dataset,
+      },
+    }));
+  };
+
+  const fetchNavigation = async () => {
+    try {
+      const { data } = await axios.get('/reports/widget/navigation/');
+      setNavigation(data);
+    } catch (err) {
+      console.error('Failed to fetch page types with widgets', err);
+    }
+  };
+
+  type Task<T = void> = () => Promise<T>;
+
   const updateFilters = (key, value) => {
     const updatedParams = { ...selectedParams, [key]: value };
     setSelectedParams(updatedParams);
@@ -450,6 +450,54 @@ export function Dashboard() {
     setResetViewTrigger((prev) => prev + 1);
   };
 
+  const fetchConfigs = async (startDate: Date, endDate: Date) => {
+    setIsLoading(true);
+    try {
+      const { data } = await axios.get('/clickhouse/configs/', {
+        params: {
+          date_range_start: formatDate(startDate),
+          date_range_end: formatDate(endDate),
+        },
+      });
+
+      const isHA = Boolean(data?.is_hub_admin);
+      setIsHubAdmin(isHA);
+      setConfigsLoaded(true);
+
+      setOrganizations(toOptions(data.organizations));
+      setTitle(data.tenant_name);
+
+      setHubs(toOptions(data.hubs || []));
+      setHubGroupsMap(data.hub_groups || {});
+
+      const currentHub: string | null = selectedParams.hub || (isHA ? data.hubs && data.hubs[0] : null) || null;
+
+      const groupsForHub: string[] = isHA
+        ? currentHub
+          ? data.hub_groups?.[currentHub] || []
+          : []
+        : data.groups || [];
+
+      setGroups(toOptions(groupsForHub));
+
+      let currentGroup: string | null = selectedParams.group || null;
+      if (currentGroup && !groupsForHub.includes(currentGroup)) {
+        currentGroup = null;
+      }
+
+      setSelectedParams((prev) => ({
+        ...prev,
+        organization: isHA ? null : prev.organization,
+        hub: currentHub,
+        group: currentGroup,
+      }));
+    } catch (e) {
+      console.error('Error fetching configs', e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const applyDateRange = (dateToApply?: [Date, Date]) => {
     const [start, end] = dateToApply || date || [];
 
@@ -527,54 +575,6 @@ export function Dashboard() {
     }
     setDate([startDate, endDate]);
     applyDateRange([startDate, endDate]);
-  };
-
-  const fetchConfigs = async (startDate: Date, endDate: Date) => {
-    setIsLoading(true);
-    try {
-      const { data } = await axios.get('/clickhouse/configs/', {
-        params: {
-          date_range_start: formatDate(startDate),
-          date_range_end: formatDate(endDate),
-        },
-      });
-
-      const isHA = Boolean(data?.is_hub_admin);
-      setIsHubAdmin(isHA);
-      setConfigsLoaded(true);
-
-      setOrganizations(toOptions(data.organizations));
-      setTitle(data.tenant_name);
-
-      setHubs(toOptions(data.hubs || []));
-      setHubGroupsMap(data.hub_groups || {});
-
-      const currentHub: string | null = selectedParams.hub || (isHA ? data.hubs && data.hubs[0] : null) || null;
-
-      const groupsForHub: string[] = isHA
-        ? currentHub
-          ? data.hub_groups?.[currentHub] || []
-          : []
-        : data.groups || [];
-
-      setGroups(toOptions(groupsForHub));
-
-      let currentGroup: string | null = selectedParams.group || null;
-      if (currentGroup && !groupsForHub.includes(currentGroup)) {
-        currentGroup = null;
-      }
-
-      setSelectedParams((prev) => ({
-        ...prev,
-        organization: isHA ? null : prev.organization,
-        hub: currentHub,
-        group: currentGroup,
-      }));
-    } catch (e) {
-      console.error('Error fetching configs', e);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   const fetchWidget = async () => {
@@ -805,7 +805,11 @@ export function Dashboard() {
       <Settings init={palette} onChange={paletteChange} />
       <Box sx={styles.box}>
         <div className={cls.dashboardHeader}>
-          <h1>{title} Reports</h1>
+          <h1>
+            {title}
+            {' '}
+            Reports
+          </h1>
         </div>
         {/* (!target || target === 'favorites') &&  */}
         <div className={cls.dashboard}>

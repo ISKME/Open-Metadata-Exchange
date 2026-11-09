@@ -20,7 +20,11 @@ export const Collapse = (props) => {
             </defs>
           </svg>
         )}
-        <span>{props.number !== -1 && <b style={{ color: props.number === 0 ? 'black' : '' }}>{props.number}</b>} {props.title}</span>
+        <span>
+          {props.number !== -1 && <b style={{ color: props.number === 0 ? 'black' : '' }}>{props.number}</b>}
+          {' '}
+          {props.title}
+        </span>
         {props.number !== 0 && (
           <>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ transform: isOpen ? 'rotate(180deg)' : '' }}>

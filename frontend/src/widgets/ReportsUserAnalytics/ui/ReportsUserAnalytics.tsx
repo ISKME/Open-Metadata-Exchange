@@ -153,84 +153,11 @@ export function ReportsUserAnalytics() {
     saves: ChartColors.BROWN,
   };
 
-  React.useEffect(() => {
-    const startDate = new Date(new Date().setDate(new Date().getDate() - 30));
-    const endDate = new Date();
-    const userIds = [];
-    const group = null;
-    const organization = null;
-
-    let cancelled = false;
-    setIsLoading(true);
-    const initialRequest = fetchData(startDate, endDate);
-    initialRequest.then((availableDate) => {
-      if (cancelled || latestAnalyticsRequest.current !== initialRequest) return;
-      const reportingEndDate = availableDate || endDate;
-      const reportingStartDate = new Date(reportingEndDate);
-      reportingStartDate.setDate(reportingEndDate.getDate() - 30);
-      setDate([reportingStartDate, reportingEndDate]);
-      if (formatDate(startDate) !== formatDate(reportingStartDate)
-        || formatDate(endDate) !== formatDate(reportingEndDate)) {
-        fetchData(reportingStartDate, reportingEndDate);
-      }
-      fetchConfigs(reportingStartDate, reportingEndDate);
-      fetchTableData(reportingStartDate, reportingEndDate, userIds, group, organization);
-    });
-    return () => { cancelled = true; };
-  }, []);
-
-  React.useEffect(() => {
-    if (!latestAvailableDate) return;
-    setDate((current) => (current[1] > latestAvailableDate
-      ? [new Date(Math.min(current[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate]
-      : current));
-  }, [latestAvailableDate]);
-
   const formatDate = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
-  };
-
-  const fetchData = (startDate, endDate, users = [], group = null, organization = null) => {
-    const params = {
-      date_range_start: startDate ? formatDate(startDate) : undefined,
-      date_range_end: endDate ? formatDate(endDate) : undefined,
-      users: users.length > 0 ? users : undefined,
-      group: group || undefined,
-      organization: organization || undefined,
-    };
-
-    const request = axios
-      .get('/clickhouse/overall/user-analytics', { params })
-      .then(({ data }) => {
-        const latest = data.reduce((maximum, item) => (item.date > maximum ? item.date : maximum), '');
-        let availableDate = null;
-        if (latest) {
-          const [year, month, day] = latest.split('-').map(Number);
-          availableDate = new Date(year, month - 1, day);
-          // Keep the latest known day when loading an older or filtered range.
-          setLatestAvailableDate((previous) => (previous && previous >= availableDate ? previous : availableDate));
-        }
-        const formattedData = data.map((item) => ({
-          date: item.date,
-          login: item.logins,
-          resourceView: item.casesViewed,
-          search: item.searches,
-          groups: item.groups,
-          downloads: item.resourcesDownloaded,
-          allNotes: item.notes,
-          saves: item.casesSaved,
-        }));
-        if (latestAnalyticsRequest.current === request) setChartData(formattedData);
-        return availableDate;
-      })
-      .catch((error) => {
-        console.error('Error fetching analytics data:', error);
-      });
-    latestAnalyticsRequest.current = request;
-    return request;
   };
 
   const fetchTableData = async (startDate, endDate, users = [], group = null, organization = null) => {
@@ -310,6 +237,79 @@ export function ReportsUserAnalytics() {
       setIsLoading(false);
     }
   };
+
+  const fetchData = (startDate, endDate, users = [], group = null, organization = null) => {
+    const params = {
+      date_range_start: startDate ? formatDate(startDate) : undefined,
+      date_range_end: endDate ? formatDate(endDate) : undefined,
+      users: users.length > 0 ? users : undefined,
+      group: group || undefined,
+      organization: organization || undefined,
+    };
+
+    const request = axios
+      .get('/clickhouse/overall/user-analytics', { params })
+      .then(({ data }) => {
+        const latest = data.reduce((maximum, item) => (item.date > maximum ? item.date : maximum), '');
+        let availableDate = null;
+        if (latest) {
+          const [year, month, day] = latest.split('-').map(Number);
+          availableDate = new Date(year, month - 1, day);
+          // Keep the latest known day when loading an older or filtered range.
+          setLatestAvailableDate((previous) => (previous && previous >= availableDate ? previous : availableDate));
+        }
+        const formattedData = data.map((item) => ({
+          date: item.date,
+          login: item.logins,
+          resourceView: item.casesViewed,
+          search: item.searches,
+          groups: item.groups,
+          downloads: item.resourcesDownloaded,
+          allNotes: item.notes,
+          saves: item.casesSaved,
+        }));
+        if (latestAnalyticsRequest.current === request) setChartData(formattedData);
+        return availableDate;
+      })
+      .catch((error) => {
+        console.error('Error fetching analytics data:', error);
+      });
+    latestAnalyticsRequest.current = request;
+    return request;
+  };
+
+  React.useEffect(() => {
+    const startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    const endDate = new Date();
+    const userIds = [];
+    const group = null;
+    const organization = null;
+
+    let cancelled = false;
+    setIsLoading(true);
+    const initialRequest = fetchData(startDate, endDate);
+    initialRequest.then((availableDate) => {
+      if (cancelled || latestAnalyticsRequest.current !== initialRequest) return;
+      const reportingEndDate = availableDate || endDate;
+      const reportingStartDate = new Date(reportingEndDate);
+      reportingStartDate.setDate(reportingEndDate.getDate() - 30);
+      setDate([reportingStartDate, reportingEndDate]);
+      if (formatDate(startDate) !== formatDate(reportingStartDate)
+        || formatDate(endDate) !== formatDate(reportingEndDate)) {
+        fetchData(reportingStartDate, reportingEndDate);
+      }
+      fetchConfigs(reportingStartDate, reportingEndDate);
+      fetchTableData(reportingStartDate, reportingEndDate, userIds, group, organization);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  React.useEffect(() => {
+    if (!latestAvailableDate) return;
+    setDate((current) => (current[1] > latestAvailableDate
+      ? [new Date(Math.min(current[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate]
+      : current));
+  }, [latestAvailableDate]);
 
   const resetFilters = () => {
     setSelectedParams({ users: [], group: null, organization: null });
@@ -403,16 +403,6 @@ export function ReportsUserAnalytics() {
     fetchTableData(date[0], date[1], selectedParams.users, updatedGroup, selectedParams.organization);
   };
 
-  const handleOrganizationChange = async (event, newValue) => {
-    const updatedOrganization = newValue ? newValue.label : null;
-    const updatedUsers = await fetchConfigs(date[0], date[1], updatedOrganization);
-    const filteredUsers = getFilteredUserIds(updatedUsers || users, userFilters);
-
-    setSelectedParams((prev) => ({ ...prev, organization: updatedOrganization, users: filteredUsers }));
-    fetchData(date[0], date[1], filteredUsers, selectedParams.group, updatedOrganization);
-    fetchTableData(date[0], date[1], filteredUsers, selectedParams.group, updatedOrganization);
-  };
-
   const getFilteredUserIds = (sourceUsers, filters) => {
     if (Object.values(filters).every((value) => value === '')) return [];
 
@@ -423,6 +413,16 @@ export function ReportsUserAnalytics() {
       && (!filters.state || user.state === filters.state)
     )).map((user) => user.id);
     return filteredUsers.length ? filteredUsers : [-1];
+  };
+
+  const handleOrganizationChange = async (event, newValue) => {
+    const updatedOrganization = newValue ? newValue.label : null;
+    const updatedUsers = await fetchConfigs(date[0], date[1], updatedOrganization);
+    const filteredUsers = getFilteredUserIds(updatedUsers || users, userFilters);
+
+    setSelectedParams((prev) => ({ ...prev, organization: updatedOrganization, users: filteredUsers }));
+    fetchData(date[0], date[1], filteredUsers, selectedParams.group, updatedOrganization);
+    fetchTableData(date[0], date[1], filteredUsers, selectedParams.group, updatedOrganization);
   };
 
   const handleUserFilterChange = (field, value) => {
@@ -545,7 +545,10 @@ export function ReportsUserAnalytics() {
       </Typography>
       {latestAvailableDate && (
         <Typography sx={{ fontWeight: 400, mb: 1, color: 'red' }}>
-          Data is updated weekly. Data is currently available through {latestAvailableDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}.
+          Data is updated weekly. Data is currently available through
+          {' '}
+          {latestAvailableDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          .
         </Typography>
       )}
       <div>

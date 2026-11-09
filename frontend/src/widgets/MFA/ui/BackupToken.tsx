@@ -267,7 +267,11 @@ function RevialTokensDialog({
             {attemptsRemaining === 1 && verificationMode === 'password' && (
               <Alert severity="warning" sx={{ mb: 2, fontSize: ds.textFontSize }}>
                 Last attempt before lockout!
-                Consider <a style={{ cursor: 'pointer' }} onClick={() => setVerificationMode('email')}>verifying via email</a> instead.
+                Consider
+                {' '}
+                <a style={{ cursor: 'pointer' }} onClick={() => setVerificationMode('email')}>verifying via email</a>
+                {' '}
+                instead.
               </Alert>
             )}
             <Verification onVerified={onVerified} onFailed={handleFailed} onModeChange={setVerificationMode} ds={ds} />
@@ -342,7 +346,9 @@ function MFAToken({ token, index }) {
       p: 1, border: '1px solid #ccc', fontSize: '1.4rem', fontFamily: 'monospace', borderRadius: '6px',
     }}
     >
-      <span style={{ marginRight: '10px', color: '#64748b' }}>{padZero(index + 1)}</span> {token}
+      <span style={{ marginRight: '10px', color: '#64748b' }}>{padZero(index + 1)}</span>
+      {' '}
+      {token}
     </Box>
   );
 }

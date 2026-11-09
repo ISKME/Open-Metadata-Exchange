@@ -15,6 +15,7 @@ interface SearchBarProps {
 export const SearchBar = memo(({
   value, onInputChange, onKeyDown, onClear, placeholder, className,
 }: SearchBarProps) => {
+  const ref = useRef(null);
   // useEffect(() => {
   //   if (!value && onClear) onClear();
   // }, [value]);
@@ -26,7 +27,6 @@ export const SearchBar = memo(({
     element.addEventListener('search', handler);
     return () => element.removeEventListener('search', handler);
   }, []);
-  const ref = useRef(null);
   return (
     <div className={classNames(cls.Searchbar, {}, [className])}>
       <SearchIcon className={cls.search_icon} />

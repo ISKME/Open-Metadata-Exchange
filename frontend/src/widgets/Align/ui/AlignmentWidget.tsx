@@ -4,7 +4,11 @@ import { fetchStandards, BLANK_VALUE } from '../lib/fetch';
 function SelectSection({ options, label, onChange }) {
   return (
     <select className="form-control" onChange={onChange}>
-      <option value={BLANK_VALUE}>Select {label}</option>
+      <option value={BLANK_VALUE}>
+        Select
+        {' '}
+        {label}
+      </option>
       {options.map((option) => (
         <option value={option.value} key={option.value}>{option.label}</option>
       ))}
@@ -101,18 +105,18 @@ export function AlignmentWidget({ alignmentTags = [], label = 'Educational stand
     }
   };
 
+  const cancel = () => {
+    setTagsStack([]);
+    setStandardSelected(null);
+    setToggler(!toggler);
+  };
+
   const addTags = () => {
     const map = new Map([...tags, ...tagsStack].map((t) => [t.full_code, t]));
     const newTags = Array.from(map.values());
     setTags(newTags);
     cancel();
     onChange(newTags);
-  };
-
-  const cancel = () => {
-    setTagsStack([]);
-    setStandardSelected(null);
-    setToggler(!toggler);
   };
 
   useEffect(() => {

@@ -58,6 +58,24 @@ export function MyItems() {
     setHeaderTitle(title);
   }, [folders, folderId, subFolderId]);
 
+  function get() {
+    axios.get('/api/myitems/v1/save-widget/reload/')
+      .then(({ data }) => {
+        const folders = data?.user_folders || [];
+        setFolders(folders.map((item) => ({
+          ...item,
+          root: true,
+        })));
+        setName('');
+        setId(null);
+        setOpen(false);
+        setOpenRename(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching user data:', error);
+      });
+  }
+
   React.useEffect(() => {
     get();
   }, []);
@@ -101,24 +119,6 @@ export function MyItems() {
   React.useEffect(() => {
     computeHeaderTitle();
   }, [computeHeaderTitle]);
-
-  function get() {
-    axios.get('/api/myitems/v1/save-widget/reload/')
-      .then(({ data }) => {
-        const folders = data?.user_folders || [];
-        setFolders(folders.map((item) => ({
-          ...item,
-          root: true,
-        })));
-        setName('');
-        setId(null);
-        setOpen(false);
-        setOpenRename(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching user data:', error);
-      });
-  }
 
   function del(isSubfolder) {
     const url = isSubfolder
@@ -230,7 +230,10 @@ export function MyItems() {
       <Modal open={openAddSubfolder} onClose={() => setOpenAddSubfolder(false)}>
         <Box sx={modalStyle}>
           <Typography variant="h6" component="h2">
-            Enter the title for the new {isGroup ? 'folder' : 'subfolder'}.
+            Enter the title for the new
+            {' '}
+            {isGroup ? 'folder' : 'subfolder'}
+            .
           </Typography>
           <Box className={cls.modalInput}>
             <TextField
@@ -251,7 +254,10 @@ export function MyItems() {
       <Modal open={openRename} onClose={() => setOpenRename(false)}>
         <Box sx={{ ...modalStyle }}>
           <Typography variant="h6" component="h2">
-            Enter a new name for the {isSubfolder ? 'subfolder' : 'folder'}.
+            Enter a new name for the
+            {' '}
+            {isSubfolder ? 'subfolder' : 'folder'}
+            .
           </Typography>
           <Box className={cls.modalInput}>
             <TextField
@@ -272,7 +278,10 @@ export function MyItems() {
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box sx={{ ...modalStyle }}>
           <Typography variant="h6" component="h2">
-            Are you sure you want to delete this {isSubfolder ? 'subfolder' : 'folder'}?
+            Are you sure you want to delete this
+            {' '}
+            {isSubfolder ? 'subfolder' : 'folder'}
+            ?
             <br />
             All its contents will be permanently removed.
           </Typography>

@@ -254,17 +254,6 @@ export function CasesList({
     setCheck(data.map(() => target.checked));
   };
 
-  const handleItem = (event) => {
-    setDefaultPage(1);
-    const sort = event.target.value;
-    setItem(sort);
-    setParams('sort_by', sort);
-    const params = new URLSearchParams(window.location.search);
-    params.set('page', 1);
-
-    window.history.replaceState(null, '', `?${params.toString()}`);
-  };
-
   useEffect(() => {
     setCheck(data.map(() => false));
   }, [JSON.stringify(data)]);
@@ -281,11 +270,29 @@ export function CasesList({
 
   const [item, setItem] = useState(searchParams.get('sort_by') || order || '');
 
+  const handleItem = (event) => {
+    setDefaultPage(1);
+    const sort = event.target.value;
+    setItem(sort);
+    setParams('sort_by', sort);
+    const params = new URLSearchParams(window.location.search);
+    params.set('page', 1);
+
+    window.history.replaceState(null, '', `?${params.toString()}`);
+  };
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const sort = params.get('sort_by') || '';
     setItem(sort);
   }, [window.location.search]);
+
+  const getItemIds = () => {
+    const itemsIds = check
+      .map((isChecked, index) => (isChecked && data[index] ? data[index].id : null))
+      .filter((id) => id !== null);
+    setItemIds(itemsIds);
+  };
 
   useEffect(() => {
     getItemIds();
@@ -376,13 +383,6 @@ export function CasesList({
     }
   };
 
-  const getItemIds = () => {
-    const itemsIds = check
-      .map((isChecked, index) => (isChecked && data[index] ? data[index].id : null))
-      .filter((id) => id !== null);
-    setItemIds(itemsIds);
-  };
-
   const deleteItems = () => {
     getItemIds();
     if (itemIds.length) {
@@ -447,7 +447,9 @@ export function CasesList({
           marginBottom: '15px',
         }}
       >
-        {titles} Cases
+        {titles}
+        {' '}
+        Cases
         {loading ? <Loader /> : ` (${count})`}
       </Typography>
       <Paper
@@ -819,7 +821,10 @@ export function CasesList({
                       <CloseIcon fontSize="small" />
                     </IconButton>
               Hub:
-                    <span> {searchParams.get('hub_title') || searchParams.get('network_hub')}</span>
+                    <span>
+                      {' '}
+                      {searchParams.get('hub_title') || searchParams.get('network_hub')}
+                    </span>
             </span>
                 )}
             {search ? (
@@ -835,7 +840,10 @@ export function CasesList({
                       <CloseIcon fontSize="small" />
                     </IconButton>
                 Search:
-                    <span> {search}</span>
+                    <span>
+                      {' '}
+                      {search}
+                    </span>
               </span>
                 ) : (
                   ''
@@ -845,8 +853,12 @@ export function CasesList({
                 <IconButton onClick={() => unselectTopic(topic)}>
                       <CloseIcon fontSize="small" />
                     </IconButton>
-                {topic.parent ? 'Topic' : 'Subject'}:
-                <span> {topic.name}</span>
+                {topic.parent ? 'Topic' : 'Subject'}
+                :
+<span>
+  {' '}
+                      {topic.name}
+</span>
               </span>
                 ))}
             {grades.map((grade) => (
@@ -855,7 +867,10 @@ export function CasesList({
                       <CloseIcon fontSize="small" />
                     </IconButton>
                 Grade:
-                    <span> {grade.name}</span>
+                    <span>
+                      {' '}
+                      {grade.name}
+                    </span>
               </span>
                 ))}
             {selectedStandards.map((standard) => (
@@ -863,8 +878,12 @@ export function CasesList({
                 <IconButton onClick={() => clearStdFilter(standard)}>
                       <CloseIcon fontSize="small" />
                     </IconButton>
-                {standard.section.name}:
-                <span style={overflowStyle}> {standard.name}</span>
+                {standard.section.name}
+                :
+<span style={overflowStyle}>
+  {' '}
+                      {standard.name}
+</span>
               </span>
                 ))}
             {extras.map((extra, index) => (
@@ -882,7 +901,10 @@ export function CasesList({
                     >
                       <CloseIcon fontSize="small" />
                     </IconButton>
-                {extra.name}: <span>{extra.label}</span>
+                {extra.name}
+                :
+                    {' '}
+                <span>{extra.label}</span>
               </span>
                 ))}
 

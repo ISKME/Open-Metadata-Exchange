@@ -233,7 +233,8 @@ export default function ArkSearch() {
               boxShadow: 'none',
               borderRadius: '8px',
             }}
-          >Filters
+          >
+            Filters
           </Button>
         )}
       </div>

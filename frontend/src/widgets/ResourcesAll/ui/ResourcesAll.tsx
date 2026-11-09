@@ -156,7 +156,11 @@ export function ResourcesAll({
           marginBottom: '15px',
         }}
       >
-        {titles} Resources ({count})
+        {titles}
+        {' '}
+        Resources (
+        {count}
+        )
       </Typography>
       <Paper
         elevation={3}
@@ -225,7 +229,10 @@ export function ResourcesAll({
                     <CloseIcon fontSize="small" />
                   </IconButton>
                   Hub:
-                  <span> {searchParams.get('hub_title') || searchParams.get('network_hub')}</span>
+                  <span>
+                    {' '}
+                    {searchParams.get('hub_title') || searchParams.get('network_hub')}
+                  </span>
                 </span>
               )}
               {search ? (
@@ -241,7 +248,10 @@ export function ResourcesAll({
                     <CloseIcon fontSize="small" />
                   </IconButton>
                   Search:
-                  <span> {search}</span>
+                  <span>
+                    {' '}
+                    {search}
+                  </span>
                 </span>
               ) : (
                 ''
@@ -252,7 +262,10 @@ export function ResourcesAll({
                     <CloseIcon fontSize="small" />
                   </IconButton>
                   Material Type:
-                  <span> {material.name}</span>
+                  <span>
+                    {' '}
+                    {material.name}
+                  </span>
                 </span>
               ))}
               {selectedStandards.map((standard) => (
@@ -260,8 +273,12 @@ export function ResourcesAll({
                   <IconButton onClick={() => clearStdFilter(standard)}>
                     <CloseIcon fontSize="small" />
                   </IconButton>
-                  {standard.section.name}:
-                  <span style={overflowStyle}> {standard.name}</span>
+                  {standard.section.name}
+                  :
+                  <span style={overflowStyle}>
+                    {' '}
+                    {standard.name}
+                  </span>
                 </span>
               ))}
             </div>

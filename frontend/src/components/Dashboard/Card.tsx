@@ -44,14 +44,16 @@ export default function ({ title, plot = 'pie', full = false }) {
           <div style={{
             padding: '12px', border: '1px solid #767676', background: '#E3E3E3', borderRadius: '8px', cursor: 'pointer',
           }}
-          >Download CSV of Table
+          >
+            Download CSV of Table
           </div>
         )}
       </div>
       <p style={{
         fontSize: '16px', textDecoration: 'underline', color: '#303030', marginBottom: '36px',
       }}
-      >View Full Report
+      >
+        View Full Report
       </p>
       <Tabs items={['Overall', 'By Unique Users', 'By Unique Page Views']} />
       <div style={{ padding: '16px', borderRadius: '6px', border: '1px solid rgb(217, 217, 217)' }}>

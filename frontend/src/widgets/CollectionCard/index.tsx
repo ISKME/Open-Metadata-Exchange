@@ -51,7 +51,9 @@ export function CollectionCard({ item }) {
             {level.join(', ')}
           </Typography>
           <Typography variant="body2" sx={sxStyles.cardResources}>
-            {item.numResources} resources
+            {item.numResources}
+            {' '}
+            resources
           </Typography>
         </CardContent>
       </Card>

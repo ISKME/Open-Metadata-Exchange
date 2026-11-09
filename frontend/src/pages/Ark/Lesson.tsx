@@ -154,14 +154,16 @@ function HistoryModal({ open, onClose, history }) {
             {item.change_type === 'remix_published' && (
               <span>Remix published </span>
             )}
-            <span>{`on ${new Date(item.date)
-              .toDateString()
-              .substring(4)}`}
+            <span>
+              {`on ${new Date(item.date)
+                .toDateString()
+                .substring(4)}`}
             </span>
             {item.author_name && (
               <MuiLink
                 href={item.author_url}
-              >{` by ${item.author_name}`}
+              >
+                {` by ${item.author_name}`}
               </MuiLink>
             )}
             {item.change_type === 'remix_published' && (
@@ -622,11 +624,15 @@ export default function ArkLesson() {
           <Stack direction="row" spacing={1} alignItems="center" mb={1}>
             <StarRating rate={rate} />
             <Typography variant="body2" color="text.secondary">
-              ({rate || 0})
+              (
+              {rate || 0}
+              )
             </Typography>
           </Stack>
           <Typography variant="body2" color="text.secondary" mb={1}>
-            Updated {update}
+            Updated
+            {' '}
+            {update}
           </Typography>
           <Stack
             direction="row"
@@ -634,9 +640,21 @@ export default function ArkLesson() {
             mb={2}
             sx={{ alignItems: 'center ' }}
           >
-            <Typography variant="body2">{visits} Views</Typography>
-            <Typography variant="body2">{saves} Saves</Typography>
-            <Typography variant="body2">{downloadsCount} Downloads</Typography>
+            <Typography variant="body2">
+              {visits}
+              {' '}
+              Views
+            </Typography>
+            <Typography variant="body2">
+              {saves}
+              {' '}
+              Saves
+            </Typography>
+            <Typography variant="body2">
+              {downloadsCount}
+              {' '}
+              Downloads
+            </Typography>
             {!!downloads?.length && !small && (
               <DownloadList
                 data={downloads}
@@ -700,29 +718,47 @@ export default function ArkLesson() {
               dangerouslySetInnerHTML={{ __html: desc?.replace(/\r\n/g, '<br />')?.replace(/\n/g, '<br />') }}
             />
             <Typography variant="body2" color="ark.mainFontColor" paragraph>
-              <b>Subject:</b> {subjects?.join(', ')}
+              <b>Subject:</b>
+              {' '}
+              {subjects?.join(', ')}
               <br />
-              <b>Level:</b> {levels?.join(' / ')}
+              <b>Level:</b>
+              {' '}
+              {levels?.join(' / ')}
               <br />
-              <b>Material Type:</b> {materials?.join(', ')}
+              <b>Material Type:</b>
+              {' '}
+              {materials?.join(', ')}
               <br />
-              <b>Author:</b> {authors?.join(', ')}
+              <b>Author:</b>
+              {' '}
+              {authors?.join(', ')}
               <br />
               {provider && (
                 <>
-                  <b>Provider:</b> {provider}
+                  <b>Provider:</b>
+                  {' '}
+                  {provider}
                   <br />
                 </>
               )}
-              <b>Collection:</b> {collections?.join(', ')}
+              <b>Collection:</b>
+              {' '}
+              {collections?.join(', ')}
               <br />
-              <b>Language:</b> {languages?.join(', ')}
+              <b>Language:</b>
+              {' '}
+              {languages?.join(', ')}
               <br />
-              <b>Media Format:</b> {formats?.join('/')}
+              <b>Media Format:</b>
+              {' '}
+              {formats?.join('/')}
               <br />
               {license && (
                 <>
-                  <b>License:</b> {license}
+                  <b>License:</b>
+                  {' '}
+                  {license}
                 </>
               )}
               {licenseImage && (
@@ -767,14 +803,20 @@ export default function ArkLesson() {
               <Box display="flex" alignItems="center" gap={1}>
                 <HistoryIcon color="action" />
                 <Typography variant="body2" color="ark.mainFontColor">
-                  {history.length} Updates/Edits since first published {create}
+                  {history.length}
+                  {' '}
+                  Updates/Edits since first published
+                  {' '}
+                  {create}
                 </Typography>
               </Box>
               {history.length > 0 && (
                 <Box display="flex" alignItems="center" gap={1}>
                   <RemixIcon color="action" />
                   <Typography variant="body2" color="ark.mainFontColor">
-                    {history.length} Remixes
+                    {history.length}
+                    {' '}
+                    Remixes
                   </Typography>
                 </Box>
               )}

@@ -129,25 +129,6 @@ export function MicrositeCollections({ className }: AllCollectionsProps) {
     } catch (e) { return {}; }
   };
 
-  useEffect(() => {
-    fetcher()
-      .then(({ filters, sortByOptions }) => {
-        setFilters(filters);
-        setSortBy(sortByOptions);
-        setSorted(searchParams.get('sortby'));
-        updatePath(null);
-        setTimeout(() => {
-          setSearchParams({ tenant: [name] });
-          setPath(`collections/browse/${window.location.search.toString()}`);
-          setChecked({ tenant: [name] });
-        }, 500);
-      });
-    axios.get(`/api/imls/v2/microsites/${name}`).then(({ data }) => {
-      setTitle(data.name);
-      setTenantUrl(data.url);
-    });
-  }, []);
-
   function updatePath(key: any) {
     let queries = qs.parse(search);
     if (key === 'clear') {
@@ -166,6 +147,25 @@ export function MicrositeCollections({ className }: AllCollectionsProps) {
     setSearchParams(queries);
     setPath(`collections/browse/${window.location.search.toString()}`);
   }
+
+  useEffect(() => {
+    fetcher()
+      .then(({ filters, sortByOptions }) => {
+        setFilters(filters);
+        setSortBy(sortByOptions);
+        setSorted(searchParams.get('sortby'));
+        updatePath(null);
+        setTimeout(() => {
+          setSearchParams({ tenant: [name] });
+          setPath(`collections/browse/${window.location.search.toString()}`);
+          setChecked({ tenant: [name] });
+        }, 500);
+      });
+    axios.get(`/api/imls/v2/microsites/${name}`).then(({ data }) => {
+      setTitle(data.name);
+      setTenantUrl(data.url);
+    });
+  }, []);
 
   const handleSelectChange = useCallback(({ target }) => {
     setSorted(target.value);
@@ -227,8 +227,16 @@ export function MicrositeCollections({ className }: AllCollectionsProps) {
       </div>
       {/* <ArrowIcon /> */}
       {/* <AppLink to="/imls/explore-oer-exchange" aria-label="Go Back to Explore OER Exchange" className={cls.back_link} text="Back to Explore OER Exchange" /> */}
-      <h1 className={cls.allcollections_title}>{title} Collections</h1>
-      <h5 className={cls.allcollections_desc}>All of the collections shared to the OER Exchange by <a href={`${tenantUrl}`}>{title}</a></h5>
+      <h1 className={cls.allcollections_title}>
+        {title}
+        {' '}
+        Collections
+      </h1>
+      <h5 className={cls.allcollections_desc}>
+        All of the collections shared to the OER Exchange by
+        {' '}
+        <a href={`${tenantUrl}`}>{title}</a>
+      </h5>
       <div className={cls.search_block}>
         <SearchBar value={inputValue} onInputChange={handleInputChange} placeholder="Search Collections" onKeyDown={onPress} onClear={() => updatePath(null)} />
         <Button onClick={handleSearching} title="Search" className={cls.search_block_button} />

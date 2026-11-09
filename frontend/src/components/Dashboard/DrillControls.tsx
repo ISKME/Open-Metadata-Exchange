@@ -161,91 +161,6 @@ export function useDrill({
   }, [sections, sectionHint]);
 
   // L0
-  useEffect(() => {
-    if (!full || sections.length === 0) return;
-    (async () => {
-      setLoading0(true);
-      try {
-        const sf = getSortField();
-        const sortField = sf === 'line' ? 'visits_count' : sf;
-        const params = {
-          ...buildBaseParams(),
-          limit: 100000,
-          sort_by: sortField,
-          drill: sections[0],
-        };
-        const { data } = await axios.get(endpoint, { params });
-        const key = sections[0];
-        const list = Array.isArray(data?.[key]) ? data[key] : [];
-        const opts = list.map((it: any) => ({
-          label: it?.name ?? '—',
-          count: Number(it?.[sortField] ?? 0),
-          raw: it,
-        }));
-
-        const prevL0Label = selL0?.label;
-        const keepL0 = prevL0Label
-          ? opts.find((o) => o.label === prevL0Label)
-          : null;
-
-        setLvl0Options(opts);
-        setSelL0(keepL0 || null);
-
-        if (
-          !keepL0
-          && sectionHint
-          && sections.includes(sectionHint)
-          && !didApplyHintRef.current
-        ) {
-          const firstL0 = opts[0] || null;
-          if (firstL0 && !isTimeline) {
-            if (sectionHint === sections[1]) {
-              setSelL0(firstL0);
-              setSelL1(null);
-              setLvl1Options([]);
-              setChartData(null);
-              await loadLevel1(
-                firstL0.label,
-                false /* preserve */,
-                false, /* targetL2 */
-              );
-              didApplyHintRef.current = true;
-              initTargetRef.current = 'none';
-              return;
-            }
-            if (sections[2] && sectionHint === sections[2]) {
-              setSelL0(firstL0);
-              setSelL1(null);
-              setLvl1Options([]);
-              setChartData(null);
-              await loadLevel1(
-                firstL0.label,
-                false /* preserve */,
-                true, /* targetL2 */
-              );
-              didApplyHintRef.current = true;
-              blockRegionOnceRef.current = true;
-              initTargetRef.current = 'none';
-              return;
-            }
-          }
-        }
-
-        if (!keepL0) {
-          setSelL1(null);
-          setLvl1Options([]);
-          setChartData(null);
-        } else if (sections.length >= 2) {
-          await loadLevel1(keepL0.label, /* preserveL1 */ true);
-        }
-      } catch (e) {
-        console.error('load level-0 failed', e);
-      } finally {
-        setLoading0(false);
-      }
-    })();
-  }, [full, endpoint, ...deps, sections, sectionHint]);
-
   const loadLevel1 = async (
     l0Label: string,
     preserveL1 = false,
@@ -335,6 +250,91 @@ export function useDrill({
       setLoading1(false);
     }
   };
+
+  useEffect(() => {
+    if (!full || sections.length === 0) return;
+    (async () => {
+      setLoading0(true);
+      try {
+        const sf = getSortField();
+        const sortField = sf === 'line' ? 'visits_count' : sf;
+        const params = {
+          ...buildBaseParams(),
+          limit: 100000,
+          sort_by: sortField,
+          drill: sections[0],
+        };
+        const { data } = await axios.get(endpoint, { params });
+        const key = sections[0];
+        const list = Array.isArray(data?.[key]) ? data[key] : [];
+        const opts = list.map((it: any) => ({
+          label: it?.name ?? '—',
+          count: Number(it?.[sortField] ?? 0),
+          raw: it,
+        }));
+
+        const prevL0Label = selL0?.label;
+        const keepL0 = prevL0Label
+          ? opts.find((o) => o.label === prevL0Label)
+          : null;
+
+        setLvl0Options(opts);
+        setSelL0(keepL0 || null);
+
+        if (
+          !keepL0
+          && sectionHint
+          && sections.includes(sectionHint)
+          && !didApplyHintRef.current
+        ) {
+          const firstL0 = opts[0] || null;
+          if (firstL0 && !isTimeline) {
+            if (sectionHint === sections[1]) {
+              setSelL0(firstL0);
+              setSelL1(null);
+              setLvl1Options([]);
+              setChartData(null);
+              await loadLevel1(
+                firstL0.label,
+                false /* preserve */,
+                false, /* targetL2 */
+              );
+              didApplyHintRef.current = true;
+              initTargetRef.current = 'none';
+              return;
+            }
+            if (sections[2] && sectionHint === sections[2]) {
+              setSelL0(firstL0);
+              setSelL1(null);
+              setLvl1Options([]);
+              setChartData(null);
+              await loadLevel1(
+                firstL0.label,
+                false /* preserve */,
+                true, /* targetL2 */
+              );
+              didApplyHintRef.current = true;
+              blockRegionOnceRef.current = true;
+              initTargetRef.current = 'none';
+              return;
+            }
+          }
+        }
+
+        if (!keepL0) {
+          setSelL1(null);
+          setLvl1Options([]);
+          setChartData(null);
+        } else if (sections.length >= 2) {
+          await loadLevel1(keepL0.label, /* preserveL1 */ true);
+        }
+      } catch (e) {
+        console.error('load level-0 failed', e);
+      } finally {
+        setLoading0(false);
+      }
+    })();
+  }, [full, endpoint, ...deps, sections, sectionHint]);
 
   const onL0Change = async (_: any, option: any | null) => {
     setSelL0(option);

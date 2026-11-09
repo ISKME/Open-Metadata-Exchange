@@ -74,7 +74,8 @@ export function AlignWidget({ onSelect = (tag) => {} }) {
           id="framework-select"
           label="Framework"
           labelId="framework-dropdown-label"
-        >*
+        >
+          *
           <MenuItem value="">
             <em>None</em>
           </MenuItem>

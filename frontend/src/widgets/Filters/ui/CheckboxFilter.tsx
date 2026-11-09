@@ -22,7 +22,13 @@ function Checkbox(props, showNumResources = false) {
     <label>
       <input type="checkbox" name={filter.keyword} checked={checked} value={item.slug} onChange={handleChange} />
       {item.name}
-      {showNumResources ? <span className="facet-count">({item.numResources})</span> : ''}
+      {showNumResources ? (
+        <span className="facet-count">
+          (
+          {item.numResources}
+          )
+        </span>
+      ) : ''}
     </label>
   );
 }
@@ -32,13 +38,13 @@ function CheckboxWrapper(props) {
     filter, item, selected, wrapTag,
   } = props;
   const getKey = () => `${filter.keyword}.${item.slug}`;
-  const getClassName = () => (isSelected(item.slug) ? 'selected' : '');
-  const [collapsed, setCollapsed] = useState(true);
-
   const isSelected = (value) => {
     const valueStr = (`${value}`);
     return selected.some((i) => i.keyword === filter.keyword && i.value === valueStr);
   };
+
+  const getClassName = () => (isSelected(item.slug) ? 'selected' : '');
+  const [collapsed, setCollapsed] = useState(true);
 
   const itemProps = updateProps(props, { checked: isSelected(item.slug) });
 
@@ -46,6 +52,7 @@ function CheckboxWrapper(props) {
     li: () => (
       <li key={getKey()} className={getClassName()}>
         {Checkbox(itemProps, props.filter.name === 'Grade Level')}
+        {/* eslint-disable-next-line no-use-before-define -- CheckboxUL and CheckboxWrapper render each other for nested items */}
         {item.items.length > 0 && CheckboxUL(updateProps(props, { items: item.items }))}
       </li>
     ),

@@ -127,7 +127,8 @@ export default function IMLSThemeProvider({ children }: { children: React.ReactN
       <div style={{
         height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}
-      >Loading
+      >
+        Loading
       </div>
     );
   }

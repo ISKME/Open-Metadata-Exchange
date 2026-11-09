@@ -66,13 +66,23 @@ const FilterInnerItems = ({ name, items = [] }) => (
           expandIcon={(item.children && item.children.length) ? <ExpandMoreIcon /> : ''}
           sx={styles.inner}
         >
-          <Typography>{item.name} ({item.numResources})</Typography>
+          <Typography>
+            {item.name}
+            {' '}
+            (
+            {item.numResources}
+            )
+          </Typography>
         </AccordionSummary>
         {item.children && item.children.length && (
           <AccordionDetails>
             {item.children && item.children.map((child, j) => (
               <Typography sx={{ color: '#56788f', padding: '4px 0', cursor: 'pointer' }} key={`panel${name}-${index}-${j}`}>
-                {item.title} ({item.number})
+                {item.title}
+                {' '}
+                (
+                {item.number}
+                )
               </Typography>
             ))}
           </AccordionDetails>
@@ -142,7 +152,13 @@ const Subject = ({ data = {}, onSelect = () => {}, tempTopics = [] }) => {
         expandIcon={(data.children && data.children.length) ? <ExpandMoreIcon /> : ''}
         sx={styles.inner}
       >
-        <Typography>{data.name} ({data.numResources})</Typography>
+        <Typography>
+          {data.name}
+          {' '}
+          (
+          {data.numResources}
+          )
+        </Typography>
       </AccordionSummary>
       {data.children && data.children.length ? (
         <AccordionDetails>
@@ -157,7 +173,11 @@ const Subject = ({ data = {}, onSelect = () => {}, tempTopics = [] }) => {
               key={`panel${data.slug}-${data.name}-${j}`}
               onClick={() => onSelect(item)}
             >
-              {item.name} ({item.numResources})
+              {item.name}
+              {' '}
+              (
+              {item.numResources}
+              )
             </Typography>
           ))}
         </AccordionDetails>
@@ -368,7 +388,12 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
                 >
                   <span>{grade.name}</span>
                   <br />
-                  <span className="facet-count"> ({grade.numResources})</span>
+                  <span className="facet-count">
+                    {' '}
+                    (
+                    {grade.numResources}
+                    )
+                  </span>
                 </li>
               ))}
             </ul>

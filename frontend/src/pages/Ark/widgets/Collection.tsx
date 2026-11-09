@@ -143,7 +143,9 @@ export const CollectionItemCard = memo(({ collection, className, isNew = false }
                 fontSize: 14,
               }}
             >
-              {collection.numResources} resources
+              {collection.numResources}
+              {' '}
+              resources
             </Typography>
           </Box>
         </CardActionArea>

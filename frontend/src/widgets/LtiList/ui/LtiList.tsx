@@ -78,7 +78,9 @@ export function LtiList({
     <>
       <GlobalStyles styles={{ '.MuiTooltip-popper': { fontSize: '124px !important' } }} />
       <Typography sx={{ color: '#44515a', font: '400 24px / 24px "DINPro", sans-serif', marginBottom: '15px' }}>
-        {count} Results
+        {count}
+        {' '}
+        Results
       </Typography>
       <Paper
         elevation={3}

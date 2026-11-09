@@ -98,7 +98,8 @@ export function SimpleTreeView({
                       <span style={{
                         display: 'inline-block', transform: 'rotate(90deg)', fontSize: '20px', fontWeight: 600,
                       }}
-                      >›
+                      >
+                        ›
                       </span>
                     )}
                   </span>
@@ -109,7 +110,13 @@ export function SimpleTreeView({
                 ) : (
                   <OpenFolderSvg />
                 )}
-                <span className={cls.folderSpan}>{folder.title} ({folder.items_count ?? 0})</span>
+                <span className={cls.folderSpan}>
+                  {folder.title}
+                  {' '}
+                  (
+                  {folder.items_count ?? 0}
+                  )
+                </span>
               </div>
               <div className={cls.svgWrapper}>
                 <ThreePointSvg className={cls.svg} />
@@ -136,7 +143,13 @@ export function SimpleTreeView({
                         ) : (
                           <OpenFolderSvg />
                         )}
-                        <span className={cls.folderSpan}>{subfolder.title} ({subfolder.items_count ?? 0})</span>
+                        <span className={cls.folderSpan}>
+                          {subfolder.title}
+                          {' '}
+                          (
+                          {subfolder.items_count ?? 0}
+                          )
+                        </span>
                       </div>
                       <div className={cls.svgWrapper}>
                         <ThreePointSvg className={cls.svg} />

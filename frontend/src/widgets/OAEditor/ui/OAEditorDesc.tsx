@@ -114,7 +114,9 @@ export function OAEditorDesc({ lesson, videoUploadStrategy = undefined }) {
           <FormGroup field="material_types" label="Material Types" />
           <FormGroup field="languages" label="Languages" />
           <p className="lesson-editor-describe-subtitle">
-            Additional Descriptions <span className="lesson-editor-describe-subtitle mod-lite">(Optional)</span>
+            Additional Descriptions
+            {' '}
+            <span className="lesson-editor-describe-subtitle mod-lite">(Optional)</span>
           </p>
           <div className="form-group">
             <AlignmentWidget alignmentTags={lesson.alignment_tags} onChange={(value) => onLessonChange('alignment_tags', value)} />
@@ -154,7 +156,8 @@ export function OAEditorDesc({ lesson, videoUploadStrategy = undefined }) {
                 >
                   Review Open Author Accessibility Best Practices Support
                 </a>
-                {' '}for more information.
+                {' '}
+                for more information.
               </label>
             </div>
             {errors.is_resource_accessibility_accepted && (

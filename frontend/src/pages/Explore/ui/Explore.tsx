@@ -116,7 +116,11 @@ export function Explore({ className }: ExploreProps) {
                         <CardContent sx={{ flex: 1 }}>
                           <Typography variant="h6" fontWeight={600} fontSize="1.2rem">{collection.name}</Typography>
                           <Typography variant="body2" color="text.secondary">{collection.micrositeName}</Typography>
-                          <Typography variant="body2" color="text.secondary">{collection.numResources} resources</Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {collection.numResources}
+                            {' '}
+                            resources
+                          </Typography>
                           <Typography variant="body2" color="text.secondary">{collection.educationLevels?.slice(0, 3)?.join(', ')}</Typography>
                           <Button variant="outlined" size="small" sx={{ mt: 2 }} onClick={() => navigate(`/imls/collection-details/${collection.micrositeSlug}/${collection.id}/resources`)}>
                             View Details
@@ -151,7 +155,11 @@ export function Explore({ className }: ExploreProps) {
                     />
                     <CardContent sx={{ flex: 1, textAlign: 'center' }}>
                       <Typography variant="h6" fontWeight={600}>{microsite.name}</Typography>
-                      <Typography variant="body2" color="text.secondary">{microsite.numCollections} Collections</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {microsite.numCollections}
+                        {' '}
+                        Collections
+                      </Typography>
                       <Typography variant="body2" color="text.secondary">{microsite.educationalLevels?.slice(0, 3)?.join(', ')}</Typography>
                       <Button variant="outlined" size="small" sx={{ mt: 2 }} onClick={() => navigate(`/imls/browse/?tenant=${microsite.slug}`)}>
                         Explore Microsite

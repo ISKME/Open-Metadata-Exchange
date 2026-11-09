@@ -267,7 +267,8 @@ export default function ArkCollectionResources() {
               boxShadow: 'none',
               borderRadius: '8px',
             }}
-          >Filters
+          >
+            Filters
           </Button>
         )}
       </div>

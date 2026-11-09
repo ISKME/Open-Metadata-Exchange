@@ -27,8 +27,10 @@ function RelatedResourceForm({
         <div className="related-resource-form-row">
           <span className="related-resource-form-row-number">1.</span>
           <strong className="related-resource-form-row-label">
-            {resource?.file ? 'Replace' : 'Add'}&nbsp;
-            {resource?.file ? (<a href={resource.file} target="_blank">Resource</a>) : 'Resource'}*:
+            {resource?.file ? 'Replace' : 'Add'}
+&nbsp;
+            {resource?.file ? (<a href={resource.file} target="_blank">Resource</a>) : 'Resource'}
+            *:
           </strong>
           <div className="related-resource-form-file-input">
             <div className="form-group">
@@ -59,7 +61,8 @@ function RelatedResourceForm({
           <div className="related-resource-form-text-input">
             <div className="form-group">
               <label className="control-label requiredField">
-                Title<span className="asteriskField">*</span>
+                Title
+                <span className="asteriskField">*</span>
               </label>
               <div className="controls ">
                 <input type="text" className="form-control textinput" value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -83,6 +86,14 @@ export function RelatedResource({
   const [resourceLoc, setResourceLoc] = useState(resource);
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(resource?.title || '');
+
+  const setEditMode = (editMode) => {
+    setEditing(editMode);
+
+    if (editCallback) {
+      editCallback(editMode ? resource : null);
+    }
+  };
 
   const onClose = () => {
     setEditMode(false);
@@ -113,14 +124,6 @@ export function RelatedResource({
         }
       });
     });
-  };
-
-  const setEditMode = (editMode) => {
-    setEditing(editMode);
-
-    if (editCallback) {
-      editCallback(editMode ? resource : null);
-    }
   };
 
   return (

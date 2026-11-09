@@ -23,7 +23,8 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
           <>
             {item.label && (
               <p className={cls.subTitle}>
-                {item.label}:
+                {item.label}
+                :
                 <span>{join(item.items?.map((el) => el.name))}</span>
               </p>
             )}

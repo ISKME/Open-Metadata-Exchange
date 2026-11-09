@@ -128,6 +128,46 @@ function TabPanel(props) {
   );
 }
 
+function AttachmentButton({ title, url = '' }) {
+  const ext = url.split('.').pop()?.toLowerCase();
+  let FileIcon = InsertDriveFileIcon;
+  if (ext === 'pdf') FileIcon = PictureAsPdfIcon;
+  else if (['mp4', 'mov', 'avi', 'webm'].includes(ext)) FileIcon = MovieIcon;
+  return (
+    <Box sx={{
+      display: 'flex', alignItems: 'center', gap: 1, mb: 1,
+    }}
+    >
+      {/* Open in new tab */}
+      <IconButton
+        component="a"
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open in new tab"
+        size="small"
+        onClick={() => trackDownload(url)}
+      >
+        <FileIcon color="primary" />
+      </IconButton>
+      {/* Download */}
+      <IconButton
+        component="a"
+        href={url}
+        download
+        aria-label="Download file"
+        size="small"
+        onClick={() => trackDownload(url)}
+      >
+        <DownloadIcon color="action" />
+      </IconButton>
+      <Typography variant="body2" sx={{ ml: 1 }}>
+        {title}
+      </Typography>
+    </Box>
+  );
+}
+
 function Details({
   sections, standards, subjects, materials, levels, grades, keywords, license, languages, media, small,
 }) {
@@ -236,46 +276,6 @@ function Details({
   );
 }
 
-function AttachmentButton({ title, url = '' }) {
-  const ext = url.split('.').pop()?.toLowerCase();
-  let FileIcon = InsertDriveFileIcon;
-  if (ext === 'pdf') FileIcon = PictureAsPdfIcon;
-  else if (['mp4', 'mov', 'avi', 'webm'].includes(ext)) FileIcon = MovieIcon;
-  return (
-    <Box sx={{
-      display: 'flex', alignItems: 'center', gap: 1, mb: 1,
-    }}
-    >
-      {/* Open in new tab */}
-      <IconButton
-        component="a"
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Open in new tab"
-        size="small"
-        onClick={() => trackDownload(url)}
-      >
-        <FileIcon color="primary" />
-      </IconButton>
-      {/* Download */}
-      <IconButton
-        component="a"
-        href={url}
-        download
-        aria-label="Download file"
-        size="small"
-        onClick={() => trackDownload(url)}
-      >
-        <DownloadIcon color="action" />
-      </IconButton>
-      <Typography variant="body2" sx={{ ml: 1 }}>
-        {title}
-      </Typography>
-    </Box>
-  );
-}
-
 function DownloadList({ data, editURL, canEdit }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -349,7 +349,8 @@ function DownloadList({ data, editURL, canEdit }) {
                 transform: item.open ? 'rotate(180deg)' : '',
                 transition: 'transform 0.3s ease',
               }}
-              ><Arrow />
+              >
+                <Arrow />
               </div>
             )}
           </MenuItem>
@@ -555,7 +556,8 @@ export default function ArkOverview() {
                 mb: 2, fontSize: '24px', fontWeight: 600, textAlign: 'center',
               }}
               color="ark.mainFontColor"
-            >Table of contents
+            >
+              Table of contents
             </Typography>
             <ul style={{
               fontFamily: 'Inter', color: '#646464', cursor: 'pointer', marginLeft: '20%',

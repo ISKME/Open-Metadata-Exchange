@@ -33,7 +33,11 @@ export function CasesSets() {
             }}
             key={j}
           >
-            {child[0]} ({child[1]})
+            {child[0]}
+            {' '}
+            (
+            {child[1]}
+            )
           </Typography>
         ))}
       </Grid>

@@ -106,7 +106,9 @@ export function OASection({
         {confirmDelete && (
           <div className="alert alert-danger task-delete-confirmation" style={{ display: 'block' }}>
             <div className="task-delete-confirmation-text">
-              <strong>Delete this Section?</strong> This action cannot be undone.
+              <strong>Delete this Section?</strong>
+              {' '}
+              This action cannot be undone.
             </div>
             <div className="task-delete-confirmation-buttons">
               <button className="btn btn-danger" type="button" onClick={deleteSection}>Yes, delete</button>
@@ -120,7 +122,9 @@ export function OASection({
           <a href="#" onClick={toggleOpened}>
             <i className="fa fa-chevron-down">&nbsp;</i>
             <i className="fa fa-chevron-up">&nbsp;</i>
-            <span>Section</span> <span>{number}</span>
+            <span>Section</span>
+            {' '}
+            <span>{number}</span>
           </a>
         </h1>
         <div className={opened ? 'hidden' : ''}>
@@ -151,7 +155,13 @@ export function OASection({
               <div className="related-resources-formset" style={buiStyle.uiBox}>
                 {processingAttachment && <BlockUI />}
                 <h2 className="related-resources-formset-title">
-                  <span>Attach Section {number} Resources</span>
+                  <span>
+                    Attach Section
+                    {' '}
+                    {number}
+                    {' '}
+                    Resources
+                  </span>
                 </h2>
                 <div className="related-resources-forms-ct">
                   {attachments.map((attachment) => ((!editableAttachment || editableAttachment.id == attachment.id)

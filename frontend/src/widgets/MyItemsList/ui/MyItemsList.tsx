@@ -214,6 +214,13 @@ export function MyItemsList({
     if (term) setParams('f.search', term);
   }, [search]);
 
+  const getItemIds = () => {
+    const itemsIds = check
+      .map((isChecked, index) => (isChecked && data[index] ? data[index].id : null))
+      .filter((id) => id !== null);
+    setItemIds(itemsIds);
+  };
+
   React.useEffect(() => {
     getItemIds();
   }, [check, JSON.stringify(data)]);
@@ -266,13 +273,6 @@ export function MyItemsList({
       handleClose();
       handleClick();
     }
-  };
-
-  const getItemIds = () => {
-    const itemsIds = check
-      .map((isChecked, index) => (isChecked && data[index] ? data[index].id : null))
-      .filter((id) => id !== null);
-    setItemIds(itemsIds);
   };
 
   const deleteItems = () => {
@@ -338,7 +338,11 @@ export function MyItemsList({
           marginBottom: '15px',
         }}
       >
-        {headerTitle} ({count})
+        {headerTitle}
+        {' '}
+        (
+        {count}
+        )
       </Typography>
       <Paper
         elevation={3}
@@ -684,7 +688,10 @@ export function MyItemsList({
                     <CloseIcon fontSize="small" />
                   </IconButton>
                   Search:
-                  <span> {search}</span>
+                  <span>
+                    {' '}
+                    {search}
+                  </span>
                 </span>
               ) : (
                 ''

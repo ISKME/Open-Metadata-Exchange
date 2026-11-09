@@ -184,7 +184,9 @@ export function GroupNew() {
               setPage(1); // Reset to the first page when search query changes
             }}
           />
-          <div ref={containerRef} style={{ maxHeight: '300px', overflowY: 'auto' }}> {/* Add the ref to the container */}
+          <div ref={containerRef} style={{ maxHeight: '300px', overflowY: 'auto' }}>
+            {' '}
+            {/* Add the ref to the container */}
             <FormGroup>
               {list.map((item, index) => (
                 <FormControlLabel
@@ -199,7 +201,9 @@ export function GroupNew() {
             </FormGroup>
           </div>
           <Typography sx={{ margin: '16px 0' }}>
-            <b>NOTE:</b> Do not add Students who will be accessing ATLAS cases from within a learning management system
+            <b>NOTE:</b>
+            {' '}
+            Do not add Students who will be accessing ATLAS cases from within a learning management system
             (e.g., Canvas, Moodle, Blackboard, etc.). Student accounts will be automatically provisioned when students
             access the ATLAS cases from their course.
           </Typography>
@@ -270,7 +274,13 @@ export function GroupNew() {
           {selectedItems.map((item) => (
             <div key={item?.email || item}>
               <Typography sx={{ display: 'inline', marginTop: '6px' }}>
-                {item?.first_name} {item?.last_name} &lt;{item?.email || item}&gt;
+                {item?.first_name}
+                {' '}
+                {item?.last_name}
+                {' '}
+                &lt;
+                {item?.email || item}
+                &gt;
               </Typography>
               <IconButton onClick={() => removeItem(item)}>
                 <CloseIcon fontSize="small" />
@@ -280,7 +290,9 @@ export function GroupNew() {
         </div>
       )}
       <Typography variant="caption" sx={{ marginTop: '8px' }}>
-        <b>NOTE: </b> Do not add Students who will be accessing ATLAS cases from within a learning management system
+        <b>NOTE: </b>
+        {' '}
+        Do not add Students who will be accessing ATLAS cases from within a learning management system
         (e.g., Canvas, Moodle, Blackboard, etc.). Student accounts will be automatically provisioned when students
         access the ATLAS cases from their course.
       </Typography>

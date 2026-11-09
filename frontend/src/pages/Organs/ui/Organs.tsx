@@ -143,7 +143,13 @@ export function Organs() {
   }
 
   if (!organizationId) {
-    return <p>No organization is selected. You can select <a href="/my/new/default-organization">here</a></p>;
+    return (
+      <p>
+        No organization is selected. You can select
+        {' '}
+        <a href="/my/new/default-organization">here</a>
+      </p>
+    );
   }
 
   const handleMenuClick = (index) => {

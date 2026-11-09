@@ -72,7 +72,9 @@ export default function CustomSelectorManager({
         ))}
       </div>
       <div>
-        Selected: <span className="opacity-70">{targetStr || 'None'}</span>
+        Selected:
+        {' '}
+        <span className="opacity-70">{targetStr || 'None'}</span>
       </div>
     </div>
   );

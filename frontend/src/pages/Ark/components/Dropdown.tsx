@@ -65,7 +65,8 @@ export default function Dropdown({
             style={{
               color: 'ark.inputsTextColor', right: 10, top: 'calc(50% - 1em)', fontSize: 16,
             }}
-          >⮟
+          >
+            ⮟
           </span>
         )}
         sx={{

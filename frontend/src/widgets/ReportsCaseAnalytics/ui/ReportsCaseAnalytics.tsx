@@ -231,6 +231,101 @@ export function ReportsCaseAnalytics() {
     return request;
   };
 
+  const fetchTableData = async (startDate, endDate, users = [], group = null, organization = null, filteredIds = []) => {
+    const params = {
+      date_range_start: startDate ? formatDate(startDate) : undefined,
+      date_range_end: endDate ? formatDate(endDate) : undefined,
+      users: users.length > 0 ? users : undefined,
+      group: group || undefined,
+      organization: organization || undefined,
+      ids: filteredIds.length > 0 ? filteredIds : undefined,
+    };
+
+    try {
+      setIsLoading(true);
+      const response = await axios.get('/clickhouse/overall/cases-details/', { params });
+      if (!users.length && !group && !filteredIds.length && !organization) {
+        setInitialResponseData(response.data);
+      }
+      const data = response.data.map((item) => ({
+        id: item.id,
+        case: item.id,
+        accessed: item.casesAccessed,
+        im: item.imDownload,
+        videoView: item.embedVideoViews,
+        commentaryNote: item.commentaryNotes,
+        videoNote: item.videoNotes,
+        IMNote: item.imNotes,
+        saves: item.saves,
+        subject: item.subjects?.join(' | ') || '',
+        topic: item.topics?.join(' | ') || '',
+        grade: item.grades?.join(' | ') || '',
+        area: item.certificate_area || '',
+      }));
+      setOriginalTableData(data);
+      setTableData(data);
+
+      const optionsData = filteredIds.length ? initialResponseData : response.data;
+      const subjects = Array.from(new Set(optionsData.flatMap((item) => item.subjects))).sort();
+      const grades = Array.from(new Set(optionsData.flatMap((item) => item.grades)))
+        .sort((a, b) => parseInt(a) - parseInt(b));
+      const ethnicities = Array.from(new Set(optionsData.flatMap((item) => item.ethnicities)))
+        .sort((a, b) => parseInt(a) - parseInt(b));
+      const areas = Array.from(new Set(optionsData.map((item) => item.certificate_area).filter((area) => area !== null))).sort();
+
+      setSubjectOptions(subjects);
+      setGradeOptions(grades);
+      setEthnicityOptions(ethnicities);
+      setAreaOptions(areas);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchConfigs = async (startDate, endDate, organization = null) => {
+    setIsLoading(true);
+    const params = {
+      ...(startDate && endDate && {
+        date_range_start: formatDate(startDate),
+        date_range_end: formatDate(endDate),
+      }),
+      ...(organization && { organization }),
+    };
+    try {
+      const { data } = await axios.get('/clickhouse/configs', { params });
+
+      const uniqueRoles = Array.from(new Set(data.users.map((user) => user.user_type)));
+
+      setUsers(
+        data.users.map((user) => ({
+          id: user.id,
+          label: [user.first_name, user.last_name]
+            .filter(Boolean)
+            .join(' ')
+            .trim()
+            || (user.email || '').trim()
+            || `User ID: ${user.id}`,
+          is_active: user.is_active,
+          user_type: user.user_type,
+          user_types: user.user_types || [],
+          state: user.state,
+        })),
+      );
+      setGroups(data.groups.map((group) => ({ label: group })));
+      setOrganizations(data.organizations.map((organization) => ({ label: organization })));
+      setRoleOptions(uniqueRoles);
+      setUserTypeOptions(Array.from(new Set(data.users.flatMap((user) => user.user_types || []))).sort());
+      setStateOptions(Array.from(new Set(data.users.map((user) => user.state).filter(Boolean))).sort());
+      return data.users;
+    } catch (error) {
+      console.error('Error fetching configs:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const updateFilters = (key, value, availableUsers = users) => {
     const updatedParams = { ...selectedParams, [key]: value };
     setSelectedParams(updatedParams);
@@ -336,101 +431,6 @@ export function ReportsCaseAnalytics() {
     const value = event.target.value;
     setSelectedRole(value);
     updateFilters('role', value);
-  };
-
-  const fetchConfigs = async (startDate, endDate, organization = null) => {
-    setIsLoading(true);
-    const params = {
-      ...(startDate && endDate && {
-        date_range_start: formatDate(startDate),
-        date_range_end: formatDate(endDate),
-      }),
-      ...(organization && { organization }),
-    };
-    try {
-      const { data } = await axios.get('/clickhouse/configs', { params });
-
-      const uniqueRoles = Array.from(new Set(data.users.map((user) => user.user_type)));
-
-      setUsers(
-        data.users.map((user) => ({
-          id: user.id,
-          label: [user.first_name, user.last_name]
-            .filter(Boolean)
-            .join(' ')
-            .trim()
-            || (user.email || '').trim()
-            || `User ID: ${user.id}`,
-          is_active: user.is_active,
-          user_type: user.user_type,
-          user_types: user.user_types || [],
-          state: user.state,
-        })),
-      );
-      setGroups(data.groups.map((group) => ({ label: group })));
-      setOrganizations(data.organizations.map((organization) => ({ label: organization })));
-      setRoleOptions(uniqueRoles);
-      setUserTypeOptions(Array.from(new Set(data.users.flatMap((user) => user.user_types || []))).sort());
-      setStateOptions(Array.from(new Set(data.users.map((user) => user.state).filter(Boolean))).sort());
-      return data.users;
-    } catch (error) {
-      console.error('Error fetching configs:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fetchTableData = async (startDate, endDate, users = [], group = null, organization = null, filteredIds = []) => {
-    const params = {
-      date_range_start: startDate ? formatDate(startDate) : undefined,
-      date_range_end: endDate ? formatDate(endDate) : undefined,
-      users: users.length > 0 ? users : undefined,
-      group: group || undefined,
-      organization: organization || undefined,
-      ids: filteredIds.length > 0 ? filteredIds : undefined,
-    };
-
-    try {
-      setIsLoading(true);
-      const response = await axios.get('/clickhouse/overall/cases-details/', { params });
-      if (!users.length && !group && !filteredIds.length && !organization) {
-        setInitialResponseData(response.data);
-      }
-      const data = response.data.map((item) => ({
-        id: item.id,
-        case: item.id,
-        accessed: item.casesAccessed,
-        im: item.imDownload,
-        videoView: item.embedVideoViews,
-        commentaryNote: item.commentaryNotes,
-        videoNote: item.videoNotes,
-        IMNote: item.imNotes,
-        saves: item.saves,
-        subject: item.subjects?.join(' | ') || '',
-        topic: item.topics?.join(' | ') || '',
-        grade: item.grades?.join(' | ') || '',
-        area: item.certificate_area || '',
-      }));
-      setOriginalTableData(data);
-      setTableData(data);
-
-      const optionsData = filteredIds.length ? initialResponseData : response.data;
-      const subjects = Array.from(new Set(optionsData.flatMap((item) => item.subjects))).sort();
-      const grades = Array.from(new Set(optionsData.flatMap((item) => item.grades)))
-        .sort((a, b) => parseInt(a) - parseInt(b));
-      const ethnicities = Array.from(new Set(optionsData.flatMap((item) => item.ethnicities)))
-        .sort((a, b) => parseInt(a) - parseInt(b));
-      const areas = Array.from(new Set(optionsData.map((item) => item.certificate_area).filter((area) => area !== null))).sort();
-
-      setSubjectOptions(subjects);
-      setGradeOptions(grades);
-      setEthnicityOptions(ethnicities);
-      setAreaOptions(areas);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   const handleSearch = (searchValue) => {
@@ -644,7 +644,10 @@ export function ReportsCaseAnalytics() {
       </Typography>
       {latestAvailableDate && (
         <Typography sx={{ fontWeight: 400, mb: 1, color: 'red' }}>
-          Data is updated weekly. Data is currently available through {latestAvailableDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}.
+          Data is updated weekly. Data is currently available through
+          {' '}
+          {latestAvailableDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          .
         </Typography>
       )}
       <div>

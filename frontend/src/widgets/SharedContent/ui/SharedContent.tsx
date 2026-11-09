@@ -165,7 +165,9 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
                   {item.levels?.join(', ') || 'PreK-12, HigherEd, ContinuingEd'}
                 </Typography>
                 <Typography variant="body2">
-                  {item.numResources} resources
+                  {item.numResources}
+                  {' '}
+                  resources
                 </Typography>
               </CardContent>
             </Card>
@@ -207,7 +209,12 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
       <Dialog open={unshareDialog.open} onClose={() => setUnshareDialog({ open: false, id: null, name: '' })}>
         <DialogTitle>Unshare Collection?</DialogTitle>
         <DialogContent>
-          <Typography>Are you sure you want to unshare <b>{unshareDialog.name}</b>?</Typography>
+          <Typography>
+            Are you sure you want to unshare
+            {' '}
+            <b>{unshareDialog.name}</b>
+            ?
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setUnshareDialog({ open: false, id: null, name: '' })}>Cancel</Button>

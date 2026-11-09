@@ -186,262 +186,16 @@ export default function ({
     setSearchContext(null);
   };
 
-  useEffect(() => {
-    if (disableAutoFetch && selectedSection === 0 && selectedView !== 'line') {
-      return;
-    }
-    setPage(1);
-    if (selectedSection !== 1) resetSearch();
-
-    if (selectedView === 'line' && widgetTypes.includes('line')) {
-      const needFull = selectedSection === 1;
-      fetchTimelineData(needFull);
-      return;
-    }
-
-    const needFull = selectedSection === 1;
-
-    if (needFull) {
-      if (hasDrillSections && selectionActive) {
-        setTotalCount(
-          Array.isArray(drillChartData) ? drillChartData.length : 0,
-        );
-      } else {
-        const arr = fullDataByView[selectedView];
-        if (!Array.isArray(arr)) {
-          fetchViewData(selectedView, true);
-        } else {
-          setTotalCount(arr.length);
-        }
-      }
-    } else {
-      const arr = data[selectedView];
-      if (!Array.isArray(arr)) fetchViewData(selectedView, false);
-      else setTotalCount(arr.length);
-    }
-  }, [
-    selectedView,
-    selectedSection,
-    widgetTypes,
-    dateRange,
-    selectedParams,
-    selL0,
-    selL1,
-    hasDrillSections,
-    disableAutoFetch,
-  ]);
-
-  const prevResetRef = useRef(null);
-
-  useEffect(() => {
-    if (prevResetRef.current === resetViewSignal) return;
-    prevResetRef.current = resetViewSignal;
-
-    if (resetViewSignal) {
-      setSelectedView('all');
-    }
-  }, [resetViewSignal]);
-
-  useEffect(() => {
-    setIsFavorite(favoriteWidgetIds.has(widgetId));
-  }, [favoriteWidgetIds, widgetId]);
-
-  useEffect(() => {
-    if (searchText.trim() === '') {
-      resetSearch();
-      const base = getBaseTableData();
-      setTotalCount(Array.isArray(base) ? base.length : 0);
-    }
-  }, [
-    searchText,
-    selectedView,
-    selectedSection,
-    timelineAllData,
-    fullDataByView,
-  ]);
-
-  const timelineAbortController = useRef<AbortController | null>(null);
-  const viewAbortController = useRef<AbortController | null>(null);
-
-  useEffect(() => () => {
-    timelineAbortController.current?.abort();
-    viewAbortController.current?.abort();
-    timelineAbortController.current = null;
-    viewAbortController.current = null;
-  }, []);
-
-  const selectedViewRef = useRef(selectedView);
-  useEffect(() => {
-    selectedViewRef.current = selectedView;
-  }, [selectedView]);
-
-  useEffect(() => {
-    const pageCount = Math.max(1, Math.ceil(totalCount / rowsPerPage));
-    if (page > pageCount) setPage(1);
-  }, [totalCount, rowsPerPage]);
-
-  useEffect(() => {
-    if (!full || selectedView === 'line' || selectedSection !== 1) return;
-    const base = getBaseTableData();
-    setTotalCount(Array.isArray(base) ? base.length : 0);
-    setPage(1);
-  }, [drillChartData, hasDrillSections, selectedView, selectedSection]);
-
-  useEffect(() => {
-    if (!full || selectedView === 'line' || selectedSection !== 1) return;
-    setPage(1);
-    const base = getBaseTableData();
-    setTotalCount(Array.isArray(base) ? base.length : 0);
-  }, [selL0, selL1]);
-
-  useEffect(() => {
-    if (!full || selectedView === 'line' || selectedSection === 1) return;
-    if (!hasDrillSections) return;
-
-    const noSelection = !selL0 && !selL1;
-    if (!noSelection) return;
-
-    const base = data?.[selectedView];
-    if (!Array.isArray(base)) {
-      fetchViewData(selectedView, false);
-    } else {
-      setTotalCount(base.length);
-    }
-  }, [
-    selL0,
-    selL1,
-    selectedView,
-    selectedSection,
-    full,
-    hasDrillSections,
-    data,
-  ]);
-
-  const runLocalSearch = (query: string) => {
-    setPage(1);
-    const q = query.trim().toLowerCase();
-    if (!q) {
-      resetSearch();
-      const base = getBaseTableData();
-      setTotalCount(Array.isArray(base) ? base.length : 0);
-      return;
-    }
-
-    const base = getBaseTableData();
-    if (!Array.isArray(base)) return;
-
-    let filtered: any[] = [];
-    if (selectedView === 'line') {
-      filtered = base.filter(
-        (r) => (r.eventCategory || '').toLowerCase().includes(q)
-          || String(r.date || '')
-            .toLowerCase()
-            .includes(q),
-      );
-    } else {
-      filtered = base.filter((r) => (r.label || r.name || '').toLowerCase().includes(q));
-    }
-
-    setSearchResults(filtered);
-    setSearchPerformed(true);
-    setSearchContext(selectedView);
-    setTotalCount(filtered.length);
-  };
-
-  const fetchTimelineData = async (full = false) => {
-    if (timelineAbortController.current) {
-      timelineAbortController.current.abort();
-    }
-
-    const controller = new AbortController();
-    timelineAbortController.current = controller;
-
-    try {
-      const drillParam = hasDrillSections
-        ? buildTimelineDrill(drillSections, selL0, selL1)
-        : null;
-
-      const params = {
-        ...buildBaseParams(),
-        limit: full ? 100000 : itemsCount,
-        ...(drillParam ? { drill: drillParam } : {}),
-      };
-
-      const cleanEndpoint = endpoint.replace(/\/$/, '');
-      const response = await axios.get(`${cleanEndpoint}-timeline/`, {
-        params,
-        signal: controller.signal,
-      });
-
-      const timeline = Array.isArray(response.data?.data)
-        ? response.data.data
-        : [];
-
-      if (selectedViewRef.current !== 'line') return;
-      if (full) {
-        setTimelineAllData(timeline);
-      } else {
-        setTimelineData(timeline);
-      }
-      setTotalCount(timeline.length);
-    } catch (err) {
-      if (axios.isCancel(err)) {
-        console.log('Timeline request cancelled');
-      } else {
-        console.error('Error loading timeline data', err);
-      }
-    }
-  };
-
-  const transformTimelineData = (data) => {
-    if (!data || data.length === 0) {
-      return { series: [], xAxis: [] };
-    }
-
-    const allDates = Array.from(new Set(data.map(({ date }) => date))).sort();
-
-    const grouped = {};
-
-    const defs: Record<string, string> = {};
-
-    data.forEach(({
-      date, eventCategory, eventCount, definition,
-    }) => {
-      if (!date || !eventCategory) return;
-
-      if (definition && !defs[eventCategory]) {
-        defs[eventCategory] = definition;
-      }
-
-      if (!grouped[eventCategory]) grouped[eventCategory] = {};
-      grouped[eventCategory][date] = (grouped[eventCategory][date] || 0) + Number(eventCount || 0);
-    });
-
-    const series = Object.entries(grouped).map(([category, counts], index) => {
-      const seriesData = allDates.map((date) => counts[date] || 0);
-
-      return {
-        id: category,
-        label: category,
-        definition: defs[category] || '',
-        data: seriesData,
-        area: true,
-        showMark: false,
-        color: colors[index % colors.length],
-      };
-    });
-
-    return { series, xAxis: allDates };
-  };
-
-  const { series, xAxis } = transformTimelineData(timelineData);
-
   const withTrailingSlash = (url: string) => {
     if (!url) return url;
     const [path, qs] = url.split('?');
     const fixed = path.endsWith('/') ? path : `${path}/`;
     return qs ? `${fixed}?${qs}` : fixed;
   };
+
+  const timelineAbortController = useRef<AbortController | null>(null);
+  const viewAbortController = useRef<AbortController | null>(null);
+  const selectedViewRef = useRef(selectedView);
 
   const fetchViewData = async (viewSlug: string, full = false) => {
     if (viewAbortController.current) {
@@ -542,6 +296,252 @@ export default function ({
       }
     }
   };
+
+  const fetchTimelineData = async (full = false) => {
+    if (timelineAbortController.current) {
+      timelineAbortController.current.abort();
+    }
+
+    const controller = new AbortController();
+    timelineAbortController.current = controller;
+
+    try {
+      const drillParam = hasDrillSections
+        ? buildTimelineDrill(drillSections, selL0, selL1)
+        : null;
+
+      const params = {
+        ...buildBaseParams(),
+        limit: full ? 100000 : itemsCount,
+        ...(drillParam ? { drill: drillParam } : {}),
+      };
+
+      const cleanEndpoint = endpoint.replace(/\/$/, '');
+      const response = await axios.get(`${cleanEndpoint}-timeline/`, {
+        params,
+        signal: controller.signal,
+      });
+
+      const timeline = Array.isArray(response.data?.data)
+        ? response.data.data
+        : [];
+
+      if (selectedViewRef.current !== 'line') return;
+      if (full) {
+        setTimelineAllData(timeline);
+      } else {
+        setTimelineData(timeline);
+      }
+      setTotalCount(timeline.length);
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log('Timeline request cancelled');
+      } else {
+        console.error('Error loading timeline data', err);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (disableAutoFetch && selectedSection === 0 && selectedView !== 'line') {
+      return;
+    }
+    setPage(1);
+    if (selectedSection !== 1) resetSearch();
+
+    if (selectedView === 'line' && widgetTypes.includes('line')) {
+      const needFull = selectedSection === 1;
+      fetchTimelineData(needFull);
+      return;
+    }
+
+    const needFull = selectedSection === 1;
+
+    if (needFull) {
+      if (hasDrillSections && selectionActive) {
+        setTotalCount(
+          Array.isArray(drillChartData) ? drillChartData.length : 0,
+        );
+      } else {
+        const arr = fullDataByView[selectedView];
+        if (!Array.isArray(arr)) {
+          fetchViewData(selectedView, true);
+        } else {
+          setTotalCount(arr.length);
+        }
+      }
+    } else {
+      const arr = data[selectedView];
+      if (!Array.isArray(arr)) fetchViewData(selectedView, false);
+      else setTotalCount(arr.length);
+    }
+  }, [
+    selectedView,
+    selectedSection,
+    widgetTypes,
+    dateRange,
+    selectedParams,
+    selL0,
+    selL1,
+    hasDrillSections,
+    disableAutoFetch,
+  ]);
+
+  const prevResetRef = useRef(null);
+
+  useEffect(() => {
+    if (prevResetRef.current === resetViewSignal) return;
+    prevResetRef.current = resetViewSignal;
+
+    if (resetViewSignal) {
+      setSelectedView('all');
+    }
+  }, [resetViewSignal]);
+
+  useEffect(() => {
+    setIsFavorite(favoriteWidgetIds.has(widgetId));
+  }, [favoriteWidgetIds, widgetId]);
+
+  useEffect(() => {
+    if (searchText.trim() === '') {
+      resetSearch();
+      const base = getBaseTableData();
+      setTotalCount(Array.isArray(base) ? base.length : 0);
+    }
+  }, [
+    searchText,
+    selectedView,
+    selectedSection,
+    timelineAllData,
+    fullDataByView,
+  ]);
+
+  useEffect(() => () => {
+    timelineAbortController.current?.abort();
+    viewAbortController.current?.abort();
+    timelineAbortController.current = null;
+    viewAbortController.current = null;
+  }, []);
+
+  useEffect(() => {
+    selectedViewRef.current = selectedView;
+  }, [selectedView]);
+
+  useEffect(() => {
+    const pageCount = Math.max(1, Math.ceil(totalCount / rowsPerPage));
+    if (page > pageCount) setPage(1);
+  }, [totalCount, rowsPerPage]);
+
+  useEffect(() => {
+    if (!full || selectedView === 'line' || selectedSection !== 1) return;
+    const base = getBaseTableData();
+    setTotalCount(Array.isArray(base) ? base.length : 0);
+    setPage(1);
+  }, [drillChartData, hasDrillSections, selectedView, selectedSection]);
+
+  useEffect(() => {
+    if (!full || selectedView === 'line' || selectedSection !== 1) return;
+    setPage(1);
+    const base = getBaseTableData();
+    setTotalCount(Array.isArray(base) ? base.length : 0);
+  }, [selL0, selL1]);
+
+  useEffect(() => {
+    if (!full || selectedView === 'line' || selectedSection === 1) return;
+    if (!hasDrillSections) return;
+
+    const noSelection = !selL0 && !selL1;
+    if (!noSelection) return;
+
+    const base = data?.[selectedView];
+    if (!Array.isArray(base)) {
+      fetchViewData(selectedView, false);
+    } else {
+      setTotalCount(base.length);
+    }
+  }, [
+    selL0,
+    selL1,
+    selectedView,
+    selectedSection,
+    full,
+    hasDrillSections,
+    data,
+  ]);
+
+  const runLocalSearch = (query: string) => {
+    setPage(1);
+    const q = query.trim().toLowerCase();
+    if (!q) {
+      resetSearch();
+      const base = getBaseTableData();
+      setTotalCount(Array.isArray(base) ? base.length : 0);
+      return;
+    }
+
+    const base = getBaseTableData();
+    if (!Array.isArray(base)) return;
+
+    let filtered: any[] = [];
+    if (selectedView === 'line') {
+      filtered = base.filter(
+        (r) => (r.eventCategory || '').toLowerCase().includes(q)
+          || String(r.date || '')
+            .toLowerCase()
+            .includes(q),
+      );
+    } else {
+      filtered = base.filter((r) => (r.label || r.name || '').toLowerCase().includes(q));
+    }
+
+    setSearchResults(filtered);
+    setSearchPerformed(true);
+    setSearchContext(selectedView);
+    setTotalCount(filtered.length);
+  };
+
+  const transformTimelineData = (data) => {
+    if (!data || data.length === 0) {
+      return { series: [], xAxis: [] };
+    }
+
+    const allDates = Array.from(new Set(data.map(({ date }) => date))).sort();
+
+    const grouped = {};
+
+    const defs: Record<string, string> = {};
+
+    data.forEach(({
+      date, eventCategory, eventCount, definition,
+    }) => {
+      if (!date || !eventCategory) return;
+
+      if (definition && !defs[eventCategory]) {
+        defs[eventCategory] = definition;
+      }
+
+      if (!grouped[eventCategory]) grouped[eventCategory] = {};
+      grouped[eventCategory][date] = (grouped[eventCategory][date] || 0) + Number(eventCount || 0);
+    });
+
+    const series = Object.entries(grouped).map(([category, counts], index) => {
+      const seriesData = allDates.map((date) => counts[date] || 0);
+
+      return {
+        id: category,
+        label: category,
+        definition: defs[category] || '',
+        data: seriesData,
+        area: true,
+        showMark: false,
+        color: colors[index % colors.length],
+      };
+    });
+
+    return { series, xAxis: allDates };
+  };
+
+  const { series, xAxis } = transformTimelineData(timelineData);
 
   const handleFavoriteClick = async () => {
     try {
@@ -1122,9 +1122,9 @@ export default function ({
 
                           {selectedView !== 'line'
                         && typeof item.value === 'number' ? (
-                              <span className={cls.legendValue}>
-                            {item.value.toLocaleString()}
-                          </span>
+                          <span className={cls.legendValue}>
+                                {item.value.toLocaleString()}
+                              </span>
                             ) : null}
 
                           {item.definition ? (

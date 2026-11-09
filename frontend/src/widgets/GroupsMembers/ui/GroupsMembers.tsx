@@ -101,35 +101,6 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
     });
   }, [group_id]);
 
-  async function add() {
-    const extraEmails = text
-      .split(',')
-      .map((item) => item.trim())
-      .filter(Boolean);
-
-    const emails = [...checkedEmails, ...extraEmails];
-
-    if (!emails.length) {
-      alert('Please select or enter at least one email.');
-      return;
-    }
-
-    await req.post(`groups/v1/groups/${group_id}/members/invite`, {
-      emails,
-    });
-
-    setOpen(false);
-    setCheckedEmails([]);
-    setText('');
-    alert('Successfully invited!');
-
-    await fetchMembers();
-    await fetchPendingMembers();
-
-    setSelectedCurrentMembers([]);
-    setSelectedPendingMembers([]);
-  }
-
   async function fetchMembers(params = {}) {
     try {
       const response = await axios.get(`/api/groups/v1/groups/${group_id}/members`, {
@@ -175,6 +146,35 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
     } catch (error) {
       console.error('There was an error fetching pending members!', error);
     }
+  }
+
+  async function add() {
+    const extraEmails = text
+      .split(',')
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    const emails = [...checkedEmails, ...extraEmails];
+
+    if (!emails.length) {
+      alert('Please select or enter at least one email.');
+      return;
+    }
+
+    await req.post(`groups/v1/groups/${group_id}/members/invite`, {
+      emails,
+    });
+
+    setOpen(false);
+    setCheckedEmails([]);
+    setText('');
+    alert('Successfully invited!');
+
+    await fetchMembers();
+    await fetchPendingMembers();
+
+    setSelectedCurrentMembers([]);
+    setSelectedPendingMembers([]);
   }
 
   async function getCsrfHeaders() {
@@ -371,7 +371,8 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
               setOpen(false);
               setCheckedEmails([]);
             }}
-            >Cancel
+            >
+              Cancel
             </Button>
             <Button
               onClick={add}

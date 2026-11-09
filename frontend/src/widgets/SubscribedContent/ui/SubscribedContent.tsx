@@ -111,7 +111,9 @@ export const SubscribedContent = () => {
                   {item.levels?.join(', ') || 'PreK-12, HigherEd, ContinuingEd'}
                 </Typography>
                 <Typography variant="body2">
-                  {item.numResources} resources
+                  {item.numResources}
+                  {' '}
+                  resources
                 </Typography>
               </CardContent>
             </Card>
@@ -129,13 +131,19 @@ export const SubscribedContent = () => {
       >
         <DialogTitle>Unsubscribe from this collection?</DialogTitle>
         <DialogContent>
-          <Typography>Are you sure you want to unsubscribe from <b>{unsubscribeDialog.name}</b>?</Typography>
+          <Typography>
+            Are you sure you want to unsubscribe from
+            {' '}
+            <b>{unsubscribeDialog.name}</b>
+            ?
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setUnsubscribeDialog({
             open: false, id: null, name: '', tenant: '',
           })}
-          >Cancel
+          >
+            Cancel
           </Button>
           <Button color="error" onClick={confirmUnsubscribe}>Unsubscribe</Button>
         </DialogActions>

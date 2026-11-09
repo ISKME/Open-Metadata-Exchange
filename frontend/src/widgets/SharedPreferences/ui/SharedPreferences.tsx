@@ -108,6 +108,14 @@ interface SubscribedContentProps {
 }
 
 // Helper component for Checkbox items with Help icon
+function HelpOutlineIcon(props) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.4-.4.63-.94.63-1.51 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.35 1.71-.93 2.36z" />
+    </SvgIcon>
+  );
+}
+
 function CheckboxItem({ label, checked }) {
   return (
     <Box display="flex" alignItems="center" marginBottom={1}>
@@ -132,13 +140,6 @@ function CheckboxItem({ label, checked }) {
 }
 
 // Define HelpOutlineIcon
-function HelpOutlineIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.4-.4.63-.94.63-1.51 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.35 1.71-.93 2.36z" />
-    </SvgIcon>
-  );
-}
 
 function MetadataSection({ n, title, children }) {
   return (
