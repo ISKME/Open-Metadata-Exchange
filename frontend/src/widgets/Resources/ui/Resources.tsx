@@ -68,7 +68,7 @@ export function Resources({ titles = '', URL = '/api/materials/v1/courses' }) {
 
   const [defaultPage, setDefaultPage] = useState(() => {
     const page = parseInt(urlParams.page, 10);
-    return Number.isNaN(Number(page)) ? 1 : page;
+    return Number.isNaN(page) ? 1 : page;
   });
   const [expandFrame, setExpandFrame] = useState(!!frameworkParam);
   const [expand, setExpand] = useState(false);

@@ -198,7 +198,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
   const [searchParams, setSearchParams] = useSearchParams();
   const [defaultPage, setDefaultPage] = useState(() => {
     const page = parseInt(urlParams.page, 10);
-    return Number.isNaN(Number(page)) ? 1 : page;
+    return Number.isNaN(page) ? 1 : page;
   });
   const [expandTopic, setExpandTopic] = useState(!!urlParams['f.general_subject']);
   const [expandGrade, setExpandGrade] = useState(!!urlParams['f.grade_codes']);

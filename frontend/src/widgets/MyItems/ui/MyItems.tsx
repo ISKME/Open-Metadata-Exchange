@@ -39,7 +39,7 @@ export function MyItems() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [defaultPage, setDefaultPage] = React.useState(() => {
     const page = parseInt(new URLSearchParams(window.location.search).get('page'), 10);
-    return Number.isNaN(Number(page)) ? 1 : page;
+    return Number.isNaN(page) ? 1 : page;
   });
   let filters = searchParams.get('filters');
   if (filters) filters = JSON.parse(filters);
