@@ -12,7 +12,9 @@ interface SearchBarProps {
     onClear?: () => void;
     placeholder: string;
 }
-export const SearchBar = memo(({ value, onInputChange, onKeyDown, onClear, placeholder, className }: SearchBarProps) => {
+export const SearchBar = memo(({
+  value, onInputChange, onKeyDown, onClear, placeholder, className,
+}: SearchBarProps) => {
   // useEffect(() => {
   //   if (!value && onClear) onClear();
   // }, [value]);

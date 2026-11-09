@@ -5,7 +5,7 @@ import api from './api/axios';
 import * as qs from 'query-string';
 import SearchBar from './components/Input';
 import Dropdown from './components/Dropdown';
-import { ArkResourceCard } from './widgets/Card'
+import { ArkResourceCard } from './widgets/Card';
 import { Button, Drawer, Box } from '@mui/material';
 import { Filter } from './widgets/Filter';
 import CircleLoader from './icons/Loader';
@@ -49,10 +49,10 @@ export default function ArkSearch() {
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [small, setSmall] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
-  const [hubTitle, setHubTitle] = useState('')
-  const [hubLogo, setHubLogo] = useState('')
+  const [hubTitle, setHubTitle] = useState('');
+  const [hubLogo, setHubLogo] = useState('');
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   fSearch = inputValue;
   fSubject = checked;
@@ -126,18 +126,20 @@ export default function ArkSearch() {
         // updatePath(null);
       });
 
-    const hub = window.location.search.toString().match(/network_hub=(\d+)/)
-    if (hub) api.get('/api/hubs/v1/hubs/' + hub[1]).then(({ data }) => {
-      if (!data) return
-      setHubTitle(data.title)
-      setHubLogo(data.logo)
-    })
+    const hub = window.location.search.toString().match(/network_hub=(\d+)/);
+    if (hub) {
+      api.get(`/api/hubs/v1/hubs/${hub[1]}`).then(({ data }) => {
+        if (!data) return;
+        setHubTitle(data.title);
+        setHubLogo(data.logo);
+      });
+    }
 
     const handleResize = () => setSmall(window.innerWidth < 1024);
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [])
+  }, []);
 
   const handleSelectChange = ({ target }) => {
     setSorted(target.value);
@@ -197,30 +199,43 @@ export default function ArkSearch() {
   return (
     <div>
       <Drawer open={open} onClose={toggleDrawer(false)}>
-        {!!filters?.length && <Box sx={{ p: 2 }}>
-          <Filters filters={filters} checked={checked} onChange={handleFilterChange} />
-        </Box>}
+        {!!filters?.length && (
+          <Box sx={{ p: 2 }}>
+            <Filters filters={filters} checked={checked} onChange={handleFilterChange} />
+          </Box>
+        )}
       </Drawer>
       <div className={cls.searchBlock}>
         <Button variant="text" onClick={() => navigate(-1)}>
           ⬅
-          {hubTitle ? <img src={hubLogo} alt={hubTitle} style={{ width: '46px', height: '46px', borderRadius: '50%', marginLeft: '16px', objectFit: 'contain', border: '1px solid rgba(0, 0, 0, .5)' }} /> : ''}
+          {hubTitle ? (
+            <img
+              src={hubLogo}
+              alt={hubTitle}
+              style={{
+                width: '46px', height: '46px', borderRadius: '50%', marginLeft: '16px', objectFit: 'contain', border: '1px solid rgba(0, 0, 0, .5)',
+              }}
+            />
+          ) : ''}
         </Button>
         <SearchBar value={inputValue} onChange={({ target }) => setInputValue(target.value)} onSearch={handleInputChange} placeholder="Search" />
         <Dropdown label="Sort" multiple={false} value={sorted} options={sortBy} onChange={handleSelectChange} />
-        {small && <Button
-          size="large"
-          variant="contained"
-          endIcon={<FilterAlt />}
-          onClick={toggleDrawer(true)}
-          sx={{
-            paddingLeft: '32px',
-            paddingRight: '32px',
-            height: '48px',
-            boxShadow: 'none',
-            borderRadius: '8px',
-          }}
-        >Filters</Button>}
+        {small && (
+          <Button
+            size="large"
+            variant="contained"
+            endIcon={<FilterAlt />}
+            onClick={toggleDrawer(true)}
+            sx={{
+              paddingLeft: '32px',
+              paddingRight: '32px',
+              height: '48px',
+              boxShadow: 'none',
+              borderRadius: '8px',
+            }}
+          >Filters
+          </Button>
+        )}
       </div>
       {/* {isLoading && <h3>Loading...</h3>}
       {error && <h3>{error}</h3>} */}
@@ -229,9 +244,7 @@ export default function ArkSearch() {
         <div className={cls.resourcesList}>
           <span style={{ position: 'absolute', top: '-24px' }}>{`${totalNumber} Resources`}</span>
           <ul>
-            {resources && resources.map((el, i) => {
-              return !el ? '' : <ArkResourceCard resource={el} key={el?.id || i} />
-            })}
+            {resources && resources.map((el, i) => (!el ? '' : <ArkResourceCard resource={el} key={el?.id || i} />))}
           </ul>
           {(!isLoading && (resources && resources.length === 0)) && (
             <div className={cls.loaderContainer}>

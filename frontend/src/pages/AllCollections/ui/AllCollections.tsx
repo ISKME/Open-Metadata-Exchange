@@ -1,5 +1,5 @@
 // good new start position
-/* eslint-disable react/jsx-no-bind */
+
 // @ts-nocheck
 import React, { useEffect, useState, useCallback } from 'react';
 import {
@@ -97,7 +97,7 @@ export function AllCollections() {
         }
         setLoading(false);
       });
-    }, 500)
+    }, 500);
   }, [inputValue, JSON.stringify(selectedTenants), JSON.stringify(selectedLevels), JSON.stringify(selectedSubjects), page, setSearchParams]);
 
   // when any of the selects change, reset to page 1 and update results immediately
@@ -161,7 +161,10 @@ export function AllCollections() {
           Search
         </Button>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', flexDirection: { sm: 'column', xs: 'column', md: 'row' }, gap: 2, mb: 2 }}>
+      <Box sx={{
+        display: 'flex', justifyContent: 'flex-end', flexDirection: { sm: 'column', xs: 'column', md: 'row' }, gap: 2, mb: 2,
+      }}
+      >
         <Select label="Collection publisher" value={selectedTenants} options={tenants} onChange={setSelectedTenants} />
         <Select label="Subject area" value={selectedSubjects} options={subjects} onChange={setSelectedSubjects} />
         <Select label="Educational level" value={selectedLevels} options={levels} onChange={setSelectedLevels} />

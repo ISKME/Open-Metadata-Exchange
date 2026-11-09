@@ -1,9 +1,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/prop-types */
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
 import * as React from 'react';
 import styled from '@emotion/styled';
@@ -30,9 +27,8 @@ import { AnalyticsPageSize, AnalyticsPagination, analyticsTableProps } from '../
 import { Autocomplete, CircularProgress } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import cls from './OrgansCaseAnalytics.module.scss'
+import cls from './OrgansCaseAnalytics.module.scss';
 import { DateRange, UserIsActiveStatus, UserType, ChartColors } from '../../enum';
-
 
 const CASE_LABELS = {
   resourceView: 'Cases Accessed',
@@ -43,7 +39,6 @@ const CASE_LABELS = {
   IMNote: 'IM Notes',
   saves: 'Saves',
 };
-
 
 let globalSearchValue = '';
 function EditUserToolbar({ onSearch, onExport, onClear }) {
@@ -178,13 +173,13 @@ export function OrgansCaseAnalytics({ id }) {
       },
     },
     { field: 'area', headerName: 'Cert. Area', width: 100 },
- ];
+  ];
 
   React.useEffect(() => {
     if (!latestAvailableDate) return;
-    setDate(current => current[1] > latestAvailableDate
+    setDate((current) => (current[1] > latestAvailableDate
       ? [new Date(Math.min(current[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate]
-      : current);
+      : current));
   }, [latestAvailableDate]);
 
   const formatDate = (date) => {
@@ -207,13 +202,13 @@ export function OrgansCaseAnalytics({ id }) {
     const request = axios
       .get('/clickhouse/overall/case-analytics', { params })
       .then(({ data }) => {
-        const latest = data.reduce((maximum, item) => item.date > maximum ? item.date : maximum, '');
+        const latest = data.reduce((maximum, item) => (item.date > maximum ? item.date : maximum), '');
         let availableDate = null;
         if (latest) {
           const [year, month, day] = latest.split('-').map(Number);
           availableDate = new Date(year, month - 1, day);
           // Keep the latest known day when loading an older or filtered range.
-          setLatestAvailableDate(previous => previous && previous >= availableDate ? previous : availableDate);
+          setLatestAvailableDate((previous) => (previous && previous >= availableDate ? previous : availableDate));
         }
         const formattedData = data.map((item) => ({
           date: item.date,
@@ -252,34 +247,28 @@ export function OrgansCaseAnalytics({ id }) {
 
     if (updatedParams.subject || updatedParams.grade || updatedParams.area || updatedParams.ethnicity) {
       filteredIds = dataToFilter
-        .filter((item) =>
-          (!updatedParams.subject || safeIncludes(item.subjects, updatedParams.subject)) &&
-          (!updatedParams.grade || safeIncludes(item.grades, updatedParams.grade)) &&
-          (!updatedParams.ethnicity || safeIncludes(item.ethnicities, updatedParams.ethnicity)) &&
-          (!updatedParams.area || safeEquals(item.certificate_area, updatedParams.area))
-        )
+        .filter((item) => (!updatedParams.subject || safeIncludes(item.subjects, updatedParams.subject))
+          && (!updatedParams.grade || safeIncludes(item.grades, updatedParams.grade))
+          && (!updatedParams.ethnicity || safeIncludes(item.ethnicities, updatedParams.ethnicity))
+          && (!updatedParams.area || safeEquals(item.certificate_area, updatedParams.area)))
         .map((item) => item.id);
       if (!filteredIds.length) filteredIds = [-1];
     }
 
-    const hasUserFilters =
-      (updatedParams.userType && updatedParams.userType !== UserType.ALL) ||
-      (updatedParams.role && updatedParams.role !== UserType.ALL) ||
-      (updatedParams.userIsActive && updatedParams.userIsActive !== UserIsActiveStatus.ALL) ||
-      updatedParams.state;
-    const filteredUsers = availableUsers.filter((user) =>
-      (!updatedParams.userType || updatedParams.userType === UserType.ALL || (user.user_types || []).includes(updatedParams.userType)) &&
-      (!updatedParams.role || updatedParams.role === UserType.ALL || user.user_type === updatedParams.role) &&
-      (!updatedParams.userIsActive || updatedParams.userIsActive === UserIsActiveStatus.ALL ||
-        (updatedParams.userIsActive === UserIsActiveStatus.ACTIVE ? user.is_active : !user.is_active)) &&
-      (!updatedParams.state || user.state === updatedParams.state)
-    ).map((user) => user.id);
+    const hasUserFilters = (updatedParams.userType && updatedParams.userType !== UserType.ALL)
+      || (updatedParams.role && updatedParams.role !== UserType.ALL)
+      || (updatedParams.userIsActive && updatedParams.userIsActive !== UserIsActiveStatus.ALL)
+      || updatedParams.state;
+    const filteredUsers = availableUsers.filter((user) => (!updatedParams.userType || updatedParams.userType === UserType.ALL || (user.user_types || []).includes(updatedParams.userType))
+      && (!updatedParams.role || updatedParams.role === UserType.ALL || user.user_type === updatedParams.role)
+      && (!updatedParams.userIsActive || updatedParams.userIsActive === UserIsActiveStatus.ALL
+        || (updatedParams.userIsActive === UserIsActiveStatus.ACTIVE ? user.is_active : !user.is_active))
+      && (!updatedParams.state || user.state === updatedParams.state)).map((user) => user.id);
     const usersParam = hasUserFilters ? (filteredUsers.length ? filteredUsers : [-1]) : [];
 
     fetchData(date[0], date[1], usersParam.length === 0 ? [] : usersParam, updatedParams.group, filteredIds);
     fetchTableData(date[0], date[1], usersParam.length === 0 ? [] : usersParam, updatedParams.group, filteredIds);
   };
-
 
   const handleRoleChange = (event) => {
     const value = event.target.value;
@@ -318,11 +307,11 @@ export function OrgansCaseAnalytics({ id }) {
     const params = startDate && endDate
       ? { date_range_start: formatDate(startDate), date_range_end: formatDate(endDate) }
       : {};
-      if (id) {
-        params['organization_id'] = id;
-      } else {
-        params['get_default_organization'] = true;
-      }
+    if (id) {
+      params['organization_id'] = id;
+    } else {
+      params['get_default_organization'] = true;
+    }
 
     try {
       const { data } = await axios.get('/clickhouse/configs', { params });
@@ -337,12 +326,12 @@ export function OrgansCaseAnalytics({ id }) {
             .join(' ')
             .trim()
             || (user.email || '').trim()
-            || 'User ID: ' + user.id,
+            || `User ID: ${user.id}`,
           user_type: user.user_type,
           user_types: user.user_types || [],
           state: user.state,
           is_active: user.is_active,
-        }))
+        })),
       );
       setGroups(data.groups.map((group) => ({ label: group })));
       setRoleOptions(uniqueRoles);
@@ -392,14 +381,14 @@ export function OrgansCaseAnalytics({ id }) {
       setTableData(data);
 
       const optionsData = filteredIds.length ? initialResponseData : response.data;
-      const subjects = Array.from(new Set(optionsData.flatMap(item => item.subjects))).sort();
-      const grades = Array.from(new Set(optionsData.flatMap(item => item.grades)))
+      const subjects = Array.from(new Set(optionsData.flatMap((item) => item.subjects))).sort();
+      const grades = Array.from(new Set(optionsData.flatMap((item) => item.grades)))
         .sort((a, b) => parseInt(a) - parseInt(b));
-      const areas = Array.from(new Set(optionsData.map(item => item.certificate_area).filter(area => area !== null))).sort();
+      const areas = Array.from(new Set(optionsData.map((item) => item.certificate_area).filter((area) => area !== null))).sort();
 
       setSubjectOptions(subjects);
       setGradeOptions(grades);
-      setEthnicityOptions(Array.from(new Set(optionsData.flatMap(item => item.ethnicities))).sort());
+      setEthnicityOptions(Array.from(new Set(optionsData.flatMap((item) => item.ethnicities))).sort());
       setAreaOptions(areas);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -418,11 +407,11 @@ export function OrgansCaseAnalytics({ id }) {
       const searchLower = searchValue.toLowerCase();
 
       return (
-        caseStr.includes(searchLower) ||
-        subjectStr.includes(searchLower) ||
-        topicStr.includes(searchLower) ||
-        gradeStr.includes(searchLower) ||
-        areaStr.includes(searchLower)
+        caseStr.includes(searchLower)
+        || subjectStr.includes(searchLower)
+        || topicStr.includes(searchLower)
+        || gradeStr.includes(searchLower)
+        || areaStr.includes(searchLower)
       );
     });
     setTableData(filteredData);
@@ -476,7 +465,7 @@ export function OrgansCaseAnalytics({ id }) {
   };
 
   const resetFilters = () => {
-    setSelectedParams({ group: null, subject: null, grade: null, ethnicity: null, area: null, });
+    setSelectedParams({ group: null, subject: null, grade: null, ethnicity: null, area: null });
     setSelectedRole('');
     setUserIsActive('');
     setGroups([]);
@@ -485,30 +474,31 @@ export function OrgansCaseAnalytics({ id }) {
   const handleRange = (event) => {
     const selectedRange = event.target.value;
     setRange(selectedRange);
-    let startDate, endDate;
+    let startDate; let
+      endDate;
 
     switch (selectedRange) {
-      case DateRange.LAST_30_DAYS:
-        endDate = latestAvailableDate || new Date();
-        startDate = new Date(endDate);
-        startDate.setDate(endDate.getDate() - 30);
-        break;
-      case DateRange.LAST_90_DAYS:
-        endDate = latestAvailableDate || new Date();
-        startDate = new Date(endDate);
-        startDate.setDate(endDate.getDate() - 90);
-        break;
-      case DateRange.LAST_YEAR:
-        endDate = latestAvailableDate || new Date();
-        startDate = new Date(endDate.getFullYear() - 1, endDate.getMonth(), endDate.getDate());
-        break;
-      case DateRange.ALL_TIME:
-        startDate = new Date(2010, 0, 1);
-        endDate = latestAvailableDate || new Date();
-        break;
-      case DateRange.CUSTOM:
-      default:
-        return;
+    case DateRange.LAST_30_DAYS:
+      endDate = latestAvailableDate || new Date();
+      startDate = new Date(endDate);
+      startDate.setDate(endDate.getDate() - 30);
+      break;
+    case DateRange.LAST_90_DAYS:
+      endDate = latestAvailableDate || new Date();
+      startDate = new Date(endDate);
+      startDate.setDate(endDate.getDate() - 90);
+      break;
+    case DateRange.LAST_YEAR:
+      endDate = latestAvailableDate || new Date();
+      startDate = new Date(endDate.getFullYear() - 1, endDate.getMonth(), endDate.getDate());
+      break;
+    case DateRange.ALL_TIME:
+      startDate = new Date(2010, 0, 1);
+      endDate = latestAvailableDate || new Date();
+      break;
+    case DateRange.CUSTOM:
+    default:
+      return;
     }
     if (latestAvailableDate && endDate > latestAvailableDate) endDate = latestAvailableDate;
     if (startDate > endDate) startDate = endDate;
@@ -567,7 +557,7 @@ export function OrgansCaseAnalytics({ id }) {
     let cancelled = false;
     setIsLoading(true);
     const initialRequest = fetchData(startDate, endDate);
-    initialRequest.then(availableDate => {
+    initialRequest.then((availableDate) => {
       if (cancelled || latestAnalyticsRequest.current !== initialRequest) return;
       const reportingEndDate = availableDate || endDate;
       const reportingStartDate = new Date(reportingEndDate);
@@ -594,7 +584,7 @@ export function OrgansCaseAnalytics({ id }) {
   const activeSeries = Object.entries(activeItems)
     .filter(([key, value]) => value)
     .map(([key]) => ({
-      data: chartData.map(item => item[key]),
+      data: chartData.map((item) => item[key]),
       label: CASE_LABELS[key],
       connectNulls: true,
       color: colors[key],
@@ -729,26 +719,22 @@ export function OrgansCaseAnalytics({ id }) {
             loading={isLoading}
             value={selectedParams.subject || null}
             onChange={handleSubjectChange}
-            renderInput={(params) => {
-              return (
-                <>
-                  <TextField
-                    {...params}
-                    label="Subject"
-                    InputProps={{
-                      ...params.InputProps,
-                      type: 'search',
-                      endAdornment: (
-                        <>
-                          {isLoading ? <CircularProgress size={20} /> : null}
-                          {params.InputProps.endAdornment}
-                        </>
-                      ),
-                    }}
-                  />
-                </>
-              )
-            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Subject"
+                InputProps={{
+                  ...params.InputProps,
+                  type: 'search',
+                  endAdornment: (
+                    <>
+                      {isLoading ? <CircularProgress size={20} /> : null}
+                      {params.InputProps.endAdornment}
+                    </>
+                  ),
+                }}
+              />
+            )}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
@@ -805,36 +791,36 @@ export function OrgansCaseAnalytics({ id }) {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Autocomplete
-              id="ethnicities-autocomplete"
-              options={ethnicityOptions || []}
-              getOptionLabel={(option) => (option?.label || option || '')}
-              loading={isLoading}
-              value={selectedParams.ethnicity || null}
-              onChange={handleEthnicityChange}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Ethnicity"
-                  InputProps={{
-                    ...params.InputProps,
-                    type: 'search',
-                    endAdornment: (
-                      <>
-                        {isLoading ? <CircularProgress size={20} /> : null}
-                        {params.InputProps.endAdornment}
-                      </>
-                    ),
-                  }}
-                />
-              )}
-            />
+            id="ethnicities-autocomplete"
+            options={ethnicityOptions || []}
+            getOptionLabel={(option) => (option?.label || option || '')}
+            loading={isLoading}
+            value={selectedParams.ethnicity || null}
+            onChange={handleEthnicityChange}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Ethnicity"
+                InputProps={{
+                  ...params.InputProps,
+                  type: 'search',
+                  endAdornment: (
+                    <>
+                      {isLoading ? <CircularProgress size={20} /> : null}
+                      {params.InputProps.endAdornment}
+                    </>
+                  ),
+                }}
+              />
+            )}
+          />
         </Grid>
       </Grid>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
         {Object.keys(activeItems).map((key) => (
           <FormControlLabel
             key={key}
-            control={
+            control={(
               <Checkbox
                 checked={activeItems[key]}
                 onChange={() => handleToggleItem(key)}
@@ -845,7 +831,7 @@ export function OrgansCaseAnalytics({ id }) {
                   },
                 }}
               />
-            }
+            )}
             label={CASE_LABELS[key]}
           />
         ))}
@@ -853,7 +839,7 @@ export function OrgansCaseAnalytics({ id }) {
           variant="outlined"
           onClick={toggleSelectAll}
           sx={{ marginLeft: '16px' }}
-          color='primary'
+          color="primary"
         >
           {allSelected ? 'Unselect All' : 'Select All'}
         </Button>
@@ -862,7 +848,7 @@ export function OrgansCaseAnalytics({ id }) {
         <LineChart
           xAxis={[
             {
-              data: chartData.map(item => item.date),
+              data: chartData.map((item) => item.date),
               scaleType: 'point',
             },
           ]}
@@ -902,7 +888,7 @@ export function OrgansCaseAnalytics({ id }) {
                     <CellWithRightBorder key={key}>
                       {chartData.reduce(
                         (sum, item) => sum + (item[key] || 0),
-                        0
+                        0,
                       )}
                     </CellWithRightBorder>
                   ))}
@@ -912,30 +898,30 @@ export function OrgansCaseAnalytics({ id }) {
         </Table>
       </TableContainer>
       <div>
-      <Typography variant="h6" sx={{ mb: 2 }}>Details by Case</Typography>
-      {isLoading ? (
-        <CircularProgress />
-      ) : (
-        <DataGrid
-          slots={{
-            pagination: AnalyticsPagination,
-            toolbar: () => (
-              <EditUserToolbar
-                onSearch={handleSearch}
-                onClear={handleClearSearch}
-                onExport={handleExport}
-              />
-            ),
-          }}
-          rows={tableData}
-          columns={columns}
-          {...analyticsTableProps}
-          getRowHeight={() => 'auto'}
-          disableRowSelectionOnClick
-          showCellVerticalBorder
-          autoHeight
-        />
-      )}
+        <Typography variant="h6" sx={{ mb: 2 }}>Details by Case</Typography>
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          <DataGrid
+            slots={{
+              pagination: AnalyticsPagination,
+              toolbar: () => (
+                <EditUserToolbar
+                  onSearch={handleSearch}
+                  onClear={handleClearSearch}
+                  onExport={handleExport}
+                />
+              ),
+            }}
+            rows={tableData}
+            columns={columns}
+            {...analyticsTableProps}
+            getRowHeight={() => 'auto'}
+            disableRowSelectionOnClick
+            showCellVerticalBorder
+            autoHeight
+          />
+        )}
       </div>
     </div>
   );

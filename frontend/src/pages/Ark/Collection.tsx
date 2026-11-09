@@ -5,13 +5,13 @@ import api from './api/axios';
 import * as qs from 'query-string';
 import SearchBar from './components/Input';
 import Dropdown from './components/Dropdown';
-import { ArkResourceCard } from './widgets/Card'
+import { ArkResourceCard } from './widgets/Card';
 import { Button, Drawer, Box } from '@mui/material';
 import { Filter } from './widgets/Filter';
 import CircleLoader from './icons/Loader';
 import cls from './styles.module.scss';
 import { FilterAlt } from '@mui/icons-material';
-import { matomoTag } from "pages/Case/ui/helper";
+import { matomoTag } from 'pages/Case/ui/helper';
 
 let PAGE = 1;
 
@@ -58,7 +58,7 @@ export default function ArkCollectionResources() {
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [small, setSmall] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
-  const [info, setInfo] = useState()
+  const [info, setInfo] = useState();
   const [more, setMore] = useState(true);
 
   const params = useParams();
@@ -78,17 +78,17 @@ export default function ArkCollectionResources() {
   }, [info?.abstract]);
 
   const fetcher = async (queries) => {
-    queries += `${queries ? '&' : '?'}page=${PAGE}`
-    if (!queries.includes('__hub_id')) queries += '&source=courseware'
+    queries += `${queries ? '&' : '?'}page=${PAGE}`;
+    if (!queries.includes('__hub_id')) queries += '&source=courseware';
     try {
       const { data } = await api.get(`/api/search/v2/browse/${queries}&f.collection=${details}`);
       return data.resources;
-    } catch (e) { return [] }
+    } catch (e) { return []; }
   };
 
   async function dataFetch() {
-    const { data } = await api.get(`/api/curatedcollections/v2/curatedcollections/${details}`)
-    setInfo(data?.collection)
+    const { data } = await api.get(`/api/curatedcollections/v2/curatedcollections/${details}`);
+    setInfo(data?.collection);
     matomoTag({ category: 'Collections', action: data?.collection?.name || '', name: `/ark/collection/${details}` || '' });
 
     // id, name, micrositeName, micrositeSlug, numResources, educationLevels, updatedOn, thumbnail, abstract, subscribed
@@ -127,7 +127,7 @@ export default function ArkCollectionResources() {
   }
 
   useEffect(() => {
-    dataFetch()
+    dataFetch();
     fetcher(window.location.search.toString())
       .then(({
         items, filters, pagination, sortByOptions,
@@ -153,7 +153,7 @@ export default function ArkCollectionResources() {
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [])
+  }, []);
 
   const handleSelectChange = ({ target }) => {
     setSorted(target.value);
@@ -213,56 +213,63 @@ export default function ArkCollectionResources() {
   return (
     <div>
       <Drawer open={open} onClose={toggleDrawer(false)}>
-        {!!filters?.length && <Box sx={{ p: 2 }}>
-          <Filters filters={filters} checked={checked} onChange={handleFilterChange} />
-        </Box>}
+        {!!filters?.length && (
+          <Box sx={{ p: 2 }}>
+            <Filters filters={filters} checked={checked} onChange={handleFilterChange} />
+          </Box>
+        )}
       </Drawer>
-      {info && <div style={{ marginBottom: '34px' }}>
-        <div className={cls.collection_header}>
-          <div>
-            <img src={info.thumbnail} alt={info.name} />
-          </div>
-          <div style={{ flex: 1 }}>
+      {info && (
+        <div style={{ marginBottom: '34px' }}>
+          <div className={cls.collection_header}>
             <div>
-              <h1>{info.name}</h1>
-              {`${info.numResources} resources`}
+              <img src={info.thumbnail} alt={info.name} />
             </div>
-            <div className={cls.desc}>
+            <div style={{ flex: 1 }}>
               <div>
-                <h4>Education Level:</h4>
-                <span className={cls.shorten}>
-                  {info.educationLevels?.slice(0, 3)?.join(', ')}
-                </span>
+                <h1>{info.name}</h1>
+                {`${info.numResources} resources`}
               </div>
-              <div>
-                <h4>Last Updated:</h4>
-                {new Date(info.updatedOn).toDateString().substring(4)}
+              <div className={cls.desc}>
+                <div>
+                  <h4>Education Level:</h4>
+                  <span className={cls.shorten}>
+                    {info.educationLevels?.slice(0, 3)?.join(', ')}
+                  </span>
+                </div>
+                <div>
+                  <h4>Last Updated:</h4>
+                  {new Date(info.updatedOn).toDateString().substring(4)}
+                </div>
               </div>
             </div>
           </div>
+          <h4><b>Overview:</b></h4>
+          <div style={{ position: 'relative', fontFamily: 'Inter' }}>
+            <div id="compress" className={more && cls.compress} dangerouslySetInnerHTML={{ __html: info.abstract }} style={{ width: small ? '' : 'calc(100% - 100px)' }} />
+            {more && <Button className={cls.overview_link} onClick={() => setMore(false)} style={{ top: small ? '24px' : '' }}>Read More</Button>}
+          </div>
         </div>
-        <h4><b>Overview:</b></h4>
-        <div style={{ position: 'relative', fontFamily: 'Inter' }}>
-          <div id="compress" className={more && cls.compress} dangerouslySetInnerHTML={{ __html: info.abstract }} style={{ width: small ? '' : 'calc(100% - 100px)' }} />
-          {more && <Button className={cls.overview_link} onClick={() => setMore(false)} style={{ top: small ? '24px' : '' }}>Read More</Button>}
-        </div>
-      </div>}
+      )}
       <div className={cls.searchBlock}>
-        <SearchBar value={inputValue} onChange={({ target }) => setInputValue(target.value)} onSearch={handleInputChange} placeholder="Search" matomoAction = 'collection search' />
+        <SearchBar value={inputValue} onChange={({ target }) => setInputValue(target.value)} onSearch={handleInputChange} placeholder="Search" matomoAction="collection search" />
         <Dropdown label="Sort" multiple={false} value={sorted} options={sortBy} onChange={handleSelectChange} />
-        {small && <Button
-          size="large"
-          variant="contained"
-          endIcon={<FilterAlt />}
-          onClick={toggleDrawer(true)}
-          sx={{
-            paddingLeft: '32px',
-            paddingRight: '32px',
-            height: '48px',
-            boxShadow: 'none',
-            borderRadius: '8px',
-          }}
-        >Filters</Button>}
+        {small && (
+          <Button
+            size="large"
+            variant="contained"
+            endIcon={<FilterAlt />}
+            onClick={toggleDrawer(true)}
+            sx={{
+              paddingLeft: '32px',
+              paddingRight: '32px',
+              height: '48px',
+              boxShadow: 'none',
+              borderRadius: '8px',
+            }}
+          >Filters
+          </Button>
+        )}
       </div>
       {/* {isLoading && <h3>Loading...</h3>}
       {error && <h3>{error}</h3>} */}

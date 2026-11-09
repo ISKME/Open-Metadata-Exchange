@@ -1,8 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 import * as React from 'react';
 import axios from 'axios';
@@ -113,7 +108,7 @@ const customUrl = 'https://semantic-ui.com/images/wireframe/image.png';
 
 export function Group() {
   const [searchParams] = useSearchParams();
-  const [value, setValue] = React.useState(searchParams.get("settings") === "true" ? 2 : 0);
+  const [value, setValue] = React.useState(searchParams.get('settings') === 'true' ? 2 : 0);
   const [title, setTitle] = React.useState('');
   const [cover, setCover] = React.useState('');
   const [description, setDescription] = React.useState('');
@@ -126,14 +121,16 @@ export function Group() {
 
   React.useEffect(() => {
     axios.get(`/api/groups/v1/groups/${id}.json`).then(({ data }) => {
-      const { title, cover, description, members_count, cases_count, folders, members, leaders, content_type_id } = data;
+      const {
+        title, cover, description, members_count, cases_count, folders, members, leaders, content_type_id,
+      } = data;
       setTitle(title);
       setCover(cover || customUrl);
       setDescription(description);
       setMembersCount(members_count || 0);
       setCasesCount(cases_count || 0);
       setLeaders(Array.isArray(leaders) ? leaders : []);
-      setContent(content_type_id)
+      setContent(content_type_id);
     });
   }, [id]);
 
@@ -146,9 +143,8 @@ export function Group() {
     const isStaff = !!auth?.is_staff;
     const isSuperuser = !!auth?.is_superuser;
 
-    const isLeader =
-      Array.isArray(leaders) &&
-      leaders.some((l: any) => String(l?.id) === String(auth?.id));
+    const isLeader = Array.isArray(leaders)
+      && leaders.some((l: any) => String(l?.id) === String(auth?.id));
 
     return isStaff || isSuperuser || isLeader;
   }, [leaders]);
@@ -157,8 +153,8 @@ export function Group() {
     if (!canAdmin && value !== 0) setValue(0);
   }, [canAdmin, value]);
 
-  const validLeaders = leaders.filter(l => (l?.full_name ?? "").trim() !== "");
-  const leaderNames = validLeaders.map(leader => leader.full_name).join(', ');
+  const validLeaders = leaders.filter((l) => (l?.full_name ?? '').trim() !== '');
+  const leaderNames = validLeaders.map((leader) => leader.full_name).join(', ');
   const leaderTitle = validLeaders.length > 1 ? 'Group Leaders' : 'Group Leader';
   const leaderText = validLeaders.length > 0 ? `${leaderTitle}: ${leaderNames}` : 'no leaders';
 
@@ -168,7 +164,7 @@ export function Group() {
       <section className={cls['group-info']}>
         <div className={cls['group-info-container']}>
           <div className={cls['group-info-cover']}>
-            <img src={cover} width="150" height="150" alt={title} onError={({ target }) => { target.src = customUrl }} />
+            <img src={cover} width="150" height="150" alt={title} onError={({ target }) => { target.src = customUrl; }} />
           </div>
           <div className={cls['group-info-text']}>
             <h1>{title}</h1>
@@ -176,7 +172,7 @@ export function Group() {
               {leaderText}
             </p>
             <br />
-            <p dangerouslySetInnerHTML={{ __html: description.replace(/\n/g, '<br />').replace(/\r\n/g, '<br />') }} ></p>
+            <p dangerouslySetInnerHTML={{ __html: description.replace(/\n/g, '<br />').replace(/\r\n/g, '<br />') }} />
             <br />
             <div className={cls['group-info-counters']}>
               <div className={cls['group-info-counters-item']}>

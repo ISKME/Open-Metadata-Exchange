@@ -25,24 +25,28 @@ export function AlignWidget({ onSelect = (tag) => {} }) {
   }, []);
 
   const handleFrameworkChange = async (event) => {
-    const selected = event.target.value
-    setFramework(selected)
-    const result = await axios('/standards/align-widget-helper', { params: {
-      field,
-      [field]: selected,
-    } });
+    const selected = event.target.value;
+    setFramework(selected);
+    const result = await axios('/standards/align-widget-helper', {
+      params: {
+        field,
+        [field]: selected,
+      },
+    });
     setMiddle({ name: result.data.name, data: { [field]: selected } });
     setFrameworkAreas(result.data.choices);
   };
 
   const handleFrameworkAreaChange = async (event) => {
-    const selected = event.target.value
-    setFrameworkArea(selected)
-    const result = await axios('/standards/align-widget-helper', { params: {
-      field: middle.name,
-      [middle.name]: selected,
-      ...middle.data,
-    } });
+    const selected = event.target.value;
+    setFrameworkArea(selected);
+    const result = await axios('/standards/align-widget-helper', {
+      params: {
+        field: middle.name,
+        [middle.name]: selected,
+        ...middle.data,
+      },
+    });
     setFrameworkTags(result.data.choices.options);
   };
 
@@ -58,7 +62,10 @@ export function AlignWidget({ onSelect = (tag) => {} }) {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '16px', margin: '16px', minWidth: '500px' }}>
+    <div style={{
+      display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '16px', margin: '16px', minWidth: '500px',
+    }}
+    >
       <FormControl>
         <InputLabel id="framework-dropdown-label">Framework</InputLabel>
         <Select

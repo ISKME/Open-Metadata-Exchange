@@ -3,4 +3,4 @@ export default ({ color = 'black' }) => (
     <circle cx="16" cy="16" r="15.5" stroke={color} />
     <path d="M25.5 28L32 34.5" stroke={color} />
   </svg>
-)
+);

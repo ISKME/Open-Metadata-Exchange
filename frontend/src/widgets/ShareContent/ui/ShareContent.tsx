@@ -1,9 +1,8 @@
-/* eslint-disable no-useless-computed-key */
 /* eslint-disable react/button-has-type */
-/* eslint-disable array-callback-return */
+
 /* eslint-disable no-console */
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable max-len */
+
 /* eslint-disable eqeqeq */
 
 import {

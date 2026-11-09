@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 // @ts-nocheck
 import { useEffect, useState, useCallback } from 'react';
 import {
@@ -35,9 +34,9 @@ import cls from './styles.module.scss';
 
 const PAGE_SIZE = 9;
 
-let fSort = ''
-let fSearch = ''
-let fSubject = {}
+let fSort = '';
+let fSearch = '';
+let fSubject = {};
 
 function useQueryParams() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -79,21 +78,21 @@ export default function AllCollections() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  fSearch = query
-  fSort = sortOptions?.find((item) => item.name === sortBy)?.slug || ''
-  fSubject = checked
+  fSearch = query;
+  fSort = sortOptions?.find((item) => item.name === sortBy)?.slug || '';
+  fSubject = checked;
 
   // Sync state with URL params
   useEffect(() => {
-    setQuery(fSearch)
-    setSortBy(fSort)
-    setChecked(fSubject)
+    setQuery(fSearch);
+    setSortBy(fSort);
+    setChecked(fSubject);
     // setPage(Number(params['page'] || 1))
-  }, [location.search])
+  }, [location.search]);
   useEffect(() => {
-    setQuery(fSearch)
-    setSortBy(fSort)
-    setChecked(fSubject)
+    setQuery(fSearch);
+    setSortBy(fSort);
+    setChecked(fSubject);
   }, []);
 
   function fetchData() {
@@ -106,7 +105,7 @@ export default function AllCollections() {
       per_page: PAGE_SIZE,
       ...fSubject,
     };
-    const paramsSerializer = (params) => qs.stringify(params, { arrayFormat: 'repeat' })
+    const paramsSerializer = (params) => qs.stringify(params, { arrayFormat: 'repeat' });
     api
       .get('/api/curatedcollections/v2/curatedcollections', { params: fetchParams, paramsSerializer })
       .then(({ data }) => {
@@ -127,13 +126,13 @@ export default function AllCollections() {
 
   // Handlers
   const handleSearchChange = () => {
-    fSearch = query.trim().toLowerCase()
-    fetchData()
-  }
+    fSearch = query.trim().toLowerCase();
+    fetchData();
+  };
   const handleSortChange = ({ target }) => {
     setSortBy(target.value);
-    fSort = sortOptions.find((item) => item.name === target.value)?.slug
-    fetchData()
+    fSort = sortOptions.find((item) => item.name === target.value)?.slug;
+    fetchData();
   };
   const handlePageChange = (_, value) => {
     setPage(value);
@@ -167,8 +166,8 @@ export default function AllCollections() {
     }
     setChecked(updatedList);
     fSubject = updatedList || {};
-    fetchData()
-  }
+    fetchData();
+  };
 
   return (
     <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1, md: 3 } }}>
@@ -178,8 +177,11 @@ export default function AllCollections() {
       <Typography variant="subtitle1" gutterBottom>
         Browse all of the collections available on The Ark
       </Typography>
-      <Paper sx={{ p: 2, mb: 3, display: 'flex', alignItems: { xs: 'stretch', sm: 'center' }, gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
-        <SearchBar value={query} onChange={({ target }) => setQuery(target.value)} onSearch={handleSearchChange} placeholder="Search Collections" matomoAction = 'collection search' />
+      <Paper sx={{
+        p: 2, mb: 3, display: 'flex', alignItems: { xs: 'stretch', sm: 'center' }, gap: 2, flexDirection: { xs: 'column', sm: 'row' },
+      }}
+      >
+        <SearchBar value={query} onChange={({ target }) => setQuery(target.value)} onSearch={handleSearchChange} placeholder="Search Collections" matomoAction="collection search" />
         <Dropdown label="Sort" multiple={false} value={sortBy} options={sortOptions} onChange={handleSortChange} />
         <Button
           variant="contained"

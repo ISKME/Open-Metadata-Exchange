@@ -33,7 +33,7 @@ interface SubscribedContentProps {
     className?: string;
 }
 
-let tempUnshareTitle = '';
+const tempUnshareTitle = '';
 
 export const SharedContent = ({ className }: SubscribedContentProps) => {
   const [collections, setCollections] = useState([]);
@@ -56,9 +56,9 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
   // Fetch filters
   useEffect(() => {
     axios.get('/api/imls/v2/resources').then(({ data }) => {
-      setSubjects(data.resources.filters.find(f => f.keyword === 'f.general_subject')?.items || []);
-      setLevels(data.resources.filters.find(f => f.keyword === 'f.sublevel')?.items || []);
-      setTenants(data.resources.filters.find(f => f.keyword === 'tenant')?.items || []);
+      setSubjects(data.resources.filters.find((f) => f.keyword === 'f.general_subject')?.items || []);
+      setLevels(data.resources.filters.find((f) => f.keyword === 'f.sublevel')?.items || []);
+      setTenants(data.resources.filters.find((f) => f.keyword === 'tenant')?.items || []);
     });
   }, []);
 
@@ -67,10 +67,10 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
     params.set('per_page', String(perPage));
     params.set('page', String(page));
     if (inputValue) params.set('f.search', inputValue);
-    selectedSubjects.forEach(v => params.append('f.general_subject', v));
-    selectedLevels.forEach(v => params.append('f.sublevel', v));
-    selectedTenants.forEach(v => params.append('tenant', v));
-    axios.get('/api/imls/v2/collections/site-collections?' + params.toString()).then(({ data }) => {
+    selectedSubjects.forEach((v) => params.append('f.general_subject', v));
+    selectedLevels.forEach((v) => params.append('f.sublevel', v));
+    selectedTenants.forEach((v) => params.append('tenant', v));
+    axios.get(`/api/imls/v2/collections/site-collections?${params.toString()}`).then(({ data }) => {
       setCollections(data.collections.items || []);
       setTotalPages(Math.ceil((data.collections.pagination.count || 0) / perPage));
     });
@@ -113,8 +113,8 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
 
   const handleImageError = (e) => {
     e.target.onerror = null;
-    e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png'
-  }
+    e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png';
+  };
 
   return (
     <Box sx={{ p: 3 }}>
@@ -122,10 +122,10 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
         {/* onSearch={handleSearch} */}
         <SearchBar
           value={inputValue}
-          onChange={({ target }) => { setInputValue(target.value) }}
+          onChange={({ target }) => { setInputValue(target.value); }}
           onSearch={() => {
-            if (page !== 1) setPage(1)
-            else search()
+            if (page !== 1) setPage(1);
+            else search();
           }}
           width="400px"
         />
@@ -147,10 +147,16 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
                 title={item.name}
                 onError={handleImageError}
               />
-                {/* startIcon={<RemoveIcon />} */}
-                <Button color="error" onClick={() => handleUnshare(item.id, item.name)} sx={{ mt: 1, position: 'absolute', right: '8px', top: '4px', textTransform: 'capitalize', background: 'white', fontWeight: 'bold' }}>
-                  Unshare
-                </Button>
+              {/* startIcon={<RemoveIcon />} */}
+              <Button
+                color="error"
+                onClick={() => handleUnshare(item.id, item.name)}
+                sx={{
+                  mt: 1, position: 'absolute', right: '8px', top: '4px', textTransform: 'capitalize', background: 'white', fontWeight: 'bold',
+                }}
+              >
+                Unshare
+              </Button>
               <CardContent>
                 <Typography variant="h4" sx={{ fontSize: '1.2rem', mb: 1 }}>
                   {item.name}
@@ -174,14 +180,16 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
         <DialogTitle>Add Collections to Shared</DialogTitle>
         <DialogContent>
           <List>
-            {pickerItems.map(item => (
-              <ListItem key={item.id} button onClick={() => {
-                setPickerSelected(prev =>
-                  prev.includes(item.id)
-                    ? prev.filter(id => id !== item.id)
-                    : [...prev, item.id]
-                );
-              }}>
+            {pickerItems.map((item) => (
+              <ListItem
+                key={item.id}
+                button
+                onClick={() => {
+                  setPickerSelected((prev) => (prev.includes(item.id)
+                    ? prev.filter((id) => id !== item.id)
+                    : [...prev, item.id]));
+                }}
+              >
                 <ListItemIcon>
                   <Checkbox checked={pickerSelected.includes(item.id)} />
                 </ListItemIcon>

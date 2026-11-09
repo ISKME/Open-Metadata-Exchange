@@ -1,6 +1,3 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -56,7 +53,8 @@ function HistoryModal({ open, onClose, history }) {
         mx: 'auto',
         my: 8,
         outline: 'none',
-      }}>
+      }}
+      >
         <Typography variant="h6" gutterBottom>Version History</Typography>
         {history.map((item, idx) => (
           <Box key={idx} mb={2}>
@@ -145,8 +143,8 @@ export function Asset() {
       } = data.resource;
 
       document.title = title && data?.clientInfo?.name
-      ? `${title} | ${data.clientInfo.name}`
-      : 'Digital Public Goods Library';
+        ? `${title} | ${data.clientInfo.name}`
+        : 'Digital Public Goods Library';
 
       setTitle(title);
       setDesc(abstract);
@@ -178,12 +176,14 @@ export function Asset() {
     // api.post('/my/save-widget/save/', { ... });
   }
 
-  if (loading) return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', margin: '36px auto' }}>
-      {/* <Loader /> */}
-      Please wait! Loading ...
-    </Box>
-  );
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', margin: '36px auto' }}>
+        {/* <Loader /> */}
+        Please wait! Loading ...
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ p: { xs: 1, sm: 3 }, maxWidth: 1100, mx: 'auto' }}>
@@ -198,12 +198,15 @@ export function Asset() {
         // bgcolor: 'ark.innerCardsBackgroundColor',
         // color: 'ark.innerCardsTextColor'
         flexDirection: { sm: 'column', xs: 'column', md: 'row' },
-      }}>
+      }}
+      >
         <CardMedia
           component="img"
           image={thumbnail}
           alt={title}
-          sx={{ width: 220, height: 220, objectFit: 'cover', borderRadius: 2, mr: 3 }}
+          sx={{
+            width: 220, height: 220, objectFit: 'cover', borderRadius: 2, mr: 3,
+          }}
         />
         <CardContent sx={{ flex: 1 }}>
           <Typography variant="h4" gutterBottom>{title}</Typography>
@@ -216,9 +219,11 @@ export function Asset() {
           <Typography variant="body2" color="text.secondary" mt={1}>
             First published {create}
           </Typography>
-          {!!update && <Typography variant="body2" color="text.secondary" mb={1}>
-            Last updated {new Date(update).toDateString().slice(4)}
-          </Typography>}
+          {!!update && (
+            <Typography variant="body2" color="text.secondary" mb={1}>
+              Last updated {new Date(update).toDateString().slice(4)}
+            </Typography>
+          )}
           <Stack direction="row" spacing={2} mb={1}>
             <Typography variant="body2">{visits} Views</Typography>
             <Typography variant="body2">{saves} Saves</Typography>

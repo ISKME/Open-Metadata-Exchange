@@ -26,7 +26,7 @@ export default function CustomBlockManager({
                 draggable
                 className={cx(
                   'flex flex-col items-center border rounded cursor-pointer py-2 px-5 transition-colors',
-                  MAIN_BORDER_COLOR
+                  MAIN_BORDER_COLOR,
                 )}
                 onDragStart={(ev) => dragStart(block, ev.nativeEvent)}
                 onDragEnd={() => dragStop(false)}

@@ -1,7 +1,9 @@
 import { useState, useRef } from 'react';
 import req from 'shared/lib/req';
 
-function RelatedResourceForm({ resource, closeCallback, beforeSubmitCallback, afterSubmitCallback }) {
+function RelatedResourceForm({
+  resource, closeCallback, beforeSubmitCallback, afterSubmitCallback,
+}) {
   const [title, setTitle] = useState(resource?.title || '');
   const [url, setURL] = useState(resource?.url || '');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -11,13 +13,13 @@ function RelatedResourceForm({ resource, closeCallback, beforeSubmitCallback, af
       title,
       url,
       file: fileInputRef.current?.files?.[0] || null,
-    }
+    };
     beforeSubmitCallback(resource).then(({ submitMethod, submitURL }) => {
-      req[submitMethod](submitURL, data, true).then( (data) => {
+      req[submitMethod](submitURL, data, true).then((data) => {
         afterSubmitCallback(submitMethod, data);
-      })
-    })
-  }
+      });
+    });
+  };
 
   return (
     <div className="related-resource-form">
@@ -72,21 +74,21 @@ function RelatedResourceForm({ resource, closeCallback, beforeSubmitCallback, af
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export function RelatedResource({ resource = null, beforeSubmitCallback, afterSubmitCallback = null, editCallback = null }) {
+export function RelatedResource({
+  resource = null, beforeSubmitCallback, afterSubmitCallback = null, editCallback = null,
+}) {
   const [resourceLoc, setResourceLoc] = useState(resource);
   const [editing, setEditing] = useState(false);
-  const [title, setTitle] = useState(resource?.title || '')
+  const [title, setTitle] = useState(resource?.title || '');
 
   const onClose = () => {
     setEditMode(false);
-  }
+  };
 
-  const onBeforeFormSubmit = (resource) => {
-    return beforeSubmitCallback(resource);
-  }
+  const onBeforeFormSubmit = (resource) => beforeSubmitCallback(resource);
 
   const onAfterFormSubmit = (method, data) => {
     setEditMode(false);
@@ -101,7 +103,7 @@ export function RelatedResource({ resource = null, beforeSubmitCallback, afterSu
     if (afterSubmitCallback) {
       afterSubmitCallback(method, data);
     }
-  }
+  };
 
   const onDelete = () => {
     onBeforeFormSubmit(resource).then(({ submitURL }) => {
@@ -109,9 +111,9 @@ export function RelatedResource({ resource = null, beforeSubmitCallback, afterSu
         if (afterSubmitCallback) {
           afterSubmitCallback('delete', resource);
         }
-      })
-    })
-  }
+      });
+    });
+  };
 
   const setEditMode = (editMode) => {
     setEditing(editMode);
@@ -119,41 +121,44 @@ export function RelatedResource({ resource = null, beforeSubmitCallback, afterSu
     if (editCallback) {
       editCallback(editMode ? resource : null);
     }
-  }
+  };
 
   return (
     <>
-    <div className="saved-related-resource-ct mod-opened" data-resource-id="None">
+      <div className="saved-related-resource-ct mod-opened" data-resource-id="None">
 
-      {resource && !editing && (<div className="saved-related-resource">
-        <button className="btn btn-link saved-related-resource-delete" type="button" onClick={onDelete}>
-          <i className="fa fa-times-circle"></i>
-        </button>
-        <a href={resource.download_url || resource.url} className="saved-related-resource-link" target="_blank">
-          <i className={resource.icon_class}></i>
-          <p className="saved-related-resource-name">{title || 'Untitled'}</p>
-        </a>
-        <button className="btn btn-link saved-related-resource-edit" type="button" onClick={() => setEditMode(true)}>
-          <i className="fa fa-pencil"></i>
-          <span className="saved-related-resource-edit-title">Edit</span>
-        </button>
-      </div>)}
+        {resource && !editing && (
+          <div className="saved-related-resource">
+            <button className="btn btn-link saved-related-resource-delete" type="button" onClick={onDelete}>
+              <i className="fa fa-times-circle" />
+            </button>
+            <a href={resource.download_url || resource.url} className="saved-related-resource-link" target="_blank">
+              <i className={resource.icon_class} />
+              <p className="saved-related-resource-name">{title || 'Untitled'}</p>
+            </a>
+            <button className="btn btn-link saved-related-resource-edit" type="button" onClick={() => setEditMode(true)}>
+              <i className="fa fa-pencil" />
+              <span className="saved-related-resource-edit-title">Edit</span>
+            </button>
+          </div>
+        )}
 
-      {editing && (
-        <RelatedResourceForm resource={resourceLoc}
-                             closeCallback={onClose}
-                             beforeSubmitCallback={onBeforeFormSubmit}
-                             afterSubmitCallback={onAfterFormSubmit}
-        />
-      )}
-    </div>
+        {editing && (
+          <RelatedResourceForm
+            resource={resourceLoc}
+            closeCallback={onClose}
+            beforeSubmitCallback={onBeforeFormSubmit}
+            afterSubmitCallback={onAfterFormSubmit}
+          />
+        )}
+      </div>
 
-    {!resource && !editing && (
+      {!resource && !editing && (
       // New Related Resource Button
-      <button className="related-resources-add-btn" type="button" onClick={() => setEditMode(true)}>
-        <i className="fa fa-paperclip"></i>
-      </button>
-    )}
+        <button className="related-resources-add-btn" type="button" onClick={() => setEditMode(true)}>
+          <i className="fa fa-paperclip" />
+        </button>
+      )}
     </>
-  )
+  );
 }

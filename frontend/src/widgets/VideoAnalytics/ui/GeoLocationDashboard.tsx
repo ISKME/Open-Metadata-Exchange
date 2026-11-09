@@ -601,6 +601,4 @@ const getMapColor = (value) => {
   );
 };
 
-const getMapOpacity = (value) => {
-  return 0.58 + Math.pow(clamp(value), 0.55) * 0.42;
-};
+const getMapOpacity = (value) => 0.58 + clamp(value) ** 0.55 * 0.42;

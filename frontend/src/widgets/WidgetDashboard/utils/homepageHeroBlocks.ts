@@ -1,13 +1,13 @@
-import type { Editor } from "grapesjs";
+import type { Editor } from 'grapesjs';
 
-const HERO_TYPE = "oerc-homepage-hero";
-const HERO_BLOCK_ID = "homepage-hero";
-const HERO_CATEGORY_ID = "homepage-hero-category";
-const HERO_CATEGORY_LABEL = "Homepage Hero";
-const HERO_BG_TYPE = "oerc-homepage-hero-bg";
+const HERO_TYPE = 'oerc-homepage-hero';
+const HERO_BLOCK_ID = 'homepage-hero';
+const HERO_CATEGORY_ID = 'homepage-hero-category';
+const HERO_CATEGORY_LABEL = 'Homepage Hero';
+const HERO_BG_TYPE = 'oerc-homepage-hero-bg';
 
-const HERO_FORM_TYPE = "oerc-homepage-hero-form";
-const HERO_FORM_BLOCK_ID = "homepage-hero-form";
+const HERO_FORM_TYPE = 'oerc-homepage-hero-form';
+const HERO_FORM_BLOCK_ID = 'homepage-hero-form';
 
 const HERO_MEDIA = `
 <svg width="54" height="38" viewBox="0 0 54 38" xmlns="http://www.w3.org/2000/svg">
@@ -41,7 +41,7 @@ const px = (v: unknown, fallback: number) => {
   return Number.isFinite(n) ? `${n}px` : `${fallback}px`;
 };
 
-const HOMEPAGE_HERO_BASE_CSS_MARKER = "/* oerc-homepage-hero-base */";
+const HOMEPAGE_HERO_BASE_CSS_MARKER = '/* oerc-homepage-hero-base */';
 const HOMEPAGE_HERO_BASE_CSS = `
 ${HOMEPAGE_HERO_BASE_CSS_MARKER}
 .oerc-homepage-hero,
@@ -62,15 +62,15 @@ ${HOMEPAGE_HERO_BASE_CSS_MARKER}
 export const homepageHeroBlocks = (editor: Editor) => {
   const bm = editor.BlockManager;
   const dc = editor.DomComponents;
-  const CMD_SELECT_HERO_BG = "oerc:select-hero-bg";
+  const CMD_SELECT_HERO_BG = 'oerc:select-hero-bg';
 
   const ensureHeroBaseCss = () => {
     try {
       const wrapper: any = editor.getWrapper?.();
-      const hasHero = !!wrapper?.find?.(".oerc-homepage-hero")?.length;
+      const hasHero = !!wrapper?.find?.('.oerc-homepage-hero')?.length;
       if (!hasHero) return;
 
-      const css = (editor.getCss?.() || "") as string;
+      const css = (editor.getCss?.() || '') as string;
       if (css.includes(HOMEPAGE_HERO_BASE_CSS_MARKER)) return;
 
       editor.addStyle(HOMEPAGE_HERO_BASE_CSS);
@@ -79,10 +79,10 @@ export const homepageHeroBlocks = (editor: Editor) => {
     }
   };
 
-  editor.on("load", ensureHeroBaseCss);
-  editor.on("component:add", (model: any) => {
-    const cls = String(model?.getAttributes?.()?.class || "");
-    if (cls.includes("oerc-homepage-hero")) {
+  editor.on('load', ensureHeroBaseCss);
+  editor.on('component:add', (model: any) => {
+    const cls = String(model?.getAttributes?.()?.class || '');
+    if (cls.includes('oerc-homepage-hero')) {
       ensureHeroBaseCss();
     }
   });
@@ -96,7 +96,7 @@ export const homepageHeroBlocks = (editor: Editor) => {
 
   // --- BLOCK
   bm.add(HERO_BLOCK_ID, {
-    label: "Homepage Hero block",
+    label: 'Homepage Hero block',
     media: HERO_MEDIA,
     category: HERO_CATEGORY_ID,
     order: -1000,
@@ -104,7 +104,7 @@ export const homepageHeroBlocks = (editor: Editor) => {
   } as any);
 
   bm.add(HERO_FORM_BLOCK_ID, {
-    label: "Search form",
+    label: 'Search form',
     media: HERO_FORM_MEDIA,
     category: HERO_CATEGORY_ID,
     order: -990,
@@ -121,19 +121,18 @@ export const homepageHeroBlocks = (editor: Editor) => {
     am.open({
       select: (asset: any, complete: boolean) => {
         const url = asset.getSrc();
-        bg.addStyle({ "background-image": `url("${url}")` });
+        bg.addStyle({ 'background-image': `url("${url}")` });
         if (complete) am.close?.();
       },
     });
 
     const modal: any = (editor as any).Modal;
-    if (modal?.once) modal.once("close", () => (bgPickerLock = false));
+    if (modal?.once) modal.once('close', () => (bgPickerLock = false));
     else setTimeout(() => (bgPickerLock = false), 500);
   };
 
   const ensureHeroBg = (hero: any) => {
-    const existing =
-      hero?.findType?.(HERO_BG_TYPE)?.[0] || hero?.find?.(".oerc-hero-bg")?.[0];
+    const existing = hero?.findType?.(HERO_BG_TYPE)?.[0] || hero?.find?.('.oerc-hero-bg')?.[0];
 
     if (existing) return { bg: existing, created: false };
 
@@ -145,7 +144,7 @@ export const homepageHeroBlocks = (editor: Editor) => {
     run() {
       const sel: any = editor.getSelected?.();
       let hero: any = sel;
-      while (hero && hero.get?.("type") !== HERO_TYPE) {
+      while (hero && hero.get?.('type') !== HERO_TYPE) {
         hero = hero.parent?.();
       }
       if (!hero) return;
@@ -155,8 +154,8 @@ export const homepageHeroBlocks = (editor: Editor) => {
     },
   });
 
-  editor.on("component:selected", (model: any) => {
-    const type = model?.get?.("type");
+  editor.on('component:selected', (model: any) => {
+    const type = model?.get?.('type');
 
     if (type === HERO_BG_TYPE) {
       openBgPicker(model);
@@ -164,29 +163,28 @@ export const homepageHeroBlocks = (editor: Editor) => {
     }
 
     if (type === HERO_TYPE) {
-      const tb = model.get?.("toolbar") || [];
+      const tb = model.get?.('toolbar') || [];
       const exists = tb.some((i: any) => i?.command === CMD_SELECT_HERO_BG);
 
       if (!exists) {
         const item = {
-          id: "tlb-bgimage",
+          id: 'tlb-bgimage',
           command: CMD_SELECT_HERO_BG,
           label:
-            '<svg viewBox="0 0 24 24">' +
-            '<path fill="currentColor" d="M21,19V5A2,2 0 0,0 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19M8.5,13.5L11,16.5L14.5,12L19,18H5L8.5,13.5Z"></path>' +
-            "</svg>",
-          attributes: { title: "Edit background image" },
+            '<svg viewBox="0 0 24 24">'
+            + '<path fill="currentColor" d="M21,19V5A2,2 0 0,0 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19M8.5,13.5L11,16.5L14.5,12L19,18H5L8.5,13.5Z"></path>'
+            + '</svg>',
+          attributes: { title: 'Edit background image' },
         };
 
         const deleteIdx = tb.findIndex(
-          (i: any) =>
-            i?.id === "tlb-delete" ||
-            i?.command === "tlb-delete" ||
-            i?.command === "core:component-delete"
+          (i: any) => i?.id === 'tlb-delete'
+            || i?.command === 'tlb-delete'
+            || i?.command === 'core:component-delete',
         );
 
         const idx = deleteIdx >= 0 ? deleteIdx : Math.max(tb.length - 1, 0);
-        model.set("toolbar", [...tb.slice(0, idx), item, ...tb.slice(idx)]);
+        model.set('toolbar', [...tb.slice(0, idx), item, ...tb.slice(idx)]);
       }
 
       const { bg, created } = ensureHeroBg(model);
@@ -198,23 +196,23 @@ export const homepageHeroBlocks = (editor: Editor) => {
   dc.addType(HERO_BG_TYPE, {
     model: {
       defaults: {
-        name: "Background image",
-        tagName: "div",
-        attributes: { class: "oerc-hero-bg" },
+        name: 'Background image',
+        tagName: 'div',
+        attributes: { class: 'oerc-hero-bg' },
 
         draggable: false,
         droppable: false,
 
         style: {
-          position: "absolute",
-          top: "0",
-          left: "0",
-          width: "100%",
-          height: "100%",
-          "background-size": "cover",
-          "background-position": "center",
-          "background-repeat": "no-repeat",
-          "z-index": "0",
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          width: '100%',
+          height: '100%',
+          'background-size': 'cover',
+          'background-position': 'center',
+          'background-repeat': 'no-repeat',
+          'z-index': '0',
         },
       },
     },
@@ -223,78 +221,78 @@ export const homepageHeroBlocks = (editor: Editor) => {
   dc.addType(HERO_TYPE, {
     model: {
       defaults: {
-        name: "Homepage Hero",
-        tagName: "section",
-        attributes: { class: "oerc-homepage-hero" },
+        name: 'Homepage Hero',
+        tagName: 'section',
+        attributes: { class: 'oerc-homepage-hero' },
         heroHeight: 520,
-        heroBgColor: "#0b1d2e",
+        heroBgColor: '#0b1d2e',
         traits: [
           {
-            type: "number",
-            name: "heroHeight",
-            label: "Height (px)",
-            placeholder: "520",
+            type: 'number',
+            name: 'heroHeight',
+            label: 'Height (px)',
+            placeholder: '520',
             changeProp: true,
             min: 200,
           },
           {
-            type: "color",
-            name: "heroBgColor",
-            label: "Background",
+            type: 'color',
+            name: 'heroBgColor',
+            label: 'Background',
             changeProp: true,
           },
         ],
         style: {
-          width: "100%",
-          "min-height": "520px",
-          "background-color": "#0b1d2e",
-          position: "relative",
-          overflow: "hidden",
-          display: "flex",
-          "align-items": "center",
-          "justify-content": "center",
-          "text-align": "center",
-          padding: "60px 20px",
-          "box-sizing": "border-box",
+          width: '100%',
+          'min-height': '520px',
+          'background-color': '#0b1d2e',
+          position: 'relative',
+          overflow: 'hidden',
+          display: 'flex',
+          'align-items': 'center',
+          'justify-content': 'center',
+          'text-align': 'center',
+          padding: '60px 20px',
+          'box-sizing': 'border-box',
         },
         components: [
           { type: HERO_BG_TYPE },
           {
-            tagName: "div",
-            attributes: { class: "oerc-hero-inner" },
+            tagName: 'div',
+            attributes: { class: 'oerc-hero-inner' },
             style: {
-              width: "100%",
-              margin: "0 auto",
-              position: "relative",
-              "z-index": "1",
-              "background-color": "transparent !important",
+              width: '100%',
+              margin: '0 auto',
+              position: 'relative',
+              'z-index': '1',
+              'background-color': 'transparent !important',
             },
             components: [
               {
-                tagName: "h1",
-                content: "Explore. Create. Collaborate.",
-                type: "text",
+                tagName: 'h1',
+                content: 'Explore. Create. Collaborate.',
+                type: 'text',
                 style: {
-                  color: "#ffffff",
-                  "font-size": "64px",
-                  "font-weight": "700",
-                  "line-height": "1.1",
-                  margin: "0 0 18px 0",
-                  "font-family":
+                  color: '#ffffff',
+                  'font-size': '64px',
+                  'font-weight': '700',
+                  'line-height': '1.1',
+                  margin: '0 0 18px 0',
+                  'font-family':
                     "var(--font-family-main, 'Open Sans', sans-serif)",
                 },
               },
               {
-                tagName: "p",
-                type: "text",
+                tagName: 'p',
+                type: 'text',
                 content:
-                  "OER Commons is a public digital library of open educational resources. Explore, create, and collaborate with educators around the world to improve curriculum.",
+                  'OER Commons is a public digital library of open educational resources. Explore, create, and collaborate with educators around the world to improve curriculum.',
                 style: {
-                  color: "#cfd8dc",
-                  "font-size": "16px",
-                  "line-height": "1.6",
-                  margin: "0 auto 30px auto",
-                  "max-width": "900px",
+                  color: '#cfd8dc',
+                  'font-size': '16px',
+                  'line-height': '1.6',
+                  margin: '0 auto 30px auto',
+                  'max-width': '900px',
                 },
               },
 
@@ -302,21 +300,21 @@ export const homepageHeroBlocks = (editor: Editor) => {
 
               // advanced search line
               {
-                tagName: "div",
-                attributes: { class: "advanced-search-call-out" },
+                tagName: 'div',
+                attributes: { class: 'advanced-search-call-out' },
                 style: {
-                  "margin-top": "12px",
-                  color: "rgba(255,255,255,0.9)",
-                  "font-size": "13px",
-                  "line-height": "1.3",
+                  'margin-top': '12px',
+                  color: 'rgba(255,255,255,0.9)',
+                  'font-size': '13px',
+                  'line-height': '1.3',
                 },
                 components: [
                   {
-                    type: "text",
-                    tagName: "div",
+                    type: 'text',
+                    tagName: 'div',
                     content:
                       'Fine tune your search with our <a href="/advanced-search" style="color:#fff;text-decoration:underline;">advanced search</a>.',
-                    style: { display: "block" },
+                    style: { display: 'block' },
                   },
                 ],
               },
@@ -328,30 +326,30 @@ export const homepageHeroBlocks = (editor: Editor) => {
       init(this: any) {
         const syncFromStyle = () => {
           const st = this.getStyle?.() || {};
-          const bg = st["background-color"];
-          if (bg && bg !== this.get("heroBgColor")) {
-            this.set("heroBgColor", bg, { silent: true });
+          const bg = st['background-color'];
+          if (bg && bg !== this.get('heroBgColor')) {
+            this.set('heroBgColor', bg, { silent: true });
           }
 
-          const mh = st["min-height"];
-          const n = parseInt(String(mh || ""), 10);
-          if (!Number.isNaN(n) && n !== this.get("heroHeight")) {
-            this.set("heroHeight", n, { silent: true });
+          const mh = st['min-height'];
+          const n = parseInt(String(mh || ''), 10);
+          if (!Number.isNaN(n) && n !== this.get('heroHeight')) {
+            this.set('heroHeight', n, { silent: true });
           }
         };
 
         const apply = () => {
-          const h = px(this.get("heroHeight"), 520);
-          const bg = this.get("heroBgColor") || "#0b1d2e";
+          const h = px(this.get('heroHeight'), 520);
+          const bg = this.get('heroBgColor') || '#0b1d2e';
           this.addStyle({
-            "min-height": h,
-            "background-color": bg,
+            'min-height': h,
+            'background-color': bg,
           });
         };
 
         syncFromStyle();
-        this.on("change:style", syncFromStyle);
-        this.on("change:heroHeight change:heroBgColor", apply);
+        this.on('change:style', syncFromStyle);
+        this.on('change:heroHeight change:heroBgColor', apply);
         apply();
       },
     },
@@ -360,34 +358,34 @@ export const homepageHeroBlocks = (editor: Editor) => {
   dc.addType(HERO_FORM_TYPE, {
     model: {
       defaults: {
-        name: "Search form",
-        tagName: "form",
+        name: 'Search form',
+        tagName: 'form',
         attributes: {
-          action: "/search",
-          method: "GET",
-          class: "oerc-hero-search-form",
+          action: '/search',
+          method: 'GET',
+          class: 'oerc-hero-search-form',
         },
 
-        draggable: ".oerc-homepage-hero .oerc-hero-inner",
+        draggable: '.oerc-homepage-hero .oerc-hero-inner',
         droppable: false,
 
         style: {
-          display: "flex",
-          "justify-content": "center",
-          "align-items": "center",
-          gap: "12px",
-          "flex-wrap": "wrap",
-          margin: "0 auto",
+          display: 'flex',
+          'justify-content': 'center',
+          'align-items': 'center',
+          gap: '12px',
+          'flex-wrap': 'wrap',
+          margin: '0 auto',
         },
 
         components: [
           // hidden search_source=homepage
           {
-            tagName: "input",
+            tagName: 'input',
             attributes: {
-              type: "hidden",
-              name: "search_source",
-              value: "homepage",
+              type: 'hidden',
+              name: 'search_source',
+              value: 'homepage',
             },
             selectable: false,
             draggable: false,
@@ -397,46 +395,46 @@ export const homepageHeroBlocks = (editor: Editor) => {
 
           // text query
           {
-            tagName: "input",
+            tagName: 'input',
             attributes: {
-              type: "text",
-              name: "f.search",
-              placeholder: "What are you looking for?",
-              class: "oerc-hero-q",
+              type: 'text',
+              name: 'f.search',
+              placeholder: 'What are you looking for?',
+              class: 'oerc-hero-q',
             },
             style: {
-              width: "260px",
-              height: "44px",
-              padding: "10px 12px",
-              "border-radius": "2px",
-              border: "1px solid rgba(0,0,0,0.25)",
-              "font-size": "14px",
-              outline: "none",
+              width: '260px',
+              height: '44px',
+              padding: '10px 12px',
+              'border-radius': '2px',
+              border: '1px solid rgba(0,0,0,0.25)',
+              'font-size': '14px',
+              outline: 'none',
             },
           },
 
           // Subject select (placeholder only)
           {
-            tagName: "select",
+            tagName: 'select',
             attributes: {
-              name: "f.general_subject",
-              "aria-label": "Subject",
-              class: "oerc-hero-select",
+              name: 'f.general_subject',
+              'aria-label': 'Subject',
+              class: 'oerc-hero-select',
             },
             style: {
-              width: "180px",
-              height: "44px",
-              padding: "10px 12px",
-              "border-radius": "2px",
-              border: "1px solid rgba(0,0,0,0.25)",
-              "font-size": "14px",
-              background: "#fff",
+              width: '180px',
+              height: '44px',
+              padding: '10px 12px',
+              'border-radius': '2px',
+              border: '1px solid rgba(0,0,0,0.25)',
+              'font-size': '14px',
+              background: '#fff',
             },
             components: [
               {
-                tagName: "option",
-                content: "Subject",
-                attributes: { value: "" },
+                tagName: 'option',
+                content: 'Subject',
+                attributes: { value: '' },
                 removable: false,
                 draggable: false,
                 copyable: false,
@@ -447,26 +445,26 @@ export const homepageHeroBlocks = (editor: Editor) => {
 
           // Education Level select (placeholder only)
           {
-            tagName: "select",
+            tagName: 'select',
             attributes: {
-              name: "f.sublevel",
-              "aria-label": "Education Level",
-              class: "oerc-hero-select",
+              name: 'f.sublevel',
+              'aria-label': 'Education Level',
+              class: 'oerc-hero-select',
             },
             style: {
-              width: "220px",
-              height: "44px",
-              padding: "10px 12px",
-              "border-radius": "2px",
-              border: "1px solid rgba(0,0,0,0.25)",
-              "font-size": "14px",
-              background: "#fff",
+              width: '220px',
+              height: '44px',
+              padding: '10px 12px',
+              'border-radius': '2px',
+              border: '1px solid rgba(0,0,0,0.25)',
+              'font-size': '14px',
+              background: '#fff',
             },
             components: [
               {
-                tagName: "option",
-                content: "Education Level",
-                attributes: { value: "" },
+                tagName: 'option',
+                content: 'Education Level',
+                attributes: { value: '' },
                 removable: false,
                 draggable: false,
                 copyable: false,
@@ -477,25 +475,25 @@ export const homepageHeroBlocks = (editor: Editor) => {
 
           // Standards select (placeholder only)
           {
-            tagName: "select",
+            tagName: 'select',
             attributes: {
-              name: "f.alignment_standard",
-              "aria-label": "Standards",
-              class: "oerc-hero-select js-standards-select",
+              name: 'f.alignment_standard',
+              'aria-label': 'Standards',
+              class: 'oerc-hero-select js-standards-select',
             },
             style: {
-              width: "220px",
-              height: "44px",
-              padding: "10px 12px",
-              "border-radius": "2px",
-              border: "0",
-              "min-width": "200px",
+              width: '220px',
+              height: '44px',
+              padding: '10px 12px',
+              'border-radius': '2px',
+              border: '0',
+              'min-width': '200px',
             },
             components: [
               {
-                tagName: "option",
-                attributes: { value: "" },
-                content: "Standards",
+                tagName: 'option',
+                attributes: { value: '' },
+                content: 'Standards',
                 selectable: false,
                 draggable: false,
                 copyable: false,
@@ -506,22 +504,22 @@ export const homepageHeroBlocks = (editor: Editor) => {
 
           // Search button
           {
-            tagName: "button",
+            tagName: 'button',
             attributes: {
-              type: "submit",
-              class: "oerc-hero-btn",
+              type: 'submit',
+              class: 'oerc-hero-btn',
             },
-            content: "Search",
+            content: 'Search',
             style: {
-              width: "180px",
-              height: "44px",
-              border: "0",
-              "border-radius": "2px",
-              background: "#0d6b2e",
-              color: "#fff",
-              "font-weight": "700",
-              "font-size": "14px",
-              cursor: "pointer",
+              width: '180px',
+              height: '44px',
+              border: '0',
+              'border-radius': '2px',
+              background: '#0d6b2e',
+              color: '#fff',
+              'font-weight': '700',
+              'font-size': '14px',
+              cursor: 'pointer',
             },
           },
         ],

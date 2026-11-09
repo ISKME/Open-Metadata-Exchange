@@ -1,20 +1,20 @@
-import { IFilterItem } from '../model/types'
+import { IFilterItem } from '../model/types';
 
-export function convertFlatToTree(items: IFilterItem[], level=0): IFilterItem[] {
-  let itemsTree: IFilterItem[] = []
+export function convertFlatToTree(items: IFilterItem[], level = 0): IFilterItem[] {
+  const itemsTree: IFilterItem[] = [];
 
   while (items.length > 0) {
-    const item = items[0]
+    const item = items[0];
     if (item.level === level) {
-      items.shift()
+      items.shift();
       if (item.items.length == 0) {
-        item.items = convertFlatToTree(items, level + 1)
+        item.items = convertFlatToTree(items, level + 1);
       }
-      itemsTree.push(item)
+      itemsTree.push(item);
     } else {
-      break
+      break;
     }
   }
 
-  return itemsTree
+  return itemsTree;
 }

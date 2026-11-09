@@ -17,16 +17,14 @@ export function LicenseSelect({ license, onChange }) {
     setDescription(option.desc);
     setUrl(option.url);
     onChange(option);
-  }
+  };
 
   const formatOptionLabel = ({ label, icons }) => (
     <div>
       <span>{label}</span> -
-      {icons.map(icon => {
-        return (
-          <i className={icon} key={icon}></i>
-        )
-      })}
+      {icons.map((icon) => (
+        <i className={icon} key={icon} />
+      ))}
     </div>
   );
 
@@ -40,10 +38,10 @@ export function LicenseSelect({ license, onChange }) {
         </p>
       </div>
       <div className="resource-license-picker-field-ct controls">
-        <div className='chosen-results'>
+        <div className="chosen-results">
           <Select options={license.options} onChange={handleChange} formatOptionLabel={formatOptionLabel} defaultValue={license} />
         </div>
       </div>
     </div>
-  )
+  );
 }

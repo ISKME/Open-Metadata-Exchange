@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import {Collection} from 'types/collection'
+import { Collection } from 'types/collection';
 
 interface CollectionState {
     library: { sections: [] };

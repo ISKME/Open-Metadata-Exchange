@@ -2,7 +2,9 @@
 import { useEffect, useState, useMemo } from 'react';
 import api from './api/axios';
 import { Outlet, NavLink } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Box, Container, Link, CssBaseline, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, useTheme, useMediaQuery } from '@mui/material';
+import {
+  AppBar, Toolbar, Typography, Box, Container, Link, CssBaseline, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, useTheme, useMediaQuery,
+} from '@mui/material';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import cls from './styles.module.scss';
@@ -10,13 +12,13 @@ import Loader from './icons/Loader';
 import { Button } from 'components/Dashboard';
 import Settings from './widgets/Settings';
 
-if (document.title === 'IMLS-React') document.title = 'The Ark: A Digital Public Goods Library'
+if (document.title === 'IMLS-React') document.title = 'The Ark: A Digital Public Goods Library';
 
 function addFont(font) {
   const head = document.querySelector('head');
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(font);
+  link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(font)}`;
   head.appendChild(link);
   return () => head.removeChild(link);
 }
@@ -24,7 +26,7 @@ function addFont(font) {
 function isColorString(str) {
   const s = new Option().style;
   s.color = str;
-  return !!s.color // s.color === str;
+  return !!s.color; // s.color === str;
 }
 
 function HeaderLinks({ fontFamily, fontSizeText }) {
@@ -74,7 +76,6 @@ function HeaderLinks({ fontFamily, fontSizeText }) {
       </Drawer>
     </>
   );
-
 }
 
 export default function ArkLayout() {
@@ -101,16 +102,16 @@ export default function ArkLayout() {
 
   useEffect(() => {
     const styleTag = document.createElement('style');
-    styleTag.textContent = `.page-wrapper{width:100% !important}`;
+    styleTag.textContent = '.page-wrapper{width:100% !important}';
     document.head.appendChild(styleTag);
     return () => document.head.removeChild(styleTag);
-  }, [])
+  }, []);
 
   useEffect(() => {
     (async () => {
       const { data } = await api.get('/api/theming/all/');
       if (!data.themes?.length) return;
-      let selectedTheme = data.themes.find((item) => item.is_default);
+      const selectedTheme = data.themes.find((item) => item.is_default);
       if (!selectedTheme) return;
       const themeRes = await api.get(`/api/theming/${selectedTheme.code}.css`);
       const variables = themeRes?.data?.variables;
@@ -125,49 +126,52 @@ export default function ArkLayout() {
       setPalette((prev) => ({ ...prev, ...newPalette }));
       if (variables['font-family-main']) {
         setFontFamily(variables['font-family-main']);
-        addFont(variables['font-family-main'])
+        addFont(variables['font-family-main']);
       }
       if (variables['font-size-text']) setFontSizeText(variables['font-size-text']);
       if (variables['button-primary-color']) setPrimary(variables['button-primary-color']);
     })();
   }, []);
 
-  useEffect(() => addFont('IBM Plex Mono'), [])
+  useEffect(() => addFont('IBM Plex Mono'), []);
 
-  const theme = useMemo(() => {
-    return createTheme({
-      palette: {
-        primary: {
-          main: primary,
-        },
-        ark: palette,
+  const theme = useMemo(() => createTheme({
+    palette: {
+      primary: {
+        main: primary,
       },
-      typography: {
-        fontFamily,
-        fontSize: parseInt(fontSizeText, 10), // MUI expects a number for base fontSize
-      },
-      arkSizes: {
-        fontSizeText,
-      },
-    });
-  }, [palette, fontFamily, fontSizeText]);
+      ark: palette,
+    },
+    typography: {
+      fontFamily,
+      fontSize: parseInt(fontSizeText, 10), // MUI expects a number for base fontSize
+    },
+    arkSizes: {
+      fontSizeText,
+    },
+  }), [palette, fontFamily, fontSizeText]);
 
   const paletteChange = (key, val) => {
-    if (key === 'buttonPrimaryColor') setPrimary(val)
-    setPalette(prevPalette => ({ ...prevPalette, [key]: val }))
-  }
+    if (key === 'buttonPrimaryColor') setPrimary(val);
+    setPalette((prevPalette) => ({ ...prevPalette, [key]: val }));
+  };
   const fontChange = (idx, val) => {
-    addFont(val)
-    setFontFamily(val)
+    addFont(val);
+    setFontFamily(val);
+  };
+
+  if (loading) {
+    return (
+      <Box sx={{
+        height: '100vh', bgcolor: 'ark.contentBackgroundColor', display: 'flex', justifyContent: 'center', alignItems: 'center',
+      }}
+      >
+        <Loader color="white" />
+      </Box>
+    );
   }
 
-  if (loading) return (
-    <Box sx={{ height: '100vh', bgcolor: 'ark.contentBackgroundColor', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Loader color="white" />
-    </Box>
-  );
-
-  const fontStyle = { fontFamily: theme.typography.fontFamily }
+  const fontStyle = { fontFamily: theme.typography.fontFamily };
 
   return (
     <ThemeProvider theme={theme}>
@@ -180,7 +184,10 @@ export default function ArkLayout() {
         sizes={{ fontSizeText }}
         onSizeChange={(key, val) => setFontSizeText(val)}
       />
-      <Box sx={{ minHeight: '100vh', bgcolor: 'ark.contentBackgroundColor', display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{
+        minHeight: '100vh', bgcolor: 'ark.contentBackgroundColor', display: 'flex', flexDirection: 'column',
+      }}
+      >
         {/* Header */}
         <AppBar position="static" sx={{ bgcolor: 'ark.headerNavbarBackgroundColor', boxShadow: 'none' }}>
           <Toolbar className={cls.navToolbar}>
@@ -195,10 +202,16 @@ export default function ArkLayout() {
 
         {/* Main Content */}
         <Box sx={{ flex: 1, px: 4, bgcolor: 'ark.contentBackgroundColor' }}>
-          <Container sx={{ bgcolor: 'ark.cardBackgroundColor', borderRadius: 2, p: 4, minHeight: 400 }}>
+          <Container sx={{
+            bgcolor: 'ark.cardBackgroundColor', borderRadius: 2, p: 4, minHeight: 400,
+          }}
+          >
             <Outlet />
           </Container>
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4, gap: '120px' }}>
+          <Box sx={{
+            display: 'flex', justifyContent: 'center', mt: 4, gap: '120px',
+          }}
+          >
             <Link component={NavLink} to="about" className={cls.footerLink} color="ark.footerLinkColor" underline="hover" sx={{ fontFamily, fontSize: fontSizeText }}>
               About
             </Link>
@@ -208,7 +221,12 @@ export default function ArkLayout() {
           </Box>
         </Box>
 
-        <Box component="footer" sx={{ bgcolor: 'ark.footerColor', color: 'ark.footerTextColor', py: 2, mt: 2, textAlign: 'center' }}>
+        <Box
+          component="footer"
+          sx={{
+            bgcolor: 'ark.footerColor', color: 'ark.footerTextColor', py: 2, mt: 2, textAlign: 'center',
+          }}
+        >
           <Container>
             <Typography variant="body2" className={cls.copyRight} color="ark.footerTextColor">
               Copyright notice: Please see the terms of use for individual materials found on The Ark: A Digital Public Goods Library.

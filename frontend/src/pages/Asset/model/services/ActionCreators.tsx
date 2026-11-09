@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-/* eslint-disable max-len */
+
 import axios from 'axios';
 import { AppDispatch } from 'app/providers/StoreProvider/config/store';
 import { collectionDetailsSlice } from 'pages/CollectionDetails/model/slice/CollectionDetailsSlice';
@@ -12,7 +12,7 @@ export const fetchCollectionDetailsResources = (path) => async (dispatch: AppDis
     const response = axios.get(`${URL}${path}/resources`);
     const dataPromise = await response
       .then((res: { data: any; }) => res.data.resources.items);
-    console.log(dataPromise)
+    console.log(dataPromise);
     dispatch(collectionDetailsSlice.actions.resourcesFetchingSuccess(dataPromise));
   } catch (e) {
     dispatch(collectionDetailsSlice.actions.resourcesFetchingError(e.message));

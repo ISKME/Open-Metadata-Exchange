@@ -1,7 +1,9 @@
 // @ts-ignore
 import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
-import { createTheme, ThemeProvider, CssBaseline, GlobalStyles } from '@mui/material';
+import {
+  createTheme, ThemeProvider, CssBaseline, GlobalStyles,
+} from '@mui/material';
 import { globalStyles } from './styles';
 import Settings from 'widgets/Settings';
 
@@ -28,7 +30,7 @@ function addFont(fontName?: string) {
   const head = document.querySelector('head');
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontName);
+  link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontName)}`;
   head?.appendChild(link);
   return () => head?.removeChild(link);
 }
@@ -41,8 +43,8 @@ export default function IMLSThemeProvider({ children }: { children: React.ReactN
   const [primary, setPrimary] = useState(DEFAULT_PALETTE.main);
 
   const paletteChange = (key, val) => {
-    setPalette(prevPalette => ({ ...prevPalette, [key]: val }))
-  }
+    setPalette((prevPalette) => ({ ...prevPalette, [key]: val }));
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -92,36 +94,43 @@ export default function IMLSThemeProvider({ children }: { children: React.ReactN
   }, []);
 
   const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          primary: palette,
-          // secondary: {
-          //   main: '#555555', // Darker blue for some text
-          // },
-          // background: {
-          //   default: '#f8f8f8', // Light grey background
-          // },
-          // text: {
-          //     primary: '#333333', // Dark text
-          //     secondary: '#4f4f4f', // Lighter grey for secondary text
-          // }
-        },
-        typography: {
-          fontFamily,
-          // fontSize: parseInt(fontSizeText, 10) || 16,
-          // h1: {
-          //   fontSize: '2.5rem',
-          //   fontWeight: 600,
-          //   lineHeight: 1.2,
-          // },
-        },
-        // imlsSizes: { fontSizeText }, // i get error
-      }),
-    [palette, fontFamily, fontSizeText, primary]
+    () => createTheme({
+      palette: {
+        primary: palette,
+        // secondary: {
+        //   main: '#555555', // Darker blue for some text
+        // },
+        // background: {
+        //   default: '#f8f8f8', // Light grey background
+        // },
+        // text: {
+        //     primary: '#333333', // Dark text
+        //     secondary: '#4f4f4f', // Lighter grey for secondary text
+        // }
+      },
+      typography: {
+        fontFamily,
+        // fontSize: parseInt(fontSizeText, 10) || 16,
+        // h1: {
+        //   fontSize: '2.5rem',
+        //   fontWeight: 600,
+        //   lineHeight: 1.2,
+        // },
+      },
+      // imlsSizes: { fontSizeText }, // i get error
+    }),
+    [palette, fontFamily, fontSizeText, primary],
   );
 
-  if (loading) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading</div>;
+  if (loading) {
+    return (
+      <div style={{
+        height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}
+      >Loading
+      </div>
+    );
+  }
 
   return (
     <ThemeProvider theme={theme}>

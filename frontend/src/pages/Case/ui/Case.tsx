@@ -1,62 +1,59 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
-import { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-import GlobalStyles from "@mui/material/GlobalStyles";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import DialogTitle from "@mui/material/DialogTitle";
-import Dialog from "@mui/material/Dialog";
-import DialogContentText from "@mui/material/DialogContentText";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import AddIcon from "@mui/icons-material/Add";
-import HelpIcon from "@mui/icons-material/Help";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Fade from "@mui/material/Fade";
-import Checkbox from "@mui/material/Checkbox";
-import TextField from "@mui/material/TextField";
-import Popover from "@mui/material/Popover";
-import Player from "components/video";
-import cls from "./Case.module.scss";
-import { Comment } from "@mui/icons-material";
-import { AlignWidget } from "widgets/Align";
-import Delete from "@mui/icons-material/Delete";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import { styles, globalStyles, accordionStyles, notesStyle } from "./styles";
-import { CButton, GButton } from "./components";
+import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
+import GlobalStyles from '@mui/material/GlobalStyles';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogContentText from '@mui/material/DialogContentText';
+import { red } from '@mui/material/colors';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import FormControl from '@mui/material/FormControl';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import AddIcon from '@mui/icons-material/Add';
+import HelpIcon from '@mui/icons-material/Help';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Fade from '@mui/material/Fade';
+import Checkbox from '@mui/material/Checkbox';
+import TextField from '@mui/material/TextField';
+import Popover from '@mui/material/Popover';
+import Player from 'components/video';
+import cls from './Case.module.scss';
+import { Comment } from '@mui/icons-material';
+import { AlignWidget } from 'widgets/Align';
+import Delete from '@mui/icons-material/Delete';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import {
+  styles, globalStyles, accordionStyles, notesStyle,
+} from './styles';
+import { CButton, GButton } from './components';
 import {
   convertSeconds,
   categorizeByTimeRange,
@@ -76,10 +73,10 @@ import {
   getVideoSegments,
   videoSegmentToAnnotation,
   sorting,
-} from "./helper";
-import req from "shared/lib/req";
-import Alert from "./Alert";
-import { Folders } from "widgets/Folders";
+} from './helper';
+import req from 'shared/lib/req';
+import Alert from './Alert';
+import { Folders } from 'widgets/Folders';
 
 const FilterInnerItems = ({
   name,
@@ -89,7 +86,7 @@ const FilterInnerItems = ({
 }) => {
   const [dialog, setDialog] = useState(-1);
   const handleDeleteRequest = (id) => {
-    req.del("annotations/" + id).then(() => {
+    req.del(`annotations/${id}`).then(() => {
       window.location.reload();
     });
     setDialog(-1);
@@ -114,41 +111,39 @@ const FilterInnerItems = ({
           <AccordionDetails>
             <Typography
               sx={{
-                padding: "4px 0",
-                fontStyle: "italic",
+                padding: '4px 0',
+                fontStyle: 'italic',
                 weight: 400,
-                size: "14px",
-                lineHeight: "20px",
+                size: '14px',
+                lineHeight: '20px',
               }}
             >
               {item.description}
             </Typography>
             {item.list && item.list?.length ? (
-              <div style={{ padding: "4px 0" }}>
-                <Typography sx={{ fontSize: "1rem" }}>Examples:</Typography>
+              <div style={{ padding: '4px 0' }}>
+                <Typography sx={{ fontSize: '1rem' }}>Examples:</Typography>
                 {item.list.map((list, index) => (
-                  <div key={item.full_code + name + "list" + list.id}>
-                    {list.workflow_state === "draft" && (
+                  <div key={`${item.full_code + name}list${list.id}`}>
+                    {list.workflow_state === 'draft' && (
                       <div
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          fontSize: ".8rem",
+                          display: 'flex',
+                          alignItems: 'center',
+                          fontSize: '.8rem',
                         }}
                       >
-                        <Typography sx={{ color: "#56788f" }}>Draft</Typography>
+                        <Typography sx={{ color: '#56788f' }}>Draft</Typography>
                         <div style={{ flex: 1 }} />
                         <Button
                           onClick={() => {
                             onData(list);
-                            const element =
-                              document.querySelector(".toggle-part");
-                            const position =
-                              element.getBoundingClientRect().top +
-                              document.documentElement.scrollTop -
-                              50;
+                            const element = document.querySelector('.toggle-part');
+                            const position = element.getBoundingClientRect().top
+                              + document.documentElement.scrollTop
+                              - 50;
                             scrollTo({
-                              behavior: "smooth",
+                              behavior: 'smooth',
                               top: position,
                             });
                           }}
@@ -167,55 +162,52 @@ const FilterInnerItems = ({
                         />
                       </div>
                     )}
-                    <Typography sx={{ padding: "4px 0", fontSize: "1rem" }}>
+                    <Typography sx={{ padding: '4px 0', fontSize: '1rem' }}>
                       {list.rationale}
                     </Typography>
                     <ul
                       style={{
-                        listStyle: "circle",
-                        listStylePosition: "inside",
-                        cursor: "pointer",
-                        color: "rgb(143, 155, 174)",
+                        listStyle: 'circle',
+                        listStylePosition: 'inside',
+                        cursor: 'pointer',
+                        color: 'rgb(143, 155, 174)',
                       }}
                     >
                       {(list.examples.some(
-                        ({ scope }) => scope === "video"
+                        ({ scope }) => scope === 'video',
                       )
                         ? []
                         : getVideoSegments(list.ranges)
                       ).map((segment, segmentIndex) => (
                         <li
                           key={`segment${list.id}-${segmentIndex}`}
-                          onClick={() =>
-                            onSelect(videoSegmentToAnnotation(segment))
-                          }
+                          onClick={() => onSelect(videoSegmentToAnnotation(segment))}
                         >
                           {segment.entire_video
-                            ? "Watch entire video"
+                            ? 'Watch entire video'
                             : `Watch ${convertSeconds(
-                                segment.video_start
-                              )} - ${convertSeconds(segment.video_stop)}`}
+                              segment.video_start,
+                            )} - ${convertSeconds(segment.video_stop)}`}
                         </li>
                       ))}
                       {list.examples
                         .filter(
-                          (item) =>
-                            ["video", "pdf"].includes(item.scope) ||
-                            (item?.ranges && Object.keys(item.ranges).length)
+                          (item) => ['video', 'pdf'].includes(item.scope)
+                            || (item?.ranges && Object.keys(item.ranges).length),
                         )
                         .map((example) => (
                           <li
                             key={example.id}
                             onClick={() => onSelect(example)}
                           >
-                            {example.scope === "video"
+                            {example.scope === 'video'
                               ? example.entire_entity
-                                ? "Watch entire video"
+                                ? 'Watch entire video'
                                 : `Watch ${convertSeconds(example.start_position)} - ${convertSeconds(example.end_position)}`
-                              : example.scope === "pdf"
-                              ? example.entire_entity ? "Review Entire PDF" : "Review Pages" +
-                                (` ${example.start_position} - ${example.end_position}`)
-                              : "Read Commentary"}
+                              : example.scope === 'pdf'
+                                ? example.entire_entity ? 'Review Entire PDF' : 'Review Pages'
+                                + (` ${example.start_position} - ${example.end_position}`)
+                                : 'Read Commentary'}
                           </li>
                         ))}
                     </ul>
@@ -223,7 +215,7 @@ const FilterInnerItems = ({
                 ))}
               </div>
             ) : (
-              ""
+              ''
             )}
           </AccordionDetails>
         </Accordion>
@@ -238,8 +230,7 @@ const FilterItems = ({
   onData = (item) => {},
 }) => {
   const [expanded, setExpanded] = useState<string | false>(false);
-  const handleChange = (panel) => (_event, isExpanded) =>
-    setExpanded(isExpanded ? panel : false);
+  const handleChange = (panel) => (_event, isExpanded) => setExpanded(isExpanded ? panel : false);
   return (
     <>
       {items.map((item, index) => (
@@ -255,7 +246,7 @@ const FilterItems = ({
           >
             <Typography>{item.name}</Typography>
           </AccordionSummary>
-          <AccordionDetails sx={{ padding: "8px 0 0" }}>
+          <AccordionDetails sx={{ padding: '8px 0 0' }}>
             {item.children && (
               <FilterInnerItems
                 name={index}
@@ -294,17 +285,17 @@ function Note({
   const [content, setContent] = useState(text);
   const [checked, setChecked] = useState(false);
   const [start, setStart] = useState(
-    time ? (video ? convertSeconds(time[0]) : time[0]) : ""
+    time ? (video ? convertSeconds(time[0]) : time[0]) : '',
   );
   const [end, setEnd] = useState(
-    time ? (video ? convertSeconds(time[1]) : time[1]) : ""
+    time ? (video ? convertSeconds(time[1]) : time[1]) : '',
   );
   const [groupInfo, setGroupInfo] = useState({ id: -1, leader: false });
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     if (editing) {
-      axios.get("/api/annotations/" + id).then(({ data }) => {
+      axios.get(`/api/annotations/${id}`).then(({ data }) => {
         setChecked(data?.entire_entity);
         if (data?.view_permissions && data?.view_permissions.length) {
           const { group_id, instructor_only } = data.view_permissions[0];
@@ -337,10 +328,10 @@ function Note({
     if (video && time) {
       data.start_position = checked
         ? 0
-        : timeToSeconds(duration, start || 0, "Start");
+        : timeToSeconds(duration, start || 0, 'Start');
       data.end_position = checked
         ? duration
-        : timeToSeconds(duration, end || duration, "End");
+        : timeToSeconds(duration, end || duration, 'End');
     } else if (time) {
       data.entire_entity = checked;
       if (!checked) {
@@ -349,15 +340,14 @@ function Note({
       }
     }
     if (groupInfo.id != -1) data.group_id = groupInfo.id;
-    if (groupInfo.leader)
-      data.instructor_only = groupInfo.leader ? "True" : "False";
-    req.put("annotations/" + id, data).then(() => {
+    if (groupInfo.leader) data.instructor_only = groupInfo.leader ? 'True' : 'False';
+    req.put(`annotations/${id}`, data).then(() => {
       if (time) window.location.reload();
     });
     setEditing(false);
   };
   const handleDeleteRequest = () => {
-    req.del("annotations/" + id).then(() => {
+    req.del(`annotations/${id}`).then(() => {
       window.location.reload();
     });
     onDelete();
@@ -372,24 +362,23 @@ function Note({
     setTimeout(() => {
       setVideoTime(null);
     });
-    const element = document.getElementById("playerContainer");
-    const position =
-      element.getBoundingClientRect().top +
-      document.documentElement.scrollTop -
-      50;
+    const element = document.getElementById('playerContainer');
+    const position = element.getBoundingClientRect().top
+      + document.documentElement.scrollTop
+      - 50;
     scrollTo({
-      behavior: "smooth",
+      behavior: 'smooth',
       top: position,
     });
   }
   return (
     <Card onMouseOver={onHover.in} onMouseLeave={onHover.out}>
       <CardHeader
-        avatar={
+        avatar={(
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {name?.charAt(0) || "?"}
+            {name?.charAt(0) || '?'}
           </Avatar>
-        }
+        )}
         action={
           edit && (
             <IconButton
@@ -431,7 +420,7 @@ function Note({
                 rows={4}
                 variant="outlined"
                 size="small"
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
                 value={content}
                 onChange={(event) => setContent(event.target.value)}
               />
@@ -447,22 +436,22 @@ function Note({
               <div>
                 <div>
                   <FormControlLabel
-                    control={
+                    control={(
                       <Checkbox
                         checked={checked}
                         onChange={({ target }) => setChecked(target.checked)}
-                        inputProps={{ "aria-label": "controlled" }}
+                        inputProps={{ 'aria-label': 'controlled' }}
                       />
-                    }
+                    )}
                     label={
-                      "Entire " +
-                      (video ? "Video" : "Instructional Materials PDF")
+                      `Entire ${
+                        video ? 'Video' : 'Instructional Materials PDF'}`
                     }
                   />
                 </div>
-                <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
+                <div style={{ display: 'flex', gap: '8px', margin: '8px 0' }}>
                   <TextField
-                    label={video ? "Start Time" : "From Page"}
+                    label={video ? 'Start Time' : 'From Page'}
                     variant="outlined"
                     size="small"
                     value={start}
@@ -471,17 +460,17 @@ function Note({
                     error={
                       video ? matchTimeFormat(start) : matchDigitFormat(start)
                     }
-                    helperText={video && "Enter time (mm:ss)"}
+                    helperText={video && 'Enter time (mm:ss)'}
                   />
                   <TextField
-                    label={video ? "End Time" : "To Page"}
+                    label={video ? 'End Time' : 'To Page'}
                     variant="outlined"
                     size="small"
                     value={end}
                     onChange={({ target }) => setEnd(target.value)}
                     disabled={checked}
                     error={video ? matchTimeFormat(end) : matchDigitFormat(end)}
-                    helperText={video && "Enter time (mm:ss)"}
+                    helperText={video && 'Enter time (mm:ss)'}
                   />
                 </div>
               </div>
@@ -490,12 +479,12 @@ function Note({
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ marginTop: "8px", display: "block" }}
+                sx={{ marginTop: '8px', display: 'block' }}
               >
                 Framework: {framework.name}
               </Typography>
             ) : (
-              ""
+              ''
             )}
             {time && (
               <Typography
@@ -503,17 +492,18 @@ function Note({
                 color="text.secondary"
                 sx={{
                   fontFamily: '"DINPro", sans-serif',
-                  marginTop: "8px",
-                  display: "block",
+                  marginTop: '8px',
+                  display: 'block',
                 }}
               >
                 {video && (
                   <span
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                     onClick={jump}
-                  >{`Time: ${start} - ${end}`}</span>
+                  >{`Time: ${start} - ${end}`}
+                  </span>
                 )}
-                {!video && (!all ? `${start} - ${end}` : "Entire File")}
+                {!video && (!all ? `${start} - ${end}` : 'Entire File')}
               </Typography>
             )}
           </Grid>
@@ -526,7 +516,7 @@ function Note({
               />
             </Grid>
           ) : (
-            ""
+            ''
           )}
         </Grid>
       </CardContent>
@@ -542,60 +532,60 @@ function Note({
 
 function TagForm({ videos, edit = null, onClose = () => {} }) {
   const { id } = useParams();
-  const videoTag = { check: false, start: "", end: "" };
+  const videoTag = { check: false, start: '', end: '' };
   const [videoTags, setVideoTags] = useState([videoTag]);
   const handleAdd = () => setVideoTags([...videoTags, videoTag]);
   const handleDel = (i) => setVideoTags(videoTags.filter((_, j) => j != i));
-  const handleMod = (i, k, v) =>
-    setVideoTags(videoTags.map((o, j) => (j != i ? o : { ...o, [k]: v })));
+  const handleMod = (i, k, v) => setVideoTags(videoTags.map((o, j) => (j != i ? o : { ...o, [k]: v })));
   //
-  const pdfTag = { check: false, start: "", end: "" };
+  const pdfTag = { check: false, start: '', end: '' };
   const [pdfTags, setPdfTags] = useState([pdfTag]);
   const handleAddPdf = () => setPdfTags([...pdfTags, pdfTag]);
   const handleDelPdf = (i) => setPdfTags(pdfTags.filter((_, j) => j != i));
-  const handleModPdf = (i, k, v) =>
-    setPdfTags(pdfTags.map((o, j) => (j != i ? o : { ...o, [k]: v })));
+  const handleModPdf = (i, k, v) => setPdfTags(pdfTags.map((o, j) => (j != i ? o : { ...o, [k]: v })));
   //
   const [alignOpen, setAlignOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState({});
   //
-  const text = { content: "" };
+  const text = { content: '' };
   const [texts, setTexts] = useState([text]);
-  const handleText = (i, v) =>
-    setTexts(texts.map((o, j) => (i != j ? o : { content: v })));
+  const handleText = (i, v) => setTexts(texts.map((o, j) => (i != j ? o : { content: v })));
   const handleAddText = () => setTexts([...texts, text]);
   const handleDelText = (i) => setTexts(texts.filter((_, j) => j != i));
   //
-  const [rationale, setRationale] = useState("");
+  const [rationale, setRationale] = useState('');
   //
-  const [selected, setSelected] = useState(videos.length ? videos[0].url : "");
-  useEffect(() => setSelected(videos.length ? videos[0].url : ""), [videos]);
+  const [selected, setSelected] = useState(videos.length ? videos[0].url : '');
+  useEffect(() => setSelected(videos.length ? videos[0].url : ''), [videos]);
   useEffect(() => {
     if (edit) {
-      const { id, examples, rationale, alignment } = edit;
+      const {
+        id, examples, rationale, alignment,
+      } = edit;
       setRationale(rationale);
-      const videosTags =
-        examples
-          ?.filter(({ scope }) => scope === "video")
-          ?.map(({ id, start_position, end_position, entire_entity }) => ({
-            id,
-            start: convertSeconds(start_position),
-            end: convertSeconds(end_position),
-            check: entire_entity,
-          })) || [];
-      const pdfTags =
-        examples
-          ?.filter(({ scope }) => scope === "pdf")
-          ?.map(({ id, start_position, end_position, entire_entity }) => ({
-            id,
-            start: start_position,
-            end: end_position,
-            check: entire_entity,
-          })) || [];
-      const texts =
-        examples
-          ?.filter(({ scope }) => scope === "text")
-          ?.map(({ id, quote }) => ({ id, content: quote })) || [];
+      const videosTags = examples
+        ?.filter(({ scope }) => scope === 'video')
+        ?.map(({
+          id, start_position, end_position, entire_entity,
+        }) => ({
+          id,
+          start: convertSeconds(start_position),
+          end: convertSeconds(end_position),
+          check: entire_entity,
+        })) || [];
+      const pdfTags = examples
+        ?.filter(({ scope }) => scope === 'pdf')
+        ?.map(({
+          id, start_position, end_position, entire_entity,
+        }) => ({
+          id,
+          start: start_position,
+          end: end_position,
+          check: entire_entity,
+        })) || [];
+      const texts = examples
+        ?.filter(({ scope }) => scope === 'text')
+        ?.map(({ id, quote }) => ({ id, content: quote })) || [];
       if (!videosTags.length) videosTags.push(videoTag);
       if (!pdfTags.length) pdfTags.push(pdfTag);
       if (!texts.length) texts.push(text);
@@ -609,15 +599,15 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
   const publish = (isPrivate = false) => {
     const annotations = [];
     for (const item of videoTags) {
-      if (!item.check && (item.start == "" || item.end == "")) continue;
+      if (!item.check && (item.start == '' || item.end == '')) continue;
       const start_position = item.check
         ? 0
-        : timeToSeconds(duration, item.start || 0, "Start");
+        : timeToSeconds(duration, item.start || 0, 'Start');
       const end_position = item.check
         ? duration
-        : timeToSeconds(duration, item.end || duration, "End");
+        : timeToSeconds(duration, item.end || duration, 'End');
       const data = {
-        scope: "video",
+        scope: 'video',
         uri: selected,
         start_position,
         end_position,
@@ -626,9 +616,9 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
       annotations.push(data);
     }
     for (const item of pdfTags) {
-      if (!item.check && (item.start == "" || item.end == "")) continue;
+      if (!item.check && (item.start == '' || item.end == '')) continue;
       const data = {
-        scope: "pdf",
+        scope: 'pdf',
         uri: annotationUri,
       };
       if (item.check) data.entire_entity = true;
@@ -642,9 +632,9 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
     for (const { id, content } of texts) {
       if (!content) continue;
       const ranges = findTextRange(fullHtml, content?.trim());
-      if (!ranges) return alert("Entered text is not included in commentary");
+      if (!ranges) return alert('Entered text is not included in commentary');
       const data = {
-        scope: "text",
+        scope: 'text',
         uri: annotationUri,
         quote: content,
         start_position: ranges.start.position,
@@ -659,21 +649,21 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
     }
     const url = edit
       ? `annotations/${edit.id}`
-      : "annotations/annotate/standards";
-    req[edit ? "put" : "post"](url, {
+      : 'annotations/annotate/standards';
+    req[edit ? 'put' : 'post'](url, {
       uri: annotationUri,
       rationale,
-      scope: "standards",
+      scope: 'standards',
       alignment_tag: edit
         ? data?.alignment_tag?.full_code
         : selectedTag?.tag?.value,
       annotations,
-      workflow_state: isPrivate ? "draft" : "published",
+      workflow_state: isPrivate ? 'draft' : 'published',
     }).then(() => {
       if (selectedTag?.framework) {
         matomoTag({
-          category: "Resource Interaction",
-          action: "Alignment",
+          category: 'Resource Interaction',
+          action: 'Alignment',
           name: selectedTag.framework,
         });
       }
@@ -682,9 +672,9 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
   };
 
   return (
-    <Card sx={{ margin: "16px 0" }}>
+    <Card sx={{ margin: '16px 0' }}>
       <CardContent>
-        <Grid container sx={{ margin: "16px 0" }}>
+        <Grid container sx={{ margin: '16px 0' }}>
           <Grid item xs={12}>
             <div>
               <FormControl>
@@ -714,24 +704,22 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                 <div key={index}>
                   <FormControlLabel
                     label="Entire Video"
-                    control={
+                    control={(
                       <Checkbox
                         checked={item.check}
-                        onChange={({ target }) =>
-                          handleMod(index, "check", target.checked)
-                        }
-                        inputProps={{ "aria-label": "controlled" }}
+                        onChange={({ target }) => handleMod(index, 'check', target.checked)}
+                        inputProps={{ 'aria-label': 'controlled' }}
                       />
-                    }
+                    )}
                   />
                 </div>
                 <div
                   key={index}
                   style={{
-                    display: "flex",
-                    gap: "8px",
-                    margin: "8px 0",
-                    alignItems: "flex-start",
+                    display: 'flex',
+                    gap: '8px',
+                    margin: '8px 0',
+                    alignItems: 'flex-start',
                   }}
                 >
                   <TextField
@@ -739,9 +727,7 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                     variant="outlined"
                     size="small"
                     value={item.start}
-                    onChange={({ target }) =>
-                      handleMod(index, "start", target.value)
-                    }
+                    onChange={({ target }) => handleMod(index, 'start', target.value)}
                     disabled={item.check}
                     error={matchTimeFormat(item.start)}
                     helperText="Enter time (mm:ss)"
@@ -751,9 +737,7 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                     variant="outlined"
                     size="small"
                     value={item.end}
-                    onChange={({ target }) =>
-                      handleMod(index, "end", target.value)
-                    }
+                    onChange={({ target }) => handleMod(index, 'end', target.value)}
                     disabled={item.check}
                     error={matchTimeFormat(item.end)}
                     helperText="Enter time (mm:ss)"
@@ -774,24 +758,22 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                 <div key={index}>
                   <FormControlLabel
                     label="Entire Instructional Materials PDF"
-                    control={
+                    control={(
                       <Checkbox
                         checked={item.check}
-                        onChange={({ target }) =>
-                          handleModPdf(index, "check", target.checked)
-                        }
-                        inputProps={{ "aria-label": "controlled" }}
+                        onChange={({ target }) => handleModPdf(index, 'check', target.checked)}
+                        inputProps={{ 'aria-label': 'controlled' }}
                       />
-                    }
+                    )}
                   />
                 </div>
                 <div
                   key={index}
                   style={{
-                    display: "flex",
-                    gap: "8px",
-                    margin: "8px 0",
-                    alignItems: "flex-start",
+                    display: 'flex',
+                    gap: '8px',
+                    margin: '8px 0',
+                    alignItems: 'flex-start',
                   }}
                 >
                   <TextField
@@ -799,13 +781,11 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                     variant="outlined"
                     size="small"
                     value={item.start}
-                    onChange={({ target }) =>
-                      handleModPdf(index, "start", target.value)
-                    }
+                    onChange={({ target }) => handleModPdf(index, 'start', target.value)}
                     disabled={item.check}
                     error={
-                      matchDigitFormat(item.start) ||
-                      (item.check && item.start == "")
+                      matchDigitFormat(item.start)
+                      || (item.check && item.start == '')
                     }
                   />
                   <TextField
@@ -813,13 +793,11 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                     variant="outlined"
                     size="small"
                     value={item.end}
-                    onChange={({ target }) =>
-                      handleModPdf(index, "end", target.value)
-                    }
+                    onChange={({ target }) => handleModPdf(index, 'end', target.value)}
                     disabled={item.check}
                     error={
-                      matchDigitFormat(item.end) ||
-                      (item.check && item.end == "")
+                      matchDigitFormat(item.end)
+                      || (item.check && item.end == '')
                     }
                   />
                   {pdfTags.length > 1 && (
@@ -836,14 +814,14 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
             {texts.map((item, index) => (
               <div
                 key={index}
-                style={{ display: "flex", alignItems: "flex-start" }}
+                style={{ display: 'flex', alignItems: 'flex-start' }}
               >
                 <TextField
                   multiline
                   rows={4}
                   variant="outlined"
                   size="small"
-                  style={{ width: "100%", marginBottom: "8px" }}
+                  style={{ width: '100%', marginBottom: '8px' }}
                   value={texts[index].content}
                   onChange={({ target }) => handleText(index, target.value)}
                 />
@@ -863,14 +841,14 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
               rows={4}
               variant="outlined"
               size="small"
-              style={{ width: "100%", margin: "8px 0" }}
+              style={{ width: '100%', margin: '8px 0' }}
               value={rationale}
               onChange={({ target }) => setRationale(target.value)}
             />
           </Grid>
         </Grid>
         <CButton onClick={() => setAlignOpen(true)}>
-          {selectedTag?.tag?.label || "+ Framework Tag"}
+          {selectedTag?.tag?.label || '+ Framework Tag'}
         </CButton>
         <AlignDialog
           open={alignOpen}
@@ -894,7 +872,7 @@ function AlignDialog({ onClose, open, onSelect = (tag) => {} }) {
     onClose();
   };
   return (
-    <Dialog onClose={() => onClose(/*selectedValue*/)} open={open}>
+    <Dialog onClose={() => onClose(/* selectedValue */)} open={open}>
       <DialogTitle>Framework Select</DialogTitle>
       <DialogContent>
         <AlignWidget onSelect={setSelected} />
@@ -915,37 +893,37 @@ function Groups({
   onChange = (item) => {},
 }) {
   const [selected, setSelected] = useState(
-    !init ? -1 : init.leader ? init.id + "l" : init.id
+    !init ? -1 : init.leader ? `${init.id}l` : init.id,
   );
   const handleClick = (id, leaders = false) => {
-    setSelected(leaders ? id + "l" : id);
+    setSelected(leaders ? `${id}l` : id);
     onChange(id, leaders);
   };
 
   const boxStyles = {
-    padding: "8px",
-    border: "1px solid rgba(0, 0, 0, .2)",
-    cursor: "pointer",
+    padding: '8px',
+    border: '1px solid rgba(0, 0, 0, .2)',
+    cursor: 'pointer',
   };
 
   return (
-    <div style={{ fontFamily: '"DINPro", sans-serif', padding: "0 8px" }}>
-      <Typography style={{ margin: "4px 0" }}>Who Can See this Note</Typography>
+    <div style={{ fontFamily: '"DINPro", sans-serif', padding: '0 8px' }}>
+      <Typography style={{ margin: '4px 0' }}>Who Can See this Note</Typography>
       <div
         style={{
-          background: selected === -1 ? "rgba(0, 0, 0, .1)" : "",
+          background: selected === -1 ? 'rgba(0, 0, 0, .1)' : '',
           ...boxStyles,
         }}
         onClick={() => handleClick(-1)}
       >
         Only Me
       </div>
-      <Typography style={{ margin: "4px 0" }}>Share With</Typography>
+      <Typography style={{ margin: '4px 0' }}>Share With</Typography>
       {options.map((option, index) => (
         <div key={index}>
           <div
             style={{
-              background: selected === option.id ? "rgba(0, 0, 0, .1)" : "",
+              background: selected === option.id ? 'rgba(0, 0, 0, .1)' : '',
               ...boxStyles,
             }}
             onClick={() => handleClick(option.id)}
@@ -955,9 +933,9 @@ function Groups({
           <div
             style={{
               background:
-                selected === option.id + "l" ? "rgba(0, 0, 0, .1)" : "",
+                selected === `${option.id}l` ? 'rgba(0, 0, 0, .1)' : '',
               ...boxStyles,
-              paddingLeft: "32px",
+              paddingLeft: '32px',
             }}
             onClick={() => handleClick(option.id, true)}
           >
@@ -974,15 +952,15 @@ function NoteForm({
   video = false,
   groups = [],
   onClose = () => {},
-  type = "",
+  type = '',
 }) {
   const { id } = useParams();
   const [checked, setChecked] = useState(false);
   const [formStart, setFormStart] = useState(
-    video ? convertSeconds(~~loadedPlayer?.currentTime?.() || 0, true) : ""
+    video ? convertSeconds(~~loadedPlayer?.currentTime?.() || 0, true) : '',
   );
-  const [formEnd, setFormEnd] = useState("");
-  const [formText, setFormText] = useState("");
+  const [formEnd, setFormEnd] = useState('');
+  const [formText, setFormText] = useState('');
   const [alignOpen, setAlignOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState({});
   const [groupInfo, setGroupInfo] = useState({ id: -1, leader: false });
@@ -997,39 +975,34 @@ function NoteForm({
     if (video) {
       const start_position = checked
         ? 0
-        : timeToSeconds(duration, formStart || 0, "Start");
+        : timeToSeconds(duration, formStart || 0, 'Start');
       const end_position = checked
         ? ~~duration
-        : (formEnd ? ~~timeToSeconds(duration, formEnd || duration, "End") : undefined);
+        : (formEnd ? ~~timeToSeconds(duration, formEnd || duration, 'End') : undefined);
       if (
-        start_position === undefined ||
-        start_position === null ||
-        end_position === undefined ||
-        end_position === null
-      )
-        return alert("Enter end time, or enable 'Entire Video' checkbox!");
-      if (end_position < start_position)
-        return alert("Start time cannot be greater than end time!");
+        start_position === undefined
+        || start_position === null
+        || end_position === undefined
+        || end_position === null
+      ) return alert("Enter end time, or enable 'Entire Video' checkbox!");
+      if (end_position < start_position) return alert('Start time cannot be greater than end time!');
       data.start_position = start_position;
       data.end_position = end_position;
-      data.scope = "video";
-    } else {
-      if (checked) data.entire_entity = true;
-      else {
-        data.start_position = formStart;
-        data.end_position = formEnd;
-      }
+      data.scope = 'video';
+    } else if (checked) data.entire_entity = true;
+    else {
+      data.start_position = formStart;
+      data.end_position = formEnd;
     }
     if (groupInfo.id != -1) data.group_id = groupInfo.id;
-    if (groupInfo.leader)
-      data.instructor_only = groupInfo.leader ? "True" : "False";
+    if (groupInfo.leader) data.instructor_only = groupInfo.leader ? 'True' : 'False';
 
-    req.post("annotations/annotate", data).then(() => {
-      matomoTag({ category: "Notes", action: type, name: id });
+    req.post('annotations/annotate', data).then(() => {
+      matomoTag({ category: 'Notes', action: type, name: id });
       if (selectedTag?.framework) {
         matomoTag({
-          category: "Resource Interaction",
-          action: "Alignment",
+          category: 'Resource Interaction',
+          action: 'Alignment',
           name: selectedTag.framework,
         });
       }
@@ -1040,25 +1013,25 @@ function NoteForm({
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
-        <Grid container sx={{ margin: "16px 0" }}>
+        <Grid container sx={{ margin: '16px 0' }}>
           <Grid item xs={6}>
             <div>
               <FormControlLabel
-                control={
+                control={(
                   <Checkbox
                     checked={checked}
                     onChange={({ target }) => setChecked(target.checked)}
-                    inputProps={{ "aria-label": "controlled" }}
+                    inputProps={{ 'aria-label': 'controlled' }}
                   />
-                }
+                )}
                 label={
-                  "Entire " + (video ? "Video" : "Instructional Materials PDF")
+                  `Entire ${video ? 'Video' : 'Instructional Materials PDF'}`
                 }
               />
             </div>
-            <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
+            <div style={{ display: 'flex', gap: '8px', margin: '8px 0' }}>
               <TextField
-                label={video ? "Start Time" : "From Page"}
+                label={video ? 'Start Time' : 'From Page'}
                 variant="outlined"
                 size="small"
                 value={formStart}
@@ -1069,10 +1042,10 @@ function NoteForm({
                     ? matchTimeFormat(formStart)
                     : matchDigitFormat(formStart)
                 }
-                helperText={video && "Enter time (mm:ss)"}
+                helperText={video && 'Enter time (mm:ss)'}
               />
               <TextField
-                label={video ? "End Time" : "To Page"}
+                label={video ? 'End Time' : 'To Page'}
                 variant="outlined"
                 size="small"
                 value={formEnd}
@@ -1081,17 +1054,17 @@ function NoteForm({
                 error={
                   video ? matchTimeFormat(formEnd) : matchDigitFormat(formEnd)
                 }
-                helperText={video && "Enter time (mm:ss)"}
+                helperText={video && 'Enter time (mm:ss)'}
               />
             </div>
             <div>
               <TextField
-                label={video ? "Video Note" : "Instructional Materials Note"}
+                label={video ? 'Video Note' : 'Instructional Materials Note'}
                 multiline
                 rows={4}
                 variant="outlined"
                 size="small"
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
                 value={formText}
                 onChange={({ target }) => setFormText(target.value)}
               />
@@ -1105,7 +1078,7 @@ function NoteForm({
           </Grid>
         </Grid>
         <CButton onClick={() => setAlignOpen(true)}>
-          {selectedTag?.tag?.label || "+ Framework Tag"}
+          {selectedTag?.tag?.label || '+ Framework Tag'}
         </CButton>
         <AlignDialog
           open={alignOpen}
@@ -1120,7 +1093,7 @@ function NoteForm({
           }
           onClick={publish}
         >
-          {video ? "Publish" : "Submit"}
+          {video ? 'Publish' : 'Submit'}
         </CButton>
         <CButton onClick={onClose}>Cancel</CButton>
       </CardActions>
@@ -1130,7 +1103,7 @@ function NoteForm({
 
 const notesByComments = [];
 let annotationUri;
-let fullHtml = "";
+let fullHtml = '';
 let quote;
 let duration = 1000;
 let tempTime;
@@ -1142,8 +1115,8 @@ export function Case() {
   const { id } = useParams();
   const [value, setValue] = useState(0);
   const handleChange = (_event, newValue) => setValue(newValue);
-  const [title, setTitle] = useState("");
-  const [abstract, setAbstract] = useState("");
+  const [title, setTitle] = useState('');
+  const [abstract, setAbstract] = useState('');
   const [generalSubjects, setGeneralSubjects] = useState([]);
   const [grades, setGrades] = useState([]);
   const [videos, setVideos] = useState([]);
@@ -1155,10 +1128,10 @@ export function Case() {
   const [videoEndTime, setVideoEndTime] = useState<number | null>(null);
   const [groups, setGroups] = useState([]);
   const [checkedTag, setCheckedTag] = useState(false);
-  const [commentary, setCommentary] = useState("");
-  const [commentaryFile, setCommentaryFile] = useState("");
-  const [instruction, setInstruction] = useState("");
-  const [material, setMaterial] = useState("");
+  const [commentary, setCommentary] = useState('');
+  const [commentaryFile, setCommentaryFile] = useState('');
+  const [instruction, setInstruction] = useState('');
+  const [material, setMaterial] = useState('');
   const [instructionNotes, setInstructionNotes] = useState([]);
   const [frameworks, setFrameworks] = useState([]);
   const [notes, setNotes] = useState([]);
@@ -1169,10 +1142,10 @@ export function Case() {
   const [active, setActive] = useState(-1);
   const [alignOpen, setAlignOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState({});
-  const [formStartTag, setFormStartTag] = useState("");
-  const [formEndTag, setFormEndTag] = useState("");
-  const [formText, setFormText] = useState("");
-  const [formTextTag, setFormTextTag] = useState("");
+  const [formStartTag, setFormStartTag] = useState('');
+  const [formEndTag, setFormEndTag] = useState('');
+  const [formText, setFormText] = useState('');
+  const [formTextTag, setFormTextTag] = useState('');
   const [selectedComment, setSelectedComment] = useState(-1);
   const [groupInfo, setGroupInfo] = useState({ id: -1, leader: false });
   const [admin, setAdmin] = useState(false);
@@ -1190,14 +1163,14 @@ export function Case() {
   useEffect(
     () => () => {
       try {
-        videoAnalyticsTrackerRef.current?.destroy("case_unmounted");
+        videoAnalyticsTrackerRef.current?.destroy('case_unmounted');
       } catch (error) {
         // Analytics cleanup must not affect navigation away from the Case.
       } finally {
         videoAnalyticsTrackerRef.current = null;
       }
     },
-    []
+    [],
   );
 
   useEffect(() => {
@@ -1205,18 +1178,18 @@ export function Case() {
   }, [videos]);
 
   useEffect(() => {
-    const styleTag = document.createElement("style");
+    const styleTag = document.createElement('style');
     styleTag.textContent = styles;
     document.head.appendChild(styleTag);
     //
-    axios.get("/api/users/v1/profile").then(({ data }) => {
+    axios.get('/api/users/v1/profile').then(({ data }) => {
       setAdmin(data?.user?.is_staff);
     });
-    axios.get("/api/groups/v1/groups/my").then(({ data }) => {
+    axios.get('/api/groups/v1/groups/my').then(({ data }) => {
       setGroups(data.results);
     });
     axios
-      .get("/api/courseware/v1/lessons/" + id + "/atlas")
+      .get(`/api/courseware/v1/lessons/${id}/atlas`)
       .then(({ data }) => {
         const {
           title,
@@ -1237,7 +1210,7 @@ export function Case() {
           setVideos(sections[0].attachments);
           if (sections.length > 1) {
             const html = sections[1].content
-              .replace(/\n/g, "")
+              .replace(/\n/g, '')
               .replace(/&#39;/g, "'")
               .replace(/\&nbsp;/g, '"')
               .replace(/\&[lr]squo;/g, "'")
@@ -1251,10 +1224,10 @@ export function Case() {
             const material = sections[2].attachments[0]?.url;
             setMaterial(material);
             if (material) {
-              axios.get("/api/annotations?uri=" + material).then(({ data }) => {
+              axios.get(`/api/annotations?uri=${material}`).then(({ data }) => {
                 const annotations = data?.pop()?.annotations || [];
                 setInstructionNotes(
-                  annotations?.filter(({ can_view }) => can_view)
+                  annotations?.filter(({ can_view }) => can_view),
                 );
               });
             }
@@ -1264,52 +1237,51 @@ export function Case() {
           setResources(resources);
         }
         //
-        var control = document.querySelector("template").querySelector("span");
-        const commentary = document.querySelector(".commentary");
-        control.addEventListener("pointerdown", oncontroldown, true);
+        const control = document.querySelector('template').querySelector('span');
+        const commentary = document.querySelector('.commentary');
+        control.addEventListener('pointerdown', oncontroldown, true);
         commentary.onpointerup = (event) => {
-          let selection = document.getSelection(),
-            text = selection.toString();
+          const selection = document.getSelection();
+          const text = selection.toString();
           const { clientX, clientY } = event;
           if (!!selection && !!text) {
-            let range = selection.getRangeAt(0);
-            let rect = range.getBoundingClientRect();
+            const range = selection.getRangeAt(0);
+            const rect = range.getBoundingClientRect();
             const boundary = commentary.getBoundingClientRect();
             control.style.top = `calc(${clientY}px - 48px - ${boundary.top}px)`;
             control.style.left = `calc(${clientX}px - 20px - ${boundary.left}px)`;
             const rangePositions = getSelectionPosition();
             if (
-              rangePositions.startPos.position !==
-              rangePositions.endPos.position
-            )
-              textRange = rangePositions;
-            control["text"] = text;
+              rangePositions.startPos.position
+              !== rangePositions.endPos.position
+            ) textRange = rangePositions;
+            control['text'] = text;
             commentary.appendChild(control);
           }
         };
         matomoTag({
-          category: "Resource Interaction",
-          action: "Overview Courseware",
+          category: 'Resource Interaction',
+          action: 'Overview Courseware',
           name: id,
         });
         function oncontroldown(event) {
           setActive(-1);
           quote = this.text;
           setSelectedComment(
-            paragraphNumber(fullHtml, textRange.startPos.paragraph)
+            paragraphNumber(fullHtml, textRange.startPos.paragraph),
           );
           this.remove();
           document.getSelection().removeAllRanges();
           event.stopPropagation();
         }
         document.onpointerdown = () => {
-          let control = document.querySelector("#control");
+          const control = document.querySelector('#control');
           if (control !== null) {
             control.remove();
             document.getSelection().removeAllRanges();
           }
         };
-        axios.get("/api/annotations?uri=" + annotationUri).then(({ data }) => {
+        axios.get(`/api/annotations?uri=${annotationUri}`).then(({ data }) => {
           data = data?.pop();
           setCanAlign(data?.can_align);
           const annotations = data?.annotations || [];
@@ -1326,16 +1298,16 @@ export function Case() {
               scope,
               can_view,
             } = note;
-            if (!alignment_tag || scope !== "standards" || !can_view) continue;
+            if (!alignment_tag || scope !== 'standards' || !can_view) continue;
             let index = frameworks.findIndex(
-              (item) => item.name === alignment_tag.standard.name
+              (item) => item.name === alignment_tag.standard.name,
             );
             if (index < 0) {
               frameworks.push({ ...alignment_tag.standard, children: [] });
               index = frameworks.length - 1;
             }
             const indexChild = frameworks[index].children.findIndex(
-              (item) => item.full_code === alignment_tag.full_code
+              (item) => item.full_code === alignment_tag.full_code,
             );
             const alignment = {
               tag: {
@@ -1348,7 +1320,9 @@ export function Case() {
               frameworks[index].children.push({
                 ...alignment_tag,
                 list: [
-                  { rationale, workflow_state, id, alignment, examples, ranges },
+                  {
+                    rationale, workflow_state, id, alignment, examples, ranges,
+                  },
                 ],
               });
             } else {
@@ -1374,17 +1348,14 @@ export function Case() {
                 paragraph = 0;
               }
               paragraph = paragraphNumber(sections[1].content, paragraph);
-              if (notesByComments[paragraph])
-                notesByComments[paragraph].push(item);
+              if (notesByComments[paragraph]) notesByComments[paragraph].push(item);
               else notesByComments[paragraph] = [item];
             });
           if (sections[0].attachments.length) {
             Promise.all(
-              sections[0].attachments.map((attachment) =>
-                axios.get("/api/annotations", {
-                  params: { uri: attachment.url },
-                })
-              )
+              sections[0].attachments.map((attachment) => axios.get('/api/annotations', {
+                params: { uri: attachment.url },
+              })),
             ).then((results) => {
               const result = {};
               results.forEach(({ data }) => {
@@ -1399,7 +1370,7 @@ export function Case() {
   }, []);
   const create = () => {
     const { startPos, endPos } = textRange;
-    if (!startPos) alert("Unknown position!");
+    if (!startPos) alert('Unknown position!');
     const data = {
       uri: annotationUri,
       text: formText,
@@ -1413,12 +1384,11 @@ export function Case() {
       },
     };
     if (groupInfo.id != -1) data.group_id = groupInfo.id;
-    if (groupInfo.leader)
-      data.instructor_only = groupInfo.leader ? "True" : "False";
+    if (groupInfo.leader) data.instructor_only = groupInfo.leader ? 'True' : 'False';
     req
-      .post("annotations/annotate", data)
+      .post('annotations/annotate', data)
       .then(() => {
-        matomoTag({ category: "Notes", action: "Commentary Note", name: id });
+        matomoTag({ category: 'Notes', action: 'Commentary Note', name: id });
         window.location.reload();
       })
       .catch(() => {
@@ -1438,27 +1408,27 @@ export function Case() {
       insertMarkTag(
         fullHtml,
         start + (item.ranges?.startOffset ?? item.start_position) + 5,
-        end + (item.ranges?.endOffset ?? item.end_position) + 5
-      )
+        end + (item.ranges?.endOffset ?? item.end_position) + 5,
+      ),
     );
   };
   function setVideoNotes() {
     const range = duration / 100;
     let notes = filtering(
       videoAnnotations[(video ?? videos[0])?.url],
-      duration
+      duration,
     );
     notes = categorizeByTimeRange(notes, range);
     notes = notes
       ?.filter((item) => item[0] && item[0].start_position != null)
       ?.map((item) => ({
         data: item,
-        position: (item[0].start_position / duration) * 100 + "%",
+        position: `${(item[0].start_position / duration) * 100}%`,
       }));
     setNotes(notes);
   }
   useEffect(() => {
-    console.log("changed", videoAnnotations);
+    console.log('changed', videoAnnotations);
     if (!notes.length) setVideoNotes();
   }, [videoAnnotations]);
 
@@ -1473,25 +1443,25 @@ export function Case() {
         return;
       }
     }
-    navigate("/courseware/new");
+    navigate('/courseware/new');
   };
 
   return (
-    <Box sx={{ width: "100%", padding: "64px 0" }}>
+    <Box sx={{ width: '100%', padding: '64px 0' }}>
       <GlobalStyles styles={globalStyles} />
       <div
         style={{
-          display: "flex",
-          gap: "8px",
-          height: "70px",
-          backgroundColor: "#fefefe",
-          padding: "0 10% 36px",
-          "@media (maxWidth: 1168px)": { padding: "0 16px" },
+          display: 'flex',
+          gap: '8px',
+          height: '70px',
+          backgroundColor: '#fefefe',
+          padding: '0 10% 36px',
+          '@media (maxWidth: 1168px)': { padding: '0 16px' },
         }}
       >
         <CButton onClick={handleBack}>Back</CButton>
-        <div style={{ flex: 1 }}></div>
-        <Folders ids={["courseware.lesson." + id]} />
+        <div style={{ flex: 1 }} />
+        <Folders ids={[`courseware.lesson.${id}`]} />
         {admin && (
           <CButton href={`/admin/courseware/lesson/${id}/change/`}>
             Edit in Admin
@@ -1502,8 +1472,8 @@ export function Case() {
         container
         spacing={2}
         sx={{
-          padding: "0 10%",
-          "@media (maxWidth: 1168px)": { padding: "0 16px" },
+          padding: '0 10%',
+          '@media (maxWidth: 1168px)': { padding: '0 16px' },
         }}
       >
         <Grid item xs={4}>
@@ -1513,7 +1483,7 @@ export function Case() {
             <div
               className="description"
               dangerouslySetInnerHTML={{ __html: abstract }}
-            ></div>
+            />
             <div className="case-fields">
               <div className="case-subjects">
                 <h2>TOPICS</h2>
@@ -1576,15 +1546,14 @@ export function Case() {
                       uri,
                       kaltura_entry_id,
                     } = item;
-                    if (scope === "video") {
+                    if (scope === 'video') {
                       // Nested examples point at a video by uri, while legacy
                       // video_segment_data only carries the Kaltura entry id.
                       const target = uri
                         ? videos.find((item) => item.url === uri)
                         : videos.find(
-                            (item) =>
-                              getVideoEntryId(item.url) === kaltura_entry_id
-                          );
+                          (item) => getVideoEntryId(item.url) === kaltura_entry_id,
+                        );
                       if (!target) return;
                       if (video?.url === target.url) {
                         tempTime = null;
@@ -1598,29 +1567,25 @@ export function Case() {
                         tempEndTime = entire_entity ? null : end_position;
                         setVideo(target);
                       }
-                      const element =
-                        document.getElementById("playerContainer");
-                      const position =
-                        element.getBoundingClientRect().top +
-                        document.documentElement.scrollTop -
-                        50;
+                      const element = document.getElementById('playerContainer');
+                      const position = element.getBoundingClientRect().top
+                        + document.documentElement.scrollTop
+                        - 50;
                       scrollTo({
-                        behavior: "smooth",
+                        behavior: 'smooth',
                         top: position,
                       });
-                    } else if (scope === "pdf") {
-                      open(material, "_blank");
+                    } else if (scope === 'pdf') {
+                      open(material, '_blank');
                     } else {
                       highlightText(item);
                       setTimeout(() => {
-                        const element =
-                          document.querySelector(".commentary mark");
-                        const position =
-                          element.getBoundingClientRect().top +
-                          document.documentElement.scrollTop -
-                          50;
+                        const element = document.querySelector('.commentary mark');
+                        const position = element.getBoundingClientRect().top
+                          + document.documentElement.scrollTop
+                          - 50;
                         scrollTo({
-                          behavior: "smooth",
+                          behavior: 'smooth',
                           top: position,
                         });
                       });
@@ -1633,16 +1598,16 @@ export function Case() {
           </div>
         </Grid>
         <Grid item xs={8}>
-          <div style={{ padding: "10px", backgroundColor: "#303e47" }}>
-            <div style={{ marginBottom: "8px" }} id="playerContainer">
+          <div style={{ padding: '10px', backgroundColor: '#303e47' }}>
+            <div style={{ marginBottom: '8px' }} id="playerContainer">
               {videos.map((item, index) => (
                 <Button
                   key={index}
                   variant="contained"
                   sx={{
-                    background: "#56798f",
-                    marginRight: "4px",
-                    "&.Mui-disabled": { background: "#989fa5" },
+                    background: '#56798f',
+                    marginRight: '4px',
+                    '&.Mui-disabled': { background: '#989fa5' },
                   }}
                   onClick={() => setVideo(videos[index])}
                   disabled={videos[index].title === video?.title}
@@ -1660,7 +1625,7 @@ export function Case() {
                 const entryId = getVideoEntryId(selectedVideo?.url);
 
                 try {
-                  videoAnalyticsTrackerRef.current?.destroy("video_changed");
+                  videoAnalyticsTrackerRef.current?.destroy('video_changed');
                 } catch (error) {
                   // Continue loading the next video even if tracker cleanup fails.
                 } finally {
@@ -1707,14 +1672,14 @@ export function Case() {
                     >
                       <span className="tooltiptext">
                         {item.data.length} Video Note
-                        {item.data.length > 1 ? "s" : ""}
+                        {item.data.length > 1 ? 's' : ''}
                       </span>
                     </div>
                   ))}
                 </li>
               </ul>
               <GButton
-                sx={{ margin: "4px 0" }}
+                sx={{ margin: '4px 0' }}
                 onClick={() => setForm(!form)}
                 startIcon={<AddIcon />}
               >
@@ -1725,23 +1690,23 @@ export function Case() {
           {selectedNotes.length ? (
             <div
               style={{
-                padding: "15px 20px 20px",
-                backgroundColor: "#efeff1",
-                display: "flex",
-                flexDirection: "column",
-                gap: "8px",
+                padding: '15px 20px 20px',
+                backgroundColor: '#efeff1',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
               }}
             >
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  justifyContent: 'space-between',
                 }}
               >
                 <h4>Video Notes ({selectedNotes.length})</h4>
                 <Button
                   onClick={() => setSelectedNotes([])}
-                  sx={{ padding: "0" }}
+                  sx={{ padding: '0' }}
                 >
                   Hide Notes
                 </Button>
@@ -1771,7 +1736,7 @@ export function Case() {
                 ))}
             </div>
           ) : (
-            ""
+            ''
           )}
           {form && (
             <NoteForm
@@ -1783,7 +1748,7 @@ export function Case() {
             />
           )}
           <Box
-            sx={{ borderBottom: 1, borderColor: "divider", marginTop: "4px" }}
+            sx={{ borderBottom: 1, borderColor: 'divider', marginTop: '4px' }}
           >
             <Tabs
               value={value}
@@ -1797,7 +1762,7 @@ export function Case() {
             </Tabs>
           </Box>
           <div hidden={value !== 0}>
-            <div className="links" style={{ display: "block" }}>
+            <div className="links" style={{ display: 'block' }}>
               <a href={commentaryFile} target="_blank">
                 Open Commentary
               </a>
@@ -1805,7 +1770,7 @@ export function Case() {
                 variant="text"
                 className="case-link how-to-link"
                 startIcon={<HelpIcon />}
-                aria-owns={openPopover ? "mouse-over-popover" : undefined}
+                aria-owns={openPopover ? 'mouse-over-popover' : undefined}
                 aria-haspopup="true"
                 onMouseEnter={(event) => setAnchorPopover(event.currentTarget)}
                 onMouseLeave={() => setAnchorPopover(null)}
@@ -1814,21 +1779,21 @@ export function Case() {
               </Button>
               <Popover
                 id="mouse-over-popover"
-                sx={{ pointerEvents: "none" }}
+                sx={{ pointerEvents: 'none' }}
                 open={openPopover}
                 anchorEl={anchorPopover}
                 anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
+                  vertical: 'bottom',
+                  horizontal: 'left',
                 }}
                 transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
+                  vertical: 'top',
+                  horizontal: 'left',
                 }}
                 onClose={() => setAnchorPopover(null)}
                 disableRestoreFocus
               >
-                <div style={{ padding: "8px" }}>
+                <div style={{ padding: '8px' }}>
                   <Typography>
                     1. Select text to annotate and click on note icon.
                   </Typography>
@@ -1847,24 +1812,24 @@ export function Case() {
             </div>
             <div className="commentary">
               {commentary?.match(/<(.+)>.*?<\/\1>/g)?.map((item, index) => {
-                if (item.startsWith("<p")) {
+                if (item.startsWith('<p')) {
                   return (
-                    <div key={"paragraph" + index}>
+                    <div key={`paragraph${index}`}>
                       <div
                         style={{ flex: 1 }}
                         dangerouslySetInnerHTML={{ __html: item }}
-                      ></div>
+                      />
                       <div
                         style={{
                           flex:
                             active === index && notesByComments[active]
                               ? 1
-                              : "",
-                          userSelect: "none",
+                              : '',
+                          userSelect: 'none',
                         }}
                       >
                         {active === index ? (
-                          <div style={{ ...notesStyle, alignItems: "stretch" }}>
+                          <div style={{ ...notesStyle, alignItems: 'stretch' }}>
                             {notesByComments[active]
                               ?.filter((item) => item.can_view)
                               ?.filter((item) => item.user)
@@ -1898,7 +1863,7 @@ export function Case() {
                                 Hide
                               </Button>
                             ) : (
-                              ""
+                              ''
                             )}
                             {!notesByComments[active] && (
                               <span>No notes yet.</span>
@@ -1907,10 +1872,9 @@ export function Case() {
                         ) : (
                           <div>
                             {(() => {
-                              const filtered =
-                                notesByComments[index]?.filter(
-                                  (item) => item.can_view && item.user
-                                ) || [];
+                              const filtered = notesByComments[index]?.filter(
+                                (item) => item.can_view && item.user,
+                              ) || [];
                               if (!filtered.length) return null;
 
                               return (
@@ -1932,18 +1896,14 @@ export function Case() {
                                     rows={4}
                                     variant="outlined"
                                     size="small"
-                                    style={{ width: "100%" }}
+                                    style={{ width: '100%' }}
                                     value={formText}
-                                    onChange={({ target }) =>
-                                      setFormText(target.value)
-                                    }
+                                    onChange={({ target }) => setFormText(target.value)}
                                   />
                                   <Groups
                                     options={groups}
                                     init={groupInfo}
-                                    onChange={(id, leader) =>
-                                      setGroupInfo({ id, leader })
-                                    }
+                                    onChange={(id, leader) => setGroupInfo({ id, leader })}
                                   />
                                 </CardContent>
                                 <CardActions>
@@ -1964,13 +1924,13 @@ export function Case() {
                 }
                 return (
                   <div
-                    key={"heading" + index}
+                    key={`heading${index}`}
                     dangerouslySetInnerHTML={{ __html: item }}
-                  ></div>
+                  />
                 );
               })}
               <template>
-                <span id="control"></span>
+                <span id="control" />
               </template>
             </div>
           </div>
@@ -1989,7 +1949,7 @@ export function Case() {
             </div>
             <div
               style={{
-                marginBottom: "16px",
+                marginBottom: '16px',
                 fontFamily: '"Poppins", sans-serif',
               }}
             >
@@ -1998,10 +1958,10 @@ export function Case() {
                   <h4>Description of Instructional Materials</h4>
                   <div
                     style={{
-                      marginTop: "16px",
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "16px",
+                      marginTop: '16px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '16px',
                     }}
                   >
                     <p>
@@ -2082,7 +2042,7 @@ export function Case() {
                     setVideoTime={setVideoTime}
                     setVideoEndTime={setVideoEndTime}
                   />
-                )
+                ),
               )}
               <h4>
                 Instructional Material Notes (
@@ -2141,23 +2101,23 @@ export function Case() {
                     <div style={{ flex: 1 }}>
                       <a
                         href={resource.url}
-                        className={cls["enactment-resource-list-item-title"]}
+                        className={cls['enactment-resource-list-item-title']}
                         title={`Download resource ${resource.title}`}
                       >
                         <span
                           className={
-                            cls["enactment-resource-list-item-material-type"]
+                            cls['enactment-resource-list-item-material-type']
                           }
                         >
                           Case Prompts for NB Candidates
                         </span>
                         <span
                           className={
-                            cls["enactment-resource-list-item-separator"]
+                            cls['enactment-resource-list-item-separator']
                           }
                         >
-                          {" "}
-                          |{" "}
+                          {' '}
+                          |{' '}
                         </span>
                         {resource.title}
                       </a>
@@ -2166,17 +2126,17 @@ export function Case() {
                       <a
                         href={resource.url}
                         className={
-                          cls["enactment-resource-list-item-download-link"]
+                          cls['enactment-resource-list-item-download-link']
                         }
                         title={`Download resource ${resource.title}`}
                       >
-                        Download{" "}
-                        <i className="fa fa-file-word-o" aria-hidden="true"></i>
+                        Download{' '}
+                        <i className="fa fa-file-word-o" aria-hidden="true" />
                       </a>
                     </div>
                   </div>
                   <div
-                    className={cls["enactment-resource-list-item-description"]}
+                    className={cls['enactment-resource-list-item-description']}
                     dangerouslySetInnerHTML={{ __html: resource.abstract }}
                   />
                 </article>

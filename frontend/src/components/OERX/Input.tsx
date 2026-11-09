@@ -1,9 +1,13 @@
 // @ts-nocheck
-import { IconButton, FormControl, InputLabel, OutlinedInput, InputAdornment } from '@mui/material';
+import {
+  IconButton, FormControl, InputLabel, OutlinedInput, InputAdornment,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Icon from './icons/Magnify';
 
-export default function SearchBar({ value, onChange, onSearch, placeholder = "Search", width = '700px' }) {
+export default function SearchBar({
+  value, onChange, onSearch, placeholder = 'Search', width = '700px',
+}) {
   const theme = useTheme();
   const handleKeyDown = ({ key }) => key === 'Enter' && onSearch?.();
 
@@ -13,7 +17,7 @@ export default function SearchBar({ value, onChange, onSearch, placeholder = "Se
       value={value}
       onChange={onChange}
       onKeyDown={handleKeyDown}
-      endAdornment={
+      endAdornment={(
         <InputAdornment position="end">
           <IconButton
             onClick={onSearch}
@@ -23,7 +27,7 @@ export default function SearchBar({ value, onChange, onSearch, placeholder = "Se
             <Icon />
           </IconButton>
         </InputAdornment>
-      }
+      )}
       placeholder={placeholder}
       sx={{
         width: { md: width, sm: '100%', xs: '100%' },
@@ -35,8 +39,8 @@ export default function SearchBar({ value, onChange, onSearch, placeholder = "Se
           '&:focus': {
             outline: 'none',
             boxShadow: 'none',
-          }
-        }
+          },
+        },
         // color: 'ark.inputsTextColor',
         // '& .MuiInputLabel-root': {
         //   color: 'ark.inputsTextColor',

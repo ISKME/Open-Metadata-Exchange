@@ -1,10 +1,6 @@
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
@@ -19,7 +15,6 @@ import Close from '@mui/icons-material/Close';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { LtiList } from 'widgets/LtiList';
 import { fetchLti } from '../model/services/ActionCreators';
-import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 // import cls from './Lti.module.scss';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
@@ -35,13 +30,13 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux';
 // }
 
 function creator(querySelector = 'div', ...content) {
-  let nodeType = querySelector.match(/^[a-z0-9]+/i);
-  let id = querySelector.match(/#([a-z]+[a-z0-9-]*)/gi);
-  let classes = querySelector.match(/\.([a-z]+[a-z0-9-]*)/gi);
-  let attributes = querySelector.match(/\[([a-z][a-z-]+)(=['|"]?([^\]]*)['|"]?)?\]/gi);
+  const nodeType = querySelector.match(/^[a-z0-9]+/i);
+  const id = querySelector.match(/#([a-z]+[a-z0-9-]*)/gi);
+  const classes = querySelector.match(/\.([a-z]+[a-z0-9-]*)/gi);
+  const attributes = querySelector.match(/\[([a-z][a-z-]+)(=['|"]?([^\]]*)['|"]?)?\]/gi);
   // let pseudo = querySelector.match(/\:+[a-z\-\(\)]+$/i)?.pop();
-  let node = (nodeType) ? nodeType[0] : 'div';
-  if (id && id.length > 1) return
+  const node = (nodeType) ? nodeType[0] : 'div';
+  if (id && id.length > 1) return;
   const elt = document.createElement(node);
   if (id) {
     elt.id = id[0].replace('#', '');
@@ -51,7 +46,7 @@ function creator(querySelector = 'div', ...content) {
     elt.setAttribute('class', attrClasses);
   }
   if (attributes) {
-    attributes.forEach(item => {
+    attributes.forEach((item) => {
       item = item.slice(0, -1).slice(1);
       let [label, value] = item.split('=');
       if (value) {
@@ -60,7 +55,7 @@ function creator(querySelector = 'div', ...content) {
       elt.setAttribute(label, value || '');
     });
   }
-  content.forEach(item => {
+  content.forEach((item) => {
     if (typeof item === 'string' || typeof item === 'number') {
       elt.appendChild(document.createTextNode(item));
     } else if (item.nodeType === document.ELEMENT_NODE) {
@@ -80,22 +75,22 @@ function convertKebabToCamel(obj) {
 }
 
 function styler(selector, pseudo) {
-  const element = creator(selector)
-  document.body.appendChild(element)
-  const computedStyles = window.getComputedStyle(element) // , ':hover'
-  const styles = {} // JSON.parse(JSON.stringify(getComputedStyle(element)))
+  const element = creator(selector);
+  document.body.appendChild(element);
+  const computedStyles = window.getComputedStyle(element); // , ':hover'
+  const styles = {}; // JSON.parse(JSON.stringify(getComputedStyle(element)))
   for (let i = 0; i < computedStyles.length; i++) {
-    const property = computedStyles[i]
-    if (property === 'content') continue
-    styles[property] = computedStyles.getPropertyValue(property) + ' !important'
+    const property = computedStyles[i];
+    if (property === 'content') continue;
+    styles[property] = `${computedStyles.getPropertyValue(property)} !important`;
   }
-  document.body.removeChild(element)
+  document.body.removeChild(element);
   // element.style.display = 'none'
   // setTimeout(() => document.body.removeChild(element), 500)
-  return convertKebabToCamel(styles)
+  return convertKebabToCamel(styles);
 }
 
-const btnStyles = styler('.btn.btn-primary')
+const btnStyles = styler('.btn.btn-primary');
 
 const globalStyles = {
   '.MuiListSubheader-gutters': {
@@ -121,12 +116,13 @@ const Filters = ({ filters, filterValues, setFilterValues }) => (
     top: '24px',
     width: '300px',
     padding: '0 24px',
-  }}>
+  }}
+  >
     {filters.map((filter, index) => (
       <FormControl size="small" fullWidth key={filter.keyword}>
-        <InputLabel id={filter.keyword + '-label'}>{filter.name}</InputLabel>
+        <InputLabel id={`${filter.keyword}-label`}>{filter.name}</InputLabel>
         <Select
-          labelId={filter.keyword + '-label'}
+          labelId={`${filter.keyword}-label`}
           id={filter.keyword}
           value={filterValues[filter.keyword] || ''}
           label={filter.name}
@@ -146,7 +142,7 @@ const Filters = ({ filters, filterValues, setFilterValues }) => (
             (index === 0 && item.level === 0)
               ? [
                 // sx={{ background: `linear-gradient(90deg, white, 90%, ${btnStyles.backgroundColor?.replace(' !important', '')})` }}
-                <ListSubheader key={item.slug + '-sub'}>{item.name}</ListSubheader>,
+                <ListSubheader key={`${item.slug}-sub`}>{item.name}</ListSubheader>,
                 <MenuItem key={item.slug} value={item.slug}>Subject: {item.name}</MenuItem>,
               ]
               : <MenuItem key={item.slug} value={item.slug} sx={{ '&::before': { content: '"• "', marginRight: '8px' } }}>{item.name}</MenuItem>
@@ -166,7 +162,9 @@ a.freshwidget-theme {
 `;
 
 export function Lti() {
-  const { items, count, pages, sorts, order, filters } = useAppSelector((state) => state.LtiSlice);
+  const {
+    items, count, pages, sorts, order, filters,
+  } = useAppSelector((state) => state.LtiSlice);
 
   // const dispatch = useAppDispatch();
   // React.useEffect(() => {
@@ -180,9 +178,9 @@ export function Lti() {
   const match = useMediaQuery(theme.breakpoints.up('lg'));
 
   React.useEffect(() => {
-    const styleTag = document.createElement('style')
-    styleTag.textContent = styles
-    document.head.appendChild(styleTag)
+    const styleTag = document.createElement('style');
+    styleTag.textContent = styles;
+    document.head.appendChild(styleTag);
   }, []);
 
   return (

@@ -6,4 +6,4 @@ type Collection = {
     updatedOn: string;
   }
 
-  export type {Collection}
+export type { Collection };

@@ -1,9 +1,9 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/prop-types */
 /* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
+
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -15,18 +15,18 @@ import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import IconButton from '@mui/material/IconButton';
-import InputAdornment from "@mui/material/InputAdornment";
-import ClearIcon from "@mui/icons-material/Clear";
+import InputAdornment from '@mui/material/InputAdornment';
+import ClearIcon from '@mui/icons-material/Clear';
 import Close from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Table from 'components/table'
+import Table from 'components/table';
 import Modal from '@mui/material/Modal';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import req from 'shared/lib/req'
+import req from 'shared/lib/req';
 
 const buttonStyles = {
   border: '1px solid #999',
@@ -59,15 +59,15 @@ const toolbarStyles = {
   gap: '4px',
   backgroundColor: '#efeff0',
   padding: '8px',
-}
+};
 
 export function GroupsMembers({ onMembersCountChange = () => {} }) {
   const { id: group_id } = useParams();
-  const [open, setOpen] = useState(false)
-  const [list, setList] = useState([])
-  const [checkedEmails, setCheckedEmails] = useState([])
-  const [text, setText] = useState('')
-  const [search, setSearch] = useState('')
+  const [open, setOpen] = useState(false);
+  const [list, setList] = useState([]);
+  const [checkedEmails, setCheckedEmails] = useState([]);
+  const [text, setText] = useState('');
+  const [search, setSearch] = useState('');
 
   const [members, setMembers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -87,19 +87,19 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
   const hasAnyActiveSelection = hasCurrentSelection || hasPendingSelection;
 
   const handleCheckboxChange = (event, email) => {
-    const { checked } = event.target
+    const { checked } = event.target;
     if (checked) {
-      setCheckedEmails([...checkedEmails, email])
+      setCheckedEmails([...checkedEmails, email]);
     } else {
       setCheckedEmails(checkedEmails.filter((checkedEmail) => checkedEmail !== email));
     }
-  }
+  };
 
   useEffect(() => {
-  axios.get(`/api/groups/v1/groups/${group_id}/members/invite`).then(({ data }) => {
-    setList(data)
-  })
-}, [group_id])
+    axios.get(`/api/groups/v1/groups/${group_id}/members/invite`).then(({ data }) => {
+      setList(data);
+    });
+  }, [group_id]);
 
   async function add() {
     const extraEmails = text
@@ -136,7 +136,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
         params: { page, page_size: pageSize, ...params },
       });
 
-      const rows = response.data.results.map(member => ({
+      const rows = response.data.results.map((member) => ({
         id: member.id,
         name: `${member.user.first_name} ${member.user.last_name}`,
         firstName: member.user.first_name,
@@ -208,7 +208,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
       await fetchMembers();
     } catch (error) {
       console.error('Error updating member!', error);
-      alert("An error occurred while trying to update the member. Please try again.");
+      alert('An error occurred while trying to update the member. Please try again.');
     }
   };
 
@@ -224,15 +224,13 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
 
     if (tab === 0) {
       setMembers(originalMembers.filter(
-        (member) =>
-          member.name.toLowerCase().includes(query) ||
-          member.email.toLowerCase().includes(query)
+        (member) => member.name.toLowerCase().includes(query)
+          || member.email.toLowerCase().includes(query),
       ));
     } else {
       setPendingMembers(originalPendingMembers.filter(
-        (member) =>
-          `${member.firstName} ${member.lastName}`.toLowerCase().includes(query) ||
-          member.email.toLowerCase().includes(query)
+        (member) => `${member.firstName} ${member.lastName}`.toLowerCase().includes(query)
+          || member.email.toLowerCase().includes(query),
       ));
     }
   };
@@ -260,7 +258,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
         await Promise.all(
           selectedPendingMembers.map((invitationId) => (
             axios.delete(`/api/groups/v1/groups/${group_id}/members/invitations/${invitationId}`, { headers })
-          ))
+          )),
         );
 
         setSelectedPendingMembers([]);
@@ -302,10 +300,10 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
 
   useEffect(() => {
     if (!open) {
-      setSearch('')
-      setText('')
+      setSearch('');
+      setText('');
     }
-  }, [open])
+  }, [open]);
 
   return (
     <>
@@ -338,7 +336,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
           </FormControl>
           <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
             <FormGroup>
-              {list.filter(({ first_name, last_name, email }) => search.toLowerCase().split(/\s+/).every(word => [first_name, last_name, email].filter(Boolean).join(' ').toLowerCase().includes(word))).map((item) => (
+              {list.filter(({ first_name, last_name, email }) => search.toLowerCase().split(/\s+/).every((word) => [first_name, last_name, email].filter(Boolean).join(' ').toLowerCase().includes(word))).map((item) => (
                 <FormControlLabel
                   key={item.id}
                   control={<Checkbox />}
@@ -370,24 +368,28 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
           <hr style={{ margin: '16px 0' }} />
           <div style={{ textAlign: 'right' }}>
             <Button onClick={() => {
-              setOpen(false)
-              setCheckedEmails([])
-            }}>Cancel</Button>
-            <Button onClick={add} sx={{
-              marginLeft: '16px',
-              padding: '6px 12px',
-              borderColor: '#303e48',
-              backgroundColor: '#303e48',
-              color: '#fad000',
-              fontFamily: '"DINPro", sans-serif',
-              boxShadow: '0 3px 0 #202c34',
-              '&:hover': {
-                borderColor: '#8f9bae',
-                backgroundColor: '#8f9bae',
-                color: '#ffffff',
-                boxShadow: '0 3px 0 #7c8ba2',
-              },
+              setOpen(false);
+              setCheckedEmails([]);
             }}
+            >Cancel
+            </Button>
+            <Button
+              onClick={add}
+              sx={{
+                marginLeft: '16px',
+                padding: '6px 12px',
+                borderColor: '#303e48',
+                backgroundColor: '#303e48',
+                color: '#fad000',
+                fontFamily: '"DINPro", sans-serif',
+                boxShadow: '0 3px 0 #202c34',
+                '&:hover': {
+                  borderColor: '#8f9bae',
+                  backgroundColor: '#8f9bae',
+                  color: '#ffffff',
+                  boxShadow: '0 3px 0 #7c8ba2',
+                },
+              }}
             >
               Add member
             </Button>
@@ -416,17 +418,18 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
             variant="outlined"
             className="search"
             size="small"
-            sx={{ width:'300px', backgroundColor: 'white', '& input': { height: '30px' } }}
+            sx={{ width: '300px', backgroundColor: 'white', '& input': { height: '30px' } }}
             value={searchQuery}
             onChange={handleSearchChange}
             InputProps={{
               endAdornment: searchQuery && (
                 <InputAdornment position="end">
                   <IconButton onClick={() => {
-                    setSearchQuery("");
+                    setSearchQuery('');
                     setMembers(originalMembers);
                     setPendingMembers(originalPendingMembers);
-                  }}>
+                  }}
+                  >
                     <ClearIcon />
                   </IconButton>
                 </InputAdornment>

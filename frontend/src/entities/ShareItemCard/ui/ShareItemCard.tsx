@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { classNames } from 'shared/lib/classNames/classNames';
 import { Link } from 'react-router-dom';
 import { memo, useEffect, useState } from 'react';

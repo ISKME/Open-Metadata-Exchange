@@ -1,6 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable max-len */
-/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
@@ -56,11 +53,14 @@ export function Explore({ className }: ExploreProps) {
 
   const handleImageError = (e) => {
     e.target.onerror = null;
-    e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png'
-  }
+    e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png';
+  };
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: { sm: '', xs: '', md: 'auto' }, mt: 4, p: 2, width: { sm: 'calc(100% - 64px)', xs: 'calc(100% - 64px)', md: '100%' } }}>
+    <Box sx={{
+      maxWidth: 1200, mx: { sm: '', xs: '', md: 'auto' }, mt: 4, p: 2, width: { sm: 'calc(100% - 64px)', xs: 'calc(100% - 64px)', md: '100%' },
+    }}
+    >
       <Typography variant="h4" gutterBottom fontWeight={700} textAlign="center">
         Explore Learning Materials
       </Typography>
@@ -93,11 +93,19 @@ export function Explore({ className }: ExploreProps) {
                 >
                   Prev
                 </Button>
-                <Box sx={{ display: 'flex', overflow: 'hidden', width: '100%', p: 1 }}>
+                <Box sx={{
+                  display: 'flex', overflow: 'hidden', width: '100%', p: 1,
+                }}
+                >
                   {section.data
                     .slice(carouselIndex * CARDS_PER_PAGE, carouselIndex * CARDS_PER_PAGE + CARDS_PER_PAGE)
                     .map((collection) => (
-                      <Card key={collection.name} sx={{ minWidth: 260, maxWidth: 320, mx: 1, flex: '1 0 auto', display: 'flex', flexDirection: 'column' }}>
+                      <Card
+                        key={collection.name}
+                        sx={{
+                          minWidth: 260, maxWidth: 320, mx: 1, flex: '1 0 auto', display: 'flex', flexDirection: 'column',
+                        }}
+                      >
                         <CardMedia
                           component="img"
                           height="160"
@@ -106,7 +114,7 @@ export function Explore({ className }: ExploreProps) {
                           onError={handleImageError}
                         />
                         <CardContent sx={{ flex: 1 }}>
-                          <Typography variant="h6" fontWeight={600} fontSize={'1.2rem'}>{collection.name}</Typography>
+                          <Typography variant="h6" fontWeight={600} fontSize="1.2rem">{collection.name}</Typography>
                           <Typography variant="body2" color="text.secondary">{collection.micrositeName}</Typography>
                           <Typography variant="body2" color="text.secondary">{collection.numResources} resources</Typography>
                           <Typography variant="body2" color="text.secondary">{collection.educationLevels?.slice(0, 3)?.join(', ')}</Typography>
@@ -130,8 +138,17 @@ export function Explore({ className }: ExploreProps) {
             <Grid container spacing={2}>
               {section.data.map((microsite) => (
                 <Grid item xs={12} sm={6} md={4} key={microsite.name}>
-                  <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', p: 2 }}>
-                    <Avatar src={microsite.logo} alt={microsite.name} sx={{ width: 80, height: 80, mb: 2, '& img': { objectFit: 'contain' } }} />
+                  <Card sx={{
+                    height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', p: 2,
+                  }}
+                  >
+                    <Avatar
+                      src={microsite.logo}
+                      alt={microsite.name}
+                      sx={{
+                        width: 80, height: 80, mb: 2, '& img': { objectFit: 'contain' },
+                      }}
+                    />
                     <CardContent sx={{ flex: 1, textAlign: 'center' }}>
                       <Typography variant="h6" fontWeight={600}>{microsite.name}</Typography>
                       <Typography variant="body2" color="text.secondary">{microsite.numCollections} Collections</Typography>

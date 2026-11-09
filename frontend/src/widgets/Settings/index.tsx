@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import cls from './Settings.module.scss';
 
-export default function Settings({ init, onChange, fonts = [], onFontChange = (i, v) => {}, sizes = {}, onSizeChange = (k, v) => {} }) {
+export default function Settings({
+  init, onChange, fonts = [], onFontChange = (i, v) => {}, sizes = {}, onSizeChange = (k, v) => {},
+}) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export default function Settings({ init, onChange, fonts = [], onFontChange = (i
             <input
               type="text"
               value={inputValue}
-              onChange={e => setInputValue(e.target.value)}
+              onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
               style={{ width: 180 }}
             />
@@ -70,7 +72,7 @@ export default function Settings({ init, onChange, fonts = [], onFontChange = (i
             <input
               type="text"
               value={inputValue}
-              onChange={e => setInputValue(e.target.value)}
+              onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
               style={{ width: 100 }}
             />

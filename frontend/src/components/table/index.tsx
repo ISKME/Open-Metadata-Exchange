@@ -1,8 +1,10 @@
 // @ts-nocheck
-import { useState } from 'react'
-import { Table, TableContainer, TableBody, TableCell, TableHead, TableRow, TableSortLabel, TablePagination, Checkbox, Box, Paper, IconButton, Select, MenuItem } from '@mui/material'
-import { Edit, Save, Cancel } from '@mui/icons-material'
-import { visuallyHidden } from '@mui/utils'
+import { useState } from 'react';
+import {
+  Table, TableContainer, TableBody, TableCell, TableHead, TableRow, TableSortLabel, TablePagination, Checkbox, Box, Paper, IconButton, Select, MenuItem,
+} from '@mui/material';
+import { Edit, Save, Cancel } from '@mui/icons-material';
+import { visuallyHidden } from '@mui/utils';
 
 const EnhancedTableHead = ({
   headers,
@@ -11,7 +13,7 @@ const EnhancedTableHead = ({
   all = false,
   edit = true,
   indeterminate = false,
-  onRequestSort = (id) => {}
+  onRequestSort = (id) => {},
 }) => (
   <TableHead>
     <TableRow>
@@ -30,7 +32,7 @@ const EnhancedTableHead = ({
           sx={{ p: '12px 0', maxWidth: headCell.width, minWidth: !headCell.items ? 'unset' : headCell.width }}
           sortDirection={order.by === headCell.id ? order.dir : false}
         >
-           <TableSortLabel
+          <TableSortLabel
             active={order.by === headCell.id}
             direction={order.by === headCell.id ? order.dir : 'asc'}
             onClick={() => onRequestSort(headCell.id)}
@@ -47,7 +49,7 @@ const EnhancedTableHead = ({
       {edit && <TableCell align="right" sx={{ p: '12px', minWidth: '48px' }}>Edit</TableCell>}
     </TableRow>
   </TableHead>
-)
+);
 
 export default function EnhancedTable({
   headers,
@@ -63,97 +65,97 @@ export default function EnhancedTable({
   onSelectionChanged = (info) => {},
   onSortChanged = (order) => {},
 }) {
-  const [selected, setSelected] = useState([])
-  const [unselect, setUnselect] = useState([])
-  const [all, setAll] = useState(false)
-  const [internalPage, setPage] = useState(0)
-  const [internalRowsPerPage, setRowsPerPage] = useState(25)
-  const [editRowId, setEditRowId] = useState(null)
-  const [editRowData, setEditRowData] = useState({})
-  const [internalOrder, setOrder] = useState({ dir: 'asc', by: 'firstName' })
-  const page = controlledPage ?? internalPage
-  const rowsPerPage = controlledRowsPerPage ?? internalRowsPerPage
-  const order = controlledOrder ?? internalOrder
+  const [selected, setSelected] = useState([]);
+  const [unselect, setUnselect] = useState([]);
+  const [all, setAll] = useState(false);
+  const [internalPage, setPage] = useState(0);
+  const [internalRowsPerPage, setRowsPerPage] = useState(25);
+  const [editRowId, setEditRowId] = useState(null);
+  const [editRowData, setEditRowData] = useState({});
+  const [internalOrder, setOrder] = useState({ dir: 'asc', by: 'firstName' });
+  const page = controlledPage ?? internalPage;
+  const rowsPerPage = controlledRowsPerPage ?? internalRowsPerPage;
+  const order = controlledOrder ?? internalOrder;
 
   const handleSelectAllClick = ({ target }) => {
-    const all = target.checked
-    setSelected(all ? rows.map((n) => n.id) : [])
-    setUnselect([])
-    setAll(all)
-    onSelectionChanged({ all, members: [] })
-  }
+    const all = target.checked;
+    setSelected(all ? rows.map((n) => n.id) : []);
+    setUnselect([]);
+    setAll(all);
+    onSelectionChanged({ all, members: [] });
+  };
 
   const handleRequestSort = (property) => {
-    const isAsc = order.by === property && order.dir === 'asc'
-    const newOrder = { dir: isAsc ? 'desc' : 'asc', by: property }
-    setOrder(newOrder)
-    onSortChanged(newOrder)
-  }
+    const isAsc = order.by === property && order.dir === 'asc';
+    const newOrder = { dir: isAsc ? 'desc' : 'asc', by: property };
+    setOrder(newOrder);
+    onSortChanged(newOrder);
+  };
 
   const handleClick = (id) => {
     if (all) {
-      const members = unselect.includes(id) ? unselect.filter((item) => item !== id) : [...unselect, id]
-      setUnselect(members)
-      onSelectionChanged({ all: true, members })
+      const members = unselect.includes(id) ? unselect.filter((item) => item !== id) : [...unselect, id];
+      setUnselect(members);
+      onSelectionChanged({ all: true, members });
     } else {
-      const index = selected.indexOf(id)
-      let members = []
+      const index = selected.indexOf(id);
+      let members = [];
       if (index === -1) {
-        members = members.concat(selected, id)
+        members = members.concat(selected, id);
       } else if (index === 0) {
-        members = members.concat(selected.slice(1))
+        members = members.concat(selected.slice(1));
       } else if (index === selected.length - 1) {
-        members = members.concat(selected.slice(0, -1))
+        members = members.concat(selected.slice(0, -1));
       } else if (index > 0) {
-        members = members.concat(selected.slice(0, index), selected.slice(index + 1))
+        members = members.concat(selected.slice(0, index), selected.slice(index + 1));
       }
-      setSelected(members)
-      onSelectionChanged({ all: false, members })
+      setSelected(members);
+      onSelectionChanged({ all: false, members });
     }
-  }
+  };
 
   const handleEditClick = (id, row) => {
-    setEditRowId(id)
-    setEditRowData(row)
-  }
+    setEditRowId(id);
+    setEditRowData(row);
+  };
 
   const handleSaveClick = () => {
-    onModify(editRowData)
-    setEditRowId(null)
-  }
+    onModify(editRowData);
+    setEditRowId(null);
+  };
 
   const handleCancelClick = () => {
-    setEditRowId(null)
-    setEditRowData({})
-  }
+    setEditRowId(null);
+    setEditRowData({});
+  };
 
   const handleSelectChange = (event, headerId) => {
     setEditRowData({
       ...editRowData,
       [headerId]: event.target.value,
-    })
-  }
+    });
+  };
 
   const isSelected = (id) => {
     if (all) {
-      return !unselect.includes(id)
+      return !unselect.includes(id);
     }
-    return selected.includes(id)
-  }
+    return selected.includes(id);
+  };
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage)
-    onPageChanged(newPage + 1)
-  }
+    setPage(newPage);
+    onPageChanged(newPage + 1);
+  };
 
   const handleChangeRowsPerPage = (event) => {
-    const limit = parseInt(event.target.value, 10)
-    setRowsPerPage(limit)
-    onLimitChanged(limit)
-    setPage(0)
-  }
+    const limit = parseInt(event.target.value, 10);
+    setRowsPerPage(limit);
+    onLimitChanged(limit);
+    setPage(0);
+  };
 
-  const indeterminate = (all && unselect.length > 0) || (!all && selected.length > 0)
+  const indeterminate = (all && unselect.length > 0) || (!all && selected.length > 0);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -175,9 +177,9 @@ export default function EnhancedTable({
             />
             <TableBody>
               {rows.map((row, index) => {
-                const isItemSelected = isSelected(row.id)
-                const labelId = `enhanced-table-checkbox-${index}`
-                const isEditing = editRowId === row.id
+                const isItemSelected = isSelected(row.id);
+                const labelId = `enhanced-table-checkbox-${index}`;
+                const isEditing = editRowId === row.id;
 
                 return (
                   <TableRow
@@ -198,54 +200,59 @@ export default function EnhancedTable({
                       />
                     </TableCell>
                     {headers.map((header, index) => (
-                      <TableCell key={`${header.id}-${row.id}`} sx={{ p: isEditing ? 0 : '12px 0 11px 0', maxWidth: header.width, minWidth: header.width, overflowWrap: 'break-word' }}>
+                      <TableCell
+                        key={`${header.id}-${row.id}`}
+                        sx={{
+                          p: isEditing ? 0 : '12px 0 11px 0', maxWidth: header.width, minWidth: header.width, overflowWrap: 'break-word',
+                        }}
+                      >
                         {isEditing && header.edit ? (
-                        header.items?.length ? (
-                          <Select
-                            value={editRowData[header.id]}
-                            onChange={(event) => handleSelectChange(event, header.id)}
-                            variant="outlined"
-                            size="small"
-                            sx={{ maxWidth: '80px' }}
-                          >
-                            {header.items.map((item) => (
-                              <MenuItem key={item} value={item}>
-                                {item}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        ) : (
-                          <input
-                            value={editRowData[header.id] || ''}
-                            onChange={(e) =>
-                              setEditRowData((prev) => ({ ...prev, [header.id]: e.target.value }))
-                            }
-                            style={{ width: '100%', padding: '6px', fontSize: '0.875rem' }}
-                          />
-                        )
+                          header.items?.length ? (
+                            <Select
+                              value={editRowData[header.id]}
+                              onChange={(event) => handleSelectChange(event, header.id)}
+                              variant="outlined"
+                              size="small"
+                              sx={{ maxWidth: '80px' }}
+                            >
+                              {header.items.map((item) => (
+                                <MenuItem key={item} value={item}>
+                                  {item}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          ) : (
+                            <input
+                              value={editRowData[header.id] || ''}
+                              onChange={(e) => setEditRowData((prev) => ({ ...prev, [header.id]: e.target.value }))}
+                              style={{ width: '100%', padding: '6px', fontSize: '0.875rem' }}
+                            />
+                          )
                         ) : (
                           header.type === 'date' ? row[header.id]?.toLocaleDateString() : row[header.id]
                         )}
                       </TableCell>
                     ))}
-                    {edit && <TableCell padding="none">
-                      {isEditing ? (
-                        <>
-                          <IconButton onClick={handleSaveClick} size="small">
-                            <Save />
+                    {edit && (
+                      <TableCell padding="none">
+                        {isEditing ? (
+                          <>
+                            <IconButton onClick={handleSaveClick} size="small">
+                              <Save />
+                            </IconButton>
+                            <IconButton onClick={handleCancelClick} size="small">
+                              <Cancel />
+                            </IconButton>
+                          </>
+                        ) : (
+                          <IconButton onClick={() => handleEditClick(row.id, row)} size="small" sx={{ ml: '24px' }}>
+                            <Edit />
                           </IconButton>
-                          <IconButton onClick={handleCancelClick} size="small">
-                            <Cancel />
-                          </IconButton>
-                        </>
-                      ) : (
-                        <IconButton onClick={() => handleEditClick(row.id, row)} size="small" sx={{ ml: '24px' }}>
-                          <Edit />
-                        </IconButton>
-                      )}
-                    </TableCell>}
+                        )}
+                      </TableCell>
+                    )}
                   </TableRow>
-                )
+                );
               })}
             </TableBody>
           </Table>
@@ -269,5 +276,5 @@ export default function EnhancedTable({
         />
       </Paper>
     </Box>
-  )
+  );
 }

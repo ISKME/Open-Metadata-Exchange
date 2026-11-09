@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable max-len */
 import axios from 'axios';
 import { resourcesSlice } from 'widgets/ResourcesList/model/slice/ResourcesSlice';
 import { AppDispatch } from 'app/providers/StoreProvider/config/store';
