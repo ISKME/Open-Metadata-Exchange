@@ -323,7 +323,7 @@ export function OrgansCaseAnalytics({ id }) {
   };
 
   const handleRoleChange = (event) => {
-    const value = event.target.value;
+    const { value } = event.target;
     setSelectedRole(value);
     updateFilters('role', value);
   };
@@ -345,7 +345,7 @@ export function OrgansCaseAnalytics({ id }) {
   };
 
   const handleUserIsActiveChange = (event) => {
-    const value = event.target.value;
+    const { value } = event.target;
     setUserIsActive(value);
     updateFilters('userIsActive', value);
   };
@@ -360,9 +360,9 @@ export function OrgansCaseAnalytics({ id }) {
       ? { date_range_start: formatDate(startDate), date_range_end: formatDate(endDate) }
       : {};
     if (id) {
-      params['organization_id'] = id;
+      params.organization_id = id;
     } else {
-      params['get_default_organization'] = true;
+      params.get_default_organization = true;
     }
 
     try {

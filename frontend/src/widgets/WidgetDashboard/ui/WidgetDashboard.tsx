@@ -163,7 +163,7 @@ export const WidgetDashboard: React.FC = () => {
 
   // Add new image
   const handleAddNewImages = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
+    const { files } = event.target;
     if (files && files.length === 1) {
       const formData = new FormData();
       formData.append('image', files[0]);

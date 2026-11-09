@@ -67,7 +67,7 @@ export const Tabs = memo(({
   const handleArrowClick = (direction) => {
     const tabsContainer = tabsRef.current;
     const containerWidth = tabsContainer.clientWidth;
-    const scrollWidth = tabsContainer.scrollWidth;
+    const { scrollWidth } = tabsContainer;
 
     let newPosition;
 

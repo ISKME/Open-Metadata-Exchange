@@ -110,7 +110,7 @@ export function AdvancedSearchGlobal() {
   useEffect(() => {
     axios.get('/api/search/v2/browse/filters?source=courseware').then(({ data }) => {
       const filtersTree = {};
-      const filters: IFilterMap = data.filters;
+      const { filters }: { filters: IFilterMap } = data;
       Object.entries(filters).forEach(([name, filter]) => {
         filtersTree[name] = filter;
         filtersTree[name].items = convertFlatToTree(filter.items);

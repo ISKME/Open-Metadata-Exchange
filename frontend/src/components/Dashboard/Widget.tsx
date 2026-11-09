@@ -548,7 +548,7 @@ export default function ({
       const data = await req.post('/reports/widget/favorites/', {
         widget_id: widgetId,
       });
-      const status = data.status;
+      const { status } = data;
       const updated = new Set(favoriteWidgetIds);
       if (status === 'added') {
         updated.add(widgetId);

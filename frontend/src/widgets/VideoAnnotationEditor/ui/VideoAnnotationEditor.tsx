@@ -168,24 +168,24 @@ function findRowIndexForTime(rows: Row[], time: number): number {
 }
 
 function getPlayerCurrentTime(): number {
-  const player = (window as any).player;
+  const { player } = (window as any);
   return player && typeof player.currentTime === 'function'
     ? player.currentTime() || 0
     : 0;
 }
 
 function pausePlayer(): void {
-  const player = (window as any).player;
+  const { player } = (window as any);
   if (player && typeof player.pause === 'function') player.pause();
 }
 
 function playPlayer(): void {
-  const player = (window as any).player;
+  const { player } = (window as any);
   if (player && typeof player.play === 'function') player.play();
 }
 
 function seekPlayerTo(seconds: number): void {
-  const player = (window as any).player;
+  const { player } = (window as any);
   if (player && typeof player.currentTime === 'function') player.currentTime(seconds);
 }
 
@@ -319,7 +319,7 @@ export function VideoAnnotationEditor({
   useEffect(() => {
     if (!inline && !open) return;
 
-    const player = (window as any).player;
+    const { player } = (window as any);
     if (!player || typeof player.on !== 'function') return;
 
     const handleTimeUpdate = () => {

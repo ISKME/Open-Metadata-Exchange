@@ -216,6 +216,7 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
         Object.keys(item.mapping).forEach((key) => {
           if (!changes[item.name]) changes[item.name] = {};
           if (item.mapping[key].length > 0) {
+            // eslint-disable-next-line prefer-destructuring -- the value comes from the API; [0] does not depend on it being iterable
             changes[item.name][key] = item.mapping[key][0];
           } else {
             changes[item.name][key] = null;
@@ -296,7 +297,7 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
               </Grid>
               <Button
                 variant="contained"
-                className={cls['button']}
+                className={cls.button}
                 onClick={() => {
                   save(section.slug, Object.entries(changes[section.name]).filter((item) => item[1]));
                   if (stats[section.name] === 0) setStats({ ...stats, [section.name]: -1 });

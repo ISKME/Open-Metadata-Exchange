@@ -72,7 +72,7 @@ export function AllCollections() {
     // Build new query object from current UI state similar to Home
     const queries = {};
     if (inputValue) queries['f.search'] = inputValue.trim().toLowerCase();
-    if (selectedTenants && selectedTenants.length) queries['tenant'] = selectedTenants.map((t) => t.slug || t);
+    if (selectedTenants && selectedTenants.length) queries.tenant = selectedTenants.map((t) => t.slug || t);
     if (selectedSubjects && selectedSubjects.length) queries['f.general_subject'] = selectedSubjects.map((s) => s.slug || s);
     if (selectedLevels && selectedLevels.length) queries['f.sublevel'] = selectedLevels.map((l) => l.slug || l);
     if (page && page > 1) queries.page = page;

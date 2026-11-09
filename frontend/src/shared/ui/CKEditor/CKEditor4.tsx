@@ -87,16 +87,16 @@ const defaultConfig = {
 };
 
 export function CKEditorWidget({
-  content, onChange, config = {}, googleImport = true,
+  content, onChange, config = {} as Record<string, unknown>, googleImport = true,
 }) {
   const [importing, setImporting] = useState(false);
   const editorRef = useRef(null);
-  const googleAPI = window['googleapiShowPicker'];
-  config['licenseKey'] = window['CKEDITOR_4_LICENSE_KEY'] || devLicenseKey;
+  const googleAPI = window.googleapiShowPicker;
+  config.licenseKey = window.CKEDITOR_4_LICENSE_KEY || devLicenseKey;
 
   const onGoogleFileSelect = (docId, accessToken) => {
     setImporting(true);
-    req.post(window['GOOGLE_DOCS_IMPORT_URL'], { doc_id: docId, access_token: accessToken }, true).then((data: {body: string}) => {
+    req.post(window.GOOGLE_DOCS_IMPORT_URL, { doc_id: docId, access_token: accessToken }, true).then((data: {body: string}) => {
       editorRef.current?.setData(data.body);
       setImporting(false);
     }).catch((error) => {
