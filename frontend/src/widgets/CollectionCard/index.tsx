@@ -31,7 +31,7 @@ export function CollectionCard({ item }) {
     e.target.onerror = null;
     e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png'
   }
-  return <Link to={item.id !== '' && `/imls/collection-details/${item.micrositeSlug}/${item.id}/resources`} aria-label="Go to Collection page">
+  return <Link to={item.id !== '' && `/imls/collection-details/${item.micrositeSlug}/${item.id}/resources`}>
     <Card sx={sxStyles.card}>
       <CardMedia
         component="img"

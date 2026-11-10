@@ -30,6 +30,8 @@ export const Filter = memo(({
     setVisibleItems(visibleItems + ITEMS_PER_PAGE);
   };
 
+  const filterName = filter.name === 'Tenants' ? 'Digital Library Providers' : filter.name;
+
   const onToggle = () => {
     setCollapsed((prev) => !prev);
   };
@@ -37,16 +39,19 @@ export const Filter = memo(({
   return (
     <li className={classNames(cls.Filter, { [cls.collapsed]: collapsed }, [className])}>
       <div className={cls.filter_item}>
-        <p className={cls.filter_name} aria-label={filter.name}>
-          {filter.name === 'Tenants' ? 'Digital Library Providers' : filter.name}
+        <p className={cls.filter_name}>
+          {filterName}
         </p>
         <button
+          type="button"
           className={cls.icon_btn}
           onClick={onToggle}
+          aria-label={`${collapsed ? 'Show' : 'Hide'} ${filterName} filter options`}
+          aria-expanded={!collapsed}
         >
           {collapsed
-            ? <UpIcon className={cls.icon} />
-            : <DownIcon className={cls.icon} />}
+            ? <UpIcon className={cls.icon} aria-hidden="true" focusable="false" />
+            : <DownIcon className={cls.icon} aria-hidden="true" focusable="false" />}
         </button>
       </div>
       <div className={classNames(cls.panelCollapse, { [cls.collapsed]: collapsed }, [className])}>
@@ -60,7 +65,7 @@ export const Filter = memo(({
           />
         ))}
         {visibleItems < options.length && (
-          <button onClick={handleSeeMoreClick} className={cls.seeMore}>+ See More</button>
+          <button type="button" onClick={handleSeeMoreClick} className={cls.seeMore}>+ See More</button>
         )}
       </div>
     </li>

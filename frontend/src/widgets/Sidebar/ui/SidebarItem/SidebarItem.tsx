@@ -20,7 +20,7 @@ export const SidebarItem = memo(({ item }: SidebarItemProps) => {
                 return isActive ? cls.active : cls.inactive
             }}
         >
-            <item.Icon className={cls.icon} />
+            <item.Icon className={cls.icon} aria-hidden="true" focusable="false" />
             <span>
                 {item.text}
             </span>
