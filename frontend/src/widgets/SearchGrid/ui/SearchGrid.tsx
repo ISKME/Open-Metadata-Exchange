@@ -332,8 +332,8 @@ export function SearchGrid({ api, title, children, un = '', share = '', add = []
               </div>
             </div>
             <div className={cls.actionButtons}>
-              <button className={cls.button} style={{ cursor: 'pointer' }}>
-                <div className={cls['label-text']} onClick={apply}>Confirm filters</div>
+              <button type="button" className={cls.button} style={{ cursor: 'pointer' }} onClick={apply}>
+                <div className={cls['label-text']}>Confirm filters</div>
               </button>
               <div className={cls['label-text-2']} style={{ cursor: 'pointer' }} onClick={clear}>Reset</div>
             </div>

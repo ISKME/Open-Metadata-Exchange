@@ -77,7 +77,7 @@
 }
 
 .activity_item p:last-of-type {
-  color: grey;
+  color: #595959; // was grey (3.9:1), now 7:1 on white
 }
 
 .snackbar-but-cooler {
@@ -494,6 +494,12 @@
     width: 100%;
     color: black;
 
+    // `outline: none` above hides the default ring, so draw one for keyboard focus.
+    &:focus-visible {
+      outline: 2px solid #1747a1;
+      outline-offset: 2px;
+    }
+
     &::placeholder {
       color: black;
       font-family: "Open Sans";
@@ -665,6 +671,12 @@
   padding: 8px 24px;
   position: relative;
   cursor: pointer;
+
+  // `all: unset` removes the browser focus ring; put a visible one back.
+  &:focus-visible {
+    outline: 3px solid #1747a1;
+    outline-offset: 2px;
+  }
 }
 .list-dialog .label-text {
   color: #fbfbfb;
