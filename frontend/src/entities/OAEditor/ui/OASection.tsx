@@ -11,7 +11,7 @@ export function OASection({
 }) {
   const [sectionLoc, setSectionLoc] = useState(section);
   const [isNew, setIsNew] = useState(section.is_new || false);
-  const [opened, setOpened] = useState(number == 1);
+  const [opened, setOpened] = useState(number === 1);
   const [name, setName] = useState(section.name);
   const [content, setContent] = useState(section.content);
   const [teacherDescription, setTeacherDescription] = useState(section.teacher_description);
@@ -92,13 +92,13 @@ export function OASection({
       <div>
         {!confirmDelete && (
           <div className={`${cls['editable-task-buttons']} editable-task-buttons mod-right`}>
-            <button type="button" className="btn btn-icon" title="Move up" onClick={() => moveSection(-1)} disabled={number === 1}>
+            <button type="button" className="btn btn-icon" title="Move up" aria-label="Move up" onClick={() => moveSection(-1)} disabled={number === 1}>
               <i className="fa fa-arrow-up" />
             </button>
-            <button type="button" className="btn btn-icon" title="Move down" onClick={() => moveSection(1)} disabled={number === totalNumber}>
+            <button type="button" className="btn btn-icon" title="Move down" aria-label="Move down" onClick={() => moveSection(1)} disabled={number === totalNumber}>
               <i className="fa fa-arrow-down" />
             </button>
-            <button type="button" className="btn btn-icon btn-task-delete" title="Delete Section" onClick={() => setConfirmDelete(true)}>
+            <button type="button" className="btn btn-icon btn-task-delete" title="Delete Section" aria-label="Delete Section" onClick={() => setConfirmDelete(true)}>
               <i className="fa fa-remove" />
             </button>
           </div>

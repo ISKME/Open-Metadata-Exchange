@@ -38,13 +38,13 @@ export const Select = memo((props: SelectProps) => {
 
   useEffect(() => {
     const selected = selectOptions?.find((item) => item.slug === initial);
-    selected && setIsSelected(selected.name);
+    if (selected) setIsSelected(selected.name);
   }, [initial]);
 
   const handleSortChange = (key) => {
     onSelectChange({ target: { value: key } });
     const selected = selectOptions.find((item) => item.slug === key);
-    selected && setIsSelected(selected.name);
+    if (selected) setIsSelected(selected.name);
     setIsOpen(false);
   };
 

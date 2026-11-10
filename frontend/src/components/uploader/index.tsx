@@ -75,6 +75,7 @@ export const Uploader = ({
             onClick={() => {
               if (selectedFile) {
                 if (inputRef.current) {
+                  // eslint-disable-next-line no-param-reassign -- clears the file input that the ref points to
                   inputRef.current.value = '';
                 }
                 setPreview(dataImage.current);

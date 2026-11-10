@@ -132,7 +132,7 @@ export function RelatedResource({
 
         {resource && !editing && (
           <div className="saved-related-resource">
-            <button className="btn btn-link saved-related-resource-delete" type="button" onClick={onDelete}>
+            <button className="btn btn-link saved-related-resource-delete" type="button" aria-label="Remove related resource" onClick={onDelete}>
               <i className="fa fa-times-circle" />
             </button>
             <a href={resource.download_url || resource.url} className="saved-related-resource-link" target="_blank">
@@ -158,7 +158,7 @@ export function RelatedResource({
 
       {!resource && !editing && (
       // New Related Resource Button
-        <button className="related-resources-add-btn" type="button" onClick={() => setEditMode(true)}>
+        <button className="related-resources-add-btn" type="button" aria-label="Add related resource" onClick={() => setEditMode(true)}>
           <i className="fa fa-paperclip" />
         </button>
       )}

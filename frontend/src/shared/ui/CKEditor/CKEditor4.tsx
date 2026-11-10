@@ -92,6 +92,7 @@ export function CKEditorWidget({
   const [importing, setImporting] = useState(false);
   const editorRef = useRef(null);
   const googleAPI = window.googleapiShowPicker;
+  // eslint-disable-next-line no-param-reassign -- the license key is added to the config that goes to the editor
   config.licenseKey = window.CKEDITOR_4_LICENSE_KEY || devLicenseKey;
 
   const onGoogleFileSelect = (docId, accessToken) => {
