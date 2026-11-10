@@ -13,22 +13,23 @@ interface CollectionItemCardProps {
 
 const join = (arr) => (arr.length ? arr?.reduce((a, b, i, array) => a + (i < array.length - 1 ? ', ' : ' and ') + b) : '');
 
+function MetaData({ resource }) {
+  return (
+    <>
+      {(resource as any).metadata.map((item) => item.label && (
+        <p className={cls.subTitle}>
+          {item.label}
+          :
+          <span>{join(item.items?.map((el) => el.name))}</span>
+        </p>
+      ))}
+    </>
+  );
+}
+
 export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCardProps) => {
   const [see, setSee] = useState(false);
   const [checked, setChecked] = useState(false);
-  function MetaData() {
-    return (
-      <>
-        {(resource as any).metadata.map((item) => item.label && (
-          <p className={cls.subTitle}>
-            {item.label}
-            :
-            <span>{join(item.items?.map((el) => el.name))}</span>
-          </p>
-        ))}
-      </>
-    );
-  }
   return (
     <li
       className={cls.item_card}
@@ -145,7 +146,7 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
             </div>
           ) : null
         }
-        <MetaData />
+        <MetaData resource={resource} />
         <div className={cls.item_accessibility}>
           <AccessibleIcon className={cls.accessible_icon} />
           {resource.accessibility?.join(', ')}

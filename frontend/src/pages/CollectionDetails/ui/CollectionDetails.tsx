@@ -316,7 +316,7 @@ export function CollectionDetails() {
     e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png';
   };
 
-  const FiltersBox = () => (
+  const renderFiltersBox = () => (
     <Box sx={{ minWidth: 260, p: 2 }}>
       <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
         <FilterListIcon sx={{ mr: 1 }} />
@@ -353,7 +353,7 @@ export function CollectionDetails() {
   return (
     <Box sx={{ mx: 'auto', mt: 4, p: 2 }}>
       <Drawer open={open} onClose={toggleDrawer(false)}>
-        <FiltersBox />
+        {renderFiltersBox()}
       </Drawer>
       <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/imls/explore-oer-exchange')} sx={{ mb: 2 }}>
         Back to Explore OER Exchange
@@ -459,7 +459,7 @@ export function CollectionDetails() {
           </Stack>
           <Divider sx={{ mb: 2 }} />
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} alignItems="flex-start">
-            {!small && <FiltersBox />}
+            {!small && renderFiltersBox()}
             <Box sx={{ flex: 1, position: 'relative' }}>
               <Typography variant="subtitle1" sx={{ mb: 1 }}>
                 {totalNumber}
