@@ -1801,7 +1801,7 @@ export function Case() {
           </Box>
           <div hidden={value !== 0}>
             <div className="links" style={{ display: 'block' }}>
-              <a href={commentaryFile} target="_blank">
+              <a href={commentaryFile} target="_blank" rel="noopener">
                 Open Commentary
               </a>
               <Button
@@ -1978,7 +1978,7 @@ export function Case() {
           </div>
           <div hidden={value !== 1}>
             <div className="links">
-              <a href={material} target="_blank" className="case-link">
+              <a href={material} target="_blank" rel="noopener" className="case-link">
                 Open Instructional Materials
               </a>
               <button
