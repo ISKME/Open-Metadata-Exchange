@@ -117,12 +117,12 @@ export default function ArkLayout() {
       const variables = themeRes?.data?.variables;
       if (!variables) return;
       const newPalette = {};
-      for (const [key, value] of Object.entries(variables)) {
-        if (!isColorString(value)) continue;
+      Object.entries(variables).forEach(([key, value]) => {
+        if (!isColorString(value)) return;
         // if (key.startsWith('--')) key = key.slice(2); // remove leading --
         const camelKey = key.replace(/-([a-z])/g, (match, char) => char.toUpperCase());
         newPalette[camelKey] = value;
-      }
+      });
       setPalette((prev) => ({ ...prev, ...newPalette }));
       if (variables['font-family-main']) {
         setFontFamily(variables['font-family-main']);

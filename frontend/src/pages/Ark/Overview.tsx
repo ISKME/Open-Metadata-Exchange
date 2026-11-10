@@ -42,7 +42,6 @@ import cls from './styles.module.scss';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import MovieIcon from '@mui/icons-material/Movie';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DownloadIcon from '@mui/icons-material/Download';
 import Arrow from './icons/Arrow';
 import { matomoTag } from 'pages/Case/ui/helper';
@@ -328,7 +327,7 @@ function DownloadList({ data, editURL, canEdit }) {
                   setDownloadList([
                     ...downloadList.slice(0, i),
                     { ...item, open: false },
-                    ...downloadList.slice(item.children?.length + i + 1),
+                    ...downloadList.slice(item.children ? item.children.length + i + 1 : 0),
                   ]);
                 }
               } else if (item.parent && fileFormats.includes(item.title)) {
@@ -418,7 +417,7 @@ export default function ArkOverview() {
       setCanEdit(can_edit);
       setEditURL(edit_url);
       const tags = [];
-      for (const tag of alignment_tags) {
+      alignment_tags.forEach((tag) => {
         let index = tags.findIndex((item) => item.name === tag.standard.name);
         if (index < 0) {
           tags.push({ ...tag.standard, children: [] });
@@ -428,7 +427,7 @@ export default function ArkOverview() {
         if (indexChild < 0) {
           tags[index].children.push(tag);
         }
-      }
+      });
       setStandards(tags);
       setTags(alignment_tags);
       setLoading(false);

@@ -88,6 +88,18 @@ let tempEndTime = null;
 let textRange = {};
 let loadedPlayer;
 
+function exampleLabel(example) {
+  if (example.scope === 'video') {
+    if (example.entire_entity) return 'Watch entire video';
+    return `Watch ${convertSeconds(example.start_position)} - ${convertSeconds(example.end_position)}`;
+  }
+  if (example.scope === 'pdf') {
+    if (example.entire_entity) return 'Review Entire PDF';
+    return `Review Pages ${example.start_position} - ${example.end_position}`;
+  }
+  return 'Read Commentary';
+}
+
 const FilterInnerItems = ({
   name,
   items = [],
@@ -154,7 +166,7 @@ const FilterInnerItems = ({
                             const position = element.getBoundingClientRect().top
                               + document.documentElement.scrollTop
                               - 50;
-                            scrollTo({
+                            window.scrollTo({
                               behavior: 'smooth',
                               top: position,
                             });
@@ -212,14 +224,7 @@ const FilterInnerItems = ({
                             key={example.id}
                             onClick={() => onSelect(example)}
                           >
-                            {example.scope === 'video'
-                              ? example.entire_entity
-                                ? 'Watch entire video'
-                                : `Watch ${convertSeconds(example.start_position)} - ${convertSeconds(example.end_position)}`
-                              : example.scope === 'pdf'
-                                ? example.entire_entity ? 'Review Entire PDF' : 'Review Pages'
-                                + (` ${example.start_position} - ${example.end_position}`)
-                                : 'Read Commentary'}
+                            {exampleLabel(example)}
                           </li>
                         ))}
                     </ul>
@@ -279,9 +284,9 @@ function Groups({
   init = { id: -1, leader: false },
   onChange = (item) => {},
 }) {
-  const [selected, setSelected] = useState(
-    !init ? -1 : init.leader ? `${init.id}l` : init.id,
-  );
+  let initialSelected = -1;
+  if (init) initialSelected = init.leader ? `${init.id}l` : init.id;
+  const [selected, setSelected] = useState(initialSelected);
   const handleClick = (id, leaders = false) => {
     setSelected(leaders ? `${id}l` : id);
     onChange(id, leaders);
@@ -356,12 +361,9 @@ function Note({
   const [dialog, setDialog] = useState(false);
   const [content, setContent] = useState(text);
   const [checked, setChecked] = useState(false);
-  const [start, setStart] = useState(
-    time ? (video ? convertSeconds(time[0]) : time[0]) : '',
-  );
-  const [end, setEnd] = useState(
-    time ? (video ? convertSeconds(time[1]) : time[1]) : '',
-  );
+  const timeValue = (value) => (video ? convertSeconds(value) : value);
+  const [start, setStart] = useState(time ? timeValue(time[0]) : '');
+  const [end, setEnd] = useState(time ? timeValue(time[1]) : '');
   const [groupInfo, setGroupInfo] = useState({ id: -1, leader: false });
   const [loaded, setLoaded] = useState(false);
 
@@ -439,7 +441,7 @@ function Note({
     const position = element.getBoundingClientRect().top
       + document.documentElement.scrollTop
       - 50;
-    scrollTo({
+    window.scrollTo({
       behavior: 'smooth',
       top: position,
     });
@@ -485,7 +487,7 @@ function Note({
       </Menu>
       <CardContent>
         <Grid container>
-          <Grid item xs={groups.length ? (comment ? 12 : 6) : 12}>
+          <Grid item xs={groups.length && !comment ? 6 : 12}>
             {editing ? (
               <TextField
                 label="Note Text"
@@ -633,23 +635,23 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
   const videoTag = { check: false, start: '', end: '' };
   const [videoTags, setVideoTags] = useState([videoTag]);
   const handleAdd = () => setVideoTags([...videoTags, videoTag]);
-  const handleDel = (i) => setVideoTags(videoTags.filter((_, j) => j != i));
-  const handleMod = (i, k, v) => setVideoTags(videoTags.map((o, j) => (j != i ? o : { ...o, [k]: v })));
+  const handleDel = (i) => setVideoTags(videoTags.filter((_, j) => j !== i));
+  const handleMod = (i, k, v) => setVideoTags(videoTags.map((o, j) => (j !== i ? o : { ...o, [k]: v })));
   //
   const pdfTag = { check: false, start: '', end: '' };
   const [pdfTags, setPdfTags] = useState([pdfTag]);
   const handleAddPdf = () => setPdfTags([...pdfTags, pdfTag]);
-  const handleDelPdf = (i) => setPdfTags(pdfTags.filter((_, j) => j != i));
-  const handleModPdf = (i, k, v) => setPdfTags(pdfTags.map((o, j) => (j != i ? o : { ...o, [k]: v })));
+  const handleDelPdf = (i) => setPdfTags(pdfTags.filter((_, j) => j !== i));
+  const handleModPdf = (i, k, v) => setPdfTags(pdfTags.map((o, j) => (j !== i ? o : { ...o, [k]: v })));
   //
   const [alignOpen, setAlignOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState({});
   //
   const text = { content: '' };
   const [texts, setTexts] = useState([text]);
-  const handleText = (i, v) => setTexts(texts.map((o, j) => (i != j ? o : { content: v })));
+  const handleText = (i, v) => setTexts(texts.map((o, j) => (i !== j ? o : { content: v })));
   const handleAddText = () => setTexts([...texts, text]);
-  const handleDelText = (i) => setTexts(texts.filter((_, j) => j != i));
+  const handleDelText = (i) => setTexts(texts.filter((_, j) => j !== i));
   //
   const [rationale, setRationale] = useState('');
   //
@@ -696,8 +698,8 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
   const changeVideo = ({ target }) => setSelected(target.value);
   const publish = (isPrivate = false) => {
     const annotations = [];
-    for (const item of videoTags) {
-      if (!item.check && (item.start == '' || item.end == '')) continue;
+    videoTags.forEach((item) => {
+      if (!item.check && (item.start == '' || item.end == '')) return;
       const start_position = item.check
         ? 0
         : timeToSeconds(duration, item.start || 0, 'Start');
@@ -712,9 +714,9 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
       };
       if (item.id) data.id = item.id;
       annotations.push(data);
-    }
-    for (const item of pdfTags) {
-      if (!item.check && (item.start == '' || item.end == '')) continue;
+    });
+    pdfTags.forEach((item) => {
+      if (!item.check && (item.start == '' || item.end == '')) return;
       const data = {
         scope: 'pdf',
         uri: annotationUri,
@@ -726,24 +728,30 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
       }
       if (item.id) data.id = item.id;
       annotations.push(data);
-    }
-    for (const { id, content } of texts) {
-      if (!content) continue;
-      const ranges = findTextRange(fullHtml, content?.trim());
-      if (!ranges) return alert('Entered text is not included in commentary');
-      const data = {
-        scope: 'text',
-        uri: annotationUri,
-        quote: content,
-        start_position: ranges.start.position,
-        end_position: ranges.end.position,
-        ranges: {
-          start: `/p[${ranges.start.paragraph + 1}]`,
-          end: `/p[${ranges.end.paragraph + 1}]`,
-        },
-      };
-      if (id) data.id = id;
-      annotations.push(data);
+    });
+    // A for loop, because a text that is not found stops the whole publish
+    for (let i = 0; i < texts.length; i += 1) {
+      const { id, content } = texts[i];
+      if (content) {
+        const ranges = findTextRange(fullHtml, content?.trim());
+        if (!ranges) {
+          alert('Entered text is not included in commentary');
+          return;
+        }
+        const data = {
+          scope: 'text',
+          uri: annotationUri,
+          quote: content,
+          start_position: ranges.start.position,
+          end_position: ranges.end.position,
+          ranges: {
+            start: `/p[${ranges.start.paragraph + 1}]`,
+            end: `/p[${ranges.end.paragraph + 1}]`,
+          },
+        };
+        if (id) data.id = id;
+        annotations.push(data);
+      }
     }
     const url = edit
       ? `annotations/${edit.id}`
@@ -973,6 +981,7 @@ function NoteForm({
   const { id } = useParams();
   const [checked, setChecked] = useState(false);
   const [formStart, setFormStart] = useState(
+    // eslint-disable-next-line no-bitwise -- ~~ rounds down and turns NaN into 0
     video ? convertSeconds(~~loadedPlayer?.currentTime?.() || 0, true) : '',
   );
   const [formEnd, setFormEnd] = useState('');
@@ -992,16 +1001,25 @@ function NoteForm({
       const start_position = checked
         ? 0
         : timeToSeconds(duration, formStart || 0, 'Start');
-      const end_position = checked
-        ? ~~duration
-        : (formEnd ? ~~timeToSeconds(duration, formEnd || duration, 'End') : undefined);
+      // ~~ rounds down and turns NaN into 0
+      /* eslint-disable no-bitwise */
+      let end_position;
+      if (checked) end_position = ~~duration;
+      else if (formEnd) end_position = ~~timeToSeconds(duration, formEnd || duration, 'End');
+      /* eslint-enable no-bitwise */
       if (
         start_position === undefined
         || start_position === null
         || end_position === undefined
         || end_position === null
-      ) return alert("Enter end time, or enable 'Entire Video' checkbox!");
-      if (end_position < start_position) return alert('Start time cannot be greater than end time!');
+      ) {
+        alert("Enter end time, or enable 'Entire Video' checkbox!");
+        return;
+      }
+      if (end_position < start_position) {
+        alert('Start time cannot be greater than end time!');
+        return;
+      }
       data.start_position = start_position;
       data.end_position = end_position;
       data.scope = 'video';
@@ -1163,7 +1181,7 @@ export function Case() {
   const openPopover = Boolean(anchorPopover);
   const navigate = useNavigate();
   const videoAnalyticsTrackerRef = useRef(null);
-  const handleClick = ({ currentTarget }) => setAnchorEl(event.currentTarget);
+  const handleClick = ({ currentTarget }) => setAnchorEl(window.event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
   useEffect(
@@ -1210,17 +1228,17 @@ export function Case() {
         setTitle(title);
         annotationUri = annotation_uri;
         setAbstract(abstract);
-        general_subjects && setGeneralSubjects(general_subjects);
-        grades && setGrades(grades);
+        if (general_subjects) setGeneralSubjects(general_subjects);
+        if (grades) setGrades(grades);
         if (sections && sections.length) {
           setVideos(sections[0].attachments);
           if (sections.length > 1) {
             const html = sections[1].content
               .replace(/\n/g, '')
               .replace(/&#39;/g, "'")
-              .replace(/\&nbsp;/g, '"')
-              .replace(/\&[lr]squo;/g, "'")
-              .replace(/\&[lr]dquo;/g, '"');
+              .replace(/&nbsp;/g, '"')
+              .replace(/&[lr]squo;/g, "'")
+              .replace(/&[lr]dquo;/g, '"');
             fullHtml = html;
             setCommentary(html);
             setCommentaryFile(sections[1].attachments[0]?.url);
@@ -1243,13 +1261,14 @@ export function Case() {
           setResources(resources);
         }
         //
+        // Listener on the control itself, so currentTarget is the control
         function oncontroldown(event) {
           setActive(-1);
-          quote = this.text;
+          quote = event.currentTarget.text;
           setSelectedComment(
             paragraphNumber(fullHtml, textRange.startPos.paragraph),
           );
-          this.remove();
+          event.currentTarget.remove();
           document.getSelection().removeAllRanges();
           event.stopPropagation();
         }
@@ -1288,13 +1307,13 @@ export function Case() {
             document.getSelection().removeAllRanges();
           }
         };
-        axios.get(`/api/annotations?uri=${annotationUri}`).then(({ data }) => {
-          data = data?.pop();
+        axios.get(`/api/annotations?uri=${annotationUri}`).then(({ data: list }) => {
+          const data = list?.pop();
           setCanAlign(data?.can_align);
           const annotations = data?.annotations || [];
           setAnnotations(annotations);
           const frameworks = [];
-          for (const note of annotations) {
+          annotations.forEach((note) => {
             const {
               alignment_tag,
               annotations: examples,
@@ -1305,7 +1324,7 @@ export function Case() {
               scope,
               can_view,
             } = note;
-            if (!alignment_tag || scope !== 'standards' || !can_view) continue;
+            if (!alignment_tag || scope !== 'standards' || !can_view) return;
             let index = frameworks.findIndex(
               (item) => item.name === alignment_tag.standard.name,
             );
@@ -1342,7 +1361,7 @@ export function Case() {
                 ranges,
               });
             }
-          }
+          });
           setFrameworks(sorting(frameworks, alignment_tags) || frameworks);
           annotations
             ?.filter((item) => !!item.quote)
@@ -1581,12 +1600,12 @@ export function Case() {
                       const position = element.getBoundingClientRect().top
                         + document.documentElement.scrollTop
                         - 50;
-                      scrollTo({
+                      window.scrollTo({
                         behavior: 'smooth',
                         top: position,
                       });
                     } else if (scope === 'pdf') {
-                      open(material, '_blank');
+                      window.open(material, '_blank');
                     } else {
                       highlightText(item);
                       setTimeout(() => {
@@ -1594,7 +1613,7 @@ export function Case() {
                         const position = element.getBoundingClientRect().top
                           + document.documentElement.scrollTop
                           - 50;
-                        scrollTo({
+                        window.scrollTo({
                           behavior: 'smooth',
                           top: position,
                         });
@@ -1632,6 +1651,7 @@ export function Case() {
               code={getVideoEntryId((video ?? videos[0])?.url)}
               onLoad={(data, player) => {
                 loadedPlayer = player;
+                // eslint-disable-next-line no-bitwise -- ~~ rounds down and turns NaN into 0
                 duration = ~~data.sources.duration;
                 const selectedVideo = video ?? videos[0];
                 const entryId = getVideoEntryId(selectedVideo?.url);
@@ -1818,7 +1838,7 @@ export function Case() {
                   <Typography>2. Write a note.</Typography>
                   <Typography>3. Add framework tag if needed.</Typography>
                   <Typography>
-                    4. Choose "Only Me" or select group(s) and/or group
+                    4. Choose &quot;Only Me&quot; or select group(s) and/or group
                     leader(s) with whom to share the note.
                   </Typography>
                   <Typography>
@@ -1962,6 +1982,7 @@ export function Case() {
                 Open Instructional Materials
               </a>
               <button
+                type="button"
                 className="btn btn-link pull-right show-popup-form-button mod-material-note"
                 title="Add a note about Instructional Materials"
                 onClick={() => setInstruct(true)}

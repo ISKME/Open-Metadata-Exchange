@@ -248,7 +248,7 @@ export function Asset() {
             </Typography>
           </Stack>
           <Stack direction="row" spacing={2} mb={2}>
-            <Button variant="contained" color="primary" onClick={() => (window.location.href = url)}>
+            <Button variant="contained" color="primary" onClick={() => { window.location.href = url; }}>
               View Resource
             </Button>
             {/* <Button variant="outlined" onClick={save}>

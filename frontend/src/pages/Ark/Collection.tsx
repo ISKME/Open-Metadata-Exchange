@@ -19,6 +19,8 @@ let fSearch = '';
 let fSubject = {};
 let fSort = '';
 
+// Changes the overflow of the element for a moment to measure it
+/* eslint-disable no-param-reassign */
 function checkOverflow(el) {
   const curOverflow = el.style.overflow;
   if (!curOverflow || curOverflow === 'visible') el.style.overflow = 'hidden';
@@ -26,6 +28,7 @@ function checkOverflow(el) {
   el.style.overflow = curOverflow;
   return isOverflowing;
 }
+/* eslint-enable no-param-reassign */
 
 function Filters({ filters, checked, onChange }) {
   return (
@@ -78,10 +81,11 @@ export default function ArkCollectionResources() {
   }, [info?.abstract]);
 
   const fetcher = async (queries) => {
-    queries += `${queries ? '&' : '?'}page=${PAGE}`;
-    if (!queries.includes('__hub_id')) queries += '&source=courseware';
+    let query = queries;
+    query += `${query ? '&' : '?'}page=${PAGE}`;
+    if (!query.includes('__hub_id')) query += '&source=courseware';
     try {
-      const { data } = await api.get(`/api/search/v2/browse/${queries}&f.collection=${details}`);
+      const { data } = await api.get(`/api/search/v2/browse/${query}&f.collection=${details}`);
       return data.resources;
     } catch (e) { return []; }
   };
@@ -107,7 +111,7 @@ export default function ArkCollectionResources() {
     if (fSort) queries.sortby = fSort;
     setSearchParams(queries);
     if (key === 'append') {
-      PAGE++;
+      PAGE += 1;
     } else {
       setResources([]);
       PAGE = 1;
@@ -140,11 +144,11 @@ export default function ArkCollectionResources() {
         searchParams.delete('page');
         setFilters(filters);
         const params: any = qs.parse(search);
-        for (const key in params) {
+        Object.keys(params).forEach((key) => {
           if (!Array.isArray(params[key])) {
             params[key] = [params[key]];
           }
-        }
+        });
         setChecked(params);
         // updatePath(null);
       });
@@ -166,7 +170,7 @@ export default function ArkCollectionResources() {
     const { value } = event.target;
     const updatedList = { ...checked };
     if (event.target.checked) {
-      if (updatedList.hasOwnProperty(slug)) {
+      if (Object.prototype.hasOwnProperty.call(updatedList, slug)) {
         updatedList[slug].push(value);
       } else {
         updatedList[slug] = [value];
@@ -185,10 +189,10 @@ export default function ArkCollectionResources() {
     setInputValue('');
   };
 
-  function handleInputChange() {
+  const handleInputChange = () => {
     fSearch = inputValue.trim().toLowerCase();
     update(null);
-  }
+  };
 
   function handleSearching() {
     update(null);

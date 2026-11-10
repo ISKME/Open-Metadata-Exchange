@@ -94,11 +94,11 @@ export function Dashboard() {
   const [widgetSectionChartData, setWidgetSectionChartData] = useState<
     Record<string, Record<string, any[]>>
   >({});
-  const getLabel = (opt: any): string | null => (typeof opt === 'string'
-    ? opt
-    : opt && typeof opt.label === 'string'
-      ? opt.label
-      : null);
+  const getLabel = (opt: any): string | null => {
+    if (typeof opt === 'string') return opt;
+    if (opt && typeof opt.label === 'string') return opt.label;
+    return null;
+  };
 
   const widgetsAbortRef = useRef<AbortController | null>(null);
   const loadSeqRef = useRef(0);
@@ -167,8 +167,10 @@ export function Dashboard() {
       { length: Math.min(limit, tasks.length) },
       async () => {
         while (true) {
-          const idx = next++;
+          const idx = next;
+          next += 1;
           if (idx >= tasks.length) return;
+          // eslint-disable-next-line no-await-in-loop -- each worker runs its tasks one after another, the workers run side by side
           results[idx] = await tasks[idx]();
         }
       },
@@ -185,10 +187,11 @@ export function Dashboard() {
     const controller = new AbortController();
     widgetsAbortRef.current = controller;
 
-    const loadSeq = ++loadSeqRef.current;
+    loadSeqRef.current += 1;
+    const loadSeq = loadSeqRef.current;
 
     const loadingState = {};
-    allWidgets.forEach((w) => (loadingState[w.id] = true));
+    allWidgets.forEach((w) => { loadingState[w.id] = true; });
     setWidgetLoadingMap(loadingState);
 
     setWidgetSections({});
@@ -472,11 +475,9 @@ export function Dashboard() {
 
       const currentHub: string | null = selectedParams.hub || (isHA ? data.hubs && data.hubs[0] : null) || null;
 
-      const groupsForHub: string[] = isHA
-        ? currentHub
-          ? data.hub_groups?.[currentHub] || []
-          : []
-        : data.groups || [];
+      let groupsForHub: string[] = [];
+      if (!isHA) groupsForHub = data.groups || [];
+      else if (currentHub) groupsForHub = data.hub_groups?.[currentHub] || [];
 
       setGroups(toOptions(groupsForHub));
 
@@ -587,6 +588,7 @@ export function Dashboard() {
     } catch (err) {
       console.error('Failed to fetch widget data', err);
     }
+    return undefined;
   };
 
   useEffect(() => {
@@ -729,12 +731,12 @@ export function Dashboard() {
       const buttons = document.querySelectorAll(`button.${cls.pageLinkItem}`);
       if (!sections?.length) return;
       let selected = 1;
-      for (let i = 0; i < sections.length; i++) {
+      for (let i = 0; i < sections.length; i += 1) {
         if (scrollPosition > sections[i].offsetTop - 50) {
           selected = i;
         }
       }
-      for (let i = 0; i < buttons.length; i++) {
+      for (let i = 0; i < buttons.length; i += 1) {
         if (i !== selected) buttons[i].classList.remove(cls.active);
       }
       // ToDo: when selected is changed?
@@ -758,7 +760,7 @@ export function Dashboard() {
 
   function goTo(slug) {
     const section = document.getElementById(slug);
-    scrollTo(0, section.offsetTop);
+    window.scrollTo(0, section.offsetTop);
   }
 
   // const data = !selectedWidget ? pageTypesWithWidgets.filter(pt => !target || pt.slug === target) : [{ single: true, widgets: [selectedWidget] }];
@@ -1008,7 +1010,7 @@ export function Dashboard() {
           color="primary"
           aria-label="go to top"
           sx={{ position: 'fixed', bottom: '36px', right: '36px' }}
-          onClick={() => scrollTo(0, 0)}
+          onClick={() => window.scrollTo(0, 0)}
         >
           <Up />
         </Fab>

@@ -63,11 +63,12 @@ export default function ArkSearch() {
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
 
   const fetcher = async (queries) => {
+    let query = queries;
     if (PAGE !== 1) {
-      queries += `${queries ? '&' : '?'}page=${PAGE}`;
+      query += `${query ? '&' : '?'}page=${PAGE}`;
     }
     try {
-      const { data } = await api.get(`/api/search/v2/browse/${queries}`);
+      const { data } = await api.get(`/api/search/v2/browse/${query}`);
 
       document.title = data?.clientInfo?.name
         ? `Search | ${data.clientInfo.name}`
@@ -85,7 +86,7 @@ export default function ArkSearch() {
     if (fSort) queries.sortby = fSort;
     setSearchParams(queries);
     if (key === 'append') {
-      PAGE++;
+      PAGE += 1;
     } else {
       setResources([]);
       PAGE = 1;
@@ -117,11 +118,11 @@ export default function ArkSearch() {
         searchParams.delete('page');
         setFilters(filters);
         const params: any = qs.parse(search);
-        for (const key in params) {
+        Object.keys(params).forEach((key) => {
           if (!Array.isArray(params[key])) {
             params[key] = [params[key]];
           }
-        }
+        });
         setChecked(params);
         // updatePath(null);
       });
@@ -152,7 +153,7 @@ export default function ArkSearch() {
     const { value } = event.target;
     const updatedList = { ...checked };
     if (event.target.checked) {
-      if (updatedList.hasOwnProperty(slug)) {
+      if (Object.prototype.hasOwnProperty.call(updatedList, slug)) {
         updatedList[slug].push(value);
       } else {
         updatedList[slug] = [value];
@@ -171,10 +172,10 @@ export default function ArkSearch() {
     setInputValue('');
   };
 
-  function handleInputChange() {
+  const handleInputChange = () => {
     fSearch = inputValue.trim().toLowerCase();
     update(null);
-  }
+  };
 
   function handleSearching() {
     update(null);

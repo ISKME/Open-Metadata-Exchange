@@ -25,9 +25,9 @@ const normalizeText = (s?: string) => {
   if (!s) return '';
   return String(s)
     .replace(/&#39;/g, "'")
-    .replace(/\&nbsp;/g, ' ')
-    .replace(/\&[lr]squo;/g, "'")
-    .replace(/\&[lr]dquo;/g, '"');
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&[lr]squo;/g, "'")
+    .replace(/&[lr]dquo;/g, '"');
 };
 
 const pickLabel = (v: any) => {

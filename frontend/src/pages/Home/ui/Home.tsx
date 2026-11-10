@@ -151,7 +151,7 @@ export function Home({ className }: HomeProps) {
       </Box>
 
       <Typography variant="h2" sx={sxStyles.sectionTitle}>
-        What's new in the OER Exchange
+        What&apos;s new in the OER Exchange
       </Typography>
       <Typography variant="h6" sx={sxStyles.sectionSubtitle}>
         Add collections and resources to your microsite from nationwide digital libraries sharing on the OER Exchange.

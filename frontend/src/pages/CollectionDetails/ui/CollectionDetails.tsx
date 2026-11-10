@@ -106,11 +106,12 @@ export function CollectionDetails() {
 
   // useCallback ???
   const fetcher = async (queries) => {
+    let query = queries;
     if (PAGE !== 1) {
-      queries += `${queries ? '&' : '?'}page=${PAGE}`;
+      query += `${query ? '&' : '?'}page=${PAGE}`;
     }
     try {
-      const { data } = await axios.get(`/api/imls/v2/collections/${name}/${id}/resources${queries}`);
+      const { data } = await axios.get(`/api/imls/v2/collections/${name}/${id}/resources${query}`);
       return data.resources;
     } catch (e) { return {}; }
   };
@@ -124,7 +125,7 @@ export function CollectionDetails() {
     if (fSort) queries.sortby = fSort;
     setSearchParams(queries);
     if (key === 'append') {
-      PAGE++;
+      PAGE += 1;
     } else {
       setResources([]);
       PAGE = 1;
@@ -213,7 +214,7 @@ export function CollectionDetails() {
     const { value } = event.target;
     const updatedList = { ...checked };
     if (event.target.checked) {
-      if (updatedList.hasOwnProperty(slug)) {
+      if (Object.prototype.hasOwnProperty.call(updatedList, slug)) {
         updatedList[slug].push(value);
       } else {
         updatedList[slug] = [value];
@@ -285,7 +286,7 @@ export function CollectionDetails() {
         const changes = {};
         const stats = {};
         setSections(sections);
-        for (const item of sections) {
+        sections.forEach((item) => {
           Object.keys(item.mapping).forEach((key) => {
             if (!changes[item.name]) changes[item.name] = {};
             if (item.mapping[key].length > 0) {
@@ -295,10 +296,10 @@ export function CollectionDetails() {
               changes[item.name][key] = null;
             }
           });
-        }
-        for (const key in changes) {
+        });
+        Object.keys(changes).forEach((key) => {
           stats[key] = compute(changes[key]);
-        }
+        });
         setChanges(changes);
         setStats(stats);
         if (window.location.hash === '#meta') {
@@ -593,9 +594,9 @@ export function CollectionDetails() {
                 </Box>
                 <Typography variant="body2">TRANSFERRING</Typography>
                 <Typography variant="body2" sx={{ mt: 1 }}>
-                  We're getting your new collection ready!
+                  We&apos;re getting your new collection ready!
                   <br />
-                  We'll email you when the process is complete.
+                  We&apos;ll email you when the process is complete.
                 </Typography>
               </Box>
             )}
@@ -632,9 +633,9 @@ export function CollectionDetails() {
                         temp[section.name][item[0]] = e.target.value;
                         setChanges(temp);
                         const statsObj = {};
-                        for (const key in temp) {
+                        Object.keys(temp).forEach((key) => {
                           statsObj[key] = compute(temp[key]);
-                        }
+                        });
                         setStats(statsObj);
                       }}
                       style={{

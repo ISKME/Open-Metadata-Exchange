@@ -36,7 +36,7 @@ export default function ArkHome() {
     });
   }, []);
 
-  function handleSearch() {
+  const handleSearch = () => {
     const params = new URLSearchParams();
     if (search) params.set('f.search', search);
     if (levels.length) params.set('f.sublevel', levels.map((item) => levelsList.find(({ name }) => name === item)?.slug).filter(Boolean));
@@ -44,7 +44,7 @@ export default function ArkHome() {
     if (materials.length) params.set('f.material_types', materials.map((item) => materialsList.find(({ name }) => name === item)?.slug).filter(Boolean).join('+'));
     window.location.href = `/ark/search?${params.toString().replace(/%2C/g, '+')}`;
     matomoTag({ category: 'Search', action: 'site search', name: (search || '').trim() });
-  }
+  };
 
   const fontStyle = { fontFamily: theme.typography.fontFamily }; // , fontSize: theme.typography.fontSize };
 

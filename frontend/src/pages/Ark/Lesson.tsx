@@ -196,6 +196,7 @@ async function hardDownload(url, interval = 5) {
     document.body.removeChild(link);
   }
 
+  // eslint-disable-next-line no-async-promise-executor -- every error is caught below and passed to reject
   return new Promise(async (resolve, reject) => {
     try {
       const { data } = await api.post(url);
@@ -312,7 +313,7 @@ function DownloadList({ data, editURL, canEdit }) {
                   setDownloadList([
                     ...downloadList.slice(0, i),
                     { ...item, open: false },
-                    ...downloadList.slice(item.children?.length + i + 1),
+                    ...downloadList.slice(item.children ? item.children.length + i + 1 : 0),
                   ]);
                 }
                 return;
@@ -463,9 +464,9 @@ export default function ArkLesson() {
           abstract
             ? abstract
               .replace(/&#39;/g, "'")
-              .replace(/\&nbsp;/g, '"')
-              .replace(/\&[lr]squo;/g, "'")
-              .replace(/\&[lr]dquo;/g, '"')
+              .replace(/&nbsp;/g, '"')
+              .replace(/&[lr]squo;/g, "'")
+              .replace(/&[lr]dquo;/g, '"')
             : '',
         );
         setSubjects(generalSubjects);
@@ -523,7 +524,7 @@ export default function ArkLesson() {
   }, []);
 
   useEffect(() => {
-    if (tab !== 1) return;
+    if (tab !== 1) return undefined;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

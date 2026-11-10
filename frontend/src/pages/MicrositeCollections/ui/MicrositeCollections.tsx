@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
-import { useLocation, useSearchParams, useParams } from 'react-router-dom';
+import {
+  useLocation, useSearchParams, useParams, Link,
+} from 'react-router-dom';
 import React, { useCallback, useEffect, useState } from 'react';
 import { classNames } from 'shared/lib/classNames/classNames';
 
@@ -14,7 +16,6 @@ import { Select } from '../../../features/Select';
 import { Filter } from '../../../features/Filter';
 import { CollectionItemCard } from '../../../entities/CollectionItemCard';
 import cls from './MicrositeCollections.module.scss';
-import { Link } from 'react-router-dom';
 
 let fSearch = '';
 let fSubject = {};
@@ -26,9 +27,8 @@ interface AllCollectionsProps {
 
 function debounce(func, wait) {
   let timeout;
-  return function () {
+  return function (...args) {
     const context = this;
-    const args = arguments;
     clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(context, args), wait);
   };
@@ -136,9 +136,9 @@ export function MicrositeCollections({ className }: AllCollectionsProps) {
       fSubject = { tenant: [name] };
       setChecked({ tenant: [name] });
     } else {
-      for (const tempKey in fSubject) {
+      Object.keys(fSubject).forEach((tempKey) => {
         queries[tempKey] = fSubject[tempKey];
-      }
+      });
       if (key && fSubject[key]) queries[key] = fSubject[key];
     }
     if (fSearch) queries['f.search'] = fSearch.toLowerCase();
@@ -178,7 +178,7 @@ export function MicrositeCollections({ className }: AllCollectionsProps) {
     const { value } = event.target;
     const updatedList = { ...checked };
     if (event.target.checked) {
-      if (updatedList.hasOwnProperty(slug)) {
+      if (Object.prototype.hasOwnProperty.call(updatedList, slug)) {
         updatedList[slug].push(value);
       } else {
         updatedList[slug] = [value];
