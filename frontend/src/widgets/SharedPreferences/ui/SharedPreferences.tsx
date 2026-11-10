@@ -154,7 +154,7 @@ function MetadataSection({ n, title, children }) {
       id="panel1-header"
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <Typography variant="h6" sx={styles.headerTitle}>{title}</Typography>
+        <Typography variant="h6" component="h2" sx={styles.headerTitle}>{title}</Typography>
         {Number(n) > 0 && (<>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <g clipPath="url(#clip0_454_2653)">

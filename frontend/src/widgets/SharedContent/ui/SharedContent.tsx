@@ -152,7 +152,7 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
                   Unshare
                 </Button>
               <CardContent>
-                <Typography variant="h4" sx={{ fontSize: '1.2rem', mb: 1 }}>
+                <Typography variant="h4" component="h2" sx={{ fontSize: '1.2rem', mb: 1 }}>
                   {item.name}
                 </Typography>
                 <Typography variant="subtitle1">

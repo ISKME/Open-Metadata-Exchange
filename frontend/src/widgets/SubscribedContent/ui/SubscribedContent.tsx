@@ -91,7 +91,7 @@ export const SubscribedContent = () => {
                   Unsubscribe
                 </Button>
               <CardContent>
-                <Typography variant="h4" component="h3" sx={{ fontSize: '1.2rem', mb: 1 }}>
+                <Typography variant="h4" component="h2" sx={{ fontSize: '1.2rem', mb: 1 }}>
                   {item.name}
                 </Typography>
                 <Typography variant="subtitle1">

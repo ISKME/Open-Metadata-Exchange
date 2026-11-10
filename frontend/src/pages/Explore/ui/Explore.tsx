@@ -61,7 +61,7 @@ export function Explore({ className }: ExploreProps) {
 
   return (
     <Box sx={{ maxWidth: 1200, mx: { sm: '', xs: '', md: 'auto' }, mt: 4, p: 2, width: { sm: 'calc(100% - 64px)', xs: 'calc(100% - 64px)', md: '100%' } }}>
-      <Typography variant="h4" gutterBottom fontWeight={700} textAlign="center">
+      <Typography variant="h4" component="h1" gutterBottom fontWeight={700} textAlign="center">
         Explore Learning Materials
       </Typography>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" justifyContent="center" sx={{ mb: 4 }}>
@@ -78,7 +78,7 @@ export function Explore({ className }: ExploreProps) {
       {sections.map((section, index) => (
         <Box key={index} sx={{ mb: 5 }}>
           <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
-            <Typography variant="h5" fontWeight={600}>{section.name}</Typography>
+            <Typography variant="h5" component="h2" fontWeight={600}>{section.name}</Typography>
             {section.type === 'Collections' && (
               <Button variant="text" color="primary" onClick={() => navigate('/imls/browse')}>View All Collections</Button>
             )}
@@ -106,7 +106,7 @@ export function Explore({ className }: ExploreProps) {
                           onError={handleImageError}
                         />
                         <CardContent sx={{ flex: 1 }}>
-                          <Typography variant="h6" fontWeight={600} fontSize={'1.2rem'}>{collection.name}</Typography>
+                          <Typography variant="h6" component="h3" fontWeight={600} fontSize={'1.2rem'}>{collection.name}</Typography>
                           <Typography variant="body2" color="text.secondary">{collection.micrositeName}</Typography>
                           <Typography variant="body2" color="text.secondary">{collection.numResources} resources</Typography>
                           <Typography variant="body2" color="text.secondary">{collection.educationLevels?.slice(0, 3)?.join(', ')}</Typography>
@@ -133,7 +133,7 @@ export function Explore({ className }: ExploreProps) {
                   <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', p: 2 }}>
                     <Avatar src={microsite.logo} alt={microsite.name} sx={{ width: 80, height: 80, mb: 2, '& img': { objectFit: 'contain' } }} />
                     <CardContent sx={{ flex: 1, textAlign: 'center' }}>
-                      <Typography variant="h6" fontWeight={600}>{microsite.name}</Typography>
+                      <Typography variant="h6" component="h3" fontWeight={600}>{microsite.name}</Typography>
                       <Typography variant="body2" color="text.secondary">{microsite.numCollections} Collections</Typography>
                       <Typography variant="body2" color="text.secondary">{microsite.educationalLevels?.slice(0, 3)?.join(', ')}</Typography>
                       <Button variant="outlined" size="small" sx={{ mt: 2 }} onClick={() => navigate(`/imls/browse/?tenant=${microsite.slug}`)}>

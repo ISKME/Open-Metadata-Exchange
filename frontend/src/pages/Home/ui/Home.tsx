@@ -18,6 +18,7 @@ import {
   colors,
   SvgIcon,
 } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import { BellIcon, ExploreSyncIcon, LightIcon, ManageIcon, MangnifyIcon, SetPreferencesIcon, ShareIcon, StayUpdatedIcon } from './icons';
 import Dropdown from 'components/OERX/Dropdown';
 import { sxStyles } from 'shared/theme/styles';
@@ -116,6 +117,9 @@ export function Home({ className }: HomeProps) {
   // }, [])
 
   return <div className={classNames(cls.Home, {}, [className])}>
+    <Typography variant="h1" sx={visuallyHidden}>
+      OER Exchange
+    </Typography>
     <Box sx={sxStyles.searchBar} className={cls.searchBar}>
       <TextField
         value={inputValue}
@@ -140,7 +144,7 @@ export function Home({ className }: HomeProps) {
     <Typography variant="h2" sx={sxStyles.sectionTitle}>
       What's new in the OER Exchange
     </Typography>
-    <Typography variant="h6" sx={sxStyles.sectionSubtitle}>
+    <Typography variant="h6" component="p" sx={sxStyles.sectionSubtitle}>
       Add collections and resources to your microsite from nationwide digital libraries sharing on the OER Exchange.
     </Typography>
     {data && <Grid container spacing={4} justifyContent="center">
