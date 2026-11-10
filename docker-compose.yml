@@ -8,6 +8,8 @@ services:
         ipv4_address: 172.21.0.2
     ports:
       - 1119:119
+    secrets:
+      - ome_config
     post_start:
       - command:  sh -c "/usr/local/bin/wait_for_tcp.sh 119 20 && /usr/local/bin/preseed.sh"
 
@@ -20,8 +22,10 @@ services:
       - ./templates:/app/templates:rw
     build:
       dockerfile: Dockerfile-api
-      args:
-        INN_SERVER_NAME: nntp-server
+    environment:
+      INN_SERVER_NAME: nntp-server
+    secrets:
+      - ome_config
     networks:
       my_network:
         ipv4_address: 172.21.0.3
@@ -44,6 +48,10 @@ services:
       - 4000:80
     depends_on:
       - fastapi-server
+
+secrets:
+  ome_config:
+    file: ./config.json
 
 networks:
   my_network:
