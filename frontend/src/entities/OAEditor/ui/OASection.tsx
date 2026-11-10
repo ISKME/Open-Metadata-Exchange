@@ -67,7 +67,7 @@ export function OASection({
           // Once section is created, use it to create attachment.
           resolve({ submitURL: data.attachment_create_url, submitMethod: 'post' });
         }).catch((e) => {
-          reject('An error occurred during the creation of a Resource. Please, try later.');
+          reject(new Error('An error occurred during the creation of a Resource. Please, try later.'));
           console.error(e);
         });
       }
