@@ -5,6 +5,7 @@
     "@stylistic/indentation": [2],
     "selector-class-pattern": null,
     "selector-pseudo-class-no-unknown": [true, { "ignorePseudoClasses": ["global", "local"] }],
-    "media-feature-range-notation": "prefix"
+    "media-feature-range-notation": "prefix",
+    "declaration-block-no-redundant-longhand-properties": [true, { "ignoreShorthands": ["inset", "overflow"] }]
   }
 }
