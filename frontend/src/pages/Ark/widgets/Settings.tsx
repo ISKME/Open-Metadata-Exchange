@@ -6,9 +6,9 @@ import {
   AppBar, Toolbar, Typography, Box, Container,
 } from '@mui/material';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { Button } from 'components/Dashboard';
 import cls from './Settings.module.scss';
 import Loader from './icons/Loader';
-import { Button } from 'components/Dashboard';
 
 // One font field. Its own component, so the hooks run once per field and in the same order every render.
 function FontInput({ font, idx, onFontChange }) {

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { useState } from 'react';
-import cls from './Collapse.module.scss';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './Collapse.module.scss';
 
 export const Collapse = (props) => {
   const {

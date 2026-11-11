@@ -1,11 +1,11 @@
 // @ts-ignore
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import cls from './Library.module.scss';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import ShareIcon from '@mui/icons-material/Share';
+import cls from './Library.module.scss';
 
 interface LibraryProps {
   className?: string;

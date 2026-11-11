@@ -15,13 +15,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Search from '@mui/icons-material/Search';
 import { CasesList } from 'widgets/CasesList';
-import cls from './CasesAll.module.scss';
 import axios from 'axios';
 import { fetchStaticCasesData } from 'pages/Cases/model/services/ActionCreators';
 import { getSelectedItems } from 'widgets/Filters/lib';
-import { AlignWidget } from './Align';
 import { extractUrlParams } from 'shared/lib/global';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import { AlignWidget } from './Align';
+import cls from './CasesAll.module.scss';
 
 const styles = {
   accordion: {

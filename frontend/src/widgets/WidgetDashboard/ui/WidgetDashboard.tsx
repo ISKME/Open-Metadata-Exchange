@@ -12,9 +12,9 @@ import {
   Switch,
 } from '@mui/material';
 
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import styles from './WidgetDashboard.module.scss';
 import { generateDefaultContent } from '../constants';
-import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 export const EditIcon: React.FC = () => (
   <svg

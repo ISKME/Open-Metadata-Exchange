@@ -9,7 +9,6 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import ListItemText from '@mui/material/ListItemText';
-import cls from './Organs.module.scss';
 import { OrgansSettings } from 'widgets/OrgansSettings';
 import { OrgansUsers } from 'widgets/OrgansUsers';
 import { OrgansGroups } from 'widgets/OrgansGroups/ui/OrgansGroups';
@@ -17,6 +16,7 @@ import { OrgansCaseAnalytics } from 'widgets/OrgansCaseAnalytics';
 import { OrgansUserAnalytics } from 'widgets/OrgansUserAnalytics';
 import { VideoAnalytics } from 'widgets/VideoAnalytics';
 import { useSearchParams } from 'react-router-dom';
+import cls from './Organs.module.scss';
 
 const primaryColor = '#303e48';
 

@@ -6,8 +6,8 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
-import cls from './CardResource.module.scss';
 import { Button } from '@mui/material';
+import cls from './CardResource.module.scss';
 
 const CardBlog = styled(Card)(({ theme }) => ({
   margin: 'auto',

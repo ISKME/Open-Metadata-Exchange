@@ -1,5 +1,4 @@
 // @ts-nocheck
-import api from './api/axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   useEffect, useRef, useState, useLayoutEffect,
@@ -37,17 +36,18 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import NoteIcon from '@mui/icons-material/Note';
 import RemixIcon from '@mui/icons-material/Autorenew'; // Substitute for remix
 import CCIcon from '@mui/icons-material/Copyright'; // Substitute for cc
-import Loader from './icons/Loader';
-import cls from './styles.module.scss';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import MovieIcon from '@mui/icons-material/Movie';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import DownloadIcon from '@mui/icons-material/Download';
-import Arrow from './icons/Arrow';
 import { matomoTag } from 'pages/Case/ui/helper';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import Arrow from './icons/Arrow';
 
 import { makeVideoContent } from './widgets/VideoPlayer';
-import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './styles.module.scss';
+import Loader from './icons/Loader';
+import api from './api/axios';
 
 const THUMBNAIL_URL_PATTERN = 'images/materials/default-thumbnail-index.png';
 const trackDownload = (s?: string) => {

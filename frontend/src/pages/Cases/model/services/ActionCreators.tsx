@@ -4,8 +4,8 @@
 import axios from 'axios';
 import qs from 'qs';
 import { AppDispatch } from 'app/providers/StoreProvider/config/store';
-import { casesSlice } from '../slice/CasesSlice';
 import { extractUrlParams } from 'shared/lib/global';
+import { casesSlice } from '../slice/CasesSlice';
 
 export const fetchCases = (URL, groupId = '', folderId = '', subFolderId = '', resources = false) => async (dispatch: AppDispatch) => {
   const params = extractUrlParams();

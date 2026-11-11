@@ -26,8 +26,8 @@ import type {
   PropertySlider,
   PropertyStack,
 } from 'grapesjs';
-import { BTN_CLS, ROUND_BORDER_COLOR, cx } from './common';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import { BTN_CLS, ROUND_BORDER_COLOR, cx } from './common';
 
 interface StylePropertyFieldProps extends React.HTMLProps<HTMLDivElement> {
   prop: Property;

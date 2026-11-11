@@ -9,9 +9,9 @@ import Box from '@mui/material/Box';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { CasesAll } from 'widgets/CasesAll';
 // import { CasesSets } from 'widgets/CasesSets';
-import cls from './Cases.module.scss';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { Resources } from 'widgets/Resources';
+import cls from './Cases.module.scss';
 
 // function CloseSquare(props: SvgIconProps) { return <SvgIcon {...props}><path d="" /></SvgIcon> }
 

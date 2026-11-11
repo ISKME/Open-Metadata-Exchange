@@ -1,5 +1,4 @@
 // @ts-nocheck
-import api from './api/axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {
@@ -19,6 +18,7 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import HistoryIcon from '@mui/icons-material/History';
 import RemixIcon from '@mui/icons-material/Autorenew';
+import api from './api/axios';
 import Loader from './icons/Loader';
 
 const normalizeText = (s?: string) => {

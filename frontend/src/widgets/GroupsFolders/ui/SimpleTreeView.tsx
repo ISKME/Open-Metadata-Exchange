@@ -2,11 +2,11 @@
 
 // @ts-nocheck
 import * as React from 'react';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './GroupsFolders.module.scss';
 import CloseFolderSvg from '../../../app/image/closeFolder.svg';
 import OpenFolderSvg from '../../../app/image/openFolder.svg';
 import ThreePointSvg from '../../../app/image/threePoint.svg';
-import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 export function SimpleTreeView({
   folders,

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import cls from './Dropdown.module.scss';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './Dropdown.module.scss';
 
 // eslint-disable-next-line react/prop-types
 const Arrow = ({ up = false }) => (

@@ -24,13 +24,13 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { fetchCases } from 'pages/Cases/model/services/ActionCreators';
-import { CardCase } from '../../../widgets/CardCase';
-import cls from './CasesList.module.scss';
 import axios from 'axios';
 import { GridDeleteIcon } from '@mui/x-data-grid';
 import { matomoTag } from 'pages/Case/ui/helper';
-import { CasesExport } from './export/CasesExport';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import { CasesExport } from './export/CasesExport';
+import cls from './CasesList.module.scss';
+import { CardCase } from '../../../widgets/CardCase';
 
 const CButton = styled(Button)(({ theme }) => ({
   padding: '6px 12px',

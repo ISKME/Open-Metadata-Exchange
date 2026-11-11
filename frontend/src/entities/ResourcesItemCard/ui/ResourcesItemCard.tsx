@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import { memo, useState } from 'react';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './ResourcesItemCard.module.scss';
 import AccessibleIcon from '../../../shared/assets/icons/accessible.svg';
 import FullCourseIcon from '../../../shared/assets/icons/full-course.svg';
 import RightsIcon from '../../../shared/assets/icons/rights.svg';
 import InfoIcon from '../../../shared/assets/icons/info.svg';
-import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 interface CollectionItemCardProps {
   className?: string;

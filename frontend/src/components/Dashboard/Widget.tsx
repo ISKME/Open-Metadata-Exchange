@@ -9,13 +9,13 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DateRange } from 'widgets/enum';
+import req from 'shared/lib/req';
 import DrillControls, { useDrill, buildTimelineDrill } from './DrillControls';
 import colors from './colors';
 import { buildSectionChartData } from './chartUtils';
 import { Tabs } from '.';
 // ToDo: Make it Global
 import cls from './styles.module.scss';
-import req from 'shared/lib/req';
 
 function toRows(response) {
   if (Array.isArray(response?.data)) return response.data;

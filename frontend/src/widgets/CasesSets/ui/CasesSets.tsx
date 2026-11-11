@@ -6,8 +6,8 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { CasesList } from 'widgets/CasesList';
-import cls from './CasesSets.module.scss';
 import { Button } from '@mui/material';
+import cls from './CasesSets.module.scss';
 
 export function CasesSets() {
   const [value, setValue] = React.useState('one');

@@ -4,8 +4,8 @@ import axios from 'axios';
 import {
   createTheme, ThemeProvider, CssBaseline, GlobalStyles,
 } from '@mui/material';
-import { globalStyles } from './styles';
 import Settings from 'widgets/Settings';
+import { globalStyles } from './styles';
 
 const DEFAULT_PALETTE = {
   contentBackgroundColor: '#ffffff',

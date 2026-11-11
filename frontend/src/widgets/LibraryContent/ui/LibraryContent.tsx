@@ -2,8 +2,8 @@
 import {
   Link, useNavigate,
 } from 'react-router-dom';
-import cls from './LibraryContent.module.scss';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './LibraryContent.module.scss';
 
 interface LibraryContentProps {
   className?: string;

@@ -1,8 +1,8 @@
 import { classNames } from 'shared/lib/classNames/classNames';
 import { Link } from 'react-router-dom';
 import { memo, useEffect, useState } from 'react';
-import cls from './ShareItemCard.module.scss';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './ShareItemCard.module.scss';
 
 interface ShareItemCardProps {
   className?: string;

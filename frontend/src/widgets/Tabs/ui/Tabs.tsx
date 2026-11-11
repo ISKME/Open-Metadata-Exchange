@@ -3,8 +3,8 @@ import {
 } from 'react';
 import { NavLink } from 'react-router-dom';
 import { classNames } from 'shared/lib/classNames/classNames';
-import cls from './Tabs.module.scss';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './Tabs.module.scss';
 
 interface TabsProps {
     className?: string;

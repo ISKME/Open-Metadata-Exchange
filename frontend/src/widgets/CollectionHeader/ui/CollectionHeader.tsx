@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from 'shared/ui/Button/Button';
 import { useNavigate } from 'react-router-dom';
-import cls from './CollectionHeader.module.scss';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './CollectionHeader.module.scss';
 
 function checkOverflow(el) {
   const curOverflow = el.style.overflow;

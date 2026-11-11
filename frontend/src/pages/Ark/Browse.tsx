@@ -23,8 +23,8 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import api from './api/axios';
 import qs from 'qs';
+import api from './api/axios';
 import { CollectionItemCard } from './widgets/Collection';
 import { Filter } from './widgets/Filter';
 import Dropdown from './components/Dropdown';

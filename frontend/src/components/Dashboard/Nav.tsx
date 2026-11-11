@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { NavLink } from 'react-router-dom';
-import { Arrow, Book } from './icons';
 import { useEffect, useState } from 'react';
+import { Arrow, Book } from './icons';
 
 export default function ({
   target, widgetId, item, icon, widgets,

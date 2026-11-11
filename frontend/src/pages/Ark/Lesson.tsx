@@ -1,5 +1,4 @@
 // @ts-nocheck
-import api from './api/axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -35,13 +34,14 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DownloadIcon from '@mui/icons-material/Download';
 import MovieIcon from '@mui/icons-material/Movie';
+import { matomoTag } from 'pages/Case/ui/helper';
+import MenuIcon from '@mui/icons-material/Menu';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import Loader from './icons/Loader';
 import cls from './styles.module.scss';
-import { matomoTag } from 'pages/Case/ui/helper';
 import { makeVideoContent } from './widgets/VideoPlayer';
-import MenuIcon from '@mui/icons-material/Menu';
 import Arrow from './icons/Arrow';
-import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import api from './api/axios';
 
 const trackDownload = (s?: string) => {
   const v = (s || '').toLowerCase();

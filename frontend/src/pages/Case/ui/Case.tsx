@@ -46,12 +46,14 @@ import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Popover from '@mui/material/Popover';
 import Player from 'components/video';
-import cls from './Case.module.scss';
 import { Comment } from '@mui/icons-material';
 import { AlignWidget } from 'widgets/Align';
 import Delete from '@mui/icons-material/Delete';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import req from 'shared/lib/req';
+import { Folders } from 'widgets/Folders';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import {
   styles, globalStyles, accordionStyles, notesStyle,
 } from './styles';
@@ -76,10 +78,8 @@ import {
   videoSegmentToAnnotation,
   sorting,
 } from './helper';
-import req from 'shared/lib/req';
 import Alert from './Alert';
-import { Folders } from 'widgets/Folders';
-import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './Case.module.scss';
 
 const notesByComments = [];
 let annotationUri;

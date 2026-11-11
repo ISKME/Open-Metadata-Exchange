@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import cls from './Dropdown.module.scss';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './Dropdown.module.scss';
 
 function useOutsideAlerter(ref, cb) {
   useEffect(() => {

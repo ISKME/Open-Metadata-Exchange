@@ -24,11 +24,11 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { fetchItems } from 'widgets/MyItems/model/services/ActionCreators';
-import { CardCase } from '../../../widgets/CardCase';
-import cls from './MyItemsList.module.scss';
 import axios from 'axios';
 import { GridDeleteIcon } from '@mui/x-data-grid';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './MyItemsList.module.scss';
+import { CardCase } from '../../../widgets/CardCase';
 
 const CButton = styled(Button)(({ theme }) => ({
   padding: '6px 12px',

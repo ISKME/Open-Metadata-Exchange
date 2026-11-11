@@ -11,8 +11,8 @@ import {
   List,
   ListItem,
 } from '@mui/material';
-import { Checkbox } from '../components/Checkbox';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Checkbox } from '../components/Checkbox';
 
 const ITEMS_PER_PAGE = 5;
 

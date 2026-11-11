@@ -7,8 +7,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import qs from 'qs';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { Portal } from 'features/Portal';
-import cls from './SearchGrid.module.scss';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './SearchGrid.module.scss';
 
 function Check({
   id, label, checked = false, onChange = () => {},

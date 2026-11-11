@@ -6,8 +6,8 @@ import type { Component } from 'grapesjs';
 import {
   MouseEvent, useEffect, useMemo, useRef, useState,
 } from 'react';
-import { MAIN_BORDER_COLOR, cx } from './common';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import { MAIN_BORDER_COLOR, cx } from './common';
 
 export declare interface LayerItemProps
   extends React.HTMLProps<HTMLDivElement> {

@@ -1,5 +1,4 @@
 // @ts-ignore
-import cls from './SubscribedPreferences.module.scss';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -8,6 +7,7 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { classes } from 'pages/OERX/styles';
+import cls from './SubscribedPreferences.module.scss';
 
 const styles = {
   appContainer: (theme) => ({

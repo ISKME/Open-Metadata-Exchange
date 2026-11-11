@@ -18,8 +18,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Uploader } from 'components/uploader';
-import cls from './GroupsSettings.module.scss';
 import { FormControl, InputLabel } from '@mui/material';
+import cls from './GroupsSettings.module.scss';
 
 export function GroupsSettings() {
   const [n, setN] = React.useState(0);

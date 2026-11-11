@@ -8,8 +8,8 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { CButton } from 'pages/Case/ui/components';
 import req from 'shared/lib/req';
-import cls from './Folders.module.scss';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './Folders.module.scss';
 
 export function Folders({ ids = [] }) {
   const [anchorEl, setAnchorEl] = useState(null);
