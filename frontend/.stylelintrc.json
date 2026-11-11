@@ -4,6 +4,7 @@
   "rules": {
     "@stylistic/indentation": [2],
     "selector-class-pattern": null,
-    "selector-pseudo-class-no-unknown": [true, { "ignorePseudoClasses": ["global", "local"] }]
+    "selector-pseudo-class-no-unknown": [true, { "ignorePseudoClasses": ["global", "local"] }],
+    "media-feature-range-notation": "prefix"
   }
 }
