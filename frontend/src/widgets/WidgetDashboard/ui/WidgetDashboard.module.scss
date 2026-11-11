@@ -114,6 +114,7 @@
             align-items: center;
             gap: 8px;
             max-width: 364px;
+
             span {
               width: fit-content;
               max-width: calc(100% - 20px);
@@ -121,6 +122,7 @@
               overflow: hidden;
               white-space: nowrap;
             }
+
             svg {
               visibility: hidden;
             }
@@ -202,6 +204,7 @@
           justify-content: center;
           align-items: center;
         }
+
         svg {
           visibility: hidden;
         }
