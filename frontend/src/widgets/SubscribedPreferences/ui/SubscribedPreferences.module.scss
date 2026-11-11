@@ -1,6 +1,6 @@
 .updatesData {
   margin-top: 24px;
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
 
   & > div:first-child {
     display: flex;
@@ -9,14 +9,17 @@
     gap: 24px;
     flex: 1 0 0;
     align-self: stretch;
+
     @media screen and (max-width: 980px) {
       flex-direction: column-reverse;
     }
+
     & > * {
       flex: 1;
       background: #FFF;
       padding: 24px;
     }
+
     .latest {
       display: flex;
       padding: 24px;
@@ -24,28 +27,33 @@
       align-items: center;
       gap: 24px;
       background-color: white;
+
       & > div:first-child {
         display: flex;
         border-radius: 8px;
         border: 1px solid black;
         padding: 16px;
       }
+
       & > div:last-child {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
         gap: 8px;
+
         em {
           color: #1E1E1E;
           font-size: 36px;
           font-weight: 800;
           line-height: 44px;
           font-style: normal;
+
           b {
             color: #1747a1;
           }
         }
+
         span {
           font-size: 24px;
           font-weight: 600;
@@ -53,6 +61,7 @@
         }
       }
     }
+
     .stay {
       padding: 16px;
       display: flex;
@@ -62,7 +71,7 @@
       border-radius: 4px;
       border-left: 8px solid #8FD7FF;
       background: #FFF;
-      box-shadow: 0px 3.5px 5.5px 0px rgba(0, 0, 0, 0.20);
+      box-shadow: 0 3.5px 5.5px 0 rgb(0 0 0 / 20%);
 
       h5 {
         font-size: 24px;
@@ -174,7 +183,7 @@
   align-self: stretch;
   background: #FFF;
   margin-top: 56px;
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
 
   .frame {
     align-items: flex-start;
@@ -187,7 +196,7 @@
 
     h1 {
       align-self: stretch;
-      color: #000000;
+      color: #000;
       font-size: 36px;
       font-weight: 800;
       letter-spacing: 0;
@@ -199,7 +208,7 @@
 
     p {
       align-self: stretch;
-      color: #000000;
+      color: #000;
       font-size: 16px;
       font-weight: 500;
       letter-spacing: 0.5px;
@@ -219,7 +228,7 @@
     position: relative;
 
     & > p {
-      color: #000000;
+      color: #000;
       font-size: 16px;
       font-weight: 500;
       letter-spacing: 0.5px;
@@ -241,8 +250,8 @@
       .notificationIcon {
         border-radius: 8px;
         background: #4e8343;
-        box-shadow: 0px 3.5px 5.5px 0px rgba(0, 0, 0, 0.25);
-        padding: 16px 16px 10px 16px;
+        box-shadow: 0 3.5px 5.5px 0 rgb(0 0 0 / 25%);
+        padding: 16px 16px 10px;
         cursor: pointer;
       }
 
@@ -314,18 +323,18 @@
   flex: 0 0 auto;
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-color: #00000033;
+  border-color: #0003;
 }
 
 .preferences-values .text-wrapper {
   position: relative;
   width: fit-content;
   margin-top: -1px;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
   color: #1e1e1e;
   font-size: 16px;
-  letter-spacing: 0.10000000149011612px;
+  letter-spacing: 0.1000px;
   line-height: 24px;
   white-space: nowrap;
   font-style: normal;
@@ -365,11 +374,11 @@
   position: relative;
   width: fit-content;
   margin-top: -1px;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
-  color: rgba(30, 30, 30, 1);
+  color: rgb(30 30 30 / 100%);
   font-size: 14px;
-  letter-spacing: 0.10000000149011612px;
+  letter-spacing: 0.1000px;
   line-height: 20px;
   white-space: nowrap;
   font-style: normal;
@@ -405,14 +414,14 @@
 }
 
 .preferences-values .microsite {
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
   color: #1e1e1e;
   position: relative;
   width: fit-content;
   margin-top: -1px;
   font-size: 14px;
-  letter-spacing: 0.10000000149011612px;
+  letter-spacing: 0.1000px;
   line-height: 20px;
   white-space: nowrap;
   font-style: normal;
@@ -427,9 +436,9 @@
 }
 
 .preferences-values .microsite-2 {
-  font-family: "Open Sans-Medium", Helvetica;
+  font-family: "Open Sans-Medium", Helvetica, sans-serif;
   font-weight: 500;
-  color: rgba(5, 77, 209, 1);
+  color: rgb(5 77 209 / 100%);
   text-decoration: underline;
   position: relative;
   width: fit-content;
@@ -467,18 +476,17 @@
   padding: 8px 24px;
   position: relative;
   flex: 1;
-  flex-grow: 1;
   border-radius: 4px;
   border: 1px solid;
-  border-color: rgba(218, 218, 218, 1);
+  border-color: rgb(218 218 218 / 100%);
 }
 
 .preferences-values .text-wrapper-3 {
   position: relative;
   width: fit-content;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
-  color: rgba(30, 30, 30, 1);
+  color: rgb(30 30 30 / 100%);
   font-size: 12px;
   letter-spacing: 0.5px;
   line-height: 16px;
@@ -496,7 +504,7 @@
 .preferences-values .frame-9 {
   background-color: #fcfcfc;
   border: 1px solid;
-  border-color: rgba(218, 218, 218, 1);
+  border-color: rgb(218 218 218 / 100%);
   display: flex;
   flex-direction: column;
   width: 349px;
@@ -542,10 +550,10 @@
   height: 15px;
   top: -1px;
   left: -1px;
-  background-color: rgba(252, 252, 252, 1);
+  background-color: rgb(252 252 252 / 100%);
   border-radius: 2px;
   border: 1px solid;
-  border-color: rgba(151, 151, 151, 1);
+  border-color: rgb(151 151 151 / 100%);
 }
 
 .preferences-values .button {
@@ -558,17 +566,17 @@
   padding: 8px 24px;
   position: relative;
   flex: 0 0 auto;
-  background-color: rgba(218, 218, 218, 1);
+  background-color: rgb(218 218 218 / 100%);
   border-radius: 100px;
   overflow: hidden;
-  color: rgba(64, 64, 64, 1);
+  color: rgb(64 64 64 / 100%);
 }
 
 .preferences-values .label-text {
   position: relative;
   width: fit-content;
   margin-top: -1px;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 600;
   font-size: 16px;
   text-align: center;

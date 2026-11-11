@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
+
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
 import { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
@@ -45,7 +44,7 @@ export function OrgansSettings({ id: propsId }) {
 
   useEffect(() => {
     if (!id) return;
-    axios('/api/organizations/v1/organizations/' + id).then(({ data }) => {
+    axios(`/api/organizations/v1/organizations/${id}`).then(({ data }) => {
       const { name, cover, group_cover } = data;
       setTitle(name);
       setCover(cover);
@@ -65,7 +64,7 @@ export function OrgansSettings({ id: propsId }) {
         'Content-Type': 'multipart/form-data',
         'X-Csrftoken': data.token,
       };
-      axios.put('/api/organizations/v1/organizations/' + id, formData, { headers }).then(console.log);
+      axios.put(`/api/organizations/v1/organizations/${id}`, formData, { headers }).then(console.log);
       alert('Changes saved!');
     });
   }

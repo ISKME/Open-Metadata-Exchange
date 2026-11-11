@@ -6,7 +6,7 @@
   background-color: #ffffff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgb(0, 0, 0, 20%);
   text-align: center;
   margin-right: 15px;
 }
@@ -26,9 +26,9 @@
   text-align: center;
   background-color: rgb(14, 15, 98);
 
-  &:before {
+  &::before {
     content: "";
-    background: linear-gradient(rgba(71, 79, 96, 0.2), rgba(0, 0, 0, 0.9));
+    background: linear-gradient(rgb(71, 79, 96, 20%), rgb(0, 0, 0, 90%));
     height: 150px;
     width: 100%;
     display: inline-block;

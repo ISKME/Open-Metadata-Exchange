@@ -1,8 +1,5 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
 import * as React from 'react';
 import axios from 'axios';
@@ -12,9 +9,9 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Modal from '@mui/material/Modal';
 import cls from 'widgets/GroupsFolders/ui/GroupsFolders.module.scss';
-import req from 'shared/lib/req'
-import { SimpleTreeView } from 'widgets/GroupsFolders/ui/SimpleTreeView'
-import { MyItemsList } from 'widgets/MyItemsList'
+import req from 'shared/lib/req';
+import { SimpleTreeView } from 'widgets/GroupsFolders/ui/SimpleTreeView';
+import { MyItemsList } from 'widgets/MyItemsList';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { useSearchParams } from 'react-router-dom';
 import { itemsSlice } from '../model/slice/ItemsSlice';
@@ -32,21 +29,21 @@ export function MyItems() {
   const [newSubfolderTitle, setNewSubfolderTitle] = React.useState('');
   const [openAddSubfolder, setOpenAddSubfolder] = React.useState(false);
   const [isGroup, setIsGroup] = React.useState(false);
-  const [csrfToken, setCsrfToken] = React.useState("");
+  const [csrfToken, setCsrfToken] = React.useState('');
   const [check, setCheck] = React.useState([]);
   const [selectedFolderIsDefault, setSelectedFolderIsDefault] = React.useState(false);
 
   const { items, count, pages } = useAppSelector((state) => state.ItemsSlice);
   const [displayCount, setDisplayCount] = React.useState(count);
   const [headerTitle, setHeaderTitle] = React.useState('My Items');
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [defaultPage, setDefaultPage] = React.useState(() => {
-    const page = parseInt(new URLSearchParams(window.location.search).get("page"), 10);
+    const page = parseInt(new URLSearchParams(window.location.search).get('page'), 10);
     return isNaN(page) ? 1 : page;
   });
-  let filters = searchParams.get('filters')
-  if (filters) filters = JSON.parse(filters)
-  else filters = {}
+  let filters = searchParams.get('filters');
+  if (filters) filters = JSON.parse(filters);
+  else filters = {};
 
   const computeHeaderTitle = React.useCallback(() => {
     let title = 'My Items';
@@ -61,18 +58,36 @@ export function MyItems() {
     setHeaderTitle(title);
   }, [folders, folderId, subFolderId]);
 
+  function get() {
+    axios.get('/api/myitems/v1/save-widget/reload/')
+      .then(({ data }) => {
+        const folders = data?.user_folders || [];
+        setFolders(folders.map((item) => ({
+          ...item,
+          root: true,
+        })));
+        setName('');
+        setId(null);
+        setOpen(false);
+        setOpenRename(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching user data:', error);
+      });
+  }
+
   React.useEffect(() => {
-    get()
+    get();
   }, []);
 
   React.useEffect(() => {
     axios
-      .get("/api/csrf-token/")
+      .get('/api/csrf-token/')
       .then((response) => {
         setCsrfToken(response.data.token);
       })
       .catch((error) => {
-        console.error("Failed to fetch CSRF token", error);
+        console.error('Failed to fetch CSRF token', error);
       });
   }, []);
 
@@ -105,24 +120,6 @@ export function MyItems() {
     computeHeaderTitle();
   }, [computeHeaderTitle]);
 
-  function get() {
-    axios.get('/api/myitems/v1/save-widget/reload/')
-    .then(({ data }) => {
-      const folders = data?.user_folders || [];
-      setFolders(folders.map(item => ({
-        ...item,
-        root: true,
-      })));
-      setName('');
-      setId(null);
-      setOpen(false);
-      setOpenRename(false);
-    })
-    .catch((error) => {
-      console.error("Error fetching user data:", error);
-    })
-  }
-
   function del(isSubfolder) {
     const url = isSubfolder
       ? `myitems/v1/folders/${id.split('_')[0]}/subfolders/${id.split('_')[1]}`
@@ -130,7 +127,7 @@ export function MyItems() {
 
     req.del(url)
       .then(() => {
-        get()
+        get();
       })
       .catch((error) => {
         console.error('Delete failed:', error);
@@ -144,7 +141,7 @@ export function MyItems() {
 
     req.put(url, { title: name, name })
       .then(() => {
-        get()
+        get();
       })
       .catch((error) => {
         console.error('Rename failed:', error);
@@ -158,10 +155,10 @@ export function MyItems() {
     }
 
     const parentFolderId = id;
-    const parentContentTypeId = folders.find(folder => folder.id === id)?.content_type_id;
+    const parentContentTypeId = folders.find((folder) => folder.id === id)?.content_type_id;
     const data = {
       target_title: newSubfolderTitle,
-      ...(parentFolderId && parentContentTypeId && { parent: `${parentContentTypeId}.${parentFolderId}` })
+      ...(parentFolderId && parentContentTypeId && { parent: `${parentContentTypeId}.${parentFolderId}` }),
     };
 
     try {
@@ -180,7 +177,7 @@ export function MyItems() {
   const updateCasesData = (caseIds) => {
     const data = [...items];
     dispatch(itemsSlice.actions.updateItems({
-      items: data.filter((c) => !caseIds.includes(c.id))
+      items: data.filter((c) => !caseIds.includes(c.id)),
     }));
   };
 
@@ -196,56 +193,59 @@ export function MyItems() {
     p: 4,
   };
 
-  const handleRemoveItems = async (items, ) => {
+  const handleRemoveItems = async (items) => {
     if (!folderId) {
-      window.alert("Please select a folder from which you want to delete the items.");
+      window.alert('Please select a folder from which you want to delete the items.');
       return;
     }
 
     const payload = {
       item_ids: items,
-      folderId: folderId,
+      folderId,
       subfolderId: subFolderId,
-      modelType: "myitems",
+      modelType: 'myitems',
     };
 
     try {
-      const response = await axios.delete("/api/myitems/v1/remove-items-from-folders/", {
+      const response = await axios.delete('/api/myitems/v1/remove-items-from-folders/', {
         data: payload,
         headers: {
-          "X-CSRFToken": csrfToken,
+          'X-CSRFToken': csrfToken,
         },
       });
       updateCasesData(items);
       get();
       setCheck([]);
-      console.log("Items removed:", response.data);
+      console.log('Items removed:', response.data);
     } catch (error) {
-      console.error("Error removing items:", error);
+      console.error('Error removing items:', error);
     }
   };
 
   const getSelectedItem = (is_default) => {
-    setSelectedFolderIsDefault(is_default)
-  }
+    setSelectedFolderIsDefault(is_default);
+  };
   return (
     <>
       <Modal open={openAddSubfolder} onClose={() => setOpenAddSubfolder(false)}>
         <Box sx={modalStyle}>
           <Typography variant="h6" component="h2">
-            Enter the title for the new {isGroup ? 'folder' : 'subfolder'}.
+            Enter the title for the new
+            {' '}
+            {isGroup ? 'folder' : 'subfolder'}
+            .
           </Typography>
           <Box className={cls.modalInput}>
-          <TextField
-            label={isGroup ? 'Folder Title' : 'Subfolder Title'}
-            variant="outlined"
-            margin="dense"
-            value={newSubfolderTitle}
-            onChange={(e) => setNewSubfolderTitle(e.target.value)}
-          />
+            <TextField
+              label={isGroup ? 'Folder Title' : 'Subfolder Title'}
+              variant="outlined"
+              margin="dense"
+              value={newSubfolderTitle}
+              onChange={(e) => setNewSubfolderTitle(e.target.value)}
+            />
           </Box>
           <Box className={cls.buttonsGroup}>
-            <button onClick={() => setOpenAddSubfolder(false)}  className={cls.cancel}>Cancel</button>
+            <button onClick={() => setOpenAddSubfolder(false)} className={cls.cancel}>Cancel</button>
             <button onClick={() => handleCreateSubfolder()} className={cls.primary}>Create</button>
           </Box>
         </Box>
@@ -254,19 +254,22 @@ export function MyItems() {
       <Modal open={openRename} onClose={() => setOpenRename(false)}>
         <Box sx={{ ...modalStyle }}>
           <Typography variant="h6" component="h2">
-            Enter a new name for the {isSubfolder ? 'subfolder' : 'folder'}.
+            Enter a new name for the
+            {' '}
+            {isSubfolder ? 'subfolder' : 'folder'}
+            .
           </Typography>
           <Box className={cls.modalInput}>
-          <TextField
-            label="New Title"
-            variant="outlined"
-            margin="dense"
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-          />
+            <TextField
+              label="New Title"
+              variant="outlined"
+              margin="dense"
+              value={name}
+              onChange={({ target }) => setName(target.value)}
+            />
           </Box>
           <Box className={cls.buttonsGroup}>
-            <button onClick={() => setOpenRename(false)}  className={cls.cancel}>Cancel</button>
+            <button onClick={() => setOpenRename(false)} className={cls.cancel}>Cancel</button>
             <button onClick={() => rename(isSubfolder)} className={cls.primary}>Confirm</button>
           </Box>
         </Box>
@@ -275,13 +278,16 @@ export function MyItems() {
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box sx={{ ...modalStyle }}>
           <Typography variant="h6" component="h2">
-            Are you sure you want to delete this {isSubfolder ? 'subfolder' : 'folder'}?
+            Are you sure you want to delete this
+            {' '}
+            {isSubfolder ? 'subfolder' : 'folder'}
+            ?
             <br />
             All its contents will be permanently removed.
           </Typography>
           <hr />
           <Box className={cls.buttonsGroup}>
-            <button onClick={() => setOpen(false)}  className={cls.cancel}>Cancel</button>
+            <button onClick={() => setOpen(false)} className={cls.cancel}>Cancel</button>
             <button onClick={() => del(isSubfolder)} className={cls.primary}>Confirm</button>
           </Box>
         </Box>
@@ -299,7 +305,7 @@ export function MyItems() {
             setOpenRename={setOpenRename}
             setOpen={setOpen}
             getSelectedItem={getSelectedItem}
-            subfolderCallback={(bool)=>setIsSubfolder(bool)}
+            subfolderCallback={(bool) => setIsSubfolder(bool)}
             openAddSubfolderCallback={(bool, isGroup) => {
               setOpenAddSubfolder(bool);
               setIsGroup(isGroup);
@@ -321,7 +327,7 @@ export function MyItems() {
             updateCasesData={updateCasesData}
             get={get}
             selectedFolderIsDefault={selectedFolderIsDefault}
-            canRemoveItems={true}
+            canRemoveItems
             setCheck={setCheck}
             check={check}
             headerTitle={headerTitle}

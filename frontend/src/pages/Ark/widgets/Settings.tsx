@@ -2,13 +2,17 @@
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import { Outlet, NavLink } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Box, Container } from '@mui/material';
+import {
+  AppBar, Toolbar, Typography, Box, Container,
+} from '@mui/material';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import cls from './Settings.module.scss';
 import Loader from './icons/Loader';
 import { Button } from 'components/Dashboard';
 
-export default function ArkSettings({ init, onChange, fonts = [], onFontChange = () => {}, sizes = {}, onSizeChange = () => {} }) {
+export default function ArkSettings({
+  init, onChange, fonts = [], onFontChange = () => {}, sizes = {}, onSizeChange = () => {},
+}) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -46,11 +50,15 @@ export default function ArkSettings({ init, onChange, fonts = [], onFontChange =
 
         return (
           <div className={cls.item} key={font}>
-            <span>Font {idx + 1}</span>
+            <span>
+              Font
+              {' '}
+              {idx + 1}
+            </span>
             <input
               type="text"
               value={inputValue}
-              onChange={e => setInputValue(e.target.value)}
+              onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
               style={{ width: 180 }}
             />
@@ -77,7 +85,7 @@ export default function ArkSettings({ init, onChange, fonts = [], onFontChange =
             <input
               type="text"
               value={inputValue}
-              onChange={e => setInputValue(e.target.value)}
+              onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
               style={{ width: 100 }}
             />

@@ -1,9 +1,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/prop-types */
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
 import * as React from 'react';
 import axios from 'axios';
@@ -30,9 +27,8 @@ import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { AnalyticsPageSize, AnalyticsPagination, analyticsTableProps } from 'shared/ui/AnalyticsTable/AnalyticsTable';
-import cls from './OrgansUserAnalytics.module.scss'
+import cls from './OrgansUserAnalytics.module.scss';
 import { DateRange, UserIsActiveStatus, ChartColors } from '../../enum';
-
 
 const USER_LABELS = {
   login: 'Logins',
@@ -43,7 +39,6 @@ const USER_LABELS = {
   allNotes: 'Notes',
   saves: 'Cases Saved',
 };
-
 
 let globalSearchValue = '';
 function EditUserToolbar({ onSearch, onExport, onClear }) {
@@ -156,83 +151,11 @@ export function OrgansUserAnalytics({ id }) {
     saves: ChartColors.BROWN,
   };
 
-  React.useEffect(() => {
-    const startDate = new Date(new Date().setDate(new Date().getDate() - 30));
-    const endDate = new Date();
-    const userIds = [];
-    const group = null;
-
-    let cancelled = false;
-    setIsLoading(true);
-    const initialRequest = fetchData(startDate, endDate);
-    initialRequest.then(availableDate => {
-      if (cancelled || latestAnalyticsRequest.current !== initialRequest) return;
-      const reportingEndDate = availableDate || endDate;
-      const reportingStartDate = new Date(reportingEndDate);
-      reportingStartDate.setDate(reportingEndDate.getDate() - 30);
-      setDate([reportingStartDate, reportingEndDate]);
-      if (formatDate(startDate) !== formatDate(reportingStartDate)
-        || formatDate(endDate) !== formatDate(reportingEndDate)) {
-        fetchData(reportingStartDate, reportingEndDate);
-      }
-      fetchConfigs(reportingStartDate, reportingEndDate);
-      fetchTableData(reportingStartDate, reportingEndDate, userIds, group);
-    });
-    return () => { cancelled = true; };
-  }, []);
-
-  React.useEffect(() => {
-    if (!latestAvailableDate) return;
-    setDate(current => current[1] > latestAvailableDate
-      ? [new Date(Math.min(current[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate]
-      : current);
-  }, [latestAvailableDate]);
-
   const formatDate = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
-  };
-
-  const fetchData = (startDate, endDate, users = [], group = null) => {
-    const params = {
-      ...(id ? { organization_id: id } : { get_default_organization: true }),
-      date_range_start: startDate ? formatDate(startDate) : undefined,
-      date_range_end: endDate ? formatDate(endDate) : undefined,
-      users: users.length > 0 ? users : undefined,
-      group: group || undefined,
-    };
-
-    const request = axios
-      .get('/clickhouse/overall/user-analytics', { params })
-      .then(({ data }) => {
-        const latest = data.reduce((maximum, item) => item.date > maximum ? item.date : maximum, '');
-        let availableDate = null;
-        if (latest) {
-          const [year, month, day] = latest.split('-').map(Number);
-          availableDate = new Date(year, month - 1, day);
-          // Keep the latest known day when loading an older or filtered range.
-          setLatestAvailableDate(previous => previous && previous >= availableDate ? previous : availableDate);
-        }
-        const formattedData = data.map((item) => ({
-          date: item.date,
-          login: item.logins,
-          resourceView: item.casesViewed,
-          search: item.searches,
-          groups: item.groups,
-          downloads: item.resourcesDownloaded,
-          allNotes: item.notes,
-          saves: item.casesSaved,
-        }));
-        if (latestAnalyticsRequest.current === request) setChartData(formattedData);
-        return availableDate;
-      })
-      .catch((error) => {
-        console.error('Error fetching analytics data:', error);
-      });
-    latestAnalyticsRequest.current = request;
-    return request;
   };
 
   const fetchTableData = async (startDate, endDate, users = [], group = null) => {
@@ -253,8 +176,7 @@ export function OrgansUserAnalytics({ id }) {
       const userConfigs = configResponse.data.users;
 
       const userMap = userConfigs.reduce((map, user) => {
-        map[user.id] =
-          `${user.first_name || ''} ${user.last_name || ''}`.trim()
+        map[user.id] = `${user.first_name || ''} ${user.last_name || ''}`.trim()
           || user.email?.trim()
           || `User ID: ${user.id}`;
 
@@ -271,7 +193,7 @@ export function OrgansUserAnalytics({ id }) {
           id: userId || 'unlogged',
           user: fullName,
           userType:
-            userConfigs.find(user => +user.id === +userId)?.user_type
+            userConfigs.find((user) => +user.id === +userId)?.user_type
             || 'Unknown',
           login: item.logins,
           view: item.casesViewed,
@@ -297,11 +219,11 @@ export function OrgansUserAnalytics({ id }) {
     const params = startDate && endDate
       ? { date_range_start: formatDate(startDate), date_range_end: formatDate(endDate) }
       : {};
-      if (id) {
-        params['organization_id'] = id;
-      } else {
-        params['get_default_organization'] = true;
-      }
+    if (id) {
+      params['organization_id'] = id;
+    } else {
+      params['get_default_organization'] = true;
+    }
 
     try {
       const { data } = await axios.get('/clickhouse/configs', { params });
@@ -316,6 +238,78 @@ export function OrgansUserAnalytics({ id }) {
     }
   };
 
+  const fetchData = (startDate, endDate, users = [], group = null) => {
+    const params = {
+      ...(id ? { organization_id: id } : { get_default_organization: true }),
+      date_range_start: startDate ? formatDate(startDate) : undefined,
+      date_range_end: endDate ? formatDate(endDate) : undefined,
+      users: users.length > 0 ? users : undefined,
+      group: group || undefined,
+    };
+
+    const request = axios
+      .get('/clickhouse/overall/user-analytics', { params })
+      .then(({ data }) => {
+        const latest = data.reduce((maximum, item) => (item.date > maximum ? item.date : maximum), '');
+        let availableDate = null;
+        if (latest) {
+          const [year, month, day] = latest.split('-').map(Number);
+          availableDate = new Date(year, month - 1, day);
+          // Keep the latest known day when loading an older or filtered range.
+          setLatestAvailableDate((previous) => (previous && previous >= availableDate ? previous : availableDate));
+        }
+        const formattedData = data.map((item) => ({
+          date: item.date,
+          login: item.logins,
+          resourceView: item.casesViewed,
+          search: item.searches,
+          groups: item.groups,
+          downloads: item.resourcesDownloaded,
+          allNotes: item.notes,
+          saves: item.casesSaved,
+        }));
+        if (latestAnalyticsRequest.current === request) setChartData(formattedData);
+        return availableDate;
+      })
+      .catch((error) => {
+        console.error('Error fetching analytics data:', error);
+      });
+    latestAnalyticsRequest.current = request;
+    return request;
+  };
+
+  React.useEffect(() => {
+    const startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    const endDate = new Date();
+    const userIds = [];
+    const group = null;
+
+    let cancelled = false;
+    setIsLoading(true);
+    const initialRequest = fetchData(startDate, endDate);
+    initialRequest.then((availableDate) => {
+      if (cancelled || latestAnalyticsRequest.current !== initialRequest) return;
+      const reportingEndDate = availableDate || endDate;
+      const reportingStartDate = new Date(reportingEndDate);
+      reportingStartDate.setDate(reportingEndDate.getDate() - 30);
+      setDate([reportingStartDate, reportingEndDate]);
+      if (formatDate(startDate) !== formatDate(reportingStartDate)
+        || formatDate(endDate) !== formatDate(reportingEndDate)) {
+        fetchData(reportingStartDate, reportingEndDate);
+      }
+      fetchConfigs(reportingStartDate, reportingEndDate);
+      fetchTableData(reportingStartDate, reportingEndDate, userIds, group);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  React.useEffect(() => {
+    if (!latestAvailableDate) return;
+    setDate((current) => (current[1] > latestAvailableDate
+      ? [new Date(Math.min(current[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate]
+      : current));
+  }, [latestAvailableDate]);
+
   const resetFilters = () => {
     setSelectedParams({ users: [], group: null });
     setUserFilters({ userType: '', atlasRole: '', isActive: '', state: '' });
@@ -326,30 +320,31 @@ export function OrgansUserAnalytics({ id }) {
     const selectedRange = event.target.value;
     setRange(selectedRange);
 
-    let startDate, endDate;
+    let startDate; let
+      endDate;
 
     switch (selectedRange) {
-      case DateRange.LAST_30_DAYS:
-        endDate = latestAvailableDate || new Date();
-        startDate = new Date(endDate);
-        startDate.setDate(endDate.getDate() - 30);
-        break;
-      case DateRange.LAST_90_DAYS:
-        endDate = latestAvailableDate || new Date();
-        startDate = new Date(endDate);
-        startDate.setDate(endDate.getDate() - 90);
-        break;
-      case DateRange.LAST_YEAR:
-        endDate = latestAvailableDate || new Date();
-        startDate = new Date(endDate.getFullYear() - 1, endDate.getMonth(), endDate.getDate());
-        break;
-      case DateRange.ALL_TIME:
-        startDate = new Date(2010, 0, 1);
-        endDate = latestAvailableDate || new Date();
-        break;
-      case DateRange.CUSTOM:
-      default:
-        return;
+    case DateRange.LAST_30_DAYS:
+      endDate = latestAvailableDate || new Date();
+      startDate = new Date(endDate);
+      startDate.setDate(endDate.getDate() - 30);
+      break;
+    case DateRange.LAST_90_DAYS:
+      endDate = latestAvailableDate || new Date();
+      startDate = new Date(endDate);
+      startDate.setDate(endDate.getDate() - 90);
+      break;
+    case DateRange.LAST_YEAR:
+      endDate = latestAvailableDate || new Date();
+      startDate = new Date(endDate.getFullYear() - 1, endDate.getMonth(), endDate.getDate());
+      break;
+    case DateRange.ALL_TIME:
+      startDate = new Date(2010, 0, 1);
+      endDate = latestAvailableDate || new Date();
+      break;
+    case DateRange.CUSTOM:
+    default:
+      return;
     }
     if (latestAvailableDate && endDate > latestAvailableDate) endDate = latestAvailableDate;
     if (startDate > endDate) startDate = endDate;
@@ -384,14 +379,14 @@ export function OrgansUserAnalytics({ id }) {
   };
 
   const getFilteredUserIds = (sourceUsers, filters) => {
-    if (Object.values(filters).every(value => value === '')) return [];
+    if (Object.values(filters).every((value) => value === '')) return [];
 
-    const filteredUsers = sourceUsers.filter(user => (
+    const filteredUsers = sourceUsers.filter((user) => (
       (!filters.userType || (user.user_types || []).includes(filters.userType))
       && (!filters.atlasRole || user.user_type === filters.atlasRole)
       && (!filters.isActive || Boolean(user.is_active) === (filters.isActive === UserIsActiveStatus.ACTIVE))
       && (!filters.state || user.state === filters.state)
-    )).map(user => user.id);
+    )).map((user) => user.id);
     return filteredUsers.length ? filteredUsers : [-1];
   };
 
@@ -399,7 +394,7 @@ export function OrgansUserAnalytics({ id }) {
     const filters = { ...userFilters, [field]: value };
     const filteredUsers = getFilteredUserIds(users, filters);
     setUserFilters(filters);
-    setSelectedParams(prev => ({ ...prev, users: filteredUsers }));
+    setSelectedParams((prev) => ({ ...prev, users: filteredUsers }));
     fetchData(date[0], date[1], filteredUsers, selectedParams.group);
     fetchTableData(date[0], date[1], filteredUsers, selectedParams.group);
   };
@@ -413,10 +408,10 @@ export function OrgansUserAnalytics({ id }) {
           value={userFilters[field]}
           label={label}
           displayEmpty
-          onChange={event => handleUserFilterChange(field, event.target.value)}
+          onChange={(event) => handleUserFilterChange(field, event.target.value)}
         >
           <MenuItem value="">All</MenuItem>
-          {options.map(option => (
+          {options.map((option) => (
             <MenuItem key={option.value ?? option} value={option.value ?? option}>
               {option.label ?? option}
             </MenuItem>
@@ -449,7 +444,7 @@ export function OrgansUserAnalytics({ id }) {
   const activeSeries = Object.entries(activeItems)
     .filter(([key, value]) => value)
     .map(([key]) => ({
-      data: chartData.map(item => item[key]),
+      data: chartData.map((item) => item[key]),
       label: USER_LABELS[key],
       connectNulls: true,
       color: colors[key],
@@ -468,8 +463,8 @@ export function OrgansUserAnalytics({ id }) {
       const searchLower = searchValue.toLowerCase();
 
       return (
-        userStr.includes(searchLower) ||
-        idStr.includes(searchLower)
+        userStr.includes(searchLower)
+        || idStr.includes(searchLower)
       );
     });
     setTableData(filteredData);
@@ -517,7 +512,7 @@ export function OrgansUserAnalytics({ id }) {
   };
 
   const totalUsers = originalTableData.filter(
-    (row) => row.id !== 'unlogged'
+    (row) => row.id !== 'unlogged',
   ).length;
 
   return (
@@ -527,7 +522,10 @@ export function OrgansUserAnalytics({ id }) {
       </Typography>
       {latestAvailableDate && (
         <Typography sx={{ fontWeight: 400, mb: 1, color: 'red' }}>
-          Data is updated weekly. Data is currently available through {latestAvailableDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}.
+          Data is updated weekly. Data is currently available through
+          {' '}
+          {latestAvailableDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          .
         </Typography>
       )}
       <div>
@@ -554,8 +552,8 @@ export function OrgansUserAnalytics({ id }) {
         />
       </div>
       <Grid container spacing={2}>
-        {renderUserFilter('userType', 'User Type', [...new Set(users.flatMap(user => user.user_types || []))].sort())}
-        {renderUserFilter('atlasRole', 'ATLAS Role', [...new Set(users.map(user => user.user_type).filter(Boolean))].sort())}
+        {renderUserFilter('userType', 'User Type', [...new Set(users.flatMap((user) => user.user_types || []))].sort())}
+        {renderUserFilter('atlasRole', 'ATLAS Role', [...new Set(users.map((user) => user.user_type).filter(Boolean))].sort())}
         {renderUserFilter('isActive', 'User Is Active', [
           { value: UserIsActiveStatus.ACTIVE, label: 'Yes' },
           { value: UserIsActiveStatus.INACTIVE, label: 'No' },
@@ -565,7 +563,7 @@ export function OrgansUserAnalytics({ id }) {
             id="groups-autocomplete"
             options={groups || []}
             loading={isLoading}
-            value={groups.find(option => option.label === selectedParams.group) || null}
+            value={groups.find((option) => option.label === selectedParams.group) || null}
             onChange={handleGroupChange}
             renderInput={(params) => (
               <TextField
@@ -585,13 +583,13 @@ export function OrgansUserAnalytics({ id }) {
             )}
           />
         </Grid>
-        {renderUserFilter('state', 'State', [...new Set(users.map(user => user.state).filter(Boolean))].sort())}
+        {renderUserFilter('state', 'State', [...new Set(users.map((user) => user.state).filter(Boolean))].sort())}
       </Grid>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
         {Object.keys(activeItems).map((key) => (
           <FormControlLabel
             key={key}
-            control={
+            control={(
               <Checkbox
                 checked={activeItems[key]}
                 onChange={() => handleToggleItem(key)}
@@ -602,7 +600,7 @@ export function OrgansUserAnalytics({ id }) {
                   },
                 }}
               />
-            }
+            )}
             label={USER_LABELS[key]}
           />
         ))}
@@ -610,7 +608,7 @@ export function OrgansUserAnalytics({ id }) {
           variant="outlined"
           onClick={toggleSelectAll}
           sx={{ marginLeft: '16px' }}
-          color='primary'
+          color="primary"
         >
           {allSelected ? 'Unselect All' : 'Select All'}
         </Button>
@@ -619,7 +617,7 @@ export function OrgansUserAnalytics({ id }) {
         <LineChart
           xAxis={[
             {
-              data: chartData.map(item => item.date),
+              data: chartData.map((item) => item.date),
               scaleType: 'point',
             },
           ]}
@@ -659,7 +657,7 @@ export function OrgansUserAnalytics({ id }) {
                     <CellWithRightBorder key={key}>
                       {chartData.reduce(
                         (sum, item) => sum + (item[key] || 0),
-                        0
+                        0,
                       )}
                     </CellWithRightBorder>
                   ))}
@@ -670,29 +668,29 @@ export function OrgansUserAnalytics({ id }) {
       </TableContainer>
       <Typography variant="h6">Details by User</Typography>
       <div>
-      {isLoading ? (
-        <CircularProgress />
-      ) : (
-        <DataGrid
-          {...analyticsTableProps}
-          slots={{
-            pagination: AnalyticsPagination,
-            toolbar: () => (
-              <EditUserToolbar
-                onSearch={handleSearch}
-                onClear={handleClearSearch}
-                onExport={handleExport}
-              />
-            ),
-          }}
-          rows={tableData}
-          columns={columns}
-          getRowHeight={() => 'auto'}
-          disableRowSelectionOnClick
-          showCellVerticalBorder
-          autoHeight
-        />
-      )}
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          <DataGrid
+            {...analyticsTableProps}
+            slots={{
+              pagination: AnalyticsPagination,
+              toolbar: () => (
+                <EditUserToolbar
+                  onSearch={handleSearch}
+                  onClear={handleClearSearch}
+                  onExport={handleExport}
+                />
+              ),
+            }}
+            rows={tableData}
+            columns={columns}
+            getRowHeight={() => 'auto'}
+            disableRowSelectionOnClick
+            showCellVerticalBorder
+            autoHeight
+          />
+        )}
       </div>
     </div>
   );

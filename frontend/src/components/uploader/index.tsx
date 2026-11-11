@@ -22,7 +22,9 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export const Uploader = ({ text, sx = {}, init = '', onChange = (file) => {}, inputRef, dataImage }) => {
+export const Uploader = ({
+  text, sx = {}, init = '', onChange = (file) => {}, inputRef, dataImage,
+}) => {
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
 
@@ -48,19 +50,19 @@ export const Uploader = ({ text, sx = {}, init = '', onChange = (file) => {}, in
   const onSelectFile = (e) => {
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined);
-      onChange(undefined)
+      onChange(undefined);
       return;
     }
     const reader = new FileReader();
     reader.onload = function (e) {
-      setPreview(e.target.result)
+      setPreview(e.target.result);
     };
 
     reader.readAsDataURL(e.target.files[0]); // Convert file to data URL
 
     // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(e.target.files[0]);
-    onChange(e.target.files[0])
+    onChange(e.target.files[0]);
   };
 
   return (
@@ -73,12 +75,12 @@ export const Uploader = ({ text, sx = {}, init = '', onChange = (file) => {}, in
             onClick={() => {
               if (selectedFile) {
                 if (inputRef.current) {
-                  inputRef.current.value = "";
+                  inputRef.current.value = '';
                 }
                 setPreview(dataImage.current);
                 onChange(dataImage.current);
               } else {
-                setPreview("");
+                setPreview('');
                 onChange(null);
               }
               setSelectedFile(null);

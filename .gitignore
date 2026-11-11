@@ -1,6 +1,9 @@
 # macOS-specific files
 .DS_Store
 
+# Local node configuration (contains credentials)
+config.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

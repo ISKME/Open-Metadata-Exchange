@@ -1,5 +1,7 @@
-import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import { sxStyles } from "shared/theme/styles";
+import {
+  Card, CardMedia, CardContent, Typography,
+} from '@mui/material';
+import { sxStyles } from 'shared/theme/styles';
 import { Link } from 'react-router-dom';
 
 export function CollectionCard({ item }) {
@@ -29,28 +31,32 @@ export function CollectionCard({ item }) {
   }
   const handleImageError = (e) => {
     e.target.onerror = null;
-    e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png'
-  }
-  return <Link to={item.id !== '' && `/imls/collection-details/${item.micrositeSlug}/${item.id}/resources`} aria-label="Go to Collection page">
-    <Card sx={sxStyles.card}>
-      <CardMedia
-        component="img"
-        sx={sxStyles.cardMedia}
-        image={item.thumbnail}
-        title={item.name}
-        onError={handleImageError}
-      />
-      <CardContent sx={sxStyles.cardContent}>
-        <Typography variant="h4" component="h3" sx={sxStyles.cardTitle}>
-          {item.name}
-        </Typography>
-        <Typography variant="subtitle1" sx={sxStyles.cardSubtitle}>
-          {level.join(', ')}
-        </Typography>
-        <Typography variant="body2" sx={sxStyles.cardResources}>
-          {item.numResources} resources
-        </Typography>
-      </CardContent>
-    </Card>
-  </Link>
+    e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png';
+  };
+  return (
+    <Link to={item.id !== '' && `/imls/collection-details/${item.micrositeSlug}/${item.id}/resources`} aria-label="Go to Collection page">
+      <Card sx={sxStyles.card}>
+        <CardMedia
+          component="img"
+          sx={sxStyles.cardMedia}
+          image={item.thumbnail}
+          title={item.name}
+          onError={handleImageError}
+        />
+        <CardContent sx={sxStyles.cardContent}>
+          <Typography variant="h4" component="h3" sx={sxStyles.cardTitle}>
+            {item.name}
+          </Typography>
+          <Typography variant="subtitle1" sx={sxStyles.cardSubtitle}>
+            {level.join(', ')}
+          </Typography>
+          <Typography variant="body2" sx={sxStyles.cardResources}>
+            {item.numResources}
+            {' '}
+            resources
+          </Typography>
+        </CardContent>
+      </Card>
+    </Link>
+  );
 }

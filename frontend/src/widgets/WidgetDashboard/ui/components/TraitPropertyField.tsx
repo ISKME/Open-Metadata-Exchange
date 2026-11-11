@@ -52,74 +52,74 @@ export default function TraitPropertyField({
   );
 
   switch (type) {
-    case 'select':
-      {
-        inputToRender = (
-          <FormControl fullWidth size="small">
-            <Select value={value} onChange={onChange}>
-              {trait.getOptions().map((option) => (
-                <MenuItem
-                  key={trait.getOptionId(option)}
-                  value={trait.getOptionId(option)}
+  case 'select':
+    {
+      inputToRender = (
+        <FormControl fullWidth size="small">
+          <Select value={value} onChange={onChange}>
+            {trait.getOptions().map((option) => (
+              <MenuItem
+                key={trait.getOptionId(option)}
+                value={trait.getOptionId(option)}
+              >
+                {trait.getOptionLabel(option)}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      );
+    }
+    break;
+  case 'color':
+    {
+      inputToRender = (
+        <TextField
+          fullWidth
+          placeholder={defValue}
+          value={value}
+          onChange={onChange}
+          size="small"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <div
+                  className={`w-[15px] h-[15px] ${ROUND_BORDER_COLOR}`}
+                  style={{ backgroundColor: valueWithDef }}
                 >
-                  {trait.getOptionLabel(option)}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        );
-      }
-      break;
-    case 'color':
-      {
-        inputToRender = (
-          <TextField
-            fullWidth
-            placeholder={defValue}
-            value={value}
-            onChange={onChange}
-            size="small"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <div
-                    className={`w-[15px] h-[15px] ${ROUND_BORDER_COLOR}`}
-                    style={{ backgroundColor: valueWithDef }}
-                  >
-                    <input
-                      type="color"
-                      className="w-[15px] h-[15px] cursor-pointer opacity-0"
-                      value={valueWithDef}
-                      onChange={(ev) => handleChange(ev.target.value)}
-                    />
-                  </div>
-                </InputAdornment>
-              ),
-            }}
-          />
-        );
-      }
-      break;
-    case 'checkbox':
-      {
-        inputToRender = (
-          <Checkbox
-            checked={value}
-            onChange={(ev) => trait.setValue(ev.target.checked)}
-            size="small"
-          />
-        );
-      }
-      break;
-    case 'button':
-      {
-        inputToRender = (
-          <Button fullWidth onClick={handleButtonClick}>
-            {trait.getLabel()}
-          </Button>
-        );
-      }
-      break;
+                  <input
+                    type="color"
+                    className="w-[15px] h-[15px] cursor-pointer opacity-0"
+                    value={valueWithDef}
+                    onChange={(ev) => handleChange(ev.target.value)}
+                  />
+                </div>
+              </InputAdornment>
+            ),
+          }}
+        />
+      );
+    }
+    break;
+  case 'checkbox':
+    {
+      inputToRender = (
+        <Checkbox
+          checked={value}
+          onChange={(ev) => trait.setValue(ev.target.checked)}
+          size="small"
+        />
+      );
+    }
+    break;
+  case 'button':
+    {
+      inputToRender = (
+        <Button fullWidth onClick={handleButtonClick}>
+          {trait.getLabel()}
+        </Button>
+      );
+    }
+    break;
   }
 
   return (

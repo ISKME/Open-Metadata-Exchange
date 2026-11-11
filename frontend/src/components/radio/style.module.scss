@@ -7,7 +7,7 @@
     margin-right: 15px;
     font-size: 13px;
 
-    &:before {
+    &::before {
       content: "";
       display: block;
       width: 22px;
@@ -26,7 +26,7 @@
     display: none !important;
     *display: inline;
 
-    &:checked + label:after {
+    &:checked + label::after {
       content: "";
       display: block;
       position: absolute;

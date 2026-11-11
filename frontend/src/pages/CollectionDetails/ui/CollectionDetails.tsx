@@ -1,12 +1,11 @@
-/* eslint-disable no-useless-computed-key */
-/* eslint-disable react/button-has-type */
-/* eslint-disable array-callback-return */
 /* eslint-disable no-console */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable max-len */
-/* eslint-disable eqeqeq */
+
 // @ts-nocheck
-import { useLocation, useParams, useSearchParams, useNavigate, Link } from 'react-router-dom';
+import {
+  useLocation, useParams, useSearchParams, useNavigate, Link,
+} from 'react-router-dom';
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import * as qs from 'query-string';
@@ -257,24 +256,25 @@ export function CollectionDetails() {
 
   function save(slug, data) {
     axios.post(`/api/imls/v2/metadata/mapping/${micrositeSlug}/collections/${id}`, {
-      [slug]: data.reduce((ac, a) => ({ ...ac, [a[0]]: a[1] }), {})
+      [slug]: data.reduce((ac, a) => ({ ...ac, [a[0]]: a[1] }), {}),
     }).then(console.log).catch(console.log);
   }
 
   useEffect(() => {
     if (!done) return () => {};
+    let interval;
     const fetchData = async () => {
       axios.get(`/api/imls/v2/collections/${micrositeSlug}/${id}/status`).then(({ data }) => {
         if (data.replication_status === 'completed') {
           setReady(true);
           clearInterval(interval);
         } else if (data.progress_info && Number(data.progress_info.total)) {
-          const { total, transferred } = data.progress_info
+          const { total, transferred } = data.progress_info;
           setProgress(Number(transferred) / Number(total));
         }
       });
     };
-    const interval = setInterval(fetchData, 10000);
+    interval = setInterval(fetchData, 10000);
     fetchData();
     return () => clearInterval(interval);
   }, [done]);
@@ -312,12 +312,15 @@ export function CollectionDetails() {
 
   const handleImageError = (e) => {
     e.target.onerror = null;
-    e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png'
-  }
+    e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png';
+  };
 
   const FiltersBox = () => (
     <Box sx={{ minWidth: 260, p: 2 }}>
-      <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}><FilterListIcon sx={{ mr: 1 }} />Filters</Typography>
+      <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+        <FilterListIcon sx={{ mr: 1 }} />
+        Filters
+      </Typography>
       {filters && filters.map((el) => (
         <Accordion key={el.name} defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -341,7 +344,7 @@ export function CollectionDetails() {
       ))}
       <Button variant="outlined" onClick={handleClearSearchParams} sx={{ mt: 2 }}>Reset Filters</Button>
     </Box>
-  )
+  );
 
   const [open, setOpen] = useState(false);
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
@@ -359,7 +362,9 @@ export function CollectionDetails() {
           <Card sx={{ display: 'flex', mb: 3, flexDirection: { sm: 'column', xs: 'column', md: 'row' } }}>
             <CardMedia
               component="img"
-              sx={{ width: 180, height: 180, objectFit: 'cover', overflow: 'hidden', borderRadius: 2, m: 2 }}
+              sx={{
+                width: 180, height: 180, objectFit: 'cover', overflow: 'hidden', borderRadius: 2, m: 2,
+              }}
               image={thumbnail || '/static/newdesign/images/materials/default-thumbnail-index.png'}
               alt={collectionName}
               onError={handleImageError}
@@ -369,9 +374,23 @@ export function CollectionDetails() {
               <Typography variant="subtitle1" color="text.secondary" gutterBottom>{collectionMicrositeName}</Typography>
               <div dangerouslySetInnerHTML={{ __html: abstract }} />
               <Stack direction="row" sx={{ mt: 1 }} flexDirection={{ sm: 'column', xs: 'column', md: 'row' }} gap="8px">
-                <Typography variant="body2">{numResources} resources</Typography>
-                {educationLevels && <Typography variant="body2">Education: {educationLevels?.slice(0, 3)?.join(', ')}</Typography>}
-                <Typography variant="body2">Last Updated: {new Date(updatedOn).toDateString().substring(4)}</Typography>
+                <Typography variant="body2">
+                  {numResources}
+                  {' '}
+                  resources
+                </Typography>
+                {educationLevels && (
+                  <Typography variant="body2">
+                    Education:
+                    {' '}
+                    {educationLevels?.slice(0, 3)?.join(', ')}
+                  </Typography>
+                )}
+                <Typography variant="body2">
+                  Last Updated:
+                  {' '}
+                  {new Date(updatedOn).toDateString().substring(4)}
+                </Typography>
               </Stack>
               <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                 {!subscribed ? (
@@ -395,7 +414,9 @@ export function CollectionDetails() {
                   onChange={handleInputChange}
                   onKeyDown={onPress}
                   placeholder="Search Individual Learning Materials"
-                  style={{ width: '100%', padding: '8px', borderRadius: 4, border: '1px solid #ccc' }}
+                  style={{
+                    width: '100%', padding: '8px', borderRadius: 4, border: '1px solid #ccc',
+                  }}
                 />
                 <Button variant="contained" color="primary" onClick={handleSearching} sx={{ ml: 1 }}>Search</Button>
               </Box>
@@ -403,7 +424,13 @@ export function CollectionDetails() {
             <Box sx={{ minWidth: 180 }}>
               <Stack direction="row" alignItems="center" gap={1}>
                 <SortIcon color="action" />
-                <select value={sorted || ''} onChange={handleSelectChange} style={{ padding: '8px', borderRadius: 4, border: '1px solid #ccc', minWidth: 120 }}>
+                <select
+                  value={sorted || ''}
+                  onChange={handleSelectChange}
+                  style={{
+                    padding: '8px', borderRadius: 4, border: '1px solid #ccc', minWidth: 120,
+                  }}
+                >
                   <option value="">Sort By</option>
                   {sortBy.map((option) => (
                     <option key={option.slug} value={option.slug}>{option.name}</option>
@@ -411,35 +438,46 @@ export function CollectionDetails() {
                 </select>
               </Stack>
             </Box>
-            {small && <Button
-              size="large"
-              variant="contained"
-              endIcon={<FilterAlt />}
-              onClick={toggleDrawer(true)}
-              sx={{
-                paddingLeft: '32px',
-                paddingRight: '32px',
-                height: '48px',
-                boxShadow: 'none',
-                borderRadius: '8px',
-              }}
-            >Filters</Button>}
+            {small && (
+              <Button
+                size="large"
+                variant="contained"
+                endIcon={<FilterAlt />}
+                onClick={toggleDrawer(true)}
+                sx={{
+                  paddingLeft: '32px',
+                  paddingRight: '32px',
+                  height: '48px',
+                  boxShadow: 'none',
+                  borderRadius: '8px',
+                }}
+              >
+                Filters
+              </Button>
+            )}
           </Stack>
           <Divider sx={{ mb: 2 }} />
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} alignItems="flex-start">
             {!small && <FiltersBox />}
             <Box sx={{ flex: 1, position: 'relative' }}>
-              <Typography variant="subtitle1" sx={{ mb: 1 }}>{totalNumber} Resources</Typography>
+              <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                {totalNumber}
+                {' '}
+                Resources
+              </Typography>
               <ul style={{ listStyle: 'none', padding: 0 }}>
                 {resources.map((resource) => (
-                  <Card key={resource.id} sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    mb: 2,
-                    borderColor: 'divider',
-                    boxShadow: checked ? 2 : 0,
-                    transition: 'box-shadow 0.2s, border-color 0.2s, background 0.2s',
-                  }}>
+                  <Card
+                    key={resource.id}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: { xs: 'column', sm: 'row' },
+                      mb: 2,
+                      borderColor: 'divider',
+                      boxShadow: checked ? 2 : 0,
+                      transition: 'box-shadow 0.2s, border-color 0.2s, background 0.2s',
+                    }}
+                  >
                     <CardContent
                       sx={{
                         minWidth: 240,
@@ -465,8 +503,15 @@ export function CollectionDetails() {
                     <CardContent>
                       <Typography variant="h6" fontWeight={600} component={Link} to={`/imls/asset/${resource.detailURL?.split('/v2/resources/')?.pop()}`}>{resource.title || resource.name}</Typography>
                       <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{resource.micrositeName || resource.site}</Typography>
-                      <Typography variant="body2" color="text.secondary">Updated {new Date(resource.updateDate).toDateString()}</Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{resource.abstract?.split(' ').slice(0, 20).join(' ')}...</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Updated
+                        {' '}
+                        {new Date(resource.updateDate).toDateString()}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                        {resource.abstract?.split(' ').slice(0, 20).join(' ')}
+                        ...
+                      </Typography>
                     </CardContent>
                   </Card>
                 ))}
@@ -496,8 +541,23 @@ export function CollectionDetails() {
               <CheckCircleIcon color="success" sx={{ fontSize: 40 }} />
               <Box>
                 <Typography variant="h6" fontWeight={700}>Exchange Successful</Typography>
-                <Typography variant="body2">You published a new collection to <b>{clientInfo}</b> by subscribing.</Typography>
-                <Typography variant="body2">Any changes pushed to this content by <b>{collectionMicrositeName}</b> are automatically synced to <b>{clientInfo}</b>.</Typography>
+                <Typography variant="body2">
+                  You published a new collection to
+                  {' '}
+                  <b>{clientInfo}</b>
+                  {' '}
+                  by subscribing.
+                </Typography>
+                <Typography variant="body2">
+                  Any changes pushed to this content by
+                  {' '}
+                  <b>{collectionMicrositeName}</b>
+                  {' '}
+                  are automatically synced to
+                  {' '}
+                  <b>{clientInfo}</b>
+                  .
+                </Typography>
               </Box>
             </Stack>
             <Divider sx={{ my: 2 }} />
@@ -506,19 +566,37 @@ export function CollectionDetails() {
               <Box>
                 <Typography variant="h6" fontWeight={600}>{collectionName}</Typography>
                 <Typography variant="body2" color="text.secondary">{collectionMicrositeName}</Typography>
-                <Typography variant="body2">{numResources} resources</Typography>
-                <Typography variant="body2">Education: {educationLevels?.slice(0, 3)?.join(', ')}</Typography>
+                <Typography variant="body2">
+                  {numResources}
+                  {' '}
+                  resources
+                </Typography>
+                <Typography variant="body2">
+                  Education:
+                  {' '}
+                  {educationLevels?.slice(0, 3)?.join(', ')}
+                </Typography>
               </Box>
             </Card>
             {ready ? (
               <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={() => setMap(true)}>Map Metadata</Button>
             ) : (
               <Box sx={{ mt: 2 }}>
-                <Box sx={{ width: '100%', bgcolor: '#eee', borderRadius: 2, height: 16, mb: 1 }}>
-                  <Box sx={{ width: `${progress * 100}%`, bgcolor: 'primary.main', height: '100%', borderRadius: 2 }} />
+                <Box sx={{
+                  width: '100%', bgcolor: '#eee', borderRadius: 2, height: 16, mb: 1,
+                }}
+                >
+                  <Box sx={{
+                    width: `${progress * 100}%`, bgcolor: 'primary.main', height: '100%', borderRadius: 2,
+                  }}
+                  />
                 </Box>
                 <Typography variant="body2">TRANSFERRING</Typography>
-                <Typography variant="body2" sx={{ mt: 1 }}>We're getting your new collection ready!<br />We'll email you when the process is complete.</Typography>
+                <Typography variant="body2" sx={{ mt: 1 }}>
+                  We're getting your new collection ready!
+                  <br />
+                  We'll email you when the process is complete.
+                </Typography>
               </Box>
             )}
           </Card>
@@ -533,7 +611,11 @@ export function CollectionDetails() {
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle1" fontWeight={600}>{section.name}</Typography>
                 {Number(stats[section.name]) > 0 && (
-                  <Typography color="error" sx={{ ml: 2 }}>{stats[section.name]} value unmapped</Typography>
+                  <Typography color="error" sx={{ ml: 2 }}>
+                    {stats[section.name]}
+                    {' '}
+                    value unmapped
+                  </Typography>
                 )}
                 {Number(stats[section.name]) === -1 && (
                   <Typography color="success" sx={{ ml: 2 }}>All values mapped</Typography>
@@ -555,19 +637,30 @@ export function CollectionDetails() {
                         }
                         setStats(statsObj);
                       }}
-                      style={{ padding: '8px', borderRadius: 4, border: '1px solid #ccc', minWidth: 120 }}
+                      style={{
+                        padding: '8px', borderRadius: 4, border: '1px solid #ccc', minWidth: 120,
+                      }}
                     >
-                      <option value="">Select {section.name}</option>
+                      <option value="">
+                        Select
+                        {' '}
+                        {section.name}
+                      </option>
                       {section.metadata.map((meta) => (
                         <option key={meta.name} value={meta.name}>{meta.name}</option>
                       ))}
                     </select>
                   </Stack>
                 ))}
-                <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={() => {
-                  save(section.slug, Object.entries(changes[section.name]).filter((item) => item[1]));
-                  if (stats[section.name] === 0) setStats({ ...stats, [section.name]: -1 });
-                }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{ mt: 2 }}
+                  onClick={() => {
+                    save(section.slug, Object.entries(changes[section.name]).filter((item) => item[1]));
+                    if (stats[section.name] === 0) setStats({ ...stats, [section.name]: -1 });
+                  }}
+                >
                   Save and Update Map
                 </Button>
               </AccordionDetails>

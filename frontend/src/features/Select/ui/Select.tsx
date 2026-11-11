@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { memo, SelectHTMLAttributes, useRef, useState, useEffect } from 'react';
+import {
+  memo, SelectHTMLAttributes, useRef, useState, useEffect,
+} from 'react';
 import { SelectRenderer } from 'react-dropdown-select';
 import { classNames } from 'shared/lib/classNames/classNames';
 import cls from './Select.module.scss';
@@ -33,7 +35,6 @@ export const Select = memo((props: SelectProps) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
 
   useEffect(() => {
     const selected = selectOptions?.find((item) => item.slug === initial);

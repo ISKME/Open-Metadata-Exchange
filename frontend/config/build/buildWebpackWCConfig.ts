@@ -14,7 +14,7 @@ export function buildWebpackConfig(options: BuildOptions): webpack.Configuration
       filename: 'webc.js',
       path: paths.build,
       clean: true,
-      publicPath: '/static/'
+      publicPath: '/static/',
     },
     plugins: [
       new webpack.ProgressPlugin(),

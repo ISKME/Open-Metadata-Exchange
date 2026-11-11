@@ -4,5 +4,5 @@ export const StatusMessage = window['StatusMessage'] || {
   },
   error: (msg: string) => {
     console.error(msg);
-  }
+  },
 };

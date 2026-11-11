@@ -46,7 +46,7 @@ export default function ArkAbout() {
         {/* <img src="/static/ark/images/1.png" /> */}
         <img src="/static/newdesign/images/ark/1.png" style={{ transform: 'scale(.85)' }} />
         <img src="/static/newdesign/images/ark/2.png" />
-        <img src="/static/newdesign/images/ark/3.png" style={{ width: '217px',  height: '75px', marginTop: '37px' }} />
+        <img src="/static/newdesign/images/ark/3.png" style={{ width: '217px', height: '75px', marginTop: '37px' }} />
         <img src="/static/newdesign/images/ark/4.png" />
       </div>
     </>

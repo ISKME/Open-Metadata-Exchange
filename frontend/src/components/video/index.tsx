@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
 const styles = `
 .oer-video-player-shell { position: relative; width: 100%; background:#000; }
@@ -22,9 +22,9 @@ export function Player(props: {
   const [dims, setDims] = useState<{ width: number; height: number } | null>(null);
 
   useEffect(() => {
-    if (!document.head.querySelector("style[data-oer-video-shell]")) {
-      const s = document.createElement("style");
-      s.setAttribute("data-oer-video-shell", "1");
+    if (!document.head.querySelector('style[data-oer-video-shell]')) {
+      const s = document.createElement('style');
+      s.setAttribute('data-oer-video-shell', '1');
       s.textContent = styles;
       document.head.appendChild(s);
     }
@@ -38,13 +38,13 @@ export function Player(props: {
     const win = (e.target as HTMLIFrameElement).contentWindow as any;
     const p = win?.player;
     if (!p) {
-      props.onFail?.(new Error("Video player failed to load"));
+      props.onFail?.(new Error('Video player failed to load'));
       return;
     }
     playerRef.current = p;
 
     const measure = () => {
-      const el = win.document?.querySelector(".video-js");
+      const el = win.document?.querySelector('.video-js');
       const containerWidth = shellRef.current?.clientWidth;
       if (!el || !containerWidth) return;
       const rect = el.getBoundingClientRect();
@@ -59,11 +59,11 @@ export function Player(props: {
       }
     };
     measure();
-    p.on("playerresize", measure);
-    win.addEventListener?.("resize", measure);
+    p.on('playerresize', measure);
+    win.addEventListener?.('resize', measure);
 
-    p.on("play", () => props.onPlay?.());
-    p.on("timeupdate", () => {
+    p.on('play', () => props.onPlay?.());
+    p.on('timeupdate', () => {
       const end = segmentEndRef.current;
       if (end == null) return;
       if (p.currentTime() >= end - 0.05) {
@@ -71,7 +71,7 @@ export function Player(props: {
         segmentEndRef.current = null;
       }
     });
-    p.on("ended", () => {
+    p.on('ended', () => {
       segmentEndRef.current = null;
     });
 
@@ -80,7 +80,7 @@ export function Player(props: {
       props.onLoad?.({ sources: { duration: p.duration() } }, p);
     };
     if (p.readyState() > 0) emitLoaded();
-    else p.one("loadedmetadata", emitLoaded);
+    else p.one('loadedmetadata', emitLoaded);
   };
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export function Player(props: {
   return (
     <div
       ref={shellRef}
-      className={`oer-video-player-shell${dims == null ? " is-measuring" : ""}`}
+      className={`oer-video-player-shell${dims == null ? ' is-measuring' : ''}`}
       style={dims == null ? undefined : { height: dims.height }}
     >
       <iframe
@@ -109,7 +109,7 @@ export function Player(props: {
         style={
           dims == null
             ? undefined
-            : { width: dims.width, left: "50%", transform: "translateX(-50%)" }
+            : { width: dims.width, left: '50%', transform: 'translateX(-50%)' }
         }
       />
     </div>

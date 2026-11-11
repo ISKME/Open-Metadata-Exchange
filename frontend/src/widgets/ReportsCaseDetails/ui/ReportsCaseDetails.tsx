@@ -1,3 +1,3 @@
 export function ReportsCaseDetails() {
-  return <div />
+  return <div />;
 }

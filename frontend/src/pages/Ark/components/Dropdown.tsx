@@ -1,4 +1,6 @@
-import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText } from '@mui/material';
+import {
+  FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText,
+} from '@mui/material';
 
 export default function Dropdown({
   id = 'dropdown',
@@ -9,39 +11,42 @@ export default function Dropdown({
   multiple = true,
 }) {
   return (
-    <FormControl size="small" sx={{
-      width: 240,
-      bgcolor: 'ark.inputsBackgroundColor',
-      borderRadius: 2,
-      '& .MuiInputBase-root': {
+    <FormControl
+      size="small"
+      sx={{
+        width: 240,
         bgcolor: 'ark.inputsBackgroundColor',
-        color: 'ark.inputsTextColor',
         borderRadius: 2,
-        paddingLeft: 2,
-        paddingRight: 2,
-      },
-      '& .MuiOutlinedInput-notchedOutline': {
-        border: 'none',
-      },
-      '& .MuiInputBase-inputSizeSmall': {
-        padding: '0 0 8px',
-        fontSize: '16px',
-        paddingTop: '6px',
-      },
-      '& .MuiSvgIcon-root': {
-        color: 'ark.inputsTextColor',
-      },
-      '& .MuiInputLabel-root': {
-        color: 'ark.inputsTextColor',
-        backgroundColor: 'ark.inputsBackgroundColor',
-        padding: '4px 12px',
-        borderRadius: 2,
+        '& .MuiInputBase-root': {
+          bgcolor: 'ark.inputsBackgroundColor',
+          color: 'ark.inputsTextColor',
+          borderRadius: 2,
+          paddingLeft: 2,
+          paddingRight: 2,
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+          border: 'none',
+        },
+        '& .MuiInputBase-inputSizeSmall': {
+          padding: '0 0 8px',
+          fontSize: '16px',
+          paddingTop: '6px',
+        },
+        '& .MuiSvgIcon-root': {
+          color: 'ark.inputsTextColor',
+        },
+        '& .MuiInputLabel-root': {
+          color: 'ark.inputsTextColor',
+          backgroundColor: 'ark.inputsBackgroundColor',
+          padding: '4px 12px',
+          borderRadius: 2,
         // transform: 'translate(14px, -18px) scale(0.75)',
-      },
-      '& .MuiInputLabel-root.Mui-focused': {
-        color: 'ark.inputsTextColor',
-      },
-    }}>
+        },
+        '& .MuiInputLabel-root.Mui-focused': {
+          color: 'ark.inputsTextColor',
+        },
+      }}
+    >
       <InputLabel id={id}>{label}</InputLabel>
       <Select
         labelId={id}
@@ -54,7 +59,16 @@ export default function Dropdown({
             ? (selected) => selected.join(', ')
             : (selected) => selected
         }
-        IconComponent={(props) => <span {...props} style={{ color: 'ark.inputsTextColor', right: 10, top: 'calc(50% - 1em)', fontSize: 16 }}>⮟</span>}
+        IconComponent={(props) => (
+          <span
+            {...props}
+            style={{
+              color: 'ark.inputsTextColor', right: 10, top: 'calc(50% - 1em)', fontSize: 16,
+            }}
+          >
+            ⮟
+          </span>
+        )}
         sx={{
           bgcolor: 'ark.inputsBackgroundColor',
           color: 'ark.inputsTextColor',
@@ -74,7 +88,7 @@ export default function Dropdown({
                 padding: multiple ? 0 : '',
               },
             },
-          }
+          },
         }}
       >
         {options.map(({ name, slug }) => (

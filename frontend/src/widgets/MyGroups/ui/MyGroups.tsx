@@ -39,7 +39,7 @@ export function MyGroups() {
         ...item,
         number: item.members,
       })));
-    }).catch(error => {
+    }).catch((error) => {
       console.error('Error loading groups:', error);
     });
   }, []);
@@ -67,7 +67,7 @@ export function MyGroups() {
             {groups.map((item, index) => (
               <Grid item md={3} xs={6} key={index}>
                 <div className={cls['group-list-item']}>
-                  <a href={'/groups/new/' + item.id}>
+                  <a href={`/groups/new/${item.id}`}>
                     <div className={cls['group-cover']}>
                       <img
                         src={item.cover}

@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { Link } from 'react-router-dom';
 import { memo, useState } from 'react';
 import cls from './ResourcesItemCard.module.scss';
@@ -12,7 +11,7 @@ interface CollectionItemCardProps {
   resource?: any;
 }
 
-const join = (arr) => arr.length ? arr?.reduce((a, b, i, array) => a + (i < array.length - 1 ? ', ' : ' and ') + b) : '';
+const join = (arr) => (arr.length ? arr?.reduce((a, b, i, array) => a + (i < array.length - 1 ? ', ' : ' and ') + b) : '');
 
 export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCardProps) => {
   const [see, setSee] = useState(false);
@@ -24,7 +23,8 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
           <>
             {item.label && (
               <p className={cls.subTitle}>
-                {item.label}:
+                {item.label}
+                :
                 <span>{join(item.items?.map((el) => el.name))}</span>
               </p>
             )}
@@ -87,7 +87,7 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
                   viewBox="0 0 24 24"
                   width="18"
                   height="18"
-                  style={{ position: "relative", top: 0, left: 0 }}
+                  style={{ position: 'relative', top: 0, left: 0 }}
                 >
                   <path d="M12 .587l3.668 7.571L24 9.423l-6 5.847 1.416 8.256L12 18.902 4.584 23.526 6 15.27 0 9.423l8.332-1.265L12 .587z" />
                 </svg>
@@ -98,7 +98,7 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
                   width="18"
                   height="18"
                   style={{
-                    position: "absolute",
+                    position: 'absolute',
                     top: 0,
                     left: 0,
                     clipPath: `inset(0 ${100 - (Number(resource.rating) % 1) * 100}% 0 0)`,
@@ -126,7 +126,7 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
                 >
                   <path d="M12 .587l3.668 7.571L24 9.423l-6 5.847 1.416 8.256L12 18.902 4.584 23.526 6 15.27 0 9.423l8.332-1.265L12 .587z" />
                 </svg>
-              )
+              ),
             )}
           </div>
           <p style={{
@@ -141,10 +141,10 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
             <div>
               <strong>Views:</strong>
               <p style={{
-                  color: '#428bca', fontWeight: 'bold', fontSize: '15px', marginLeft: '8px', display: 'inline',
-                }}
-                >
-                  {`(${resource.visits || 0})`}
+                color: '#428bca', fontWeight: 'bold', fontSize: '15px', marginLeft: '8px', display: 'inline',
+              }}
+              >
+                {`(${resource.visits || 0})`}
               </p>
             </div>
           ) : null

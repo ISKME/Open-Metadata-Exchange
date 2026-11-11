@@ -1,8 +1,5 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
 import * as React from 'react';
 import axios from 'axios';
@@ -32,7 +29,7 @@ const buttonStyle = {
     color: '#ffffff',
     boxShadow: '0 3px 0 #7c8ba2',
   },
-}
+};
 
 const getCanCreate = (): boolean => {
   if (typeof window === 'undefined') return false;
@@ -41,7 +38,7 @@ const getCanCreate = (): boolean => {
 };
 
 export function Groups() {
-  const [create, setCreate] = React.useState(window.location.search.includes('create'))
+  const [create, setCreate] = React.useState(window.location.search.includes('create'));
   const [value, setValue] = React.useState(0);
   const [data, setData] = React.useState([]);
   const [canCreate] = React.useState<boolean>(() => getCanCreate());
@@ -65,9 +62,11 @@ export function Groups() {
       <div style={{ backgroundColor: '#efeff0', padding: '15px 10%' }}>
         <h1 style={{ font: '400 24px / 24px "DINPro", sans-serif', color: '#303e48', textTransform: 'capitalize' }}>Groups</h1>
       </div>
-      {create && <Grid container spacing={2} sx={{ padding: '0 10%' }}>
-        <GroupNew />
-      </Grid>}
+      {create && (
+        <Grid container spacing={2} sx={{ padding: '0 10%' }}>
+          <GroupNew />
+        </Grid>
+      )}
       {!create && (
         <div>
           {canCreate && (
@@ -78,22 +77,22 @@ export function Groups() {
           <Grid container spacing={2} sx={{ padding: '0 10%' }}>
             {data.map((item, index) => (
               <Grid item md={3} xs={6} key={index}>
-              <div className={cls['group-list-item']}>
-                <a href={'/groups/new/' + item.id}>
-                  <div className={cls['group-cover']}>
-                    <img src={item.cover} width="149" height="149" alt={item.title} onError={({ target }) => { target.src = customUrl }} />
-                    <span className={cls['group-members-count']}>
-                      <i className={cls.fa}>
-                        <UserIcon />
-                      </i>
-                      <span>{item.number}</span>
+                <div className={cls['group-list-item']}>
+                  <a href={`/groups/new/${item.id}`}>
+                    <div className={cls['group-cover']}>
+                      <img src={item.cover} width="149" height="149" alt={item.title} onError={({ target }) => { target.src = customUrl; }} />
+                      <span className={cls['group-members-count']}>
+                        <i className={cls.fa}>
+                          <UserIcon />
+                        </i>
+                        <span>{item.number}</span>
+                      </span>
+                    </div>
+                    <span className={cls['group-title']}>
+                      {item.title}
                     </span>
-                  </div>
-                  <span className={cls['group-title']}>
-                    {item.title}
-                  </span>
-                </a>
-              </div>
+                  </a>
+                </div>
               </Grid>
             ))}
           </Grid>

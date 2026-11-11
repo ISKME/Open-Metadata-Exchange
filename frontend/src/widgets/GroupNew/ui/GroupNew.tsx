@@ -1,7 +1,11 @@
 // @ts-nocheck
-import { useState, useEffect, useRef, useCallback } from 'react';
+import {
+  useState, useEffect, useRef, useCallback,
+} from 'react';
 import axios from 'axios';
-import { Typography, TextField, Button, Modal, Box, Checkbox, FormGroup, FormControlLabel, IconButton } from '@mui/material';
+import {
+  Typography, TextField, Button, Modal, Box, Checkbox, FormGroup, FormControlLabel, IconButton,
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import cls from './GroupNew.module.scss';
 import { Uploader } from 'components/uploader';
@@ -24,14 +28,13 @@ const modalStyle = {
 function jsonToReadableText(json) {
   function processValue(value) {
     if (Array.isArray(value)) return value.map(processValue).join(', ');
-    else if (typeof value === 'object' && value !== null)
-      return Object.entries(value).map(([key, val]) => `${key}: ${processValue(val)}`).join(', ');
+    if (typeof value === 'object' && value !== null) return Object.entries(value).map(([key, val]) => `${key}: ${processValue(val)}`).join(', ');
     return value;
   }
   return processValue(json);
 }
 
-let id = null
+let id = null;
 
 export function GroupNew() {
   const [title, setTitle] = useState('');
@@ -66,17 +69,19 @@ export function GroupNew() {
 
   useEffect(() => {
     if (id !== null) fetchMembers(id, page, debouncedSearch);
-    else axios.get('/api/users/v1/profile').then(({ data }) => {
-      id = data?.organization.id;
-      if (!id) return;
-      fetchMembers(id, page, debouncedSearch);
-    });
+    else {
+      axios.get('/api/users/v1/profile').then(({ data }) => {
+        id = data?.organization.id;
+        if (!id) return;
+        fetchMembers(id, page, debouncedSearch);
+      });
+    }
   }, [page, debouncedSearch, fetchMembers]);
 
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = 0; // Scroll to the top when search term changes
-      setPage(1)
+      setPage(1);
     }
   }, [debouncedSearch]);
 
@@ -99,7 +104,7 @@ export function GroupNew() {
       });
       if (node) observer.current.observe(node);
     },
-    [hasMore]
+    [hasMore],
   );
 
   function add() {
@@ -121,7 +126,9 @@ export function GroupNew() {
   }
 
   function create() {
-    req.post('groups/v1/groups', { title, description, group_type: 1, cover }, true)
+    req.post('groups/v1/groups', {
+      title, description, group_type: 1, cover,
+    }, true)
       .then(({ id }) => {
         alert('Group created successfully!');
         const emails = selectedItems.map((item) => item.email || item);
@@ -136,16 +143,21 @@ export function GroupNew() {
 
   useEffect(() => {
     if (!open) {
-      setSearch('')
-      setPage(1)
+      setSearch('');
+      setPage(1);
     } else {
       setText(selectedItems.filter((item) => !item?.email).join(', '));
       setCheckedEmails(selectedItems.map((item) => item?.email).filter(Boolean));
     }
-  }, [open])
+  }, [open]);
 
   return (
-    <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+    <div
+      className="container"
+      style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '8px',
+      }}
+    >
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -172,7 +184,9 @@ export function GroupNew() {
               setPage(1); // Reset to the first page when search query changes
             }}
           />
-          <div ref={containerRef} style={{ maxHeight: '300px', overflowY: 'auto' }}> {/* Add the ref to the container */}
+          <div ref={containerRef} style={{ maxHeight: '300px', overflowY: 'auto' }}>
+            {' '}
+            {/* Add the ref to the container */}
             <FormGroup>
               {list.map((item, index) => (
                 <FormControlLabel
@@ -187,7 +201,9 @@ export function GroupNew() {
             </FormGroup>
           </div>
           <Typography sx={{ margin: '16px 0' }}>
-            <b>NOTE:</b> Do not add Students who will be accessing ATLAS cases from within a learning management system
+            <b>NOTE:</b>
+            {' '}
+            Do not add Students who will be accessing ATLAS cases from within a learning management system
             (e.g., Canvas, Moodle, Blackboard, etc.). Student accounts will be automatically provisioned when students
             access the ATLAS cases from their course.
           </Typography>
@@ -258,7 +274,13 @@ export function GroupNew() {
           {selectedItems.map((item) => (
             <div key={item?.email || item}>
               <Typography sx={{ display: 'inline', marginTop: '6px' }}>
-                {item?.first_name} {item?.last_name} &lt;{item?.email || item}&gt;
+                {item?.first_name}
+                {' '}
+                {item?.last_name}
+                {' '}
+                &lt;
+                {item?.email || item}
+                &gt;
               </Typography>
               <IconButton onClick={() => removeItem(item)}>
                 <CloseIcon fontSize="small" />
@@ -268,7 +290,9 @@ export function GroupNew() {
         </div>
       )}
       <Typography variant="caption" sx={{ marginTop: '8px' }}>
-        <b>NOTE: </b> Do not add Students who will be accessing ATLAS cases from within a learning management system
+        <b>NOTE: </b>
+        {' '}
+        Do not add Students who will be accessing ATLAS cases from within a learning management system
         (e.g., Canvas, Moodle, Blackboard, etc.). Student accounts will be automatically provisioned when students
         access the ATLAS cases from their course.
       </Typography>

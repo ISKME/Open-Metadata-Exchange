@@ -1,12 +1,9 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import { useAppDispatch } from 'hooks/redux';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -22,7 +19,6 @@ import Pagination from '@mui/material/Pagination';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import InputAdornment from '@mui/material/InputAdornment';
 import Search from '@mui/icons-material/Search';
 import Fade from '@mui/material/Fade';
@@ -31,7 +27,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import GlobalStyles from '@mui/material/GlobalStyles';
-import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { fetchLti } from 'pages/Lti/model/services/ActionCreators';
 // import cls from './LtiList.module.scss';
@@ -51,7 +46,9 @@ const CButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export function LtiList({ data = [], sorts = [], pages = 1, count = 0, filters = {}, openFilters = () => {}, order }) {
+export function LtiList({
+  data = [], sorts = [], pages = 1, count = 0, filters = {}, openFilters = () => {}, order,
+}) {
   const dispatch = useAppDispatch();
 
   const [defaultPage, setDefaultPage] = React.useState(1);
@@ -63,7 +60,7 @@ export function LtiList({ data = [], sorts = [], pages = 1, count = 0, filters =
 
   const [item, setItem] = React.useState('');
   const handleItem = ({ target }) => {
-    const sort = target.value
+    const sort = target.value;
     setItem(sort);
     dispatch(fetchLti(term, null, sort, filters));
   };
@@ -81,11 +78,15 @@ export function LtiList({ data = [], sorts = [], pages = 1, count = 0, filters =
     <>
       <GlobalStyles styles={{ '.MuiTooltip-popper': { fontSize: '124px !important' } }} />
       <Typography sx={{ color: '#44515a', font: '400 24px / 24px "DINPro", sans-serif', marginBottom: '15px' }}>
-        {count} Results
+        {count}
+        {' '}
+        Results
       </Typography>
       <Paper
         elevation={3}
-        sx={{ display: 'flex', gap: '4px', backgroundColor: '#efeff0', padding: '8px', alignItems: 'center' }}
+        sx={{
+          display: 'flex', gap: '4px', backgroundColor: '#efeff0', padding: '8px', alignItems: 'center',
+        }}
       >
         <FormControl sx={{ flex: 1 }} size="small" variant="outlined">
           <InputLabel htmlFor="outlined-basic">Search</InputLabel>
@@ -98,14 +99,14 @@ export function LtiList({ data = [], sorts = [], pages = 1, count = 0, filters =
             sx={{ flex: 1, backgroundColor: 'white' }}
             value={term}
             onChange={({ target }) => setTerm(target.value)}
-            onKeyUp={event => {
+            onKeyUp={(event) => {
               if (event.key === 'Enter') {
                 // setSearch(term);
                 dispatch(fetchLti(term, 1, item, filters));
                 setDefaultPage(1);
               }
             }}
-            endAdornment={
+            endAdornment={(
               <InputAdornment position="end">
                 <IconButton
                   onClick={() => {
@@ -117,7 +118,7 @@ export function LtiList({ data = [], sorts = [], pages = 1, count = 0, filters =
                   <Search />
                 </IconButton>
               </InputAdornment>
-            }
+            )}
           />
         </FormControl>
         <FormControl size="small" sx={{ minWidth: '142px' }}>
@@ -138,7 +139,10 @@ export function LtiList({ data = [], sorts = [], pages = 1, count = 0, filters =
           </IconButton>
         </Tooltip>
       </Paper>
-      <Box sx={{ marginTop: '32px', marginBottom: '64px', gap: '24px', display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{
+        marginTop: '32px', marginBottom: '64px', gap: '24px', display: 'flex', flexDirection: 'column',
+      }}
+      >
         {data.map((item, index) => (
           <div key={item.id} style={{ display: 'flex', borderBottom: '1px solid #cfcfcf', paddingBottom: '24px' }}>
             <div style={{ flex: 1 }}>
@@ -155,26 +159,35 @@ export function LtiList({ data = [], sorts = [], pages = 1, count = 0, filters =
               alignItems: match ? 'flex-end' : 'stretch',
               marginLeft: '8px',
               flexDirection: match ? '' : 'column',
-            }}>
+            }}
+            >
               <form method="POST" action={`/lti/v1.3/picker/${id}/resources/${item.id.split('.').join('/')}/pick`}>
                 <Button size="small" className="btn-primary" type="submit" style={{ width: '100%' }}>
                   Embed
                 </Button>
               </form>
-              <Button size="small" className="btn-primary" onClick={() => {
-                const url = `/lti/v1.3/picker/${id}/resources/${item.id.split('.').join('/')}/preview`
-                window.open(url, '_blank').focus()
-              }}>
+              <Button
+                size="small"
+                className="btn-primary"
+                onClick={() => {
+                  const url = `/lti/v1.3/picker/${id}/resources/${item.id.split('.').join('/')}/preview`;
+                  window.open(url, '_blank').focus();
+                }}
+              >
                 Preview
               </Button>
             </div>
           </div>
         ))}
       </Box>
-      <Pagination count={pages} page={defaultPage} onChange={(_event, page) => {
-        setDefaultPage(page);
-        dispatch(fetchLti(term, page, item, filters));
-      }} />
+      <Pagination
+        count={pages}
+        page={defaultPage}
+        onChange={(_event, page) => {
+          setDefaultPage(page);
+          dispatch(fetchLti(term, page, item, filters));
+        }}
+      />
     </>
   );
 }

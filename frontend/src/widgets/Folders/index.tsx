@@ -1,5 +1,5 @@
-import { Folders } from './ui/Folders'
+import { Folders } from './ui/Folders';
 
 export {
   Folders,
-}
+};

@@ -1,10 +1,7 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
-import api from "./api/axios";
-import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import api from './api/axios';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 import {
   Box,
   Typography,
@@ -24,41 +21,41 @@ import {
   Menu,
   MenuItem,
   CircularProgress,
-} from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import HistoryIcon from "@mui/icons-material/History";
-import EditIcon from "@mui/icons-material/Edit";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import NoteIcon from "@mui/icons-material/Note";
-import RemixIcon from "@mui/icons-material/Autorenew"; // Substitute for remix
-import CCIcon from "@mui/icons-material/Copyright"; // Substitute for cc
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import DownloadIcon from "@mui/icons-material/Download";
-import MovieIcon from "@mui/icons-material/Movie";
-import Loader from "./icons/Loader";
-import cls from "./styles.module.scss";
-import { matomoTag } from "pages/Case/ui/helper";
-import { makeVideoContent } from "./widgets/VideoPlayer";
-import MenuIcon from "@mui/icons-material/Menu";
-import Arrow from "./icons/Arrow";
+} from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import HistoryIcon from '@mui/icons-material/History';
+import EditIcon from '@mui/icons-material/Edit';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import NoteIcon from '@mui/icons-material/Note';
+import RemixIcon from '@mui/icons-material/Autorenew'; // Substitute for remix
+import CCIcon from '@mui/icons-material/Copyright'; // Substitute for cc
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import DownloadIcon from '@mui/icons-material/Download';
+import MovieIcon from '@mui/icons-material/Movie';
+import Loader from './icons/Loader';
+import cls from './styles.module.scss';
+import { matomoTag } from 'pages/Case/ui/helper';
+import { makeVideoContent } from './widgets/VideoPlayer';
+import MenuIcon from '@mui/icons-material/Menu';
+import Arrow from './icons/Arrow';
 
 const trackDownload = (s?: string) => {
-  const v = (s || "").toLowerCase();
-  let action: "html" | "pdf" | "docx" | "pptx" | "attached resources" =
-    "attached resources";
-  if (v.endsWith(".pdf") || v === "pdf") action = "pdf";
-  else if (v.endsWith(".docx") || v === "docx") action = "docx";
-  else if (v.endsWith(".pptx") || v === "pptx") action = "pptx";
-  else if (v.endsWith(".html") || v.endsWith(".htm") || v === "html")
-    action = "html";
-  matomoTag({ category: "Downloads", action });
+  const v = (s || '').toLowerCase();
+  let action: 'html' | 'pdf' | 'docx' | 'pptx' | 'attached resources' = 'attached resources';
+  if (v.endsWith('.pdf') || v === 'pdf') action = 'pdf';
+  else if (v.endsWith('.docx') || v === 'docx') action = 'docx';
+  else if (v.endsWith('.pptx') || v === 'pptx') action = 'pptx';
+  else if (v.endsWith('.html') || v.endsWith('.htm') || v === 'html') action = 'html';
+  matomoTag({ category: 'Downloads', action });
 };
 
 function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const {
+    children, value, index, ...other
+  } = props;
 
   return (
     <div
@@ -72,13 +69,16 @@ function CustomTabPanel(props) {
   );
 }
 
-function AttachmentButton({ title, url = "" }) {
-  const ext = url.split(".").pop()?.toLowerCase();
+function AttachmentButton({ title, url = '' }) {
+  const ext = url.split('.').pop()?.toLowerCase();
   let FileIcon = InsertDriveFileIcon;
-  if (ext === "pdf") FileIcon = PictureAsPdfIcon;
-  else if (["mp4", "mov", "avi", "webm"].includes(ext)) FileIcon = MovieIcon;
+  if (ext === 'pdf') FileIcon = PictureAsPdfIcon;
+  else if (['mp4', 'mov', 'avi', 'webm'].includes(ext)) FileIcon = MovieIcon;
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
+    <Box sx={{
+      display: 'flex', alignItems: 'center', gap: 1, mb: 1,
+    }}
+    >
       {/* Open in new tab */}
       <IconButton
         component="a"
@@ -113,7 +113,7 @@ function StarRating({ rate }) {
   const full = Math.floor(Number(rate) || 0);
   const empty = 5 - full;
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
       {[...Array(full)].map((_, i) => (
         <StarIcon color="success" key={i} />
       ))}
@@ -129,13 +129,13 @@ function HistoryModal({ open, onClose, history }) {
     <MuiModal open={open} onClose={onClose}>
       <Box
         sx={{
-          bgcolor: "#fff",
+          bgcolor: '#fff',
           p: 3,
           borderRadius: 2,
           maxWidth: 400,
-          mx: "auto",
+          mx: 'auto',
           my: 8,
-          outline: "none",
+          outline: 'none',
         }}
       >
         <Typography variant="h6" gutterBottom>
@@ -143,7 +143,7 @@ function HistoryModal({ open, onClose, history }) {
         </Typography>
         {history.map((item, idx) => (
           <Box key={idx} mb={2}>
-            {item.change_type === "remixed_from" && (
+            {item.change_type === 'remixed_from' && (
               <>
                 <span>Remixed from </span>
                 <MuiLink href={item.related_object_url}>
@@ -151,18 +151,22 @@ function HistoryModal({ open, onClose, history }) {
                 </MuiLink>
               </>
             )}
-            {item.change_type === "remix_published" && (
+            {item.change_type === 'remix_published' && (
               <span>Remix published </span>
             )}
-            <span>{`on ${new Date(item.date)
-              .toDateString()
-              .substring(4)}`}</span>
+            <span>
+              {`on ${new Date(item.date)
+                .toDateString()
+                .substring(4)}`}
+            </span>
             {item.author_name && (
               <MuiLink
                 href={item.author_url}
-              >{` by ${item.author_name}`}</MuiLink>
+              >
+                {` by ${item.author_name}`}
+              </MuiLink>
             )}
-            {item.change_type === "remix_published" && (
+            {item.change_type === 'remix_published' && (
               <>
                 <span>: </span>
                 <MuiLink href={item.related_object_url}>
@@ -180,13 +184,13 @@ function HistoryModal({ open, onClose, history }) {
   );
 }
 
-const fileFormats = ["pdf", "epub", "thincc", "scorm"];
+const fileFormats = ['pdf', 'epub', 'thincc', 'scorm'];
 
 async function hardDownload(url, interval = 5) {
   function browserDownload(downloadUrl) {
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = downloadUrl;
-    link.download = "";
+    link.download = '';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -203,7 +207,7 @@ async function hardDownload(url, interval = 5) {
       }
 
       if (!data?.task_url) {
-        reject(new Error("hardDownload: No task_url in response"));
+        reject(new Error('hardDownload: No task_url in response'));
         return;
       }
 
@@ -212,14 +216,13 @@ async function hardDownload(url, interval = 5) {
           const taskRes = await api.get(data.task_url);
           const status = taskRes?.data?.task?.status;
 
-          const downloadUrl =
-            taskRes?.data?.download_url ||
-            taskRes?.data?.task?.download_url ||
-            data?.download_url;
+          const downloadUrl = taskRes?.data?.download_url
+            || taskRes?.data?.task?.download_url
+            || data?.download_url;
 
-          if (status === "SUCCESS") {
+          if (status === 'SUCCESS') {
             if (!downloadUrl) {
-              reject(new Error("hardDownload: SUCCESS but no download_url"));
+              reject(new Error('hardDownload: SUCCESS but no download_url'));
               return;
             }
             browserDownload(downloadUrl);
@@ -227,7 +230,7 @@ async function hardDownload(url, interval = 5) {
             return;
           }
 
-          if (["FAILURE", "REVOKED"].includes(status)) {
+          if (['FAILURE', 'REVOKED'].includes(status)) {
             reject(new Error(`hardDownload: task failed (${status})`));
             return;
           }
@@ -262,7 +265,7 @@ function DownloadList({ data, editURL, canEdit }) {
         ...item,
         open: false,
         children: item.children || [],
-      }))
+      })),
     );
   }, [data]);
 
@@ -275,12 +278,12 @@ function DownloadList({ data, editURL, canEdit }) {
       )}
       <Button
         id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
+        aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
+        aria-expanded={open ? 'true' : undefined}
         variant="contained"
         onClick={handleClick}
-        sx={{ fontWeight: "bold" }}
+        sx={{ fontWeight: 'bold' }}
       >
         Download
       </Button>
@@ -294,8 +297,8 @@ function DownloadList({ data, editURL, canEdit }) {
           <MenuItem
             key={item}
             onClick={async () => {
-              if (!!item.children?.length) {
-                if (!item.open)
+              if (item.children?.length) {
+                if (!item.open) {
                   setDownloadList([
                     ...downloadList.slice(0, i),
                     { ...item, open: true },
@@ -305,12 +308,13 @@ function DownloadList({ data, editURL, canEdit }) {
                     })),
                     ...downloadList.slice(i + 1),
                   ]);
-                else
+                } else {
                   setDownloadList([
                     ...downloadList.slice(0, i),
                     { ...item, open: false },
                     ...downloadList.slice(item.children?.length + i + 1),
                   ]);
+                }
                 return;
               }
 
@@ -335,26 +339,26 @@ function DownloadList({ data, editURL, canEdit }) {
                 return;
               }
 
-              window.open(item.url, "_blank");
+              window.open(item.url, '_blank');
               trackDownload(item.url);
             }}
             disabled={!!item.url && !!downloadingByUrl[item.url]}
             sx={{
-              bgcolor: item.parent ? "ark.innerCardsBackgroundColor" : "",
-              color: item.parent ? "ark.innerCardsTextColor" : "",
+              bgcolor: item.parent ? 'ark.innerCardsBackgroundColor' : '',
+              color: item.parent ? 'ark.innerCardsTextColor' : '',
             }}
           >
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "100%",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%',
               }}
             >
               <span>{item.title}</span>
 
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 {!!item.url && downloadingByUrl[item.url] && (
                   <CircularProgress size={14} />
                 )}
@@ -362,10 +366,10 @@ function DownloadList({ data, editURL, canEdit }) {
                 {!!item.children?.length && (
                   <div
                     style={{
-                      display: "flex",
-                      marginLeft: "16px",
-                      transform: item.open ? "rotate(180deg)" : "",
-                      transition: "transform 0.3s ease",
+                      display: 'flex',
+                      marginLeft: '16px',
+                      transform: item.open ? 'rotate(180deg)' : '',
+                      transition: 'transform 0.3s ease',
                     }}
                   >
                     <Arrow />
@@ -382,16 +386,16 @@ function DownloadList({ data, editURL, canEdit }) {
 
 export default function ArkLesson() {
   const params = useParams();
-  let details = params["*"];
-  if (details.endsWith("/")) details = details.substring(0, details.length - 1);
+  let details = params['*'];
+  if (details.endsWith('/')) details = details.substring(0, details.length - 1);
 
-  const [title, setTitle] = useState("");
-  const [create, setCreate] = useState("");
-  const [update, setUpdate] = useState("");
-  const [desc, setDesc] = useState("");
-  const [license, setLicense] = useState("");
-  const [licenseImage, setLicenseImage] = useState("");
-  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState('');
+  const [create, setCreate] = useState('');
+  const [update, setUpdate] = useState('');
+  const [desc, setDesc] = useState('');
+  const [license, setLicense] = useState('');
+  const [licenseImage, setLicenseImage] = useState('');
+  const [url, setUrl] = useState('');
   const [subjects, setSubjects] = useState([]);
   const [levels, setLevels] = useState([]);
   const [collections, setCollections] = useState([]);
@@ -400,10 +404,10 @@ export default function ArkLesson() {
   const [formats, setFormats] = useState([]);
   const [keywords, setKeywords] = useState([]);
   const [authors, setAuthors] = useState([]);
-  const [provider, setProvider] = useState("");
+  const [provider, setProvider] = useState('');
   const [history, setHistory] = useState([]);
-  const [rate, setRate] = useState("");
-  const [thumbnail, setThumbnail] = useState("");
+  const [rate, setRate] = useState('');
+  const [thumbnail, setThumbnail] = useState('');
   const [visits, setVisits] = useState(0);
   const [saves, setSaves] = useState(0);
   const [downloadsCount, setDownloadsCount] = useState(0);
@@ -413,11 +417,11 @@ export default function ArkLesson() {
   const [tab, setTab] = useState(0);
   const [sections, setSections] = useState([]);
   const [small, setSmall] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 1200 : false
+    typeof window !== 'undefined' ? window.innerWidth < 1200 : false,
   );
   const [activeIndex, setActiveIndex] = useState(0);
   const [canEdit, setCanEdit] = useState(false);
-  const [editURL, setEditURL] = useState("");
+  const [editURL, setEditURL] = useState('');
 
   const navigate = useNavigate();
 
@@ -450,26 +454,25 @@ export default function ArkLesson() {
           history,
         } = data.resource;
 
-        document.title =
-          title && data?.clientInfo?.name
-            ? `${title} | ${data.clientInfo.name}`
-            : "Digital Public Goods Library";
+        document.title = title && data?.clientInfo?.name
+          ? `${title} | ${data.clientInfo.name}`
+          : 'Digital Public Goods Library';
 
         setTitle(title);
         setDesc(
           abstract
             ? abstract
-                .replace(/&#39;/g, "'")
-                .replace(/\&nbsp;/g, '"')
-                .replace(/\&[lr]squo;/g, "'")
-                .replace(/\&[lr]dquo;/g, '"')
-            : ""
+              .replace(/&#39;/g, "'")
+              .replace(/\&nbsp;/g, '"')
+              .replace(/\&[lr]squo;/g, "'")
+              .replace(/\&[lr]dquo;/g, '"')
+            : '',
         );
         setSubjects(generalSubjects);
         setCollections(collections_titles);
         setLevels(levels);
         setAuthors(authors);
-        setProvider(provider || "");
+        setProvider(provider || '');
         setHistory(history);
         setRate(rating);
         setLicense(license_title);
@@ -483,7 +486,7 @@ export default function ArkLesson() {
         setSaves(saves_count || 0);
         setDownloadsCount(downloads_count || 0);
         setUrl(micrositeResourceURL);
-        setUpdate(updateDate.replace(/^(\d+)-(\d+)-.*/, "$2/$1"));
+        setUpdate(updateDate.replace(/^(\d+)-(\d+)-.*/, '$2/$1'));
         setCreate(new Date(createDate).toDateString().slice(4));
         api.get(`/api/courseware/v1/lessons/${details}`).then(({ data }) => {
           const {
@@ -508,13 +511,13 @@ export default function ArkLesson() {
       });
     const handleResize = () => setSmall(window.innerWidth < 1200);
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
-    const styleTag = document.createElement("style");
-    styleTag.textContent = `header>div>div{max-width:unset !important}header+div>div{max-width:unset !important}header+div .page-wrapper>div{max-width:unset !important}`;
+    const styleTag = document.createElement('style');
+    styleTag.textContent = 'header>div>div{max-width:unset !important}header+div>div{max-width:unset !important}header+div .page-wrapper>div{max-width:unset !important}';
     document.head.appendChild(styleTag);
     return () => document.head.removeChild(styleTag);
   }, []);
@@ -525,15 +528,15 @@ export default function ArkLesson() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const index = parseInt(entry.target.id.split("-")[1], 10);
+            const index = parseInt(entry.target.id.split('-')[1], 10);
             setActiveIndex(index);
           }
         });
       },
       {
-        rootMargin: "-50% 0px -50% 0px", // Center of viewport trigger
+        rootMargin: '-50% 0px -50% 0px', // Center of viewport trigger
         threshold: 0,
-      }
+      },
     );
     setTimeout(() => {
       document
@@ -551,38 +554,37 @@ export default function ArkLesson() {
   function jump(i) {
     setActiveIndex(i);
     document.getElementById(`section-${i}`).scrollIntoView({
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   }
 
-  if (loading)
+  if (loading) {
     return (
       <Box
-        sx={{ display: "flex", justifyContent: "center", margin: "36px auto" }}
+        sx={{ display: 'flex', justifyContent: 'center', margin: '36px auto' }}
       >
         <Loader />
       </Box>
     );
+  }
 
-  const children = (id, student = true) =>
-    fileFormats.map((item) => ({
-      title: item,
-      url: `/courseware/lesson/${id}${
-        student ? "/student" : ""
-      }/download/${item}`,
-    }));
+  const children = (id, student = true) => fileFormats.map((item) => ({
+    title: item,
+    url: `/courseware/lesson/${id}${
+      student ? '/student' : ''
+    }/download/${item}`,
+  }));
   const downloads = sections?.map(({ attachments }) => attachments)?.flat();
-  downloads.push({ title: "Materials", children: children(details, false) });
-  downloads.push({ title: "Student Materials", children: children(details) });
+  downloads.push({ title: 'Materials', children: children(details, false) });
+  downloads.push({ title: 'Student Materials', children: children(details) });
 
   const handleImageError = (e) => {
     e.target.onerror = null;
-    e.target.src =
-      "/static/newdesign/images/materials/default-thumbnail-index.png";
+    e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png';
   };
 
   return (
-    <Box sx={{ p: { xs: 1, sm: 3 }, maxWidth: 1100, mx: "auto" }}>
+    <Box sx={{ p: { xs: 1, sm: 3 }, maxWidth: 1100, mx: 'auto' }}>
       <HistoryModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -593,13 +595,13 @@ export default function ArkLesson() {
       </Button>
       <Card
         sx={{
-          display: "flex",
-          flexDirection: small ? "column" : "row",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: small ? 'column' : 'row',
+          alignItems: 'center',
           mb: 3,
           p: 2,
-          bgcolor: "ark.innerCardsBackgroundColor",
-          color: "ark.innerCardsTextColor",
+          bgcolor: 'ark.innerCardsBackgroundColor',
+          color: 'ark.innerCardsTextColor',
         }}
       >
         <CardMedia
@@ -609,34 +611,50 @@ export default function ArkLesson() {
           sx={{
             maxWidth: 220,
             height: 220,
-            objectFit: "scale-down",
+            objectFit: 'scale-down',
             borderRadius: 2,
             mr: 3,
           }}
           onError={handleImageError}
         />
         <CardContent sx={{ flex: 1 }}>
-          <Typography variant="h1" gutterBottom sx={{ fontSize: "32px" }}>
+          <Typography variant="h1" gutterBottom sx={{ fontSize: '32px' }}>
             {title}
           </Typography>
           <Stack direction="row" spacing={1} alignItems="center" mb={1}>
             <StarRating rate={rate} />
             <Typography variant="body2" color="text.secondary">
-              ({rate || 0})
+              (
+              {rate || 0}
+              )
             </Typography>
           </Stack>
           <Typography variant="body2" color="text.secondary" mb={1}>
-            Updated {update}
+            Updated
+            {' '}
+            {update}
           </Typography>
           <Stack
             direction="row"
             spacing={2}
             mb={2}
-            sx={{ alignItems: "center " }}
+            sx={{ alignItems: 'center ' }}
           >
-            <Typography variant="body2">{visits} Views</Typography>
-            <Typography variant="body2">{saves} Saves</Typography>
-            <Typography variant="body2">{downloadsCount} Downloads</Typography>
+            <Typography variant="body2">
+              {visits}
+              {' '}
+              Views
+            </Typography>
+            <Typography variant="body2">
+              {saves}
+              {' '}
+              Saves
+            </Typography>
+            <Typography variant="body2">
+              {downloadsCount}
+              {' '}
+              Downloads
+            </Typography>
             {!!downloads?.length && !small && (
               <DownloadList
                 data={downloads}
@@ -673,60 +691,81 @@ export default function ArkLesson() {
           </Stack>
         </CardContent>
       </Card>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={tab} onChange={(_e, t) => setTab(t)}>
           <Tab label="Details" />
           <Tab label="View Resource" />
         </Tabs>
       </Box>
       <CustomTabPanel value={tab} index={0}>
-        <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mb={2}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} mb={2}>
           <Box flex={1}>
             <Typography
               variant="h2"
               color="ark.mainFontColor"
               gutterBottom
-              sx={{ fontSize: "28px" }}
+              sx={{ fontSize: '28px' }}
             >
               Description
             </Typography>
             <Typography variant="body1" color="ark.mainFontColor" paragraph>
               <b>Overview: </b>
             </Typography>
-            <Typography variant="body1" color="ark.mainFontColor" paragraph
+            <Typography
+              variant="body1"
+              color="ark.mainFontColor"
+              paragraph
               dangerouslySetInnerHTML={{ __html: desc?.replace(/\r\n/g, '<br />')?.replace(/\n/g, '<br />') }}
             />
             <Typography variant="body2" color="ark.mainFontColor" paragraph>
-              <b>Subject:</b> {subjects?.join(", ")}
+              <b>Subject:</b>
+              {' '}
+              {subjects?.join(', ')}
               <br />
-              <b>Level:</b> {levels?.join(" / ")}
+              <b>Level:</b>
+              {' '}
+              {levels?.join(' / ')}
               <br />
-              <b>Material Type:</b> {materials?.join(", ")}
+              <b>Material Type:</b>
+              {' '}
+              {materials?.join(', ')}
               <br />
-              <b>Author:</b> {authors?.join(", ")}
+              <b>Author:</b>
+              {' '}
+              {authors?.join(', ')}
               <br />
               {provider && (
                 <>
-                  <b>Provider:</b> {provider}
+                  <b>Provider:</b>
+                  {' '}
+                  {provider}
                   <br />
                 </>
               )}
-              <b>Collection:</b> {collections?.join(", ")}
+              <b>Collection:</b>
+              {' '}
+              {collections?.join(', ')}
               <br />
-              <b>Language:</b> {languages?.join(", ")}
+              <b>Language:</b>
+              {' '}
+              {languages?.join(', ')}
               <br />
-              <b>Media Format:</b> {formats?.join("/")}
+              <b>Media Format:</b>
+              {' '}
+              {formats?.join('/')}
               <br />
               {license && (
                 <>
-                  <b>License:</b> {license}
+                  <b>License:</b>
+                  {' '}
+                  {license}
                 </>
               )}
               {licenseImage && (
                 <img
                   src={licenseImage}
                   alt="CC"
-                  style={{ marginLeft: 8, verticalAlign: "middle", height: 24 }}
+                  style={{ marginLeft: 8, verticalAlign: 'middle', height: 24 }}
                 />
               )}
             </Typography>
@@ -739,7 +778,7 @@ export default function ArkLesson() {
             <Box
               mt={1}
               color="ark.mainFontColor"
-              sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}
+              sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}
             >
               {keywords.map((item, idx) => (
                 <Chip
@@ -747,8 +786,8 @@ export default function ArkLesson() {
                   label={item}
                   variant="outlined"
                   sx={{
-                    bgcolor: "ark.innerCardsBackgroundColor",
-                    color: "ark.innerCardsTextColor",
+                    bgcolor: 'ark.innerCardsBackgroundColor',
+                    color: 'ark.innerCardsTextColor',
                   }}
                 />
               ))}
@@ -757,21 +796,27 @@ export default function ArkLesson() {
           <Divider
             orientation="vertical"
             flexItem
-            sx={{ display: { xs: "none", sm: "block" } }}
+            sx={{ display: { xs: 'none', sm: 'block' } }}
           />
           <Box minWidth={220}>
             <Stack spacing={2}>
               <Box display="flex" alignItems="center" gap={1}>
                 <HistoryIcon color="action" />
                 <Typography variant="body2" color="ark.mainFontColor">
-                  {history.length} Updates/Edits since first published {create}
+                  {history.length}
+                  {' '}
+                  Updates/Edits since first published
+                  {' '}
+                  {create}
                 </Typography>
               </Box>
               {history.length > 0 && (
                 <Box display="flex" alignItems="center" gap={1}>
                   <RemixIcon color="action" />
                   <Typography variant="body2" color="ark.mainFontColor">
-                    {history.length} Remixes
+                    {history.length}
+                    {' '}
+                    Remixes
                   </Typography>
                 </Box>
               )}
@@ -779,7 +824,7 @@ export default function ArkLesson() {
                 <MuiLink
                   component="button"
                   onClick={() => setModalOpen(true)}
-                  sx={{ color: "primary.main", fontWeight: 500, mt: 1 }}
+                  sx={{ color: 'primary.main', fontWeight: 500, mt: 1 }}
                 >
                   Show full history
                 </MuiLink>
@@ -794,19 +839,19 @@ export default function ArkLesson() {
             <IconButton
               size="large"
               sx={{
-                position: "sticky",
-                top: "36px",
-                background: "black",
-                color: "white",
+                position: 'sticky',
+                top: '36px',
+                background: 'black',
+                color: 'white',
               }}
               onClick={() => setOpen(true)}
             >
               <MenuIcon />
             </IconButton>
             <Drawer open={open} onClose={() => setOpen(false)}>
-              <Box sx={{ width: "280px", padding: "48px 24px" }}>
+              <Box sx={{ width: '280px', padding: '48px 24px' }}>
                 <Typography
-                  sx={{ mb: 2, fontSize: "24px", fontWeight: 600 }}
+                  sx={{ mb: 2, fontSize: '24px', fontWeight: 600 }}
                   color="ark.mainFontColor"
                   variant="h2"
                 >
@@ -814,15 +859,15 @@ export default function ArkLesson() {
                 </Typography>
                 <ul
                   style={{
-                    fontFamily: "Inter",
-                    color: "#646464",
-                    cursor: "pointer",
+                    fontFamily: 'Inter',
+                    color: '#646464',
+                    cursor: 'pointer',
                   }}
                 >
                   {sections.map((section, idx) => (
                     <li
                       onClick={() => jump(idx)}
-                      style={{ textDecoration: "underline", color: "#646464" }}
+                      style={{ textDecoration: 'underline', color: '#646464' }}
                     >
                       {section.name}
                     </li>
@@ -832,24 +877,24 @@ export default function ArkLesson() {
             </Drawer>
           </>
         )}
-        <div style={{ display: "flex", alignItems: "flex-start" }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
           {!small && (
             <Box
               sx={{
-                maxWidth: "350px",
-                position: "sticky",
-                top: "36px",
-                marginRight: "48px",
-                bgcolor: "ark.innerCardsBackgroundColor",
-                color: "ark.innerCardsTextColor",
-                padding: "16px",
-                borderRadius: "8px",
-                minWidth: "250px",
-                marginTop: "16px",
+                maxWidth: '350px',
+                position: 'sticky',
+                top: '36px',
+                marginRight: '48px',
+                bgcolor: 'ark.innerCardsBackgroundColor',
+                color: 'ark.innerCardsTextColor',
+                padding: '16px',
+                borderRadius: '8px',
+                minWidth: '250px',
+                marginTop: '16px',
               }}
             >
               <Typography
-                sx={{ mb: 2, fontSize: "24px", fontWeight: 600 }}
+                sx={{ mb: 2, fontSize: '24px', fontWeight: 600 }}
                 color="ark.mainFontColor"
                 variant="h2"
               >
@@ -857,19 +902,19 @@ export default function ArkLesson() {
               </Typography>
               <ul
                 style={{
-                  fontFamily: "Inter",
-                  color: "#646464",
-                  cursor: "pointer",
+                  fontFamily: 'Inter',
+                  color: '#646464',
+                  cursor: 'pointer',
                 }}
               >
                 {sections.map((section, idx) => (
                   <li
                     onClick={() => jump(idx)}
                     style={{
-                      color: "#646464",
-                      borderRadius: "4px",
-                      paddingLeft: "8px",
-                      background: activeIndex === idx ? "white" : "",
+                      color: '#646464',
+                      borderRadius: '4px',
+                      paddingLeft: '8px',
+                      background: activeIndex === idx ? 'white' : '',
                     }}
                   >
                     {section.name}
@@ -879,18 +924,18 @@ export default function ArkLesson() {
             </Box>
           )}
           <Box
-            sx={{ fontFamily: "Inter", lineHeight: "26px", flex: 1 }}
+            sx={{ fontFamily: 'Inter', lineHeight: '26px', flex: 1 }}
             className={cls.sections}
           >
             {sections.map((section, idx) => (
               <Card
                 key={idx}
-                id={"section-" + idx}
+                id={`section-${idx}`}
                 sx={{
                   p: 2,
                   mt: 2,
-                  bgcolor: "ark.innerCardsBackgroundColor",
-                  color: "ark.innerCardsTextColor",
+                  bgcolor: 'ark.innerCardsBackgroundColor',
+                  color: 'ark.innerCardsTextColor',
                 }}
               >
                 <Typography variant="h6">{section.name}</Typography>
@@ -904,15 +949,13 @@ export default function ArkLesson() {
                   <div>{makeVideoContent(section.content)}</div>
                   {!!section.attachments?.length && (
                     <div className={cls.attachments}>
-                      {section.attachments.map((item, i) => {
-                        return (
-                          <AttachmentButton
-                            key={i}
-                            url={item.url}
-                            title={item.title}
-                          />
-                        );
-                      })}
+                      {section.attachments.map((item, i) => (
+                        <AttachmentButton
+                          key={i}
+                          url={item.url}
+                          title={item.title}
+                        />
+                      ))}
                     </div>
                   )}
                 </div>
@@ -924,13 +967,13 @@ export default function ArkLesson() {
       <IconButton
         color="primary"
         sx={{
-          position: "fixed",
+          position: 'fixed',
           bottom: 32,
           right: 32,
-          bgcolor: "primary.main",
-          color: "#fff",
+          bgcolor: 'primary.main',
+          color: '#fff',
           boxShadow: 3,
-          "&:hover": { bgcolor: "primary.dark" },
+          '&:hover': { bgcolor: 'primary.dark' },
         }}
         size="large"
       >

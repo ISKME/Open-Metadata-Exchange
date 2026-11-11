@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 import GjsEditor, {
   AssetsProvider,
   Canvas,
   ModalProvider,
-} from "@grapesjs/react";
-import { ThemeProvider } from "@mui/material/styles";
-import { MAIN_BORDER_COLOR } from "./components/common";
-import CustomModal from "./components/CustomModal";
-import CustomAssetManager from "./components/CustomAssetManager";
-import Topbar from "./components/Topbar";
-import RightSidebar from "./components/RightSidebar";
-import "./WidgetDashboard.module.scss";
-import type { StorageManagerConfig } from "grapesjs";
+} from '@grapesjs/react';
+import { ThemeProvider } from '@mui/material/styles';
+import { MAIN_BORDER_COLOR } from './components/common';
+import CustomModal from './components/CustomModal';
+import CustomAssetManager from './components/CustomAssetManager';
+import Topbar from './components/Topbar';
+import RightSidebar from './components/RightSidebar';
+import './WidgetDashboard.module.scss';
+import type { StorageManagerConfig } from 'grapesjs';
 
-import { customPlugins } from "../utils/plugins";
-import { homepageHeroBlocks } from "../utils/homepageHeroBlocks";
-import { THEME, getGJSOptions } from "../constants";
+import { customPlugins } from '../utils/plugins';
+import { homepageHeroBlocks } from '../utils/homepageHeroBlocks';
+import { THEME, getGJSOptions } from '../constants';
 
 const fetchImageUrls = async (): Promise<string[]> => {
-  const response = await axios.get("/api/pages/v1/images/");
+  const response = await axios.get('/api/pages/v1/images/');
   return response.data
     .map((image: any) => image.original_url || image.image_url)
     .filter(Boolean);
@@ -42,15 +42,15 @@ const injectTenantVarsToCanvas = (editor: any) => {
   };
 
   const vars = {
-    "--button-primary-color": readVar("--button-primary-color"),
-    "--button-primary-color-hover": readVar("--button-primary-color-hover"),
-    "--font-family-main": readVar("--font-family-main"),
+    '--button-primary-color': readVar('--button-primary-color'),
+    '--button-primary-color-hover': readVar('--button-primary-color-hover'),
+    '--font-family-main': readVar('--font-family-main'),
   };
 
-  const styleId = "oerc-tenant-vars";
+  const styleId = 'oerc-tenant-vars';
   let styleEl = doc.getElementById(styleId) as HTMLStyleElement | null;
   if (!styleEl) {
-    styleEl = doc.createElement("style");
+    styleEl = doc.createElement('style');
     styleEl.id = styleId;
     doc.head.appendChild(styleEl);
   }
@@ -58,7 +58,7 @@ const injectTenantVarsToCanvas = (editor: any) => {
   const cssVars = Object.entries(vars)
     .filter(([, v]) => v)
     .map(([k, v]) => `${k}:${v};`)
-    .join("");
+    .join('');
 
   styleEl.textContent = `
   :root{${cssVars}}
@@ -70,16 +70,16 @@ export default function DefaultEditor() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("/api/csrf-token/").then((response) => {
+    axios.get('/api/csrf-token/').then((response) => {
       const storageManager = getGJSOptions.storageManager as StorageManagerConfig;
       storageManager.options.remote.fetchOptions = (opts) => {
-        if (opts.method !== "GET") {
+        if (opts.method !== 'GET') {
           return {
             ...opts,
-            method: "PUT",
+            method: 'PUT',
             headers: {
-              "X-CSRFToken": response.data.token,
-              "Content-Type": "application/json",
+              'X-CSRFToken': response.data.token,
+              'Content-Type': 'application/json',
             },
           };
         }
@@ -90,13 +90,13 @@ export default function DefaultEditor() {
   useEffect(() => {
     const storageManager = getGJSOptions.storageManager as StorageManagerConfig;
 
-    storageManager.options.remote.urlLoad = `/api/pages/v1/admin/${id || ""}`;
-    storageManager.options.remote.urlStore = `/api/pages/v1/admin/${id || ""}/`;
+    storageManager.options.remote.urlLoad = `/api/pages/v1/admin/${id || ''}`;
+    storageManager.options.remote.urlStore = `/api/pages/v1/admin/${id || ''}/`;
     storageManager.options.remote.onLoad = async (data, _editor) => {
-      if (data?.name === "Homepage Hero") {
+      if (data?.name === 'Homepage Hero') {
         homepageHeroBlocks(_editor);
       }
-      let projectData = JSON.parse(data.content);
+      const projectData = JSON.parse(data.content);
       projectData.assets = await fetchImageUrls();
       return projectData;
     };
@@ -105,7 +105,7 @@ export default function DefaultEditor() {
   useEffect(() => {
     const storageManager = getGJSOptions.storageManager as StorageManagerConfig;
     storageManager.options.remote.onStore = (data) => ({
-      id: id,
+      id,
       content: JSON.stringify(data),
       // @ts-ignore
       html_content: window?.grapesjs?.editors[0].editor?.getHtml(),
@@ -115,8 +115,8 @@ export default function DefaultEditor() {
   }, [id]);
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://cdn.tailwindcss.com";
+    const script = document.createElement('script');
+    script.src = 'https://cdn.tailwindcss.com';
     script.async = true;
     document.head.appendChild(script);
 
@@ -128,13 +128,12 @@ export default function DefaultEditor() {
   const handleSave = async () => {
     const storageManager = getGJSOptions.storageManager as StorageManagerConfig;
     const fetchOptions = storageManager.options.remote.fetchOptions;
-    const headers =
-      typeof fetchOptions === "function"
-        ? fetchOptions({}).headers["X-CSRFToken"]
-        : null;
+    const headers = typeof fetchOptions === 'function'
+      ? fetchOptions({}).headers['X-CSRFToken']
+      : null;
 
     if (!headers) {
-      console.error("CSRF token not found");
+      console.error('CSRF token not found');
       return;
     }
 
@@ -142,7 +141,7 @@ export default function DefaultEditor() {
     const editorInstance = window?.grapesjs?.editors[0];
 
     if (!editorInstance || !editorInstance.getProjectData()) {
-      console.error("Editor instance or project data is missing");
+      console.error('Editor instance or project data is missing');
       return;
     }
 
@@ -150,23 +149,23 @@ export default function DefaultEditor() {
       await axios.put(
         `/api/pages/v1/admin/${id}/`,
         {
-          id: id,
+          id,
           content: JSON.stringify(editorInstance.getProjectData()),
           html_content: editorInstance.editor.getHtml(),
           styles: editorInstance.editor.getCss(),
         },
         {
           headers: {
-            "X-CSRFToken": headers,
-            "Content-Type": "application/json",
+            'X-CSRFToken': headers,
+            'Content-Type': 'application/json',
           },
-        }
+        },
       );
       editorInstance.clearDirtyCount();
-      alert("Saved successfully!");
-      navigate("/new/my/page/dashboard/");
+      alert('Saved successfully!');
+      navigate('/new/my/page/dashboard/');
     } catch (error) {
-      console.error("Error while saving:", error);
+      console.error('Error while saving:', error);
     }
   };
 
@@ -180,8 +179,8 @@ export default function DefaultEditor() {
           options={getGJSOptions}
           plugins={[
             {
-              id: "gjs-blocks-basic",
-              src: "https://unpkg.com/grapesjs-blocks-basic",
+              id: 'gjs-blocks-basic',
+              src: 'https://unpkg.com/grapesjs-blocks-basic',
             },
             customPlugins,
           ]}
@@ -191,8 +190,8 @@ export default function DefaultEditor() {
 
             const run = () => injectTenantVarsToCanvas(editor);
 
-            editor.on("load", run);
-            editor.on("canvas:frame:load", run);
+            editor.on('load', run);
+            editor.on('canvas:frame:load', run);
 
             run();
           }}
@@ -207,7 +206,9 @@ export default function DefaultEditor() {
             />
           </div>
           <ModalProvider>
-            {({ open, title, content, close }) => (
+            {({
+              open, title, content, close,
+            }) => (
               <CustomModal
                 open={open}
                 title={title}
@@ -217,7 +218,9 @@ export default function DefaultEditor() {
             )}
           </ModalProvider>
           <AssetsProvider>
-            {({ assets, select, close, Container }) => (
+            {({
+              assets, select, close, Container,
+            }) => (
               <Container>
                 <CustomAssetManager
                   assets={assets}
@@ -232,7 +235,7 @@ export default function DefaultEditor() {
           Save
         </button>
         <button
-          onClick={() => navigate(`/new/my/page/dashboard/`)}
+          onClick={() => navigate('/new/my/page/dashboard/')}
           className="m-2 p-2 text-grey"
         >
           Cancel

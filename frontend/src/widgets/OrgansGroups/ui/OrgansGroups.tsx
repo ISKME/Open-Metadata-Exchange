@@ -1,7 +1,7 @@
-import * as React from "react";
-import Typography from "@mui/material/Typography";
-import { TableEdit } from "widgets/TableEdit";
-import axios from "axios";
+import * as React from 'react';
+import Typography from '@mui/material/Typography';
+import { TableEdit } from 'widgets/TableEdit';
+import axios from 'axios';
 
 export function OrgansGroups({ id }) {
   const [groups, setGroups] = React.useState([]);
@@ -14,7 +14,7 @@ export function OrgansGroups({ id }) {
       const { results } = response.data;
       setGroups(results);
     } catch (error) {
-      console.error("Error while getting groups:", error);
+      console.error('Error while getting groups:', error);
     } finally {
       setLoading(false);
     }
@@ -32,10 +32,10 @@ export function OrgansGroups({ id }) {
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "24px",
-        width: "800px",
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '24px',
+        width: '800px',
       }}
     >
       <Typography component="div" variant="h5">
@@ -43,41 +43,41 @@ export function OrgansGroups({ id }) {
       </Typography>
       <TableEdit
         orgId={id}
-        isGetLeaders={true}
+        isGetLeaders
         updatedLeadersCallback={fetchGroups}
         toolbar
         records={groups}
         headers={[
           {
-            field: "title",
-            headerName: "Name",
+            field: 'title',
+            headerName: 'Name',
             width: 250,
             editable: true,
           },
           {
-            field: "leaders",
-            headerName: "Leaders",
-            align: "left",
-            headerAlign: "left",
+            field: 'leaders',
+            headerName: 'Leaders',
+            align: 'left',
+            headerAlign: 'left',
             editable: true,
             width: 288,
           },
           {
-            field: "members",
-            headerName: "Members",
-            type: "number",
+            field: 'members',
+            headerName: 'Members',
+            type: 'number',
             width: 80,
-            align: "left",
-            headerAlign: "left",
+            align: 'left',
+            headerAlign: 'left',
             editable: true,
           },
           {
-            field: "cases",
-            headerName: "Cases",
-            type: "number",
+            field: 'cases',
+            headerName: 'Cases',
+            type: 'number',
             width: 80,
-            align: "left",
-            headerAlign: "left",
+            align: 'left',
+            headerAlign: 'left',
             editable: true,
           },
         ]}
