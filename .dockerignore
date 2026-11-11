@@ -1,0 +1,3 @@
+# Local node configuration (contains credentials); mounted at runtime
+config.json
+.env

@@ -63,6 +63,26 @@ export default [
         },
     },
     {
+        files: ['**/*.{ts,tsx}'],
+        rules: {
+            // TypeScript checks the props where they are typed
+            'react/prop-types': 'off',
+            // Replaced by naming-convention, like in Airbnb's TypeScript config: our own names
+            // are checked, the snake_case fields of the API (Python backend) are not
+            camelcase: 'off',
+            '@typescript-eslint/naming-convention': [
+                'error',
+                { selector: 'variable', format: ['camelCase', 'PascalCase', 'UPPER_CASE'] },
+                { selector: 'function', format: ['camelCase', 'PascalCase'] },
+                { selector: 'typeLike', format: ['PascalCase'] },
+                // API fields that are destructured keep their name
+                { selector: 'variable', modifiers: ['destructured'], format: null },
+                // Global defined by webpack
+                { selector: 'variable', filter: { regex: '^__IS_DEV__$', match: true }, format: null },
+            ],
+        },
+    },
+    {
         files: ['webpack*.config.ts', 'config/**/*.ts'],
         languageOptions: {
             globals: globals.node,

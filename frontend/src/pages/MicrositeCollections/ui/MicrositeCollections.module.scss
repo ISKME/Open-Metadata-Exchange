@@ -2,23 +2,23 @@
 /* stylelint-disable color-hex-length */
 .allcollections {
   padding: 0;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
 }
 
 .allcollections_title {
   margin: 25px 0;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
   font-size: 26px;
 }
 
 .allcollections_desc {
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
   margin-bottom: 25px;
   font-weight: 600;
   font-size: 15px;
 
   a {
-    color: rgb(5, 77, 209);
+    color: rgb(5 77 209);
     text-decoration: underline;
   }
 }
@@ -41,7 +41,6 @@
   color: #ffffff;
 }
 
-//
 input[data-slug] {
   margin-right: 8px;
 }
@@ -75,22 +74,27 @@ input[data-slug] {
 .allcollections_board {
   display: flex;
   flex-direction: row;
+
   // justify-content: space-between;
 }
 
 .allcollections_list {
   width: 70%;
+
   // display: flex;
   // flex-direction: row;
   // flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: min-content;
+
   @media screen and (max-width: 1200px) {
     grid-template-columns: repeat(2, 1fr);
   }
+
   @media screen and (max-width: 980px) {
     grid-template-columns: 1fr;
+
     & > div {
       width: 315px;
     }
@@ -117,7 +121,7 @@ input[data-slug] {
   display: flex;
   gap: 8px;
   height: 60px;
-  padding: 0px 0px 16px;
+  padding: 0 0 16px;
   position: relative;
 }
 
@@ -203,7 +207,7 @@ input[data-slug] {
   display: inline-flex;
   flex: 0 0 auto;
   gap: 8px;
-  padding: 0px 8px;
+  padding: 0 8px;
   position: relative;
 }
 
