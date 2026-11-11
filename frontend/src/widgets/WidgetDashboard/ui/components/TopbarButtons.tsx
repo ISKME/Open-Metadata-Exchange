@@ -68,7 +68,9 @@ export default function TopbarButtons({
 
   return (
     <div className={cx('flex gap-3', className)}>
-      {cmdButtons.map(({ id, iconPath, disabled, options = {} }) => (
+      {cmdButtons.map(({
+        id, iconPath, disabled, options = {},
+      }) => (
         <button
           key={id}
           type="button"
@@ -76,13 +78,11 @@ export default function TopbarButtons({
             BTN_CLS,
             MAIN_BORDER_COLOR,
             Commands.isActive(id) && 'text-sky-300',
-            disabled?.() && 'opacity-50'
+            disabled?.() && 'opacity-50',
           )}
-          onClick={() =>
-            Commands.isActive(id)
-              ? Commands.stop(id)
-              : Commands.run(id, options)
-          }
+          onClick={() => (Commands.isActive(id)
+            ? Commands.stop(id)
+            : Commands.run(id, options))}
           disabled={disabled?.()}
         >
           <Icon path={iconPath} size={1} />

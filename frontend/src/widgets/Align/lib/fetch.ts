@@ -4,8 +4,11 @@ export const BLANK_VALUE = 0;
 
 class Fetcher {
   private url;
+
   private field;
+
   private value;
+
   private standard;
 
   constructor(field: string | null = null, value: any = null, standard: string | null = null, baseURL: string = '/standards/align-widget-helper') {
@@ -31,4 +34,4 @@ class Fetcher {
 export const fetchStandards = async (field = null, value = null, standard = null) => {
   const fetcher = new Fetcher(field, value, standard);
   return await fetcher.fetchStandards();
-}
+};

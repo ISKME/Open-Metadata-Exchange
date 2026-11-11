@@ -21,7 +21,9 @@ export const casesSlice = createSlice({
   initialState,
   reducers: {
     casesFetching(state, action) {
-      const { items, sortByOptions, sortBy, pagination, filters } = action.payload;
+      const {
+        items, sortByOptions, sortBy, pagination, filters,
+      } = action.payload;
       state.cases = items;
       state.sorts = sortByOptions;
       state.pages = pagination.numPages;
@@ -46,13 +48,15 @@ export const casesSlice = createSlice({
       }, []) || [];
       state.topics = topics;
     },
-    updateCases(state, action){
+    updateCases(state, action) {
       const { items } = action.payload;
       state.cases = items;
       state.count = items.length;
     },
     setStaticData(state, action) {
-      const { items, sortByOptions, pagination, filters } = action.payload;
+      const {
+        items, sortByOptions, pagination, filters,
+      } = action.payload;
       state.staticGrades = filters.find((item) => item.keyword === 'f.grade_codes')?.items || [];
       const topics = filters.find((item) => item.keyword === 'f.general_subject')?.items?.reduce((acc, item) => {
         if (item.level === 0) {
@@ -67,7 +71,7 @@ export const casesSlice = createSlice({
         return acc;
       }, []) || [];
       state.staticTopics = topics;
-    }
+    },
   },
 });
 

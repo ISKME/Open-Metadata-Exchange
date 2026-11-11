@@ -58,6 +58,68 @@ function Trend({ value }: { value: number | null }) {
   );
 }
 
+const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+
+const rgbToHex = ({ r, g, b }) => `#${[r, g, b].map((value) => Math.round(value).toString(16).padStart(2, '0')).join('')}`;
+
+const hexToRgb = (hex) => {
+  const value = hex.replace('#', '');
+  return {
+    r: parseInt(value.slice(0, 2), 16),
+    g: parseInt(value.slice(2, 4), 16),
+    b: parseInt(value.slice(4, 6), 16),
+  };
+};
+
+const mixColors = (first, second, amount) => {
+  const a = hexToRgb(first);
+  const b = hexToRgb(second);
+  const t = clamp(amount);
+
+  return rgbToHex({
+    r: a.r + (b.r - a.r) * t,
+    g: a.g + (b.g - a.g) * t,
+    b: a.b + (b.b - a.b) * t,
+  });
+};
+
+const MAP_COLORS = [
+  '#f5fbff',
+  '#caf0f8',
+  '#ade8f4',
+  '#90e0ef',
+  '#48cae4',
+  '#00b4d8',
+  '#0096c7',
+  '#0077b6',
+  '#023e8a',
+  '#013272',
+];
+
+const getMapColor = (value) => {
+  const intensity = clamp(value);
+
+  if (intensity <= 0) {
+    return MAP_COLORS[0];
+  }
+
+  const scaled = intensity * (MAP_COLORS.length - 1);
+  const index = Math.floor(scaled);
+  const remainder = scaled - index;
+
+  if (index >= MAP_COLORS.length - 1) {
+    return MAP_COLORS[MAP_COLORS.length - 1];
+  }
+
+  return mixColors(
+    MAP_COLORS[index],
+    MAP_COLORS[index + 1],
+    remainder,
+  );
+};
+
+const getMapOpacity = (value) => 0.58 + clamp(value) ** 0.55 * 0.42;
+
 export function GeoLocationDashboard({ data, compact = false }: GeoLocationDashboardProps) {
   const { summary, topCountries: countries } = data;
   const countriesByCode = new Map(countries.map((country) => [country.code.trim().toUpperCase(), country]));
@@ -540,67 +602,3 @@ export function GeoLocationDashboard({ data, compact = false }: GeoLocationDashb
     </div>
   );
 }
-
-const MAP_COLORS = [
-  '#f5fbff',
-  '#caf0f8',
-  '#ade8f4',
-  '#90e0ef',
-  '#48cae4',
-  '#00b4d8',
-  '#0096c7',
-  '#0077b6',
-  '#023e8a',
-  '#013272',
-];
-
-const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
-
-const hexToRgb = (hex) => {
-  const value = hex.replace('#', '');
-  return {
-    r: parseInt(value.slice(0, 2), 16),
-    g: parseInt(value.slice(2, 4), 16),
-    b: parseInt(value.slice(4, 6), 16),
-  };
-};
-
-const rgbToHex = ({ r, g, b }) => `#${[r, g, b].map((value) => Math.round(value).toString(16).padStart(2, '0')).join('')}`;
-
-const mixColors = (first, second, amount) => {
-  const a = hexToRgb(first);
-  const b = hexToRgb(second);
-  const t = clamp(amount);
-
-  return rgbToHex({
-    r: a.r + (b.r - a.r) * t,
-    g: a.g + (b.g - a.g) * t,
-    b: a.b + (b.b - a.b) * t,
-  });
-};
-
-const getMapColor = (value) => {
-  const intensity = clamp(value);
-
-  if (intensity <= 0) {
-    return MAP_COLORS[0];
-  }
-
-  const scaled = intensity * (MAP_COLORS.length - 1);
-  const index = Math.floor(scaled);
-  const remainder = scaled - index;
-
-  if (index >= MAP_COLORS.length - 1) {
-    return MAP_COLORS[MAP_COLORS.length - 1];
-  }
-
-  return mixColors(
-    MAP_COLORS[index],
-    MAP_COLORS[index + 1],
-    remainder,
-  );
-};
-
-const getMapOpacity = (value) => {
-  return 0.58 + Math.pow(clamp(value), 0.55) * 0.42;
-};

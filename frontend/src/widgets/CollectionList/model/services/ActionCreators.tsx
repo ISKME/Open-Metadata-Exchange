@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable max-len */
 import axios from 'axios';
 import { collectionSlice } from 'widgets/CollectionList/model/slice/CollectionSlice';
 import { AppDispatch } from 'app/providers/StoreProvider/config/store';

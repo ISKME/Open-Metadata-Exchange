@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Alert, Button, List, ListItem, ListItemText, Typography } from '@mui/material';
+import {
+  Alert, Button, List, ListItem, ListItemText, Typography,
+} from '@mui/material';
 
 interface Invitation {
   id: number;

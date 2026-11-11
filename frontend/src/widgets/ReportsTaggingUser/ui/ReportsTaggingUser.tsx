@@ -1,3 +1,3 @@
 export function ReportsTaggingUser() {
-  return <div />
+  return <div />;
 }

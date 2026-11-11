@@ -1,4 +1,6 @@
-import { memo, useState, useRef, useEffect } from 'react';
+import {
+  memo, useState, useRef, useEffect,
+} from 'react';
 import { NavLink } from 'react-router-dom';
 import { classNames } from 'shared/lib/classNames/classNames';
 import cls from './Tabs.module.scss';
@@ -13,7 +15,9 @@ interface TabsProps {
 
 const checker = (path) => window.location.pathname.startsWith(path);
 
-export const Tabs = memo(({ className, style, tabs, children, onChange }: TabsProps) => {
+export const Tabs = memo(({
+  className, style, tabs, children, onChange,
+}: TabsProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const [activeSubTab, setActiveSubTab] = useState(0);
   const tabsRef = useRef(null);
@@ -27,7 +31,7 @@ export const Tabs = memo(({ className, style, tabs, children, onChange }: TabsPr
     const checkArrows = () => {
       const tabsContainer = tabsRef.current;
       // if (tabsContainer.scrollWidth > tabsContainer.clientWidth) {
-      if (480 >= tabsContainer.clientWidth) {
+      if (tabsContainer.clientWidth <= 480) {
         setShowArrows(true);
       } else {
         setShowArrows(false);

@@ -51,8 +51,7 @@ interface Row {
   text: string;
 }
 
-const getCsrfToken = () =>
-  axios.get('/api/csrf-token/').then(({ data }) => data.token);
+const getCsrfToken = () => axios.get('/api/csrf-token/').then(({ data }) => data.token);
 
 async function fetchAnnotations(videoUrl: string): Promise<Annotation[]> {
   const { data } = await axios.get(`/api/annotations/?uri=${encodeURIComponent(videoUrl)}`);
@@ -80,7 +79,9 @@ async function uploadVttFile(videoVTT: string, file: File): Promise<number> {
 async function bulkUpdate(rows: Row[]): Promise<void> {
   const token = await getCsrfToken();
   await axios.patch('/api/annotations/bulk-update', {
-    annotations: rows.map(({ id, text, start, end }) => ({
+    annotations: rows.map(({
+      id, text, start, end,
+    }) => ({
       id,
       text,
       ranges: { start, end },
@@ -88,6 +89,19 @@ async function bulkUpdate(rows: Row[]): Promise<void> {
   }, {
     headers: { 'X-Csrftoken': token },
   });
+}
+
+function vttTimeToSeconds(time: string): number {
+  // WebVTT allows both MM:SS.mmm (under an hour) and HH:MM:SS.mmm.
+  const match = /^(?:(\d+):)?(\d{2}):(\d{2})(?:\.(\d+))?$/.exec(time);
+  if (!match) return 0;
+  const [, hours, minutes, seconds, millis] = match;
+  return (
+    Number(hours ?? 0) * 3600
+    + Number(minutes) * 60
+    + Number(seconds)
+    + (millis ? Number(millis.padEnd(3, '0').slice(0, 3)) / 1000 : 0)
+  );
 }
 
 async function createAnnotation(videoUrl: string, start: string, end: string): Promise<Annotation> {
@@ -117,25 +131,12 @@ async function bulkDeleteAnnotations(ids: number[]): Promise<{ deleted: number[]
 }
 
 function annotationsToRows(annotations: Annotation[]): Row[] {
-  return annotations.map(a => ({
+  return annotations.map((a) => ({
     id: a.id,
     start: a.ranges?.start ?? '',
     end: a.ranges?.end ?? '',
     text: a.text,
   }));
-}
-
-function vttTimeToSeconds(time: string): number {
-  // WebVTT allows both MM:SS.mmm (under an hour) and HH:MM:SS.mmm.
-  const match = /^(?:(\d+):)?(\d{2}):(\d{2})(?:\.(\d+))?$/.exec(time);
-  if (!match) return 0;
-  const [, hours, minutes, seconds, millis] = match;
-  return (
-    Number(hours ?? 0) * 3600 +
-    Number(minutes) * 60 +
-    Number(seconds) +
-    (millis ? Number(millis.padEnd(3, '0').slice(0, 3)) / 1000 : 0)
-  );
 }
 
 function secondsToVttTime(totalSeconds: number): string {
@@ -154,7 +155,7 @@ function secondsToVttTime(totalSeconds: number): string {
 
 function findRowIndexForTime(rows: Row[], time: number): number {
   const activeIndex = rows.findIndex(
-    r => vttTimeToSeconds(r.start) <= time && time < vttTimeToSeconds(r.end)
+    (r) => vttTimeToSeconds(r.start) <= time && time < vttTimeToSeconds(r.end),
   );
   if (activeIndex !== -1) return activeIndex;
 
@@ -197,7 +198,9 @@ function reloadCaptions(videoVTT: string): void {
 
 const PAGE_SIZE = 100;
 
-export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, editUrl }: Props) {
+export function VideoAnnotationEditor({
+  videoUrl, videoVTT, inline = false, editUrl,
+}: Props) {
   const [open, setOpen] = useState(false);
   const [rows, setRows] = useState<GridRowsProp<Row>>([]);
   const [dirtyIds, setDirtyIds] = useState<Set<number>>(new Set());
@@ -228,7 +231,7 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
 
   const jumpToIndex = (index: number) => {
     pendingScrollIndex.current = index;
-    setPaginationModel(prev => ({ ...prev, page: Math.floor(index / PAGE_SIZE) }));
+    setPaginationModel((prev) => ({ ...prev, page: Math.floor(index / PAGE_SIZE) }));
   };
 
   const openEditor = async () => {
@@ -281,7 +284,7 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
     if (pendingFocusId.current === null) return;
 
     const typedRows = rows as Row[];
-    const index = typedRows.findIndex(r => r.id === pendingFocusId.current);
+    const index = typedRows.findIndex((r) => r.id === pendingFocusId.current);
     pendingFocusId.current = null;
     if (index === -1) return;
 
@@ -369,14 +372,16 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
 
   const handleEditDialogSave = async () => {
     if (!editingRow) return;
-    const updated: Row = { ...editingRow, start: draftStart, end: draftEnd, text: draftText };
+    const updated: Row = {
+      ...editingRow, start: draftStart, end: draftEnd, text: draftText,
+    };
 
     setSavingCaption(true);
     setEditError(null);
 
     try {
       await bulkUpdate([updated]);
-      setRows(prev => (prev as Row[]).map(r => (r.id === updated.id ? updated : r)));
+      setRows((prev) => (prev as Row[]).map((r) => (r.id === updated.id ? updated : r)));
       reloadCaptions(videoVTT);
       setEditingRow(null);
       playPlayer();
@@ -392,7 +397,7 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
     setError(null);
 
     const currentRows = rows as Row[];
-    const afterIndex = afterRow ? currentRows.findIndex(r => r.id === afterRow.id) : -1;
+    const afterIndex = afterRow ? currentRows.findIndex((r) => r.id === afterRow.id) : -1;
     const nextRow = afterIndex !== -1 ? currentRows[afterIndex + 1] : currentRows[0];
 
     const startSeconds = afterRow ? vttTimeToSeconds(afterRow.end) : getPlayerCurrentTime();
@@ -404,10 +409,12 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
     try {
       const created = await createAnnotation(videoUrl, start, end);
       pendingFocusId.current = created.id;
-      setRows(prev => {
+      setRows((prev) => {
         const arr = [...(prev as Row[])];
-        const insertAt = afterRow ? arr.findIndex(r => r.id === afterRow.id) + 1 : arr.length;
-        arr.splice(insertAt, 0, { id: created.id, start, end, text: '' });
+        const insertAt = afterRow ? arr.findIndex((r) => r.id === afterRow.id) + 1 : arr.length;
+        arr.splice(insertAt, 0, {
+          id: created.id, start, end, text: '',
+        });
         return arr;
       });
     } catch {
@@ -429,14 +436,14 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
       const { deleted } = await bulkDeleteAnnotations(ids as number[]);
       const deletedIds = new Set(deleted);
 
-      setRows(prev => (prev as Row[]).filter(r => !deletedIds.has(r.id)));
-      setDirtyIds(prev => {
+      setRows((prev) => (prev as Row[]).filter((r) => !deletedIds.has(r.id)));
+      setDirtyIds((prev) => {
         const next = new Set(prev);
-        deletedIds.forEach(id => next.delete(id));
+        deletedIds.forEach((id) => next.delete(id));
         return next;
       });
-      setActiveRowId(prev => (prev !== null && deletedIds.has(prev) ? null : prev));
-      setRowSelectionModel(prev => (prev as GridRowId[]).filter(id => !deletedIds.has(id as number)));
+      setActiveRowId((prev) => (prev !== null && deletedIds.has(prev) ? null : prev));
+      setRowSelectionModel((prev) => (prev as GridRowId[]).filter((id) => !deletedIds.has(id as number)));
     } catch {
       setError('Failed to delete captions.');
     } finally {
@@ -452,7 +459,7 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
       field: 'actions',
       type: 'actions',
       width: 92,
-      getActions: params => [
+      getActions: (params) => [
         <GridActionsCellItem
           key="edit"
           icon={<EditIcon fontSize="small" />}
@@ -474,7 +481,7 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
     setSaving(true);
     setError(null);
 
-    const updatedRows = (rows as Row[]).filter(r => dirtyIds.has(r.id));
+    const updatedRows = (rows as Row[]).filter((r) => dirtyIds.has(r.id));
 
     try {
       await bulkUpdate(updatedRows);
@@ -484,7 +491,7 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
           setOpen(false);
           window.location.reload();
         },
-        800
+        800,
       );
     } catch {
       setError('Save failed. Please try again.');
@@ -570,9 +577,7 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
       checkboxSelection
       rowSelectionModel={rowSelectionModel}
       onRowSelectionModelChange={setRowSelectionModel}
-      getRowClassName={params =>
-        params.id === activeRowId ? 'current-caption-row' : ''
-      }
+      getRowClassName={(params) => (params.id === activeRowId ? 'current-caption-row' : '')}
       sx={{
         border: 0,
         height: inline ? '100%' : '60vh',
@@ -614,7 +619,9 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
         <IconButton
           aria-label="close"
           onClick={handleEditDialogClose}
-          sx={{ position: 'absolute', right: 8, top: 8, color: 'grey.500' }}
+          sx={{
+            position: 'absolute', right: 8, top: 8, color: 'grey.500',
+          }}
         >
           <CloseIcon />
         </IconButton>
@@ -625,14 +632,14 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
           <TextField
             label="Start"
             value={draftStart}
-            onChange={e => setDraftStart(e.target.value)}
+            onChange={(e) => setDraftStart(e.target.value)}
             disabled={savingCaption}
             fullWidth
           />
           <TextField
             label="End"
             value={draftEnd}
-            onChange={e => setDraftEnd(e.target.value)}
+            onChange={(e) => setDraftEnd(e.target.value)}
             disabled={savingCaption}
             fullWidth
           />
@@ -640,7 +647,7 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
         <TextField
           label="Text"
           value={draftText}
-          onChange={e => setDraftText(e.target.value)}
+          onChange={(e) => setDraftText(e.target.value)}
           disabled={savingCaption}
           fullWidth
           multiline
@@ -665,7 +672,9 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
           aria-label="close"
           onClick={handleUploadDialogClose}
           disabled={uploadingVtt}
-          sx={{ position: 'absolute', right: 8, top: 8, color: 'grey.500' }}
+          sx={{
+            position: 'absolute', right: 8, top: 8, color: 'grey.500',
+          }}
         >
           <CloseIcon />
         </IconButton>
@@ -707,7 +716,10 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
             {status && !error && <Alert severity="info" sx={{ m: 2 }}>{status}</Alert>}
             {grid}
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, borderTop: '1px solid', borderColor: 'divider' }}>
+          <Box sx={{
+            display: 'flex', alignItems: 'center', gap: 1, p: 1, borderTop: '1px solid', borderColor: 'divider',
+          }}
+          >
             {rowActions}
             <Button
               onClick={handleDownloadVtt}
@@ -738,7 +750,9 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
         <Fab
           color="primary"
           onClick={handleEditButtonClick}
-          sx={{ position: 'fixed', bottom: 48, right: 16, zIndex: 100 }}
+          sx={{
+            position: 'fixed', bottom: 48, right: 16, zIndex: 100,
+          }}
           aria-label="Edit Captions"
         >
           <EditNoteIcon />
@@ -751,7 +765,9 @@ export function VideoAnnotationEditor({ videoUrl, videoVTT, inline = false, edit
           <IconButton
             aria-label="close"
             onClick={handleClose}
-            sx={{ position: 'absolute', right: 8, top: 8, color: 'grey.500' }}
+            sx={{
+              position: 'absolute', right: 8, top: 8, color: 'grey.500',
+            }}
           >
             <CloseIcon />
           </IconButton>

@@ -1,7 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
@@ -33,7 +29,9 @@ const CardBlog = styled(Card)(({ theme }) => ({
   },
 }));
 
-export function CardResource({ id, title, description, url, items = [] }) {
+export function CardResource({
+  id, title, description, url, items = [],
+}) {
   return (
     <CardBlog sx={{ display: 'flex' }}>
       <CardContent sx={{ flex: '1', paddingTop: '0', width: '100%' }}>
@@ -45,7 +43,7 @@ export function CardResource({ id, title, description, url, items = [] }) {
           </a>
           <a href={url} className={cls.downloadButton} target="_blank" title={`Download resource ${title}`}>
             Download
-            <i className="fa fa-file-word-o" aria-hidden="true"></i>
+            <i className="fa fa-file-word-o" aria-hidden="true" />
           </a>
         </div>
         <div style={{ display: 'flex' }}>
@@ -69,9 +67,11 @@ export function CardResource({ id, title, description, url, items = [] }) {
           {items.map((item, index) => (
             <ul className={cls['case-field']} key={index}>
               <span>{item.label}</span>
-              {item.items.map((innerItem, itemIndex) => <li key={itemIndex}>
-                <span>{innerItem.name}</span>
-              </li>)}
+              {item.items.map((innerItem, itemIndex) => (
+                <li key={itemIndex}>
+                  <span>{innerItem.name}</span>
+                </li>
+              ))}
             </ul>
           ))}
         </div>

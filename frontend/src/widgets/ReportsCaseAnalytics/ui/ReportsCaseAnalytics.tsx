@@ -1,9 +1,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/prop-types */
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
 import * as React from 'react';
 import styled from '@emotion/styled';
@@ -30,9 +27,8 @@ import { AnalyticsPageSize, AnalyticsPagination, analyticsTableProps } from '../
 import { Autocomplete, CircularProgress } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import cls from './ReportsCaseAnalytics.module.scss'
+import cls from './ReportsCaseAnalytics.module.scss';
 import { DateRange, UserIsActiveStatus, UserType, ChartColors } from '../../enum';
-
 
 const CASE_LABELS = {
   resourceView: 'Cases Accessed',
@@ -43,7 +39,6 @@ const CASE_LABELS = {
   IMNote: 'IM Notes',
   saves: 'Saves',
 };
-
 
 let globalSearchValue = '';
 function EditUserToolbar({ onSearch, onExport, onClear }) {
@@ -179,13 +174,13 @@ export function ReportsCaseAnalytics() {
       },
     },
     { field: 'area', headerName: 'Cert. Area', width: 100 },
- ];
+  ];
 
   React.useEffect(() => {
     if (!latestAvailableDate) return;
-    setDate(current => current[1] > latestAvailableDate
+    setDate((current) => (current[1] > latestAvailableDate
       ? [new Date(Math.min(current[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate]
-      : current);
+      : current));
   }, [latestAvailableDate]);
 
   const formatDate = (date) => {
@@ -208,13 +203,13 @@ export function ReportsCaseAnalytics() {
     const request = axios
       .get('/clickhouse/overall/case-analytics', { params })
       .then(({ data }) => {
-        const latest = data.reduce((maximum, item) => item.date > maximum ? item.date : maximum, '');
+        const latest = data.reduce((maximum, item) => (item.date > maximum ? item.date : maximum), '');
         let availableDate = null;
         if (latest) {
           const [year, month, day] = latest.split('-').map(Number);
           availableDate = new Date(year, month - 1, day);
           // Keep the latest known day when loading an older or filtered range.
-          setLatestAvailableDate(previous => previous && previous >= availableDate ? previous : availableDate);
+          setLatestAvailableDate((previous) => (previous && previous >= availableDate ? previous : availableDate));
         }
         const formattedData = data.map((item) => ({
           date: item.date,
@@ -234,6 +229,101 @@ export function ReportsCaseAnalytics() {
       });
     latestAnalyticsRequest.current = request;
     return request;
+  };
+
+  const fetchTableData = async (startDate, endDate, users = [], group = null, organization = null, filteredIds = []) => {
+    const params = {
+      date_range_start: startDate ? formatDate(startDate) : undefined,
+      date_range_end: endDate ? formatDate(endDate) : undefined,
+      users: users.length > 0 ? users : undefined,
+      group: group || undefined,
+      organization: organization || undefined,
+      ids: filteredIds.length > 0 ? filteredIds : undefined,
+    };
+
+    try {
+      setIsLoading(true);
+      const response = await axios.get('/clickhouse/overall/cases-details/', { params });
+      if (!users.length && !group && !filteredIds.length && !organization) {
+        setInitialResponseData(response.data);
+      }
+      const data = response.data.map((item) => ({
+        id: item.id,
+        case: item.id,
+        accessed: item.casesAccessed,
+        im: item.imDownload,
+        videoView: item.embedVideoViews,
+        commentaryNote: item.commentaryNotes,
+        videoNote: item.videoNotes,
+        IMNote: item.imNotes,
+        saves: item.saves,
+        subject: item.subjects?.join(' | ') || '',
+        topic: item.topics?.join(' | ') || '',
+        grade: item.grades?.join(' | ') || '',
+        area: item.certificate_area || '',
+      }));
+      setOriginalTableData(data);
+      setTableData(data);
+
+      const optionsData = filteredIds.length ? initialResponseData : response.data;
+      const subjects = Array.from(new Set(optionsData.flatMap((item) => item.subjects))).sort();
+      const grades = Array.from(new Set(optionsData.flatMap((item) => item.grades)))
+        .sort((a, b) => parseInt(a) - parseInt(b));
+      const ethnicities = Array.from(new Set(optionsData.flatMap((item) => item.ethnicities)))
+        .sort((a, b) => parseInt(a) - parseInt(b));
+      const areas = Array.from(new Set(optionsData.map((item) => item.certificate_area).filter((area) => area !== null))).sort();
+
+      setSubjectOptions(subjects);
+      setGradeOptions(grades);
+      setEthnicityOptions(ethnicities);
+      setAreaOptions(areas);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchConfigs = async (startDate, endDate, organization = null) => {
+    setIsLoading(true);
+    const params = {
+      ...(startDate && endDate && {
+        date_range_start: formatDate(startDate),
+        date_range_end: formatDate(endDate),
+      }),
+      ...(organization && { organization }),
+    };
+    try {
+      const { data } = await axios.get('/clickhouse/configs', { params });
+
+      const uniqueRoles = Array.from(new Set(data.users.map((user) => user.user_type)));
+
+      setUsers(
+        data.users.map((user) => ({
+          id: user.id,
+          label: [user.first_name, user.last_name]
+            .filter(Boolean)
+            .join(' ')
+            .trim()
+            || (user.email || '').trim()
+            || `User ID: ${user.id}`,
+          is_active: user.is_active,
+          user_type: user.user_type,
+          user_types: user.user_types || [],
+          state: user.state,
+        })),
+      );
+      setGroups(data.groups.map((group) => ({ label: group })));
+      setOrganizations(data.organizations.map((organization) => ({ label: organization })));
+      setRoleOptions(uniqueRoles);
+      setUserTypeOptions(Array.from(new Set(data.users.flatMap((user) => user.user_types || []))).sort());
+      setStateOptions(Array.from(new Set(data.users.map((user) => user.state).filter(Boolean))).sort());
+      return data.users;
+    } catch (error) {
+      console.error('Error fetching configs:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const updateFilters = (key, value, availableUsers = users) => {
@@ -259,34 +349,29 @@ export function ReportsCaseAnalytics() {
     let filteredIds = [];
 
     if (
-      updatedParams.subject ||
-      updatedParams.grade ||
-      updatedParams.area ||
-      updatedParams.ethnicity
+      updatedParams.subject
+      || updatedParams.grade
+      || updatedParams.area
+      || updatedParams.ethnicity
     ) {
       filteredIds = dataToFilter
-        .filter((item) =>
-          (!updatedParams.subject || safeIncludes(item.subjects, updatedParams.subject)) &&
-          (!updatedParams.grade || safeIncludes(item.grades, updatedParams.grade)) &&
-          (!updatedParams.ethnicity || safeIncludes(item.ethnicities, updatedParams.ethnicity)) &&
-          (!updatedParams.area || safeEquals(item.certificate_area, updatedParams.area))
-        )
+        .filter((item) => (!updatedParams.subject || safeIncludes(item.subjects, updatedParams.subject))
+          && (!updatedParams.grade || safeIncludes(item.grades, updatedParams.grade))
+          && (!updatedParams.ethnicity || safeIncludes(item.ethnicities, updatedParams.ethnicity))
+          && (!updatedParams.area || safeEquals(item.certificate_area, updatedParams.area)))
         .map((item) => item.id);
       if (!filteredIds.length) filteredIds = [-1];
     }
 
-    const hasUserFilters =
-      (updatedParams.userType && updatedParams.userType !== UserType.ALL) ||
-      (updatedParams.role && updatedParams.role !== UserType.ALL) ||
-      (updatedParams.userIsActive && updatedParams.userIsActive !== UserIsActiveStatus.ALL) ||
-      updatedParams.state;
-    const filteredUsers = availableUsers.filter((user) =>
-      (!updatedParams.userType || updatedParams.userType === UserType.ALL || (user.user_types || []).includes(updatedParams.userType)) &&
-      (!updatedParams.role || updatedParams.role === UserType.ALL || user.user_type === updatedParams.role) &&
-      (!updatedParams.userIsActive || updatedParams.userIsActive === UserIsActiveStatus.ALL ||
-        (updatedParams.userIsActive === UserIsActiveStatus.ACTIVE ? user.is_active : !user.is_active)) &&
-      (!updatedParams.state || user.state === updatedParams.state)
-    ).map((user) => user.id);
+    const hasUserFilters = (updatedParams.userType && updatedParams.userType !== UserType.ALL)
+      || (updatedParams.role && updatedParams.role !== UserType.ALL)
+      || (updatedParams.userIsActive && updatedParams.userIsActive !== UserIsActiveStatus.ALL)
+      || updatedParams.state;
+    const filteredUsers = availableUsers.filter((user) => (!updatedParams.userType || updatedParams.userType === UserType.ALL || (user.user_types || []).includes(updatedParams.userType))
+      && (!updatedParams.role || updatedParams.role === UserType.ALL || user.user_type === updatedParams.role)
+      && (!updatedParams.userIsActive || updatedParams.userIsActive === UserIsActiveStatus.ALL
+        || (updatedParams.userIsActive === UserIsActiveStatus.ACTIVE ? user.is_active : !user.is_active))
+      && (!updatedParams.state || user.state === updatedParams.state)).map((user) => user.id);
     const usersParam = hasUserFilters ? (filteredUsers.length ? filteredUsers : [-1]) : [];
 
     fetchData(
@@ -295,7 +380,7 @@ export function ReportsCaseAnalytics() {
       usersParam.length === 0 ? [] : usersParam,
       updatedParams.group,
       updatedParams.organization,
-      filteredIds
+      filteredIds,
     );
 
     fetchTableData(
@@ -304,7 +389,7 @@ export function ReportsCaseAnalytics() {
       usersParam.length === 0 ? [] : usersParam,
       updatedParams.group,
       updatedParams.organization,
-      filteredIds
+      filteredIds,
     );
   };
 
@@ -348,101 +433,6 @@ export function ReportsCaseAnalytics() {
     updateFilters('role', value);
   };
 
-  const fetchConfigs = async (startDate, endDate, organization = null) => {
-    setIsLoading(true);
-    const params = {
-      ...(startDate && endDate && {
-        date_range_start: formatDate(startDate),
-        date_range_end: formatDate(endDate),
-      }),
-      ...(organization && { organization }),
-    };
-    try {
-      const { data } = await axios.get('/clickhouse/configs', { params });
-
-      const uniqueRoles = Array.from(new Set(data.users.map((user) => user.user_type)));
-
-      setUsers(
-        data.users.map((user) => ({
-          id: user.id,
-          label: [user.first_name, user.last_name]
-            .filter(Boolean)
-            .join(' ')
-            .trim()
-            || (user.email || '').trim()
-            || 'User ID: ' + user.id,
-          is_active: user.is_active,
-          user_type: user.user_type,
-          user_types: user.user_types || [],
-          state: user.state,
-        }))
-      );
-      setGroups(data.groups.map((group) => ({ label: group })));
-      setOrganizations(data.organizations.map((organization) => ({ label: organization })));
-      setRoleOptions(uniqueRoles);
-      setUserTypeOptions(Array.from(new Set(data.users.flatMap((user) => user.user_types || []))).sort());
-      setStateOptions(Array.from(new Set(data.users.map((user) => user.state).filter(Boolean))).sort());
-      return data.users;
-    } catch (error) {
-      console.error('Error fetching configs:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fetchTableData = async (startDate, endDate, users = [], group = null, organization = null, filteredIds = []) => {
-    const params = {
-      date_range_start: startDate ? formatDate(startDate) : undefined,
-      date_range_end: endDate ? formatDate(endDate) : undefined,
-      users: users.length > 0 ? users : undefined,
-      group: group || undefined,
-      organization: organization || undefined,
-      ids: filteredIds.length > 0 ? filteredIds : undefined,
-    };
-
-    try {
-      setIsLoading(true);
-      const response = await axios.get('/clickhouse/overall/cases-details/', { params });
-      if (!users.length && !group && !filteredIds.length && !organization) {
-        setInitialResponseData(response.data);
-      }
-      const data = response.data.map((item) => ({
-        id: item.id,
-        case: item.id,
-        accessed: item.casesAccessed,
-        im: item.imDownload,
-        videoView: item.embedVideoViews,
-        commentaryNote: item.commentaryNotes,
-        videoNote: item.videoNotes,
-        IMNote: item.imNotes,
-        saves: item.saves,
-        subject: item.subjects?.join(' | ') || '',
-        topic: item.topics?.join(' | ') || '',
-        grade: item.grades?.join(' | ') || '',
-        area: item.certificate_area || '',
-      }));
-      setOriginalTableData(data);
-      setTableData(data);
-
-      const optionsData = filteredIds.length ? initialResponseData : response.data;
-      const subjects = Array.from(new Set(optionsData.flatMap(item => item.subjects))).sort();
-      const grades = Array.from(new Set(optionsData.flatMap(item => item.grades)))
-        .sort((a, b) => parseInt(a) - parseInt(b));
-      const ethnicities = Array.from(new Set(optionsData.flatMap(item => item.ethnicities)))
-        .sort((a, b) => parseInt(a) - parseInt(b));
-      const areas = Array.from(new Set(optionsData.map(item => item.certificate_area).filter(area => area !== null))).sort();
-
-      setSubjectOptions(subjects);
-      setGradeOptions(grades);
-      setEthnicityOptions(ethnicities);
-      setAreaOptions(areas);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleSearch = (searchValue) => {
     const filteredData = originalTableData.filter((row) => {
       const caseStr = row.case.toString();
@@ -453,11 +443,11 @@ export function ReportsCaseAnalytics() {
       const searchLower = searchValue.toLowerCase();
 
       return (
-        caseStr.includes(searchLower) ||
-        subjectStr.includes(searchLower) ||
-        topicStr.includes(searchLower) ||
-        gradeStr.includes(searchLower) ||
-        areaStr.includes(searchLower)
+        caseStr.includes(searchLower)
+        || subjectStr.includes(searchLower)
+        || topicStr.includes(searchLower)
+        || gradeStr.includes(searchLower)
+        || areaStr.includes(searchLower)
       );
     });
     setTableData(filteredData);
@@ -519,7 +509,7 @@ export function ReportsCaseAnalytics() {
     let cancelled = false;
     setIsLoading(true);
     const initialRequest = fetchData(startDate, endDate);
-    initialRequest.then(availableDate => {
+    initialRequest.then((availableDate) => {
       if (cancelled || latestAnalyticsRequest.current !== initialRequest) return;
       const reportingEndDate = availableDate || endDate;
       const reportingStartDate = new Date(reportingEndDate);
@@ -536,7 +526,7 @@ export function ReportsCaseAnalytics() {
   }, []);
 
   const resetFilters = () => {
-    setSelectedParams({ group: null, organization:null, subject: null, grade: null, ethnicity: null, area: null, });
+    setSelectedParams({ group: null, organization: null, subject: null, grade: null, ethnicity: null, area: null });
     setSelectedRole('');
     setGroups([]);
     setUserIsActive('');
@@ -545,30 +535,31 @@ export function ReportsCaseAnalytics() {
   const handleRange = (event) => {
     const selectedRange = event.target.value;
     setRange(selectedRange);
-    let startDate, endDate;
+    let startDate; let
+      endDate;
 
     if (typeof selectedRange === 'number' && selectedRange >= 2015 && selectedRange <= new Date().getFullYear()) {
       startDate = new Date(selectedRange, 0, 1);
       endDate = new Date(selectedRange, 11, 31);
     } else {
       switch (selectedRange) {
-        case DateRange.LAST_30_DAYS:
-          endDate = latestAvailableDate || new Date();
-          startDate = new Date(endDate);
-          startDate.setDate(endDate.getDate() - 30);
-          break;
-        case DateRange.LAST_90_DAYS:
-          endDate = latestAvailableDate || new Date();
-          startDate = new Date(endDate);
-          startDate.setDate(endDate.getDate() - 90);
-          break;
-        case DateRange.LAST_YEAR:
-          endDate = latestAvailableDate || new Date();
-          startDate = new Date(endDate.getFullYear() - 1, endDate.getMonth(), endDate.getDate());
-          break;
-        case DateRange.CUSTOM:
-        default:
-          return;
+      case DateRange.LAST_30_DAYS:
+        endDate = latestAvailableDate || new Date();
+        startDate = new Date(endDate);
+        startDate.setDate(endDate.getDate() - 30);
+        break;
+      case DateRange.LAST_90_DAYS:
+        endDate = latestAvailableDate || new Date();
+        startDate = new Date(endDate);
+        startDate.setDate(endDate.getDate() - 90);
+        break;
+      case DateRange.LAST_YEAR:
+        endDate = latestAvailableDate || new Date();
+        startDate = new Date(endDate.getFullYear() - 1, endDate.getMonth(), endDate.getDate());
+        break;
+      case DateRange.CUSTOM:
+      default:
+        return;
       }
     }
 
@@ -640,7 +631,7 @@ export function ReportsCaseAnalytics() {
   const activeSeries = Object.entries(activeItems)
     .filter(([key, value]) => value)
     .map(([key]) => ({
-      data: chartData.map(item => item[key]),
+      data: chartData.map((item) => item[key]),
       label: CASE_LABELS[key],
       connectNulls: true,
       color: colors[key],
@@ -653,7 +644,10 @@ export function ReportsCaseAnalytics() {
       </Typography>
       {latestAvailableDate && (
         <Typography sx={{ fontWeight: 400, mb: 1, color: 'red' }}>
-          Data is updated weekly. Data is currently available through {latestAvailableDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}.
+          Data is updated weekly. Data is currently available through
+          {' '}
+          {latestAvailableDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          .
         </Typography>
       )}
       <div>
@@ -802,26 +796,22 @@ export function ReportsCaseAnalytics() {
             loading={isLoading}
             value={selectedParams.subject || null}
             onChange={handleSubjectChange}
-            renderInput={(params) => {
-              return (
-                <>
-                  <TextField
-                    {...params}
-                    label="Subject"
-                    InputProps={{
-                      ...params.InputProps,
-                      type: 'search',
-                      endAdornment: (
-                        <>
-                          {isLoading ? <CircularProgress size={20} /> : null}
-                          {params.InputProps.endAdornment}
-                        </>
-                      ),
-                    }}
-                  />
-                </>
-              )
-            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Subject"
+                InputProps={{
+                  ...params.InputProps,
+                  type: 'search',
+                  endAdornment: (
+                    <>
+                      {isLoading ? <CircularProgress size={20} /> : null}
+                      {params.InputProps.endAdornment}
+                    </>
+                  ),
+                }}
+              />
+            )}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
@@ -878,36 +868,36 @@ export function ReportsCaseAnalytics() {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Autocomplete
-              id="ethnicities-autocomplete"
-              options={ethnicityOptions || []}
-              getOptionLabel={(option) => (option?.label || option || '')}
-              loading={isLoading}
-              value={selectedParams.ethnicity || null}
-              onChange={handleEthnicityChange}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Ethnicity"
-                  InputProps={{
-                    ...params.InputProps,
-                    type: 'search',
-                    endAdornment: (
-                      <>
-                        {isLoading ? <CircularProgress size={20} /> : null}
-                        {params.InputProps.endAdornment}
-                      </>
-                    ),
-                  }}
-                />
-              )}
-            />
+            id="ethnicities-autocomplete"
+            options={ethnicityOptions || []}
+            getOptionLabel={(option) => (option?.label || option || '')}
+            loading={isLoading}
+            value={selectedParams.ethnicity || null}
+            onChange={handleEthnicityChange}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Ethnicity"
+                InputProps={{
+                  ...params.InputProps,
+                  type: 'search',
+                  endAdornment: (
+                    <>
+                      {isLoading ? <CircularProgress size={20} /> : null}
+                      {params.InputProps.endAdornment}
+                    </>
+                  ),
+                }}
+              />
+            )}
+          />
         </Grid>
       </Grid>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
         {Object.keys(activeItems).map((key) => (
           <FormControlLabel
             key={key}
-            control={
+            control={(
               <Checkbox
                 checked={activeItems[key]}
                 onChange={() => handleToggleItem(key)}
@@ -918,7 +908,7 @@ export function ReportsCaseAnalytics() {
                   },
                 }}
               />
-            }
+            )}
             label={CASE_LABELS[key]}
           />
         ))}
@@ -926,7 +916,7 @@ export function ReportsCaseAnalytics() {
           variant="outlined"
           onClick={toggleSelectAll}
           sx={{ marginLeft: '16px' }}
-          color='primary'
+          color="primary"
         >
           {allSelected ? 'Unselect All' : 'Select All'}
         </Button>
@@ -935,7 +925,7 @@ export function ReportsCaseAnalytics() {
         <LineChart
           xAxis={[
             {
-              data: chartData.map(item => item.date),
+              data: chartData.map((item) => item.date),
               scaleType: 'point',
             },
           ]}
@@ -975,7 +965,7 @@ export function ReportsCaseAnalytics() {
                     <CellWithRightBorder key={key}>
                       {chartData.reduce(
                         (sum, item) => sum + (item[key] || 0),
-                        0
+                        0,
                       )}
                     </CellWithRightBorder>
                   ))}
@@ -985,30 +975,30 @@ export function ReportsCaseAnalytics() {
         </Table>
       </TableContainer>
       <div>
-      <Typography variant="h6" sx={{ mb: 2 }}>Details by Case</Typography>
-      {isLoading ? (
-        <CircularProgress />
-      ) : (
-        <DataGrid
-          slots={{
-            pagination: AnalyticsPagination,
-            toolbar: () => (
-              <EditUserToolbar
-                onSearch={handleSearch}
-                onClear={handleClearSearch}
-                onExport={handleExport}
-              />
-            ),
-          }}
-          rows={tableData}
-          columns={columns}
-          {...analyticsTableProps}
-          getRowHeight={() => 'auto'}
-          disableRowSelectionOnClick
-          showCellVerticalBorder
-          autoHeight
-        />
-      )}
+        <Typography variant="h6" sx={{ mb: 2 }}>Details by Case</Typography>
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          <DataGrid
+            slots={{
+              pagination: AnalyticsPagination,
+              toolbar: () => (
+                <EditUserToolbar
+                  onSearch={handleSearch}
+                  onClear={handleClearSearch}
+                  onExport={handleExport}
+                />
+              ),
+            }}
+            rows={tableData}
+            columns={columns}
+            {...analyticsTableProps}
+            getRowHeight={() => 'auto'}
+            disableRowSelectionOnClick
+            showCellVerticalBorder
+            autoHeight
+          />
+        )}
       </div>
     </div>
   );

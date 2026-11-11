@@ -78,12 +78,12 @@ export function Library({ className }: LibraryProps) {
               variant={subTab === idx ? 'contained' : 'outlined'}
               sx={{
                 borderRadius: idx == 0 ? '8px 0 0 8px !important' : (idx == 1 ? '0 !important' : '0 8px 8px 0 !important'),
-                borderLeft: idx === 1 ? 'none': '',
-                borderRight: idx === 1 ? 'none': '',
+                borderLeft: idx === 1 ? 'none' : '',
+                borderRight: idx === 1 ? 'none' : '',
                 '&:hover': {
-                  borderLeft: idx === 1 ? 'none': '',
-                  borderRight: idx === 1 ? 'none': '',
-                }
+                  borderLeft: idx === 1 ? 'none' : '',
+                  borderRight: idx === 1 ? 'none' : '',
+                },
               }}
               onClick={() => handleSubTabChange(idx)}
             >

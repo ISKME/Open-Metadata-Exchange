@@ -74,9 +74,9 @@ export default function CustomLayerManager({
     };
     let pointerInside = false;
     if (
-      canMoveInside.result &&
-      pointerY > layerRect.y + LAYER_PAD &&
-      pointerY < layerRect.y + layerH - LAYER_PAD
+      canMoveInside.result
+      && pointerY > layerRect.y + LAYER_PAD
+      && pointerY < layerRect.y + layerH - LAYER_PAD
     ) {
       pointerInside = true;
       canMoveRes.target = cmp;
@@ -91,8 +91,8 @@ export default function CustomLayerManager({
     });
   };
   const onDragEnd = () => {
-    canMoveRes?.result &&
-      canMoveRes.source?.move(canMoveRes.target!, { at: canMoveRes.index });
+    canMoveRes?.result
+      && canMoveRes.source?.move(canMoveRes.target!, { at: canMoveRes.index });
     setCanMoveRes({});
     setPointerDown(false);
     setDragging(undefined);
@@ -103,10 +103,10 @@ export default function CustomLayerManager({
 
   const dragLevel = (cmpPointerOver ? cmpPointerOver.parents() : []).length;
   const showIndicator = !!(
-    dragging &&
-    dragRect &&
-    canMoveRes?.result &&
-    !dragRect.pointerInside
+    dragging
+    && dragRect
+    && canMoveRes?.result
+    && !dragRect.pointerInside
   );
   const indicatorStyle = showIndicator
     ? { top: dragRect.y, left: 0, marginLeft: dragLevel * 10 + 20 }
@@ -133,7 +133,7 @@ export default function CustomLayerManager({
           ref={indicatorRef}
           className={cx('absolute w-full h-0.5 bg-yellow-400')}
           style={indicatorStyle}
-        ></div>
+        />
       )}
     </div>
   );

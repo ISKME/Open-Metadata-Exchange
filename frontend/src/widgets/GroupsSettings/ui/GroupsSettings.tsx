@@ -29,8 +29,8 @@ export function GroupsSettings() {
   const [duplicateDescription, setDuplicateDescription] = React.useState('');
   const [cover, setCover] = React.useState(null);
   const { id: groupId } = useParams();
-  const inputRef = React.useRef(null)
-  const dataImageRef = React.useRef('')
+  const inputRef = React.useRef(null);
+  const dataImageRef = React.useRef('');
 
   const [duplicateFolders, setDuplicateFolders] = React.useState(true);
   const [duplicateMembers, setDuplicateMembers] = React.useState(true);
@@ -103,7 +103,7 @@ export function GroupsSettings() {
       const response = await axios.post(
         `/api/groups/v1/groups/${groupId}/duplicate`,
         payload,
-        { headers }
+        { headers },
       );
 
       if (response.status === 200 || response.status === 201) {
@@ -144,11 +144,10 @@ export function GroupsSettings() {
 
   const cancelChanges = () => {
     if (inputRef.current) {
-      inputRef.current.value = "";
+      inputRef.current.value = '';
     }
-    fetchGroupData()
-  }
-
+    fetchGroupData();
+  };
 
   return (
     <Grid container spacing={2} sx={{ padding: '0 10%' }}>
@@ -256,21 +255,21 @@ export function GroupsSettings() {
               />
             </FormControl>
             <FormControlLabel
-              control={
+              control={(
                 <Checkbox
                   checked={duplicateFolders}
                   onChange={(e) => setDuplicateFolders(e.target.checked)}
                 />
-              }
+              )}
               label="Duplicate Folders"
             />
             <FormControlLabel
-              control={
+              control={(
                 <Checkbox
                   checked={duplicateMembers}
                   onChange={(e) => setDuplicateMembers(e.target.checked)}
                 />
-              }
+              )}
               label="Duplicate Members"
             />
             <Button

@@ -1,21 +1,21 @@
 // @ts-nocheck
-import { CircularProgress, Tooltip, IconButton } from "@mui/material";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { PieChart, LineChart } from "@mui/x-charts";
-import Pagination from "@mui/material/Pagination";
-import axios from "axios";
-import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { DateRange } from "widgets/enum";
-import DrillControls, { useDrill, buildTimelineDrill } from "./DrillControls";
-import colors from "./colors";
-import { buildSectionChartData } from "./chartUtils";
-import { Tabs } from "./";
+import { CircularProgress, Tooltip, IconButton } from '@mui/material';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { PieChart, LineChart } from '@mui/x-charts';
+import Pagination from '@mui/material/Pagination';
+import axios from 'axios';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { DateRange } from 'widgets/enum';
+import DrillControls, { useDrill, buildTimelineDrill } from './DrillControls';
+import colors from './colors';
+import { buildSectionChartData } from './chartUtils';
+import { Tabs } from '.';
 // ToDo: Make it Global
-import cls from "./styles.module.scss";
-import req from "shared/lib/req";
+import cls from './styles.module.scss';
+import req from 'shared/lib/req';
 
 export default function ({
   title,
@@ -41,7 +41,7 @@ export default function ({
   full = false,
   download = false,
   widgetTypes = [],
-  link = "#",
+  link = '#',
   disableAutoFetch = false,
 }) {
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ export default function ({
   const [isFavorite, setIsFavorite] = useState(favoriteWidgetIds.has(widgetId));
   const [timelineData, setTimelineData] = useState([]);
   const [selectedSection, setSelectedSection] = useState(0);
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [searchContext, setSearchContext] = useState(null);
@@ -64,10 +64,9 @@ export default function ({
   const [rowsPerPage] = useState(50);
   const [totalCount, setTotalCount] = useState(0);
   const [hasDrillSections, setHasDrillSections] = useState(false);
-  const urlSectionHint =
-    typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search).get("section")
-      : null;
+  const urlSectionHint = typeof window !== 'undefined'
+    ? new URLSearchParams(window.location.search).get('section')
+    : null;
 
   const buildBaseParams = () => {
     const [startDate, endDate] = dateRange;
@@ -81,8 +80,8 @@ export default function ({
   };
 
   const getSortField = () => {
-    if (selectedView === "line") return "visits_count";
-    return selectedView === "all" ? sortBy : selectedView;
+    if (selectedView === 'line') return 'visits_count';
+    return selectedView === 'all' ? sortBy : selectedView;
   };
   const drillLimit = selectedSection === 1 ? 100000 : itemsCount;
   const {
@@ -104,7 +103,7 @@ export default function ({
     getSortField,
     itemsCount: drillLimit,
     deps: [dateRange, selectedParams, selectedView, selectedSection],
-    isTimeline: selectedView === "line",
+    isTimeline: selectedView === 'line',
     sectionHint: urlSectionHint,
   });
 
@@ -114,17 +113,17 @@ export default function ({
     if (searchPerformed && searchContext === selectedView) return searchResults;
 
     if (
-      full &&
-      selectedView !== "line" &&
-      Array.isArray(drillChartData) &&
-      selectionActive
+      full
+      && selectedView !== 'line'
+      && Array.isArray(drillChartData)
+      && selectionActive
     ) {
       return selectedSection === 0
         ? drillChartData.slice(0, itemsCount)
         : drillChartData;
     }
 
-    if (selectedView === "line") {
+    if (selectedView === 'line') {
       return selectedSection === 1 ? timelineAllData : timelineData;
     }
 
@@ -134,13 +133,13 @@ export default function ({
   })();
 
   function getBaseTableData() {
-    if (selectedView === "line") return timelineAllData;
+    if (selectedView === 'line') return timelineAllData;
 
     if (
-      full &&
-      hasDrillSections &&
-      selectionActive &&
-      Array.isArray(drillChartData)
+      full
+      && hasDrillSections
+      && selectionActive
+      && Array.isArray(drillChartData)
     ) {
       return drillChartData;
     }
@@ -149,55 +148,208 @@ export default function ({
 
   const tableBase = getBaseTableData();
 
-  const tableSource =
-    selectedSection === 1
-      ? searchPerformed && searchContext === selectedView
-        ? searchResults
-        : tableBase
-      : currentData;
+  const tableSource = selectedSection === 1
+    ? searchPerformed && searchContext === selectedView
+      ? searchResults
+      : tableBase
+    : currentData;
 
   const paginatedData = Array.isArray(tableSource)
     ? tableSource.slice((page - 1) * rowsPerPage, page * rowsPerPage)
     : [];
 
-  const isTabLoading =
-    isLoading ||
-    (selectedView === "line"
+  const isTabLoading = isLoading
+    || (selectedView === 'line'
       ? selectedSection === 1
         ? timelineAllData.length === 0
         : timelineData.length === 0
       : selectedSection === 1
         ? // TABLE:
-          hasDrillSections && (selL0 || selL1)
+        hasDrillSections && (selL0 || selL1)
           ? drillLoading0 || drillLoading1 || !Array.isArray(drillChartData)
           : !Array.isArray(fullDataByView[selectedView])
         : // GRAPH:
-          !Array.isArray(data[selectedView]));
+        !Array.isArray(data[selectedView]));
 
   const hasTableData = selectedSection === 1 && !isTabLoading && totalCount > 0;
 
-  const baseReady =
-    selectedView === "line"
-      ? timelineAllData.length > 0
-      : full && hasDrillSections && selectionActive
-        ? Array.isArray(drillChartData)
-        : Array.isArray(fullDataByView[selectedView]);
+  const baseReady = selectedView === 'line'
+    ? timelineAllData.length > 0
+    : full && hasDrillSections && selectionActive
+      ? Array.isArray(drillChartData)
+      : Array.isArray(fullDataByView[selectedView]);
 
   const resetSearch = () => {
-    setSearchText("");
+    setSearchText('');
     setSearchResults([]);
     setSearchPerformed(false);
     setSearchContext(null);
   };
 
+  const withTrailingSlash = (url: string) => {
+    if (!url) return url;
+    const [path, qs] = url.split('?');
+    const fixed = path.endsWith('/') ? path : `${path}/`;
+    return qs ? `${fixed}?${qs}` : fixed;
+  };
+
+  const timelineAbortController = useRef<AbortController | null>(null);
+  const viewAbortController = useRef<AbortController | null>(null);
+  const selectedViewRef = useRef(selectedView);
+
+  const fetchViewData = async (viewSlug: string, full = false) => {
+    if (viewAbortController.current) {
+      viewAbortController.current.abort();
+    }
+    const controller = new AbortController();
+    viewAbortController.current = controller;
+
+    setWidgetLoadingMap((prev) => ({ ...prev, [widgetId]: true }));
+
+    try {
+      const params = {
+        ...buildBaseParams(),
+        limit: full ? 100000 : itemsCount,
+        sort_by: viewSlug === 'all' ? sortBy : viewSlug,
+      };
+
+      const { data: response } = await axios.get(withTrailingSlash(endpoint), {
+        params,
+        signal: controller.signal,
+      });
+      const responseMeta = response?.meta || {};
+      setViewMetaByView((prev) => ({ ...prev, [viewSlug]: responseMeta }));
+
+      const hasSections = Array.isArray(response?.sections) && response.sections.length > 0;
+
+      setHasDrillSections(hasSections);
+
+      if (hasSections) {
+        setSectionsFromResponse(response);
+      }
+
+      let chartData: any[] = [];
+
+      if (hasSections) {
+        const sectionList: string[] = response.sections;
+        const firstSection: string = sectionList[0];
+
+        const raw: any[] = Array.isArray(response?.[firstSection])
+          ? response[firstSection]
+          : [];
+
+        const filtered = raw.filter(
+          (it: any) => Number(it?.[params.sort_by] ?? 0) > 0,
+        );
+
+        chartData = buildSectionChartData(
+          filtered,
+          sectionList,
+          firstSection,
+          params.sort_by,
+        );
+      } else {
+        const raw: any[] = Array.isArray(response?.data)
+          ? response.data
+          : Array.isArray(response)
+            ? response
+            : [];
+
+        const filtered = raw.filter(
+          (item: any) => Number(item?.[params.sort_by] ?? 0) > 0,
+        );
+
+        chartData = filtered.map((item: any, index: number) => ({
+          ...item,
+          id: index,
+          value: Number(item?.[params.sort_by] ?? 0),
+          label: item?.name || '—',
+          url: item?.url || '',
+          definition: item?.definition || '',
+          color: colors[index % colors.length],
+        }));
+      }
+
+      if (selectedViewRef.current !== viewSlug) return;
+
+      setTotalCount(chartData.length);
+
+      if (full) {
+        setFullDataByView((prev) => ({ ...prev, [viewSlug]: chartData }));
+      } else {
+        setWidgetDataMap((prev) => ({
+          ...prev,
+          [widgetId]: {
+            ...(prev[widgetId] || {}),
+            [viewSlug]: chartData,
+          },
+        }));
+      }
+    } catch (err) {
+      if (axios.isCancel && axios.isCancel(err)) {
+      } else {
+        console.error(`Error loading ${title} (${viewSlug})`, err);
+      }
+    } finally {
+      if (viewAbortController.current === controller) {
+        setWidgetLoadingMap((prev) => ({ ...prev, [widgetId]: false }));
+      }
+    }
+  };
+
+  const fetchTimelineData = async (full = false) => {
+    if (timelineAbortController.current) {
+      timelineAbortController.current.abort();
+    }
+
+    const controller = new AbortController();
+    timelineAbortController.current = controller;
+
+    try {
+      const drillParam = hasDrillSections
+        ? buildTimelineDrill(drillSections, selL0, selL1)
+        : null;
+
+      const params = {
+        ...buildBaseParams(),
+        limit: full ? 100000 : itemsCount,
+        ...(drillParam ? { drill: drillParam } : {}),
+      };
+
+      const cleanEndpoint = endpoint.replace(/\/$/, '');
+      const response = await axios.get(`${cleanEndpoint}-timeline/`, {
+        params,
+        signal: controller.signal,
+      });
+
+      const timeline = Array.isArray(response.data?.data)
+        ? response.data.data
+        : [];
+
+      if (selectedViewRef.current !== 'line') return;
+      if (full) {
+        setTimelineAllData(timeline);
+      } else {
+        setTimelineData(timeline);
+      }
+      setTotalCount(timeline.length);
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log('Timeline request cancelled');
+      } else {
+        console.error('Error loading timeline data', err);
+      }
+    }
+  };
+
   useEffect(() => {
-    if (disableAutoFetch && selectedSection === 0 && selectedView !== "line") {
+    if (disableAutoFetch && selectedSection === 0 && selectedView !== 'line') {
       return;
     }
     setPage(1);
     if (selectedSection !== 1) resetSearch();
 
-    if (selectedView === "line" && widgetTypes.includes("line")) {
+    if (selectedView === 'line' && widgetTypes.includes('line')) {
       const needFull = selectedSection === 1;
       fetchTimelineData(needFull);
       return;
@@ -242,7 +394,7 @@ export default function ({
     prevResetRef.current = resetViewSignal;
 
     if (resetViewSignal) {
-      setSelectedView("all");
+      setSelectedView('all');
     }
   }, [resetViewSignal]);
 
@@ -251,7 +403,7 @@ export default function ({
   }, [favoriteWidgetIds, widgetId]);
 
   useEffect(() => {
-    if (searchText.trim() === "") {
+    if (searchText.trim() === '') {
       resetSearch();
       const base = getBaseTableData();
       setTotalCount(Array.isArray(base) ? base.length : 0);
@@ -264,19 +416,13 @@ export default function ({
     fullDataByView,
   ]);
 
-  const timelineAbortController = useRef<AbortController | null>(null);
-  const viewAbortController = useRef<AbortController | null>(null);
-
-  useEffect(() => {
-    return () => {
-      timelineAbortController.current?.abort();
-      viewAbortController.current?.abort();
-      timelineAbortController.current = null;
-      viewAbortController.current = null;
-    };
+  useEffect(() => () => {
+    timelineAbortController.current?.abort();
+    viewAbortController.current?.abort();
+    timelineAbortController.current = null;
+    viewAbortController.current = null;
   }, []);
 
-  const selectedViewRef = useRef(selectedView);
   useEffect(() => {
     selectedViewRef.current = selectedView;
   }, [selectedView]);
@@ -287,21 +433,21 @@ export default function ({
   }, [totalCount, rowsPerPage]);
 
   useEffect(() => {
-    if (!full || selectedView === "line" || selectedSection !== 1) return;
+    if (!full || selectedView === 'line' || selectedSection !== 1) return;
     const base = getBaseTableData();
     setTotalCount(Array.isArray(base) ? base.length : 0);
     setPage(1);
   }, [drillChartData, hasDrillSections, selectedView, selectedSection]);
 
   useEffect(() => {
-    if (!full || selectedView === "line" || selectedSection !== 1) return;
+    if (!full || selectedView === 'line' || selectedSection !== 1) return;
     setPage(1);
     const base = getBaseTableData();
     setTotalCount(Array.isArray(base) ? base.length : 0);
   }, [selL0, selL1]);
 
   useEffect(() => {
-    if (!full || selectedView === "line" || selectedSection === 1) return;
+    if (!full || selectedView === 'line' || selectedSection === 1) return;
     if (!hasDrillSections) return;
 
     const noSelection = !selL0 && !selL1;
@@ -337,69 +483,21 @@ export default function ({
     if (!Array.isArray(base)) return;
 
     let filtered: any[] = [];
-    if (selectedView === "line") {
+    if (selectedView === 'line') {
       filtered = base.filter(
-        (r) =>
-          (r.eventCategory || "").toLowerCase().includes(q) ||
-          String(r.date || "")
+        (r) => (r.eventCategory || '').toLowerCase().includes(q)
+          || String(r.date || '')
             .toLowerCase()
             .includes(q),
       );
     } else {
-      filtered = base.filter((r) =>
-        (r.label || r.name || "").toLowerCase().includes(q),
-      );
+      filtered = base.filter((r) => (r.label || r.name || '').toLowerCase().includes(q));
     }
 
     setSearchResults(filtered);
     setSearchPerformed(true);
     setSearchContext(selectedView);
     setTotalCount(filtered.length);
-  };
-
-  const fetchTimelineData = async (full = false) => {
-    if (timelineAbortController.current) {
-      timelineAbortController.current.abort();
-    }
-
-    const controller = new AbortController();
-    timelineAbortController.current = controller;
-
-    try {
-      const drillParam = hasDrillSections
-        ? buildTimelineDrill(drillSections, selL0, selL1)
-        : null;
-
-      const params = {
-        ...buildBaseParams(),
-        limit: full ? 100000 : itemsCount,
-        ...(drillParam ? { drill: drillParam } : {}),
-      };
-
-      const cleanEndpoint = endpoint.replace(/\/$/, "");
-      const response = await axios.get(`${cleanEndpoint}-timeline/`, {
-        params,
-        signal: controller.signal,
-      });
-
-      const timeline = Array.isArray(response.data?.data)
-        ? response.data.data
-        : [];
-
-      if (selectedViewRef.current !== "line") return;
-      if (full) {
-        setTimelineAllData(timeline);
-      } else {
-        setTimelineData(timeline);
-      }
-      setTotalCount(timeline.length);
-    } catch (err) {
-      if (axios.isCancel(err)) {
-        console.log("Timeline request cancelled");
-      } else {
-        console.error("Error loading timeline data", err);
-      }
-    }
   };
 
   const transformTimelineData = (data) => {
@@ -413,7 +511,9 @@ export default function ({
 
     const defs: Record<string, string> = {};
 
-    data.forEach(({ date, eventCategory, eventCount, definition }) => {
+    data.forEach(({
+      date, eventCategory, eventCount, definition,
+    }) => {
       if (!date || !eventCategory) return;
 
       if (definition && !defs[eventCategory]) {
@@ -421,8 +521,7 @@ export default function ({
       }
 
       if (!grouped[eventCategory]) grouped[eventCategory] = {};
-      grouped[eventCategory][date] =
-        (grouped[eventCategory][date] || 0) + Number(eventCount || 0);
+      grouped[eventCategory][date] = (grouped[eventCategory][date] || 0) + Number(eventCount || 0);
     });
 
     const series = Object.entries(grouped).map(([category, counts], index) => {
@@ -431,7 +530,7 @@ export default function ({
       return {
         id: category,
         label: category,
-        definition: defs[category] || "",
+        definition: defs[category] || '',
         data: seriesData,
         area: true,
         showMark: false,
@@ -444,131 +543,23 @@ export default function ({
 
   const { series, xAxis } = transformTimelineData(timelineData);
 
-  const withTrailingSlash = (url: string) => {
-    if (!url) return url;
-    const [path, qs] = url.split("?");
-    const fixed = path.endsWith("/") ? path : `${path}/`;
-    return qs ? `${fixed}?${qs}` : fixed;
-  };
-
-  const fetchViewData = async (viewSlug: string, full = false) => {
-    if (viewAbortController.current) {
-      viewAbortController.current.abort();
-    }
-    const controller = new AbortController();
-    viewAbortController.current = controller;
-
-    setWidgetLoadingMap((prev) => ({ ...prev, [widgetId]: true }));
-
-    try {
-      const params = {
-        ...buildBaseParams(),
-        limit: full ? 100000 : itemsCount,
-        sort_by: viewSlug === "all" ? sortBy : viewSlug,
-      };
-
-      const { data: response } = await axios.get(withTrailingSlash(endpoint), {
-        params,
-        signal: controller.signal,
-      });
-      const responseMeta = response?.meta || {};
-      setViewMetaByView((prev) => ({ ...prev, [viewSlug]: responseMeta }));
-
-      const hasSections =
-        Array.isArray(response?.sections) && response.sections.length > 0;
-
-      setHasDrillSections(hasSections);
-
-      if (hasSections) {
-        setSectionsFromResponse(response);
-      }
-
-      let chartData: any[] = [];
-
-      if (hasSections) {
-        const sectionList: string[] = response.sections;
-        const firstSection: string = sectionList[0];
-
-        const raw: any[] = Array.isArray(response?.[firstSection])
-          ? response[firstSection]
-          : [];
-
-        const filtered = raw.filter(
-          (it: any) => Number(it?.[params.sort_by] ?? 0) > 0,
-        );
-
-        chartData = buildSectionChartData(
-          filtered,
-          sectionList,
-          firstSection,
-          params.sort_by,
-        );
-      } else {
-        const raw: any[] = Array.isArray(response?.data)
-          ? response.data
-          : Array.isArray(response)
-            ? response
-            : [];
-
-        const filtered = raw.filter(
-          (item: any) => Number(item?.[params.sort_by] ?? 0) > 0,
-        );
-
-        chartData = filtered.map((item: any, index: number) => ({
-          ...item,
-          id: index,
-          value: Number(item?.[params.sort_by] ?? 0),
-          label: item?.name || "—",
-          url: item?.url || "",
-          definition: item?.definition || "",
-          color: colors[index % colors.length],
-        }));
-      }
-
-      if (selectedViewRef.current !== viewSlug) return;
-
-      setTotalCount(chartData.length);
-
-      if (full) {
-        setFullDataByView((prev) => ({ ...prev, [viewSlug]: chartData }));
-      } else {
-        setWidgetDataMap((prev) => ({
-          ...prev,
-          [widgetId]: {
-            ...(prev[widgetId] || {}),
-            [viewSlug]: chartData,
-          },
-        }));
-      }
-    } catch (err) {
-      if (axios.isCancel && axios.isCancel(err)) {
-      } else {
-        console.error(`Error loading ${title} (${viewSlug})`, err);
-      }
-    } finally {
-      if (viewAbortController.current === controller) {
-        setWidgetLoadingMap((prev) => ({ ...prev, [widgetId]: false }));
-      }
-    }
-  };
-
   const handleFavoriteClick = async () => {
     try {
-      const data = await req.post("/reports/widget/favorites/", {
+      const data = await req.post('/reports/widget/favorites/', {
         widget_id: widgetId,
       });
       const status = data.status;
       const updated = new Set(favoriteWidgetIds);
-      if (status === "added") {
+      if (status === 'added') {
         updated.add(widgetId);
         setIsFavorite(true);
-      } else if (status === "removed") {
+      } else if (status === 'removed') {
         updated.delete(widgetId);
         setIsFavorite(false);
       }
       setFavoriteWidgetIds(updated);
     } catch (error) {
-      console.error("Error toggling favorite", error);
+      console.error('Error toggling favorite', error);
     }
   };
 
@@ -576,7 +567,7 @@ export default function ({
     if (!enable_search) return;
     const q = searchText.trim();
     if (q.length < 3) {
-      alert("Please enter at least 3 characters.");
+      alert('Please enter at least 3 characters.');
       return;
     }
     setPage(1);
@@ -585,14 +576,14 @@ export default function ({
 
   const handleDownloadCSV = async () => {
     if (selectedSection !== 1 || !hasTableData) {
-      console.warn("Download is only available in Table view");
+      console.warn('Download is only available in Table view');
       return;
     }
 
     setIsDownloading(true);
 
     try {
-      if (selectedView === "line") {
+      if (selectedView === 'line') {
         const trimmed = searchText.trim();
         const drillParam = hasDrillSections
           ? buildTimelineDrill(drillSections, selL0, selL1)
@@ -609,16 +600,16 @@ export default function ({
 
         let raw = [];
         if (
-          searchPerformed &&
-          trimmed.length >= 3 &&
-          Array.isArray(searchResults) &&
-          searchResults.length
+          searchPerformed
+          && trimmed.length >= 3
+          && Array.isArray(searchResults)
+          && searchResults.length
         ) {
           raw = searchResults;
         } else if (timelineAllData.length) {
           raw = timelineAllData;
         } else {
-          const cleanEndpoint = endpoint.replace(/\/$/, "");
+          const cleanEndpoint = endpoint.replace(/\/$/, '');
           const { data: resp } = await axios.get(`${cleanEndpoint}-timeline/`, {
             params,
           });
@@ -628,40 +619,38 @@ export default function ({
               ? resp
               : [];
         }
-        const columns = ["Date", title, "Views"];
+        const columns = ['Date', title, 'Views'];
         const rows = raw.map((item) => ({
-          Date: item.date || "",
-          [title]: item.eventCategory || "—",
+          Date: item.date || '',
+          [title]: item.eventCategory || '—',
           Views: Number(item.eventCount ?? 0),
         }));
 
         if (!rows.length) {
-          console.warn("No data to export");
+          console.warn('No data to export');
           return;
         }
 
         const csvContent = [
-          columns.join(","),
-          ...rows.map((row) =>
-            columns
-              .map((col) => {
-                const v = row[col];
-                if (typeof v === "number") return String(v);
-                return `"${String(v ?? "").replace(/"/g, '""')}"`;
-              })
-              .join(","),
-          ),
-        ].join("\n");
+          columns.join(','),
+          ...rows.map((row) => columns
+            .map((col) => {
+              const v = row[col];
+              if (typeof v === 'number') return String(v);
+              return `"${String(v ?? '').replace(/"/g, '""')}"`;
+            })
+            .join(',')),
+        ].join('\n');
 
         const blob = new Blob([csvContent], {
-          type: "text/csv;charset=utf-8;",
+          type: 'text/csv;charset=utf-8;',
         });
         const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
+        const link = document.createElement('a');
         link.href = url;
         link.setAttribute(
-          "download",
-          `${title.replace(/\s+/g, "_")}_over_time.csv`,
+          'download',
+          `${title.replace(/\s+/g, '_')}_over_time.csv`,
         );
         document.body.appendChild(link);
         link.click();
@@ -669,18 +658,17 @@ export default function ({
         return;
       }
 
-      const sort_field = selectedView === "all" ? sortBy : selectedView;
-      const valueTitle =
-        viewOptions
-          .find((v) => v.slug === selectedView)
-          ?.title?.replace(/^By /, "") || "Value";
+      const sort_field = selectedView === 'all' ? sortBy : selectedView;
+      const valueTitle = viewOptions
+        .find((v) => v.slug === selectedView)
+        ?.title?.replace(/^By /, '') || 'Value';
 
       const params = {
         ...buildBaseParams(),
         limit: 100000,
         sort_by: sort_field,
-        ...(searchPerformed &&
-          searchText.trim() && { search: searchText.trim() }),
+        ...(searchPerformed
+          && searchText.trim() && { search: searchText.trim() }),
       };
 
       let filteredData;
@@ -722,37 +710,35 @@ export default function ({
 
       const columns = [title, valueTitle];
       const rows = filteredData.map((item) => ({
-        [title]: item.name || "—",
+        [title]: item.name || '—',
         [valueTitle]: Number(item[params.sort_by] ?? 0),
       }));
 
       if (!rows.length) {
-        console.warn("No data to export");
+        console.warn('No data to export');
         return;
       }
 
       const csvContent = [
-        columns.join(","),
-        ...rows.map((row) =>
-          columns
-            .map((col) => `"${String(row[col] ?? "").replace(/"/g, '""')}"`)
-            .join(","),
-        ),
-      ].join("\n");
+        columns.join(','),
+        ...rows.map((row) => columns
+          .map((col) => `"${String(row[col] ?? '').replace(/"/g, '""')}"`)
+          .join(',')),
+      ].join('\n');
 
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = url;
       link.setAttribute(
-        "download",
-        `${title.replace(/\s+/g, "_")}_${selectedView}.csv`,
+        'download',
+        `${title.replace(/\s+/g, '_')}_${selectedView}.csv`,
       );
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     } catch (error) {
-      console.error("Error downloading CSV", error);
+      console.error('Error downloading CSV', error);
     } finally {
       setIsDownloading(false);
     }
@@ -765,7 +751,7 @@ export default function ({
           type="button"
           className={cls.favIcon}
           onClick={handleFavoriteClick}
-          aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
           size="small"
         >
           {isFavorite ? (
@@ -795,13 +781,13 @@ export default function ({
             ) : null}
           </p>
         </div>
-        <div style={{ flex: 1 }}></div>
+        <div style={{ flex: 1 }} />
         <button
           type="button"
           className={cls.viewMoreButton}
-          onClick={() => navigate(!full ? link : "/reports/dashboard")}
+          onClick={() => navigate(!full ? link : '/reports/dashboard')}
           aria-label={
-            !full ? `View more about ${title}` : "Back to reports dashboard"
+            !full ? `View more about ${title}` : 'Back to reports dashboard'
           }
         >
           {!full ? (
@@ -846,56 +832,54 @@ export default function ({
       </p> */}
 
       {full && (
-        <>
-          <div className={cls.widgetDescriptionBox}>
-            <button
-              type="button"
-              className={cls.descriptionHeader}
-              onClick={() => setIsOpen(!isOpen)}
-              aria-expanded={isOpen}
-              aria-controls={`widget-description-${widgetId}`}
+        <div className={cls.widgetDescriptionBox}>
+          <button
+            type="button"
+            className={cls.descriptionHeader}
+            onClick={() => setIsOpen(!isOpen)}
+            aria-expanded={isOpen}
+            aria-controls={`widget-description-${widgetId}`}
+          >
+            <span className={cls.descriptionTitle}>
+              <span className={cls.questionIcon} aria-hidden="true">
+                ?
+              </span>
+              <span>{description_heading}</span>
+            </span>
+
+            <span
+              className={`${cls.viewArrow} ${
+                isOpen ? cls.viewArrowOpen : ''
+              }`}
+              aria-hidden="true"
             >
-              <span className={cls.descriptionTitle}>
-                <span className={cls.questionIcon} aria-hidden="true">
-                  ?
-                </span>
-                <span>{description_heading}</span>
-              </span>
-
-              <span
-                className={`${cls.viewArrow} ${
-                  isOpen ? cls.viewArrowOpen : ""
-                }`}
+              <svg
                 aria-hidden="true"
+                focusable="false"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
               >
-                <svg
-                  aria-hidden="true"
-                  focusable="false"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M6 9l6 6 6-6"
-                    stroke="#000"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
-            </button>
+                <path
+                  d="M6 9l6 6 6-6"
+                  stroke="#000"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+          </button>
 
-            {isOpen && (
-              <p
-                id={`widget-description-${widgetId}`}
-                className={cls.descriptionText}
-              >
-                {description}
-              </p>
-            )}
-          </div>
-        </>
+          {isOpen && (
+            <p
+              id={`widget-description-${widgetId}`}
+              className={cls.descriptionText}
+            >
+              {description}
+            </p>
+          )}
+        </div>
       )}
 
       {/* Dynamic Tabs */}
@@ -911,7 +895,7 @@ export default function ({
                 return (
                   <Tooltip
                     key={option.slug}
-                    title={definition || ""}
+                    title={definition || ''}
                     arrow
                     placement="top"
                     disableHoverListener={!definition}
@@ -922,7 +906,7 @@ export default function ({
                       type="button"
                       role="tab"
                       className={`${cls.tabOption} ${
-                        isSelected ? cls.tabOptionActive : ""
+                        isSelected ? cls.tabOptionActive : ''
                       }`}
                       aria-selected={isSelected}
                       onClick={() => {
@@ -939,7 +923,7 @@ export default function ({
                 );
               })}
 
-              {full && widgetTypes.includes("line") && (
+              {full && widgetTypes.includes('line') && (
                 <Tooltip
                   title="Total count of events over time"
                   arrow
@@ -949,15 +933,15 @@ export default function ({
                     type="button"
                     role="tab"
                     className={`${cls.tabOption} ${
-                      selectedView === "line" ? cls.tabOptionActive : ""
+                      selectedView === 'line' ? cls.tabOptionActive : ''
                     }`}
-                    aria-selected={selectedView === "line"}
+                    aria-selected={selectedView === 'line'}
                     onClick={() => {
-                      if (selectedView !== "line") {
+                      if (selectedView !== 'line') {
                         resetSearch();
                         setPage(1);
                       }
-                      setSelectedView("line");
+                      setSelectedView('line');
                     }}
                   >
                     Over time
@@ -989,13 +973,13 @@ export default function ({
       )}
 
       <div className={cls.widgetBodyWrapper}>
-        {full && widgetTypes.includes("table") && (
+        {full && widgetTypes.includes('table') && (
           <>
             <div className={cls.tabSwitcherRow}>
-              <div></div>
+              <div />
               <Tabs
                 label=""
-                items={["Graph", "Table"]}
+                items={['Graph', 'Table']}
                 onChange={setSelectedSection}
               />
             </div>
@@ -1008,11 +992,9 @@ export default function ({
                       <input
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
-                        onKeyDown={(e) =>
-                          e.key === "Enter" &&
-                          searchText.trim().length >= 3 &&
-                          handleSearch()
-                        }
+                        onKeyDown={(e) => e.key === 'Enter'
+                          && searchText.trim().length >= 3
+                          && handleSearch()}
                         placeholder="Search..."
                         className={cls.searchInput}
                       />
@@ -1022,7 +1004,7 @@ export default function ({
                           aria-label="Clear search"
                           className={cls.clearBtn}
                           onClick={() => {
-                            setSearchText("");
+                            setSearchText('');
                             setPage(1);
                           }}
                         >
@@ -1052,7 +1034,7 @@ export default function ({
                       <span className="spinner" />
                     </>
                   ) : (
-                    "Download CSV"
+                    'Download CSV'
                   )}
                 </button>
               </div>
@@ -1061,43 +1043,43 @@ export default function ({
         )}
 
         {/* Chart */}
-        {selectedSection === 0 &&
-          ((selectedView === "line"
+        {selectedSection === 0
+          && ((selectedView === 'line'
             ? timelineData.length === 0
             : !data[selectedView] && !searchPerformed) || isLoading ? (
-            <div className={cls.chartLoading}>
-              <CircularProgress aria-label="Loading chart data" />
-            </div>
-          ) : currentData?.length > 0 || series.length > 0 ? (
-            <div className={cls.chartSection}>
-              <div className={cls.chartContainer}>
-                {selectedView !== "line" && (
-                  <div aria-hidden="true" className={cls.chartGraphic}>
-                    <PieChart
-                      series={[{ data: currentData, arcLabel: () => "" }]}
-                      width={300}
-                      height={300}
-                      slotProps={{ legend: { hidden: true } }}
-                    />
-                  </div>
-                )}
+              <div className={cls.chartLoading}>
+                <CircularProgress aria-label="Loading chart data" />
+              </div>
+            ) : currentData?.length > 0 || series.length > 0 ? (
+              <div className={cls.chartSection}>
+                <div className={cls.chartContainer}>
+                  {selectedView !== 'line' && (
+                    <div aria-hidden="true" className={cls.chartGraphic}>
+                      <PieChart
+                        series={[{ data: currentData, arcLabel: () => '' }]}
+                        width={300}
+                        height={300}
+                        slotProps={{ legend: { hidden: true } }}
+                      />
+                    </div>
+                  )}
 
-                {selectedView === "line" &&
-                  series.length > 0 &&
-                  xAxis.length > 0 && (
+                  {selectedView === 'line'
+                  && series.length > 0
+                  && xAxis.length > 0 && (
                     <div
                       aria-hidden="true"
                       className={cls.chartGraphic}
-                      style={{ width: "100%", overflowX: "auto" }}
+                      style={{ width: '100%', overflowX: 'auto' }}
                     >
                       <LineChart
                         xAxis={[
                           {
-                            id: "timeline",
+                            id: 'timeline',
                             data: xAxis,
-                            scaleType: "band",
+                            scaleType: 'band',
                             valueFormatter: (val) => val,
-                            label: "Date",
+                            label: 'Date',
                           },
                         ]}
                         series={series}
@@ -1107,73 +1089,73 @@ export default function ({
                       />
                     </div>
                   )}
-              </div>
-              <div className={cls.chartLegend}>
-                {(selectedView === "line" ? series : currentData).map(
-                  (item, i) => {
-                    const labelNode = item.url ? (
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cls.legendLabel}
-                      >
-                        {item.label}
-                      </a>
-                    ) : (
-                      <span className={cls.legendLabel}>{item.label}</span>
-                    );
+                </div>
+                <div className={cls.chartLegend}>
+                  {(selectedView === 'line' ? series : currentData).map(
+                    (item, i) => {
+                      const labelNode = item.url ? (
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={cls.legendLabel}
+                        >
+                          {item.label}
+                        </a>
+                      ) : (
+                        <span className={cls.legendLabel}>{item.label}</span>
+                      );
 
-                    return (
-                      <div
-                        key={item.id || item.url || item.label}
-                        className={cls.legendItem}
-                      >
+                      return (
                         <div
-                          className={cls.legendColor}
-                          style={{
-                            background: item.color || colors[i % colors.length],
-                          }}
-                        />
+                          key={item.id || item.url || item.label}
+                          className={cls.legendItem}
+                        >
+                          <div
+                            className={cls.legendColor}
+                            style={{
+                              background: item.color || colors[i % colors.length],
+                            }}
+                          />
 
-                        {labelNode}
+                          {labelNode}
 
-                        {selectedView !== "line" &&
-                        typeof item.value === "number" ? (
+                          {selectedView !== 'line'
+                        && typeof item.value === 'number' ? (
                           <span className={cls.legendValue}>
-                            {item.value.toLocaleString()}
-                          </span>
-                        ) : null}
+                                {item.value.toLocaleString()}
+                              </span>
+                            ) : null}
 
-                        {item.definition ? (
-                          <Tooltip
-                            title={item.definition}
-                            arrow
-                            placement="top"
-                          >
-                            <IconButton
-                              type="button"
-                              size="small"
-                              className={cls.infoIcon}
-                              aria-label={`Show definition for ${item.label}`}
+                          {item.definition ? (
+                            <Tooltip
+                              title={item.definition}
+                              arrow
+                              placement="top"
                             >
-                              <InfoOutlinedIcon fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
-                        ) : null}
-                      </div>
-                    );
-                  },
-                )}
+                              <IconButton
+                                type="button"
+                                size="small"
+                                className={cls.infoIcon}
+                                aria-label={`Show definition for ${item.label}`}
+                              >
+                                <InfoOutlinedIcon fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                          ) : null}
+                        </div>
+                      );
+                    },
+                  )}
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className={cls.chartEmpty}>No data to display</div>
-          ))}
+            ) : (
+              <div className={cls.chartEmpty}>No data to display</div>
+            ))}
 
         {selectedSection === 1 && (
           <div>
-            {selectedView === "line" ? (
+            {selectedView === 'line' ? (
               <div className={cls.table}>
                 {paginatedData.length > 0 ? (
                   <table>
@@ -1187,8 +1169,8 @@ export default function ({
                     <tbody>
                       {paginatedData.map((row, i) => (
                         <tr key={i}>
-                          <td>{row?.date || ""}</td>
-                          <td>{row?.eventCategory || "—"}</td>
+                          <td>{row?.date || ''}</td>
+                          <td>{row?.eventCategory || '—'}</td>
                           <td>
                             {Number(row?.eventCount ?? 0).toLocaleString()}
                           </td>
@@ -1212,37 +1194,36 @@ export default function ({
                       <tr>
                         {Array.isArray(
                           viewMetaByView?.[selectedView]?.table_columns,
-                        ) &&
-                        viewMetaByView[selectedView].table_columns.length ? (
-                          viewMetaByView[selectedView].table_columns.map(
-                            (c) => <th key={c.key}>{c.label}</th>,
-                          )
-                        ) : (
-                          <>
-                            <th style={{ width: "80%" }}>{title}</th>
-                            <th style={{ width: "20%" }}>
-                              {viewOptions
-                                .find((v) => v.slug === selectedView)
-                                ?.title?.replace(/^By /, "") || "Value"}
-                            </th>
-                          </>
-                        )}
+                        )
+                        && viewMetaByView[selectedView].table_columns.length ? (
+                            viewMetaByView[selectedView].table_columns.map(
+                              (c) => <th key={c.key}>{c.label}</th>,
+                            )
+                          ) : (
+                            <>
+                              <th style={{ width: '80%' }}>{title}</th>
+                              <th style={{ width: '20%' }}>
+                                {viewOptions
+                                  .find((v) => v.slug === selectedView)
+                                  ?.title?.replace(/^By /, '') || 'Value'}
+                              </th>
+                            </>
+                          )}
                       </tr>
                     </thead>
 
                     <tbody>
                       {paginatedData.map((item, i) => {
-                        const cols =
-                          Array.isArray(
-                            viewMetaByView?.[selectedView]?.table_columns,
-                          ) && viewMetaByView[selectedView].table_columns.length
-                            ? viewMetaByView[selectedView].table_columns
-                            : null;
+                        const cols = Array.isArray(
+                          viewMetaByView?.[selectedView]?.table_columns,
+                        ) && viewMetaByView[selectedView].table_columns.length
+                          ? viewMetaByView[selectedView].table_columns
+                          : null;
 
                         if (!cols) {
                           return (
                             <tr key={i}>
-                              <td style={{ width: "70%" }}>
+                              <td style={{ width: '70%' }}>
                                 {item.url ? (
                                   <a
                                     href={item.url}
@@ -1255,7 +1236,7 @@ export default function ({
                                   item.label
                                 )}
                               </td>
-                              <td style={{ width: "30%" }}>
+                              <td style={{ width: '30%' }}>
                                 {Number(item?.value ?? 0).toLocaleString()}
                               </td>
                             </tr>
@@ -1267,8 +1248,8 @@ export default function ({
                             {cols.map((c) => {
                               const raw = item?.[c.key];
 
-                              if (c.key === "name" || c.key === "label") {
-                                const text = item?.label ?? item?.name ?? "—";
+                              if (c.key === 'name' || c.key === 'label') {
+                                const text = item?.label ?? item?.name ?? '—';
                                 return (
                                   <td key={c.key}>
                                     {item?.url ? (
@@ -1287,14 +1268,14 @@ export default function ({
                               }
 
                               if (
-                                raw === null ||
-                                raw === undefined ||
-                                raw === ""
+                                raw === null
+                                || raw === undefined
+                                || raw === ''
                               ) {
                                 return <td key={c.key}>—</td>;
                               }
 
-                              if (typeof raw === "number") {
+                              if (typeof raw === 'number') {
                                 return (
                                   <td key={c.key}>{raw.toLocaleString()}</td>
                                 );
@@ -1322,9 +1303,9 @@ export default function ({
             {!isTabLoading && totalCount > 0 && (
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "1rem",
+                  display: 'flex',
+                  justifyContent: 'center',
+                  marginTop: '1rem',
                 }}
               >
                 <Pagination

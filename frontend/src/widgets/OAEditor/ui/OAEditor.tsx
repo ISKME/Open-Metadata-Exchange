@@ -6,12 +6,10 @@ import { BlockUI, buiStyle } from 'shared/ui/BlockUI/BlockUI';
 import { StatusMessage } from 'shared/lib/statusMessage';
 import req from 'shared/lib/req';
 
-const createSectionsMap = (sections) => {
-  return sections.reduce((acc, section) => {
-    acc[section.step_id] = section;
-    return acc;
-  }, {});
-}
+const createSectionsMap = (sections) => sections.reduce((acc, section) => {
+  acc[section.step_id] = section;
+  return acc;
+}, {});
 
 export function OAEditor({ lesson, videoUploadStrategy }: { lesson: any, videoUploadStrategy?: string }) {
   const [processing, setProcessing] = useState(false);
@@ -31,7 +29,7 @@ export function OAEditor({ lesson, videoUploadStrategy }: { lesson: any, videoUp
 
   const onLessonChange = (field, value) => {
     lesson[field] = value;
-  }
+  };
 
   const onSectionChange = (section: ISection, newSection: ISection, replace = false) => {
     if (replace) {
@@ -40,7 +38,7 @@ export function OAEditor({ lesson, videoUploadStrategy }: { lesson: any, videoUp
     const newSectionsMap = { ...sectionsMap };
     newSectionsMap[section.step_id] = newSection;
     setSectionsMap(newSectionsMap);
-  }
+  };
 
   const onSectionMove = (pos, offset) => {
     const newPos = pos + offset;
@@ -48,7 +46,7 @@ export function OAEditor({ lesson, videoUploadStrategy }: { lesson: any, videoUp
     const [movedSection] = newSections.splice(pos, 1);
     newSections.splice(newPos, 0, movedSection);
     setSections(newSections);
-  }
+  };
 
   const onSectionDelete = (pos) => {
     const newSections = [...sections];
@@ -56,20 +54,20 @@ export function OAEditor({ lesson, videoUploadStrategy }: { lesson: any, videoUp
     delete sectionsMap[deleted.step_id];
 
     if (deleted.delete_url) {
-      setProcessing(true)
+      setProcessing(true);
       req.del(deleted.delete_url).then(() => {
         setSections(newSections);
         setProcessing(false);
-      })
+      });
     } else {
       setSections(newSections);
     }
-  }
+  };
 
   const registerSection = (section) => {
     sectionsMap[section.step_id] = section;
     setSections([...sections, section]);
-  }
+  };
 
   const addSection = () => {
     registerSection({
@@ -80,13 +78,13 @@ export function OAEditor({ lesson, videoUploadStrategy }: { lesson: any, videoUp
       step_id: crypto.randomUUID(),
       is_new: true,
     });
-  }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
       req.post(lesson.lock_url, { lock: 'refresh' }, true).catch(() => {
         clearInterval(interval);
-      })
+      });
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -122,34 +120,37 @@ export function OAEditor({ lesson, videoUploadStrategy }: { lesson: any, videoUp
 
   return (
     <div style={buiStyle.uiBox}>
-      {processing && (<BlockUI text='Saving...'/>)}
+      {processing && (<BlockUI text="Saving..." />)}
       <OATitleForm lesson={lesson} onChange={onLessonChange} errors={errors?.title} />
       <OAImageForm lesson={lesson} />
       <div className="lesson-editor-task-list">
         {sections.map((section, i) => (
-          <OASection key={section.task_id}
-                     section={section}
-                     number={i + 1}
-                     totalNumber={sections.length}
-                     onChange={onSectionChange}
-                     onSectionMove={onSectionMove}
-                     onSectionDelete={onSectionDelete}
-                     createURL={lesson.section_create_url}
-                     RelatedResourceWidget={RelatedResource}
-                     videoUploadStrategy={videoUploadStrategy}
+          <OASection
+            key={section.task_id}
+            section={section}
+            number={i + 1}
+            totalNumber={sections.length}
+            onChange={onSectionChange}
+            onSectionMove={onSectionMove}
+            onSectionDelete={onSectionDelete}
+            createURL={lesson.section_create_url}
+            RelatedResourceWidget={RelatedResource}
+            videoUploadStrategy={videoUploadStrategy}
           />
         ))}
         <button className="btn btn-primary task-list-new-task-btn" type="button" onClick={addSection}>Insert New Section</button>
       </div>
     </div>
-  )
+  );
 }
 
-export function QAEditorAction({ title, event, className, nextURL=null, action=null }) {
+export function QAEditorAction({
+  title, event, className, nextURL = null, action = null,
+}) {
   const dispatchEvent = (e) => {
     e.preventDefault();
     document.dispatchEvent(new CustomEvent(event, { detail: { nextURL, action } }));
-  }
+  };
 
   return <button onClick={dispatchEvent} className={className}>{title}</button>;
 }

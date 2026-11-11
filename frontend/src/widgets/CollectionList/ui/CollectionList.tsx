@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable max-len */
-/* eslint-disable no-console */
+
 import { classNames } from 'shared/lib/classNames/classNames';
-import { useState, useRef, useEffect, memo } from 'react';
+import {
+  useState, useRef, useEffect, memo,
+} from 'react';
 import { Button } from '../../../shared/ui/Button/Button';
 import { CollectionItemCard } from '../../../entities/CollectionItemCard';
 import cls from './CollectionList.module.scss';

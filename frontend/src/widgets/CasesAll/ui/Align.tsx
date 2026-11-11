@@ -1,15 +1,17 @@
 // @ts-nocheck
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import { MenuItem, FormControl, InputLabel, Select, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material'
-import { accordionStyles } from 'pages/Case/ui/styles'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { extractUrlParams } from 'shared/lib/global'
-import { StdWidget } from 'widgets/Filters'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import {
+  MenuItem, FormControl, InputLabel, Select, Typography, Accordion, AccordionSummary, AccordionDetails,
+} from '@mui/material';
+import { accordionStyles } from 'pages/Case/ui/styles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { extractUrlParams } from 'shared/lib/global';
+import { StdWidget } from 'widgets/Filters';
 
 function Widget({ items, parent, onChange }) {
-  const label = items?.length > 0 ? items[0].section.name : ''
-  const selected = items?.find((item) => item.isSelected)
+  const label = items?.length > 0 ? items[0].section.name : '';
+  const selected = items?.find((item) => item.isSelected);
 
   return (
     <FormControl>
@@ -29,19 +31,22 @@ function Widget({ items, parent, onChange }) {
         ))}
       </Select>
     </FormControl>
-  )
+  );
 }
 
 export function AlignWidget({ standards, selected = [], onSelect = (tag) => {} }) {
-  const params = extractUrlParams()
-  const selectedTag = selected.find((item) => item.section.slug === 'tag')
+  const params = extractUrlParams();
+  const selectedTag = selected.find((item) => item.section.slug === 'tag');
 
   useEffect(() => {
-    if (params['f.std']) onSelect(params['f.std'])
-  }, [])
+    if (params['f.std']) onSelect(params['f.std']);
+  }, []);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '16px', margin: '16px' }}>
+    <div style={{
+      display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '16px', margin: '16px',
+    }}
+    >
       <StdWidget section={Widget} items={standards} onChange={onSelect} />
       {selectedTag && (
         <Accordion defaultExpanded sx={accordionStyles.sub}>
@@ -57,7 +62,7 @@ export function AlignWidget({ standards, selected = [], onSelect = (tag) => {} }
             <Typography sx={{ color: '#56788f', padding: '4px 0', cursor: 'pointer' }}>
               {selectedTag.description}
             </Typography>
-            </AccordionDetails>
+          </AccordionDetails>
         </Accordion>
       )}
     </div>

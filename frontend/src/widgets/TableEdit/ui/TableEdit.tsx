@@ -1,41 +1,41 @@
-import React, { useState, useEffect } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import Link from "@mui/material/Link";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import ClearIcon from "@mui/icons-material/Clear";
+import React, { useState, useEffect } from 'react';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import Link from '@mui/material/Link';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import ClearIcon from '@mui/icons-material/Clear';
 import {
   Modal,
   Box,
   Checkbox,
   FormControlLabel,
   TablePagination,
-} from "@mui/material";
-import axios from "axios";
-import cls from "./TableEdit.module.scss";
+} from '@mui/material';
+import axios from 'axios';
+import cls from './TableEdit.module.scss';
 
 const buttonStyles = {
-  border: "1px solid #999",
-  cursor: "pointer",
-  fontSize: "0.88em",
-  color: "black !important",
-  borderRadius: "2px",
-  boxShadow: "1px 1px 3px #ccc",
-  background: "linear-gradient(top, #fff 0%, #f3f3f3 89%, #f9f9f9 100%)",
-  height: "40px",
+  border: '1px solid #999',
+  cursor: 'pointer',
+  fontSize: '0.88em',
+  color: 'black !important',
+  borderRadius: '2px',
+  boxShadow: '1px 1px 3px #ccc',
+  background: 'linear-gradient(top, #fff 0%, #f3f3f3 89%, #f9f9f9 100%)',
+  height: '40px',
 };
 
 const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: 480,
-  bgcolor: "background.paper",
+  bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
 };
@@ -49,7 +49,7 @@ export const TableEdit = ({
   updatedLeadersCallback = () => {},
   onDelete = null,
   onEdit = null,
-  onSelect = (ids) => {}
+  onSelect = (ids) => {},
 }) => {
   const [rows, setRows] = useState(records);
   const [displayedRows, setDisplayedRows] = useState(records);
@@ -57,17 +57,17 @@ export const TableEdit = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentGroup, setCurrentGroup] = useState({
     id: null,
-    title: "",
-    description: "",
+    title: '',
+    description: '',
     leaders: [],
   });
   const [selected, setSelected] = useState([]);
   const [leaders, setLeaders] = useState([]);
-  const [groupID, setGroupID] = useState("");
-  const [searchValue, setSearchValue] = useState("");
+  const [groupID, setGroupID] = useState('');
+  const [searchValue, setSearchValue] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
   useEffect(() => {
     setRows(records);
@@ -76,20 +76,20 @@ export const TableEdit = ({
 
   useEffect(() => {
     if (!isGetLeaders) return;
-    axios.get("/api/csrf-token/").then((response) => {
+    axios.get('/api/csrf-token/').then((response) => {
       setCsrfToken(response.data.token);
     });
 
     axios.get(`/api/organizations/v1/organizations/leaders?organization=${orgId}`)
-    .then((response) => {
-      const filteredLeaders = (response.data?.leaders_list || []).filter(
-        (leader) => leader.full_name && leader.full_name.trim() !== ""
-      );
-      setLeaders(filteredLeaders);
-    });
+      .then((response) => {
+        const filteredLeaders = (response.data?.leaders_list || []).filter(
+          (leader) => leader.full_name && leader.full_name.trim() !== '',
+        );
+        setLeaders(filteredLeaders);
+      });
   }, []);
 
-  useEffect(() => onSelect(selected), [selected])
+  useEffect(() => onSelect(selected), [selected]);
 
   useEffect(() => {
     const sortedRows = [...rows];
@@ -98,35 +98,37 @@ export const TableEdit = ({
         let aValue = a[sortConfig.key];
         let bValue = b[sortConfig.key];
 
-        if (sortConfig.key === "leaders") {
+        if (sortConfig.key === 'leaders') {
           const getFirstValidLeaderName = (leaderArray) => {
             const validLeader = leaderArray.find(
-              (leader) => leader.full_name && leader.full_name.trim() !== ""
+              (leader) => leader.full_name && leader.full_name.trim() !== '',
             );
-            return validLeader ? validLeader.full_name.toLowerCase() : "";
+            return validLeader ? validLeader.full_name.toLowerCase() : '';
           };
           aValue = getFirstValidLeaderName(a[sortConfig.key]);
           bValue = getFirstValidLeaderName(b[sortConfig.key]);
-        } else if (sortConfig.key === "joined") {
+        } else if (sortConfig.key === 'joined') {
           aValue = new Date(aValue);
           bValue = new Date(bValue);
         } else {
-          aValue = aValue ? String(aValue).toLowerCase() : "";
-          bValue = bValue ? String(bValue).toLowerCase() : "";
+          aValue = aValue ? String(aValue).toLowerCase() : '';
+          bValue = bValue ? String(bValue).toLowerCase() : '';
         }
 
-        if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
-        if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+        if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
         return 0;
       });
     }
     setDisplayedRows(
-      sortedRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      sortedRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     );
   }, [rows, page, rowsPerPage, sortConfig]);
 
   const handleOpenModal = (
-    group = { id: null, title: "", description: "", leaders: [] }
+    group = {
+      id: null, title: '', description: '', leaders: [],
+    },
   ) => {
     setGroupID(group.id);
     const groupLeaders = Array.isArray(group.leaders)
@@ -134,12 +136,10 @@ export const TableEdit = ({
       : [];
     setCurrentGroup({ ...group, leaders: groupLeaders });
 
-    const sortedLeaders = [...leaders].sort((a, b) => {
-      return (
-        Number(groupLeaders.includes(b.id)) -
-        Number(groupLeaders.includes(a.id))
-      );
-    });
+    const sortedLeaders = [...leaders].sort((a, b) => (
+      Number(groupLeaders.includes(b.id))
+        - Number(groupLeaders.includes(a.id))
+    ));
 
     setLeaders(sortedLeaders);
     setIsModalOpen(true);
@@ -147,7 +147,9 @@ export const TableEdit = ({
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setCurrentGroup({ id: null, title: "", description: "", leaders: [] });
+    setCurrentGroup({
+      id: null, title: '', description: '', leaders: [],
+    });
   };
 
   const handleSaveGroup = async () => {
@@ -158,19 +160,19 @@ export const TableEdit = ({
         delete groupData.cover;
         await axios
           .put(`/api/groups/v1/groups/${currentGroup.id}`, groupData, {
-            headers: { "X-CSRFToken": csrfToken },
+            headers: { 'X-CSRFToken': csrfToken },
           })
           .then(() => updatedLeadersCallback());
       } else {
         await axios
-          .post(`/api/groups/v1/groups`, currentGroup, {
-            headers: { "X-CSRFToken": csrfToken },
+          .post('/api/groups/v1/groups', currentGroup, {
+            headers: { 'X-CSRFToken': csrfToken },
           })
           .then(() => updatedLeadersCallback());
       }
       handleCloseModal();
     } catch (error) {
-      console.error("Error saving group:", error);
+      console.error('Error saving group:', error);
     }
   };
 
@@ -185,19 +187,18 @@ export const TableEdit = ({
   };
 
   const handleDeleteClick = async (id) => {
-
     if (onDelete) {
       try {
         await onDelete(id);
       } catch (error) {
-        console.error("Error deleting member with onDelete:", error);
+        console.error('Error deleting member with onDelete:', error);
       }
     } else {
-      if (!window.confirm("Are you sure you want to delete this group?")) return;
+      if (!window.confirm('Are you sure you want to delete this group?')) return;
       try {
         await axios
           .delete(`/api/groups/v1/groups/${id}`, {
-            headers: { "X-CSRFToken": csrfToken },
+            headers: { 'X-CSRFToken': csrfToken },
           })
           .then(() => updatedLeadersCallback());
       } catch (error) {
@@ -217,16 +218,14 @@ export const TableEdit = ({
   const handleSearchChange = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchValue(value);
-    const filteredRows = rows.filter((row) =>
-      row.title.toLowerCase().includes(value)
-    );
+    const filteredRows = rows.filter((row) => row.title.toLowerCase().includes(value));
     setDisplayedRows(filteredRows);
   };
 
   const handleSort = (key) => {
-    let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
     }
     setSortConfig({ key, direction });
   };
@@ -243,7 +242,7 @@ export const TableEdit = ({
   return (
     <div>
       {toolbar && (
-        <div style={{ display: "flex", marginBottom: "10px" }}>
+        <div style={{ display: 'flex', marginBottom: '10px' }}>
           <TextField
             id="search-bar"
             label="Search"
@@ -251,13 +250,13 @@ export const TableEdit = ({
             size="small"
             value={searchValue}
             onChange={handleSearchChange}
-            sx={{ marginRight: "10px", width: "300px" }}
+            sx={{ marginRight: '10px', width: '300px' }}
             InputProps={{
               endAdornment: searchValue && (
                 <InputAdornment position="end">
                   <IconButton
                     onClick={() => {
-                      setSearchValue("");
+                      setSearchValue('');
                       setDisplayedRows(rows);
                     }}
                   >
@@ -280,33 +279,35 @@ export const TableEdit = ({
       <table className={cls.table}>
         <thead>
           <tr>
-            {!toolbar && <th style={{ padding: 0, width: '50px' }}>
-              <Checkbox
-                checked={selected.length ? selected.reduce((a, b) => a && b, true) : false}
-                indeterminate={selected.length && selected.length !== displayedRows.length}
-                onChange={({ target }) => setSelected(target.checked ? displayedRows.map(({ id }) => id) : [])}
-                sx={{ backgroundColor: "white", margin: "0 4px" }}
-              />
-            </th>}
+            {!toolbar && (
+              <th style={{ padding: 0, width: '50px' }}>
+                <Checkbox
+                  checked={selected.length ? selected.reduce((a, b) => a && b, true) : false}
+                  indeterminate={selected.length && selected.length !== displayedRows.length}
+                  onChange={({ target }) => setSelected(target.checked ? displayedRows.map(({ id }) => id) : [])}
+                  sx={{ backgroundColor: 'white', margin: '0 4px' }}
+                />
+              </th>
+            )}
             {headers.map((header) => (
               <th
                 key={header.field}
                 onClick={() => handleSort(header.field)}
-                style={{ cursor: "pointer", fontSize: '14px' }}
+                style={{ cursor: 'pointer', fontSize: '14px' }}
                 title="Click to sort"
               >
                 {header.headerName}
                 <span
                   style={{
-                    marginLeft: "5px",
-                    color: sortConfig.key === header.field ? "black" : "#ccc",
+                    marginLeft: '5px',
+                    color: sortConfig.key === header.field ? 'black' : '#ccc',
                   }}
                 >
                   {sortConfig.key === header.field
-                    ? sortConfig.direction === "asc"
-                      ? "↑"
-                      : "↓"
-                    : "↑↓"}
+                    ? sortConfig.direction === 'asc'
+                      ? '↑'
+                      : '↓'
+                    : '↑↓'}
                 </span>
               </th>
             ))}
@@ -322,9 +323,9 @@ export const TableEdit = ({
                     checked={selected.includes(row.id)}
                     onChange={() => {
                       if (selected.includes(row.id)) {
-                        setSelected(selected.filter((id) => id !== row.id))
+                        setSelected(selected.filter((id) => id !== row.id));
                       } else {
-                        setSelected([...selected, row.id])
+                        setSelected([...selected, row.id]);
                       }
                     }}
                   />
@@ -332,18 +333,18 @@ export const TableEdit = ({
               )}
               {headers.map((header) => (
                 <td key={header.field} style={{ fontSize: '14px' }}>
-                  {header.field === "title" ? (
+                  {header.field === 'title' ? (
                     <Link href={`/groups/new/${row.id}`} rel="noopener">
                       {row[header.field]}
                     </Link>
-                  ) : header.field === "leaders" ? (
+                  ) : header.field === 'leaders' ? (
                     row[header.field]
                       .filter(
-                        (leader) => leader.full_name && leader.full_name.trim() !== ""
+                        (leader) => leader.full_name && leader.full_name.trim() !== '',
                       )
                       .map((leader) => leader.full_name)
-                      .join(", ")
-                  ) : header.field === "cases" ? (
+                      .join(', ')
+                  ) : header.field === 'cases' ? (
                     row[header.field] || 0
                   ) : (
                     row[header.field]
@@ -354,9 +355,11 @@ export const TableEdit = ({
                 <IconButton onClick={() => handleEditClick(row)}>
                   <EditIcon />
                 </IconButton>
-                {toolbar && <IconButton onClick={() => handleDeleteClick(row.id)}>
-                  <DeleteIcon />
-                </IconButton>}
+                {toolbar && (
+                  <IconButton onClick={() => handleDeleteClick(row.id)}>
+                    <DeleteIcon />
+                  </IconButton>
+                )}
               </td>
             </tr>
           ))}
@@ -379,9 +382,7 @@ export const TableEdit = ({
             fullWidth
             label="Group Name"
             value={currentGroup.title}
-            onChange={(e) =>
-              setCurrentGroup({ ...currentGroup, title: e.target.value })
-            }
+            onChange={(e) => setCurrentGroup({ ...currentGroup, title: e.target.value })}
             margin="normal"
             multiline
           />
@@ -389,9 +390,7 @@ export const TableEdit = ({
             fullWidth
             label="Group Description"
             value={currentGroup.description}
-            onChange={(e) =>
-              setCurrentGroup({ ...currentGroup, description: e.target.value })
-            }
+            onChange={(e) => setCurrentGroup({ ...currentGroup, description: e.target.value })}
             margin="normal"
             multiline
           />
@@ -401,12 +400,12 @@ export const TableEdit = ({
               {leaders.map((leader) => (
                 <FormControlLabel
                   key={leader.id}
-                  control={
+                  control={(
                     <Checkbox
                       checked={currentGroup.leaders.includes(leader.id)}
                       onChange={() => handleLeaderChange(leader.id)}
                     />
-                  }
+                  )}
                   label={leader.full_name}
                 />
               ))}
@@ -420,7 +419,7 @@ export const TableEdit = ({
               <Button onClick={handleCloseModal} className={cls.cancelButton}>
                 Cancel
               </Button>
-              <Button onClick={handleSaveGroup} className={cls.saveButton} disabled={!currentGroup.leaders?.length} sx={{ opacity: !currentGroup.leaders?.length ? .5 : 1 }}>
+              <Button onClick={handleSaveGroup} className={cls.saveButton} disabled={!currentGroup.leaders?.length} sx={{ opacity: !currentGroup.leaders?.length ? 0.5 : 1 }}>
                 Save
               </Button>
             </Box>

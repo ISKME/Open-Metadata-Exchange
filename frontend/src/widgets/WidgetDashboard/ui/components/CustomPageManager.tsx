@@ -32,7 +32,7 @@ export default function CustomPageManager({
           className={cx(
             'flex items-center py-2 px-4 border-b',
             index === 0 && 'border-t',
-            MAIN_BORDER_COLOR
+            MAIN_BORDER_COLOR,
           )}
         >
           <button

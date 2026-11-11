@@ -1,8 +1,5 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -11,17 +8,15 @@ import { Button } from '@mui/material';
 // global components folder
 import { CButton } from 'pages/Case/ui/components';
 import req from 'shared/lib/req';
-import cls from './OrgansUsersImport.module.scss'
+import cls from './OrgansUsersImport.module.scss';
 
 function jsonToReadableText(json) {
   function processValue(value) {
-    if (Array.isArray(value))
-      return value.map(processValue).join(', ')
-    else if (typeof value === 'object' && value !== null)
-      return Object.entries(value).map(([key, val]) => `${isNaN(key) ? key + ': ' : ''} ${processValue(val)}`).join(', ')
-    return value
+    if (Array.isArray(value)) return value.map(processValue).join(', ');
+    if (typeof value === 'object' && value !== null) return Object.entries(value).map(([key, val]) => `${isNaN(key) ? `${key}: ` : ''} ${processValue(val)}`).join(', ');
+    return value;
   }
-  return processValue(json)
+  return processValue(json);
 }
 
 export function OrgansUsersImport({ id, onCancel = () => { } }) {
@@ -33,14 +28,14 @@ export function OrgansUsersImport({ id, onCancel = () => { } }) {
   // }, [])
 
   function importing() {
-    const members = document.querySelector('#members')?.files[0]
-    if (!members) return alert('Please select a file to import.')
+    const members = document.querySelector('#members')?.files[0];
+    if (!members) return alert('Please select a file to import.');
     req.post(`organizations/v2/organizations/${id}/members/import`, { members }, true)
-    .then((data) => {
-      alert(`Successful:\n\n${jsonToReadableText(data)}`)
-      window.location.reload()
-    })
-    .catch((data) => alert(`Creation error:\n\n${jsonToReadableText(data)}`))
+      .then((data) => {
+        alert(`Successful:\n\n${jsonToReadableText(data)}`);
+        window.location.reload();
+      })
+      .catch((data) => alert(`Creation error:\n\n${jsonToReadableText(data)}`));
   }
 
   return (
@@ -54,8 +49,8 @@ export function OrgansUsersImport({ id, onCancel = () => { } }) {
       </a>
       <Typography>
         <p>
-        Please list your organization’s name and the user role separated by a colon (no spaces).
-        The Organization name must be entered exactly as it appears on your dashboard.
+          Please list your organization’s name and the user role separated by a colon (no spaces).
+          The Organization name must be entered exactly as it appears on your dashboard.
         </p>
         <div className={cls.bulletList}>
           <p className={cls.bulletItem}>Organization:Instructor</p>
@@ -73,5 +68,5 @@ export function OrgansUsersImport({ id, onCancel = () => { } }) {
         <Button onClick={onCancel}>Cancel</Button>
       </div>
     </div>
-  )
+  );
 }

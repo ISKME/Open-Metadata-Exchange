@@ -1,8 +1,7 @@
 /* eslint-disable object-curly-newline */
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
+
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -21,19 +20,17 @@ import Tab from '@mui/material/Tab';
 import IconButton from '@mui/material/IconButton';
 import { Search } from '@mui/icons-material';
 import cls from './OrgansUsers.module.scss';
-import Table from 'components/table'
-import req from 'shared/lib/req'
+import Table from 'components/table';
+import req from 'shared/lib/req';
 import { OrgansUsersImport } from 'widgets/OrgansUsersImport';
 
 function jsonToReadableText(json) {
   function processValue(value) {
-    if (Array.isArray(value))
-      return value.map(processValue).join(', ')
-    else if (typeof value === 'object' && value !== null)
-      return Object.entries(value).map(([key, val]) => `${isNaN(key) ? key + ': ' : ''} ${processValue(val)}`).join(', ')
-    return value
+    if (Array.isArray(value)) return value.map(processValue).join(', ');
+    if (typeof value === 'object' && value !== null) return Object.entries(value).map(([key, val]) => `${isNaN(key) ? `${key}: ` : ''} ${processValue(val)}`).join(', ');
+    return value;
   }
-  return processValue(json)
+  return processValue(json);
 }
 
 const buttonStyles = {
@@ -44,18 +41,18 @@ const buttonStyles = {
   borderRadius: '2px',
   boxShadow: '1px 1px 3px #ccc',
   background: 'linear-gradient(top, #fff 0%, #f3f3f3 89%, #f9f9f9 100%)',
-}
+};
 
 const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: 480,
-  bgcolor: "background.paper",
+  bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
-}
+};
 
 const paperStyle = {
   display: 'flex',
@@ -63,7 +60,7 @@ const paperStyle = {
   backgroundColor: '#efeff0',
   alignItems: 'center',
   padding: '8px',
-}
+};
 
 const headers = [
   { id: 'firstName', label: 'First name', width: '107px', edit: true },
@@ -73,76 +70,76 @@ const headers = [
   { id: 'status', label: 'Status', width: '66px' },
   { id: 'joined', label: 'Joined', type: 'date', width: '85px' },
   { id: 'lastLogin', label: 'Last login', type: 'date', width: '80px' },
-]
+];
 
-let roleChoices = {}
-let statusChoices = {}
+let roleChoices = {};
+let statusChoices = {};
 
 function getKeyByValue(object, value) {
-  return Object.keys(object).find(key => object[key] === value);
+  return Object.keys(object).find((key) => object[key] === value);
 }
 
 export function OrgansUsers({ id }) {
-  const [members, setMembers] = useState([])
-  const [pendingMembers, setPendingMembers] = useState([])
-  const [selected, setSelected] = useState({ all: false, members: [] })
-  const [pendingSelected, setPendingSelected] = useState([])
-  const [organizations, setOrganizations] = useState([])
-  const [organization, setOrganization] = useState()
-  const [moveModal, setMoveModal] = useState(false)
-  const [pendingPageSize, setPendingPageSize] = useState(25)
-  const [pageSize, setPageSize] = useState(25)
-  const [loading, setLoading] = useState(true)
-  const [admin, setAdmin] = useState(false)
-  const [modal, setModal] = useState(false)
-  const [search, setSearch] = useState('')
-  const [pendingCount, setPendingCount] = useState(0)
-  const [count, setCount] = useState(0)
-  const [pendingPage, setPendingPage] = useState(1)
-  const [pendingOrder, setPendingOrder] = useState({ by: 'timestamp', dir: 'desc' })
-  const [page, setPage] = useState(1)
-  const [term, setTerm] = useState('')
-  const [name, setName] = useState('')
-  const [last, setLast] = useState('')
-  const [mail, setMail] = useState('')
-  const [role, setRole] = useState()
-  const [statusFilter, setStatusFilter] = useState('1')
-  const [roleFilter, setRoleFilter] = useState('')
-  const [tab, setTab] = useState(0)
-  const [activeMembersCount, setActiveMembersCount] = useState(0)
-  const [activeMembersLimit, setActiveMembersLimit] = useState(0)
-  const [pendingMembersCount, setPendingMembersCount] = useState(0)
-  const [importPage, setImportPage] = useState(false)
-  const [sortBy, setSortBy] = useState('user__first_name')
-  const [sortDir, setSortDir] = useState('asc')
+  const [members, setMembers] = useState([]);
+  const [pendingMembers, setPendingMembers] = useState([]);
+  const [selected, setSelected] = useState({ all: false, members: [] });
+  const [pendingSelected, setPendingSelected] = useState([]);
+  const [organizations, setOrganizations] = useState([]);
+  const [organization, setOrganization] = useState();
+  const [moveModal, setMoveModal] = useState(false);
+  const [pendingPageSize, setPendingPageSize] = useState(25);
+  const [pageSize, setPageSize] = useState(25);
+  const [loading, setLoading] = useState(true);
+  const [admin, setAdmin] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [search, setSearch] = useState('');
+  const [pendingCount, setPendingCount] = useState(0);
+  const [count, setCount] = useState(0);
+  const [pendingPage, setPendingPage] = useState(1);
+  const [pendingOrder, setPendingOrder] = useState({ by: 'timestamp', dir: 'desc' });
+  const [page, setPage] = useState(1);
+  const [term, setTerm] = useState('');
+  const [name, setName] = useState('');
+  const [last, setLast] = useState('');
+  const [mail, setMail] = useState('');
+  const [role, setRole] = useState();
+  const [statusFilter, setStatusFilter] = useState('1');
+  const [roleFilter, setRoleFilter] = useState('');
+  const [tab, setTab] = useState(0);
+  const [activeMembersCount, setActiveMembersCount] = useState(0);
+  const [activeMembersLimit, setActiveMembersLimit] = useState(0);
+  const [pendingMembersCount, setPendingMembersCount] = useState(0);
+  const [importPage, setImportPage] = useState(false);
+  const [sortBy, setSortBy] = useState('user__first_name');
+  const [sortDir, setSortDir] = useState('asc');
   const sortFieldMap = {
     firstName: 'user__first_name',
     lastName: 'user__last_name',
     email: 'user__email',
     role: 'role',
     joined: 'user__date_joined',
-    lastLogin: 'user__last_login'
+    lastLogin: 'user__last_login',
   };
 
   const fetchMembers = async (params = {}) => {
     try {
       const response = await axios.get(`/api/organizations/v1/organizations/${id}/members`, {
-          params: {
-              role: roleFilter || undefined,
-              status: statusFilter || undefined,
-              ...params,
-              page_size: pageSize,
-              ordering: `${sortDir === 'asc' ? '' : '-'}${sortBy}`,
-          }
+        params: {
+          role: roleFilter || undefined,
+          status: statusFilter || undefined,
+          ...params,
+          page_size: pageSize,
+          ordering: `${sortDir === 'asc' ? '' : '-'}${sortBy}`,
+        },
       });
 
       if (response.data.results?.length) {
-          const { role_choices, status_choices } = response.data.results[0];
-          roleChoices = role_choices;
-          statusChoices = status_choices;
-          headers[3].items = Object.values(role_choices);
+        const { role_choices, status_choices } = response.data.results[0];
+        roleChoices = role_choices;
+        statusChoices = status_choices;
+        headers[3].items = Object.values(role_choices);
 
-          const formattedMembers = response.data.results.map(member => ({
+        const formattedMembers = response.data.results.map((member) => ({
           id: member.id,
           firstName: member.user.first_name,
           lastName: member.user.last_name,
@@ -167,7 +164,7 @@ export function OrgansUsers({ id }) {
 
   const fetchPendingMembers = async (params = {}) => {
     try {
-      const orderingField = pendingOrder.by === 'role_display' ? 'role' : pendingOrder.by
+      const orderingField = pendingOrder.by === 'role_display' ? 'role' : pendingOrder.by;
       const { data } = await axios.get(`/api/organizations/v2/organizations/${id}/invitations`, {
         params: {
           q: search,
@@ -176,7 +173,7 @@ export function OrgansUsers({ id }) {
           page_size: pendingPageSize,
           ordering: `${pendingOrder.dir === 'asc' ? '' : '-'}${orderingField}`,
         },
-      })
+      });
       setPendingMembers(data?.results?.map(({ id, email, first_name, last_name, role_display, timestamp }, index) => ({
         id,
         email,
@@ -184,35 +181,35 @@ export function OrgansUsers({ id }) {
         last_name,
         role_display,
         timestamp: new Date(timestamp),
-      })) || [])
-      setPendingCount(data?.count)
+      })) || []);
+      setPendingCount(data?.count);
     } catch (error) {
-      console.error('Error fetching members:', error)
+      console.error('Error fetching members:', error);
     }
-  }
+  };
 
   useEffect(() => {
     if (!modal) {
-      setName('')
-      setLast('')
-      setMail('')
-      setRole()
+      setName('');
+      setLast('');
+      setMail('');
+      setRole();
     }
-  }, [modal])
+  }, [modal]);
 
   useEffect(() => {
     axios.get(`/api/organizations/v1/organizations/${id}/members/move`).then(({ data }) => {
-      setOrganizations(data)
-    })
+      setOrganizations(data);
+    });
     axios.get('/api/users/v1/profile').then(({ data }) => {
-      if (data?.user?.is_staff || data?.user?.is_superuser) setAdmin(true)
-    })
+      if (data?.user?.is_staff || data?.user?.is_superuser) setAdmin(true);
+    });
     axios.get(`/api/organizations/v1/organizations/${id}`).then(({ data }) => {
-      setActiveMembersCount(data.active_members_count)
-      setActiveMembersLimit(data.active_members_limit)
-      setPendingMembersCount(data.pending_members_count)
-    })
-  }, [])
+      setActiveMembersCount(data.active_members_count);
+      setActiveMembersLimit(data.active_members_limit);
+      setPendingMembersCount(data.pending_members_count);
+    });
+  }, []);
 
   function onModify(data) {
     const role = getKeyByValue(roleChoices, data.role);
@@ -227,14 +224,14 @@ export function OrgansUsers({ id }) {
       status,
     })
       .then(() => {
-        setMembers((prevMembers) => prevMembers.map((member) => member.id === data.id ? {
+        setMembers((prevMembers) => prevMembers.map((member) => (member.id === data.id ? {
           ...member,
           firstName: data.firstName,
           lastName: data.lastName,
           email: data.email,
           role: data.role,
           status: data.status,
-        } : member));
+        } : member)));
       })
       .catch((error) => {
         console.error('Error modifying user:', error);
@@ -246,67 +243,67 @@ export function OrgansUsers({ id }) {
       email: mail,
       first_name: name,
       last_name: last,
-      role: role,
+      role,
     }, true)
-    .then((data) => {
-      alert(`Successful:\n\n${jsonToReadableText(data)}`)
-      window.location.reload()
-    })
-    .catch((data) => alert(`Creation error:\n\n${jsonToReadableText(data)}`))
-    .finally(() => {
-      setModal(false)
-      window.location.reload()
-    })
+      .then((data) => {
+        alert(`Successful:\n\n${jsonToReadableText(data)}`);
+        window.location.reload();
+      })
+      .catch((data) => alert(`Creation error:\n\n${jsonToReadableText(data)}`))
+      .finally(() => {
+        setModal(false);
+        window.location.reload();
+      });
   }
 
   function move() {
-    let data = {}
-    if (!selected.all) data = { members: selected.members }
-    else data = { members: ['all'], exclude: selected.members }
+    let data = {};
+    if (!selected.all) data = { members: selected.members };
+    else data = { members: ['all'], exclude: selected.members };
     req.post(`organizations/v1/organizations/${id}/members/move?q=${term}`, {
       ...data,
       organization,
     })
-    .then(() => alert('Moved successfully!'))
-    .catch(() => {})
-    .finally(() => {
-      setMoveModal(false)
-      window.location.reload()
-    })
+      .then(() => alert('Moved successfully!'))
+      .catch(() => {})
+      .finally(() => {
+        setMoveModal(false);
+        window.location.reload();
+      });
   }
 
   function deactivate() {
-    let data = {}
-    if (!selected.all) data = { members: selected.members }
-    else data = { members: ['all'], exclude: selected.members }
+    let data = {};
+    if (!selected.all) data = { members: selected.members };
+    else data = { members: ['all'], exclude: selected.members };
     req.put(`organizations/v1/organizations/${id}/members/deactivate?q=${term}`, data).then(() => {
-      window.location.reload()
+      window.location.reload();
       // setMembers(members.map((item) => {
       //   if (!selected.includes(item.id)) return item
       //   return ({ ...item, status: 'Inactive' })
       // }))
-    })
+    });
   }
 
   function handleSearch() {
-    setSearch(term)
-    setPage(1)
-    setPendingPage(1)
-    fetchMembers({ q: term })
+    setSearch(term);
+    setPage(1);
+    setPendingPage(1);
+    fetchMembers({ q: term });
   }
 
-  useEffect(handleSearch, [pageSize])
+  useEffect(handleSearch, [pageSize]);
 
   useEffect(() => {
-    fetchPendingMembers()
-  }, [id, search, pendingPage, pendingPageSize, pendingOrder])
+    fetchPendingMembers();
+  }, [id, search, pendingPage, pendingPageSize, pendingOrder]);
 
   useEffect(() => {
     fetchMembers({
-        q: search,
-        page: page,
-        page_size: pageSize,
-        ordering: `${sortDir === 'asc' ? '' : '-'}${sortBy}`
+      q: search,
+      page,
+      page_size: pageSize,
+      ordering: `${sortDir === 'asc' ? '' : '-'}${sortBy}`,
     });
   }, [sortBy, sortDir, page, pageSize, roleFilter, statusFilter]);
 
@@ -344,38 +341,38 @@ export function OrgansUsers({ id }) {
         input.name = 'member';
         input.value = 'all';
         form.appendChild(input);
-        selected.members.forEach(member => {
+        selected.members.forEach((member) => {
           const input = document.createElement('input');
           input.type = 'hidden';
           input.name = 'exclude';
           input.value = member;
           form.appendChild(input);
-        })
+        });
       } else {
-        selected.members.forEach(member => {
+        selected.members.forEach((member) => {
           const input = document.createElement('input');
           input.type = 'hidden';
           input.name = 'member';
           input.value = member;
           form.appendChild(input);
-        })
+        });
       }
 
       document.body.appendChild(form);
       form.submit();
       document.body.removeChild(form);
-    })
+    });
   }
 
   function reInvite() {
-    const users = pendingMembers.filter(({ id }) => pendingSelected.includes(id)).map(({ email }) => email)
+    const users = pendingMembers.filter(({ id }) => pendingSelected.includes(id)).map(({ email }) => email);
     req.post(`organizations/v1/organizations/${id}/members/invite`, {
       users: users.join(','),
-      message: ''
+      message: '',
     }, true).then(({ errors }) => {
-      if (errors && errors?.length) alert('Error!\n' + errors.join('\n'))
-      else alert(`Success! You have re-invited ${users.length} users.`)
-    })
+      if (errors && errors?.length) alert(`Error!\n${errors.join('\n')}`);
+      else alert(`Success! You have re-invited ${users.length} users.`);
+    });
   }
 
   async function handlePendingDelete() {
@@ -385,13 +382,11 @@ export function OrgansUsers({ id }) {
       const { data } = await axios.get('/api/csrf-token');
       const headers = {
         'Content-Type': 'application/json',
-        'X-Csrftoken': data.token
+        'X-Csrftoken': data.token,
       };
 
       await Promise.all(
-        pendingSelected.map(_id =>
-          axios.delete(`/api/organizations/v2/organizations/${id}/invitations/${_id}`, { headers })
-        )
+        pendingSelected.map((_id) => axios.delete(`/api/organizations/v2/organizations/${id}/invitations/${_id}`, { headers })),
       );
 
       alert('Deleted successfully');
@@ -404,14 +399,13 @@ export function OrgansUsers({ id }) {
     }
   }
 
-
   function onSortChanged({ dir, by }) {
     const orderingField = sortFieldMap[by] || by;
     const newSortDir = dir === 'asc' ? 'asc' : 'desc';
 
     setSortBy(orderingField);
     setSortDir(newSortDir);
-}
+  }
 
   function onPageChanged(newPage) {
     setPage(newPage);
@@ -426,7 +420,7 @@ export function OrgansUsers({ id }) {
     return <Typography>Loading...</Typography>;
   }
 
-  const active = selected.all || (!selected.all && !!selected.members.length)
+  const active = selected.all || (!selected.all && !!selected.members.length);
 
   return (
     <>
@@ -514,154 +508,162 @@ export function OrgansUsers({ id }) {
           </Box>
         </Box>
       </Modal>
-      {importPage && <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '920px' }}>
-        <OrgansUsersImport id={id} onCancel={() => setImportPage(false)} />
-      </div>}
-      {!importPage && <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '920px' }}>
-        <Typography component="div" variant="h5">
-          {activeMembersLimit > 0 ? `Users (${activeMembersCount} out of ${activeMembersLimit})` : 'Users'}
-        </Typography>
-        <Typography>
-          <b>NOTE: </b>
-          Do not add Students who will be accessing ATLAS cases from within a learning management system (e.g., Canvas, Moodle, Blackboard, etc.).
-          Student accounts will be automatically provisioned when students access the ATLAS cases from their course.
-        </Typography>
-        {tab === 1 && (<Paper
-          elevation={3}
-          sx={paperStyle}
-        >
-          {/* <Button style={buttonStyles} disabled={!pendingSelected.length} onClick={exportMembers}>Export</Button> */}
-          <Button style={buttonStyles} disabled={!pendingSelected.length} onClick={reInvite}>Re-invite</Button>
-          <Button
-            style={buttonStyles}
-            disabled={!pendingSelected.length}
-            onClick={handlePendingDelete}
-          >
-            Delete
-          </Button>
-          <TextField
-            id="outlined-search"
-            label="Search"
-            variant="outlined"
-            size="small"
-            value={term}
-            onChange={({ target }) => setTerm(target.value)}
-            sx={{ flex: 1, backgroundColor: 'white', height: '100%' }}
-            onKeyUp={event => {
-              if (event.key === 'Enter') {
-                handleSearch()
-              }
-            }}
-          />
-          <IconButton style={buttonStyles} onClick={handleSearch}>
-            <Search />
-          </IconButton>
-        </Paper>)}
-        {tab === 0 && (<Paper
-          elevation={3}
-          sx={paperStyle}
-        >
-          <Button sx={buttonStyles} onClick={() => setModal(true)}>New</Button>
-          <Button style={buttonStyles} disabled={!active} onClick={deactivate}>Deactivate</Button>
-          <Button sx={buttonStyles} onClick={() => setImportPage(true)}>Import</Button>
-          <Button style={buttonStyles} disabled={!active} onClick={exportMembers}>Export</Button>
-          {admin && <Button style={buttonStyles} disabled={!active} onClick={() => setMoveModal(true)}>Move</Button>}
-          <FormControl size="small" sx={{ minWidth: 140, backgroundColor: 'white' }}>
-            <InputLabel id="status-filter-label">Status</InputLabel>
-            <Select
-              labelId="status-filter-label"
-              label="Status"
-              value={statusFilter}
-              onChange={({ target }) => handleStatusFilterChange(target.value)}
+      {importPage && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '920px' }}>
+          <OrgansUsersImport id={id} onCancel={() => setImportPage(false)} />
+        </div>
+      )}
+      {!importPage && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '920px' }}>
+          <Typography component="div" variant="h5">
+            {activeMembersLimit > 0 ? `Users (${activeMembersCount} out of ${activeMembersLimit})` : 'Users'}
+          </Typography>
+          <Typography>
+            <b>NOTE: </b>
+            Do not add Students who will be accessing ATLAS cases from within a learning management system (e.g., Canvas, Moodle, Blackboard, etc.).
+            Student accounts will be automatically provisioned when students access the ATLAS cases from their course.
+          </Typography>
+          {tab === 1 && (
+            <Paper
+              elevation={3}
+              sx={paperStyle}
             >
-              <MenuItem value="">All</MenuItem>
-              {Object.entries(statusChoices).sort(([, a], [, b]) => a.localeCompare(b)).map(([key, val]) => (
-                <MenuItem key={key} value={key}>{val}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl size="small" sx={{ minWidth: 140, backgroundColor: 'white' }}>
-            <InputLabel id="role-filter-label">Role</InputLabel>
-            <Select
-              labelId="role-filter-label"
-              label="Role"
-              value={roleFilter}
-              onChange={({ target }) => handleRoleFilterChange(target.value)}
+              {/* <Button style={buttonStyles} disabled={!pendingSelected.length} onClick={exportMembers}>Export</Button> */}
+              <Button style={buttonStyles} disabled={!pendingSelected.length} onClick={reInvite}>Re-invite</Button>
+              <Button
+                style={buttonStyles}
+                disabled={!pendingSelected.length}
+                onClick={handlePendingDelete}
+              >
+                Delete
+              </Button>
+              <TextField
+                id="outlined-search"
+                label="Search"
+                variant="outlined"
+                size="small"
+                value={term}
+                onChange={({ target }) => setTerm(target.value)}
+                sx={{ flex: 1, backgroundColor: 'white', height: '100%' }}
+                onKeyUp={(event) => {
+                  if (event.key === 'Enter') {
+                    handleSearch();
+                  }
+                }}
+              />
+              <IconButton style={buttonStyles} onClick={handleSearch}>
+                <Search />
+              </IconButton>
+            </Paper>
+          )}
+          {tab === 0 && (
+            <Paper
+              elevation={3}
+              sx={paperStyle}
             >
-              <MenuItem value="">All</MenuItem>
-              {Object.entries(roleChoices).map(([key, val]) => (
-                <MenuItem key={key} value={key}>{val}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <TextField
-            id="outlined-basic"
-            label="Search"
-            variant="outlined"
-            size="small"
-            value={term}
-            onChange={({ target }) => setTerm(target.value)}
-            sx={{ flex: 1, backgroundColor: 'white', height: '100%' }}
-            onKeyUp={event => {
-              if (event.key === 'Enter') {
-                handleSearch()
-              }
-            }}
-          />
-          <IconButton style={buttonStyles} onClick={handleSearch}>
-            <Search />
-          </IconButton>
-        </Paper>)}
-        <Tabs value={tab} onChange={(_event, newValue) => setTab(newValue)} centered sx={{ paddingLeft: '0' }}>
-          <Tab label={`Current Members (${count})`} />
-          <Tab label={`Pending Members (${pendingMembersCount})`} />
-        </Tabs>
-        {tab === 1 && (<>
-          <Table
-            rows={pendingMembers}
-            page={pendingPage - 1}
-            rowsPerPage={pendingPageSize}
-            order={pendingOrder}
-            headers={[
-              { id: 'first_name', label: 'First name', width: 89 },
-              { id: 'last_name', label: 'Last name', width: 89 },
-              { id: 'email', label: 'Email', width: 130 },
-              { id: 'role_display', label: 'Role', width: 70 },
-              { id: 'timestamp', label: 'Invited', type: 'date', width: 170 },
-            ]}
-            edit={false}
-            total={pendingCount}
-            onSelectionChanged={({ all, members }) => {
-              if (all) {
-                setPendingSelected(pendingMembers.map((member) => member.id))
-              } else {
-                setPendingSelected(members)
-              }
-            }}
-            onPageChanged={setPendingPage}
-            onLimitChanged={(limit) => {
-              setPendingPageSize(limit)
-              setPendingPage(1)
-            }}
-            onSortChanged={(order) => {
-              setPendingOrder(order)
-              setPendingPage(1)
-            }}
-          />
-        </>)}
-        {tab === 0 && (<>
-          <Table
-            rows={members}
-            headers={headers}
-            total={count}
-            onPageChanged={onPageChanged}
-            onLimitChanged={onLimitChanged}
-            onModify={onModify}
-            onSelectionChanged={setSelected}
-            onSortChanged={onSortChanged}
-          />
-        </>)}
-      </div>}
+              <Button sx={buttonStyles} onClick={() => setModal(true)}>New</Button>
+              <Button style={buttonStyles} disabled={!active} onClick={deactivate}>Deactivate</Button>
+              <Button sx={buttonStyles} onClick={() => setImportPage(true)}>Import</Button>
+              <Button style={buttonStyles} disabled={!active} onClick={exportMembers}>Export</Button>
+              {admin && <Button style={buttonStyles} disabled={!active} onClick={() => setMoveModal(true)}>Move</Button>}
+              <FormControl size="small" sx={{ minWidth: 140, backgroundColor: 'white' }}>
+                <InputLabel id="status-filter-label">Status</InputLabel>
+                <Select
+                  labelId="status-filter-label"
+                  label="Status"
+                  value={statusFilter}
+                  onChange={({ target }) => handleStatusFilterChange(target.value)}
+                >
+                  <MenuItem value="">All</MenuItem>
+                  {Object.entries(statusChoices).sort(([, a], [, b]) => a.localeCompare(b)).map(([key, val]) => (
+                    <MenuItem key={key} value={key}>{val}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl size="small" sx={{ minWidth: 140, backgroundColor: 'white' }}>
+                <InputLabel id="role-filter-label">Role</InputLabel>
+                <Select
+                  labelId="role-filter-label"
+                  label="Role"
+                  value={roleFilter}
+                  onChange={({ target }) => handleRoleFilterChange(target.value)}
+                >
+                  <MenuItem value="">All</MenuItem>
+                  {Object.entries(roleChoices).map(([key, val]) => (
+                    <MenuItem key={key} value={key}>{val}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <TextField
+                id="outlined-basic"
+                label="Search"
+                variant="outlined"
+                size="small"
+                value={term}
+                onChange={({ target }) => setTerm(target.value)}
+                sx={{ flex: 1, backgroundColor: 'white', height: '100%' }}
+                onKeyUp={(event) => {
+                  if (event.key === 'Enter') {
+                    handleSearch();
+                  }
+                }}
+              />
+              <IconButton style={buttonStyles} onClick={handleSearch}>
+                <Search />
+              </IconButton>
+            </Paper>
+          )}
+          <Tabs value={tab} onChange={(_event, newValue) => setTab(newValue)} centered sx={{ paddingLeft: '0' }}>
+            <Tab label={`Current Members (${count})`} />
+            <Tab label={`Pending Members (${pendingMembersCount})`} />
+          </Tabs>
+          {tab === 1 && (
+            <Table
+              rows={pendingMembers}
+              page={pendingPage - 1}
+              rowsPerPage={pendingPageSize}
+              order={pendingOrder}
+              headers={[
+                { id: 'first_name', label: 'First name', width: 89 },
+                { id: 'last_name', label: 'Last name', width: 89 },
+                { id: 'email', label: 'Email', width: 130 },
+                { id: 'role_display', label: 'Role', width: 70 },
+                { id: 'timestamp', label: 'Invited', type: 'date', width: 170 },
+              ]}
+              edit={false}
+              total={pendingCount}
+              onSelectionChanged={({ all, members }) => {
+                if (all) {
+                  setPendingSelected(pendingMembers.map((member) => member.id));
+                } else {
+                  setPendingSelected(members);
+                }
+              }}
+              onPageChanged={setPendingPage}
+              onLimitChanged={(limit) => {
+                setPendingPageSize(limit);
+                setPendingPage(1);
+              }}
+              onSortChanged={(order) => {
+                setPendingOrder(order);
+                setPendingPage(1);
+              }}
+            />
+          )}
+          {tab === 0 && (
+            <Table
+              rows={members}
+              headers={headers}
+              total={count}
+              onPageChanged={onPageChanged}
+              onLimitChanged={onLimitChanged}
+              onModify={onModify}
+              onSelectionChanged={setSelected}
+              onSortChanged={onSortChanged}
+            />
+          )}
+        </div>
+      )}
     </>
   );
 }
