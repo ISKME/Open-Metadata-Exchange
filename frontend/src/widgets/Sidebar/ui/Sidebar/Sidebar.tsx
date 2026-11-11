@@ -2,6 +2,7 @@ import { classNames } from 'shared/lib/classNames/classNames';
 import {
   useState, useEffect, memo, useMemo,
 } from 'react';
+import type { JSX } from 'react';
 import { SidebarItemsList } from 'widgets/Sidebar/model/items';
 import { SidebarItem } from 'widgets/Sidebar/ui/SidebarItem/SidebarItem';
 import cls from './Sidebar.module.scss';

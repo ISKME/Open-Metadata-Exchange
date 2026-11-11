@@ -114,11 +114,4 @@ export default [
             'react/jsx-no-target-blank': ['error', { allowReferrer: true, enforceDynamicLinks: 'always' }],
         },
     },
-    {
-        files: ['**/*.{ts,tsx}'],
-        rules: {
-            // TypeScript reports undefined names itself; ESLint's core rule does not know type-only names like React.ChangeEvent
-            'no-undef': 'off',
-        },
-    },
 ];
