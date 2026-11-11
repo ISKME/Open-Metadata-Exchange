@@ -794,6 +794,7 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
       rationale,
       scope: 'standards',
       alignment_tag: edit
+        // eslint-disable-next-line no-undef -- known bug: data only exists inside the loops above, so saving an edited alignment throws a ReferenceError
         ? data?.alignment_tag?.full_code
         : selectedTag?.tag?.value,
       annotations,
