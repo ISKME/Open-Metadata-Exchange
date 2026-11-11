@@ -81,8 +81,6 @@ html[dir='rtl'] .save-widget-group-title {
 .save-widget-group-title img {
   width: 20px;
   height: 20px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
   border-radius: 50%;
   vertical-align: middle;
 }
@@ -169,13 +167,7 @@ html[dir='rtl'] .save-widget-group-folders {
 
 .educational-standards-widget input,
 .educational-standards-widget textarea {
-  -webkit-transition: none;
-  -moz-transition: none;
-  -ms-transition: none;
-  -o-transition: none;
   transition: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
   box-shadow: none;
 }
 
@@ -187,13 +179,7 @@ html[dir='rtl'] .save-widget-group-folders {
   padding: 0.46154em 0.76923em;
   border: 1px solid #b3b3b3;
   border-radius: 0;
-  -ms-border-radius: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
   background-color: #e9f3fb;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  -ms-box-shadow: none;
   box-shadow: none;
   vertical-align: top;
   font-size: 1em;
@@ -208,56 +194,14 @@ html[dir='rtl'] .save-widget-group-folders {
   background-color: #fff;
 }
 
-.educational-standards-widget input::-webkit-input-placeholder {
+.educational-standards-widget input::placeholder {
   color: #999999;
   font-size: 1em;
   font-family: Arvo, serif;
   font-style: italic;
 }
 
-.educational-standards-widget input:-moz-placeholder {
-  color: #999999;
-  font-size: 1em;
-  font-family: Arvo, serif;
-  font-style: italic;
-}
-
-.educational-standards-widget input::-moz-placeholder {
-  color: #999999;
-  font-size: 1em;
-  font-family: Arvo, serif;
-  font-style: italic;
-}
-
-.educational-standards-widget input:-ms-input-placeholder {
-  color: #999999;
-  font-size: 1em;
-  font-family: Arvo, serif;
-  font-style: italic;
-}
-
-.educational-standards-widget textarea::-webkit-input-placeholder {
-  color: #999999;
-  font-size: 1em;
-  font-family: Arvo, serif;
-  font-style: italic;
-}
-
-.educational-standards-widget textarea:-moz-placeholder {
-  color: #999999;
-  font-size: 1em;
-  font-family: Arvo, serif;
-  font-style: italic;
-}
-
-.educational-standards-widget textarea::-moz-placeholder {
-  color: #999999;
-  font-size: 1em;
-  font-family: Arvo, serif;
-  font-style: italic;
-}
-
-.educational-standards-widget textarea:-ms-input-placeholder {
+.educational-standards-widget textarea::placeholder {
   color: #999999;
   font-size: 1em;
   font-family: Arvo, serif;
@@ -273,9 +217,6 @@ html[dir='rtl'] .save-widget-group-folders {
   font-family: "Open Sans", sans-serif;
   font-size: 0.84615em;
   line-height: 1.5;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  -ms-box-shadow: none;
   box-shadow: none;
   background: #e2e2e2;
   text-shadow: 1px 1px 1px #b8b6b6;
@@ -307,8 +248,6 @@ html[dir='rtl'] .save-widget-group-folders {
 
 .educational-standards-widget .btn-plain {
   display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   padding: 0.61538em 1.07692em;
@@ -334,8 +273,6 @@ html[dir='rtl'] .save-widget-group-folders {
 
 .educational-standards-widget .btn-blue-plain {
   display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   padding: 0.61538em 1.07692em;
@@ -361,8 +298,6 @@ html[dir='rtl'] .save-widget-group-folders {
 
 .educational-standards-widget .btn-green-plain {
   display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   padding: 0.61538em 1.07692em;
@@ -388,8 +323,6 @@ html[dir='rtl'] .save-widget-group-folders {
 
 .educational-standards-widget .btn-light-blue-plain {
   display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   padding: 0.61538em 1.07692em;
@@ -415,8 +348,6 @@ html[dir='rtl'] .save-widget-group-folders {
 
 .educational-standards-widget .btn-red-plain {
   display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   padding: 0.61538em 1.07692em;
@@ -442,8 +373,6 @@ html[dir='rtl'] .save-widget-group-folders {
 
 .educational-standards-widget .btn-pink-plain {
   display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   padding: 0.61538em 1.07692em;
@@ -469,8 +398,6 @@ html[dir='rtl'] .save-widget-group-folders {
 
 .educational-standards-widget .btn-cancel {
   display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   padding: 0.61538em 1.07692em;
@@ -519,8 +446,6 @@ html[dir='rtl'] .save-widget-group-folders {
   width: 700px;
   height: auto;
   background-color: #f1f2f2;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -669,8 +594,6 @@ html[dir="rtl"] #align-tag-description {
   background-color: #FFE4B8;
   border: 2px solid #FFE4B8;
   overflow: hidden;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -743,8 +666,6 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
   padding: 30px 50px 20px;
   border: 1px solid #ccc;
   overflow: auto;
-  -moz-box-shadow: rgb(0, 0, 0, 20%) 0 4px 16px;
-  -webkit-box-shadow: rgb(0, 0, 0, 20%) 0 4px 16px;
   box-shadow: rgb(0, 0, 0, 20%) 0 4px 16px;
 }
 
@@ -889,8 +810,6 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
   margin-bottom: -1px;
   border-color: #efeff0;
   background-color: #ffffff;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
   box-shadow: none;
   color: #56788f;
   border-radius: 4px 4px 0 0;
@@ -901,8 +820,6 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
   border-color: #d9d9da;
   background-color: #efeff0;
   color: #303e48;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
   box-shadow: none;
 }
 
@@ -915,8 +832,6 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
 .atlas-tab-navigation li.active a {
   background-color: #303e48;
   border-color: #303e48;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
   box-shadow: none;
   color: #ffffff;
 }
@@ -1166,8 +1081,6 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
 }
 
 .hashmark-panel .tooltip-inner {
-  -moz-box-shadow: 1px 2px 8px 0 rgb(0, 0, 0, 20%);
-  -webkit-box-shadow: 1px 2px 8px 0 rgb(0, 0, 0, 20%);
   box-shadow: 1px 2px 8px 0 rgb(0, 0, 0, 20%);
   color: #303e48;
   background-color: #ffffff;
@@ -1532,9 +1445,6 @@ form .alert-danger ul {
 }
 
 input[type="submit"] {
-  -moz-transition: none;
-  -o-transition: none;
-  -webkit-transition: none;
   transition: none;
 }
 
@@ -1554,28 +1464,7 @@ input[type="submit"] {
   box-shadow: inset 0 1px 1px rgb(0, 0, 0, 7.5%), 0 0 8px rgb(102, 175, 233, 60%);
 }
 
-.form-control:-moz-placeholder {
-  font-family: Roboto, sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  color: #333333;
-}
-
-.form-control::-moz-placeholder {
-  font-family: Roboto, sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  color: #333333;
-}
-
-.form-control:-ms-input-placeholder {
-  font-family: Roboto, sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  color: #333333;
-}
-
-.form-control::-webkit-input-placeholder {
+.form-control::placeholder {
   font-family: Roboto, sans-serif;
   font-weight: 400;
   font-size: 14px;
@@ -1820,14 +1709,10 @@ textarea {
   font-weight: 500;
   border: 0;
   background-color: transparent;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
   box-shadow: none;
 }
 
 .case-annotation-form .cke {
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
   box-shadow: none;
 }
 
@@ -2304,9 +2189,6 @@ textarea {
 }
 
 .ca-chevron {
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
   position: absolute;
   top: 50%;
@@ -2996,8 +2878,7 @@ article {
   font-size: 14px;
   line-height: 1.42857;
   border-radius: 4px;
+  // stylelint-disable-next-line property-no-vendor-prefix -- Safari and iOS Safari only support user-select with the prefix
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }

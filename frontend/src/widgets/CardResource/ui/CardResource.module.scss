@@ -36,9 +36,8 @@
   font-size: 14px;
   line-height: 1.42857;
   border-radius: 4px;
+  // stylelint-disable-next-line property-no-vendor-prefix -- Safari and iOS Safari only support user-select with the prefix
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   color: #56788f;
 
