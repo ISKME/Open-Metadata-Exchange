@@ -220,9 +220,9 @@ export function OrgansUserAnalytics({ id }) {
       ? { date_range_start: formatDate(startDate), date_range_end: formatDate(endDate) }
       : {};
     if (id) {
-      params['organization_id'] = id;
+      params.organization_id = id;
     } else {
-      params['get_default_organization'] = true;
+      params.get_default_organization = true;
     }
 
     try {

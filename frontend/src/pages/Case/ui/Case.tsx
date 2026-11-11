@@ -1272,7 +1272,7 @@ export function Case() {
               rangePositions.startPos.position
               !== rangePositions.endPos.position
             ) textRange = rangePositions;
-            control['text'] = text;
+            control.text = text;
             commentary.appendChild(control);
           }
         };
@@ -1440,7 +1440,7 @@ export function Case() {
   }, [videoAnnotations]);
 
   const handleBack = () => {
-    const referrer = document.referrer;
+    const { referrer } = document;
 
     if (referrer) {
       const isInternalReferrer = referrer.includes(window.location.origin);

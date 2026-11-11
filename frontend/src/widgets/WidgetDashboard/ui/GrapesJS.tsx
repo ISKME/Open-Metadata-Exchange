@@ -127,7 +127,7 @@ export default function DefaultEditor() {
 
   const handleSave = async () => {
     const storageManager = getGJSOptions.storageManager as StorageManagerConfig;
-    const fetchOptions = storageManager.options.remote.fetchOptions;
+    const { fetchOptions } = storageManager.options.remote;
     const headers = typeof fetchOptions === 'function'
       ? fetchOptions({}).headers['X-CSRFToken']
       : null;

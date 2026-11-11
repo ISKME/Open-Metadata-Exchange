@@ -17,14 +17,14 @@ export function MyAccount() {
             <nav className={`${cls['sidebar-navigation']}`}>
               <ul>
                 <li>
-                  <NavLink to="/my/new/account/settings" className={({ isActive }) => (isActive ? cls['active'] : '')}>
+                  <NavLink to="/my/new/account/settings" className={({ isActive }) => (isActive ? cls.active : '')}>
                     <i className="fa fa-chevron-right" />
                     Account Settings
                   </NavLink>
                 </li>
                 <hr />
                 <li>
-                  <NavLink to="/my/new/account/organization" className={({ isActive }) => (isActive ? cls['active'] : '')}>
+                  <NavLink to="/my/new/account/organization" className={({ isActive }) => (isActive ? cls.active : '')}>
                     <i className="fa fa-chevron-right" />
                     Organizations
                   </NavLink>

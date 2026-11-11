@@ -39,7 +39,7 @@ function AlignmentSection({
   const [nextOptions, setNextOptions] = useState([]);
 
   const handleChange = async (e) => {
-    const value = e.target.value;
+    const { value } = e.target;
     const { data } = await onChange(field, value);
 
     const nextField = data.name;

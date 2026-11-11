@@ -1,4 +1,4 @@
-export const StatusMessage = window['StatusMessage'] || {
+export const StatusMessage = window.StatusMessage || {
   success: (msg: string) => {
     console.log('Success:', msg);
   },

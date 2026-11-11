@@ -422,13 +422,13 @@ export function ReportsCaseAnalytics() {
   };
 
   const handleUserIsActiveChange = (event) => {
-    const value = event.target.value;
+    const { value } = event.target;
     setUserIsActive(value);
     updateFilters('userIsActive', value);
   };
 
   const handleRoleChange = (event) => {
-    const value = event.target.value;
+    const { value } = event.target;
     setSelectedRole(value);
     updateFilters('role', value);
   };

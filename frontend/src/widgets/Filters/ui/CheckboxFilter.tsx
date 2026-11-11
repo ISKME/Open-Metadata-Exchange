@@ -10,7 +10,7 @@ function Checkbox(props, showNumResources = false) {
   } = props;
 
   const handleChange = (e) => {
-    const value = e.target.value;
+    const { value } = e.target;
     if (e.target.checked) {
       onSelect(filter.keyword, value);
     } else {
@@ -79,7 +79,7 @@ function CheckboxWrapper(props) {
     ),
   };
 
-  return (wrappers[wrapTag] || wrappers['li'])();
+  return (wrappers[wrapTag] || wrappers.li)();
 }
 
 export function CheckboxUL(props) {
@@ -107,7 +107,7 @@ export function CheckboxDL(props) {
 }
 
 export function CheckboxFilter(props) {
-  const items = props.filter.items;
+  const { items } = props.filter;
   const grid = 12;
   const cols = props.cols || 1;
   const colWrap = grid / cols;

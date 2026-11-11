@@ -28,7 +28,7 @@ export const Dropdown = ({
   useOutsideAlerter(wrapperRef, () => setOpen(false));
   return (
     <div className={cls['dropdown-wrapper']} ref={wrapperRef}>
-      <div className={`${cls['frame-9']} ${(open ? cls['dropdown'] : '')}`} style={{ border: !selected ? 'red 1px solid' : '' }}>
+      <div className={`${cls['frame-9']} ${(open ? cls.dropdown : '')}`} style={{ border: !selected ? 'red 1px solid' : '' }}>
         <div className={cls['frame-10']} onClick={() => setOpen(!open)}>
           <div className={cls['text-wrapper-3']}>{selected || (`Select ${keyword}`)}</div>
           <svg className={cls['icons-arrow-drop-up']} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ transform: open ? 'rotate(180deg)' : '' }}>
@@ -37,14 +37,14 @@ export const Dropdown = ({
           <div style={{ flex: 1 }} />
         </div>
         {open && (
-          <div className={cls['values']}>
+          <div className={cls.values}>
             <svg onClick={() => scrollDiv(-115)} className={cls['icons-arrow-drop-up']} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path d="M7 14L12 9L17 14H7Z" fill="#054DD1" />
             </svg>
             <div ref={divRef} className={cls['inner-values']}>
               {list.map((item) => (
                 <div
-                  className={cls['frame']}
+                  className={cls.frame}
                   onClick={() => {
                     setOpen(false);
                     setSelected(item.name);
@@ -52,7 +52,7 @@ export const Dropdown = ({
                   }}
                 >
                   {/* <div className={cls['filters-checkbox']}><div className={cls['rectangle']}></div></div> */}
-                  <div className={cls['microsite']}>{item.name}</div>
+                  <div className={cls.microsite}>{item.name}</div>
                 </div>
               ))}
             </div>

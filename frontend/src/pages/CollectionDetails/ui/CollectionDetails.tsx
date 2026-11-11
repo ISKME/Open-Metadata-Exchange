@@ -290,6 +290,7 @@ export function CollectionDetails() {
           Object.keys(item.mapping).forEach((key) => {
             if (!changes[item.name]) changes[item.name] = {};
             if (item.mapping[key].length > 0) {
+              // eslint-disable-next-line prefer-destructuring -- the value comes from the API; [0] does not depend on it being iterable
               changes[item.name][key] = item.mapping[key][0];
             } else {
               changes[item.name][key] = null;

@@ -37,7 +37,7 @@ export function CKEditor4Field({
   const [value, setValue] = useState(content);
 
   if (googleDocsImportUrl) {
-    window['GOOGLE_DOCS_IMPORT_URL'] = googleDocsImportUrl;
+    window.GOOGLE_DOCS_IMPORT_URL = googleDocsImportUrl;
   }
 
   const config = {
