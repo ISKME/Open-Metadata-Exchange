@@ -21,10 +21,10 @@
 }
 
 .save-widget-section-title {
-  font-family: "Arvo", serif;
+  font-family: Arvo, serif;
   font-weight: normal;
   font-size: 1em;
-  margin: 0 0 10px 0;
+  margin: 0 0 10px;
 }
 
 .save-widget-section-content {
@@ -116,12 +116,12 @@ html[dir='rtl'] .save-widget-group-folders {
 }
 
 .save-widget-popup {
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
 }
 
 .save-widget-section-title,
 .save-widget-group-title {
-  font-family: "DINPro", sans-serif;
+  font-family: DINPro, sans-serif;
 }
 
 .educational-standards-widget .field {
@@ -211,56 +211,56 @@ html[dir='rtl'] .save-widget-group-folders {
 .educational-standards-widget input::-webkit-input-placeholder {
   color: #999999;
   font-size: 1em;
-  font-family: "Arvo", serif;
+  font-family: Arvo, serif;
   font-style: italic;
 }
 
 .educational-standards-widget input:-moz-placeholder {
   color: #999999;
   font-size: 1em;
-  font-family: "Arvo", serif;
+  font-family: Arvo, serif;
   font-style: italic;
 }
 
 .educational-standards-widget input::-moz-placeholder {
   color: #999999;
   font-size: 1em;
-  font-family: "Arvo", serif;
+  font-family: Arvo, serif;
   font-style: italic;
 }
 
 .educational-standards-widget input:-ms-input-placeholder {
   color: #999999;
   font-size: 1em;
-  font-family: "Arvo", serif;
+  font-family: Arvo, serif;
   font-style: italic;
 }
 
 .educational-standards-widget textarea::-webkit-input-placeholder {
   color: #999999;
   font-size: 1em;
-  font-family: "Arvo", serif;
+  font-family: Arvo, serif;
   font-style: italic;
 }
 
 .educational-standards-widget textarea:-moz-placeholder {
   color: #999999;
   font-size: 1em;
-  font-family: "Arvo", serif;
+  font-family: Arvo, serif;
   font-style: italic;
 }
 
 .educational-standards-widget textarea::-moz-placeholder {
   color: #999999;
   font-size: 1em;
-  font-family: "Arvo", serif;
+  font-family: Arvo, serif;
   font-style: italic;
 }
 
 .educational-standards-widget textarea:-ms-input-placeholder {
   color: #999999;
   font-size: 1em;
-  font-family: "Arvo", serif;
+  font-family: Arvo, serif;
   font-style: italic;
 }
 
@@ -533,7 +533,7 @@ html[dir='rtl'] .save-widget-group-folders {
 .align-tool h1,
 .align-tool h3 {
   text-align: center;
-  font-family: "Arvo", serif;
+  font-family: Arvo, serif;
   font-weight: normal;
 }
 
@@ -586,7 +586,7 @@ html[dir="rtl"] .align-tool .align-tags-ct {
   display: block;
   text-align: left;
   color: #204e64;
-  font-family: "Arvo", serif;
+  font-family: Arvo, serif;
   font-weight: 400;
   font-size: 13px;
 }
@@ -701,6 +701,7 @@ html[dir="rtl"] .align-tags-ct .align-tags li.user-tag {
   width: 14px;
   height: 14px;
   padding: 1px;
+
   // background: #FFFFFF url('/static/images/icon-delete-gray.png') no-repeat 50% 50%;
   font-size: 1em;
   font-weight: bold;
@@ -732,8 +733,8 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
   background-color: #FFFFFF;
   opacity: 0.7;
   border: none;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   z-index: -1;
 }
 
@@ -742,9 +743,9 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
   padding: 30px 50px 20px;
   border: 1px solid #ccc;
   overflow: auto;
-  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 4px 16px;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 4px 16px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 4px 16px;
+  -moz-box-shadow: rgb(0, 0, 0, 20%) 0 4px 16px;
+  -webkit-box-shadow: rgb(0, 0, 0, 20%) 0 4px 16px;
+  box-shadow: rgb(0, 0, 0, 20%) 0 4px 16px;
 }
 
 @media only screen and (max-width: 767px) {
@@ -773,6 +774,7 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
   left: 0;
   width: 100%;
   height: 100%;
+
   // background: black url('/static/images/ajax-loader.gif?24ec9458f6eb') no-repeat 50% 50%;
   opacity: 0.4;
 }
@@ -783,20 +785,20 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
 
 .case-field {
   display: inline;
-  font: 400 13px/21px "Roboto", sans-serif;
+  font: 400 13px/21px Roboto, sans-serif;
   color: #333333;
   padding-inline-start: 0;
   list-style-type: none;
 }
 
-.case-field:after {
+.case-field::after {
   content: "|";
   display: inline;
   margin-left: 4px;
   color: #d9d9da;
 }
 
-.case-field:last-child:after {
+.case-field:last-child::after {
   display: none;
 }
 
@@ -811,16 +813,16 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
   display: inline;
 }
 
-.case-field dd:after,
-.case-field li:after {
+.case-field dd::after,
+.case-field li::after {
   content: "/";
   display: inline;
   margin: 0;
   color: #d9d9da;
 }
 
-.case-field dd:last-child:after,
-.case-field li:last-child:after {
+.case-field dd:last-child::after,
+.case-field li:last-child::after {
   display: none;
 }
 
@@ -864,7 +866,7 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
 
 .atlas-tab-navigation .btn {
   font-size: 18px;
-  padding: 10px 19px 9px 19px;
+  padding: 10px 19px 9px;
 }
 
 .atlas-tab-navigation li {
@@ -876,8 +878,8 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
 }
 
 @media only screen and (max-width: 767px),
-only screen and (min-width: 768px) and (max-width: 979px),
-only screen and (min-width: 980px) and (max-width: 1199px) {
+  only screen and (min-width: 768px) and (max-width: 979px),
+  only screen and (min-width: 980px) and (max-width: 1199px) {
   .atlas-tab-navigation ul li {
     display: inline-block;
   }
@@ -949,7 +951,7 @@ only screen and (min-width: 980px) and (max-width: 1199px) {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 979px),
-only screen and (min-width: 980px) and (max-width: 1199px) {
+  only screen and (min-width: 980px) and (max-width: 1199px) {
   .atlas-tab-navigation.mod-case li {
     width: 50%;
     margin-bottom: 2px;
@@ -971,8 +973,8 @@ only screen and (min-width: 980px) and (max-width: 1199px) {
 }
 
 @media only screen and (max-width: 767px),
-only screen and (min-width: 768px) and (max-width: 979px),
-only screen and (min-width: 980px) and (max-width: 1199px) {
+  only screen and (min-width: 768px) and (max-width: 979px),
+  only screen and (min-width: 980px) and (max-width: 1199px) {
   .atlas-tab-navigation.mod-case a {
     margin-right: 3px;
     border-radius: 4px;
@@ -982,7 +984,7 @@ only screen and (min-width: 980px) and (max-width: 1199px) {
 
 .atlas-tab-navigation.mod-small .btn {
   font-size: 15px;
-  padding: 6px 10px 5px 10px;
+  padding: 6px 10px 5px;
 }
 
 .atlas-tab-navigation-full-width-wrapper {
@@ -1005,7 +1007,7 @@ only screen and (min-width: 980px) and (max-width: 1199px) {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 979px),
-only screen and (max-width: 767px) {
+  only screen and (max-width: 767px) {
   .atlas-tab-navigation-full-width ul {
     flex-wrap: wrap;
   }
@@ -1027,7 +1029,7 @@ only screen and (max-width: 767px) {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 979px),
-only screen and (max-width: 767px) {
+  only screen and (max-width: 767px) {
   .atlas-tab-navigation-full-width ul li {
     border-bottom-width: 1px;
   }
@@ -1091,7 +1093,7 @@ only screen and (max-width: 767px) {
 }
 
 .carousel-indicators li {
-  font-family: "DINPro", sans-serif;
+  font-family: DINPro, sans-serif;
   font-size: 14px;
   display: inline-block;
   width: auto;
@@ -1164,9 +1166,9 @@ only screen and (max-width: 767px) {
 }
 
 .hashmark-panel .tooltip-inner {
-  -moz-box-shadow: 1px 2px 8px 0 rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: 1px 2px 8px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 1px 2px 8px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 2px 8px 0 rgb(0, 0, 0, 20%);
+  -webkit-box-shadow: 1px 2px 8px 0 rgb(0, 0, 0, 20%);
+  box-shadow: 1px 2px 8px 0 rgb(0, 0, 0, 20%);
   color: #303e48;
   background-color: #ffffff;
 }
@@ -1200,7 +1202,7 @@ only screen and (max-width: 767px) {
 
 .notes-container .notes-section-title {
   margin: 0 0 10px;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 16px;
   font-weight: 400;
 }
@@ -1234,7 +1236,7 @@ only screen and (max-width: 767px) {
 .case-annotation {
   margin-top: 5px;
   padding: 14px 17px;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
 }
 
 .video-note i,
@@ -1268,7 +1270,7 @@ only screen and (max-width: 767px) {
 .annotation .text .author,
 .case-annotation .text .author {
   color: #56788f;
-  font-family: "DINPro", sans-serif;
+  font-family: DINPro, sans-serif;
   font-size: 14px;
   font-weight: 500;
 }
@@ -1294,7 +1296,7 @@ only screen and (max-width: 767px) {
 .note-list-item {
   padding: 14px 17px;
   background-color: #ffffff;
-  box-shadow: 1px 2px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 2px 8px 0 rgb(0, 0, 0, 20%);
 }
 
 .note-list-item .delta {
@@ -1430,7 +1432,7 @@ only screen and (max-width: 767px) {
 .permission-widget .permission-widget-title {
   margin: 0;
   padding: 0 6px 8px 0;
-  font: 500 14px/16px "Roboto", sans-serif;
+  font: 500 14px/16px Roboto, sans-serif;
 }
 
 @media only screen and (max-width: 767px) {
@@ -1541,7 +1543,7 @@ input[type="submit"] {
   border: 1px solid #e8e8e8;
   border-radius: 0;
   box-shadow: none;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 400;
   font-size: 14px;
   color: #333333;
@@ -1549,32 +1551,32 @@ input[type="submit"] {
 
 .form-control:focus {
   border-color: #66afe9;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgb(0, 0, 0, 7.5%), 0 0 8px rgb(102, 175, 233, 60%);
 }
 
 .form-control:-moz-placeholder {
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 400;
   font-size: 14px;
   color: #333333;
 }
 
 .form-control::-moz-placeholder {
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 400;
   font-size: 14px;
   color: #333333;
 }
 
 .form-control:-ms-input-placeholder {
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 400;
   font-size: 14px;
   color: #333333;
 }
 
 .form-control::-webkit-input-placeholder {
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 400;
   font-size: 14px;
   color: #333333;
@@ -1636,7 +1638,7 @@ textarea {
 .popup-form .help-block {
   margin-top: 0;
   margin-bottom: 5px;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 400;
   font-size: 10px;
   color: #333333;
@@ -1649,7 +1651,7 @@ textarea {
 
 .popup-form .has-error input[type="text"] {
   border-color: #a94442;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgb(0, 0, 0, 7.5%);
 }
 
 .popup-form .has-error .help-block {
@@ -1679,7 +1681,7 @@ textarea {
 
 .popup-form-inner {
   padding: 20px;
-  box-shadow: 1px 2px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 2px 8px 0 rgb(0, 0, 0, 20%);
   background-color: #ffffff;
 }
 
@@ -1734,7 +1736,7 @@ textarea {
 
 .case-annotation-form label,
 .case-annotation-form h3 {
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 14px;
   font-weight: normal;
 }
@@ -1896,6 +1898,7 @@ textarea {
   margin-left: -24px;
   width: 48px;
   height: 48px;
+
   // background: url('/static/newdesign/images/microsites/atlas/annotator-icon-sprite.png?24ec9458f6eb') no-repeat left top;
 }
 
@@ -1951,7 +1954,7 @@ textarea {
 }
 
 .annotator-widget .user-info span {
-  font-family: "DINPro", sans-serif;
+  font-family: DINPro, sans-serif;
   font-weight: 500;
   font-size: 16px;
   color: #666666;
@@ -2054,7 +2057,7 @@ textarea {
 
 .annotation-pointer .label {
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 15px;
   font-weight: bold;
   color: #56788f;
@@ -2203,7 +2206,7 @@ textarea {
 .ca-framework-tag-examples-title {
   margin-top: 0;
   padding: 0 10px;
-  font: 500 14px/18px "Roboto", sans-serif;
+  font: 500 14px/18px Roboto, sans-serif;
 }
 
 .case-annotation-status {
@@ -2225,7 +2228,7 @@ textarea {
 .case-annotation {
   padding: 10px 5px 10px 25px;
   border-top: 1px solid #e8e8e8;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 14px;
 }
 
@@ -2273,7 +2276,7 @@ textarea {
   width: 100%;
   margin-bottom: 5px;
   padding: 7px 10px 9px;
-  font: 500 16px/28px "DINPro", sans-serif;
+  font: 500 16px/28px DINPro, sans-serif;
   color: #fad000;
   text-align: left;
   border: none;
@@ -2316,7 +2319,7 @@ textarea {
 }
 
 @media only screen and (max-width: 767px),
-only screen and (min-width: 768px) and (max-width: 979px) {
+  only screen and (min-width: 768px) and (max-width: 979px) {
   .ca-chevron .fa {
     display: none;
   }
@@ -2336,7 +2339,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
 .formatted-text h2,
 .formatted-text h3,
 .formatted-text h4 {
-  font-family: "Arvo", serif;
+  font-family: Arvo, serif;
 }
 
 .formatted-text h1:first-child,
@@ -2470,7 +2473,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
 }
 
 .formatted-text {
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: normal;
 }
 
@@ -2479,7 +2482,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
 .formatted-text h3,
 .formatted-text h4 {
   font-weight: 500;
-  font-family: "DINPro", sans-serif;
+  font-family: DINPro, sans-serif;
 }
 
 .enactment-resource-list-item {
@@ -2496,7 +2499,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
   display: block;
   margin: 3px 0 15px -1px;
   color: #56788f;
-  font: 500 21px/21px "DINPro", sans-serif;
+  font: 500 21px/21px DINPro, sans-serif;
 }
 
 .enactment-resource-list-item-download-link {
@@ -2513,14 +2516,16 @@ only screen and (min-width: 768px) and (max-width: 979px) {
 
 .enactment-resource-list-item-description {
   margin-bottom: 10px;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: normal;
   color: #333333;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   overflow-wrap: break-word;
+
   p {
     margin-bottom: 1em;
   }
+
   ol {
     list-style-position: outside;
     margin-left: 3em;
@@ -2582,7 +2587,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
   display: inline-block;
   margin-top: 3px;
   color: #303e48;
-  font-family: "DINPro", sans-serif;
+  font-family: DINPro, sans-serif;
   font-size: 16px;
 }
 
@@ -2647,7 +2652,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
 
 .case .description {
   color: #333333;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 400;
 }
 
@@ -2669,7 +2674,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
 .case .copyright-comment {
   margin-top: 16px;
   margin-bottom: 17px;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 12px;
   font-weight: 400;
 }
@@ -2684,7 +2689,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
 
 .case .tab-content .text {
   line-height: 24px;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 14px;
   font-weight: 400;
 }
@@ -2693,7 +2698,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
 .case-link {
   padding: 0;
   color: #56788f;
-  font-family: "DINPro", sans-serif;
+  font-family: DINPro, sans-serif;
   font-size: 15px;
   text-align: left;
   border: 0;
@@ -2792,7 +2797,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
 }
 
 .popover.bottom>.arrow,
-.popover.bottom>.arrow:after {
+.popover.bottom>.arrow::after {
   display: none;
   border: 0;
 }
@@ -2828,7 +2833,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
 
 .align-tool {
   border-top: 1px solid #e8e8e8;
-  box-shadow: 1px 2px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 2px 8px 0 rgb(0, 0, 0, 20%);
   background-color: #ffffff;
   padding: 20px;
 }
@@ -2842,7 +2847,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
 .align-tool label,
 .align-tool h3 {
   color: #303e48;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 16px;
   font-weight: normal;
 }
@@ -2952,6 +2957,7 @@ only screen and (min-width: 768px) and (max-width: 979px) {
 
 article {
   padding: 15px 0;
+
   .resourceArticleTitle {
     align-items: center;
     display: flex;
@@ -2965,15 +2971,18 @@ article {
   color: #333333;
   cursor: default;
 }
+
 .enactment-resource-list-item-separator {
   font-size: 18px;
   color: #333333;
   cursor: default;
 }
+
 .enactment-resource-list-item-download-link {
   &:hover {
     color: #666666;
   }
+
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;

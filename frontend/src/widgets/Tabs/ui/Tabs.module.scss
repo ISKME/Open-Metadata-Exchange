@@ -10,8 +10,9 @@
   font-family: 'Open Sans';
 
   @media (max-width: 980px) {
-    //overflow-x: auto;
+    // overflow-x: auto;
     padding: 0 16px;
+
     .tab {
       min-width: 225px;
     }
@@ -52,6 +53,7 @@
   left: 0;
   height: 4px;
   background-color: #1747a1;
+
   // transition: transform 0.3s, width 0.3s;
   @media screen and (max-width: 980px) {
     display: none;
@@ -106,7 +108,7 @@
 
   .action {
     display: flex;
-    padding: 16px 0px;
+    padding: 16px 0;
     flex-direction: column;
     justify-content: center;
     align-items: center;

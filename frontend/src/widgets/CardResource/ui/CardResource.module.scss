@@ -13,15 +13,16 @@
   margin-top: 8px;
 
   li {
-    font: normal 14px / 21px "Roboto", sans-serif;
-    color: rgb(51, 51, 51);
+    font: normal 14px / 21px Roboto, sans-serif;
+    color: rgb(51 51 51);
   }
 }
 
 .downloadButton {
   &:hover {
-    color: #666666;
+    color: #666;
   }
+
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -40,6 +41,7 @@
   -ms-user-select: none;
   user-select: none;
   color: #56788f;
+
   i {
     margin-left: 6px;
     font-family: FontAwesome !important;
