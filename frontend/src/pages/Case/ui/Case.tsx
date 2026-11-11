@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 
 // @ts-nocheck
-import { useState, useEffect, useRef } from 'react';
+import {
+  Fragment, useState, useEffect, useRef,
+} from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import GlobalStyles from '@mui/material/GlobalStyles';
@@ -87,6 +89,12 @@ let tempTime;
 let tempEndTime = null;
 let textRange = {};
 let loadedPlayer;
+// The rows in the tag form can be added and removed, so each row gets its own key
+let lastTagUid = 0;
+const withUid = (tag) => {
+  lastTagUid += 1;
+  return { ...tag, uid: lastTagUid };
+};
 
 function exampleLabel(example) {
   if (example.scope === 'video') {
@@ -118,7 +126,7 @@ const FilterInnerItems = ({
       {items.map((item, index) => (
         <Accordion
           sx={accordionStyles.sub}
-          key={`panel${name}-${item.full_code}-${index}`}
+          key={`panel${name}-${item.full_code}`}
         >
           <AccordionSummary
             expandIcon={
@@ -204,6 +212,7 @@ const FilterInnerItems = ({
                         : getVideoSegments(list.ranges)
                       ).map((segment, segmentIndex) => (
                         <li
+                          // eslint-disable-next-line react/no-array-index-key -- the segments of one note, in time order
                           key={`segment${list.id}-${segmentIndex}`}
                           onClick={() => onSelect(videoSegmentToAnnotation(segment))}
                         >
@@ -255,7 +264,7 @@ const FilterItems = ({
           expanded={expanded === `panel${index}`}
           onChange={handleChange(`panel${index}`)}
           sx={accordionStyles.accordion}
-          key={`panel${index}`}
+          key={`panel${item.name}`}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -311,8 +320,8 @@ function Groups({
         Only Me
       </div>
       <Typography style={{ margin: '4px 0' }}>Share With</Typography>
-      {options.map((option, index) => (
-        <div key={index}>
+      {options.map((option) => (
+        <div key={option.id}>
           <div
             style={{
               background: selected === option.id ? 'rgba(0, 0, 0, .1)' : '',
@@ -633,14 +642,14 @@ function AlignDialog({ onClose, open, onSelect = (tag) => {} }) {
 function TagForm({ videos, edit = null, onClose = () => {} }) {
   const { id } = useParams();
   const videoTag = { check: false, start: '', end: '' };
-  const [videoTags, setVideoTags] = useState([videoTag]);
-  const handleAdd = () => setVideoTags([...videoTags, videoTag]);
+  const [videoTags, setVideoTags] = useState(() => [withUid(videoTag)]);
+  const handleAdd = () => setVideoTags([...videoTags, withUid(videoTag)]);
   const handleDel = (i) => setVideoTags(videoTags.filter((_, j) => j !== i));
   const handleMod = (i, k, v) => setVideoTags(videoTags.map((o, j) => (j !== i ? o : { ...o, [k]: v })));
   //
   const pdfTag = { check: false, start: '', end: '' };
-  const [pdfTags, setPdfTags] = useState([pdfTag]);
-  const handleAddPdf = () => setPdfTags([...pdfTags, pdfTag]);
+  const [pdfTags, setPdfTags] = useState(() => [withUid(pdfTag)]);
+  const handleAddPdf = () => setPdfTags([...pdfTags, withUid(pdfTag)]);
   const handleDelPdf = (i) => setPdfTags(pdfTags.filter((_, j) => j !== i));
   const handleModPdf = (i, k, v) => setPdfTags(pdfTags.map((o, j) => (j !== i ? o : { ...o, [k]: v })));
   //
@@ -648,9 +657,9 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
   const [selectedTag, setSelectedTag] = useState({});
   //
   const text = { content: '' };
-  const [texts, setTexts] = useState([text]);
-  const handleText = (i, v) => setTexts(texts.map((o, j) => (i !== j ? o : { content: v })));
-  const handleAddText = () => setTexts([...texts, text]);
+  const [texts, setTexts] = useState(() => [withUid(text)]);
+  const handleText = (i, v) => setTexts(texts.map((o, j) => (i !== j ? o : { content: v, uid: o.uid })));
+  const handleAddText = () => setTexts([...texts, withUid(text)]);
   const handleDelText = (i) => setTexts(texts.filter((_, j) => j !== i));
   //
   const [rationale, setRationale] = useState('');
@@ -689,9 +698,9 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
       if (!videosTags.length) videosTags.push(videoTag);
       if (!pdfTags.length) pdfTags.push(pdfTag);
       if (!texts.length) texts.push(text);
-      setVideoTags(videosTags);
-      setPdfTags(pdfTags);
-      setTexts(texts);
+      setVideoTags(videosTags.map(withUid));
+      setPdfTags(pdfTags.map(withUid));
+      setTexts(texts.map(withUid));
       setSelectedTag(alignment);
     }
   }, [edit]);
@@ -806,8 +815,8 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
               </FormControl>
             </div>
             {videoTags.map((item, index) => (
-              <>
-                <div key={index}>
+              <Fragment key={item.uid}>
+                <div>
                   <FormControlLabel
                     label="Entire Video"
                     control={(
@@ -820,7 +829,6 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                   />
                 </div>
                 <div
-                  key={index}
                   style={{
                     display: 'flex',
                     gap: '8px',
@@ -854,14 +862,14 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                     </IconButton>
                   )}
                 </div>
-              </>
+              </Fragment>
             ))}
             <div>
               <Button onClick={handleAdd}>+ Add Video Tag</Button>
             </div>
             {pdfTags.map((item, index) => (
-              <>
-                <div key={index}>
+              <Fragment key={item.uid}>
+                <div>
                   <FormControlLabel
                     label="Entire Instructional Materials PDF"
                     control={(
@@ -874,7 +882,6 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                   />
                 </div>
                 <div
-                  key={index}
                   style={{
                     display: 'flex',
                     gap: '8px',
@@ -912,14 +919,14 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                     </IconButton>
                   )}
                 </div>
-              </>
+              </Fragment>
             ))}
             <div>
               <Button onClick={handleAddPdf}>+ Add Pages</Button>
             </div>
             {texts.map((item, index) => (
               <div
-                key={index}
+                key={item.uid}
                 style={{ display: 'flex', alignItems: 'flex-start' }}
               >
                 <TextField
@@ -1631,6 +1638,7 @@ export function Case() {
             <div style={{ marginBottom: '8px' }} id="playerContainer">
               {videos.map((item, index) => (
                 <Button
+                  // eslint-disable-next-line react/no-array-index-key -- the videos of the case are only shown, in a fixed order
                   key={index}
                   variant="contained"
                   sx={{
@@ -1697,6 +1705,7 @@ export function Case() {
                 <li className="hashmark-panel js-hashmark-panel active">
                   {notes.map((item, index) => (
                     <div
+                      // eslint-disable-next-line react/no-array-index-key -- the note markers are rebuilt as a whole on every change
                       key={index}
                       style={{ left: item.position }}
                       className="hashmark-link js-hashmark tooltip"
@@ -1852,6 +1861,7 @@ export function Case() {
               {commentary?.match(/<(.+)>.*?<\/\1>/g)?.map((item, index) => {
                 if (item.startsWith('<p')) {
                   return (
+                    // eslint-disable-next-line react/no-array-index-key -- the paragraphs of the commentary, in document order
                     <div key={`paragraph${index}`}>
                       <div
                         style={{ flex: 1 }}
@@ -1966,6 +1976,7 @@ export function Case() {
                 }
                 return (
                   <div
+                    // eslint-disable-next-line react/no-array-index-key -- the paragraphs of the commentary, in document order
                     key={`heading${index}`}
                     dangerouslySetInnerHTML={{ __html: item }}
                   />

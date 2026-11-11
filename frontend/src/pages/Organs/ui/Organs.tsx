@@ -168,7 +168,7 @@ export function Organs() {
               {menuItems.map((item, index) => (
                 <MenuItem
                   onClick={() => handleMenuClick(index)}
-                  key={index}
+                  key={item}
                   sx={{
                     backgroundColor: index === selectedMenu ? 'rgba(0, 0, 0, 0.1)' : '',
                     borderBottom: '1px solid #e8e8e8',

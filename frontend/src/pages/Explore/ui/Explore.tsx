@@ -76,6 +76,7 @@ export function Explore({ className }: ExploreProps) {
       </Stack>
       {/* <Divider sx={{ mb: 4 }} /> */}
       {sections.map((section, index) => (
+        // eslint-disable-next-line react/no-array-index-key -- the sections of the page are fixed
         <Box key={index} sx={{ mb: 5 }}>
           <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
             <Typography variant="h5" fontWeight={600}>{section.name}</Typography>

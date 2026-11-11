@@ -1180,6 +1180,7 @@ export default function ({
                     </thead>
                     <tbody>
                       {paginatedData.map((row, i) => (
+                        // eslint-disable-next-line react/no-array-index-key -- rows of the current page; they have no id of their own
                         <tr key={i}>
                           <td>{row?.date || ''}</td>
                           <td>{row?.eventCategory || '—'}</td>
@@ -1228,6 +1229,7 @@ export default function ({
 
                         if (!cols) {
                           return (
+                            // eslint-disable-next-line react/no-array-index-key -- rows of the current page; they have no id of their own
                             <tr key={i}>
                               <td style={{ width: '70%' }}>
                                 {item.url ? (
@@ -1250,6 +1252,7 @@ export default function ({
                         }
 
                         return (
+                          // eslint-disable-next-line react/no-array-index-key -- rows of the current page; they have no id of their own
                           <tr key={i}>
                             {cols.map((c) => {
                               const raw = item?.[c.key];

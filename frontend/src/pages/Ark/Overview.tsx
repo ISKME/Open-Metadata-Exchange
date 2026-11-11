@@ -243,13 +243,13 @@ function Details({
         </Box>} */}
           <div>
             {standards.map((standard, i) => (
-              <Accordion key={`panel${i}`} sx={styles.accordion}>
+              <Accordion key={`panel${standard.name}`} sx={styles.accordion}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={styles.summary}>
                   <Typography>{standard.name}</Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={{ padding: '8px 0 0' }}>
                   {standard.children?.map((item, j) => (
-                    <Accordion key={`panel${i}-${j}`}>
+                    <Accordion key={`panel${standard.name}-${item.name}`}>
                       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                         <Typography>{item.name}</Typography>
                       </AccordionSummary>
@@ -266,6 +266,7 @@ function Details({
         <TabPanel value={tab} index={2}>
           <Box className={cls.resourceLibrary}>
             {sections.map((section, idx) => section.attachments.map((item, i) => (
+              // eslint-disable-next-line react/no-array-index-key -- the attachments are only shown, in the order of the API
               <AttachmentButton key={i} url={item.url} title={item.title} />
             )))}
           </Box>
@@ -568,6 +569,7 @@ export default function ArkOverview() {
           <Box sx={{ fontFamily: 'Inter', lineHeight: '26px' }} className={cls.sections}>
             {sections.map((section, idx) => (
               <Card
+                // eslint-disable-next-line react/no-array-index-key -- the sections are also addressed by position (section-N)
                 key={idx}
                 id={`section-${idx}`}
                 sx={{
@@ -581,6 +583,7 @@ export default function ArkOverview() {
                   <div>{ makeVideoContent(section.content) }</div>
                   {!!section.attachments?.length && (
                     <div className={cls.attachments}>
+                      {/* eslint-disable-next-line react/no-array-index-key -- the attachments are only shown, in the order of the API */}
                       {section.attachments.map((item, i) => <AttachmentButton key={i} url={item.url} title={item.title} />)}
                     </div>
                   )}

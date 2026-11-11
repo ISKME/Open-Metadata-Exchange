@@ -47,9 +47,11 @@ function StarRating({ rate }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       {[...Array(full)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
         <StarIcon color="success" key={i} />
       ))}
       {[...Array(empty)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
         <StarBorderIcon color="disabled" key={i} />
       ))}
     </Box>
@@ -81,6 +83,7 @@ function HistoryModal({ open, onClose, history }) {
         )}
 
         {history?.map((item, idx) => (
+          // eslint-disable-next-line react/no-array-index-key -- the history is only shown, in the order of the API
           <Box key={idx} mb={2}>
             <Typography variant="body2" color="text.secondary">
               {item?.change_type ? <b>{item.change_type}</b> : <b>update</b>}
@@ -556,6 +559,7 @@ export default function ArkCourse() {
               <Box mt={1} sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                 {keywords.map((item, idx) => (
                   <Chip
+                    // eslint-disable-next-line react/no-array-index-key -- keywords can repeat and are only shown
                     key={idx}
                     label={item}
                     variant="outlined"

@@ -47,6 +47,7 @@ export default function ({
           }}
           >
             {item.widgets.map((widget, i) => (
+              // eslint-disable-next-line react/no-array-index-key -- the widgets of a menu item are only shown, in a fixed order
               <li key={i}>
                 <NavLink to={widget.link || `${item.slug}/${widget.id}`} style={{ fontWeight: widgetId === widget.id ? 'bold' : 'normal', color: 'black', fontSize: '14px' }}>
                   {widget.title}

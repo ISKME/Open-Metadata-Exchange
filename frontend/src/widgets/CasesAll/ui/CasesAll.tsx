@@ -60,6 +60,7 @@ const FilterInnerItems = ({ name, items = [] }) => (
     {items.map((item, index) => (
       <Accordion
         sx={styles.sub}
+        // eslint-disable-next-line react/no-array-index-key -- the filter list is only shown, in the order of the API
         key={`panel${name}-${index}`}
       >
         <AccordionSummary
@@ -77,6 +78,7 @@ const FilterInnerItems = ({ name, items = [] }) => (
         {item.children && item.children.length && (
           <AccordionDetails>
             {item.children && item.children.map((child, j) => (
+              // eslint-disable-next-line react/no-array-index-key -- the filter list is only shown, in the order of the API
               <Typography sx={{ color: '#56788f', padding: '4px 0', cursor: 'pointer' }} key={`panel${name}-${index}-${j}`}>
                 {item.title}
                 {' '}
@@ -104,6 +106,7 @@ const FilterItems = ({ items = [] }) => {
           expanded={expanded === `panel${index}`}
           onChange={handleChange(`panel${index}`)}
           sx={styles.accordion}
+          // eslint-disable-next-line react/no-array-index-key -- the open panel is tracked by position too
           key={`panel${index}`}
         >
           <AccordionSummary
@@ -173,6 +176,7 @@ const Subject = ({ data = {}, onSelect = () => {}, tempTopics = [] }) => {
                 cursor: 'pointer',
                 backgroundColor: item.isSelected ? '#ececec' : '',
               }}
+              // eslint-disable-next-line react/no-array-index-key -- the filter list is only shown, in the order of the API
               key={`panel${data.slug}-${data.name}-${j}`}
               onClick={() => onSelect(item)}
             >

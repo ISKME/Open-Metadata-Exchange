@@ -29,6 +29,7 @@ function StarRating({ rating = 0 }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       {[...Array(full)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
         <svg viewBox="0 0 24 24" width="24" height="24" key={`full-${i}`} style={{ fill: '#6f983d' }}>
           <path d="M12 .587l3.668 7.571L24 9.423l-6 5.847 1.416 8.256L12 18.902 4.584 23.526 6 15.27 0 9.423l8.332-1.265L12 .587z" />
         </svg>
@@ -65,6 +66,7 @@ function StarRating({ rating = 0 }) {
         </Box>
       )}
       {[...Array(empty)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
         <svg viewBox="0 0 24 24" width="24" height="24" key={`empty-${i}`} style={{ fill: '#ccc' }}>
           <path d="M12 .587l3.668 7.571L24 9.423l-6 5.847 1.416 8.256L12 18.902 4.584 23.526 6 15.27 0 9.423l8.332-1.265L12 .587z" />
         </svg>
@@ -78,6 +80,7 @@ function MetaData({ metadata }) {
   return (
     <Box sx={{ mt: 1 }}>
       {metadata.map((item, idx) => (item.label ? (
+        // eslint-disable-next-line react/no-array-index-key -- the metadata of one card is only shown, in a fixed order
         <Typography key={idx} variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
           <strong>
             {item.label}

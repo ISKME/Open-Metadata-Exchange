@@ -40,7 +40,7 @@ export function My() {
       <Box sx={{ borderBottom: 1, padding: '0 10%', borderColor: 'divider' }}>
         <Tabs value={tab} onChange={handleChange}>
           {tabs.map((tab, i) => (
-            <Tab key={i} label={`MY ${tab.toUpperCase()}`} id={`tab-${i}`} />
+            <Tab key={tab} label={`MY ${tab.toUpperCase()}`} id={`tab-${i}`} />
           ))}
         </Tabs>
       </Box>

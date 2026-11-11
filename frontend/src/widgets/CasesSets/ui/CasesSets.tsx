@@ -26,12 +26,12 @@ export function CasesSets() {
           ['PBS Science Courses', 40],
           ['Poetry Test Set', 13],
           ['Test API', 4],
-        ].map((child, j) => (
+        ].map((child) => (
           <Typography
             sx={{
               color: '#56788f', padding: '4px 0', cursor: 'pointer', borderBottom: '1px solid #e8e8e8',
             }}
-            key={j}
+            key={child[0]}
           >
             {child[0]}
             {' '}

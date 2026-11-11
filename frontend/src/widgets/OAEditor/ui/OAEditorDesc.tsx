@@ -105,6 +105,7 @@ export function OAEditorDesc({ lesson, videoUploadStrategy = undefined }) {
               />
             </div>
             {errors.teacher_overview && errors.teacher_overview.length > 0 && errors.teacher_overview.map((error, index) => (
+              // eslint-disable-next-line react/no-array-index-key -- the error messages are only shown, in the order the server sends them
               <p className="form-error help-block" id={`error_id_teacher_overview_${index}`} key={index}><strong>{error}</strong></p>
             ))}
           </div>

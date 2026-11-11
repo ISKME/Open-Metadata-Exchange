@@ -115,9 +115,11 @@ function StarRating({ rate }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       {[...Array(full)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
         <StarIcon color="success" key={i} />
       ))}
       {[...Array(empty)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
         <StarBorderIcon color="disabled" key={i} />
       ))}
     </Box>
@@ -142,6 +144,7 @@ function HistoryModal({ open, onClose, history }) {
           Version History
         </Typography>
         {history.map((item, idx) => (
+          // eslint-disable-next-line react/no-array-index-key -- the history is only shown, in the order of the API
           <Box key={idx} mb={2}>
             {item.change_type === 'remixed_from' && (
               <>
@@ -783,6 +786,7 @@ export default function ArkLesson() {
             >
               {keywords.map((item, idx) => (
                 <Chip
+                  // eslint-disable-next-line react/no-array-index-key -- keywords can repeat and are only shown
                   key={idx}
                   label={item}
                   variant="outlined"
@@ -930,6 +934,7 @@ export default function ArkLesson() {
           >
             {sections.map((section, idx) => (
               <Card
+                // eslint-disable-next-line react/no-array-index-key -- the sections are also addressed by position (section-N)
                 key={idx}
                 id={`section-${idx}`}
                 sx={{
@@ -952,6 +957,7 @@ export default function ArkLesson() {
                     <div className={cls.attachments}>
                       {section.attachments.map((item, i) => (
                         <AttachmentButton
+                          // eslint-disable-next-line react/no-array-index-key -- the attachments are only shown, in the order of the API
                           key={i}
                           url={item.url}
                           title={item.title}

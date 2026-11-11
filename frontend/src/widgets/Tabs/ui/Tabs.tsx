@@ -114,6 +114,7 @@ export const Tabs = memo(({
       <div className={cls.tabs} ref={tabsRef}>
         {tabs.map((tab, index) => (
           <div
+            // eslint-disable-next-line react/no-array-index-key -- the tabs come from props and the active tab is tracked by position too
             key={index}
             className={`${cls.tab} ${activeTab === index ? cls.active : ''}`}
             onClick={() => {
@@ -146,6 +147,7 @@ export const Tabs = memo(({
                   setActiveSubTab(index);
                   onChange(activeTab, index);
                 }}
+                // eslint-disable-next-line react/no-array-index-key -- the tabs come from props and the active tab is tracked by position too
                 key={index}
               >
                 <div className={cls.actionBg} />

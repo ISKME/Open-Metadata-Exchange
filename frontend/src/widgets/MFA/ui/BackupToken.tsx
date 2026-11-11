@@ -357,8 +357,9 @@ function MFATokenList({ tokens }) {
   return (
     <Grid container spacing={2}>
       {tokens.map((item, index) => (
+        // eslint-disable-next-line react/no-array-index-key -- the backup codes are shown once as a fixed list
         <Grid item xs={12} sm={6} key={index}>
-          <MFAToken key={index} token={item} index={index} />
+          <MFAToken token={item} index={index} />
         </Grid>
       ))}
     </Grid>

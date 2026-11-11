@@ -280,8 +280,8 @@ export function SearchGrid({
                     </div>
                     <div className={cls.divider} />
                     <div className={cls.values} style={{ height: '172px' }}>
-                      {tenants.filter((item) => item.name && item.name.toLowerCase().includes(tenantFilter)).map((item, i) => (
-                        <div className={cls['div-2']} id="subjects" key={`b-${i}`}>
+                      {tenants.filter((item) => item.name && item.name.toLowerCase().includes(tenantFilter)).map((item) => (
+                        <div className={cls['div-2']} id="subjects" key={item.slug}>
                           <Check id={item.slug} label="" checked={tenantCheckStates.find((check) => check.id === item.slug)?.checked} onChange={() => handleTenantsCheckChange(item.slug)} />
                           <div className={cls['microsite-2']}>{item.name}</div>
                         </div>
@@ -301,8 +301,8 @@ export function SearchGrid({
                   </div>
                   <div className={cls.divider} />
                   <div className={cls.values} style={{ height: '172px' }}>
-                    {subjects.filter((item) => item.name && item.name.toLowerCase().includes(subjectFilter)).map((item, i) => (
-                      <div className={cls['div-2']} id="subjects" key={`c-${i}`}>
+                    {subjects.filter((item) => item.name && item.name.toLowerCase().includes(subjectFilter)).map((item) => (
+                      <div className={cls['div-2']} id="subjects" key={item.slug}>
                         <Check id={item.slug} label="" checked={subjectCheckStates.find((check) => check.id === item.slug)?.checked} onChange={() => handleSubjectsCheckChange(item.slug)} />
                         <div className={cls['microsite-2']}>{item.name}</div>
                       </div>
@@ -322,8 +322,8 @@ export function SearchGrid({
                   <div className={cls.divider} />
                   <div className={cls['values-wrapper']}>
                     <div className={cls.values} style={{ height: '172px' }}>
-                      {levels.filter((item) => item.name && item.name.toLowerCase().includes(levelFilter)).map((item, i) => (
-                        <div className={cls['div-2']} id="levels" key={`a-${i}`}>
+                      {levels.filter((item) => item.name && item.name.toLowerCase().includes(levelFilter)).map((item) => (
+                        <div className={cls['div-2']} id="levels" key={item.slug}>
                           <Check id={item.slug} label="" checked={levelCheckStates.find((check) => check.id === item.slug)?.checked} onChange={() => handleLevelsCheckChange(item.slug)} />
                           <div className={cls['microsite-2']}>{item.name}</div>
                         </div>

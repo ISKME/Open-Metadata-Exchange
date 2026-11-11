@@ -65,9 +65,11 @@ export function CardResource({
         </div>
         <div className={cls['case-fields']}>
           {items.map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key -- the fields of the card are only shown, in a fixed order
             <ul className={cls['case-field']} key={index}>
               <span>{item.label}</span>
               {item.items.map((innerItem, itemIndex) => (
+                // eslint-disable-next-line react/no-array-index-key -- the fields of the card are only shown, in a fixed order
                 <li key={itemIndex}>
                   <span>{innerItem.name}</span>
                 </li>
