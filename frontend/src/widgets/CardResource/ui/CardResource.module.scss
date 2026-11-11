@@ -43,6 +43,7 @@
 
   i {
     margin-left: 6px;
+    // stylelint-disable-next-line font-family-no-missing-generic-family-keyword -- an icon font, a generic fallback would show other glyphs
     font-family: FontAwesome !important;
   }
 }

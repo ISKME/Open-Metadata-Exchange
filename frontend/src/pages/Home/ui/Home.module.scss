@@ -204,7 +204,7 @@
   background: #054DD1;
 
   p {
-    font-family: "Open Sans";
+    font-family: "Open Sans", sans-serif;
     font-size: 24px;
     font-style: normal;
     font-weight: 600;
@@ -243,7 +243,7 @@
       padding: 24px;
 
       h5 {
-        font-family: "Open Sans";
+        font-family: "Open Sans", sans-serif;
         font-size: 24px;
         font-style: normal;
         font-weight: 700;
@@ -251,7 +251,7 @@
       }
 
       p {
-        font-family: "Open Sans";
+        font-family: "Open Sans", sans-serif;
         font-size: 16px;
         font-style: normal;
         font-weight: 600;
@@ -277,7 +277,7 @@
         cursor: pointer;
 
         span {
-          font-family: "Open Sans";
+          font-family: "Open Sans", sans-serif;
           font-size: 16px;
           font-style: normal;
           font-weight: 600;
@@ -302,7 +302,7 @@
         align-self: stretch;
 
         span {
-          font-family: "Open Sans";
+          font-family: "Open Sans", sans-serif;
           font-size: 16px;
           font-weight: 800;
           line-height: 24px;
@@ -327,7 +327,7 @@
 
   span {
     color: #FCFCFC;
-    font-family: "Open Sans";
+    font-family: "Open Sans", sans-serif;
     font-size: 24px;
     font-style: normal;
     font-weight: 600;
@@ -345,7 +345,7 @@
     background: transparent;
     color: #FCFCFC;
     text-align: center;
-    font-family: "Open Sans";
+    font-family: "Open Sans", sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
@@ -382,7 +382,7 @@
   overflow: hidden;
   position: relative;
   width: 900px;
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
 }
 
 .list-dialog .content1 {
@@ -509,7 +509,7 @@
 
     &::placeholder {
       color: black;
-      font-family: "Open Sans";
+      font-family: "Open Sans", sans-serif;
       font-size: 16px;
       font-style: normal;
     }
@@ -699,7 +699,7 @@
 
 .list-dialog .label-text {
   color: #fbfbfb;
-  font-family: "Open Sans-Bold", Helvetica;
+  font-family: "Open Sans-Bold", Helvetica, sans-serif;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.15px;
@@ -713,7 +713,7 @@
 
 .list-dialog .label-text-2 {
   color: #1e1e1e;
-  font-family: "Open Sans-SemiBold", Helvetica;
+  font-family: "Open Sans-SemiBold", Helvetica, sans-serif;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.5px;

@@ -8,7 +8,7 @@
   align-self: stretch;
   background: #FFF;
   margin-top: 56px;
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
 
   .frame {
     align-items: flex-start;
@@ -167,7 +167,7 @@
 
   .head {
     color: black;
-    font-family: "Open Sans";
+    font-family: "Open Sans", sans-serif;
     font-size: 24px;
     left: 0;
     line-height: 32px;
@@ -178,7 +178,7 @@
 
   .subhead {
     color: black;
-    font-family: "Open Sans", Helvetica;
+    font-family: "Open Sans", Helvetica, sans-serif;
     font-size: 14px;
     font-weight: 500;
     left: 0;
@@ -215,7 +215,7 @@
 
   .label-text {
     color: #fbfbfb;
-    font-family: "Open Sans", Helvetica;
+    font-family: "Open Sans", Helvetica, sans-serif;
     font-size: 16px;
     font-weight: 700;
     letter-spacing: 0.15px;
@@ -230,7 +230,7 @@
 
   .text-wrapper {
     color: #1e1e1e;
-    font-family: "Open Sans", Helvetica;
+    font-family: "Open Sans", Helvetica, sans-serif;
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0.25px;
