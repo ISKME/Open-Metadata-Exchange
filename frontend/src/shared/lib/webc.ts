@@ -1,7 +1,8 @@
 import { createElement } from 'react';
+import type { FC } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 
-export default function defineWebComponent(name: string, ReactComponent: React.FC<any>, attrs: string[], props: (wc: HTMLElement) => any) {
+export default function defineWebComponent(name: string, ReactComponent: FC<any>, attrs: string[], props: (wc: HTMLElement) => any) {
   class WebComponent extends HTMLElement {
     private mountPoint: Element | ShadowRoot;
 
