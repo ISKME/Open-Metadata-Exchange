@@ -119,6 +119,7 @@ export function OASection({
       </div>
       <div className="task-preview">
         <h1 className="lesson-task-title">
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid -- focusable and works with Enter; the lesson editor CSS styles this header as a link */}
           <a href="#" onClick={toggleOpened}>
             <i className="fa fa-chevron-down">&nbsp;</i>
             <i className="fa fa-chevron-up">&nbsp;</i>

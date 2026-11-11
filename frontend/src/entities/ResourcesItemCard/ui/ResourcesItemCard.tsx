@@ -5,6 +5,7 @@ import AccessibleIcon from '../../../shared/assets/icons/accessible.svg';
 import FullCourseIcon from '../../../shared/assets/icons/full-course.svg';
 import RightsIcon from '../../../shared/assets/icons/rights.svg';
 import InfoIcon from '../../../shared/assets/icons/info.svg';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 interface CollectionItemCardProps {
   className?: string;
@@ -157,7 +158,7 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
             {see ? resource.abstract : (`${resource.abstract?.split(' ')?.slice(0, 20)?.join(' ')}...`)}
             {' '}
           </span>
-          {!see && <span className={cls.overview_link} onClick={() => setSee(true)}>Read More</span>}
+          {!see && <span role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls.overview_link} onClick={() => setSee(true)}>Read More</span>}
         </p>
       </div>
 

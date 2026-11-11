@@ -9,6 +9,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { CButton } from 'pages/Case/ui/components';
 import req from 'shared/lib/req';
 import cls from './Folders.module.scss';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 export function Folders({ ids = [] }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -260,6 +261,9 @@ export function Folders({ ids = [] }) {
                 <div className={cls.itemsWrapper}>
                   {folders.userFolders?.map((folder) => (
                     <div
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={clickOnEnterOrSpace}
                       className={cls.folder}
                       key={folder.id}
                       onClick={(e) => handleSaveToFolder(
@@ -273,6 +277,9 @@ export function Folders({ ids = [] }) {
                       </Typography>
                       {folder.subfolders?.map((subfolder) => (
                         <div
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={clickOnEnterOrSpace}
                           key={subfolder.id}
                           onClick={(e) => handleSaveToFolder(
                             `${subfolder.content_type_id}.${subfolder.id}`,
@@ -299,6 +306,9 @@ export function Folders({ ids = [] }) {
                 <div className={cls.itemsWrapper}>
                   {folders.groupFolders?.map((group) => (
                     <div
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={clickOnEnterOrSpace}
                       key={group.id}
                       onClick={(e) => handleSaveToFolder(
                         `${group.default_folder.content_type_id}.${group.default_folder.id}`,
@@ -308,13 +318,16 @@ export function Folders({ ids = [] }) {
                       className={cls.folder}
                     >
                       <div className={cls.groupNameWrapper}>
-                        <img src={group.cover} alt="photo" />
+                        <img src={group.cover} alt="" />
                         <Typography className={cls.groupNameTitle}>
                           {group.title}
                         </Typography>
                       </div>
                       {group.folders?.map((folder) => (
                         <div
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={clickOnEnterOrSpace}
                           className={cls.folder}
                           key={folder.id}
                           onClick={(e) => handleSaveToFolder(
@@ -328,6 +341,9 @@ export function Folders({ ids = [] }) {
                           </Typography>
                           {folder.subfolders?.map((subfolder) => (
                             <div
+                              role="button"
+                              tabIndex={0}
+                              onKeyDown={clickOnEnterOrSpace}
                               key={subfolder.id}
                               onClick={(e) => handleSaveToFolder(
                                 `${subfolder.content_type_id}.${subfolder.id}`,

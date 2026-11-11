@@ -41,6 +41,7 @@ import { matomoTag } from 'pages/Case/ui/helper';
 import { makeVideoContent } from './widgets/VideoPlayer';
 import MenuIcon from '@mui/icons-material/Menu';
 import Arrow from './icons/Arrow';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 const trackDownload = (s?: string) => {
   const v = (s || '').toLowerCase();
@@ -863,6 +864,7 @@ export default function ArkLesson() {
                   Contents
                 </Typography>
                 <ul
+                  role="menu"
                   style={{
                     fontFamily: 'Inter',
                     color: '#646464',
@@ -871,6 +873,9 @@ export default function ArkLesson() {
                 >
                   {sections.map((section, idx) => (
                     <li
+                      role="menuitem"
+                      tabIndex={0}
+                      onKeyDown={clickOnEnterOrSpace}
                       onClick={() => jump(idx)}
                       style={{ textDecoration: 'underline', color: '#646464' }}
                     >
@@ -906,6 +911,7 @@ export default function ArkLesson() {
                 Contents
               </Typography>
               <ul
+                role="menu"
                 style={{
                   fontFamily: 'Inter',
                   color: '#646464',
@@ -914,6 +920,9 @@ export default function ArkLesson() {
               >
                 {sections.map((section, idx) => (
                   <li
+                    role="menuitem"
+                    tabIndex={0}
+                    onKeyDown={clickOnEnterOrSpace}
                     onClick={() => jump(idx)}
                     style={{
                       color: '#646464',

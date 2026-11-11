@@ -7,6 +7,7 @@ import {
   MouseEvent, useEffect, useMemo, useRef, useState,
 } from 'react';
 import { MAIN_BORDER_COLOR, cx } from './common';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 export declare interface LayerItemProps
   extends React.HTMLProps<HTMLDivElement> {
@@ -96,6 +97,9 @@ export default function LayerItem({
   return (
     <div className={wrapperCls}>
       <div
+        role="button"
+        tabIndex={0}
+        onKeyDown={clickOnEnterOrSpace}
         onClick={select}
         onMouseEnter={() => hover(true)}
         onMouseLeave={() => hover(false)}
@@ -113,6 +117,9 @@ export default function LayerItem({
           )}
         >
           <div
+            role="button"
+            tabIndex={0}
+            onKeyDown={clickOnEnterOrSpace}
             style={{ marginLeft: `${level * 10}px` }}
             className={cx(
               'cursor-pointer',
@@ -126,6 +133,9 @@ export default function LayerItem({
             {name}
           </div>
           <div
+            role="button"
+            tabIndex={0}
+            onKeyDown={clickOnEnterOrSpace}
             className={cx(
               'group-hover:opacity-100 cursor-pointer',
               visible ? 'opacity-0' : 'opacity-100',

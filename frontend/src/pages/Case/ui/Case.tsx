@@ -79,6 +79,7 @@ import {
 import req from 'shared/lib/req';
 import Alert from './Alert';
 import { Folders } from 'widgets/Folders';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 const notesByComments = [];
 let annotationUri;
@@ -198,6 +199,7 @@ const FilterInnerItems = ({
                       {list.rationale}
                     </Typography>
                     <ul
+                      role="menu"
                       style={{
                         listStyle: 'circle',
                         listStylePosition: 'inside',
@@ -214,6 +216,9 @@ const FilterInnerItems = ({
                         <li
                           // eslint-disable-next-line react/no-array-index-key -- the segments of one note, in time order
                           key={`segment${list.id}-${segmentIndex}`}
+                          role="menuitem"
+                          tabIndex={0}
+                          onKeyDown={clickOnEnterOrSpace}
                           onClick={() => onSelect(videoSegmentToAnnotation(segment))}
                         >
                           {segment.entire_video
@@ -231,6 +236,9 @@ const FilterInnerItems = ({
                         .map((example) => (
                           <li
                             key={example.id}
+                            role="menuitem"
+                            tabIndex={0}
+                            onKeyDown={clickOnEnterOrSpace}
                             onClick={() => onSelect(example)}
                           >
                             {exampleLabel(example)}
@@ -311,6 +319,9 @@ function Groups({
     <div style={{ fontFamily: '"DINPro", sans-serif', padding: '0 8px' }}>
       <Typography style={{ margin: '4px 0' }}>Who Can See this Note</Typography>
       <div
+        role="button"
+        tabIndex={0}
+        onKeyDown={clickOnEnterOrSpace}
         style={{
           background: selected === -1 ? 'rgba(0, 0, 0, .1)' : '',
           ...boxStyles,
@@ -323,6 +334,9 @@ function Groups({
       {options.map((option) => (
         <div key={option.id}>
           <div
+            role="button"
+            tabIndex={0}
+            onKeyDown={clickOnEnterOrSpace}
             style={{
               background: selected === option.id ? 'rgba(0, 0, 0, .1)' : '',
               ...boxStyles,
@@ -332,6 +346,9 @@ function Groups({
             {option.title}
           </div>
           <div
+            role="button"
+            tabIndex={0}
+            onKeyDown={clickOnEnterOrSpace}
             style={{
               background:
                 selected === `${option.id}l` ? 'rgba(0, 0, 0, .1)' : '',
@@ -586,6 +603,9 @@ function Note({
               >
                 {video && (
                   <span
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={clickOnEnterOrSpace}
                     style={{ cursor: 'pointer' }}
                     onClick={jump}
                   >
@@ -1715,6 +1735,9 @@ export function Case() {
                 <li className="hashmark-panel js-hashmark-panel active">
                   {notes.map((item, index) => (
                     <div
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={clickOnEnterOrSpace}
                       // eslint-disable-next-line react/no-array-index-key -- the note markers are rebuilt as a whole on every change
                       key={index}
                       style={{ left: item.position }}

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import cls from './Dropdown.module.scss';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 function useOutsideAlerter(ref, cb) {
   useEffect(() => {
@@ -29,7 +30,7 @@ export const Dropdown = ({
   return (
     <div className={cls['dropdown-wrapper']} ref={wrapperRef}>
       <div className={`${cls['frame-9']} ${(open ? cls.dropdown : '')}`} style={{ border: !selected ? 'red 1px solid' : '' }}>
-        <div className={cls['frame-10']} onClick={() => setOpen(!open)}>
+        <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls['frame-10']} onClick={() => setOpen(!open)}>
           <div className={cls['text-wrapper-3']}>{selected || (`Select ${keyword}`)}</div>
           <svg className={cls['icons-arrow-drop-up']} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ transform: open ? 'rotate(180deg)' : '' }}>
             <path d="M17 9.5L12 14.5L7 9.5H17Z" fill="#1E1E1E" />
@@ -44,6 +45,9 @@ export const Dropdown = ({
             <div ref={divRef} className={cls['inner-values']}>
               {list.map((item) => (
                 <div
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={clickOnEnterOrSpace}
                   className={cls.frame}
                   onClick={() => {
                     setOpen(false);

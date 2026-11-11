@@ -47,6 +47,7 @@ import Arrow from './icons/Arrow';
 import { matomoTag } from 'pages/Case/ui/helper';
 
 import { makeVideoContent } from './widgets/VideoPlayer';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 const THUMBNAIL_URL_PATTERN = 'images/materials/default-thumbnail-index.png';
 const trackDownload = (s?: string) => {
@@ -559,11 +560,13 @@ export default function ArkOverview() {
             >
               Table of contents
             </Typography>
-            <ul style={{
-              fontFamily: 'Inter', color: '#646464', cursor: 'pointer', marginLeft: '20%',
-            }}
+            <ul
+              role="menu"
+              style={{
+                fontFamily: 'Inter', color: '#646464', cursor: 'pointer', marginLeft: '20%',
+              }}
             >
-              {sections.map((section, idx) => <li onClick={() => jump(idx)} className={cls.browseAll} style={{ textDecoration: 'underline' }}>{section.name}</li>)}
+              {sections.map((section, idx) => <li role="menuitem" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => jump(idx)} className={cls.browseAll} style={{ textDecoration: 'underline' }}>{section.name}</li>)}
             </ul>
           </Box>
           <Box sx={{ fontFamily: 'Inter', lineHeight: '26px' }} className={cls.sections}>

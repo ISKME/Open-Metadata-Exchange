@@ -30,6 +30,7 @@ import axios from 'axios';
 import { GridDeleteIcon } from '@mui/x-data-grid';
 import { matomoTag } from 'pages/Case/ui/helper';
 import { CasesExport } from './export/CasesExport';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 const CButton = styled(Button)(({ theme }) => ({
   padding: '6px 12px',
@@ -616,6 +617,9 @@ export function CasesList({
                       <div className={cls.itemsWrapper}>
                         {folders.userFolders?.map((folder) => (
                           <div
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={clickOnEnterOrSpace}
                             className={cls.folder}
                             key={folder.id}
                             onClick={(e) => handleSaveToFolder(
@@ -629,6 +633,9 @@ export function CasesList({
                             </Typography>
                             {folder.subfolders?.map((subfolder) => (
                               <div
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={clickOnEnterOrSpace}
                                 key={subfolder.id}
                                 onClick={(e) => handleSaveToFolder(
                                   `${subfolder.content_type_id}.${subfolder.id}`,
@@ -655,6 +662,9 @@ export function CasesList({
                       <div className={cls.itemsWrapper}>
                         {folders.groupFolders?.map((group) => (
                           <div
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={clickOnEnterOrSpace}
                             key={group.id}
                             onClick={(e) => handleSaveToFolder(
                               `${group.default_folder.content_type_id}.${group.default_folder.id}`,
@@ -665,13 +675,16 @@ export function CasesList({
                             className={cls.folder}
                           >
                             <div className={cls.groupNameWrapper}>
-                              <img src={group.cover} alt="photo" />
+                              <img src={group.cover} alt="" />
                               <Typography className={cls.groupNameTitle}>
                                 {group.title}
                               </Typography>
                             </div>
                             {group.folders?.map((folder) => (
                               <div
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={clickOnEnterOrSpace}
                                 className={cls.folder}
                                 key={folder.id}
                                 onClick={(e) => handleSaveToFolder(
@@ -686,6 +699,9 @@ export function CasesList({
                                 </Typography>
                                 {folder.subfolders?.map((subfolder) => (
                                   <div
+                                    role="button"
+                                    tabIndex={0}
+                                    onKeyDown={clickOnEnterOrSpace}
                                     key={subfolder.id}
                                     onClick={(e) => handleSaveToFolder(
                                       `${subfolder.content_type_id}.${subfolder.id}`,

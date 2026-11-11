@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Modal, { ModalProps } from '@mui/material/Modal';
 import { MAIN_BG_COLOR, MAIN_TXT_COLOR, cx } from './common';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 const style = {
   position: 'absolute',
@@ -41,7 +42,7 @@ export default function CustomModal({
         >
           <div className="flex pb-3">
             <div className="flex-grow text-lg">{title}</div>
-            <div onClick={close} className="cursor-pointer">
+            <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={close} className="cursor-pointer">
               <Icon size={1} path={mdiClose} />
             </div>
           </div>

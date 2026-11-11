@@ -21,6 +21,7 @@ import { fetchStaticCasesData } from 'pages/Cases/model/services/ActionCreators'
 import { getSelectedItems } from 'widgets/Filters/lib';
 import { AlignWidget } from './Align';
 import { extractUrlParams } from 'shared/lib/global';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 const styles = {
   accordion: {
@@ -383,10 +384,14 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
             <Typography>Grade Level</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 0 }}>
-            <ul className={cls.grades}>
+            <ul className={cls.grades} role="listbox" aria-multiselectable="true">
               {displayGrades.map((grade) => (
                 <li
                   key={grade.slug}
+                  role="option"
+                  aria-selected={!!grade.isSelected}
+                  tabIndex={0}
+                  onKeyDown={clickOnEnterOrSpace}
                   className={cls.grade}
                   style={{
                     backgroundColor: grade.isSelected ? '#56788f' : '',

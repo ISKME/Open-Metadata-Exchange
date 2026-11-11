@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  Grid, Box, Stack, Dialog, DialogTitle, DialogContent, DialogContentText, Button, TextField, Tooltip, Snackbar, Alert,
+  Grid, Box, Stack, Dialog, DialogTitle, DialogContent, DialogContentText, Button, TextField, Tooltip, Snackbar, Alert, Link,
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -269,7 +269,8 @@ function RevialTokensDialog({
                 Last attempt before lockout!
                 Consider
                 {' '}
-                <a style={{ cursor: 'pointer' }} onClick={() => setVerificationMode('email')}>verifying via email</a>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid -- MUI Link with component="button" renders a <button>, not an anchor */}
+                <Link component="button" type="button" sx={{ verticalAlign: 'baseline', fontSize: 'inherit' }} onClick={() => setVerificationMode('email')}>verifying via email</Link>
                 {' '}
                 instead.
               </Alert>

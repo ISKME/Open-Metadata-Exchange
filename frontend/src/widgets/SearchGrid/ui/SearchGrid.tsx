@@ -8,6 +8,7 @@ import qs from 'qs';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { Portal } from 'features/Portal';
 import cls from './SearchGrid.module.scss';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 function Check({
   id, label, checked = false, onChange = () => {},
@@ -247,6 +248,10 @@ export function SearchGrid({
             <div className={cls.content1}>
               {/* <StyleOutlined className="style-outlined" color="#1E1E1E" /> */}
               <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={clickOnEnterOrSpace}
+                aria-label="Close"
                 style={{
                   position: 'absolute', right: '24px', top: '24px', cursor: 'pointer', zIndex: 100,
                 }}
@@ -335,9 +340,9 @@ export function SearchGrid({
             </div>
             <div className={cls.actionButtons}>
               <button className={cls.button} style={{ cursor: 'pointer' }}>
-                <div className={cls['label-text']} onClick={apply}>Confirm filters</div>
+                <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls['label-text']} onClick={apply}>Confirm filters</div>
               </button>
-              <div className={cls['label-text-2']} style={{ cursor: 'pointer' }} onClick={clear}>Reset</div>
+              <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls['label-text-2']} style={{ cursor: 'pointer' }} onClick={clear}>Reset</div>
             </div>
           </div>
         </div>
@@ -387,22 +392,22 @@ export function SearchGrid({
           <button className={cls.searchButton} onClick={handleSearch}>Search</button>
         </div>
         <span>Sort By</span>
-        <div className={cls.dropdown} onClick={() => setIsOpen(!isOpen)}>
+        <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls.dropdown} onClick={() => setIsOpen(!isOpen)}>
           {correction(sortOption) || 'Last Updated'}
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M16.59 8.29492L12 12.8749L7.41 8.29492L6 9.70492L12 15.7049L18 9.70492L16.59 8.29492Z" fill="#373A48" />
           </svg>
           {isOpen && (
-            <ul className={cls.sort} ref={sort}>
+            <ul className={cls.sort} ref={sort} role="menu">
               {options.map((option) => (
-                <li key={option.slug} onClick={() => handleSortChange(option.slug)}>
+                <li key={option.slug} role="menuitem" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => handleSortChange(option.slug)}>
                   {option.name}
                 </li>
               ))}
             </ul>
           )}
         </div>
-        <div className={cls.dropdown} onClick={() => setIsVisible(true)}>
+        <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls.dropdown} onClick={() => setIsVisible(true)}>
           Filters
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M10 18H14V16H10V18ZM3 6V8H21V6H3ZM6 13H18V11H6V13Z" fill="black" />
@@ -412,7 +417,7 @@ export function SearchGrid({
       {/* {children} */}
       {children(results)}
       {/* {React.Children.map(children, (child) => React.cloneElement(child, { results }))} */}
-      {!end && <span className={cls.more} onClick={handleLoadMore}>Load More +</span>}
+      {!end && <span role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls.more} onClick={handleLoadMore}>Load More +</span>}
     </div>
   );
 }

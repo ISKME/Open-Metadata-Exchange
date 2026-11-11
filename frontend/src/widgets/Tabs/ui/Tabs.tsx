@@ -4,6 +4,7 @@ import {
 import { NavLink } from 'react-router-dom';
 import { classNames } from 'shared/lib/classNames/classNames';
 import cls from './Tabs.module.scss';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 
 interface TabsProps {
     className?: string;
@@ -114,6 +115,9 @@ export const Tabs = memo(({
       <div className={cls.tabs} ref={tabsRef}>
         {tabs.map((tab, index) => (
           <div
+            role="button"
+            tabIndex={0}
+            onKeyDown={clickOnEnterOrSpace}
             // eslint-disable-next-line react/no-array-index-key -- the tabs come from props and the active tab is tracked by position too
             key={index}
             className={`${cls.tab} ${activeTab === index ? cls.active : ''}`}
@@ -142,6 +146,9 @@ export const Tabs = memo(({
           <div className={cls.actions}>
             {tabs[activeTab].content.map((item, index) => (
               <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={clickOnEnterOrSpace}
                 className={`${cls.action} ${activeSubTab === index ? cls.activeAction : ''}`}
                 onClick={() => {
                   setActiveSubTab(index);
