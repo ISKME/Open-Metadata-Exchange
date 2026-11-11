@@ -13,7 +13,6 @@
   margin-bottom: 20px;
 }
 
-//
 input[data-slug] {
   margin-right: 8px;
 }
@@ -41,11 +40,14 @@ input[data-slug] {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: min-content;
+
   @media screen and (max-width: 1200px) {
     grid-template-columns: repeat(2, 1fr);
   }
+
   @media screen and (max-width: 980px) {
     grid-template-columns: 1fr;
+
     & > div {
       width: 315px;
     }
