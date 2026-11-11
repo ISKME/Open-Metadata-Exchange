@@ -396,7 +396,6 @@ html[dir='rtl'] .save-widget-group-folders {
   height: 2.30769em;
   border: 1px solid transparent;
   background-color: transparent;
-  color: #fff;
   vertical-align: middle;
   text-transform: capitalize;
   white-space: nowrap;
@@ -752,7 +751,6 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
   margin: 0;
   padding: 0;
   border: 0;
-  overflow: hidden;
   *zoom: 1;
   list-style: none;
   overflow: inherit;
@@ -765,9 +763,6 @@ html[dir="rtl"] .align-tags-ct .align-tags a.delete {
   margin-left: 0;
   display: inline-block;
   vertical-align: middle;
-  *vertical-align: auto;
-  *zoom: 1;
-  *display: inline;
   white-space: nowrap;
 }
 
@@ -2390,7 +2385,6 @@ textarea {
 
 .enactment-resource-list-item-description {
   margin-bottom: 10px;
-  font-family: Roboto, sans-serif;
   font-weight: normal;
   color: #333333;
   font-family: Roboto, sans-serif;
