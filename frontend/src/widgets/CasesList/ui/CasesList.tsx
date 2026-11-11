@@ -318,6 +318,7 @@ export function CasesList({
         filters.forEach(({ keyword, name, items }) => {
           const filterValues = searchParams.getAll(keyword);
           filterValues.forEach((value) => {
+            // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
             const label = items.find((item) => item.slug == value)?.name;
             extras.push({
               keyword, value, name, label,
@@ -891,6 +892,7 @@ export function CasesList({
                 <IconButton
                   onClick={() => {
                     const params = new URLSearchParams(window.location.search);
+                    // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
                     const updatedValues = params.getAll(extra.keyword).filter((val) => val != extra.value);
                     params.delete(extra.keyword);
                     updatedValues.forEach((val) => params.append(extra.keyword, val));

@@ -407,6 +407,7 @@ function Note({
   const handleSave = () => {
     const data = {
       text: content || text,
+      // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
       private: groupInfo.id == -1,
     };
     if (video && time) {
@@ -423,6 +424,7 @@ function Note({
         data.end_position = end;
       }
     }
+    // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
     if (groupInfo.id != -1) data.group_id = groupInfo.id;
     if (groupInfo.leader) data.instructor_only = groupInfo.leader ? 'True' : 'False';
     req.put(`annotations/${id}`, data).then(() => {
@@ -708,6 +710,7 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
   const publish = (isPrivate = false) => {
     const annotations = [];
     videoTags.forEach((item) => {
+      // eslint-disable-next-line eqeqeq -- start and end are '' from the form or a number from the API, and 0 == '' is true, so === would change which rows count as empty
       if (!item.check && (item.start == '' || item.end == '')) return;
       const start_position = item.check
         ? 0
@@ -725,6 +728,7 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
       annotations.push(data);
     });
     pdfTags.forEach((item) => {
+      // eslint-disable-next-line eqeqeq -- start and end are '' from the form or a number from the API, and 0 == '' is true, so === would change which rows count as empty
       if (!item.check && (item.start == '' || item.end == '')) return;
       const data = {
         scope: 'pdf',
@@ -898,6 +902,7 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                     disabled={item.check}
                     error={
                       matchDigitFormat(item.start)
+                      // eslint-disable-next-line eqeqeq -- start and end are '' from the form or a number from the API, and 0 == '' is true, so === would change which rows count as empty
                       || (item.check && item.start == '')
                     }
                   />
@@ -910,6 +915,7 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                     disabled={item.check}
                     error={
                       matchDigitFormat(item.end)
+                      // eslint-disable-next-line eqeqeq -- start and end are '' from the form or a number from the API, and 0 == '' is true, so === would change which rows count as empty
                       || (item.check && item.end == '')
                     }
                   />
@@ -1002,6 +1008,7 @@ function NoteForm({
       uri,
       text: formText,
       alignment_tag: selectedTag?.tag?.value,
+      // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
       private: groupInfo.id == -1,
     };
     if (video) {
@@ -1035,6 +1042,7 @@ function NoteForm({
       data.start_position = formStart;
       data.end_position = formEnd;
     }
+    // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
     if (groupInfo.id != -1) data.group_id = groupInfo.id;
     if (groupInfo.leader) data.instructor_only = groupInfo.leader ? 'True' : 'False';
 
@@ -1410,12 +1418,14 @@ export function Case() {
       start_position: startPos.position,
       end_position: endPos.position,
       quote,
+      // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
       private: groupInfo.id == -1,
       ranges: {
         start: `/p[${startPos.paragraph + 1}]`,
         end: `/p[${endPos.paragraph + 1}]`,
       },
     };
+    // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
     if (groupInfo.id != -1) data.group_id = groupInfo.id;
     if (groupInfo.leader) data.instructor_only = groupInfo.leader ? 'True' : 'False';
     req

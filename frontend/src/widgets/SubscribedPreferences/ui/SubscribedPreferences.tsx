@@ -255,6 +255,7 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
                     {' '}
                     {section.name}
                   </Typography>
+                  {/* eslint-disable-next-line eqeqeq -- the mapping values from the API are compared as they are; === could stop matching when one side is a number */}
                   {Object.entries(section.mapping).sort((a) => !section.metadata.find(({ name }) => name == a[1][0]) && -1).map((item) => (
                     <Typography sx={{ height: '64px' }}>{item[0]}</Typography>
                   ))}
@@ -265,20 +266,24 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
                     {' '}
                     {section.name}
                   </Typography>
+                  {/* eslint-disable-next-line eqeqeq -- the mapping values from the API are compared as they are; === could stop matching when one side is a number */}
                   {Object.entries(section.mapping).sort((a) => !section.metadata.find(({ name }) => name == a[1][0]) && -1).map((item) => (
                     <Autocomplete
                       disablePortal
                       disableClearable
                       options={section.metadata}
+                      // eslint-disable-next-line eqeqeq -- the mapping values from the API are compared as they are; === could stop matching when one side is a number
                       defaultValue={section.metadata.find(({ name }) => name == item[1][0])}
                       getOptionLabel={(option: any) => option.name}
                       sx={{
                         width: 300,
                         height: '64px',
                         '& .MuiOutlinedInput-notchedOutline': {
+                          // eslint-disable-next-line eqeqeq -- the mapping values from the API are compared as they are; === could stop matching when one side is a number
                           border: `1px solid ${section.metadata.find(({ name }) => name == item[1][0]) ? 'var(--primary-color)' : 'red'} !important`,
                         },
                       }}
+                      // eslint-disable-next-line eqeqeq -- the mapping values from the API are compared as they are; === could stop matching when one side is a number
                       renderInput={(params) => <TextField {...params} label={section.metadata.find(({ name }) => name == item[1][0]) ? item[0] : `Select ${section.name}`} />}
                       onChange={(_e, selected) => {
                         const temp = changes;

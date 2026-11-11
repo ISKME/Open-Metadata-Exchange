@@ -164,6 +164,7 @@ export function OASection({
                   </span>
                 </h2>
                 <div className="related-resources-forms-ct">
+                  {/* eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching */}
                   {attachments.map((attachment) => ((!editableAttachment || editableAttachment.id == attachment.id)
                       && (
                         <RelatedResourceWidget

@@ -266,6 +266,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
       newTempTopics = newTempTopics.filter((item) => item.slug !== topic.parent); // rem parent if child
       newTempTopics.push(topic);
     } else { // rem topic
+      // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
       const more = newTempTopics.filter((item) => item.parent == topic.parent).length === 1;
       newTempTopics.splice(index, 1);
       if (topic.parent && more) {
@@ -290,6 +291,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
           setExpandTopic(true);
           newTempTopics.push(subject);
         }
+        // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
         const parent = staticTopics.find((item) => item.children.findIndex((child) => child.slug == filter) >= 0);
         if (parent) {
           setExpandTopic(true);

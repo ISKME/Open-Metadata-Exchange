@@ -119,6 +119,7 @@ export function Organs() {
       try {
         const { data } = await axios.get('/api/users/v1/profile');
 
+        // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
         if (data.organization.role_id != ORGANIZATION_ADMIN_ROLE_ID) {
           throw new Error('Permission denied');
         }
