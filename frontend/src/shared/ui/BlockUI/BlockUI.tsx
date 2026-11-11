@@ -1,4 +1,6 @@
-export const buiStyle: { [key: string]: React.CSSProperties } = {
+import type { CSSProperties } from 'react';
+
+export const buiStyle: { [key: string]: CSSProperties } = {
   uiBox: {
     position: 'relative',
   },
