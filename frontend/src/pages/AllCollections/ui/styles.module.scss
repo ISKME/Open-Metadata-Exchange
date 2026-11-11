@@ -177,7 +177,7 @@
 .copyRight {
   color: #FFF;
   text-align: center;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -186,7 +186,7 @@
 
 .footerText {
   color: #C2C2C2;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -200,7 +200,7 @@
   display: flex;
   gap: 48px;
   margin-bottom: 16px;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
 
   & > div:first-child {
     width: 320px;
@@ -288,7 +288,7 @@
 .compress {
   max-height: 72px;
   overflow: hidden;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
 }
 
 .overview_link {
@@ -355,7 +355,7 @@
 }
 
 .details {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   flex-grow: 1;
   flex-direction: column;
   display: flex;

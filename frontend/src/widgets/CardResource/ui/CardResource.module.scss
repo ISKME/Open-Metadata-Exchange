@@ -34,16 +34,16 @@
   white-space: nowrap;
   padding: 6px 12px;
   font-size: 14px;
-  line-height: 1.42857;
+  line-height: 1.4286;
   border-radius: 4px;
+  // stylelint-disable-next-line property-no-vendor-prefix -- Safari and iOS Safari only support user-select with the prefix
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   color: #56788f;
 
   i {
     margin-left: 6px;
+    // stylelint-disable-next-line font-family-no-missing-generic-family-keyword -- an icon font, a generic fallback would show other glyphs
     font-family: FontAwesome !important;
   }
 }

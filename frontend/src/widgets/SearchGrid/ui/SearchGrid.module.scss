@@ -10,7 +10,7 @@
   border-radius: 8px;
   background: #FFF;
   box-shadow: 0 3.5px 5.5px 0 rgb(0 0 0 / 25%);
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
   margin-top: 24px;
 
   h6 {
@@ -42,7 +42,7 @@
   }
 
   .more {
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
     text-align: center;
     font-size: 16px;
     font-weight: 600;
@@ -122,7 +122,7 @@
 
         &::placeholder {
           color: #474f60;
-          font-family: 'Open Sans';
+          font-family: 'Open Sans', sans-serif;
           font-size: 16px;
           font-weight: 500;
           font-style: normal;
@@ -178,7 +178,7 @@
   overflow: hidden;
   position: relative;
   width: 900px;
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
 }
 
 .list-dialog .content1 {
@@ -306,7 +306,7 @@
 
     &::placeholder {
       color: black;
-      font-family: "Open Sans";
+      font-family: "Open Sans", sans-serif;
       font-size: 16px;
       font-style: normal;
     }
@@ -497,7 +497,7 @@
 
 .list-dialog .label-text {
   color: #fbfbfb;
-  font-family: "Open Sans-Bold", Helvetica;
+  font-family: "Open Sans-Bold", Helvetica, sans-serif;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.15px;
@@ -511,7 +511,7 @@
 
 .list-dialog .label-text-2 {
   color: #1e1e1e;
-  font-family: "Open Sans-SemiBold", Helvetica;
+  font-family: "Open Sans-SemiBold", Helvetica, sans-serif;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -544,7 +544,7 @@
 
 .notification-button .text-wrapper {
   color: #1e1e1e;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
   font-size: 24px;
   line-height: 32px;
   position: relative;
@@ -554,7 +554,7 @@
 
 .notification-button .div {
   color: #1e1e1e;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
   letter-spacing: 0.5px;
   line-height: 24px;

@@ -540,6 +540,7 @@
 
     .legendLabel {
       overflow-wrap: anywhere;
+      // stylelint-disable-next-line declaration-property-value-keyword-no-deprecated -- the replacement overflow-wrap: anywhere needs Safari 15.4, break-word works everywhere
       word-break: break-word;
     }
   }
@@ -568,6 +569,7 @@
       p {
         font-size: 20px;
         overflow-wrap: anywhere;
+        // stylelint-disable-next-line declaration-property-value-keyword-no-deprecated -- the replacement overflow-wrap: anywhere needs Safari 15.4, break-word works everywhere
         word-break: break-word;
       }
     }
@@ -585,6 +587,7 @@
     flex-wrap: wrap;
     gap: 6px;
     overflow-wrap: anywhere;
+    // stylelint-disable-next-line declaration-property-value-keyword-no-deprecated -- the replacement overflow-wrap: anywhere needs Safari 15.4, break-word works everywhere
     word-break: break-word;
   }
 
@@ -646,6 +649,7 @@
 
     .legendLabel {
       overflow-wrap: anywhere;
+      // stylelint-disable-next-line declaration-property-value-keyword-no-deprecated -- the replacement overflow-wrap: anywhere needs Safari 15.4, break-word works everywhere
       word-break: break-word;
     }
   }
@@ -704,6 +708,7 @@
 
   .descriptionText {
     overflow-wrap: anywhere;
+    // stylelint-disable-next-line declaration-property-value-keyword-no-deprecated -- the replacement overflow-wrap: anywhere needs Safari 15.4, break-word works everywhere
     word-break: break-word;
   }
 }

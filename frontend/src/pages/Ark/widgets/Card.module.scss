@@ -12,7 +12,7 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
 
   &:hover {
     background-color: rgb(198, 220, 255);
@@ -37,7 +37,7 @@
   text-decoration: none;
   color: rgb(5, 77, 209);
   cursor: pointer;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
   font-weight: bold;
 }
 

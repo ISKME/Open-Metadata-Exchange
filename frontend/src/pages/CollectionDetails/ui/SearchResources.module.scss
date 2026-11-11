@@ -128,7 +128,7 @@
   position: relative;
   width: fit-content;
   margin-top: -1px;
-  font-family: "Open Sans-SemiBold", Helvetica;
+  font-family: "Open Sans-SemiBold", Helvetica, sans-serif;
   font-weight: 600;
   color: rgb(5 77 209 / 100%);
   font-size: 16px;
@@ -196,7 +196,7 @@
   position: relative;
   width: fit-content;
   margin-top: -1px;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
   color: rgb(52 181 58 / 100%);
   font-size: 16px;
@@ -222,7 +222,7 @@
   position: relative;
   align-self: stretch;
   margin-top: -1px;
-  font-family: "Open Sans-Medium", Helvetica;
+  font-family: "Open Sans-Medium", Helvetica, sans-serif;
   font-weight: 400;
   color: #1e1e1e;
   font-size: 24px;
@@ -232,20 +232,20 @@
 
 .dynamic-content .span {
   font-weight: 500;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   line-height: 32px;
   font-size: 24px;
 }
 
 .dynamic-content .text-wrapper-3 {
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
 }
 
 .dynamic-content .any-changes-pushed {
   position: relative;
   align-self: stretch;
-  font-family: "Open Sans-SemiBold", Helvetica;
+  font-family: "Open Sans-SemiBold", Helvetica, sans-serif;
   font-weight: 400;
   color: rgb(30 30 30 / 100%);
   font-size: 16px;
@@ -256,13 +256,13 @@
 .dynamic-content .text-wrapper-4 {
   font-weight: 600;
   letter-spacing: 0.5px;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   line-height: 24px;
   font-size: 16px;
 }
 
 .dynamic-content .text-wrapper-5 {
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
   letter-spacing: 0.08px;
 }
@@ -311,7 +311,7 @@
   width: fit-content;
   margin-top: -2px;
   margin-left: -1px;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
   color: rgb(252 252 252 / 100%);
   font-size: 16px;
@@ -324,7 +324,7 @@
 .dynamic-content .p {
   position: relative;
   width: fit-content;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 600;
   color: rgb(5 77 209 / 100%);
   font-size: 16px;
@@ -373,7 +373,7 @@
     gap: 8px;
 
     span {
-      font-family: "Open Sans";
+      font-family: "Open Sans", sans-serif;
       font-size: 14px;
       font-weight: 700;
       line-height: 20px;
@@ -425,11 +425,11 @@
   position: relative;
   width: fit-content;
   margin-top: -1px;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
   color: #1e1e1e;
   font-size: 16px;
-  letter-spacing: 0.10000000149011612px;
+  letter-spacing: 0.1000px;
   line-height: 24px;
   white-space: nowrap;
   font-style: normal;
@@ -469,11 +469,11 @@
   position: relative;
   width: fit-content;
   margin-top: -1px;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
   color: rgb(30 30 30 / 100%);
   font-size: 14px;
-  letter-spacing: 0.10000000149011612px;
+  letter-spacing: 0.1000px;
   line-height: 20px;
   white-space: nowrap;
   font-style: normal;
@@ -509,14 +509,14 @@
 }
 
 .preferences-values .microsite {
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
   color: #1e1e1e;
   position: relative;
   width: fit-content;
   margin-top: -1px;
   font-size: 14px;
-  letter-spacing: 0.10000000149011612px;
+  letter-spacing: 0.1000px;
   line-height: 20px;
   white-space: nowrap;
   font-style: normal;
@@ -531,7 +531,7 @@
 }
 
 .preferences-values .microsite-2 {
-  font-family: "Open Sans-Medium", Helvetica;
+  font-family: "Open Sans-Medium", Helvetica, sans-serif;
   font-weight: 500;
   color: rgb(5 77 209 / 100%);
   text-decoration: underline;
@@ -580,7 +580,7 @@
 .preferences-values .text-wrapper-3 {
   position: relative;
   width: fit-content;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
   color: rgb(30 30 30 / 100%);
   font-size: 12px;
@@ -695,7 +695,7 @@
   position: relative;
   width: fit-content;
   margin-top: -1px;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 600;
   color: rgb(64 64 64 / 100%);
   font-size: 16px;
@@ -751,7 +751,7 @@
     position: relative;
     flex: 1;
     margin-top: -1px;
-    font-family: "Open Sans";
+    font-family: "Open Sans", sans-serif;
     font-weight: 500;
     color: #1e1e1e;
     font-size: 12px;
@@ -847,7 +847,7 @@
   position: relative;
   width: fit-content;
   margin-top: -1px;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
   color: rgb(5 77 209 / 100%);
   font-size: 16px;
@@ -878,7 +878,7 @@
   position: relative;
   width: fit-content;
   margin-top: -0.5px;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
   font-size: 16px;
   text-align: center;
@@ -918,7 +918,7 @@
   position: relative;
   width: fit-content;
   margin-top: -0.5px;
-  font-family: "Open Sans", Helvetica;
+  font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 700;
   font-size: 16px;
   text-align: center;
