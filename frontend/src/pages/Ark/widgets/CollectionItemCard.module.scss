@@ -1,6 +1,7 @@
 /* stylelint-disable color-hex-length */
 .item_card {
   height: 240px;
+
   // width: 250px;
   list-style: none;
   top: 0;
@@ -14,10 +15,11 @@
   margin-bottom: 15px;
 
   &:hover {
-    background-color: rgb(198, 220, 255);
+    background-color: rgb(198 220 255);
   }
+
   &:active {
-    background-color: rgb(172, 190, 220);
+    background-color: rgb(172 190 220);
   }
 }
 
@@ -34,6 +36,7 @@
 .item_img_wrapper {
   position: relative;
   height: 150px;
+
   // width: 200px;
   text-align: center;
   background-color: #fff;
@@ -51,10 +54,9 @@
 .item_banner {
   background: #34B53A;
   display: flex;
-  padding: 8px 0px;
+  padding: 8px 0;
   justify-content: center;
   gap: 8px;
-
   position: absolute;
   top: -10px;
   z-index: 1;
@@ -70,8 +72,9 @@
 .item_img_wrapper img {
   background-size: cover;
   object-fit: cover;
+
   // width: 100%;
-  //transition: transform 1.5s ease-in-out;
+  // transition: transform 1.5s ease-in-out;
   // filter: brightness(0.5);
 }
 
@@ -91,7 +94,7 @@
 .site_name {
   text-decoration: none;
   min-height: 14px;
-  color: rgb(5, 77, 209);
+  color: rgb(5 77 209);
   font-family: "Open Sans";
   margin: 4px;
 }

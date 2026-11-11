@@ -7,6 +7,7 @@
   flex-direction: column;
   gap: 24px;
   width: calc(100% - 46px);
+
   @media screen and (max-width: 800px) {
     width: 100%;
   }
@@ -16,6 +17,7 @@
   @media screen and (max-width: 800px) {
     flex-direction: column;
     align-items: center;
+
     & > div {
       width: 100%;
     }
@@ -100,7 +102,7 @@
     display: inline-flex;
     flex: 0 0 auto;
     gap: 16px;
-    padding: 0px 8px;
+    padding: 0 8px;
     position: relative;
 
     .ello {
@@ -192,7 +194,7 @@
 
 .news {
   display: flex;
-  padding: 24px 0px;
+  padding: 24px 0;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -202,7 +204,7 @@
   background: #054DD1;
 
   p {
-    font-family: Open Sans;
+    font-family: "Open Sans";
     font-size: 24px;
     font-style: normal;
     font-weight: 600;
@@ -230,7 +232,6 @@
     overflow: hidden;
 
     .heading {
-
       display: flex;
       justify-content: center;
       align-items: center;
@@ -242,7 +243,7 @@
       padding: 24px;
 
       h5 {
-        font-family: Open Sans;
+        font-family: "Open Sans";
         font-size: 24px;
         font-style: normal;
         font-weight: 700;
@@ -250,11 +251,12 @@
       }
 
       p {
-        font-family: Open Sans;
+        font-family: "Open Sans";
         font-size: 16px;
         font-style: normal;
         font-weight: 600;
         line-height: 24px;
+
         /* 150% */
         letter-spacing: 0.1px;
         padding-top: 8px;
@@ -275,7 +277,7 @@
         cursor: pointer;
 
         span {
-          font-family: Open Sans;
+          font-family: "Open Sans";
           font-size: 16px;
           font-style: normal;
           font-weight: 600;
@@ -300,7 +302,7 @@
         align-self: stretch;
 
         span {
-          font-family: Open Sans;
+          font-family: "Open Sans";
           font-size: 16px;
           font-weight: 800;
           line-height: 24px;
@@ -315,7 +317,7 @@
 
 .note {
   display: flex;
-  padding: 24px 0px;
+  padding: 24px 0;
   justify-content: center;
   align-items: center;
   gap: 24px;
@@ -382,21 +384,24 @@
   width: 900px;
   font-family: 'Open Sans';
 }
+
 .list-dialog .content1 {
   align-items: flex-end;
   align-self: stretch;
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  padding: 24px 24px 0px;
+  padding: 24px 24px 0;
   position: relative;
   width: 100%;
 }
+
 .list-dialog .style-outlined {
   height: 24px !important;
   position: relative !important;
   width: 24px !important;
 }
+
 .list-dialog .text-content-wrapper {
   align-items: center;
   align-self: stretch;
@@ -406,6 +411,7 @@
   position: relative;
   width: 100%;
 }
+
 .list-dialog .text-content {
   align-items: flex-start;
   display: inline-flex;
@@ -413,6 +419,7 @@
   flex-direction: column;
   position: relative;
 }
+
 .list-dialog .headline {
   align-self: stretch;
   color: #1e1e1e;
@@ -423,6 +430,7 @@
   margin-top: -1px;
   position: relative;
 }
+
 .list-dialog .list-items {
   align-items: center;
   align-self: stretch;
@@ -432,6 +440,7 @@
   position: relative;
   width: 100%;
 }
+
 .list-dialog .date-added {
   align-items: center;
   align-self: stretch;
@@ -443,12 +452,14 @@
   position: relative;
   width: 100%;
 }
+
 .list-dialog .body-text {
   color: #1e1e1e;
   position: relative;
   white-space: nowrap;
   width: fit-content;
 }
+
 .list-dialog .div {
   align-items: flex-start;
   align-self: stretch;
@@ -458,6 +469,7 @@
   position: relative;
   width: 100%;
 }
+
 .list-dialog .collection-owner {
   align-items: center;
   align-self: stretch;
@@ -470,6 +482,7 @@
   padding: 24px;
   position: relative;
 }
+
 .list-dialog .content-2 {
   align-items: flex-start;
   align-self: stretch;
@@ -479,6 +492,7 @@
   position: relative;
   width: 100%;
 }
+
 .list-dialog .body-text-2 {
   align-self: stretch;
   color: #1e1e1e;
@@ -502,6 +516,7 @@
     }
   }
 }
+
 .list-dialog .divider {
   align-self: stretch;
   background-color: #938f99;
@@ -509,6 +524,7 @@
   position: relative;
   width: 100%;
 }
+
 .list-dialog .values {
   align-items: flex-start;
   align-self: stretch;
@@ -523,19 +539,23 @@
   &::-webkit-scrollbar {
     width: 10px;
   }
+
   &::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 5px;
   }
+
   &::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 5px;
   }
+
   &::-webkit-scrollbar-thumb:hover {
     background: #555;
     border-radius: 5px;
   }
 }
+
 .list-dialog .div-2 {
   align-items: center;
   align-self: stretch;
@@ -545,24 +565,29 @@
   position: relative;
   width: 100%;
 }
+
 .list-dialog .filters-checkbox-instance {
   position: relative !important;
 }
+
 .list-dialog .design-component-instance-node {
   background-color: #fbfbfb !important;
 }
+
 .list-dialog .microsite {
   color: #1e1e1e;
   margin-top: -1px;
   position: relative;
   width: 90px;
 }
+
 .list-dialog .microsite-2 {
   color: #1e1e1e;
   flex: 1;
   margin-top: -1px;
   position: relative;
 }
+
 .list-dialog .text-wrapper-2 {
   font-size: 12px;
   font-weight: 600;
@@ -572,6 +597,7 @@
   text-decoration: underline;
   width: 90px;
 }
+
 .list-dialog .collection-owner-2 {
   align-items: flex-start;
   background-color: #fbfbfb;
@@ -583,6 +609,7 @@
   padding: 24px;
   position: relative;
 }
+
 .list-dialog .values-wrapper {
   align-items: flex-start;
   align-self: stretch;
@@ -590,10 +617,11 @@
   flex: 0 0 auto;
   flex-direction: column;
   gap: 8px;
-  padding: 0px 0px 8px;
+  padding: 0 0 8px;
   position: relative;
   width: 100%;
 }
+
 .list-dialog .frame-2 {
   align-items: center;
   align-self: stretch;
@@ -607,14 +635,15 @@
   position: relative;
   width: 100%;
 }
+
 .list-dialog .microsite-3 {
   color: #1e1e1e;
-
   margin-top: -1px;
   position: relative;
   white-space: nowrap;
   width: fit-content;
 }
+
 .list-dialog .higher-ed {
   align-items: flex-start;
   align-self: stretch;
@@ -629,6 +658,7 @@
   position: relative;
   width: 100%;
 }
+
 .list-dialog .frame-wrapper {
   align-items: flex-start;
   align-self: stretch;
@@ -640,6 +670,7 @@
   position: relative;
   width: 100%;
 }
+
 .list-dialog .actionButtons {
   align-items: center;
   align-self: stretch;
@@ -650,6 +681,7 @@
   position: relative;
   width: 100%;
 }
+
 .list-dialog .button {
   all: unset;
   align-items: center;
@@ -666,6 +698,7 @@
   position: relative;
   cursor: pointer;
 }
+
 .list-dialog .label-text {
   color: #fbfbfb;
   font-family: "Open Sans-Bold", Helvetica;
@@ -679,6 +712,7 @@
   white-space: nowrap;
   width: fit-content;
 }
+
 .list-dialog .label-text-2 {
   color: #1e1e1e;
   font-family: "Open Sans-SemiBold", Helvetica;

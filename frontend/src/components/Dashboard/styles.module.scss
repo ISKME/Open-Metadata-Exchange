@@ -1,718 +1,719 @@
 .rButton {
-    border-radius: 7.2px;
-    border: 1px solid #767676;
-    background: #E3E3E3;
-    padding: 8px 12px;
-    font-size: 16px;
-    font-family: inherit;
-    cursor: pointer;
+  border-radius: 7.2px;
+  border: 1px solid #767676;
+  background: #E3E3E3;
+  padding: 8px 12px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
 
-    &:focus-visible {
-        outline: 2px solid #005fcc;
-        outline-offset: 2px;
-    }
+  &:focus-visible {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+  }
 }
 
 .widgetSectionHeader {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .widgetSectionHeaderTitle {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+  }
 
-    .widgetSectionHeaderTitle {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        font-weight: 600;
-    }
-
-    .widgetSectionDescription {
-        font-size: 16px;
-        font-weight: 500;
-        color: #757575;
-    }
+  .widgetSectionDescription {
+    font-size: 16px;
+    font-weight: 500;
+    color: #757575;
+  }
 }
 
 .widgetCard {
+  border-radius: 6px;
+  border: 1px solid #D9D9D9;
+  padding: 24px;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 320px;
+  position: relative;
+
+  .widgetHeaderRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+
+    .favIcon {
+      width: 32px;
+      height: 32px;
+      padding: 4px;
+      color: #1e1e1e;
+      transition: transform 0.2s ease;
+
+      svg {
+        display: block;
+      }
+
+      &:hover {
+        transform: scale(1.15);
+      }
+
+      &:focus-visible {
+        outline: 2px solid #005fcc;
+        outline-offset: 2px;
+      }
+    }
+
+    .widgetTitle {
+      p {
+        font-size: 22px;
+        margin: 0;
+
+        span {
+          font-weight: 600;
+          color: inherit;
+        }
+      }
+    }
+  }
+
+  .fullReportLink {
+    font-size: 16px;
+    text-decoration: underline;
+    color: #303030;
+    margin-bottom: 36px;
+  }
+
+  .widgetBodyWrapper {
+    padding: 16px;
     border-radius: 6px;
-    border: 1px solid #D9D9D9;
-    padding: 24px;
-    overflow: hidden;
-    min-width: 0;
-    min-height: 320px;
+
+    // border: 1px solid rgb(217, 217, 217);
+  }
+
+  .searchInputWrap {
     position: relative;
+    flex: 1 1 auto;
+    min-width: 220px;
+  }
 
-    .widgetHeaderRow {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 20px;
+  .clearBtn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+  }
 
-        .favIcon {
-            width: 32px;
-            height: 32px;
-            padding: 4px;
-            color: #1e1e1e;
-            transition: transform 0.2s ease;
+  .tabSwitcherRow {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
 
-            svg {
-                display: block;
-            }
+  .actionBar {
+    margin-top: 4px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 
-            &:hover {
-                transform: scale(1.15);
-            }
+  .searchInput {
+    padding: 6px 28px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
+  }
 
-            &:focus-visible {
-                outline: 2px solid #005fcc;
-                outline-offset: 2px;
-            }
-        }
+  .actionButton {
+    padding: 6px 12px;
+    border: 1px solid #767676;
+    background: #E3E3E3;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+    white-space: nowrap;
 
-        .widgetTitle {
-            p {
-                font-size: 22px;
-                margin: 0;
-
-                span {
-                    font-weight: 600;
-                    color: inherit;
-                }
-            }
-        }
+    &:disabled {
+      cursor: not-allowed;
     }
 
-    .fullReportLink {
-        font-size: 16px;
-        text-decoration: underline;
-        color: #303030;
-        margin-bottom: 36px;
+    &:focus-visible {
+      outline: 2px solid #005fcc;
+      outline-offset: 2px;
     }
-
-    .widgetBodyWrapper {
-        padding: 16px;
-        border-radius: 6px;
-        // border: 1px solid rgb(217, 217, 217);
-    }
-
-    .searchInputWrap {
-        position: relative;
-        flex: 1 1 auto;
-        min-width: 220px;
-    }
-
-    .clearBtn {
-        position: absolute;
-        right: 8px;
-        top: 50%;
-        transform: translateY(-50%);
-        border: 0;
-        background: transparent;
-        font-size: 18px;
-        line-height: 1;
-        cursor: pointer;
-    }
-
-    .tabSwitcherRow {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-    }
-
-    .actionBar {
-        margin-top: 4px;
-        margin-bottom: 16px;
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-
-    .searchInput {
-        padding: 6px 28px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 14px;
-        flex: 1;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .actionButton {
-        padding: 6px 12px;
-        border: 1px solid #767676;
-        background: #E3E3E3;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex: 0 0 auto;
-        white-space: nowrap;
-
-        &:disabled {
-            cursor: not-allowed;
-        }
-
-        &:focus-visible {
-            outline: 2px solid #005fcc;
-            outline-offset: 2px;
-        }
-    }
+  }
 }
 
 .widgetCard a:focus-visible {
-    outline: 2px solid #005fcc;
-    outline-offset: 3px;
-    border-radius: 2px;
+  outline: 2px solid #005fcc;
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 .widgetDescriptionBox {
-    border: 1px solid #D9D9D9;
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 24px;
-    background: #FAFAFA;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  background: #FAFAFA;
 
-    .descriptionHeader {
-        width: 100%;
-        border: 0;
-        background: transparent;
-        padding: 0;
-        margin: 0;
-        font: inherit;
-        color: inherit;
-        text-align: left;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        cursor: pointer;
-
-        &:focus-visible {
-            outline: 2px solid #005fcc;
-            outline-offset: 4px;
-        }
-
-        .descriptionTitle {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-
-            span {
-                font-weight: 600;
-            }
-        }
-
-        .viewArrow {
-            transform: rotate(0);
-            transition: transform 0.3s;
-
-            &.viewArrowOpen {
-                transform: rotate(180deg);
-            }
-        }
-    }
-
-    .descriptionText {
-        color: #555;
-        font-size: 14px;
-        margin-top: 8px;
-    }
-}
-
-.tabRowWrap {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.controlsRow {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-left: 12px;
-}
-
-.tabOptions {
-    display: flex;
-    margin-top: 8px;
-    background: #F2F2F7;
-    border-radius: 8px;
-    overflow: hidden;
-    width: fit-content;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-    gap: 8px;
-
-    .tabOption {
-        border: 0;
-        padding: 8px 24px;
-        background: transparent;
-        color: inherit;
-        font: inherit;
-        cursor: pointer;
-        min-height: 44px;
-
-        &.tabOptionActive {
-            background: black;
-            color: white;
-        }
-
-        &:focus-visible {
-            outline: 2px solid #005fcc;
-            outline-offset: -2px;
-        }
-    }
-}
-
-.chartLoading {
-    display: flex;
-    justify-content: center;
-    padding: 60px 0;
-}
-
-.chartEmpty {
-    text-align: center;
-    padding: 60px 0;
-    color: #666;
-}
-
-.chartSection {
+  .descriptionHeader {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    cursor: pointer;
 
-    .chartContainer {
-        flex: 0 0 300px;
-        max-width: calc(100vw - 650px);
+    &:focus-visible {
+      outline: 2px solid #005fcc;
+      outline-offset: 4px;
     }
 
-    .chartLegend {
-        flex: 1 1 auto;
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
+    .descriptionTitle {
+      display: flex;
+      gap: 8px;
+      align-items: center;
 
-        .legendItem {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+      span {
+        font-weight: 600;
+      }
+    }
 
-            .legendColor {
-                width: 12px;
-                height: 12px;
-                flex-shrink: 0;
-            }
+    .viewArrow {
+      transform: rotate(0);
+      transition: transform 0.3s;
 
-            .legendValue {
-                color: #8d8d8d;
-                font-size: 11px;
-                font-weight: 400;
-                white-space: nowrap;
-            }
+      &.viewArrowOpen {
+        transform: rotate(180deg);
+      }
+    }
+  }
 
-            .legendLabel {
-                color: #023774;
-                text-decoration: none;
-                border-radius: 2px;
+  .descriptionText {
+    color: #555;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+}
 
-                &:hover {
-                    text-decoration: underline;
-                }
+.tabRowWrap {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 
-                &:focus-visible {
-                    outline: 2px solid #005fcc;
-                    outline-offset: 3px;
-                    text-decoration: underline;
-                }
-            }
+.controlsRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 12px;
+}
+
+.tabOptions {
+  display: flex;
+  margin-top: 8px;
+  background: #F2F2F7;
+  border-radius: 8px;
+  overflow: hidden;
+  width: fit-content;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  .tabOption {
+    border: 0;
+    padding: 8px 24px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    min-height: 44px;
+
+    &.tabOptionActive {
+      background: black;
+      color: white;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #005fcc;
+      outline-offset: -2px;
+    }
+  }
+}
+
+.chartLoading {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.chartEmpty {
+  text-align: center;
+  padding: 60px 0;
+  color: #666;
+}
+
+.chartSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  .chartContainer {
+    flex: 0 0 300px;
+    max-width: calc(100vw - 650px);
+  }
+
+  .chartLegend {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .legendItem {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .legendColor {
+        width: 12px;
+        height: 12px;
+        flex-shrink: 0;
+      }
+
+      .legendValue {
+        color: #8d8d8d;
+        font-size: 11px;
+        font-weight: 400;
+        white-space: nowrap;
+      }
+
+      .legendLabel {
+        color: #023774;
+        text-decoration: none;
+        border-radius: 2px;
+
+        &:hover {
+          text-decoration: underline;
         }
+
+        &:focus-visible {
+          outline: 2px solid #005fcc;
+          outline-offset: 3px;
+          text-decoration: underline;
+        }
+      }
     }
+  }
 }
 
 .search {
-    border-radius: 24px;
-    border: 1px solid #757575;
-    padding: 12px;
-    display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
+  border-radius: 24px;
+  border: 1px solid #757575;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
 
-    input {
-        border: none;
-        box-shadow: none;
-        flex: 1;
+  input {
+    border: none;
+    box-shadow: none;
+    flex: 1;
 
-        &::placeholder {
-            font-style: normal;
-        }
+    &::placeholder {
+      font-style: normal;
     }
+  }
 }
 
 .table {
-    border-radius: 12px;
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.02), 0px 2px 10px 0px rgba(0, 0, 0, 0.06), 0px 0px 1px 0px rgba(0, 0, 0, 0.30);
-    padding: 16px;
-    max-height: 496px;
-    overflow-y: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 5px 0 rgb(0 0 0 / 2%), 0 2px 10px 0 rgb(0 0 0 / 6%), 0 0 1px 0 rgb(0 0 0 / 30%);
+  padding: 16px;
+  max-height: 496px;
+  overflow-y: auto;
 
-    table {
-        width: 100%;
+  table {
+    width: 100%;
 
-        thead {
-            tr {
-                background: #f4f4f5;
-                color: #71717A;
-                text-transform: uppercase;
-                font-size: 12px;
-                overflow: hidden;
-                padding: 12px;
+    thead {
+      tr {
+        background: #f4f4f5;
+        color: #71717A;
+        text-transform: uppercase;
+        font-size: 12px;
+        overflow: hidden;
+        padding: 12px;
 
-                th {
-                    padding: 12px;
-                    text-align: left;
+        th {
+          padding: 12px;
+          text-align: left;
 
-                    &:first-child {
-                        border-top-left-radius: 8px;
-                        border-bottom-left-radius: 8px;
-                    }
+          &:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+          }
 
-                    &:last-child {
-                        border-top-right-radius: 8px;
-                        border-bottom-right-radius: 8px;
-                    }
-                }
-            }
+          &:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+          }
         }
-
-        tbody {
-            tr:nth-child(even) {
-                background: #f4f4f5;
-            }
-
-            td {
-                padding: 12px;
-                font-size: 14px;
-
-                &:first-child {
-                    border-top-left-radius: 8px;
-                    border-bottom-left-radius: 8px;
-                }
-
-                &:last-child {
-                    border-top-right-radius: 8px;
-                    border-bottom-right-radius: 8px;
-                }
-            }
-        }
+      }
     }
+
+    tbody {
+      tr:nth-child(even) {
+        background: #f4f4f5;
+      }
+
+      td {
+        padding: 12px;
+        font-size: 14px;
+
+        &:first-child {
+          border-top-left-radius: 8px;
+          border-bottom-left-radius: 8px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
+        }
+      }
+    }
+  }
 }
 
 .spinner {
-    width: 14px;
-    height: 14px;
-    border: 2px solid #555;
-    border-top: 2px solid transparent;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #555;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .filtersRow :global(.MuiAutocomplete-option) {
-    font-size: 0.95rem;
+  font-size: 0.95rem;
 }
 
 .filtersRow :global(.MuiAutocomplete-input) {
-    font-size: 0.95rem;
+  font-size: 0.95rem;
 }
 
 .titleRow {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .infoIcon,
 .titleInfoIcon {
-    width: 32px;
-    height: 32px;
-    padding: 4px;
-    margin-left: 2px;
-    color: #6f6f6f !important;
-    line-height: 0;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  margin-left: 2px;
+  color: #6f6f6f !important;
+  line-height: 0;
 
-    &:hover {
-        color: #303030 !important;
-    }
+  &:hover {
+    color: #303030 !important;
+  }
 
-    &:focus-visible {
-        outline: 2px solid #005fcc;
-        outline-offset: 2px;
-    }
+  &:focus-visible {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+  }
 }
 
 .infoSvgIcon {
-    color: inherit !important;
+  color: inherit !important;
 }
 
 .infoSvgIcon path {
-    fill: currentColor;
+  fill: currentcolor;
 }
 
 .questionIcon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    border: 1px solid #bdbdbd;
-    border-radius: 50%;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 1;
-    color: #6f6f6f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #bdbdbd;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  color: #6f6f6f;
 }
 
 .viewMoreButton {
-    border: 0;
-    background: transparent;
-    padding: 4px;
-    margin: 0;
-    font: inherit;
-    color: #2B742F;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
+  border: 0;
+  background: transparent;
+  padding: 4px;
+  margin: 0;
+  font: inherit;
+  color: #2B742F;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
 
-    &:focus-visible {
-        outline: 2px solid #005fcc;
-        outline-offset: 2px;
-    }
+  &:focus-visible {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+  }
 }
 
 @media (min-width: 651px) and (max-width: 1199px) {
-    .widgetCard {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-        box-sizing: border-box;
-    }
-
-    .widgetBodyWrapper {
-        width: 100%;
-        min-width: 0;
-        box-sizing: border-box;
-    }
-
-    .chartSection {
-        width: 100%;
-        min-width: 0;
-        gap: 20px;
-
-        .chartContainer {
-            flex: 0 0 300px;
-            max-width: 300px !important;
-            min-width: 0;
-        }
-
-        .chartLegend {
-            flex: 1 1 auto;
-            min-width: 0;
-        }
-
-        .legendItem {
-            min-width: 0;
-        }
-
-        .legendLabel {
-            overflow-wrap: anywhere;
-            word-break: break-word;
-        }
-    }
-}
-
-@media (max-width: 650px) {
-    .widgetCard {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-        min-height: auto;
-        padding: 16px;
-        overflow: hidden;
-        box-sizing: border-box;
-
-        .widgetHeaderRow {
-            flex-wrap: wrap;
-            align-items: flex-start;
-            gap: 6px;
-        }
-
-        .widgetTitle {
-            min-width: 0;
-            flex: 1 1 calc(100% - 48px);
-
-            p {
-                font-size: 20px;
-                overflow-wrap: anywhere;
-                word-break: break-word;
-            }
-        }
-
-        .widgetBodyWrapper {
-            width: 100%;
-            min-width: 0;
-            padding: 0;
-            overflow: visible;
-            box-sizing: border-box;
-        }
-    }
-
-    .titleRow {
-        flex-wrap: wrap;
-        gap: 6px;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    .viewMoreButton {
-        width: 100%;
-        justify-content: flex-start;
-        margin-top: 4px;
-    }
-
-    .chartSection {
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: flex-start;
-        width: 100%;
-        min-width: 0;
-        gap: 12px;
-
-        .chartContainer {
-            flex: 0 0 auto;
-            width: 100%;
-            max-width: 100% !important;
-            min-width: 0;
-            min-height: 260px;
-            overflow-x: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .chartGraphic {
-            width: 100%;
-            max-width: 100%;
-            min-width: 0;
-            overflow: hidden;
-        }
-
-        .chartGraphic :global(.MuiChartsSurface-root) {
-            width: 100%;
-            max-width: 260px;
-            height: auto;
-        }
-
-        .chartGraphic :global(.MuiChartsSurface-root) {
-            width: 100%;
-            max-width: 260px;
-            height: auto;
-        }
-
-        .chartLegend {
-            flex: 0 0 auto;
-            width: 100%;
-            min-width: 0;
-        }
-
-        .legendItem {
-            align-items: flex-start;
-            min-width: 0;
-        }
-
-        .legendLabel {
-            overflow-wrap: anywhere;
-            word-break: break-word;
-        }
-    }
-
-    .tabRowWrap,
-    .controlsRow,
-    .actionBar {
-        flex-direction: column;
-        align-items: stretch;
-        width: 100%;
-        min-width: 0;
-        margin-left: 0;
-        gap: 12px;
-    }
-
-    .tabOptions {
-        width: 100%;
-        max-width: 100%;
-        overflow-x: auto;
-        flex-wrap: nowrap;
-    }
-
-    .tabOption {
-        flex: 0 0 auto;
-        white-space: nowrap;
-    }
-
-    .searchInputWrap,
-    .searchInput,
-    .actionButton {
-        width: 100%;
-        min-width: 0;
-        box-sizing: border-box;
-    }
-
-    .table {
-        width: 100%;
-        max-width: 100%;
-        overflow-x: auto;
-    }
-
-    .table table {
-        min-width: 520px;
-    }
-
-    .widgetDescriptionBox {
-        width: 100%;
-        min-width: 0;
-        box-sizing: border-box;
-    }
-
-    .descriptionHeader,
-    .descriptionTitle {
-        min-width: 0;
-    }
-
-    .descriptionText {
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-}
-
-.chartGraphic {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .widgetCard {
     width: 100%;
     max-width: 100%;
     min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .widgetBodyWrapper {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .chartSection {
+    width: 100%;
+    min-width: 0;
+    gap: 20px;
+
+    .chartContainer {
+      flex: 0 0 300px;
+      max-width: 300px !important;
+      min-width: 0;
+    }
+
+    .chartLegend {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .legendItem {
+      min-width: 0;
+    }
+
+    .legendLabel {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .widgetCard {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: auto;
+    padding: 16px;
     overflow: hidden;
+    box-sizing: border-box;
+
+    .widgetHeaderRow {
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .widgetTitle {
+      min-width: 0;
+      flex: 1 1 calc(100% - 48px);
+
+      p {
+        font-size: 20px;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+    }
+
+    .widgetBodyWrapper {
+      width: 100%;
+      min-width: 0;
+      padding: 0;
+      overflow: visible;
+      box-sizing: border-box;
+    }
+  }
+
+  .titleRow {
+    flex-wrap: wrap;
+    gap: 6px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .viewMoreButton {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 4px;
+  }
+
+  .chartSection {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    width: 100%;
+    min-width: 0;
+    gap: 12px;
+
+    .chartContainer {
+      flex: 0 0 auto;
+      width: 100%;
+      max-width: 100% !important;
+      min-width: 0;
+      min-height: 260px;
+      overflow-x: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .chartGraphic {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .chartGraphic :global(.MuiChartsSurface-root) {
+      width: 100%;
+      max-width: 260px;
+      height: auto;
+    }
+
+    .chartGraphic :global(.MuiChartsSurface-root) {
+      width: 100%;
+      max-width: 260px;
+      height: auto;
+    }
+
+    .chartLegend {
+      flex: 0 0 auto;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .legendItem {
+      align-items: flex-start;
+      min-width: 0;
+    }
+
+    .legendLabel {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+  }
+
+  .tabRowWrap,
+  .controlsRow,
+  .actionBar {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
+    margin-left: 0;
+    gap: 12px;
+  }
+
+  .tabOptions {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+
+  .tabOption {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .searchInputWrap,
+  .searchInput,
+  .actionButton {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .table {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .table table {
+    min-width: 520px;
+  }
+
+  .widgetDescriptionBox {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .descriptionHeader,
+  .descriptionTitle {
+    min-width: 0;
+  }
+
+  .descriptionText {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
+
+.chartGraphic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
