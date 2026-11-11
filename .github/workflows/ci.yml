@@ -77,8 +77,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: cd frontend && npm ci || npm install
       - run: cd frontend && npm run  # To see available commands
-      # TODO(@KevinEverywhere): Fix the stylelint errors and then remove `|| true`
-      - run: cd frontend && npm run lint:scss || true
+      - run: cd frontend && npm run lint:scss
       - run: cd frontend && npm run lint:ts
       - run: cd frontend && npm run typecheck
       - run: cd frontend && npm run unit
