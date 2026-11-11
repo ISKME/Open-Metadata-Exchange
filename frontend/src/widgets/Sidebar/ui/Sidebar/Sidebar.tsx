@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 import { classNames } from 'shared/lib/classNames/classNames';
-import cls from './Sidebar.module.scss';
 import {
   useState, useEffect, memo, useMemo,
 } from 'react';
 import { SidebarItemsList } from 'widgets/Sidebar/model/items';
 import { SidebarItem } from 'widgets/Sidebar/ui/SidebarItem/SidebarItem';
+import cls from './Sidebar.module.scss';
 
 interface SidebarProps {
   className?: string;
@@ -55,7 +55,7 @@ export const Sidebar = memo(({ className }: SidebarProps): JSX.Element => {
   return (
     <div data-testid="sidebar" id="sidebar" className={classNames(cls.Sidebar, {}, [className])} style={{ order: -1, zIndex: mainMenuOpen ? 1 : 0 }}>
       <div className={cls.sidebar_content}>
-        <nav className={cls.links}>
+        <nav aria-label="Main" className={cls.links}>
           {itemsList}
         </nav>
       </div>
