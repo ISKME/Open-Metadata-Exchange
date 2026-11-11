@@ -9,7 +9,7 @@
     font-weight: normal;
     top: -12px;
 
-    &:before {
+    &::before {
       content: "";
       display: block;
       width: 22px;
@@ -29,7 +29,7 @@
     *display: inline;
     margin-left: 0;
 
-    &:checked + label:after {
+    &:checked + label::after {
       content: "✔";
       font-size: 20px;
       line-height: 20px;

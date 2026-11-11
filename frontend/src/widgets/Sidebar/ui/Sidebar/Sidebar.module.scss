@@ -2,6 +2,7 @@
 /* stylelint-disable color-hex-length */
 .Sidebar {
   width: 200px;
+
   // min-width: 300px;
   background: #484F60;
   min-height: 100vh;
@@ -18,6 +19,7 @@
 
 .Sidebar .links {
   margin-top: 80px;
+
   // margin-left: 20px;
 }
 
@@ -28,10 +30,12 @@
 @media screen and (max-width: 900px) {
   .Sidebar {
     width: 68px;
+
     a {
       svg {
         margin-right: 0;
       }
+
       span {
         display: none;
       }

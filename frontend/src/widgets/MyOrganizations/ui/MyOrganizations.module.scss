@@ -8,7 +8,7 @@
 }
 
 .page-description-title{
-  font: 400 24px/24px "DINPro", sans-serif;
+  font: 400 24px/24px DINPro, sans-serif;
 }
 
 .page-description-title-container{
@@ -17,10 +17,11 @@
 }
 
 .sidebar-navigation{
- i {
+  i {
     font-size: 8px;
     vertical-align: middle;
-}
+  }
+
   ul {
     list-style-type: none;
     padding: 0;
@@ -52,13 +53,13 @@
 .page-title{
   margin-bottom: 14px;
   color: #44515a;
-  font: 500 24px/24px "DINPro", sans-serif;
+  font: 500 24px/24px DINPro, sans-serif;
   padding-left: 24px;
 }
 
 .page-subtitle {
   color: #6e6e6e;
-  font: 400 14px/14px "DINPro", sans-serif;
+  font: 400 14px/14px DINPro, sans-serif;
   padding-left: 24px;
 }
 
@@ -72,14 +73,17 @@
   border-radius: 3px;
   padding: 10px 30px !important;
   margin: 30px 0 !important;
+
   label {
-    font: 400 12px/12px "DINPro", sans-serif;
+    font: 400 12px/12px DINPro, sans-serif;
+
     span {
       &:first-child {
         margin: 0;
         padding: 4px;
       }
-      font: 400 14px/14px "DINPro", sans-serif;
+
+      font: 400 14px/14px DINPro, sans-serif;
     }
   }
 }
