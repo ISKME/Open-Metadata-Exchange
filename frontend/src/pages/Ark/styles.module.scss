@@ -413,6 +413,7 @@
     z-index: -1;
   }
 
+  // stylelint-disable-next-line selector-not-notation -- two :not() add up in specificity, one :not(a, b) would be weaker
   tbody tr:not(:last-child):not(:first-child) td::after {
     border-image: none;
   }

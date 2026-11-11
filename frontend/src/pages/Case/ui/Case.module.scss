@@ -1422,6 +1422,7 @@ form .col-xs-6 .form-group {
   margin-bottom: 0;
 }
 
+// stylelint-disable-next-line selector-id-pattern -- the id comes from the Django form, the server sets it
 form #div_id_text {
   margin-top: 10px;
 }
@@ -1589,6 +1590,7 @@ textarea {
   z-index: 3;
 }
 
+// stylelint-disable-next-line selector-id-pattern -- the id comes from the Django form, the server sets it
 .video-note-form #div_id_text {
   margin-top: 0;
   margin-bottom: 10px;
