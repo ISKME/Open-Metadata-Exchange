@@ -109,10 +109,9 @@ export function Home({ className }: HomeProps) {
     setSearchParams(params);
   }, [inputValue, JSON.stringify(selectedTenants), JSON.stringify(selectedLevels), JSON.stringify(selectedSubjects), date]);
 
-  function onPress({ key }) {
-    if (key === 'Enter') {
-      navigate(`/imls/browse/${window.location.search.toString()}`);
-    }
+  function onSearch(event) {
+    event.preventDefault();
+    navigate(`/imls/browse/${window.location.search.toString()}`);
   }
 
   // useEffect(() => {
@@ -124,17 +123,17 @@ export function Home({ className }: HomeProps) {
 
   return (
     <div className={classNames(cls.Home, {}, [className])}>
-      <Box sx={sxStyles.searchBar} className={cls.searchBar}>
+      <Box component="form" role="search" onSubmit={onSearch} sx={sxStyles.searchBar} className={cls.searchBar}>
         <TextField
           value={inputValue}
           onChange={({ target }) => setInputValue(target.value)}
-          onKeyDown={onPress}
           variant="outlined"
           placeholder="Search Collections"
+          inputProps={{ 'aria-label': 'Search collections' }}
           sx={sxStyles.searchInput}
           size="small"
         />
-        <Button variant="contained" sx={sxStyles.searchButton} onClick={() => navigate(`/imls/browse/${window.location.search.toString()}`)}>
+        <Button type="submit" variant="contained" sx={sxStyles.searchButton}>
           Search
         </Button>
       </Box>

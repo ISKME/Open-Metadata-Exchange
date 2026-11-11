@@ -54,7 +54,7 @@ export const Sidebar = memo(({ className }: SidebarProps): JSX.Element => {
   return (
     <div data-testid="sidebar" id="sidebar" className={classNames(cls.Sidebar, {}, [className])} style={{ order: -1, zIndex: mainMenuOpen ? 1 : 0 }}>
       <div className={cls.sidebar_content}>
-        <nav className={cls.links}>
+        <nav aria-label="Main" className={cls.links}>
           {itemsList}
         </nav>
       </div>
