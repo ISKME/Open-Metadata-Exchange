@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import type { ChangeEvent } from 'react';
 import axios from 'axios';
 import {
   Box,
@@ -534,7 +535,7 @@ export function VideoAnnotationEditor({
     if (vttFileInputRef.current) vttFileInputRef.current.value = '';
   };
 
-  const handleVttFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVttFileSelected = (e: ChangeEvent<HTMLInputElement>) => {
     setSelectedVttFile(e.target.files?.[0] ?? null);
   };
 
