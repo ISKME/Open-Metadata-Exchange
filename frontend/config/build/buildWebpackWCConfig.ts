@@ -25,7 +25,7 @@ export function buildWebpackConfig(options: BuildOptions): webpack.Configuration
       new webpack.DefinePlugin({
         __IS_DEV__: JSON.stringify(isDev),
       }),
-      new webpack.HotModuleReplacementPlugin(),
+      ...(isDev ? [new webpack.HotModuleReplacementPlugin()] : []),
     ],
     module: {
       rules: buildLoaders(options),
