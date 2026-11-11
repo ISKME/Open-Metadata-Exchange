@@ -221,21 +221,13 @@ html[dir='rtl'] .save-widget-group-folders {
   background: #e2e2e2;
   text-shadow: 1px 1px 1px #b8b6b6;
   background-image: #d9d9d9;
-  background-image: -webkit-linear-gradient(top, #e3e3e3 0%, #e3e3e3 30%, #cecece 70%, #cecece 100%);
-  background-image: -moz-linear-gradient(top, #e3e3e3 0%, #e3e3e3 30%, #cecece 70%, #cecece 100%);
-  background-image: -o-linear-gradient(top, #e3e3e3 0%, #e3e3e3 30%, #cecece 70%, #cecece 100%);
-  background-image: -ms-linear-gradient(top, #e3e3e3 0%, #e3e3e3 30%, #cecece 70%, #cecece 100%);
-  background-image: linear-gradient(top, #e3e3e3 0%, #e3e3e3 30%, #cecece 70%, #cecece 100%);
+  background-image: linear-gradient(to bottom, #e3e3e3 0%, #e3e3e3 30%, #cecece 70%, #cecece 100%);
 }
 
 .educational-standards-widget .btn-gray:hover {
   color: #000;
   background-image: #d2d2d2;
-  background-image: -webkit-linear-gradient(top, #e9e9e9 0%, #e9e9e9 30%, #bababa 70%, #bababa 100%);
-  background-image: -moz-linear-gradient(top, #e9e9e9 0%, #e9e9e9 30%, #bababa 70%, #bababa 100%);
-  background-image: -o-linear-gradient(top, #e9e9e9 0%, #e9e9e9 30%, #bababa 70%, #bababa 100%);
-  background-image: -ms-linear-gradient(top, #e9e9e9 0%, #e9e9e9 30%, #bababa 70%, #bababa 100%);
-  background-image: linear-gradient(top, #e9e9e9 0%, #e9e9e9 30%, #bababa 70%, #bababa 100%);
+  background-image: linear-gradient(to bottom, #e9e9e9 0%, #e9e9e9 30%, #bababa 70%, #bababa 100%);
 }
 
 .fl-theme-bw .educational-standards-widget .btn-gray,
