@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700";
 
 .library_wrapper {
   position: relative;
@@ -28,6 +28,7 @@
 
 .outlet {
   margin-top: 24px;
+
   & > * {
     padding: 0;
     width: 100%;
@@ -40,10 +41,12 @@
 
 .searchGrid {
   display: grid;
+
   // grid-template-columns: minmax(50px, auto) minmax(50px, auto) minmax(50px, auto);
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
   width: 100%;
+
   @media screen and (max-width: 980px) {
     grid-template-columns: 1fr;
   }
