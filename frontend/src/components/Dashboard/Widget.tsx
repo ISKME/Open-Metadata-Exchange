@@ -655,7 +655,7 @@ export default function ({
         return;
       }
 
-      const sort_field = selectedView === 'all' ? sortBy : selectedView;
+      const sortField = selectedView === 'all' ? sortBy : selectedView;
       const valueTitle = viewOptions
         .find((v) => v.slug === selectedView)
         ?.title?.replace(/^By /, '') || 'Value';
@@ -663,7 +663,7 @@ export default function ({
       const params = {
         ...buildBaseParams(),
         limit: 100000,
-        sort_by: sort_field,
+        sort_by: sortField,
         ...(searchPerformed
           && searchText.trim() && { search: searchText.trim() }),
       };

@@ -61,7 +61,7 @@ function CircleLoader() {
   );
 }
 
-interface search_resourcesProps {
+interface SearchResourcesProps {
   className?: string;
 }
 

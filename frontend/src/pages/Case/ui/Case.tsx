@@ -732,17 +732,17 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
     videoTags.forEach((item) => {
       // eslint-disable-next-line eqeqeq -- start and end are '' from the form or a number from the API, and 0 == '' is true, so === would change which rows count as empty
       if (!item.check && (item.start == '' || item.end == '')) return;
-      const start_position = item.check
+      const startPosition = item.check
         ? 0
         : timeToSeconds(duration, item.start || 0, 'Start');
-      const end_position = item.check
+      const endPosition = item.check
         ? duration
         : timeToSeconds(duration, item.end || duration, 'End');
       const data = {
         scope: 'video',
         uri: selected,
-        start_position,
-        end_position,
+        start_position: startPosition,
+        end_position: endPosition,
       };
       if (item.id) data.id = item.id;
       annotations.push(data);
@@ -1032,30 +1032,30 @@ function NoteForm({
       private: groupInfo.id == -1,
     };
     if (video) {
-      const start_position = checked
+      const startPosition = checked
         ? 0
         : timeToSeconds(duration, formStart || 0, 'Start');
       // ~~ rounds down and turns NaN into 0
       /* eslint-disable no-bitwise */
-      let end_position;
-      if (checked) end_position = ~~duration;
-      else if (formEnd) end_position = ~~timeToSeconds(duration, formEnd || duration, 'End');
+      let endPosition;
+      if (checked) endPosition = ~~duration;
+      else if (formEnd) endPosition = ~~timeToSeconds(duration, formEnd || duration, 'End');
       /* eslint-enable no-bitwise */
       if (
-        start_position === undefined
-        || start_position === null
-        || end_position === undefined
-        || end_position === null
+        startPosition === undefined
+        || startPosition === null
+        || endPosition === undefined
+        || endPosition === null
       ) {
         alert("Enter end time, or enable 'Entire Video' checkbox!");
         return;
       }
-      if (end_position < start_position) {
+      if (endPosition < startPosition) {
         alert('Start time cannot be greater than end time!');
         return;
       }
-      data.start_position = start_position;
-      data.end_position = end_position;
+      data.start_position = startPosition;
+      data.end_position = endPosition;
       data.scope = 'video';
     } else if (checked) data.entire_entity = true;
     else {
