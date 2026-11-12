@@ -29,7 +29,10 @@ export function OrgansUsersImport({ id, onCancel = () => { } }) {
 
   function importing() {
     const members = document.querySelector('#members')?.files[0];
-    if (!members) return alert('Please select a file to import.');
+    if (!members) {
+      alert('Please select a file to import.');
+      return;
+    }
     req.post(`organizations/v2/organizations/${id}/members/import`, { members }, true)
       .then((data) => {
         alert(`Successful:\n\n${jsonToReadableText(data)}`);

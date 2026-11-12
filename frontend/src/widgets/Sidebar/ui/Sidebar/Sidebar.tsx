@@ -1,8 +1,8 @@
-/* eslint-disable no-undef */
 import { classNames } from 'shared/lib/classNames/classNames';
 import {
   useState, useEffect, memo, useMemo,
 } from 'react';
+import type { JSX } from 'react';
 import { SidebarItemsList } from 'widgets/Sidebar/model/items';
 import { SidebarItem } from 'widgets/Sidebar/ui/SidebarItem/SidebarItem';
 import cls from './Sidebar.module.scss';
@@ -14,7 +14,7 @@ interface SidebarProps {
 const useStyleObserver = (targetSelector, callback) => {
   useEffect(() => {
     const targetElement = document.querySelector(targetSelector);
-    if (!targetElement) return;
+    if (!targetElement) return undefined;
 
     // Create a new MutationObserver instance
     const observer = new MutationObserver((mutations) => {

@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable max-len */
 
 // @ts-nocheck
 import {

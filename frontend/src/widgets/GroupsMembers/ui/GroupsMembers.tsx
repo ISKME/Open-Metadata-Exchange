@@ -1,6 +1,5 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/prop-types */
-/* eslint-disable max-len */
 
 /* eslint-disable react/jsx-no-bind */
 
@@ -62,7 +61,7 @@ const toolbarStyles = {
 };
 
 export function GroupsMembers({ onMembersCountChange = () => {} }) {
-  const { id: group_id } = useParams();
+  const { id: groupId } = useParams();
   const [open, setOpen] = useState(false);
   const [list, setList] = useState([]);
   const [checkedEmails, setCheckedEmails] = useState([]);
@@ -96,14 +95,14 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
   };
 
   useEffect(() => {
-    axios.get(`/api/groups/v1/groups/${group_id}/members/invite`).then(({ data }) => {
+    axios.get(`/api/groups/v1/groups/${groupId}/members/invite`).then(({ data }) => {
       setList(data);
     });
-  }, [group_id]);
+  }, [groupId]);
 
   async function fetchMembers(params = {}) {
     try {
-      const response = await axios.get(`/api/groups/v1/groups/${group_id}/members`, {
+      const response = await axios.get(`/api/groups/v1/groups/${groupId}/members`, {
         params: { page, page_size: pageSize, ...params },
       });
 
@@ -129,7 +128,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
 
   async function fetchPendingMembers() {
     try {
-      const { data } = await axios.get(`/api/groups/v1/groups/${group_id}/members/invitations`);
+      const { data } = await axios.get(`/api/groups/v1/groups/${groupId}/members/invitations`);
 
       const rows = (Array.isArray(data) ? data : data?.results || []).map((item) => ({
         id: item.id,
@@ -161,7 +160,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
       return;
     }
 
-    await req.post(`groups/v1/groups/${group_id}/members/invite`, {
+    await req.post(`groups/v1/groups/${groupId}/members/invite`, {
       emails,
     });
 
@@ -189,11 +188,11 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
   useEffect(() => {
     setPage(1);
     fetchPendingMembers();
-  }, [group_id]);
+  }, [groupId]);
 
   useEffect(() => {
     fetchMembers();
-  }, [group_id, page, pageSize]);
+  }, [groupId, page, pageSize]);
 
   const handleMemberModify = async (data) => {
     const isAdmin = data.role === 'Leader';
@@ -201,7 +200,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
     try {
       const headers = await getCsrfHeaders();
 
-      await axios.put(`/api/groups/v1/groups/${group_id}/members/${data.id}`, {
+      await axios.put(`/api/groups/v1/groups/${groupId}/members/${data.id}`, {
         is_admin: isAdmin,
       }, { headers });
 
@@ -242,7 +241,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
       const headers = await getCsrfHeaders();
 
       if (tab === 0) {
-        await axios.delete(`/api/groups/v1/groups/${group_id}/members`, {
+        await axios.delete(`/api/groups/v1/groups/${groupId}/members`, {
           headers,
           data: {
             members: selectedCurrentMembers,
@@ -257,7 +256,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
       if (tab === 1) {
         await Promise.all(
           selectedPendingMembers.map((invitationId) => (
-            axios.delete(`/api/groups/v1/groups/${group_id}/members/invitations/${invitationId}`, { headers })
+            axios.delete(`/api/groups/v1/groups/${groupId}/members/invitations/${invitationId}`, { headers })
           )),
         );
 
@@ -284,7 +283,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
     if (!emails.length) return;
 
     try {
-      await req.post(`groups/v1/groups/${group_id}/members/invite`, {
+      await req.post(`groups/v1/groups/${groupId}/members/invite`, {
         emails,
       });
 

@@ -83,6 +83,7 @@ export default function DefaultEditor() {
             },
           };
         }
+        return undefined;
       };
     });
   }, []);
@@ -212,9 +213,10 @@ export default function DefaultEditor() {
               <CustomModal
                 open={open}
                 title={title}
-                children={content}
                 close={close}
-              />
+              >
+                {content}
+              </CustomModal>
             )}
           </ModalProvider>
           <AssetsProvider>

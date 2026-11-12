@@ -239,6 +239,31 @@ export const TableEdit = ({
     setPage(0);
   };
 
+  const sortSymbol = (field) => {
+    if (sortConfig.key !== field) return '↑↓';
+    return sortConfig.direction === 'asc' ? '↑' : '↓';
+  };
+
+  const cellContent = (row, header) => {
+    if (header.field === 'title') {
+      return (
+        <Link href={`/groups/new/${row.id}`} rel="noopener">
+          {row[header.field]}
+        </Link>
+      );
+    }
+    if (header.field === 'leaders') {
+      return row[header.field]
+        .filter(
+          (leader) => leader.full_name && leader.full_name.trim() !== '',
+        )
+        .map((leader) => leader.full_name)
+        .join(', ');
+    }
+    if (header.field === 'cases') return row[header.field] || 0;
+    return row[header.field];
+  };
+
   return (
     <div>
       {toolbar && (
@@ -303,11 +328,7 @@ export const TableEdit = ({
                     color: sortConfig.key === header.field ? 'black' : '#ccc',
                   }}
                 >
-                  {sortConfig.key === header.field
-                    ? sortConfig.direction === 'asc'
-                      ? '↑'
-                      : '↓'
-                    : '↑↓'}
+                  {sortSymbol(header.field)}
                 </span>
               </th>
             ))}
@@ -333,22 +354,7 @@ export const TableEdit = ({
               )}
               {headers.map((header) => (
                 <td key={header.field} style={{ fontSize: '14px' }}>
-                  {header.field === 'title' ? (
-                    <Link href={`/groups/new/${row.id}`} rel="noopener">
-                      {row[header.field]}
-                    </Link>
-                  ) : header.field === 'leaders' ? (
-                    row[header.field]
-                      .filter(
-                        (leader) => leader.full_name && leader.full_name.trim() !== '',
-                      )
-                      .map((leader) => leader.full_name)
-                      .join(', ')
-                  ) : header.field === 'cases' ? (
-                    row[header.field] || 0
-                  ) : (
-                    row[header.field]
-                  )}
+                  {cellContent(row, header)}
                 </td>
               ))}
               <td className={cls.buttons}>

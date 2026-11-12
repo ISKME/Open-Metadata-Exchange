@@ -36,7 +36,7 @@ export function CardResource({
     <CardBlog sx={{ display: 'flex' }}>
       <CardContent sx={{ flex: '1', paddingTop: '0', width: '100%' }}>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-          <a href={url} target="_blank" style={{ cursor: 'pointer', flex: 1 }} target="_blank" title={`Download resource ${title}`}>
+          <a href={url} target="_blank" style={{ cursor: 'pointer', flex: 1 }} title={`Download resource ${title}`}>
             <Typography component="div" variant="h5" sx={{ color: '#56788f', font: '700 19px / 25px "DINPro", sans-serif', marginBottom: '5px' }}>
               {title}
             </Typography>

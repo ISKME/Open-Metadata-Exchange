@@ -2,14 +2,17 @@ import { useState } from 'react';
 import cls from './Collapse.module.scss';
 
 export const Collapse = (props) => {
+  const {
+    style, number, title, children,
+  } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div style={props.style || {}}>
+    <div style={style || {}}>
       <div className={cls.collapseCard} onClick={() => setIsOpen(!isOpen)}>
         <div>
-          <span>{props.title}</span>
-          {Number(props.number) > 0 && (
+          <span>{title}</span>
+          {Number(number) > 0 && (
             <div className={cls.alert}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <g clipPath="url(#clip0_454_2653)">
@@ -21,11 +24,11 @@ export const Collapse = (props) => {
                   </clipPath>
                 </defs>
               </svg>
-              <span className={cls.number}>{props.number}</span>
+              <span className={cls.number}>{number}</span>
               <span>value unmapped</span>
             </div>
           )}
-          {Number(props.number) === -1 && (
+          {Number(number) === -1 && (
             <div className={cls.alert}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M12 2.24976C6.6239 2.24976 2.25 6.62366 2.25 11.9998C2.25 17.3758 6.6239 21.7497 12 21.7497C17.3761 21.7497 21.75 17.3758 21.75 11.9998C21.75 6.62366 17.3761 2.24976 12 2.24976ZM17.0742 8.7321L10.7742 16.2321C10.7051 16.3144 10.6191 16.3809 10.5221 16.4271C10.425 16.4733 10.3192 16.498 10.2117 16.4998H10.1991C10.0939 16.4997 9.99 16.4776 9.89398 16.4348C9.79796 16.392 9.71202 16.3295 9.64172 16.2513L6.94172 13.2513C6.87315 13.1786 6.81981 13.0929 6.78483 12.9992C6.74985 12.9056 6.73395 12.8059 6.73805 12.7061C6.74215 12.6062 6.76617 12.5081 6.8087 12.4177C6.85123 12.3272 6.91142 12.2462 6.98572 12.1793C7.06002 12.1125 7.14694 12.0611 7.24136 12.0283C7.33578 11.9955 7.43581 11.9819 7.53556 11.9884C7.63531 11.9948 7.73277 12.0211 7.82222 12.0657C7.91166 12.1103 7.99128 12.1724 8.0564 12.2482L10.1794 14.6069L15.9258 7.76741C16.0547 7.61838 16.237 7.52607 16.4335 7.51042C16.6299 7.49477 16.8246 7.55704 16.9754 7.68377C17.1263 7.8105 17.2212 7.99151 17.2397 8.18768C17.2582 8.38385 17.1988 8.57941 17.0742 8.7321Z" fill="#34B53A" />
@@ -39,7 +42,7 @@ export const Collapse = (props) => {
           <path d="M17 9.5L12 14.5L7 9.5H17Z" fill="#1E1E1E" />
         </svg>
       </div>
-      {isOpen && props.children}
+      {isOpen && children}
     </div>
   );
 };

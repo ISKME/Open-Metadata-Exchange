@@ -19,7 +19,10 @@ import { extractUrlParams } from 'shared/lib/global';
 import styles from './Resources.styles';
 
 let tempMaterials = [];
-const makeArray = (arg) => (arg !== undefined ? Array.isArray(arg) ? arg : [arg] : []);
+const makeArray = (arg) => {
+  if (arg === undefined) return [];
+  return Array.isArray(arg) ? arg : [arg];
+};
 
 const Subject = ({ data = {}, isSelected = false, onSelect = () => {} }) => {
   const [expanded, setExpanded] = useState(isSelected);
@@ -50,10 +53,10 @@ const Subject = ({ data = {}, isSelected = false, onSelect = () => {} }) => {
 
 let allMaterials = [];
 export function Resources({ titles = '', URL = '/api/materials/v1/courses' }) {
-  let {
-    cases, count, pages, materials, standards,
+  const {
+    cases, count, pages, materials: selectedMaterials, standards,
   } = useAppSelector((state) => state.CasesSlice);
-  materials = materials.length ? materials : [{ name: 'Case Analysis Prompt', slug: 'case-analysis-prompt' }];
+  const materials = selectedMaterials.length ? selectedMaterials : [{ name: 'Case Analysis Prompt', slug: 'case-analysis-prompt' }];
 
   if (materials?.length && allMaterials.length <= materials.length) {
     allMaterials = materials;

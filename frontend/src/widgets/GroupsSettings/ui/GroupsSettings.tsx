@@ -184,7 +184,7 @@ export function GroupsSettings() {
             <Typography sx={{ margin: '0 0 -16px 0' }}>What is the name of your Group?*</Typography>
             <FormControl fullWidth sx={{ marginTop: '16px' }}>
               <InputLabel shrink htmlFor="group-name">
-                e.g. 'Teachers as Makers'
+                e.g. &apos;Teachers as Makers&apos;
               </InputLabel>
               <TextField
                 id="group-name"
@@ -198,7 +198,7 @@ export function GroupsSettings() {
             <Typography sx={{ margin: '0 0 -16px 0' }}>Add a Description*</Typography>
             <FormControl fullWidth sx={{ marginTop: '16px' }}>
               <InputLabel shrink htmlFor="group-purpose">
-                This group's purpose is...
+                This group&apos;s purpose is...
               </InputLabel>
               <TextField
                 id="group-purpose"
@@ -227,7 +227,7 @@ export function GroupsSettings() {
             <Typography sx={{ margin: '0 0 -16px 0' }}>What is the name of your Group?*</Typography>
             <FormControl fullWidth sx={{ marginTop: '16px' }}>
               <InputLabel shrink htmlFor="group-name-duplicate">
-                e.g. 'Teachers as Makers'
+                e.g. &apos;Teachers as Makers&apos;
               </InputLabel>
               <TextField
                 id="group-name-duplicate"
@@ -241,7 +241,7 @@ export function GroupsSettings() {
             <Typography sx={{ margin: '0 0 -16px 0' }}>Add a Description*</Typography>
             <FormControl fullWidth sx={{ marginTop: '16px' }}>
               <InputLabel shrink htmlFor="group-purpose-duplicate">
-                This group's purpose is...
+                This group&apos;s purpose is...
               </InputLabel>
               <TextField
                 id="group-purpose-duplicate"

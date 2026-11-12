@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 // @ts-nocheck
 import * as React from 'react';
 import axios from 'axios';

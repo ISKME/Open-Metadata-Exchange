@@ -133,7 +133,7 @@ function VeifyByEmailMode({
   return (
     <Stack spacing={2}>
       <DialogContentText sx={{ fontSize: ds.textFontSize }}>
-        We'll send a verification code to your email address
+        We&apos;ll send a verification code to your email address
       </DialogContentText>
       <TextField
         error={!!error}
@@ -276,12 +276,12 @@ function RevialTokensDialog({
             )}
             <Verification onVerified={onVerified} onFailed={handleFailed} onModeChange={setVerificationMode} ds={ds} />
           </>
-        ) : error ? (
+        ) : (Boolean(error) && (
           <Stack spacing={2}>
             <Alert severity="error" sx={{ mb: 2, fontSize: ds.textFontSize }}>{error}</Alert>
             <Button onClick={onClose} sx={{ fontSize: ds.textFontSize }} fullWidth>Ok</Button>
           </Stack>
-        ) : null}
+        ))}
       </DialogContent>
     </Dialog>
   );
@@ -417,6 +417,20 @@ export function MFABackupTokens({ ds = defaultStyles }) {
     });
   }, []);
 
+  const renderTokens = () => (!isBlocked && tokens.length > 0 ? (
+    <Stack spacing={2}>
+      <div>Use these codes to access your account if you lose your device</div>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+        { !isBlocked && !verified && <button className="btn btn-primary" type="button" onClick={() => setVerify(true)}>Reveal codes</button> }
+        { !isBlocked && verified && <button className="btn btn-primary" type="button" onClick={hideCodes}>Hide codes</button> }
+        { verified && <CopyToClipboardButton textToCopy={tokens.join('\n')} /> }
+      </Stack>
+      <MFATokenList tokens={tokens} />
+    </Stack>
+  ) : !isBlocked && (
+  <p>No backup codes available.</p>
+  ));
+
   return (
     <>
       <RevialTokensDialog
@@ -437,23 +451,7 @@ export function MFABackupTokens({ ds = defaultStyles }) {
       <section className="">
         <h2>Security Settings</h2>
         {isBlocked && errorMessage && <Alert severity="error" sx={{ mb: 2, fontSize: ds.textFontSize }}>{errorMessage}</Alert>}
-        {loaded ? (
-          <>
-            {!isBlocked && tokens.length > 0 ? (
-              <Stack spacing={2}>
-                <div>Use these codes to access your account if you lose your device</div>
-                <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                  { !isBlocked && !verified && <button className="btn btn-primary" type="button" onClick={() => setVerify(true)}>Reveal codes</button> }
-                  { !isBlocked && verified && <button className="btn btn-primary" type="button" onClick={hideCodes}>Hide codes</button> }
-                  { verified && <CopyToClipboardButton textToCopy={tokens.join('\n')} /> }
-                </Stack>
-                <MFATokenList tokens={tokens} />
-              </Stack>
-            ) : !isBlocked && (
-              <p>No backup codes available.</p>
-            )}
-          </>
-        ) : <p>Loading...</p> }
+        {loaded ? renderTokens() : <p>Loading...</p> }
         {!isBlocked && <button className="btn btn-secondary" type="button" onClick={() => setGenerateNew(true)}>Generate new codes</button>}
       </section>
     </>

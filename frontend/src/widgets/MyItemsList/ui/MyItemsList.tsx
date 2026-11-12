@@ -419,7 +419,6 @@ export function MyItemsList({
 
                         >
                           <MenuItem
-
                             onClick={() => selectValue(
                               '',
                               'My Saved Items',
@@ -616,7 +615,7 @@ export function MyItemsList({
             )}
           </>
         )}
-        {!check.reduce((a, b) => a = a || b, false) && (
+        {!check.reduce((a, b) => a || b, false) && (
           <>
             <TextField
               id="outlined-basic"

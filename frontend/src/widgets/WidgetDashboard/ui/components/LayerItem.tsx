@@ -38,7 +38,7 @@ export default function LayerItem({
   const isHovered = hovered || dragParent === component;
 
   useEffect(() => {
-    level === 0 && setLayerData(Layers.getLayerData(component));
+    if (level === 0) setLayerData(Layers.getLayerData(component));
     if (layerRef.current) {
       (layerRef.current as any).__cmp = component;
     }
@@ -46,7 +46,7 @@ export default function LayerItem({
 
   useEffect(() => {
     const up = (cmp: Component) => {
-      cmp === component && setLayerData(Layers.getLayerData(cmp));
+      if (cmp === component) setLayerData(Layers.getLayerData(cmp));
     };
     const ev = Layers.events.component;
     editor.on(ev, up);

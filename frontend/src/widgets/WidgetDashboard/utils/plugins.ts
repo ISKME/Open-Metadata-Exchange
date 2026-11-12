@@ -431,13 +431,13 @@ const collections = (editor: Editor) => {
 
             prevButton.onclick = () => {
               if (currentPage > 1) {
-                currentPage--;
+                currentPage -= 1;
                 renderCollections(currentPage);
               }
             };
             nextButton.onclick = () => {
               if (currentPage < totalPages) {
-                currentPage++;
+                currentPage += 1;
                 renderCollections(currentPage);
               }
             };

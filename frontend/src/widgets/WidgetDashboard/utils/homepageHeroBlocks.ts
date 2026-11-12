@@ -127,8 +127,8 @@ export const homepageHeroBlocks = (editor: Editor) => {
     });
 
     const modal: any = (editor as any).Modal;
-    if (modal?.once) modal.once('close', () => (bgPickerLock = false));
-    else setTimeout(() => (bgPickerLock = false), 500);
+    if (modal?.once) modal.once('close', () => { bgPickerLock = false; });
+    else setTimeout(() => { bgPickerLock = false; }, 500);
   };
 
   const ensureHeroBg = (hero: any) => {

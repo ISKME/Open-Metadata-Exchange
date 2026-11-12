@@ -316,7 +316,8 @@ export function OrgansCaseAnalytics({ id }) {
       && (!updatedParams.userIsActive || updatedParams.userIsActive === UserIsActiveStatus.ALL
         || (updatedParams.userIsActive === UserIsActiveStatus.ACTIVE ? user.is_active : !user.is_active))
       && (!updatedParams.state || user.state === updatedParams.state)).map((user) => user.id);
-    const usersParam = hasUserFilters ? (filteredUsers.length ? filteredUsers : [-1]) : [];
+    let usersParam = [];
+    if (hasUserFilters) usersParam = filteredUsers.length ? filteredUsers : [-1];
 
     fetchData(date[0], date[1], usersParam.length === 0 ? [] : usersParam, updatedParams.group, filteredIds);
     fetchTableData(date[0], date[1], usersParam.length === 0 ? [] : usersParam, updatedParams.group, filteredIds);
@@ -392,6 +393,7 @@ export function OrgansCaseAnalytics({ id }) {
       return data.users;
     } catch (error) {
       console.error('Error fetching configs:', error);
+      return undefined;
     } finally {
       setIsLoading(false);
     }

@@ -43,10 +43,11 @@ export function StdWidget(props) {
 }
 
 export function StdFilter(props) {
+  const { className, header, filter } = props;
   return (
-    <section className={`filter-block ${props.className || ''}`} style={{ marginBottom: '30px' }}>
-      <h2 className="filter-block-title">{ props.header || props.filter.name }</h2>
-      <div className={cls[props.className]}>
+    <section className={`filter-block ${className || ''}`} style={{ marginBottom: '30px' }}>
+      <h2 className="filter-block-title">{ header || filter.name }</h2>
+      <div className={cls[className]}>
         <StdWidget section={StdSection} {...props} />
       </div>
     </section>

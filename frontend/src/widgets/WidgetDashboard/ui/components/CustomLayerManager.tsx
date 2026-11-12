@@ -63,7 +63,7 @@ export default function CustomLayerManager({
     const cmpSource = !dragging ? cmp : dragging;
     const cmpTarget = cmp.parent();
     const cmpIndex = cmp.index() + (isBefore ? 0 : 1);
-    !dragging && setDragging(cmp);
+    if (!dragging) setDragging(cmp);
     setCmpPointerOver(cmp);
     const canMove = Components.canMove(cmpTarget!, cmpSource, cmpIndex);
     const canMoveInside = Components.canMove(cmp, cmpSource);
@@ -91,8 +91,9 @@ export default function CustomLayerManager({
     });
   };
   const onDragEnd = () => {
-    canMoveRes?.result
-      && canMoveRes.source?.move(canMoveRes.target!, { at: canMoveRes.index });
+    if (canMoveRes?.result) {
+      canMoveRes.source?.move(canMoveRes.target!, { at: canMoveRes.index });
+    }
     setCanMoveRes({});
     setPointerDown(false);
     setDragging(undefined);

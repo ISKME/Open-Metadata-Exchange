@@ -528,7 +528,6 @@ export function CasesList({
 
                         >
                           <MenuItem
-
                             onClick={() => selectValue(
                               '',
                               'My Saved Cases',
@@ -725,7 +724,7 @@ export function CasesList({
             )}
           </>
         )}
-        {!check.reduce((a, b) => a = a || b, false) && (
+        {!check.reduce((a, b) => a || b, false) && (
           <>
             <TextField
               id="outlined-basic"
@@ -795,121 +794,121 @@ export function CasesList({
       || searchParams.get('hub_title')
       || extras.length ? (
         <div
-              style={{
-                display: 'flex',
-                padding: '15px 0',
-                borderBottom: '1px solid #e8e8e8',
-                marginTop: '-30px',
-                marginBottom: '30px',
-              }}
-            >
-              <div style={{ flex: 1 }}>
+          style={{
+            display: 'flex',
+            padding: '15px 0',
+            borderBottom: '1px solid #e8e8e8',
+            marginTop: '-30px',
+            marginBottom: '30px',
+          }}
+        >
+          <div style={{ flex: 1 }}>
             <Button onClick={handleClearFilters}>Clear filters</Button>
           </div>
-              <div style={{ flex: 3, display: 'flex', flexWrap: 'wrap' }}>
+          <div style={{ flex: 3, display: 'flex', flexWrap: 'wrap' }}>
             {searchParams.get('network_hub') && (
-                  <span className="search-filter-value">
+            <span className="search-filter-value">
               <IconButton
-                      onClick={() => {
-                        const params = new URLSearchParams(window.location.search);
-                        params.delete('network_hub');
-                        params.delete('hub_title');
-                        setSearchParams(params);
-                        handleSearch(search);
-                      }}
-                    >
-                      <CloseIcon fontSize="small" />
-                    </IconButton>
+                onClick={() => {
+                  const params = new URLSearchParams(window.location.search);
+                  params.delete('network_hub');
+                  params.delete('hub_title');
+                  setSearchParams(params);
+                  handleSearch(search);
+                }}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
               Hub:
-                    <span>
-                      {' '}
-                      {searchParams.get('hub_title') || searchParams.get('network_hub')}
-                    </span>
-            </span>
-                )}
-            {search ? (
-                  <span className="search-filter-value">
-                <IconButton
-                      onClick={() => {
-                        setSearch('');
-                        setTerm('');
-                        handleSearch('');
-                        setSearchText('');
-                      }}
-                    >
-                      <CloseIcon fontSize="small" />
-                    </IconButton>
-                Search:
-                    <span>
-                      {' '}
-                      {search}
-                    </span>
+              <span>
+                {' '}
+                {searchParams.get('hub_title') || searchParams.get('network_hub')}
               </span>
-                ) : (
-                  ''
-                )}
+            </span>
+            )}
+            {search ? (
+              <span className="search-filter-value">
+                <IconButton
+                  onClick={() => {
+                    setSearch('');
+                    setTerm('');
+                    handleSearch('');
+                    setSearchText('');
+                  }}
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+                Search:
+                <span>
+                  {' '}
+                  {search}
+                </span>
+              </span>
+            ) : (
+              ''
+            )}
             {topics.map((topic) => (
-                  <span key={topic.slug} className="search-filter-value">
+              <span key={topic.slug} className="search-filter-value">
                 <IconButton onClick={() => unselectTopic(topic)}>
-                      <CloseIcon fontSize="small" />
-                    </IconButton>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
                 {topic.parent ? 'Topic' : 'Subject'}
                 :
-<span>
-  {' '}
-                      {topic.name}
-</span>
+                <span>
+                  {' '}
+                  {topic.name}
+                </span>
               </span>
-                ))}
+            ))}
             {grades.map((grade) => (
-                  <span key={grade.slug} className="search-filter-value">
+              <span key={grade.slug} className="search-filter-value">
                 <IconButton onClick={() => unselectGrade(grade)}>
-                      <CloseIcon fontSize="small" />
-                    </IconButton>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
                 Grade:
-                    <span>
-                      {' '}
-                      {grade.name}
-                    </span>
+                <span>
+                  {' '}
+                  {grade.name}
+                </span>
               </span>
-                ))}
+            ))}
             {selectedStandards.map((standard) => (
-                  <span className="search-filter-value" key={standard.slug}>
+              <span className="search-filter-value" key={standard.slug}>
                 <IconButton onClick={() => clearStdFilter(standard)}>
-                      <CloseIcon fontSize="small" />
-                    </IconButton>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
                 {standard.section.name}
                 :
-<span style={overflowStyle}>
-  {' '}
-                      {standard.name}
-</span>
+                <span style={overflowStyle}>
+                  {' '}
+                  {standard.name}
+                </span>
               </span>
-                ))}
+            ))}
             {extras.map((extra, index) => (
-                  <span key={`${extra.key}-${extra.value}`} className="search-filter-value">
+              <span key={`${extra.key}-${extra.value}`} className="search-filter-value">
                 <IconButton
-                      onClick={() => {
-                        const params = new URLSearchParams(window.location.search);
-                        const updatedValues = params.getAll(extra.keyword).filter((val) => val != extra.value);
-                        params.delete(extra.keyword);
-                        updatedValues.forEach((val) => params.append(extra.keyword, val));
-                        setSearchParams(params);
-                        handleSearch(search);
-                        setExtras(extras.filter((_, i) => i !== index));
-                      }}
-                    >
-                      <CloseIcon fontSize="small" />
-                    </IconButton>
+                  onClick={() => {
+                    const params = new URLSearchParams(window.location.search);
+                    const updatedValues = params.getAll(extra.keyword).filter((val) => val != extra.value);
+                    params.delete(extra.keyword);
+                    updatedValues.forEach((val) => params.append(extra.keyword, val));
+                    setSearchParams(params);
+                    handleSearch(search);
+                    setExtras(extras.filter((_, i) => i !== index));
+                  }}
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
                 {extra.name}
                 :
-                    {' '}
+                {' '}
                 <span>{extra.label}</span>
               </span>
-                ))}
+            ))}
 
           </div>
-            </div>
+        </div>
           ) : (
             ''
           )}

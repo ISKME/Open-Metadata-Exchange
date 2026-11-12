@@ -55,7 +55,7 @@ export default function TopbarButtons({
     const updateEvent = 'update';
     const updateCounter = () => setUpdateCounter((value) => value + 1);
     const onCommand = (id: string) => {
-      cmdButtons.find((btn) => btn.id === id) && updateCounter();
+      if (cmdButtons.find((btn) => btn.id === id)) updateCounter();
     };
     editor.on(cmdEvent, onCommand);
     editor.on(updateEvent, updateCounter);

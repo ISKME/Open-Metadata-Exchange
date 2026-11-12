@@ -107,12 +107,15 @@ export function CheckboxDL(props) {
 }
 
 export function CheckboxFilter(props) {
-  const { items } = props.filter;
+  const {
+    filter, className, header, cols: colsProp, listComponent: listComponentProp,
+  } = props;
+  const { items } = filter;
   const grid = 12;
-  const cols = props.cols || 1;
+  const cols = colsProp || 1;
   const colWrap = grid / cols;
   const chunkSize = Math.ceil(items.length / cols);
-  const listComponent = props.listComponent || CheckboxUL;
+  const listComponent = listComponentProp || CheckboxUL;
 
   const chunks = [];
   for (let i = 0; i < items.length; i += chunkSize) {
@@ -120,8 +123,8 @@ export function CheckboxFilter(props) {
   }
 
   return (
-    <section className={`filter-block ${props.className || ''}`} style={{ marginBottom: '30px' }}>
-      <h2 className="filter-block-title">{ props.header || props.filter.name }</h2>
+    <section className={`filter-block ${className || ''}`} style={{ marginBottom: '30px' }}>
+      <h2 className="filter-block-title">{ header || filter.name }</h2>
       <nav className="row">
         {chunks.map((colItems) => (
           <div className={`col-md-${colWrap}`}>
