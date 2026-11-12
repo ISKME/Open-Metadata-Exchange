@@ -727,13 +727,10 @@ export function ReportsUserAnalytics() {
             {...analyticsTableProps}
             slots={{
               pagination: AnalyticsPagination,
-              toolbar: () => (
-                <EditUserToolbar
-                  onSearch={handleSearch}
-                  onClear={handleClearSearch}
-                  onExport={handleExport}
-                />
-              ),
+              toolbar: EditUserToolbar,
+            }}
+            slotProps={{
+              toolbar: { onSearch: handleSearch, onClear: handleClearSearch, onExport: handleExport },
             }}
             rows={tableData}
             columns={columns}

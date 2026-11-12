@@ -10,9 +10,9 @@ import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import { Uploader } from 'components/uploader';
-import cls from './OrgansSettings.module.scss';
 import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
+import cls from './OrgansSettings.module.scss';
 
 const style = {
   marginLeft: '16px',

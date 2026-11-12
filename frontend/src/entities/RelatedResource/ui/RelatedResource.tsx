@@ -29,7 +29,7 @@ function RelatedResourceForm({
           <strong className="related-resource-form-row-label">
             {resource?.file ? 'Replace' : 'Add'}
 &nbsp;
-            {resource?.file ? (<a href={resource.file} target="_blank">Resource</a>) : 'Resource'}
+            {resource?.file ? (<a href={resource.file} target="_blank" rel="noopener">Resource</a>) : 'Resource'}
             *:
           </strong>
           <div className="related-resource-form-file-input">
@@ -132,10 +132,10 @@ export function RelatedResource({
 
         {resource && !editing && (
           <div className="saved-related-resource">
-            <button className="btn btn-link saved-related-resource-delete" type="button" onClick={onDelete}>
+            <button className="btn btn-link saved-related-resource-delete" type="button" aria-label="Remove related resource" onClick={onDelete}>
               <i className="fa fa-times-circle" />
             </button>
-            <a href={resource.download_url || resource.url} className="saved-related-resource-link" target="_blank">
+            <a href={resource.download_url || resource.url} className="saved-related-resource-link" target="_blank" rel="noopener">
               <i className={resource.icon_class} />
               <p className="saved-related-resource-name">{title || 'Untitled'}</p>
             </a>
@@ -158,7 +158,7 @@ export function RelatedResource({
 
       {!resource && !editing && (
       // New Related Resource Button
-        <button className="related-resources-add-btn" type="button" onClick={() => setEditMode(true)}>
+        <button className="related-resources-add-btn" type="button" aria-label="Add related resource" onClick={() => setEditMode(true)}>
           <i className="fa fa-paperclip" />
         </button>
       )}

@@ -9,7 +9,6 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import ListItemText from '@mui/material/ListItemText';
-import cls from './Organs.module.scss';
 import { OrgansSettings } from 'widgets/OrgansSettings';
 import { OrgansUsers } from 'widgets/OrgansUsers';
 import { OrgansGroups } from 'widgets/OrgansGroups/ui/OrgansGroups';
@@ -17,6 +16,7 @@ import { OrgansCaseAnalytics } from 'widgets/OrgansCaseAnalytics';
 import { OrgansUserAnalytics } from 'widgets/OrgansUserAnalytics';
 import { VideoAnalytics } from 'widgets/VideoAnalytics';
 import { useSearchParams } from 'react-router-dom';
+import cls from './Organs.module.scss';
 
 const primaryColor = '#303e48';
 
@@ -119,6 +119,7 @@ export function Organs() {
       try {
         const { data } = await axios.get('/api/users/v1/profile');
 
+        // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
         if (data.organization.role_id != ORGANIZATION_ADMIN_ROLE_ID) {
           throw new Error('Permission denied');
         }
@@ -168,7 +169,7 @@ export function Organs() {
               {menuItems.map((item, index) => (
                 <MenuItem
                   onClick={() => handleMenuClick(index)}
-                  key={index}
+                  key={item}
                   sx={{
                     backgroundColor: index === selectedMenu ? 'rgba(0, 0, 0, 0.1)' : '',
                     borderBottom: '1px solid #e8e8e8',

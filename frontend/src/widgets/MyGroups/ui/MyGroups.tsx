@@ -64,8 +64,8 @@ export function MyGroups() {
             </Button>
           )}
           <Grid container spacing={2} sx={{ padding: '0 10%' }}>
-            {groups.map((item, index) => (
-              <Grid item md={3} xs={6} key={index}>
+            {groups.map((item) => (
+              <Grid item md={3} xs={6} key={item.id}>
                 <div className={cls['group-list-item']}>
                   <a href={`/groups/new/${item.id}`}>
                     <div className={cls['group-cover']}>

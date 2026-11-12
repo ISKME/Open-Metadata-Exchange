@@ -8,8 +8,8 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
-import cls from './CardCase.module.scss';
 import { Button } from '@mui/material';
+import cls from './CardCase.module.scss';
 
 const CardBlog = styled(Card)(({ theme }) => ({
   // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -100,6 +100,7 @@ export function CardCase({
         <Divider sx={{ margin: '12px 0' }} />
         <div className={cls[`case-fields${col ? '-col' : ''}`]}>
           {items.map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key -- the fields of the card are only shown, in a fixed order
             <ul className={cls[`case-field${col ? '-col' : ''}`]} key={index}>
               {col && item.map((inner) => (
                 <li><span>{inner}</span></li>

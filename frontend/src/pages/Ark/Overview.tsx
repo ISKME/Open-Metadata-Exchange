@@ -1,5 +1,4 @@
 // @ts-nocheck
-import api from './api/axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   useEffect, useRef, useState, useLayoutEffect,
@@ -37,16 +36,18 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import NoteIcon from '@mui/icons-material/Note';
 import RemixIcon from '@mui/icons-material/Autorenew'; // Substitute for remix
 import CCIcon from '@mui/icons-material/Copyright'; // Substitute for cc
-import Loader from './icons/Loader';
-import cls from './styles.module.scss';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import MovieIcon from '@mui/icons-material/Movie';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import DownloadIcon from '@mui/icons-material/Download';
-import Arrow from './icons/Arrow';
 import { matomoTag } from 'pages/Case/ui/helper';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import Arrow from './icons/Arrow';
 
 import { makeVideoContent } from './widgets/VideoPlayer';
+import cls from './styles.module.scss';
+import Loader from './icons/Loader';
+import api from './api/axios';
 
 const THUMBNAIL_URL_PATTERN = 'images/materials/default-thumbnail-index.png';
 const trackDownload = (s?: string) => {
@@ -243,13 +244,13 @@ function Details({
         </Box>} */}
           <div>
             {standards.map((standard, i) => (
-              <Accordion key={`panel${i}`} sx={styles.accordion}>
+              <Accordion key={`panel${standard.name}`} sx={styles.accordion}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={styles.summary}>
                   <Typography>{standard.name}</Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={{ padding: '8px 0 0' }}>
                   {standard.children?.map((item, j) => (
-                    <Accordion key={`panel${i}-${j}`}>
+                    <Accordion key={`panel${standard.name}-${item.name}`}>
                       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                         <Typography>{item.name}</Typography>
                       </AccordionSummary>
@@ -266,6 +267,7 @@ function Details({
         <TabPanel value={tab} index={2}>
           <Box className={cls.resourceLibrary}>
             {sections.map((section, idx) => section.attachments.map((item, i) => (
+              // eslint-disable-next-line react/no-array-index-key -- the attachments are only shown, in the order of the API
               <AttachmentButton key={i} url={item.url} title={item.title} />
             )))}
           </Box>
@@ -558,16 +560,19 @@ export default function ArkOverview() {
             >
               Table of contents
             </Typography>
-            <ul style={{
-              fontFamily: 'Inter', color: '#646464', cursor: 'pointer', marginLeft: '20%',
-            }}
+            <ul
+              role="menu"
+              style={{
+                fontFamily: 'Inter', color: '#646464', cursor: 'pointer', marginLeft: '20%',
+              }}
             >
-              {sections.map((section, idx) => <li onClick={() => jump(idx)} className={cls.browseAll} style={{ textDecoration: 'underline' }}>{section.name}</li>)}
+              {sections.map((section, idx) => <li role="menuitem" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => jump(idx)} className={cls.browseAll} style={{ textDecoration: 'underline' }}>{section.name}</li>)}
             </ul>
           </Box>
           <Box sx={{ fontFamily: 'Inter', lineHeight: '26px' }} className={cls.sections}>
             {sections.map((section, idx) => (
               <Card
+                // eslint-disable-next-line react/no-array-index-key -- the sections are also addressed by position (section-N)
                 key={idx}
                 id={`section-${idx}`}
                 sx={{
@@ -581,6 +586,7 @@ export default function ArkOverview() {
                   <div>{ makeVideoContent(section.content) }</div>
                   {!!section.attachments?.length && (
                     <div className={cls.attachments}>
+                      {/* eslint-disable-next-line react/no-array-index-key -- the attachments are only shown, in the order of the API */}
                       {section.attachments.map((item, i) => <AttachmentButton key={i} url={item.url} title={item.title} />)}
                     </div>
                   )}

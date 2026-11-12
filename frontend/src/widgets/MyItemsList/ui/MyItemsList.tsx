@@ -24,10 +24,11 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { fetchItems } from 'widgets/MyItems/model/services/ActionCreators';
-import { CardCase } from '../../../widgets/CardCase';
-import cls from './MyItemsList.module.scss';
 import axios from 'axios';
 import { GridDeleteIcon } from '@mui/x-data-grid';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import cls from './MyItemsList.module.scss';
+import { CardCase } from '../../../widgets/CardCase';
 
 const CButton = styled(Button)(({ theme }) => ({
   padding: '6px 12px',
@@ -505,6 +506,9 @@ export function MyItemsList({
                       <div className={cls.itemsWrapper}>
                         {folders.userFolders?.map((folder) => (
                           <div
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={clickOnEnterOrSpace}
                             className={cls.folder}
                             key={folder.id}
                             onClick={(e) => handleSaveToFolder(
@@ -518,6 +522,9 @@ export function MyItemsList({
                             </Typography>
                             {folder.subfolders?.map((subfolder) => (
                               <div
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={clickOnEnterOrSpace}
                                 key={subfolder.id}
                                 onClick={(e) => handleSaveToFolder(
                                   `${subfolder.content_type_id}.${subfolder.id}`,
@@ -544,6 +551,9 @@ export function MyItemsList({
                       <div className={cls.itemsWrapper}>
                         {folders.groupFolders?.map((group) => (
                           <div
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={clickOnEnterOrSpace}
                             key={group.id}
                             onClick={(e) => handleSaveToFolder(
                               `${group.default_folder.content_type_id}.${group.default_folder.id}`,
@@ -554,13 +564,16 @@ export function MyItemsList({
                             className={cls.folder}
                           >
                             <div className={cls.groupNameWrapper}>
-                              <img src={group.cover} alt="photo" />
+                              <img src={group.cover} alt="" />
                               <Typography className={cls.groupNameTitle}>
                                 {group.title}
                               </Typography>
                             </div>
                             {group.folders?.map((folder) => (
                               <div
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={clickOnEnterOrSpace}
                                 className={cls.folder}
                                 key={folder.id}
                                 onClick={(e) => handleSaveToFolder(
@@ -575,6 +588,9 @@ export function MyItemsList({
                                 </Typography>
                                 {folder.subfolders?.map((subfolder) => (
                                   <div
+                                    role="button"
+                                    tabIndex={0}
+                                    onKeyDown={clickOnEnterOrSpace}
                                     key={subfolder.id}
                                     onClick={(e) => handleSaveToFolder(
                                       `${subfolder.content_type_id}.${subfolder.id}`,

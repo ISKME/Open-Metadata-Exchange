@@ -23,10 +23,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid';
-import { AnalyticsPageSize, AnalyticsPagination, analyticsTableProps } from '../../../shared/ui/AnalyticsTable/AnalyticsTable';
 import { Autocomplete, CircularProgress } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { AnalyticsPageSize, AnalyticsPagination, analyticsTableProps } from '../../../shared/ui/AnalyticsTable/AnalyticsTable';
 import cls from './OrgansCaseAnalytics.module.scss';
 import { DateRange, UserIsActiveStatus, UserType, ChartColors } from '../../enum';
 
@@ -911,13 +911,10 @@ export function OrgansCaseAnalytics({ id }) {
           <DataGrid
             slots={{
               pagination: AnalyticsPagination,
-              toolbar: () => (
-                <EditUserToolbar
-                  onSearch={handleSearch}
-                  onClear={handleClearSearch}
-                  onExport={handleExport}
-                />
-              ),
+              toolbar: EditUserToolbar,
+            }}
+            slotProps={{
+              toolbar: { onSearch: handleSearch, onClear: handleClearSearch, onExport: handleExport },
             }}
             rows={tableData}
             columns={columns}

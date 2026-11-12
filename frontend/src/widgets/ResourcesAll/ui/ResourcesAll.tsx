@@ -23,10 +23,10 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { fetchCases } from 'pages/Cases/model/services/ActionCreators';
 import { CardResource } from 'widgets/CardResource';
-import cls from './ResourcesAll.module.scss';
 import axios from 'axios';
 import { GridDeleteIcon } from '@mui/x-data-grid';
 import { matomoTag } from 'pages/Case/ui/helper';
+import cls from './ResourcesAll.module.scss';
 
 const CButton = styled(Button)(({ theme }) => ({
   padding: '6px 12px',

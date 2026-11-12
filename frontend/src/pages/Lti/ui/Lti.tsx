@@ -14,10 +14,10 @@ import IconButton from '@mui/material/IconButton';
 import Close from '@mui/icons-material/Close';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { LtiList } from 'widgets/LtiList';
-import { fetchLti } from '../model/services/ActionCreators';
 import useMediaQuery from '@mui/material/useMediaQuery';
 // import cls from './Lti.module.scss';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { fetchLti } from '../model/services/ActionCreators';
 
 // function creator(selector) { // element#id.class@attribute=value
 //   var pattern = /^(.*?)(?:#(.*?))?(?:\.(.*?))?(?:@(.*?)(?:=(.*?))?)?(\:+(.*?))?$/;

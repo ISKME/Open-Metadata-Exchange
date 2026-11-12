@@ -1,7 +1,7 @@
 import { classNames } from 'shared/lib/classNames/classNames';
 import { Link } from 'react-router-dom';
-import cls from './CollectionItemCard.module.scss';
 import { memo, useEffect } from 'react';
+import cls from './CollectionItemCard.module.scss';
 
 interface CollectionItemCardProps {
     className?: string;

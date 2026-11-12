@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './Dropdown.module.scss';
 
 // eslint-disable-next-line react/prop-types
@@ -65,7 +66,7 @@ const Button = ({
   // eslint-disable-next-line react/prop-types
   property1, className, labelTextClassName, text = 'Share your institution’s OER content', onClick = () => {},
 }) => (
-  <div className={`${cls.button} ${cls[property1]} ${cls[className]}`} onClick={onClick}>
+  <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={`${cls.button} ${cls[property1]} ${cls[className]}`} onClick={onClick}>
     <p className={`${cls.labelText} ${cls[labelTextClassName]}`}>{text}</p>
   </div>
 );
@@ -174,7 +175,7 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
           </svg>
           <div className={cls.div}>
             <div className={cls.div}>
-              <div onClick={() => scrollDiv(-100)}>
+              <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => scrollDiv(-100)}>
                 <Arrow up />
               </div>
               <div
@@ -191,7 +192,7 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
                   </div>
                 ))}
               </div>
-              <div onClick={() => scrollDiv(70)}>
+              <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => scrollDiv(70)}>
                 <Arrow />
               </div>
             </div>

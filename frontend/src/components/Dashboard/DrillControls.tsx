@@ -414,7 +414,7 @@ export function useDrill({
 }
 
 export function buildTimelineDrill(
-  sections: string[] = [],
+  sections: string[] | undefined,
   selL0: { label: string } | null,
   selL1: { label: string } | null,
 ): string | null {

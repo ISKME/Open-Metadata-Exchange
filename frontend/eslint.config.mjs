@@ -109,6 +109,9 @@ export default [
                 ignoreTemplateLiterals: true,
                 ignoreRegExpLiterals: true,
             }],
+            // rel="noopener" is enough: the opened page cannot reach window.opener, and the sites and
+            // file hosts we link to still get the Referer they get today (noreferrer would remove it)
+            'react/jsx-no-target-blank': ['error', { allowReferrer: true, enforceDynamicLinks: 'always' }],
         },
     },
 ];

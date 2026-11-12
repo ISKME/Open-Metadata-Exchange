@@ -48,10 +48,10 @@ function CircleLoader() {
   );
 }
 
-interface search_resourcesProps {
+interface SearchResourcesProps {
   className?: string;
 }
-export function SearchResources({ className }: search_resourcesProps) {
+export function SearchResources({ className }: SearchResourcesProps) {
   const [resources, setResources] = useState<any[]>([]);
   const [filters, setFilters] = useState<any[]>([]);
   const [checked, setChecked] = useState({});
