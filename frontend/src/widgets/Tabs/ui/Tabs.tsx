@@ -16,16 +16,16 @@ interface TabsProps {
 const checker = (path) => window.location.pathname.startsWith(path);
 
 export const Tabs = memo(({
-  className, style, tabs, children, onChange,
+  className, style: styleProp, tabs, children, onChange: onChangeProp,
 }: TabsProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const [activeSubTab, setActiveSubTab] = useState(0);
   const tabsRef = useRef(null);
   const [showArrows, setShowArrows] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
-  style = style || {};
+  const style = styleProp || {};
 
-  onChange = onChange || (() => {});
+  const onChange = onChangeProp || (() => {});
 
   useEffect(() => {
     const checkArrows = () => {
@@ -96,13 +96,15 @@ export const Tabs = memo(({
       {showArrows && (
         <div className={cls.arrows}>
           <button
+            type="button"
             className={`${cls.arrow} ${cls.prev} ${scrollPosition === 0 ? cls.disabled : ''}`}
             onClick={() => handleArrowClick('prev')}
           >
             &lt;
           </button>
           <button
-            className={`${cls.arrow} ${cls.next} ${scrollPosition === tabsRef.current?.scrollWidth - tabsRef.current?.clientWidth ? cls.disabled : ''}`}
+            type="button"
+            className={`${cls.arrow} ${cls.next} ${tabsRef.current && scrollPosition === tabsRef.current.scrollWidth - tabsRef.current.clientWidth ? cls.disabled : ''}`}
             onClick={() => handleArrowClick('next')}
           >
             &gt;

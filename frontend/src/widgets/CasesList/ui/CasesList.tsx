@@ -156,6 +156,7 @@ export function CasesList({
     if (typeof nextCount !== 'number') return;
     const nodes = document.querySelectorAll('.js-dashboard-saved-cases-counter');
     nodes.forEach((n) => {
+      // eslint-disable-next-line no-param-reassign -- updates the counters in the page around the React app
       n.textContent = String(nextCount);
     });
   };
@@ -516,7 +517,7 @@ export function CasesList({
                       <div>
                         Move folder to
                       </div>
-                      <button onClick={openDropDown} className={cls.dropButton}>
+                      <button type="button" onClick={openDropDown} className={cls.dropButton}>
                         {getName}
                       </button>
                       <KeyboardArrowDownIcon className={`${cls.dropButtonIcon} ${isShow ? cls.dropButtonIconRotate : ''}`} />
@@ -742,7 +743,7 @@ export function CasesList({
                 if (event.key === 'Enter') {
                   handleSearch(searchText);
                   setTerm(searchText);
-                  if (pageName == 'group') {
+                  if (pageName === 'group') {
                     matomoTag({ category: 'Search', action: 'group search', name: searchText });
                   } else {
                     matomoTag({ category: 'Search', action: 'site search', name: searchText });

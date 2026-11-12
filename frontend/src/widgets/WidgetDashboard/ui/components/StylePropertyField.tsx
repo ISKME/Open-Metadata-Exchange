@@ -214,7 +214,7 @@ export default function StylePropertyField({
                 >
                   <Icon size={0.7} path={mdiArrowDownDropCircle} />
                 </IconButton>
-                <button className="flex-grow" onClick={() => layer.select()}>
+                <button type="button" className="flex-grow" onClick={() => layer.select()}>
                   {layer.getLabel()}
                 </button>
                 <div
@@ -258,7 +258,7 @@ export default function StylePropertyField({
       <div className={cx('flex mb-2 items-center', canClear && 'text-sky-300')}>
         <div className="flex-grow capitalize">{prop.getLabel()}</div>
         {canClear && (
-          <button onClick={() => prop.clear()}>
+          <button type="button" onClick={() => prop.clear()}>
             <Icon path={mdiClose} size={0.7} />
           </button>
         )}

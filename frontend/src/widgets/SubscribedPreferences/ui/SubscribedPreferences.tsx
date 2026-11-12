@@ -212,7 +212,7 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
       const changes = {};
       const stats = {};
       setSections(sections);
-      for (const item of sections) {
+      sections.forEach((item) => {
         Object.keys(item.mapping).forEach((key) => {
           if (!changes[item.name]) changes[item.name] = {};
           if (item.mapping[key].length > 0) {
@@ -222,10 +222,10 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
             changes[item.name][key] = null;
           }
         });
-      }
-      for (const key in changes) {
+      });
+      Object.keys(changes).forEach((key) => {
         stats[key] = compute(changes[key]);
-      }
+      });
       setChanges(changes);
       setStats(stats);
       if (window.location.hash === '#meta') {
@@ -285,9 +285,9 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
                         temp[section.name][item[0]] = selected.name;
                         setChanges(temp);
                         const stats = {};
-                        for (const key in changes) {
+                        Object.keys(changes).forEach((key) => {
                           stats[key] = compute(changes[key]);
-                        }
+                        });
                         setChanges(changes);
                         setStats(stats);
                       }}

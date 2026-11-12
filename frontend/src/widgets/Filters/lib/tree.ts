@@ -7,7 +7,7 @@ export function convertFlatToTree(items: IFilterItem[], level = 0): IFilterItem[
     const item = items[0];
     if (item.level === level) {
       items.shift();
-      if (item.items.length == 0) {
+      if (item.items.length === 0) {
         item.items = convertFlatToTree(items, level + 1);
       }
       itemsTree.push(item);

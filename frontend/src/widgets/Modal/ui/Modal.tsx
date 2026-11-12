@@ -25,7 +25,7 @@ export const Modal = forwardRef((props, ref) => {
             {props.header && (
               <div className={cls.header}>
                 {props.header}
-                <button className={cls.close} onClick={close}>X</button>
+                <button type="button" className={cls.close} onClick={close}>X</button>
               </div>
             )}
             <div className={cls.children}>

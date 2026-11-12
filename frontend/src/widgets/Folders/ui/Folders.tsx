@@ -178,7 +178,7 @@ export function Folders({ ids = [] }) {
                 <div>
                   Move folder to
                 </div>
-                <button onClick={() => setisShow(!isShow)} className={cls.dropButton}>
+                <button type="button" onClick={() => setisShow(!isShow)} className={cls.dropButton}>
                   {getName}
                 </button>
                 <KeyboardArrowDownIcon className={`${cls.dropButtonIcon} ${isShow ? cls.dropButtonIconRotate : ''}`} />

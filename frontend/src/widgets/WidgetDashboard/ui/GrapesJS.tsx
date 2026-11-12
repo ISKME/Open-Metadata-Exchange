@@ -187,6 +187,7 @@ export default function DefaultEditor() {
           ]}
           onEditor={(editor) => {
             if ((editor as any).__oercTenantVarsBound) return;
+            // eslint-disable-next-line no-param-reassign -- marks the GrapesJS editor so the handlers are bound once
             (editor as any).__oercTenantVarsBound = true;
 
             const run = () => injectTenantVarsToCanvas(editor);
@@ -233,10 +234,11 @@ export default function DefaultEditor() {
             )}
           </AssetsProvider>
         </GjsEditor>
-        <button onClick={handleSave} className="m-2 p-2 bg-blue-500 text-white">
+        <button type="button" onClick={handleSave} className="m-2 p-2 bg-blue-500 text-white">
           Save
         </button>
         <button
+          type="button"
           onClick={() => navigate('/new/my/page/dashboard/')}
           className="m-2 p-2 text-grey"
         >

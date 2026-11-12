@@ -407,7 +407,7 @@ export function MyItemsList({
                       <div>
                         Move folder to
                       </div>
-                      <button onClick={openDropDown} className={cls.dropButton}>
+                      <button type="button" onClick={openDropDown} className={cls.dropButton}>
                         {getName}
                       </button>
                       <KeyboardArrowDownIcon className={`${cls.dropButtonIcon} ${isShow ? cls.dropButtonIconRotate : ''}`} />

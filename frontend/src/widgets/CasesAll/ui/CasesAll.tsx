@@ -198,7 +198,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
   const [searchParams, setSearchParams] = useSearchParams();
   const [defaultPage, setDefaultPage] = useState(() => {
     const page = parseInt(urlParams.page, 10);
-    return isNaN(page) ? 1 : page;
+    return Number.isNaN(page) ? 1 : page;
   });
   const [expandTopic, setExpandTopic] = useState(!!urlParams['f.general_subject']);
   const [expandGrade, setExpandGrade] = useState(!!urlParams['f.grade_codes']);
@@ -280,7 +280,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
   useEffect(() => {
     if (staticTopics.length > 0 && tempTopics.length === 0 && urlParams['f.general_subject']) {
       let newTempTopics = [];
-      for (const filter of makeArray(urlParams['f.general_subject'])) {
+      makeArray(urlParams['f.general_subject']).forEach((filter) => {
         const subject = staticTopics.find((item) => item.slug === filter);
         if (subject) {
           setExpandTopic(true);
@@ -293,7 +293,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
           temp = { ...temp, parent: parent.slug };
           newTempTopics.push(temp);
         }
-      }
+      });
       newTempTopics = deduplicateBySlug(newTempTopics);
       setTempTopics(newTempTopics);
       setFilteredTopics(newTempTopics);
