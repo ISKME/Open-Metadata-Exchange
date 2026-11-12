@@ -908,7 +908,7 @@ requires-dist = [
     { name = "fastapi", extras = ["standard"], specifier = ">=0.141.1" },
     { name = "madoka", specifier = ">=0.7.2.1" },
     { name = "pondpond" },
-    { name = "pynntp", specifier = ">=3.2" },
+    { name = "pynntp", specifier = ">=3.3" },
 ]
 
 [package.metadata.requires-dev]
@@ -1233,11 +1233,11 @@ wheels = [
 
 [[package]]
 name = "pynntp"
-version = "3.2.0"
+version = "3.3.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/8f/91/9e94adc96b76a5a644117b389a975222286624ef9ec6a353ba5867d6b88c/pynntp-3.2.0.tar.gz", hash = "sha256:0158deeb042d7a7fc4fddbdde79ee0e4ce0fc4c4d3dedd35dd8734be8401e4a9", size = 40889, upload-time = "2026-11-09T10:47:38.248Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/56/a6fd213e266aa761d437c9f4161c8df435cc08bb5408c0f35c3687ebe327/pynntp-3.3.0.tar.gz", hash = "sha256:6bfba48da8aa04ee1edf15fdd76b0f259e03a10ea53f46a3e23ea9568904bc3f", size = 42952, upload-time = "2026-11-12T12:37:42.589Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/63/d3/571b6d28b89a2cbc850fc32485649cb8b8793ace8226dc7f27330f8d58bf/pynntp-3.2.0-py3-none-any.whl", hash = "sha256:09fc6987feaefffa70658b7d05e8ee8cc2d90155f5ec128844221c9e44435010", size = 41158, upload-time = "2026-11-09T10:47:36.713Z" },
+    { url = "https://files.pythonhosted.org/packages/43/48/040d97df6d16e9d3edec1779bba073eaf16ae9c03ed58422bbc2a6c7befa/pynntp-3.3.0-py3-none-any.whl", hash = "sha256:c8aba2cac14c81040c664b69083433aa9c01ca4b56a0b65cff5d59cc7f3a736c", size = 43307, upload-time = "2026-11-12T12:37:41.251Z" },
 ]
 
 [[package]]
