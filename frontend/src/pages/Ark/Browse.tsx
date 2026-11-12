@@ -156,7 +156,7 @@ export default function AllCollections() {
     const { value } = event.target;
     const updatedList = { ...checked };
     if (event.target.checked) {
-      if (updatedList.hasOwnProperty(slug)) {
+      if (Object.prototype.hasOwnProperty.call(updatedList, slug)) {
         updatedList[slug].push(value);
       } else {
         updatedList[slug] = [value];
@@ -167,6 +167,42 @@ export default function AllCollections() {
     setChecked(updatedList);
     fSubject = updatedList || {};
     fetchData();
+  };
+
+  const renderCollections = () => {
+    if (loading) {
+      return (
+        <div className={cls.loaderContainer}>
+          <CircleLoader color="#454141" />
+          Loading...
+        </div>
+      );
+    }
+    if (notFound) {
+      return (
+        <Box sx={{ textAlign: 'center', mt: 8 }}>
+          <Typography variant="h6" color="text.secondary">
+            No results found.
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Try adjusting your search or filter to find what you are looking for.
+          </Typography>
+        </Box>
+      );
+    }
+    return (
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: 'repeat(3, minmax(225px, 1fr))' },
+          gap: 3,
+        }}
+      >
+        {collections.map((data, i) => (
+          <CollectionItemCard key={`${data.id}-${i}`} collection={data} />
+        ))}
+      </Box>
+    );
   };
 
   return (
@@ -214,33 +250,7 @@ export default function AllCollections() {
         </Drawer>
         {/* Collections Grid */}
         <Box sx={{ flex: 1 }}>
-          {loading ? (
-            <div className={cls.loaderContainer}>
-              <CircleLoader color="#454141" />
-              Loading...
-            </div>
-          ) : notFound ? (
-            <Box sx={{ textAlign: 'center', mt: 8 }}>
-              <Typography variant="h6" color="text.secondary">
-                No results found.
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Try adjusting your search or filter to find what you are looking for.
-              </Typography>
-            </Box>
-          ) : (
-            <Box
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: 'repeat(3, minmax(225px, 1fr))' },
-                gap: 3,
-              }}
-            >
-              {collections.map((data, i) => (
-                <CollectionItemCard key={`${data.id}-${i}`} collection={data} />
-              ))}
-            </Box>
-          )}
+          {renderCollections()}
           <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
             <Pagination
               count={Math.ceil(itemCount / PAGE_SIZE)}

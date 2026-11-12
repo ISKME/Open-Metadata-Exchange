@@ -21,6 +21,13 @@ const subTabs = [
   ['Search', 'Preferences', 'Updates'],
 ];
 
+// Rounded corners for the sub tabs: left on the first, none on the second, right on the last
+const subTabRadius = (idx: number) => {
+  if (idx === 0) return '8px 0 0 8px !important';
+  if (idx === 1) return '0 !important';
+  return '0 8px 8px 0 !important';
+};
+
 export function Library({ className }: LibraryProps) {
   const [mainTab, setMainTab] = useState(0);
   const [subTab, setSubTab] = useState(0);
@@ -64,7 +71,7 @@ export function Library({ className }: LibraryProps) {
               startIcon={tab.icon}
               variant={mainTab === idx ? 'contained' : 'outlined'}
               size="large"
-              sx={{ borderRadius: idx == 0 ? '8px 0 0 8px !important' : '0 8px 8px 0 !important' }}
+              sx={{ borderRadius: idx === 0 ? '8px 0 0 8px !important' : '0 8px 8px 0 !important' }}
               onClick={() => handleMainTabChange(idx)}
             >
               {tab.label}
@@ -77,7 +84,7 @@ export function Library({ className }: LibraryProps) {
               key={label || idx}
               variant={subTab === idx ? 'contained' : 'outlined'}
               sx={{
-                borderRadius: idx == 0 ? '8px 0 0 8px !important' : (idx == 1 ? '0 !important' : '0 8px 8px 0 !important'),
+                borderRadius: subTabRadius(idx),
                 borderLeft: idx === 1 ? 'none' : '',
                 borderRight: idx === 1 ? 'none' : '',
                 '&:hover': {

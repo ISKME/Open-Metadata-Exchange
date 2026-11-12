@@ -7,8 +7,9 @@ import styles from './Ticket.styles';
 
 (function () {
   const originalLog = console.info;
-  console.info = function (message) {
-    originalLog.apply(console, arguments);
+  console.info = function (...args) {
+    const [message] = args;
+    originalLog.apply(console, args);
     if (message === '[webpack-dev-server] App hot update...') window.location.reload();
   };
 }());

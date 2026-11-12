@@ -78,7 +78,7 @@ export function Groups() {
                 <div className={cls['group-list-item']}>
                   <a href={`/groups/new/${item.id}`}>
                     <div className={cls['group-cover']}>
-                      <img src={item.cover} width="149" height="149" alt={item.title} onError={({ target }) => { target.src = customUrl; }} />
+                      <img src={item.cover} width="149" height="149" alt={item.title} onError={(e) => { e.target.src = customUrl; }} />
                       <span className={cls['group-members-count']}>
                         <i className={cls.fa}>
                           <UserIcon />

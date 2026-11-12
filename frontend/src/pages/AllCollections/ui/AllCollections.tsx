@@ -109,9 +109,15 @@ export function AllCollections() {
   // initialize on mount: read query params into select states like Home
   useEffect(() => {
     const params = qstring.parse(location.search, { arrayFormat: 'bracket' });
-    setSelectedTenants((params.tenant && Array.isArray(params.tenant)) ? params.tenant.map((s) => ({ slug: s, name: s })) : (params.tenant ? [{ slug: params.tenant, name: params.tenant }] : []));
-    setSelectedSubjects((params['f.general_subject'] && Array.isArray(params['f.general_subject'])) ? params['f.general_subject'].map((s) => ({ slug: s, name: s })) : (params['f.general_subject'] ? [{ slug: params['f.general_subject'], name: params['f.general_subject'] }] : []));
-    setSelectedLevels((params['f.sublevel'] && Array.isArray(params['f.sublevel'])) ? params['f.sublevel'].map((s) => ({ slug: s, name: s })) : (params['f.sublevel'] ? [{ slug: params['f.sublevel'], name: params['f.sublevel'] }] : []));
+    // One value or a list of values from the query string, as select options
+    const toSelected = (value) => {
+      if (Array.isArray(value)) return value.map((s) => ({ slug: s, name: s }));
+      if (value) return [{ slug: value, name: value }];
+      return [];
+    };
+    setSelectedTenants(toSelected(params.tenant));
+    setSelectedSubjects(toSelected(params['f.general_subject']));
+    setSelectedLevels(toSelected(params['f.sublevel']));
     setInputValue(params['f.search'] || '');
     setPage(Number(params.page) || 1);
 
@@ -145,6 +151,33 @@ export function AllCollections() {
     update();
   };
 
+  const renderResults = () => {
+    if (loading) {
+      return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
+          <CircularProgress />
+        </Box>
+      );
+    }
+    if (notFound) {
+      return (
+        <Box sx={{ textAlign: 'center', mt: 8 }}>
+          <Typography variant="h6" color="text.secondary">No results found.</Typography>
+          <Typography variant="body2" color="text.secondary">Try adjusting your search or filter to find what you are looking for.</Typography>
+        </Box>
+      );
+    }
+    return (
+      <Grid container spacing={3}>
+        {items.map((data, i) => (
+          <Grid item xs={12} sm={6} md={3} key={`${data.id || i}-${i}`}>
+            <CollectionItemCard collection={data} />
+          </Grid>
+        ))}
+      </Grid>
+    );
+  };
+
   return (
     <Box sx={{ p: 4 }}>
       <Box sx={sxStyles.searchBar}>
@@ -173,24 +206,7 @@ export function AllCollections() {
 
       <Box sx={{ display: 'flex', gap: 3 }}>
         <Box sx={{ flex: 1 }}>
-          {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
-              <CircularProgress />
-            </Box>
-          ) : notFound ? (
-            <Box sx={{ textAlign: 'center', mt: 8 }}>
-              <Typography variant="h6" color="text.secondary">No results found.</Typography>
-              <Typography variant="body2" color="text.secondary">Try adjusting your search or filter to find what you are looking for.</Typography>
-            </Box>
-          ) : (
-            <Grid container spacing={3}>
-              {items.map((data, i) => (
-                <Grid item xs={12} sm={6} md={3} key={`${data.id || i}-${i}`}>
-                  <CollectionItemCard collection={data} />
-                </Grid>
-              ))}
-            </Grid>
-          )}
+          {renderResults()}
 
           <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
             <Pagination count={Math.ceil(totalNumber / PAGE_SIZE) - 1 || 1} page={page} onChange={handlePageChange} color="primary" shape="rounded" showFirstButton showLastButton />

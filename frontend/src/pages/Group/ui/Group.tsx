@@ -164,7 +164,7 @@ export function Group() {
       <section className={cls['group-info']}>
         <div className={cls['group-info-container']}>
           <div className={cls['group-info-cover']}>
-            <img src={cover} width="150" height="150" alt={title} onError={({ target }) => { target.src = customUrl; }} />
+            <img src={cover} width="150" height="150" alt={title} onError={(e) => { e.target.src = customUrl; }} />
           </div>
           <div className={cls['group-info-text']}>
             <h1>{title}</h1>

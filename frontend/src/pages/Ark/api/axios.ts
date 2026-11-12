@@ -17,6 +17,7 @@ api.interceptors.request.use(
         const token = await window.grecaptcha.execute(recaptchaSiteKey, {
           action: 'request',
         });
+        // eslint-disable-next-line no-param-reassign -- axios expects the interceptor to change the config
         config.headers['X-Recaptcha-Token'] = token;
       } catch {
         // silent fail: don't block request

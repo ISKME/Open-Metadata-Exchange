@@ -23,8 +23,11 @@ export function AdvancedSearchGlobal() {
       setSelected([]);
 
       stdItems.forEach((item) => {
+        // The items are reset in place and set again below
+        /* eslint-disable no-param-reassign */
         item.items = [];
         item.isSelected = false;
+        /* eslint-enable no-param-reassign */
       });
 
       setStdItems([...stdItems]);
@@ -66,7 +69,7 @@ export function AdvancedSearchGlobal() {
 
   const useFilter = (filterName, component, propsComponent) => {
     const filter = filters[filterName];
-    propsComponent = propsComponent || {};
+    const extraProps = propsComponent || {};
 
     if (filter) {
       const propsFilter = settings[filterName] || {};
@@ -76,11 +79,12 @@ export function AdvancedSearchGlobal() {
         selected,
         cols: 1,
         ...propsFilter,
-        ...propsComponent,
+        ...extraProps,
         ...handlers,
       };
       return component(props);
     }
+    return undefined;
   };
 
   function useCheckboxFilter(filterName: string, listComponent = null) {

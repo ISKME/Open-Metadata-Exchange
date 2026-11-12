@@ -36,7 +36,7 @@ function creator(querySelector = 'div', ...content) {
   const attributes = querySelector.match(/\[([a-z][a-z-]+)(=['|"]?([^\]]*)['|"]?)?\]/gi);
   // let pseudo = querySelector.match(/\:+[a-z\-\(\)]+$/i)?.pop();
   const node = (nodeType) ? nodeType[0] : 'div';
-  if (id && id.length > 1) return;
+  if (id && id.length > 1) return undefined;
   const elt = document.createElement(node);
   if (id) {
     elt.id = id[0].replace('#', '');
@@ -46,9 +46,10 @@ function creator(querySelector = 'div', ...content) {
     elt.setAttribute('class', attrClasses);
   }
   if (attributes) {
-    attributes.forEach((item) => {
-      item = item.slice(0, -1).slice(1);
-      let [label, value] = item.split('=');
+    attributes.forEach((attribute) => {
+      const item = attribute.slice(0, -1).slice(1);
+      const [label, rawValue] = item.split('=');
+      let value = rawValue;
       if (value) {
         value = value.replace(/^['"](.*)['"]$/, '$1');
       }
@@ -67,10 +68,10 @@ function creator(querySelector = 'div', ...content) {
 
 function convertKebabToCamel(obj) {
   const newObj = {};
-  for (const key in obj) {
+  Object.keys(obj).forEach((key) => {
     const camelCaseKey = key.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
     newObj[camelCaseKey] = obj[key];
-  }
+  });
   return newObj;
 }
 
@@ -79,10 +80,11 @@ function styler(selector, pseudo) {
   document.body.appendChild(element);
   const computedStyles = window.getComputedStyle(element); // , ':hover'
   const styles = {}; // JSON.parse(JSON.stringify(getComputedStyle(element)))
-  for (let i = 0; i < computedStyles.length; i++) {
+  for (let i = 0; i < computedStyles.length; i += 1) {
     const property = computedStyles[i];
-    if (property === 'content') continue;
-    styles[property] = `${computedStyles.getPropertyValue(property)} !important`;
+    if (property !== 'content') {
+      styles[property] = `${computedStyles.getPropertyValue(property)} !important`;
+    }
   }
   document.body.removeChild(element);
   // element.style.display = 'none'
