@@ -13,11 +13,7 @@ function onChangeHandler(onChange) {
 }
 
 function Label({ label, required = false }) {
-  return (
-    <>
-      {label && (<label className={`control-label ${required ? 'requiredField' : ''}`}>{ label + (required ? '*' : '') }</label>)}
-    </>
-  );
+  return label && (<label className={`control-label ${required ? 'requiredField' : ''}`}>{ label + (required ? '*' : '') }</label>);
 }
 
 export function MDSelect({
@@ -73,6 +69,9 @@ export function MDCreatable({
       });
       setInputValue('');
       event.preventDefault();
+      break;
+    default:
+      break;
     }
   };
 

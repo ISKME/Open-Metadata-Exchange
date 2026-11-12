@@ -27,7 +27,7 @@ export default function CustomAssetManager({
           key={asset.getSrc()}
           className="relative group rounded overflow-hidden"
         >
-          <img className="display-block" src={asset.getSrc()} />
+          <img className="display-block" src={asset.getSrc()} alt="" />
           <div className="flex flex-col items-center justify-end absolute top-0 left-0 w-full h-full p-5 bg-zinc-700/75 group-hover:opacity-100 opacity-0 transition-opacity">
             <button
               type="button"

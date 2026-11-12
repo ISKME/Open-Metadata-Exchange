@@ -24,12 +24,13 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { fetchCases } from 'pages/Cases/model/services/ActionCreators';
-import { CardCase } from '../../../widgets/CardCase';
-import cls from './CasesList.module.scss';
 import axios from 'axios';
 import { GridDeleteIcon } from '@mui/x-data-grid';
 import { matomoTag } from 'pages/Case/ui/helper';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import { CasesExport } from './export/CasesExport';
+import cls from './CasesList.module.scss';
+import { CardCase } from '../../../widgets/CardCase';
 
 const CButton = styled(Button)(({ theme }) => ({
   padding: '6px 12px',
@@ -318,6 +319,7 @@ export function CasesList({
         filters.forEach(({ keyword, name, items }) => {
           const filterValues = searchParams.getAll(keyword);
           filterValues.forEach((value) => {
+            // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
             const label = items.find((item) => item.slug == value)?.name;
             extras.push({
               keyword, value, name, label,
@@ -615,6 +617,9 @@ export function CasesList({
                       <div className={cls.itemsWrapper}>
                         {folders.userFolders?.map((folder) => (
                           <div
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={clickOnEnterOrSpace}
                             className={cls.folder}
                             key={folder.id}
                             onClick={(e) => handleSaveToFolder(
@@ -628,6 +633,9 @@ export function CasesList({
                             </Typography>
                             {folder.subfolders?.map((subfolder) => (
                               <div
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={clickOnEnterOrSpace}
                                 key={subfolder.id}
                                 onClick={(e) => handleSaveToFolder(
                                   `${subfolder.content_type_id}.${subfolder.id}`,
@@ -654,6 +662,9 @@ export function CasesList({
                       <div className={cls.itemsWrapper}>
                         {folders.groupFolders?.map((group) => (
                           <div
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={clickOnEnterOrSpace}
                             key={group.id}
                             onClick={(e) => handleSaveToFolder(
                               `${group.default_folder.content_type_id}.${group.default_folder.id}`,
@@ -664,13 +675,16 @@ export function CasesList({
                             className={cls.folder}
                           >
                             <div className={cls.groupNameWrapper}>
-                              <img src={group.cover} alt="photo" />
+                              <img src={group.cover} alt="" />
                               <Typography className={cls.groupNameTitle}>
                                 {group.title}
                               </Typography>
                             </div>
                             {group.folders?.map((folder) => (
                               <div
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={clickOnEnterOrSpace}
                                 className={cls.folder}
                                 key={folder.id}
                                 onClick={(e) => handleSaveToFolder(
@@ -685,6 +699,9 @@ export function CasesList({
                                 </Typography>
                                 {folder.subfolders?.map((subfolder) => (
                                   <div
+                                    role="button"
+                                    tabIndex={0}
+                                    onKeyDown={clickOnEnterOrSpace}
                                     key={subfolder.id}
                                     onClick={(e) => handleSaveToFolder(
                                       `${subfolder.content_type_id}.${subfolder.id}`,
@@ -891,6 +908,7 @@ export function CasesList({
                 <IconButton
                   onClick={() => {
                     const params = new URLSearchParams(window.location.search);
+                    // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
                     const updatedValues = params.getAll(extra.keyword).filter((val) => val != extra.value);
                     params.delete(extra.keyword);
                     updatedValues.forEach((val) => params.append(extra.keyword, val));

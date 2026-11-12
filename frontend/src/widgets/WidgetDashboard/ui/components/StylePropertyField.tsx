@@ -26,6 +26,7 @@ import type {
   PropertySlider,
   PropertyStack,
 } from 'grapesjs';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import { BTN_CLS, ROUND_BORDER_COLOR, cx } from './common';
 
 interface StylePropertyFieldProps extends React.HTMLProps<HTMLDivElement> {
@@ -162,6 +163,10 @@ export default function StylePropertyField({
       <div className="flex flex-col items-center gap-3">
         {value && value !== defValue && (
         <div
+          role="button"
+          tabIndex={0}
+          onKeyDown={clickOnEnterOrSpace}
+          aria-label="Remove image"
           className="w-[50px] h-[50px] rounded inline-block bg-cover bg-center cursor-pointer"
           style={{ backgroundImage: `url("${value}")` }}
           onClick={() => handleChange('')}

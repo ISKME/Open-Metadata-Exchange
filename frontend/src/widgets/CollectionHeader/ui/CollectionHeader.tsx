@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from 'shared/ui/Button/Button';
 import { useNavigate } from 'react-router-dom';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './CollectionHeader.module.scss';
 
 function checkOverflow(el) {
@@ -81,7 +82,7 @@ export const CollectionHeader = ({
       { }
       <div style={{ position: 'relative' }}>
         <div id="compress" className={more && cls.compress} dangerouslySetInnerHTML={{ __html: abstract }} />
-        {more && <span className={cls.overview_link} onClick={() => setMore(false)}>Read More</span>}
+        {more && <span role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls.overview_link} onClick={() => setMore(false)}>Read More</span>}
       </div>
     </div>
   );

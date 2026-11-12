@@ -1,7 +1,8 @@
 // @ts-ignore
 import {
-  useNavigate,
+  Link, useNavigate,
 } from 'react-router-dom';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './LibraryContent.module.scss';
 
 interface LibraryContentProps {
@@ -43,7 +44,7 @@ export function LibraryContent({ className }: LibraryContentProps) {
       <section className={cls.common}>
         <h1>Your library is the place to manage:</h1>
         <div>
-          <div onClick={() => { navigate('/imls/site-collections/subscribed-collections'); }}>
+          <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => { navigate('/imls/site-collections/subscribed-collections'); }}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path d="M2.23125 14.081L10.7016 21.9888C11.0531 22.317 11.5172 22.4998 12 22.4998C12.4828 22.4998 12.9469 22.317 13.2984 21.9888L21.7687 14.081C23.1938 12.7545 24 10.8935 24 8.9482V8.67633C24 5.39976 21.6328 2.60601 18.4031 2.06695C16.2656 1.7107 14.0906 2.40914 12.5625 3.93726L12 4.49976L11.4375 3.93726C9.90938 2.40914 7.73438 1.7107 5.59688 2.06695C2.36719 2.60601 0 5.39976 0 8.67633V8.9482C0 10.8935 0.80625 12.7545 2.23125 14.081Z" fill="#1E1E1E" />
             </svg>
@@ -53,7 +54,7 @@ export function LibraryContent({ className }: LibraryContentProps) {
               that syncs to your microsite.
             </p>
           </div>
-          <div onClick={() => { navigate('/imls/site-collections/shared-collections'); }}>
+          <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => { navigate('/imls/site-collections/shared-collections'); }}>
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 22 24" fill="none">
               <g clipPath="url(#clip0_127_29626)">
                 <path d="M18.5 1.5C20.1547 1.5 21.5 2.84531 21.5 4.5V19.5C21.5 21.1547 20.1547 22.5 18.5 22.5H3.5C1.84531 22.5 0.5 21.1547 0.5 19.5V4.5C0.5 2.84531 1.84531 1.5 3.5 1.5H18.5ZM15.5 14.6906V8.25C15.5 7.8375 15.1625 7.5 14.75 7.5H8.30938C7.72344 7.5 7.25 7.97344 7.25 8.55938C7.25 8.84063 7.3625 9.1125 7.55938 9.30938L9.125 10.875L6.01719 13.9828C5.84375 14.1562 5.75 14.3859 5.75 14.625C5.75 14.8641 5.84375 15.0938 6.01719 15.2672L7.7375 16.9875C7.90625 17.1562 8.13594 17.2547 8.37969 17.2547C8.62344 17.2547 8.84844 17.1609 9.02188 16.9875L12.125 13.875L13.6906 15.4406C13.8875 15.6375 14.1594 15.75 14.4406 15.75C15.0266 15.75 15.5 15.2766 15.5 14.6906Z" fill="#1E1E1E" />
@@ -79,7 +80,7 @@ export function LibraryContent({ className }: LibraryContentProps) {
             <br />
             subscribed collections
           </h4>
-          <a href="#">View all updates to your subscribed collections</a>
+          <Link to="/imls/site-collections/subscribed-updates">View all updates to your subscribed collections</Link>
         </div>
         <div>
           <CardItem />

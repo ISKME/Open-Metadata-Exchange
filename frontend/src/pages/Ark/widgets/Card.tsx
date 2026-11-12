@@ -35,6 +35,7 @@ function StarRating({ rating = 0 }) {
           viewBox="0 0 24 24"
           width="24"
           height="24"
+          // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
           key={`full-${i}`}
           style={{ fill: '#6f983d' }}
         >
@@ -81,6 +82,7 @@ function StarRating({ rating = 0 }) {
           viewBox="0 0 24 24"
           width="24"
           height="24"
+          // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
           key={`empty-${i}`}
           style={{ fill: '#ccc' }}
         >
@@ -97,6 +99,7 @@ function MetaData({ metadata }) {
     <Box sx={{ mt: 1 }}>
       {metadata.map((item, idx) => (item.label ? (
         <Typography
+          // eslint-disable-next-line react/no-array-index-key -- the metadata of one card is only shown, in a fixed order
           key={idx}
           variant="body2"
           color="text.secondary"

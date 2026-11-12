@@ -2,11 +2,11 @@
 import { useState, useEffect } from 'react';
 import { Typography, Box, Link } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { matomoTag } from 'pages/Case/ui/helper';
 import api from './api/axios';
 import cls from './styles.module.scss';
 import SearchBar from './components/Input';
 import Dropdown from './components/Dropdown';
-import { matomoTag } from 'pages/Case/ui/helper';
 
 export default function ArkHome() {
   const [search, setSearch] = useState('');

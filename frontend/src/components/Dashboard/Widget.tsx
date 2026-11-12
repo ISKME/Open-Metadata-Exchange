@@ -9,13 +9,19 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DateRange } from 'widgets/enum';
+import req from 'shared/lib/req';
 import DrillControls, { useDrill, buildTimelineDrill } from './DrillControls';
 import colors from './colors';
 import { buildSectionChartData } from './chartUtils';
 import { Tabs } from '.';
 // ToDo: Make it Global
 import cls from './styles.module.scss';
-import req from 'shared/lib/req';
+
+function toRows(response) {
+  if (Array.isArray(response?.data)) return response.data;
+  if (Array.isArray(response)) return response;
+  return [];
+}
 
 export default function ({
   title,
@@ -148,36 +154,36 @@ export default function ({
 
   const tableBase = getBaseTableData();
 
-  const tableSource = selectedSection === 1
-    ? searchPerformed && searchContext === selectedView
-      ? searchResults
-      : tableBase
-    : currentData;
+  let tableSource = currentData;
+  if (selectedSection === 1) {
+    tableSource = searchPerformed && searchContext === selectedView ? searchResults : tableBase;
+  }
 
   const paginatedData = Array.isArray(tableSource)
     ? tableSource.slice((page - 1) * rowsPerPage, page * rowsPerPage)
     : [];
 
-  const isTabLoading = isLoading
-    || (selectedView === 'line'
-      ? selectedSection === 1
-        ? timelineAllData.length === 0
-        : timelineData.length === 0
-      : selectedSection === 1
-        ? // TABLE:
-        hasDrillSections && (selL0 || selL1)
-          ? drillLoading0 || drillLoading1 || !Array.isArray(drillChartData)
-          : !Array.isArray(fullDataByView[selectedView])
-        : // GRAPH:
-        !Array.isArray(data[selectedView]));
+  const isTabDataMissing = () => {
+    if (selectedView === 'line') {
+      return selectedSection === 1 ? timelineAllData.length === 0 : timelineData.length === 0;
+    }
+    if (selectedSection === 1) {
+      // TABLE:
+      return hasDrillSections && (selL0 || selL1)
+        ? drillLoading0 || drillLoading1 || !Array.isArray(drillChartData)
+        : !Array.isArray(fullDataByView[selectedView]);
+    }
+    // GRAPH:
+    return !Array.isArray(data[selectedView]);
+  };
+  const isTabLoading = isLoading || isTabDataMissing();
 
   const hasTableData = selectedSection === 1 && !isTabLoading && totalCount > 0;
 
-  const baseReady = selectedView === 'line'
-    ? timelineAllData.length > 0
-    : full && hasDrillSections && selectionActive
-      ? Array.isArray(drillChartData)
-      : Array.isArray(fullDataByView[selectedView]);
+  let baseReady;
+  if (selectedView === 'line') baseReady = timelineAllData.length > 0;
+  else if (full && hasDrillSections && selectionActive) baseReady = Array.isArray(drillChartData);
+  else baseReady = Array.isArray(fullDataByView[selectedView]);
 
   const resetSearch = () => {
     setSearchText('');
@@ -249,11 +255,7 @@ export default function ({
           params.sort_by,
         );
       } else {
-        const raw: any[] = Array.isArray(response?.data)
-          ? response.data
-          : Array.isArray(response)
-            ? response
-            : [];
+        const raw: any[] = toRows(response);
 
         const filtered = raw.filter(
           (item: any) => Number(item?.[params.sort_by] ?? 0) > 0,
@@ -286,8 +288,7 @@ export default function ({
         }));
       }
     } catch (err) {
-      if (axios.isCancel && axios.isCancel(err)) {
-      } else {
+      if (!(axios.isCancel && axios.isCancel(err))) {
         console.error(`Error loading ${title} (${viewSlug})`, err);
       }
     } finally {
@@ -613,11 +614,7 @@ export default function ({
           const { data: resp } = await axios.get(`${cleanEndpoint}-timeline/`, {
             params,
           });
-          raw = Array.isArray(resp?.data)
-            ? resp.data
-            : Array.isArray(resp)
-              ? resp
-              : [];
+          raw = toRows(resp);
         }
         const columns = ['Date', title, 'Views'];
         const rows = raw.map((item) => ({
@@ -658,7 +655,7 @@ export default function ({
         return;
       }
 
-      const sort_field = selectedView === 'all' ? sortBy : selectedView;
+      const sortField = selectedView === 'all' ? sortBy : selectedView;
       const valueTitle = viewOptions
         .find((v) => v.slug === selectedView)
         ?.title?.replace(/^By /, '') || 'Value';
@@ -666,7 +663,7 @@ export default function ({
       const params = {
         ...buildBaseParams(),
         limit: 100000,
-        sort_by: sort_field,
+        sort_by: sortField,
         ...(searchPerformed
           && searchText.trim() && { search: searchText.trim() }),
       };
@@ -696,11 +693,7 @@ export default function ({
             ? response[firstSection]
             : [];
         } else {
-          raw = Array.isArray(response?.data)
-            ? response.data
-            : Array.isArray(response)
-              ? response
-              : [];
+          raw = toRows(response);
         }
 
         filteredData = raw.filter(
@@ -742,6 +735,131 @@ export default function ({
     } finally {
       setIsDownloading(false);
     }
+  };
+
+  const renderChart = () => {
+    if ((selectedView === 'line' ? timelineData.length === 0 : !data[selectedView] && !searchPerformed) || isLoading) {
+      return (
+        <div className={cls.chartLoading}>
+          <CircularProgress aria-label="Loading chart data" />
+        </div>
+      );
+    }
+    if (currentData?.length > 0 || series.length > 0) {
+      return (
+        <div className={cls.chartSection}>
+          <div className={cls.chartContainer}>
+            {selectedView !== 'line' && (
+              <div aria-hidden="true" className={cls.chartGraphic}>
+                <PieChart
+                  series={[{ data: currentData, arcLabel: () => '' }]}
+                  width={300}
+                  height={300}
+                  slotProps={{ legend: { hidden: true } }}
+                />
+              </div>
+            )}
+
+            {selectedView === 'line'
+            && series.length > 0
+            && xAxis.length > 0 && (
+              <div
+                aria-hidden="true"
+                className={cls.chartGraphic}
+                style={{ width: '100%', overflowX: 'auto' }}
+              >
+                <LineChart
+                  xAxis={[
+                    {
+                      id: 'timeline',
+                      data: xAxis,
+                      scaleType: 'band',
+                      valueFormatter: (val) => val,
+                      label: 'Date',
+                    },
+                  ]}
+                  series={series}
+                  height={420}
+                  width={Math.max(640, xAxis.length * 60)}
+                  slotProps={{ legend: { hidden: true } }}
+                />
+              </div>
+            )}
+          </div>
+          <div className={cls.chartLegend}>
+            {(selectedView === 'line' ? series : currentData).map(
+              (item, i) => {
+                const labelNode = item.url ? (
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cls.legendLabel}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <span className={cls.legendLabel}>{item.label}</span>
+                );
+
+                return (
+                  <div
+                    key={item.id || item.url || item.label}
+                    className={cls.legendItem}
+                  >
+                    <div
+                      className={cls.legendColor}
+                      style={{
+                        background: item.color || colors[i % colors.length],
+                      }}
+                    />
+
+                    {labelNode}
+
+                    {selectedView !== 'line'
+                  && typeof item.value === 'number' ? (
+                    <span className={cls.legendValue}>
+                      {item.value.toLocaleString()}
+                    </span>
+                      ) : null}
+
+                    {item.definition ? (
+                      <Tooltip
+                        title={item.definition}
+                        arrow
+                        placement="top"
+                      >
+                        <IconButton
+                          type="button"
+                          size="small"
+                          className={cls.infoIcon}
+                          aria-label={`Show definition for ${item.label}`}
+                        >
+                          <InfoOutlinedIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    ) : null}
+                  </div>
+                );
+              },
+            )}
+          </div>
+        </div>
+      );
+    }
+    return <div className={cls.chartEmpty}>No data to display</div>;
+  };
+
+  const renderNoRows = (withSearch) => {
+    if (isTabLoading) {
+      return (
+        <div className={cls.chartLoading}>
+          <CircularProgress aria-label="Loading table data" />
+        </div>
+      );
+    }
+    if (withSearch && searchPerformed) return <div className={cls.chartEmpty}>No results found.</div>;
+    return <div className={cls.chartEmpty}>No data to display</div>;
   };
 
   return (
@@ -1014,6 +1132,7 @@ export default function ({
                     </div>
 
                     <button
+                      type="button"
                       onClick={handleSearch}
                       disabled={searchText.trim().length < 3 || !baseReady}
                       className={cls.actionButton}
@@ -1024,6 +1143,7 @@ export default function ({
                 )}
 
                 <button
+                  type="button"
                   onClick={handleDownloadCSV}
                   disabled={isDownloading || !hasTableData}
                   className={cls.actionButton}
@@ -1043,115 +1163,7 @@ export default function ({
         )}
 
         {/* Chart */}
-        {selectedSection === 0
-          && ((selectedView === 'line'
-            ? timelineData.length === 0
-            : !data[selectedView] && !searchPerformed) || isLoading ? (
-              <div className={cls.chartLoading}>
-                <CircularProgress aria-label="Loading chart data" />
-              </div>
-            ) : currentData?.length > 0 || series.length > 0 ? (
-              <div className={cls.chartSection}>
-                <div className={cls.chartContainer}>
-                  {selectedView !== 'line' && (
-                    <div aria-hidden="true" className={cls.chartGraphic}>
-                      <PieChart
-                        series={[{ data: currentData, arcLabel: () => '' }]}
-                        width={300}
-                        height={300}
-                        slotProps={{ legend: { hidden: true } }}
-                      />
-                    </div>
-                  )}
-
-                  {selectedView === 'line'
-                  && series.length > 0
-                  && xAxis.length > 0 && (
-                    <div
-                      aria-hidden="true"
-                      className={cls.chartGraphic}
-                      style={{ width: '100%', overflowX: 'auto' }}
-                    >
-                      <LineChart
-                        xAxis={[
-                          {
-                            id: 'timeline',
-                            data: xAxis,
-                            scaleType: 'band',
-                            valueFormatter: (val) => val,
-                            label: 'Date',
-                          },
-                        ]}
-                        series={series}
-                        height={420}
-                        width={Math.max(640, xAxis.length * 60)}
-                        slotProps={{ legend: { hidden: true } }}
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className={cls.chartLegend}>
-                  {(selectedView === 'line' ? series : currentData).map(
-                    (item, i) => {
-                      const labelNode = item.url ? (
-                        <a
-                          href={item.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={cls.legendLabel}
-                        >
-                          {item.label}
-                        </a>
-                      ) : (
-                        <span className={cls.legendLabel}>{item.label}</span>
-                      );
-
-                      return (
-                        <div
-                          key={item.id || item.url || item.label}
-                          className={cls.legendItem}
-                        >
-                          <div
-                            className={cls.legendColor}
-                            style={{
-                              background: item.color || colors[i % colors.length],
-                            }}
-                          />
-
-                          {labelNode}
-
-                          {selectedView !== 'line'
-                        && typeof item.value === 'number' ? (
-                          <span className={cls.legendValue}>
-                            {item.value.toLocaleString()}
-                          </span>
-                            ) : null}
-
-                          {item.definition ? (
-                            <Tooltip
-                              title={item.definition}
-                              arrow
-                              placement="top"
-                            >
-                              <IconButton
-                                type="button"
-                                size="small"
-                                className={cls.infoIcon}
-                                aria-label={`Show definition for ${item.label}`}
-                              >
-                                <InfoOutlinedIcon fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
-                          ) : null}
-                        </div>
-                      );
-                    },
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div className={cls.chartEmpty}>No data to display</div>
-            ))}
+        {selectedSection === 0 && renderChart()}
 
         {selectedSection === 1 && (
           <div>
@@ -1168,6 +1180,7 @@ export default function ({
                     </thead>
                     <tbody>
                       {paginatedData.map((row, i) => (
+                        // eslint-disable-next-line react/no-array-index-key -- rows of the current page; they have no id of their own
                         <tr key={i}>
                           <td>{row?.date || ''}</td>
                           <td>{row?.eventCategory || '—'}</td>
@@ -1178,13 +1191,7 @@ export default function ({
                       ))}
                     </tbody>
                   </table>
-                ) : isTabLoading ? (
-                  <div className={cls.chartLoading}>
-                    <CircularProgress aria-label="Loading table data" />
-                  </div>
-                ) : (
-                  <div className={cls.chartEmpty}>No data to display</div>
-                )}
+                ) : renderNoRows(false)}
               </div>
             ) : (
               <div className={cls.table}>
@@ -1222,6 +1229,7 @@ export default function ({
 
                         if (!cols) {
                           return (
+                            // eslint-disable-next-line react/no-array-index-key -- rows of the current page; they have no id of their own
                             <tr key={i}>
                               <td style={{ width: '70%' }}>
                                 {item.url ? (
@@ -1244,6 +1252,7 @@ export default function ({
                         }
 
                         return (
+                          // eslint-disable-next-line react/no-array-index-key -- rows of the current page; they have no id of their own
                           <tr key={i}>
                             {cols.map((c) => {
                               const raw = item?.[c.key];
@@ -1288,15 +1297,7 @@ export default function ({
                       })}
                     </tbody>
                   </table>
-                ) : isTabLoading ? (
-                  <div className={cls.chartLoading}>
-                    <CircularProgress aria-label="Loading table data" />
-                  </div>
-                ) : searchPerformed ? (
-                  <div className={cls.chartEmpty}>No results found.</div>
-                ) : (
-                  <div className={cls.chartEmpty}>No data to display</div>
-                )}
+                ) : renderNoRows(true)}
               </div>
             )}
 

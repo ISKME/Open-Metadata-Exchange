@@ -33,9 +33,11 @@ function StarRating({ rate }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       {[...Array(full)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
         <StarIcon color="success" key={i} />
       ))}
       {[...Array(empty)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
         <StarBorderIcon color="disabled" key={i} />
       ))}
     </Box>
@@ -57,6 +59,7 @@ function HistoryModal({ open, onClose, history }) {
       >
         <Typography variant="h6" gutterBottom>Version History</Typography>
         {history.map((item, idx) => (
+          // eslint-disable-next-line react/no-array-index-key -- the history is only shown, in the order of the API
           <Box key={idx} mb={2}>
             {item.change_type === 'remixed_from' && (
               <>
@@ -308,6 +311,7 @@ export function Asset() {
           </Box>
           <Box mt={1} color="ark.mainFontColor" sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             {keywords.map((item, idx) => (
+              // eslint-disable-next-line react/no-array-index-key -- keywords can repeat and are only shown
               <Chip key={idx} label={item} variant="outlined" sx={{ bgcolor: 'ark.innerCardsBackgroundColor', color: 'ark.innerCardsTextColor' }} />
             ))}
           </Box>

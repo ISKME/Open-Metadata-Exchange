@@ -3,12 +3,12 @@ import { useSearchParams } from 'react-router-dom';
 import {
   Box, Grid, Paper, GlobalStyles, MenuItem, MenuList, ListItemText,
 } from '@mui/material';
-import styles from './Reports.styles';
 import { ReportsCaseAnalytics } from 'widgets/ReportsCaseAnalytics';
 import { ReportsCaseDetails } from 'widgets/ReportsCaseDetails';
 import { ReportsTaggingUser } from 'widgets/ReportsTaggingUser';
 import { ReportsUserAnalytics } from 'widgets/ReportsUserAnalytics';
 import { VideoAnalytics } from 'widgets/VideoAnalytics';
+import styles from './Reports.styles';
 
 export function Reports() {
   const [searchParams, setSearchParams] = useSearchParams();
