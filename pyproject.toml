@@ -15,7 +15,7 @@ dependencies = [
   "fastapi[standard]>=0.141.1",
   "madoka>=0.7.2.1",
   "pondpond",
-  "pynntp>=3.2",
+  "pynntp>=3.3",
 ]
 
 [dependency-groups]
