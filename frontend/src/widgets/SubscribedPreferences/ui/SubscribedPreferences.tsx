@@ -123,7 +123,13 @@ function HelpOutlineIcon(props) {
 
 function CheckboxItem({ label, checked }) {
   return (
-    <Box display="flex" alignItems="center" marginBottom={1}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: 1,
+      }}
+    >
       <FormControlLabel
         control={(
           <Checkbox
@@ -249,7 +255,12 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
           {sections.map((section) => (
             <MetadataSection n={stats[section.name]} title={section.name}>
               <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6,
+                  }}
+                >
                   <Typography variant="subtitle1" sx={styles.sectionSubheading}>
                     OER Exchange
                     {' '}
@@ -260,7 +271,12 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
                     <Typography sx={{ height: '64px' }}>{item[0]}</Typography>
                   ))}
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6,
+                  }}
+                >
                   <Typography variant="subtitle1" sx={styles.sectionSubheading}>
                     Your
                     {' '}

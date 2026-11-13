@@ -86,7 +86,13 @@ export function SubscribedUpdates({ className }: SubscribedUpdatesProps) {
       <div className={cls.gridCollapses}>
         <Accordion elevation={1} className={cls.accordionRoot}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
               <Typography variant="subtitle1">Content Additions</Typography>
               <Box className={cls.countBadge}>1</Box>
             </Box>
@@ -101,7 +107,13 @@ export function SubscribedUpdates({ className }: SubscribedUpdatesProps) {
 
         <Accordion elevation={1} className={cls.accordionRoot}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
               <Typography variant="subtitle1">Engagements</Typography>
               <Box className={cls.countBadge}>1</Box>
             </Box>
@@ -116,7 +128,13 @@ export function SubscribedUpdates({ className }: SubscribedUpdatesProps) {
 
         <Accordion elevation={1} className={cls.accordionRoot}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
               <Typography variant="subtitle1">Version updated</Typography>
               <Box className={cls.countBadge}>1</Box>
             </Box>
@@ -131,7 +149,13 @@ export function SubscribedUpdates({ className }: SubscribedUpdatesProps) {
 
         <Accordion elevation={1} className={cls.accordionRoot}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
               <Typography variant="subtitle1">URL updated</Typography>
               <Box className={cls.countBadge}>1</Box>
             </Box>
@@ -146,7 +170,13 @@ export function SubscribedUpdates({ className }: SubscribedUpdatesProps) {
 
         <Accordion elevation={1} className={cls.accordionRoot}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
               <Typography variant="subtitle1">Deaccessioned</Typography>
               <Box className={cls.countBadge}>1</Box>
             </Box>
@@ -161,7 +191,13 @@ export function SubscribedUpdates({ className }: SubscribedUpdatesProps) {
 
         <Accordion elevation={1} className={cls.accordionRoot}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
               <Typography variant="subtitle1">Metadata updates</Typography>
             </Box>
           </AccordionSummary>

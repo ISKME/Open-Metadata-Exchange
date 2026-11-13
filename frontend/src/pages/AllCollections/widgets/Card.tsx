@@ -80,8 +80,15 @@ function MetaData({ metadata }) {
   return (
     <Box sx={{ mt: 1 }}>
       {metadata.map((item, idx) => (item.label ? (
-        // eslint-disable-next-line react/no-array-index-key -- the metadata of one card is only shown, in a fixed order
-        <Typography key={idx} variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
+        <Typography
+          // eslint-disable-next-line react/no-array-index-key -- the metadata of one card is only shown, in a fixed order
+          key={idx}
+          variant="body2"
+          sx={{
+            color: 'text.secondary',
+            mb: 0.5,
+          }}
+        >
           <strong>
             {item.label}
             :
@@ -134,7 +141,13 @@ export const ResourceCard = memo(({ resource }) => {
             boxShadow: '1px 2px 5px rgba(0, 0, 0, .2)',
           }}
         />
-        <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+        <Typography
+          variant="body2"
+          sx={{
+            color: 'text.secondary',
+            textAlign: 'center',
+          }}
+        >
           {resource.license_bucket_title}
         </Typography>
       </CardContent>
@@ -162,7 +175,13 @@ export const ResourceCard = memo(({ resource }) => {
             {resource.title || resource.name}
           </MuiLink>
         </Box>
-        <Typography variant="caption" color="text.secondary" sx={{ mb: 1 }}>
+        <Typography
+          variant="caption"
+          sx={{
+            color: 'text.secondary',
+            mb: 1,
+          }}
+        >
           Updated
           {' '}
           {new Date(resource.updateDate).toDateString()}
@@ -194,7 +213,12 @@ export const ResourceCard = memo(({ resource }) => {
           <Box component="span" sx={{ display: 'flex', alignItems: 'center', mr: 1 }}>
             <AccessibleIcon style={{ width: 20, marginRight: 4 }} />
             {!!resource.accessibility?.length && (
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'text.secondary',
+                }}
+              >
                 (
                 {resource.accessibility?.join(', ')}
                 )

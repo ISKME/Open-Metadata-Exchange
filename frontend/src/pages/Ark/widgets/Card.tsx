@@ -102,8 +102,10 @@ function MetaData({ metadata }) {
           // eslint-disable-next-line react/no-array-index-key -- the metadata of one card is only shown, in a fixed order
           key={idx}
           variant="body2"
-          color="text.secondary"
-          sx={{ mb: 0.5 }}
+          sx={{
+            color: 'text.secondary',
+            mb: 0.5,
+          }}
         >
           <strong>
             {item.label}
@@ -200,7 +202,13 @@ export const ArkResourceCard = memo(({ resource }) => {
             {resource.title || resource.name}
           </MuiLink>
         </Box>
-        <Typography variant="caption" color="text.secondary" sx={{ mb: 1 }}>
+        <Typography
+          variant="caption"
+          sx={{
+            color: 'text.secondary',
+            mb: 1,
+          }}
+        >
           Updated
           {' '}
           {new Date(resource.updateDate).toDateString()}
@@ -236,7 +244,12 @@ export const ArkResourceCard = memo(({ resource }) => {
             sx={{ display: 'flex', alignItems: 'center', mr: 1 }}
           >
             <AccessibleIcon style={{ width: 20, marginRight: 4 }} />
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               {resource.accessibility?.join(', ')}
             </Typography>
           </Box>

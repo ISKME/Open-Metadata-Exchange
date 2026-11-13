@@ -515,7 +515,7 @@ function Note({
       </Menu>
       <CardContent>
         <Grid container>
-          <Grid item xs={groups.length && !comment ? 6 : 12}>
+          <Grid size={groups.length && !comment ? 6 : 12}>
             {editing ? (
               <TextField
                 label="Note Text"
@@ -543,7 +543,9 @@ function Note({
                       <Checkbox
                         checked={checked}
                         onChange={({ target }) => setChecked(target.checked)}
-                        inputProps={{ 'aria-label': 'controlled' }}
+                        slotProps={{
+                          input: { 'aria-label': 'controlled' },
+                        }}
                       />
                     )}
                     label={
@@ -581,8 +583,11 @@ function Note({
             {framework ? (
               <Typography
                 variant="body2"
-                color="text.secondary"
-                sx={{ marginTop: '8px', display: 'block' }}
+                sx={{
+                  color: 'text.secondary',
+                  marginTop: '8px',
+                  display: 'block',
+                }}
               >
                 Framework:
                 {' '}
@@ -594,8 +599,8 @@ function Note({
             {time && (
               <Typography
                 variant="body2"
-                color="text.secondary"
                 sx={{
+                  color: 'text.secondary',
                   fontFamily: '"DINPro", sans-serif',
                   marginTop: '8px',
                   display: 'block',
@@ -617,7 +622,7 @@ function Note({
             )}
           </Grid>
           {editing && groups.length && loaded ? (
-            <Grid item xs={comment ? 12 : 6}>
+            <Grid size={comment ? 12 : 6}>
               <Groups
                 options={groups}
                 init={groupInfo}
@@ -815,7 +820,7 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
     <Card sx={{ margin: '16px 0' }}>
       <CardContent>
         <Grid container sx={{ margin: '16px 0' }}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <div>
               <FormControl>
                 <FormLabel id="demo-controlled-radio-buttons-group">
@@ -848,7 +853,9 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                       <Checkbox
                         checked={item.check}
                         onChange={({ target }) => handleMod(index, 'check', target.checked)}
-                        inputProps={{ 'aria-label': 'controlled' }}
+                        slotProps={{
+                          input: { 'aria-label': 'controlled' },
+                        }}
                       />
                     )}
                   />
@@ -901,7 +908,9 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                       <Checkbox
                         checked={item.check}
                         onChange={({ target }) => handleModPdf(index, 'check', target.checked)}
-                        inputProps={{ 'aria-label': 'controlled' }}
+                        slotProps={{
+                          input: { 'aria-label': 'controlled' },
+                        }}
                       />
                     )}
                   />
@@ -1084,14 +1093,16 @@ function NoteForm({
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Grid container sx={{ margin: '16px 0' }}>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <div>
               <FormControlLabel
                 control={(
                   <Checkbox
                     checked={checked}
                     onChange={({ target }) => setChecked(target.checked)}
-                    inputProps={{ 'aria-label': 'controlled' }}
+                    slotProps={{
+                      input: { 'aria-label': 'controlled' },
+                    }}
                   />
                 )}
                 label={
@@ -1140,7 +1151,7 @@ function NoteForm({
               />
             </div>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Groups
               options={groups}
               onChange={(id, leader) => setGroupInfo({ id, leader })}
@@ -1540,7 +1551,7 @@ export function Case() {
           '@media (maxWidth: 1168px)': { padding: '0 16px' },
         }}
       >
-        <Grid item xs={4}>
+        <Grid size={4}>
           <div className="sidebar">
             <p className="case-id">
               Case #
@@ -1664,7 +1675,7 @@ export function Case() {
             </div>
           </div>
         </Grid>
-        <Grid item xs={8}>
+        <Grid size={8}>
           <div style={{ padding: '10px', backgroundColor: '#303e47' }}>
             <div style={{ marginBottom: '8px' }} id="playerContainer">
               {videos.map((item, index) => (

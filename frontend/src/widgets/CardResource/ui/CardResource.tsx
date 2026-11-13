@@ -49,8 +49,8 @@ export function CardResource({
         <div style={{ display: 'flex' }}>
           <Typography
             variant="subtitle1"
-            color="text.secondary"
             component="div"
+            dangerouslySetInnerHTML={{ __html: description }}
             sx={{
               flex: 1,
               font: 'normal 14px / 21px "Roboto", sans-serif',
@@ -60,7 +60,6 @@ export function CardResource({
               boxOrient: 'vertical',
               overflow: 'hidden',
             }}
-            dangerouslySetInnerHTML={{ __html: description }}
           />
         </div>
         <div className={cls['case-fields']}>

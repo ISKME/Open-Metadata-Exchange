@@ -84,9 +84,23 @@ export const SubscribedContent = () => {
         <Dropdown id="sub" label="Subject area" options={subjects} value={selectedSubjects} onChange={e => setSelectedSubjects(e.target.value)} />
         <Dropdown id="mat" label="Educational level" options={levels} value={selectedLevels} onChange={e => setSelectedLevels(e.target.value)} /> */}
       </Box>
-      <Grid container spacing={4} justifyContent="center" sx={{ mt: 2 }}>
+      <Grid
+        container
+        spacing={4}
+        sx={{
+          justifyContent: 'center',
+          mt: 2,
+        }}
+      >
         {collections.map((item) => (
-          <Grid item xs={12} sm={6} md={4} key={item.id}>
+          <Grid
+            key={item.id}
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+            }}
+          >
             <Card sx={{ position: 'relative', height: '100%' }}>
               <CardMedia
                 component="img"

@@ -38,13 +38,39 @@ function HeaderLinks({ fontFamily, fontSizeText }) {
   return (
     <>
       <Box sx={{ display: { sm: 'none', xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1 }}>
-        <Link href="/ark/browse" className={cls.navLink} color="ark.footerLinkColor" underline="hover" sx={{ ...fontStyleLocal, mr: 1 }}>
+        <Link
+          href="/ark/browse"
+          className={cls.navLink}
+          underline="hover"
+          sx={{
+            color: 'ark.footerLinkColor',
+            ...fontStyleLocal,
+            mr: 1,
+          }}
+        >
           All Collections
         </Link>
-        <Link href="/hubs/" className={cls.navLink} color="ark.footerLinkColor" underline="hover" sx={{ ...fontStyleLocal, mr: 1 }}>
+        <Link
+          href="/hubs/"
+          className={cls.navLink}
+          underline="hover"
+          sx={{
+            color: 'ark.footerLinkColor',
+            ...fontStyleLocal,
+            mr: 1,
+          }}
+        >
           Hubs
         </Link>
-        <Link component={NavLink} to="about" className={cls.navLink} color="ark.footerLinkColor" underline="hover" sx={fontStyleLocal}>
+        <Link
+          component={NavLink}
+          to="about"
+          className={cls.navLink}
+          underline="hover"
+          sx={[{
+            color: 'ark.footerLinkColor',
+          }, ...(Array.isArray(fontStyleLocal) ? fontStyleLocal : [fontStyleLocal])]}
+        >
           About Us
         </Link>
       </Box>
@@ -58,17 +84,32 @@ function HeaderLinks({ fontFamily, fontSizeText }) {
           <List>
             <ListItem disablePadding>
               <ListItemButton component="a" href="/ark/browse">
-                <ListItemText primary="All Collections" primaryTypographyProps={{ sx: fontStyleLocal }} />
+                <ListItemText
+                  primary="All Collections"
+                  slotProps={{
+                    primary: { sx: fontStyleLocal },
+                  }}
+                />
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton component="a" href="/hubs/">
-                <ListItemText primary="Hubs" primaryTypographyProps={{ sx: fontStyleLocal }} />
+                <ListItemText
+                  primary="Hubs"
+                  slotProps={{
+                    primary: { sx: fontStyleLocal },
+                  }}
+                />
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton component={NavLink} to="/ark/about">
-                <ListItemText primary="About Us" primaryTypographyProps={{ sx: fontStyleLocal }} />
+                <ListItemText
+                  primary="About Us"
+                  slotProps={{
+                    primary: { sx: fontStyleLocal },
+                  }}
+                />
               </ListItemButton>
             </ListItem>
           </List>
@@ -192,7 +233,15 @@ export default function ArkLayout() {
         <AppBar position="static" sx={{ bgcolor: 'ark.headerNavbarBackgroundColor', boxShadow: 'none' }}>
           <Toolbar className={cls.navToolbar}>
             <Container className={cls.navContainer}>
-              <Link component={NavLink} to="/ark" className={cls.navTitle} color="ark.footerTextColor" underline="none">
+              <Link
+                component={NavLink}
+                to="/ark"
+                className={cls.navTitle}
+                underline="none"
+                sx={{
+                  color: 'ark.footerTextColor',
+                }}
+              >
                 The Ark: A Digital Public Goods Library
               </Link>
               <HeaderLinks fontFamily={fontFamily} fontSizeText={fontSizeText} />
@@ -212,10 +261,28 @@ export default function ArkLayout() {
             display: 'flex', justifyContent: 'center', mt: 4, gap: '120px',
           }}
           >
-            <Link component={NavLink} to="about" className={cls.footerLink} color="ark.footerLinkColor" underline="hover" sx={{ fontFamily, fontSize: fontSizeText }}>
+            <Link
+              component={NavLink}
+              to="about"
+              className={cls.footerLink}
+              underline="hover"
+              sx={{
+                color: 'ark.footerLinkColor',
+                fontFamily,
+                fontSize: fontSizeText,
+              }}
+            >
               About
             </Link>
-            <Link href="mailto:openforeducation@gmail.com" className={cls.footerLink} color="ark.footerLinkColor" underline="hover" style={fontStyle}>
+            <Link
+              href="mailto:openforeducation@gmail.com"
+              className={cls.footerLink}
+              underline="hover"
+              style={fontStyle}
+              sx={{
+                color: 'ark.footerLinkColor',
+              }}
+            >
               Contact
             </Link>
           </Box>
@@ -228,13 +295,21 @@ export default function ArkLayout() {
           }}
         >
           <Container>
-            <Typography variant="body2" className={cls.copyRight} color="ark.footerTextColor">
+            <Typography
+              variant="body2"
+              className={cls.copyRight}
+              sx={{
+                color: 'ark.footerTextColor',
+              }}
+            >
               Copyright notice: Please see the terms of use for individual materials found on The Ark: A Digital Public Goods Library.
             </Typography>
             <Typography
               variant="body3"
               className={cls.footerText}
-              color="ark.footerTextColor"
+              sx={{
+                color: 'ark.footerTextColor',
+              }}
             >
               Except where otherwise noted, content on this site is licensed under a Creative Commons Attribution-ShareAlike 4.0 Licence
             </Typography>

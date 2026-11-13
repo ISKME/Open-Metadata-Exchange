@@ -40,7 +40,7 @@ export default function Dropdown({
         '& .MuiOutlinedInput-notchedOutline': {
           border: 'none',
         },
-        '& .MuiInputBase-inputSizeSmall': {
+        '&.MuiInputBase-sizeSmall > .MuiInputBase-input': {
           padding: '0 0 8px',
           fontSize: '16px',
           paddingTop: '6px',
@@ -84,12 +84,14 @@ export default function Dropdown({
           },
         }}
         MenuProps={{
-          PaperProps: {
-            sx: {
-              bgcolor: 'ark.inputsBackgroundColor',
-              color: 'ark.inputsTextColor',
-              '& .MuiMenuItem-gutters': {
-                padding: multiple ? 0 : '',
+          slotProps: {
+            paper: {
+              sx: {
+                bgcolor: 'ark.inputsBackgroundColor',
+                color: 'ark.inputsTextColor',
+                '& .MuiMenuItem-gutters': {
+                  padding: multiple ? 0 : '',
+                },
               },
             },
           },

@@ -145,8 +145,13 @@ function HistoryModal({ open, onClose, history }) {
           Version History
         </Typography>
         {history.map((item, idx) => (
-          // eslint-disable-next-line react/no-array-index-key -- the history is only shown, in the order of the API
-          <Box key={idx} mb={2}>
+          <Box
+            // eslint-disable-next-line react/no-array-index-key -- the history is only shown, in the order of the API
+            key={idx}
+            sx={{
+              mb: 2,
+            }}
+          >
             {item.change_type === 'remixed_from' && (
               <>
                 <span>Remixed from </span>
@@ -626,15 +631,33 @@ export default function ArkLesson() {
           <Typography variant="h1" gutterBottom sx={{ fontSize: '32px' }}>
             {title}
           </Typography>
-          <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              alignItems: 'center',
+              mb: 1,
+            }}
+          >
             <StarRating rate={rate} />
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               (
               {rate || 0}
               )
             </Typography>
           </Stack>
-          <Typography variant="body2" color="text.secondary" mb={1}>
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'text.secondary',
+              mb: 1,
+            }}
+          >
             Updated
             {' '}
             {update}
@@ -642,8 +665,10 @@ export default function ArkLesson() {
           <Stack
             direction="row"
             spacing={2}
-            mb={2}
-            sx={{ alignItems: 'center ' }}
+            sx={{
+              mb: 2,
+              alignItems: 'center ',
+            }}
           >
             <Typography variant="body2">
               {visits}
@@ -675,7 +700,13 @@ export default function ArkLesson() {
               editURL={editURL}
             />
           )}
-          <Stack direction="row" spacing={2} mb={2}>
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{
+              mb: 2,
+            }}
+          >
             {/* <Button
               variant="contained"
               color="primary"
@@ -703,26 +734,51 @@ export default function ArkLesson() {
         </Tabs>
       </Box>
       <CustomTabPanel value={tab} index={0}>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} mb={2}>
-          <Box flex={1}>
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={2}
+          sx={{
+            mb: 2,
+          }}
+        >
+          <Box sx={{
+            flex: 1,
+          }}
+          >
             <Typography
               variant="h2"
-              color="ark.mainFontColor"
               gutterBottom
-              sx={{ fontSize: '28px' }}
+              sx={{
+                color: 'ark.mainFontColor',
+                fontSize: '28px',
+              }}
             >
               Description
             </Typography>
-            <Typography variant="body1" color="ark.mainFontColor" paragraph>
+            <Typography
+              variant="body1"
+              sx={{
+                color: 'ark.mainFontColor',
+                marginBottom: '16px',
+              }}
+            >
               <b>Overview: </b>
             </Typography>
             <Typography
               variant="body1"
-              color="ark.mainFontColor"
-              paragraph
               dangerouslySetInnerHTML={{ __html: desc?.replace(/\r\n/g, '<br />')?.replace(/\n/g, '<br />') }}
+              sx={{
+                color: 'ark.mainFontColor',
+                marginBottom: '16px',
+              }}
             />
-            <Typography variant="body2" color="ark.mainFontColor" paragraph>
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'ark.mainFontColor',
+                marginBottom: '16px',
+              }}
+            >
               <b>Subject:</b>
               {' '}
               {subjects?.join(', ')}
@@ -774,16 +830,23 @@ export default function ArkLesson() {
                 />
               )}
             </Typography>
-            <Box mt={2}>
+            <Box sx={{
+              mt: 2,
+            }}
+            >
               <b>Tags: </b>
               <Button variant="outlined" size="small" sx={{ ml: 1 }}>
                 Add New Tag
               </Button>
             </Box>
             <Box
-              mt={1}
-              color="ark.mainFontColor"
-              sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}
+              sx={{
+                mt: 1,
+                color: 'ark.mainFontColor',
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 1,
+              }}
             >
               {keywords.map((item, idx) => (
                 <Chip
@@ -804,11 +867,25 @@ export default function ArkLesson() {
             flexItem
             sx={{ display: { xs: 'none', sm: 'block' } }}
           />
-          <Box minWidth={220}>
+          <Box sx={{
+            minWidth: 220,
+          }}
+          >
             <Stack spacing={2}>
-              <Box display="flex" alignItems="center" gap={1}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                }}
+              >
                 <HistoryIcon color="action" />
-                <Typography variant="body2" color="ark.mainFontColor">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: 'ark.mainFontColor',
+                  }}
+                >
                   {history.length}
                   {' '}
                   Updates/Edits since first published
@@ -817,9 +894,20 @@ export default function ArkLesson() {
                 </Typography>
               </Box>
               {history.length > 0 && (
-                <Box display="flex" alignItems="center" gap={1}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                  }}
+                >
                   <RemixIcon color="action" />
-                  <Typography variant="body2" color="ark.mainFontColor">
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: 'ark.mainFontColor',
+                    }}
+                  >
                     {history.length}
                     {' '}
                     Remixes
@@ -857,9 +945,13 @@ export default function ArkLesson() {
             <Drawer open={open} onClose={() => setOpen(false)}>
               <Box sx={{ width: '280px', padding: '48px 24px' }}>
                 <Typography
-                  sx={{ mb: 2, fontSize: '24px', fontWeight: 600 }}
-                  color="ark.mainFontColor"
                   variant="h2"
+                  sx={{
+                    color: 'ark.mainFontColor',
+                    mb: 2,
+                    fontSize: '24px',
+                    fontWeight: 600,
+                  }}
                 >
                   Contents
                 </Typography>
@@ -904,9 +996,13 @@ export default function ArkLesson() {
               }}
             >
               <Typography
-                sx={{ mb: 2, fontSize: '24px', fontWeight: 600 }}
-                color="ark.mainFontColor"
                 variant="h2"
+                sx={{
+                  color: 'ark.mainFontColor',
+                  mb: 2,
+                  fontSize: '24px',
+                  fontWeight: 600,
+                }}
               >
                 Contents
               </Typography>

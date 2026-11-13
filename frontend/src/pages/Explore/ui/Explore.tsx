@@ -61,10 +61,25 @@ export function Explore({ className }: ExploreProps) {
       maxWidth: 1200, mx: { sm: '', xs: '', md: 'auto' }, mt: 4, p: 2, width: { sm: 'calc(100% - 64px)', xs: 'calc(100% - 64px)', md: '100%' },
     }}
     >
-      <Typography variant="h4" gutterBottom fontWeight={700} textAlign="center">
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{
+          fontWeight: 700,
+          textAlign: 'center',
+        }}
+      >
         Explore Learning Materials
       </Typography>
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" justifyContent="center" sx={{ mb: 4 }}>
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        spacing={2}
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          mb: 4,
+        }}
+      >
         <Box sx={{ flex: 1 }}>
           <SearchBar
             value={inputValue}
@@ -78,15 +93,36 @@ export function Explore({ className }: ExploreProps) {
       {sections.map((section, index) => (
         // eslint-disable-next-line react/no-array-index-key -- the sections of the page are fixed
         <Box key={index} sx={{ mb: 5 }}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
-            <Typography variant="h5" fontWeight={600}>{section.name}</Typography>
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              mb: 2,
+            }}
+          >
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: 600,
+              }}
+            >
+              {section.name}
+            </Typography>
             {section.type === 'Collections' && (
               <Button variant="text" color="primary" onClick={() => navigate('/imls/browse')}>View All Collections</Button>
             )}
           </Stack>
           {section.type === 'Collections' ? (
             <Box sx={{ position: 'relative', width: '100%' }}>
-              <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{
+                  alignItems: 'center',
+                  mb: 2,
+                }}
+              >
                 <Button
                   variant="outlined"
                   onClick={() => handlePrev(section.data.length)}
@@ -115,14 +151,41 @@ export function Explore({ className }: ExploreProps) {
                           onError={handleImageError}
                         />
                         <CardContent sx={{ flex: 1 }}>
-                          <Typography variant="h6" fontWeight={600} fontSize="1.2rem">{collection.name}</Typography>
-                          <Typography variant="body2" color="text.secondary">{collection.micrositeName}</Typography>
-                          <Typography variant="body2" color="text.secondary">
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              fontWeight: 600,
+                              fontSize: '1.2rem',
+                            }}
+                          >
+                            {collection.name}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: 'text.secondary',
+                            }}
+                          >
+                            {collection.micrositeName}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: 'text.secondary',
+                            }}
+                          >
                             {collection.numResources}
                             {' '}
                             resources
                           </Typography>
-                          <Typography variant="body2" color="text.secondary">{collection.educationLevels?.slice(0, 3)?.join(', ')}</Typography>
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: 'text.secondary',
+                            }}
+                          >
+                            {collection.educationLevels?.slice(0, 3)?.join(', ')}
+                          </Typography>
                           <Button variant="outlined" size="small" sx={{ mt: 2 }} onClick={() => navigate(`/imls/collection-details/${collection.micrositeSlug}/${collection.id}/resources`)}>
                             View Details
                           </Button>
@@ -142,7 +205,14 @@ export function Explore({ className }: ExploreProps) {
           ) : (
             <Grid container spacing={2}>
               {section.data.map((microsite) => (
-                <Grid item xs={12} sm={6} md={4} key={microsite.name}>
+                <Grid
+                  key={microsite.name}
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4,
+                  }}
+                >
                   <Card sx={{
                     height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', p: 2,
                   }}
@@ -155,13 +225,32 @@ export function Explore({ className }: ExploreProps) {
                       }}
                     />
                     <CardContent sx={{ flex: 1, textAlign: 'center' }}>
-                      <Typography variant="h6" fontWeight={600}>{microsite.name}</Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: 600,
+                        }}
+                      >
+                        {microsite.name}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: 'text.secondary',
+                        }}
+                      >
                         {microsite.numCollections}
                         {' '}
                         Collections
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">{microsite.educationalLevels?.slice(0, 3)?.join(', ')}</Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: 'text.secondary',
+                        }}
+                      >
+                        {microsite.educationalLevels?.slice(0, 3)?.join(', ')}
+                      </Typography>
                       <Button variant="outlined" size="small" sx={{ mt: 2 }} onClick={() => navigate(`/imls/browse/?tenant=${microsite.slug}`)}>
                         Explore Microsite
                       </Button>

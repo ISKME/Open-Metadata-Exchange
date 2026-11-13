@@ -264,7 +264,7 @@ export function GroupsFolders({ content }) {
       </Modal>
 
       <Grid container spacing={2} sx={{ padding: '0 10%' }}>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <SimpleTreeView
             folders={folders}
             setFolderId={setFolderId}
@@ -283,7 +283,7 @@ export function GroupsFolders({ content }) {
             setDefaultPage={setDefaultPage}
           />
         </Grid>
-        <Grid item xs={8}>
+        <Grid size={8}>
           <CasesList
             data={cases}
             defaultPage={defaultPage}

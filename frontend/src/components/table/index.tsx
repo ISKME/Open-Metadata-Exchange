@@ -23,7 +23,9 @@ const EnhancedTableHead = ({
           checked={all}
           indeterminate={indeterminate}
           onChange={onSelectAllClick}
-          inputProps={{ 'aria-label': 'select all items' }}
+          slotProps={{
+            input: { 'aria-label': 'select all items' },
+          }}
         />
       </TableCell>
       {headers.map((headCell) => (
@@ -224,8 +226,10 @@ export default function EnhancedTable({
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
-                        inputProps={{ 'aria-labelledby': labelId }}
                         onClick={() => handleClick(row.id)}
+                        slotProps={{
+                          input: { 'aria-labelledby': labelId },
+                        }}
                       />
                     </TableCell>
                     {headers.map((header, index) => (

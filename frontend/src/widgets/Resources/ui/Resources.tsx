@@ -151,7 +151,7 @@ export function Resources({ titles = '', URL = '/api/materials/v1/courses' }) {
 
   return (
     <Grid container spacing={2} sx={{ padding: '24px 10%' }} className={cls.cases}>
-      <Grid item xs={4} sx={{ paddingRight: '32px' }}>
+      <Grid sx={{ paddingRight: '32px' }} size={4}>
         {titles && (
           <Typography className={cls['page-subtitle']}>
             Filter Cases
@@ -200,7 +200,7 @@ export function Resources({ titles = '', URL = '/api/materials/v1/courses' }) {
           <a href="/react/advanced-search">Advanced Search</a>
         </Typography>
       </Grid>
-      <Grid item xs={8}>
+      <Grid size={8}>
         <ResourcesAll
           key={`resources-all-${frameworkParam || 'none'}`}
           data={cases}

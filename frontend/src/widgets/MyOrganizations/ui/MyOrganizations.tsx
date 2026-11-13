@@ -93,7 +93,7 @@ export function MyOrganizations() {
               ))}
             </RadioGroup>
           </FormControl>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button className="btn btn-primary" type="submit" variant="contained" color="primary">
               Save Changes
             </Button>

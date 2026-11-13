@@ -122,22 +122,24 @@ export default function StylePropertyField({
         value={valueString}
         onChange={onChange}
         size="small"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <div
-                className={`w-[15px] h-[15px] ${ROUND_BORDER_COLOR}`}
-                style={{ backgroundColor: valueWithDef }}
-              >
-                <input
-                  type="color"
-                  className="w-[15px] h-[15px] cursor-pointer opacity-0"
-                  value={valueWithDef}
-                  onChange={(ev) => handleChange(ev.target.value)}
-                />
-              </div>
-            </InputAdornment>
-          ),
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <div
+                  className={`w-[15px] h-[15px] ${ROUND_BORDER_COLOR}`}
+                  style={{ backgroundColor: valueWithDef }}
+                >
+                  <input
+                    type="color"
+                    className="w-[15px] h-[15px] cursor-pointer opacity-0"
+                    value={valueWithDef}
+                    onChange={(ev) => handleChange(ev.target.value)}
+                  />
+                </div>
+              </InputAdornment>
+            ),
+          },
         }}
       />
     );

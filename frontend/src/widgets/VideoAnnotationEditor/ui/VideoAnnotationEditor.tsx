@@ -217,7 +217,13 @@ export function VideoAnnotationEditor({
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: PAGE_SIZE });
   const [adding, setAdding] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
+  const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>({
+    type: 'include',
+    ids: new Set(),
+  });
+  const selectedIds: GridRowId[] = rowSelectionModel.type === 'include'
+    ? Array.from(rowSelectionModel.ids)
+    : (rows as Row[]).filter((r) => !rowSelectionModel.ids.has(r.id)).map((r) => r.id);
   const [editingRow, setEditingRow] = useState<Row | null>(null);
   const [draftStart, setDraftStart] = useState('');
   const [draftEnd, setDraftEnd] = useState('');
@@ -426,7 +432,7 @@ export function VideoAnnotationEditor({
   };
 
   const handleDeleteSelected = async () => {
-    const ids = rowSelectionModel as GridRowId[];
+    const ids = selectedIds;
     if (ids.length === 0) return;
     if (!window.confirm(`Delete ${ids.length} caption${ids.length > 1 ? 's' : ''}?`)) return;
 
@@ -444,7 +450,10 @@ export function VideoAnnotationEditor({
         return next;
       });
       setActiveRowId((prev) => (prev !== null && deletedIds.has(prev) ? null : prev));
-      setRowSelectionModel((prev) => (prev as GridRowId[]).filter((id) => !deletedIds.has(id as number)));
+      setRowSelectionModel({
+        type: 'include',
+        ids: new Set(ids.filter((id) => !deletedIds.has(id as number))),
+      });
     } catch {
       setError('Failed to delete captions.');
     } finally {
@@ -600,14 +609,14 @@ export function VideoAnnotationEditor({
           {adding ? 'Adding…' : 'Add Caption'}
         </Button>
       )}
-      {rowSelectionModel.length > 0 && (
+      {selectedIds.length > 0 && (
         <Button
           onClick={handleDeleteSelected}
           disabled={deleting || saving}
           color="error"
           startIcon={<DeleteIcon />}
         >
-          {deleting ? 'Deleting…' : `Delete Selected (${rowSelectionModel.length})`}
+          {deleting ? 'Deleting…' : `Delete Selected (${selectedIds.length})`}
         </Button>
       )}
     </Box>

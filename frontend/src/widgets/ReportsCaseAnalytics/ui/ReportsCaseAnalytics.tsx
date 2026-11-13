@@ -678,7 +678,13 @@ export function ReportsCaseAnalytics() {
         />
       </div>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <FormControl size="small" sx={{ width: '100%' }}>
             <InputLabel className={cls.formInputLabel}>User Type</InputLabel>
             <Select
@@ -694,7 +700,13 @@ export function ReportsCaseAnalytics() {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <FormControl size="small" sx={{ width: '100%' }}>
             <InputLabel className={cls.formInputLabel}>ATLAS Role</InputLabel>
             <Select
@@ -712,7 +724,13 @@ export function ReportsCaseAnalytics() {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <FormControl size="small" sx={{ width: '100%' }}>
             <InputLabel className={cls.formInputLabel}>User Is Active</InputLabel>
             <Select
@@ -729,7 +747,13 @@ export function ReportsCaseAnalytics() {
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <Autocomplete
             id="organization-autocomplete"
             options={organizations || []}
@@ -740,21 +764,31 @@ export function ReportsCaseAnalytics() {
               <TextField
                 {...params}
                 label="Organization"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <Autocomplete
             id="groups-autocomplete"
             options={groups || []}
@@ -765,21 +799,31 @@ export function ReportsCaseAnalytics() {
               <TextField
                 {...params}
                 label="Group"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <Autocomplete
             id="state-autocomplete"
             options={stateOptions}
@@ -790,7 +834,13 @@ export function ReportsCaseAnalytics() {
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 3,
+          }}
+        >
           <Autocomplete
             id="subjects-autocomplete"
             options={subjectOptions || []}
@@ -802,21 +852,31 @@ export function ReportsCaseAnalytics() {
               <TextField
                 {...params}
                 label="Subject"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 3,
+          }}
+        >
           <Autocomplete
             id="grades-autocomplete"
             options={gradeOptions || []}
@@ -828,21 +888,31 @@ export function ReportsCaseAnalytics() {
               <TextField
                 {...params}
                 label="Grade"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 3,
+          }}
+        >
           <Autocomplete
             id="areas-autocomplete"
             options={areaOptions || []}
@@ -854,21 +924,31 @@ export function ReportsCaseAnalytics() {
               <TextField
                 {...params}
                 label="Certificate Area"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 3,
+          }}
+        >
           <Autocomplete
             id="ethnicities-autocomplete"
             options={ethnicityOptions || []}
@@ -880,15 +960,19 @@ export function ReportsCaseAnalytics() {
               <TextField
                 {...params}
                 label="Ethnicity"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
@@ -934,7 +1018,7 @@ export function ReportsCaseAnalytics() {
           series={activeSeries}
           width={1280}
           height={400}
-          slotProps={{ legend: { hidden: true } }}
+          hideLegend
         />
       )}
       <TableContainer component={Paper}>
@@ -996,6 +1080,7 @@ export function ReportsCaseAnalytics() {
             disableRowSelectionOnClick
             showCellVerticalBorder
             autoHeight
+            showToolbar
           />
         )}
       </div>

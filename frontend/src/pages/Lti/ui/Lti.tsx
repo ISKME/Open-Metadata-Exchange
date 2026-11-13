@@ -196,10 +196,14 @@ export function Lti() {
         <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
       </Drawer>
       <Grid container>
-        <Grid item xs={4} sx={{ paddingRight: '32px' }} style={{ display: match ? '' : 'none' }}>
+        <Grid
+          sx={{ paddingRight: '32px' }}
+          style={{ display: match ? '' : 'none' }}
+          size={4}
+        >
           <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
         </Grid>
-        <Grid item xs={match ? 8 : 12}>
+        <Grid size={match ? 8 : 12}>
           {/* topics={filteredTopics}
           grades={filteredGrades}
           frameworks={filteredFrameworks}
