@@ -2,7 +2,6 @@
 import {
   memo, SelectHTMLAttributes, useRef, useState, useEffect,
 } from 'react';
-import { SelectRenderer } from 'react-dropdown-select';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './Select.module.scss';
