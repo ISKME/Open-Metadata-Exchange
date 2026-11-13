@@ -62,8 +62,9 @@ jobs:
       - run: uv run pytest --iterations=8 --parallel-threads=auto --ignore-gil-enabled
       - run: uv run scripts/nntp_io.py
 
-  # ESLint and stylelint errors fail this job (warnings do not). To also block merging a pull
-  # request with a lint error, a repository admin adds `front-end (26)` as a required status
+  # ESLint and stylelint errors fail this job (warnings do not), and so does a frontend package
+  # with a high or critical vulnerability. To also block merging a pull
+  # request that fails this job, a repository admin adds `front-end (26)` as a required status
   # check: Settings > Rules > Rulesets (or Branches > Branch protection rules) for `main` >
   # Require status checks to pass > add `front-end (26)`. Rename it there when the Node.js
   # version in the matrix changes. The eslint and stylelint hooks in .pre-commit-config.yaml
@@ -87,3 +88,5 @@ jobs:
       - run: cd frontend && npm run lint:ts
       - run: cd frontend && npm run typecheck
       - run: cd frontend && npm run unit
+      - run: cd frontend && npm audit --audit-level=high
+      - run: cd frontend && npm outdated || true  # Report only, Dependabot opens the update pull requests
