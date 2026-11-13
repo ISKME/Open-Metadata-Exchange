@@ -3,7 +3,7 @@ import * as React from 'react';
 import {
   useLocation, useSearchParams, useNavigate, Link,
 } from 'react-router-dom';
-import * as qs from 'query-string';
+import qs from 'query-string';
 import { styled } from '@mui/material/styles';
 import { useAppDispatch } from 'hooks/redux';
 import Typography from '@mui/material/Typography';

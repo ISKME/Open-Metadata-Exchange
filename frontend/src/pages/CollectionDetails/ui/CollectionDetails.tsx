@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import * as qs from 'query-string';
+import qs from 'query-string';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';

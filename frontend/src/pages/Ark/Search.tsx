@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { useState, useCallback, useEffect } from 'react';
 import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
-import * as qs from 'query-string';
+import qs from 'query-string';
 import { Button, Drawer, Box } from '@mui/material';
 import { FilterAlt } from '@mui/icons-material';
 import api from './api/axios';
