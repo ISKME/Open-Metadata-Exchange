@@ -17,6 +17,15 @@
   margin: 4px;
 }
 
+.MuiDataGrid-mainContent {
+  margin: 0;
+}
+
+.MuiDataGrid-root .MuiDataGrid-toolbarContainer {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
 input,
 button,
 textarea,
