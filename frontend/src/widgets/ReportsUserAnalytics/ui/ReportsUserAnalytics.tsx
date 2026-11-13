@@ -479,6 +479,8 @@ export function ReportsUserAnalytics() {
       label: USER_LABELS[key],
       connectNulls: true,
       color: colors[key],
+      showMark: true,
+      shape: 'circle',
     }));
 
   const toggleSelectAll = () => {
@@ -702,6 +704,9 @@ export function ReportsUserAnalytics() {
           series={activeSeries}
           width={1280}
           height={400}
+          margin={{
+            top: 50, right: 50, bottom: 50 - 25, left: 50 - 45,
+          }}
           hideLegend
         />
       )}

@@ -576,7 +576,7 @@ export function VideoAnalyticsDashboard({ data, params, compact = false }: Video
               width={compact ? 720 : 1040}
               height={320}
               margin={{
-                left: 72, right: 24, top: 24, bottom: 42,
+                left: 72 - 45, right: 24, top: 24, bottom: 42 - 25,
               }}
               grid={{ horizontal: true }}
               hideLegend

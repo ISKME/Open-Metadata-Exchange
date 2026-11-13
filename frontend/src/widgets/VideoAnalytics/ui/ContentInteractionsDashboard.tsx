@@ -312,7 +312,7 @@ export function ContentInteractionsDashboard({
               width={compact ? 720 : 1040}
               height={300}
               margin={{
-                left: 58, right: 24, top: 24, bottom: 42,
+                left: 58 - 45, right: 24, top: 24, bottom: 42 - 25,
               }}
               grid={{ horizontal: true }}
               hideLegend

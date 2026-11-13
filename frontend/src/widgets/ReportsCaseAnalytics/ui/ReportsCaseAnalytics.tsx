@@ -637,6 +637,8 @@ export function ReportsCaseAnalytics() {
       label: CASE_LABELS[key],
       connectNulls: true,
       color: colors[key],
+      showMark: true,
+      shape: 'circle',
     }));
 
   return (
@@ -1018,6 +1020,9 @@ export function ReportsCaseAnalytics() {
           series={activeSeries}
           width={1280}
           height={400}
+          margin={{
+            top: 50, right: 50, bottom: 50 - 25, left: 50 - 45,
+          }}
           hideLegend
         />
       )}
