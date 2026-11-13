@@ -41,7 +41,7 @@ export function LibraryContent({ className }: LibraryContentProps) {
   return (
     <>
       <section className={cls.common}>
-        <h1>Your library is the place to manage:</h1>
+        <h2>Your library is the place to manage:</h2>
         <div>
           <div onClick={() => { navigate('/imls/site-collections/subscribed-collections') }}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

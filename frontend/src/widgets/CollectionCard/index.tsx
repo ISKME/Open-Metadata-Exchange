@@ -44,7 +44,7 @@ export function CollectionCard({ item }) {
         <Typography variant="h4" component="h3" sx={sxStyles.cardTitle}>
           {item.name}
         </Typography>
-        <Typography variant="subtitle1" sx={sxStyles.cardSubtitle}>
+        <Typography variant="subtitle1" component="p" sx={sxStyles.cardSubtitle}>
           {level.join(', ')}
         </Typography>
         <Typography variant="body2" sx={sxStyles.cardResources}>

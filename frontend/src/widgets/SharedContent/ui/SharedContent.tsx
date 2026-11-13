@@ -155,7 +155,7 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
                 <Typography variant="h4" component="h2" sx={{ fontSize: '1.2rem', mb: 1 }}>
                   {item.name}
                 </Typography>
-                <Typography variant="subtitle1">
+                <Typography variant="subtitle1" component="p">
                   {item.levels?.join(', ') || 'PreK-12, HigherEd, ContinuingEd'}
                 </Typography>
                 <Typography variant="body2">
