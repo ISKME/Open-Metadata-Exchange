@@ -162,15 +162,37 @@ export function AllCollections() {
     if (notFound) {
       return (
         <Box sx={{ textAlign: 'center', mt: 8 }}>
-          <Typography variant="h6" color="text.secondary">No results found.</Typography>
-          <Typography variant="body2" color="text.secondary">Try adjusting your search or filter to find what you are looking for.</Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
+            No results found.
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
+            Try adjusting your search or filter to find what you are looking for.
+          </Typography>
         </Box>
       );
     }
     return (
       <Grid container spacing={3}>
         {items.map((data, i) => (
-          <Grid item xs={12} sm={6} md={3} key={`${data.id || i}-${i}`}>
+          <Grid
+            // eslint-disable-next-line react/no-array-index-key -- the same collection can come back on two pages, so the id alone is not unique
+            key={`${data.id || i}-${i}`}
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 3,
+            }}
+          >
             <CollectionItemCard collection={data} />
           </Grid>
         ))}

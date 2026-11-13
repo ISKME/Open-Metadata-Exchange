@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  Grid, Box, Stack, Dialog, DialogTitle, DialogContent, DialogContentText, Button, TextField, Tooltip, Snackbar, Alert,
+  Grid, Box, Stack, Dialog, DialogTitle, DialogContent, DialogContentText, Button, TextField, Tooltip, Snackbar, Alert, Link,
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -36,7 +36,7 @@ const CopyToClipboardButton = ({ textToCopy, ds = defaultStyles }) => {
       <Tooltip
         title="Copy to clipboard"
         arrow
-        componentsProps={{
+        slotProps={{
           tooltip: { sx: { fontSize: ds.textFontSize } },
         }}
       >
@@ -90,18 +90,22 @@ function VerifyByPasswordMode({
         label="Password"
         type="password"
         autoComplete="current-password"
-        InputProps={{
-          sx: { fontSize: ds.textFontSize },
-        }}
-        InputLabelProps={{
-          sx: { fontSize: ds.textFontSize },
-        }}
-        FormHelperTextProps={{
-          sx: { fontSize: ds.helperFontSize },
-        }}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && handleVerify()}
+        slotProps={{
+          input: {
+            sx: { fontSize: ds.textFontSize },
+          },
+
+          inputLabel: {
+            sx: { fontSize: ds.textFontSize },
+          },
+
+          formHelperText: {
+            sx: { fontSize: ds.helperFontSize },
+          },
+        }}
       />
       <Stack spacing={1}>
         <Button disabled={loading} onClick={handleVerify} sx={{ fontSize: ds.textFontSize }} variant="contained" fullWidth>Verify Password</Button>
@@ -141,18 +145,22 @@ function VeifyByEmailMode({
         fullWidth
         label="Email Address"
         type="email"
-        InputProps={{
-          sx: { fontSize: ds.textFontSize },
-        }}
-        InputLabelProps={{
-          sx: { fontSize: ds.textFontSize },
-        }}
-        FormHelperTextProps={{
-          sx: { fontSize: ds.helperFontSize },
-        }}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && handleVerify()}
+        slotProps={{
+          input: {
+            sx: { fontSize: ds.textFontSize },
+          },
+
+          inputLabel: {
+            sx: { fontSize: ds.textFontSize },
+          },
+
+          formHelperText: {
+            sx: { fontSize: ds.helperFontSize },
+          },
+        }}
       />
       <Stack spacing={1}>
         <Button disabled={loading} onClick={handleVerify} sx={{ fontSize: ds.textFontSize }} variant="contained" fullWidth>Send Verification Code</Button>
@@ -192,18 +200,22 @@ function VerifyByTokenMode({
         helperText={error}
         fullWidth
         label="Enter 6-digit code"
-        InputProps={{
-          sx: { fontSize: ds.textFontSize },
-        }}
-        InputLabelProps={{
-          sx: { fontSize: ds.textFontSize },
-        }}
-        FormHelperTextProps={{
-          sx: { fontSize: ds.helperFontSize },
-        }}
         value={token}
         onChange={(e) => setToken(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && handleVerify()}
+        slotProps={{
+          input: {
+            sx: { fontSize: ds.textFontSize },
+          },
+
+          inputLabel: {
+            sx: { fontSize: ds.textFontSize },
+          },
+
+          formHelperText: {
+            sx: { fontSize: ds.helperFontSize },
+          },
+        }}
       />
       <Stack spacing={1}>
         <Button disabled={loading} onClick={handleVerify} sx={{ fontSize: ds.textFontSize }} variant="contained" fullWidth>Verify Code</Button>
@@ -269,7 +281,8 @@ function RevialTokensDialog({
                 Last attempt before lockout!
                 Consider
                 {' '}
-                <a style={{ cursor: 'pointer' }} onClick={() => setVerificationMode('email')}>verifying via email</a>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid -- MUI Link with component="button" renders a <button>, not an anchor */}
+                <Link component="button" type="button" sx={{ verticalAlign: 'baseline', fontSize: 'inherit' }} onClick={() => setVerificationMode('email')}>verifying via email</Link>
                 {' '}
                 instead.
               </Alert>
@@ -357,8 +370,15 @@ function MFATokenList({ tokens }) {
   return (
     <Grid container spacing={2}>
       {tokens.map((item, index) => (
-        <Grid item xs={12} sm={6} key={index}>
-          <MFAToken key={index} token={item} index={index} />
+        <Grid
+          // eslint-disable-next-line react/no-array-index-key -- the backup codes are shown once as a fixed list
+          key={index}
+          size={{
+            xs: 12,
+            sm: 6,
+          }}
+        >
+          <MFAToken token={item} index={index} />
         </Grid>
       ))}
     </Grid>
@@ -420,7 +440,14 @@ export function MFABackupTokens({ ds = defaultStyles }) {
   const renderTokens = () => (!isBlocked && tokens.length > 0 ? (
     <Stack spacing={2}>
       <div>Use these codes to access your account if you lose your device</div>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         { !isBlocked && !verified && <button className="btn btn-primary" type="button" onClick={() => setVerify(true)}>Reveal codes</button> }
         { !isBlocked && verified && <button className="btn btn-primary" type="button" onClick={hideCodes}>Hide codes</button> }
         { verified && <CopyToClipboardButton textToCopy={tokens.join('\n')} /> }

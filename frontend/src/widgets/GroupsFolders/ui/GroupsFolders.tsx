@@ -12,12 +12,12 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Modal from '@mui/material/Modal';
-import cls from './GroupsFolders.module.scss';
 import req from 'shared/lib/req';
-import { SimpleTreeView } from './SimpleTreeView';
-import { CasesList } from '../../CasesList/ui/CasesList';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { casesSlice } from 'pages/Cases/model/slice/CasesSlice';
+import cls from './GroupsFolders.module.scss';
+import { SimpleTreeView } from './SimpleTreeView';
+import { CasesList } from '../../CasesList/ui/CasesList';
 
 export function GroupsFolders({ content }) {
   const { id: groupId } = useParams();
@@ -264,7 +264,7 @@ export function GroupsFolders({ content }) {
       </Modal>
 
       <Grid container spacing={2} sx={{ padding: '0 10%' }}>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <SimpleTreeView
             folders={folders}
             setFolderId={setFolderId}
@@ -283,7 +283,7 @@ export function GroupsFolders({ content }) {
             setDefaultPage={setDefaultPage}
           />
         </Grid>
-        <Grid item xs={8}>
+        <Grid size={8}>
           <CasesList
             data={cases}
             defaultPage={defaultPage}

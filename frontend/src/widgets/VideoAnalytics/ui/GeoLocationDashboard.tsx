@@ -157,7 +157,12 @@ export function GeoLocationDashboard({ data, compact = false }: GeoLocationDashb
             <Typography id="video-geo-overview-title" component="h2" variant="h6">
               Top Countries
             </Typography>
-            <Typography component="p" color="text.secondary">
+            <Typography
+              component="p"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               Where video playback activity originated.
             </Typography>
           </div>
@@ -179,7 +184,13 @@ export function GeoLocationDashboard({ data, compact = false }: GeoLocationDashb
               <Typography component="p" className={cls.summaryValue}>
                 {item.value}
               </Typography>
-              <Typography component="p" className={cls.summaryHelper} color="text.secondary">
+              <Typography
+                component="p"
+                className={cls.summaryHelper}
+                sx={{
+                  color: 'text.secondary',
+                }}
+              >
                 {item.helper}
               </Typography>
             </article>
@@ -514,7 +525,13 @@ export function GeoLocationDashboard({ data, compact = false }: GeoLocationDashb
           </svg>
 
           {hasUnmappedCountries && (
-            <Typography component="p" className={cls.mapCaption} color="text.secondary">
+            <Typography
+              component="p"
+              className={cls.mapCaption}
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               Some locations are not represented at this map scale. All results remain in the table below.
             </Typography>
           )}
@@ -532,7 +549,12 @@ export function GeoLocationDashboard({ data, compact = false }: GeoLocationDashb
             <Typography id="video-geo-countries-title" component="h2" variant="h6">
               Countries by Plays
             </Typography>
-            <Typography component="p" color="text.secondary">
+            <Typography
+              component="p"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               Ranked share of playback starts and change from the comparison period.
             </Typography>
           </div>

@@ -15,12 +15,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Search from '@mui/icons-material/Search';
 import { CasesList } from 'widgets/CasesList';
-import cls from './CasesAll.module.scss';
 import axios from 'axios';
 import { fetchStaticCasesData } from 'pages/Cases/model/services/ActionCreators';
 import { getSelectedItems } from 'widgets/Filters/lib';
-import { AlignWidget } from './Align';
 import { extractUrlParams } from 'shared/lib/global';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
+import { AlignWidget } from './Align';
+import cls from './CasesAll.module.scss';
 
 const styles = {
   accordion: {
@@ -60,6 +61,7 @@ const FilterInnerItems = ({ name, items = [] }) => (
     {items.map((item, index) => (
       <Accordion
         sx={styles.sub}
+        // eslint-disable-next-line react/no-array-index-key -- the filter list is only shown, in the order of the API
         key={`panel${name}-${index}`}
       >
         <AccordionSummary
@@ -77,6 +79,7 @@ const FilterInnerItems = ({ name, items = [] }) => (
         {item.children && item.children.length && (
           <AccordionDetails>
             {item.children && item.children.map((child, j) => (
+              // eslint-disable-next-line react/no-array-index-key -- the filter list is only shown, in the order of the API
               <Typography sx={{ color: '#56788f', padding: '4px 0', cursor: 'pointer' }} key={`panel${name}-${index}-${j}`}>
                 {item.title}
                 {' '}
@@ -104,6 +107,7 @@ const FilterItems = ({ items = [] }) => {
           expanded={expanded === `panel${index}`}
           onChange={handleChange(`panel${index}`)}
           sx={styles.accordion}
+          // eslint-disable-next-line react/no-array-index-key -- the open panel is tracked by position too
           key={`panel${index}`}
         >
           <AccordionSummary
@@ -173,6 +177,7 @@ const Subject = ({ data = {}, onSelect = () => {}, tempTopics = [] }) => {
                 cursor: 'pointer',
                 backgroundColor: item.isSelected ? '#ececec' : '',
               }}
+              // eslint-disable-next-line react/no-array-index-key -- the filter list is only shown, in the order of the API
               key={`panel${data.slug}-${data.name}-${j}`}
               onClick={() => onSelect(item)}
             >
@@ -262,6 +267,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
       newTempTopics = newTempTopics.filter((item) => item.slug !== topic.parent); // rem parent if child
       newTempTopics.push(topic);
     } else { // rem topic
+      // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
       const more = newTempTopics.filter((item) => item.parent == topic.parent).length === 1;
       newTempTopics.splice(index, 1);
       if (topic.parent && more) {
@@ -286,6 +292,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
           setExpandTopic(true);
           newTempTopics.push(subject);
         }
+        // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
         const parent = staticTopics.find((item) => item.children.findIndex((child) => child.slug == filter) >= 0);
         if (parent) {
           setExpandTopic(true);
@@ -342,7 +349,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
 
   return (
     <Grid container spacing={2} sx={{ padding: '24px 10%' }} className={cls.cases}>
-      <Grid item xs={4} sx={{ paddingRight: '32px' }}>
+      <Grid sx={{ paddingRight: '32px' }} size={4}>
         {titles && (
           <Typography className={cls['page-subtitle']}>
             Filter Cases
@@ -377,10 +384,14 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
             <Typography>Grade Level</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 0 }}>
-            <ul className={cls.grades}>
+            <ul className={cls.grades} role="listbox" aria-multiselectable="true">
               {displayGrades.map((grade) => (
                 <li
                   key={grade.slug}
+                  role="option"
+                  aria-selected={!!grade.isSelected}
+                  tabIndex={0}
+                  onKeyDown={clickOnEnterOrSpace}
                   className={cls.grade}
                   style={{
                     backgroundColor: grade.isSelected ? '#56788f' : '',
@@ -423,7 +434,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
           <a href="/react/advanced-search">Advanced Search</a>
         </Typography>
       </Grid>
-      <Grid item xs={8}>
+      <Grid size={8}>
         <CasesList
           data={cases}
           sorts={sorts}

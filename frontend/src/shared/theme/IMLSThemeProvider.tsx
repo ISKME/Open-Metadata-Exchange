@@ -4,8 +4,8 @@ import axios from 'axios';
 import {
   createTheme, ThemeProvider, CssBaseline, GlobalStyles,
 } from '@mui/material';
-import { globalStyles } from './styles';
 import Settings from 'widgets/Settings';
+import { globalStyles } from './styles';
 
 const DEFAULT_PALETTE = {
   contentBackgroundColor: '#ffffff',
@@ -85,7 +85,7 @@ export default function IMLSThemeProvider({ children }: { children: React.ReactN
       } catch (err) {
         console.warn('Theme load failed, using defaults', err);
       } finally {
-        mounted && setLoading(false);
+        if (mounted) setLoading(false);
       }
     })();
     return () => {

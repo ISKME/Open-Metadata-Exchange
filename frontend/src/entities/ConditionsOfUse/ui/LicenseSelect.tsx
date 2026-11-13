@@ -34,7 +34,7 @@ export function LicenseSelect({ license, onChange }) {
     <div className="resource-license-picker-widget">
       <label className="control-label requiredField">Conditions of Use*</label>
       <div className="resource-license-picker-choice-description">
-        <a className="description-name" target="_blank" href={url}>{label}</a>
+        <a className="description-name" target="_blank" rel="noopener" href={url}>{label}</a>
         <p>
           <span className="description-type">{type}</span>
           :
