@@ -402,7 +402,13 @@ export function OrgansUserAnalytics({ id }) {
   };
 
   const renderUserFilter = (field, label, options) => (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid
+      size={{
+        xs: 12,
+        sm: 6,
+        md: 4,
+      }}
+    >
       <FormControl size="small" sx={{ width: '100%' }}>
         <InputLabel className={cls.formInputLabel} shrink>{label}</InputLabel>
         <Select
@@ -450,6 +456,8 @@ export function OrgansUserAnalytics({ id }) {
       label: USER_LABELS[key],
       connectNulls: true,
       color: colors[key],
+      showMark: true,
+      shape: 'circle',
     }));
 
   const toggleSelectAll = () => {
@@ -560,7 +568,13 @@ export function OrgansUserAnalytics({ id }) {
           { value: UserIsActiveStatus.ACTIVE, label: 'Yes' },
           { value: UserIsActiveStatus.INACTIVE, label: 'No' },
         ])}
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <Autocomplete
             id="groups-autocomplete"
             options={groups || []}
@@ -571,15 +585,19 @@ export function OrgansUserAnalytics({ id }) {
               <TextField
                 {...params}
                 label="Group"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
@@ -626,7 +644,10 @@ export function OrgansUserAnalytics({ id }) {
           series={activeSeries}
           width={800}
           height={400}
-          slotProps={{ legend: { hidden: true } }}
+          margin={{
+            top: 50, right: 50, bottom: 50 - 25, left: 50 - 45,
+          }}
+          hideLegend
         />
       )}
       <TableContainer component={Paper}>
@@ -677,13 +698,10 @@ export function OrgansUserAnalytics({ id }) {
             {...analyticsTableProps}
             slots={{
               pagination: AnalyticsPagination,
-              toolbar: () => (
-                <EditUserToolbar
-                  onSearch={handleSearch}
-                  onClear={handleClearSearch}
-                  onExport={handleExport}
-                />
-              ),
+              toolbar: EditUserToolbar,
+            }}
+            slotProps={{
+              toolbar: { onSearch: handleSearch, onClear: handleClearSearch, onExport: handleExport },
             }}
             rows={tableData}
             columns={columns}
@@ -691,6 +709,7 @@ export function OrgansUserAnalytics({ id }) {
             disableRowSelectionOnClick
             showCellVerticalBorder
             autoHeight
+            showToolbar
           />
         )}
       </div>

@@ -70,7 +70,7 @@ export function OAEditorDesc({ lesson, videoUploadStrategy = undefined }) {
     };
   }, []);
 
-  const FormGroup = ({ field, label, required = true }) => {
+  const renderFormGroup = (field, label, required = true) => {
     const fieldErrors = errors[field] || null;
 
     return (
@@ -105,15 +105,16 @@ export function OAEditorDesc({ lesson, videoUploadStrategy = undefined }) {
               />
             </div>
             {errors.teacher_overview && errors.teacher_overview.length > 0 && errors.teacher_overview.map((error, index) => (
+              // eslint-disable-next-line react/no-array-index-key -- the error messages are only shown, in the order the server sends them
               <p className="form-error help-block" id={`error_id_teacher_overview_${index}`} key={index}><strong>{error}</strong></p>
             ))}
           </div>
           <LicenseSelect license={lesson.license_title} onChange={(option) => onLessonChange('license_title', option.value)} />
           <p className="lesson-editor-describe-subtitle">Help make this discoverable to others</p>
-          <FormGroup field="general_subjects" label="Subjects" />
-          <FormGroup field="levels" label="Education Levels" />
-          <FormGroup field="material_types" label="Material Types" />
-          <FormGroup field="languages" label="Languages" />
+          {renderFormGroup('general_subjects', 'Subjects')}
+          {renderFormGroup('levels', 'Education Levels')}
+          {renderFormGroup('material_types', 'Material Types')}
+          {renderFormGroup('languages', 'Languages')}
           <p className="lesson-editor-describe-subtitle">
             Additional Descriptions
             {' '}
@@ -122,10 +123,10 @@ export function OAEditorDesc({ lesson, videoUploadStrategy = undefined }) {
           <div className="form-group">
             <AlignmentWidget alignmentTags={lesson.alignment_tags} onChange={(value) => onLessonChange('alignment_tags', value)} />
           </div>
-          <FormGroup field="media_formats" label="Media formats" required={false} />
-          <FormGroup field="educational_use" label="Educational Use" required={false} />
-          <FormGroup field="primary_user" label="Primary User" required={false} />
-          <FormGroup field="accessibility" label="Accessibility" required={false} />
+          {renderFormGroup('media_formats', 'Media formats', false)}
+          {renderFormGroup('educational_use', 'Educational Use', false)}
+          {renderFormGroup('primary_user', 'Primary User', false)}
+          {renderFormGroup('accessibility', 'Accessibility', false)}
           <div className="form-group">
             <MDCreatable
               metadata={lesson.keywords}

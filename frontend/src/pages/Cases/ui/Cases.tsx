@@ -9,9 +9,9 @@ import Box from '@mui/material/Box';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { CasesAll } from 'widgets/CasesAll';
 // import { CasesSets } from 'widgets/CasesSets';
-import cls from './Cases.module.scss';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { Resources } from 'widgets/Resources';
+import cls from './Cases.module.scss';
 
 // function CloseSquare(props: SvgIconProps) { return <SvgIcon {...props}><path d="" /></SvgIcon> }
 
@@ -20,7 +20,7 @@ const globalStyles = {
     // paddingLeft: '10%',
     borderBottom: '1px solid rgb(239, 239, 240)',
   },
-  '.MuiTabs-flexContainer': {
+  '.MuiTabs-list': {
     paddingTop: '3px',
   },
   '.MuiButtonBase-root.MuiTab-root.Mui-selected': {

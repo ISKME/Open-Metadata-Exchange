@@ -2,6 +2,19 @@ import {
   FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText,
 } from '@mui/material';
 
+function DropdownIcon(props) {
+  return (
+    <span
+      {...props}
+      style={{
+        color: 'ark.inputsTextColor', right: 10, top: 'calc(50% - 1em)', fontSize: 16,
+      }}
+    >
+      ⮟
+    </span>
+  );
+}
+
 export default function Dropdown({
   id = 'dropdown',
   label = '',
@@ -27,7 +40,7 @@ export default function Dropdown({
         '& .MuiOutlinedInput-notchedOutline': {
           border: 'none',
         },
-        '& .MuiInputBase-inputSizeSmall': {
+        '& :where(.MuiInputBase-sizeSmall) > .MuiInputBase-input': {
           padding: '0 0 8px',
           fontSize: '16px',
           paddingTop: '6px',
@@ -59,16 +72,7 @@ export default function Dropdown({
             ? (selected) => selected.join(', ')
             : (selected) => selected
         }
-        IconComponent={(props) => (
-          <span
-            {...props}
-            style={{
-              color: 'ark.inputsTextColor', right: 10, top: 'calc(50% - 1em)', fontSize: 16,
-            }}
-          >
-            ⮟
-          </span>
-        )}
+        IconComponent={DropdownIcon}
         sx={{
           bgcolor: 'ark.inputsBackgroundColor',
           color: 'ark.inputsTextColor',
@@ -80,12 +84,14 @@ export default function Dropdown({
           },
         }}
         MenuProps={{
-          PaperProps: {
-            sx: {
-              bgcolor: 'ark.inputsBackgroundColor',
-              color: 'ark.inputsTextColor',
-              '& .MuiMenuItem-gutters': {
-                padding: multiple ? 0 : '',
+          slotProps: {
+            paper: {
+              sx: {
+                bgcolor: 'ark.inputsBackgroundColor',
+                color: 'ark.inputsTextColor',
+                '& .MuiMenuItem-gutters': {
+                  padding: multiple ? 0 : '',
+                },
               },
             },
           },

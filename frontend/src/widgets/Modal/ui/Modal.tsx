@@ -20,8 +20,8 @@ export const Modal = forwardRef((props, ref) => {
   return (
     <div className={cls.modal}>
       {isOpen && (
-        <div className={cls.overlay} onClick={close}>
-          <div className={cls.content} onClick={(e) => e.stopPropagation()}>
+        <div role="presentation" className={cls.overlay} onClick={close}>
+          <div role="presentation" className={cls.content} onClick={(e) => e.stopPropagation()}>
             {props.header && (
               <div className={cls.header}>
                 {props.header}

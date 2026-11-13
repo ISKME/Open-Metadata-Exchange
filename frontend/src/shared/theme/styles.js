@@ -16,7 +16,7 @@ export const globalStyles = {
     flexDirection: 'row !important',
     gap: '16px'
   },
-  '.MuiTabs-flexContainer': {
+  '.MuiTabs-list': {
     justifyContent: 'center !important',
   }
 }

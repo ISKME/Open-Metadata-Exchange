@@ -9,7 +9,7 @@ import { Button } from 'shared/ui/Button/Button';
 import { ResourcesList } from 'widgets/ResourcesList';
 import { AppLink } from 'shared/ui/AppLink/AppLink';
 import axios from 'axios';
-import * as qs from 'query-string';
+import qs from 'query-string';
 import ArrowIcon from '../../../shared/assets/icons/arrow-back.svg';
 import { SearchBar } from '../../../features/SearchBar';
 import { Select } from '../../../features/Select';
@@ -48,10 +48,10 @@ function CircleLoader() {
   );
 }
 
-interface search_resourcesProps {
+interface SearchResourcesProps {
   className?: string;
 }
-export function SearchResources({ className }: search_resourcesProps) {
+export function SearchResources({ className }: SearchResourcesProps) {
   const [resources, setResources] = useState<any[]>([]);
   const [filters, setFilters] = useState<any[]>([]);
   const [checked, setChecked] = useState({});

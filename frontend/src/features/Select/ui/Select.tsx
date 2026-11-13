@@ -2,8 +2,8 @@
 import {
   memo, SelectHTMLAttributes, useRef, useState, useEffect,
 } from 'react';
-import { SelectRenderer } from 'react-dropdown-select';
 import { classNames } from 'shared/lib/classNames/classNames';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './Select.module.scss';
 
 interface SelectProps {
@@ -38,28 +38,28 @@ export const Select = memo((props: SelectProps) => {
 
   useEffect(() => {
     const selected = selectOptions?.find((item) => item.slug === initial);
-    selected && setIsSelected(selected.name);
+    if (selected) setIsSelected(selected.name);
   }, [initial]);
 
   const handleSortChange = (key) => {
     onSelectChange({ target: { value: key } });
     const selected = selectOptions.find((item) => item.slug === key);
-    selected && setIsSelected(selected.name);
+    if (selected) setIsSelected(selected.name);
     setIsOpen(false);
   };
 
   return (
     <div className={classNames(cls.Select, {}, [className])}>
       <p>Sort By</p>
-      <div className={cls.dropdown} onClick={() => setIsOpen(!isOpen)}>
+      <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls.dropdown} onClick={() => setIsOpen(!isOpen)}>
         {isSelected || 'Relevance'}
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M16.59 8.29492L12 12.8749L7.41 8.29492L6 9.70492L12 15.7049L18 9.70492L16.59 8.29492Z" fill="#373A48" />
         </svg>
         {isOpen && (
-          <ul className={cls.sort} ref={sort}>
+          <ul className={cls.sort} ref={sort} role="menu">
             {selectOptions.map((option) => (
-              <li key={option.slug} onClick={() => handleSortChange(option.slug)}>
+              <li key={option.slug} role="menuitem" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => handleSortChange(option.slug)}>
                 {option.name}
               </li>
             ))}

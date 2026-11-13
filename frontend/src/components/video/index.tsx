@@ -8,7 +8,9 @@ const styles = `
 
 const MAX_ASPECT_RATIO = 16 / 9;
 
-export function Player(props: {
+export function Player({
+  code, time, endTime, onLoad, onPlay, onFail,
+}: {
   code?: string;
   time?: number | null;
   endTime?: number | null;
@@ -32,13 +34,13 @@ export function Player(props: {
 
   useEffect(() => {
     setDims(null);
-  }, [props.code]);
+  }, [code]);
 
   const handleIframeLoad = (e: React.SyntheticEvent<HTMLIFrameElement>) => {
     const win = (e.target as HTMLIFrameElement).contentWindow as any;
     const p = win?.player;
     if (!p) {
-      props.onFail?.(new Error('Video player failed to load'));
+      onFail?.(new Error('Video player failed to load'));
       return;
     }
     playerRef.current = p;
@@ -62,7 +64,7 @@ export function Player(props: {
     p.on('playerresize', measure);
     win.addEventListener?.('resize', measure);
 
-    p.on('play', () => props.onPlay?.());
+    p.on('play', () => onPlay?.());
     p.on('timeupdate', () => {
       const end = segmentEndRef.current;
       if (end == null) return;
@@ -77,22 +79,22 @@ export function Player(props: {
 
     const emitLoaded = () => {
       measure();
-      props.onLoad?.({ sources: { duration: p.duration() } }, p);
+      onLoad?.({ sources: { duration: p.duration() } }, p);
     };
     if (p.readyState() > 0) emitLoaded();
     else p.one('loadedmetadata', emitLoaded);
   };
 
   useEffect(() => {
-    if (props.time == null) return;
+    if (time == null) return;
     const p = playerRef.current;
     if (!p) return;
-    segmentEndRef.current = props.endTime == null ? null : Number(props.endTime);
-    p.currentTime(Number(props.time));
+    segmentEndRef.current = endTime == null ? null : Number(endTime);
+    p.currentTime(Number(time));
     p.play();
-  }, [props.time, props.endTime]);
+  }, [time, endTime]);
 
-  if (!props.code) return <div className="oer-video-player-shell is-measuring" />;
+  if (!code) return <div className="oer-video-player-shell is-measuring" />;
 
   return (
     <div
@@ -101,9 +103,9 @@ export function Player(props: {
       style={dims == null ? undefined : { height: dims.height }}
     >
       <iframe
-        key={props.code}
+        key={code}
         title="Video player"
-        src={`/video/${props.code}/embed`}
+        src={`/video/${code}/embed`}
         allowFullScreen
         onLoad={handleIframeLoad}
         style={

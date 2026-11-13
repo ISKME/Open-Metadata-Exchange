@@ -26,7 +26,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
 import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { LineChart } from '@mui/x-charts/LineChart';
@@ -123,7 +123,12 @@ function SectionHeading({
           ) : null}
         </div>
         {description ? (
-          <Typography className={cls.sectionDescription} color="text.secondary">
+          <Typography
+            className={cls.sectionDescription}
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
             {description}
           </Typography>
         ) : null}
@@ -212,6 +217,7 @@ function AudienceProgression({ data }) {
 
             return (
               <linearGradient
+                // eslint-disable-next-line react/no-array-index-key -- the funnel stages are fixed and always in this order
                 key={`stage-gradient-${index}`}
                 id={`stage-gradient-${index}`}
                 x1="0%"
@@ -257,6 +263,7 @@ function AudienceProgression({ data }) {
           ].join(' ');
 
           return (
+            // eslint-disable-next-line react/no-array-index-key -- the funnel stages are fixed and always in this order
             <g key={`${stage.label}-${index}`}>
               <path
                 d={path}
@@ -493,7 +500,13 @@ export function VideoAnalyticsDashboard({ data, params, compact = false }: Video
                 <Typography component="h3" className={cls.metricLabel}>
                   {item.label}
                 </Typography>
-                <Typography component="p" className={cls.metricHelper} color="text.secondary">
+                <Typography
+                  component="p"
+                  className={cls.metricHelper}
+                  sx={{
+                    color: 'text.secondary',
+                  }}
+                >
                   {item.helper}
                 </Typography>
               </div>
@@ -535,7 +548,12 @@ export function VideoAnalyticsDashboard({ data, params, compact = false }: Video
         >
           <span className={cls.legendDot} style={{ backgroundColor: metricConfig.color }} />
           <Typography component="span">{metricConfig.label}</Typography>
-          <Typography component="span" color="text.secondary">
+          <Typography
+            component="span"
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
             Peak day:
             {' '}
             {peakDay?.date || '—'}
@@ -553,18 +571,24 @@ export function VideoAnalyticsDashboard({ data, params, compact = false }: Video
                 label: metricConfig.label,
                 color: metricConfig.color,
                 valueFormatter: (value) => metricConfig.format(value),
+                showMark: true,
               }]}
               width={compact ? 720 : 1040}
               height={320}
               margin={{
-                left: 72, right: 24, top: 24, bottom: 42,
+                left: 72 - 45, right: 24, top: 24, bottom: 42 - 25,
               }}
               grid={{ horizontal: true }}
-              slotProps={{ legend: { hidden: true } }}
+              hideLegend
             />
           </div>
         ) : (
-          <Typography color="text.secondary" sx={{ padding: 3 }}>
+          <Typography
+            sx={{
+              color: 'text.secondary',
+              padding: 3,
+            }}
+          >
             {timeline.length ? 'This measurement is unavailable for the selected period.' : 'No video events found for the selected period.'}
           </Typography>
         )}
@@ -622,7 +646,9 @@ export function VideoAnalyticsDashboard({ data, params, compact = false }: Video
                             <Typography
                               component="span"
                               className={cls.videoCreator}
-                              color="text.secondary"
+                              sx={{
+                                color: 'text.secondary',
+                              }}
                             >
                               Case:
                               {' '}
@@ -634,7 +660,9 @@ export function VideoAnalyticsDashboard({ data, params, compact = false }: Video
                             <Typography
                               component="span"
                               className={cls.videoCreator}
-                              color="text.secondary"
+                              sx={{
+                                color: 'text.secondary',
+                              }}
                             >
                               By
                               {' '}
@@ -708,7 +736,12 @@ export function VideoAnalyticsDashboard({ data, params, compact = false }: Video
             <Typography component="p" className={cls.conversionValue}>
               {formatPercent(playRate)}
             </Typography>
-            <Typography component="p" color="text.secondary">
+            <Typography
+              component="p"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               of player impressions led to a play during the report period.
             </Typography>
           </div>
@@ -841,7 +874,12 @@ export function VideoAnalyticsDashboard({ data, params, compact = false }: Video
 
       <div className={cls.reportNote}>
         <OndemandVideoOutlinedIcon aria-hidden="true" />
-        <Typography component="p" color="text.secondary">
+        <Typography
+          component="p"
+          sx={{
+            color: 'text.secondary',
+          }}
+        >
           {meta.definitions?.uniqueViewers || 'Unique viewers are distinct users, with a visitor ID fallback for anonymous playback starts.'}
         </Typography>
       </div>

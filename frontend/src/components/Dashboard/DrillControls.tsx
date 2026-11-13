@@ -55,15 +55,20 @@ export default function DrillControls({
             size="small"
             disabled={!sections.length}
             sx={{ ...commonSX, mt: '-20px' }}
-            InputLabelProps={{ shrink: true }}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {busy0 ? <CircularProgress size={18} aria-label={`Loading ${l0Label} options`} /> : null}
-                  {params.InputProps.endAdornment}
-                </>
-              ),
+            slotProps={{
+              ...params.slotProps,
+
+              input: {
+                ...params.slotProps.input,
+                endAdornment: (
+                  <>
+                    {busy0 ? <CircularProgress size={18} aria-label={`Loading ${l0Label} options`} /> : null}
+                    {params.slotProps.input.endAdornment}
+                  </>
+                ),
+              },
+
+              inputLabel: { shrink: true },
             }}
           />
         )}
@@ -86,15 +91,20 @@ export default function DrillControls({
               label={l1Label}
               size="small"
               sx={{ ...commonSX, mt: '-20px' }}
-              InputLabelProps={{ shrink: true }}
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {lvl1Loading ? <CircularProgress size={18} aria-label={`Loading ${l1Label} options`} /> : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
+              slotProps={{
+                ...params.slotProps,
+
+                input: {
+                  ...params.slotProps.input,
+                  endAdornment: (
+                    <>
+                      {lvl1Loading ? <CircularProgress size={18} aria-label={`Loading ${l1Label} options`} /> : null}
+                      {params.slotProps.input.endAdornment}
+                    </>
+                  ),
+                },
+
+                inputLabel: { shrink: true },
               }}
             />
           )}
@@ -414,7 +424,7 @@ export function useDrill({
 }
 
 export function buildTimelineDrill(
-  sections: string[] = [],
+  sections: string[] | undefined,
   selL0: { label: string } | null,
   selL1: { label: string } | null,
 ): string | null {

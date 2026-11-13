@@ -437,7 +437,13 @@ export function ReportsUserAnalytics() {
   };
 
   const renderUserFilter = (field, label, options) => (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid
+      size={{
+        xs: 12,
+        sm: 6,
+        md: 4,
+      }}
+    >
       <FormControl size="small" sx={{ width: '100%' }}>
         <InputLabel className={cls.formInputLabel} shrink>{label}</InputLabel>
         <Select
@@ -473,6 +479,8 @@ export function ReportsUserAnalytics() {
       label: USER_LABELS[key],
       connectNulls: true,
       color: colors[key],
+      showMark: true,
+      shape: 'circle',
     }));
 
   const toggleSelectAll = () => {
@@ -585,7 +593,13 @@ export function ReportsUserAnalytics() {
           { value: UserIsActiveStatus.ACTIVE, label: 'Yes' },
           { value: UserIsActiveStatus.INACTIVE, label: 'No' },
         ])}
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <Autocomplete
             id="organization-autocomplete"
             options={organizations || []}
@@ -596,21 +610,31 @@ export function ReportsUserAnalytics() {
               <TextField
                 {...params}
                 label="Organization"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <Autocomplete
             id="groups-autocomplete"
             options={groups || []}
@@ -621,15 +645,19 @@ export function ReportsUserAnalytics() {
               <TextField
                 {...params}
                 label="Group"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
@@ -676,7 +704,10 @@ export function ReportsUserAnalytics() {
           series={activeSeries}
           width={1280}
           height={400}
-          slotProps={{ legend: { hidden: true } }}
+          margin={{
+            top: 50, right: 50, bottom: 50 - 25, left: 50 - 45,
+          }}
+          hideLegend
         />
       )}
       <TableContainer component={Paper}>
@@ -727,13 +758,10 @@ export function ReportsUserAnalytics() {
             {...analyticsTableProps}
             slots={{
               pagination: AnalyticsPagination,
-              toolbar: () => (
-                <EditUserToolbar
-                  onSearch={handleSearch}
-                  onClear={handleClearSearch}
-                  onExport={handleExport}
-                />
-              ),
+              toolbar: EditUserToolbar,
+            }}
+            slotProps={{
+              toolbar: { onSearch: handleSearch, onClear: handleClearSearch, onExport: handleExport },
             }}
             rows={tableData}
             columns={columns}
@@ -741,6 +769,7 @@ export function ReportsUserAnalytics() {
             disableRowSelectionOnClick
             showCellVerticalBorder
             autoHeight
+            showToolbar
           />
         )}
       </div>

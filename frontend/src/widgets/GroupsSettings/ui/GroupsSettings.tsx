@@ -18,8 +18,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Uploader } from 'components/uploader';
-import cls from './GroupsSettings.module.scss';
 import { FormControl, InputLabel } from '@mui/material';
+import cls from './GroupsSettings.module.scss';
 
 export function GroupsSettings() {
   const [n, setN] = React.useState(0);
@@ -151,7 +151,7 @@ export function GroupsSettings() {
 
   return (
     <Grid container spacing={2} sx={{ padding: '0 10%' }}>
-      <Grid item xs={4}>
+      <Grid size={4}>
         <Paper elevation={0} sx={{ width: 320, maxWidth: '100%' }}>
           <MenuList>
             <MenuItem onClick={() => setN(0)} style={{ backgroundColor: n === 0 ? 'rgb(206, 206, 206)' : '' }}>
@@ -177,7 +177,7 @@ export function GroupsSettings() {
           </MenuList>
         </Paper>
       </Grid>
-      <Grid item xs={8}>
+      <Grid size={8}>
         {n === 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             <Typography variant="h5">Testing Groups On Production</Typography>

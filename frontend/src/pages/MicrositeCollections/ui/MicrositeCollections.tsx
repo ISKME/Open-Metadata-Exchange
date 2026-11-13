@@ -8,7 +8,7 @@ import { classNames } from 'shared/lib/classNames/classNames';
 import { Button } from 'shared/ui/Button/Button';
 import { AppLink } from 'shared/ui/AppLink/AppLink';
 import { Paging } from 'components/paging';
-import * as qs from 'query-string';
+import qs from 'query-string';
 import axios from 'axios';
 import ArrowIcon from '../../../shared/assets/icons/arrow-back.svg';
 import { SearchBar } from '../../../features/SearchBar';

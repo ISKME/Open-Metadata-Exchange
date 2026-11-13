@@ -146,7 +146,12 @@ function SectionHeading({
           ) : null}
         </div>
         {description ? (
-          <Typography color="text.secondary" className={cls.sectionDescription}>
+          <Typography
+            className={cls.sectionDescription}
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
             {description}
           </Typography>
         ) : null}
@@ -320,22 +325,48 @@ export function TechnologyDashboard({ data: technology, compact = false }: Techn
 
         <div className={cls.deviceSummary}>
           <div>
-            <Typography component="span" color="text.secondary">Total Plays</Typography>
+            <Typography
+              component="span"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
+              Total Plays
+            </Typography>
             <Typography component="strong">{formatInteger(technology.summary.plays)}</Typography>
           </div>
           <div>
-            <Typography component="span" color="text.secondary">Unique Viewers*</Typography>
+            <Typography
+              component="span"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
+              Unique Viewers*
+            </Typography>
             <Typography component="strong">{formatInteger(technology.summary.uniqueViewers)}</Typography>
           </div>
           <div>
-            <Typography component="span" color="text.secondary">Minutes Viewed</Typography>
+            <Typography
+              component="span"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
+              Minutes Viewed
+            </Typography>
             <Typography component="strong">{formatDecimal(technology.summary.minutesViewed)}</Typography>
           </div>
         </div>
 
         <div className={cls.deviceRows}>
           {technology.devices.length === 0 ? (
-            <Typography component="p" color="text.secondary">
+            <Typography
+              component="p"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               No video plays found for the selected filters.
             </Typography>
           ) : null}
@@ -362,7 +393,14 @@ export function TechnologyDashboard({ data: technology, compact = false }: Techn
                     aria-label={`${device.label} ${metricConfig.label}: ${metricConfig.format(metricValue)}`}
                   />
                 ) : (
-                  <Typography component="span" color="text.secondary">Data unavailable</Typography>
+                  <Typography
+                    component="span"
+                    sx={{
+                      color: 'text.secondary',
+                    }}
+                  >
+                    Data unavailable
+                  </Typography>
                 )}
                 <TrendValue value={device.trendPercent} />
               </article>
@@ -389,7 +427,13 @@ export function TechnologyDashboard({ data: technology, compact = false }: Techn
         totalPlays={technology.summary.plays}
       />
 
-      <Typography component="p" color="text.secondary" className={cls.reportNote}>
+      <Typography
+        component="p"
+        className={cls.reportNote}
+        sx={{
+          color: 'text.secondary',
+        }}
+      >
         * Unique viewers can use multiple devices or browsers and are not additive across rows.
         {' '}
         A dash means the measurement or previous-period comparison is unavailable.

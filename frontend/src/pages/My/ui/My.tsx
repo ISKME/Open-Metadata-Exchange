@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { Tabs, Tab, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import cls from './My.module.scss';
 import axios from 'axios';
+import cls from './My.module.scss';
 
 export function My() {
   const [tabs, setTabs] = useState(['items', 'groups', 'hubs', 'account']);
@@ -40,7 +40,7 @@ export function My() {
       <Box sx={{ borderBottom: 1, padding: '0 10%', borderColor: 'divider' }}>
         <Tabs value={tab} onChange={handleChange}>
           {tabs.map((tab, i) => (
-            <Tab key={i} label={`MY ${tab.toUpperCase()}`} id={`tab-${i}`} />
+            <Tab key={tab} label={`MY ${tab.toUpperCase()}`} id={`tab-${i}`} />
           ))}
         </Tabs>
       </Box>
