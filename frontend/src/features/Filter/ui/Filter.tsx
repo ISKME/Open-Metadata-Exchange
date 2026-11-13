@@ -54,7 +54,7 @@ export const Filter = memo(({
             : <DownIcon className={cls.icon} aria-hidden="true" focusable="false" />}
         </button>
       </div>
-      <div className={classNames(cls.panelCollapse, { [cls.collapsed]: collapsed }, [className])}>
+      <div className={classNames(cls.panelCollapse, { [cls.collapsed]: collapsed }, [className])} hidden={collapsed}>
         {options && options.slice(0, visibleItems).map((el: any) => (
           <Checkbox
             key={el.name}
