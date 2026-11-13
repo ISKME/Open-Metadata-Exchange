@@ -94,17 +94,17 @@ export default function ({ title, plot = 'pie', full = false }) {
               <div aria-hidden="true" className={cls.chartGraphic}>
                 <LineChart
                   sx={{
-                    '& .MuiAreaElement-series-first': {
+                    '& .MuiLineChart-area:where([data-series="first"])': {
                       fill: 'rgba(244, 117, 96, 0.26)',
                       stroke: 'rgba(244, 117, 96, 0.26)',
                       strokeWidth: 0,
                     },
-                    '& .MuiAreaElement-series-second': {
+                    '& .MuiLineChart-area:where([data-series="second"])': {
                       fill: '#F7EFA3',
                       stroke: '#F7EFA3',
                       strokeWidth: 0,
                     },
-                    '& .MuiAreaElement-series-third': {
+                    '& .MuiLineChart-area:where([data-series="third"])': {
                       fill: '#F2CE8F',
                       stroke: '#F2CE8F',
                       strokeWidth: 0,

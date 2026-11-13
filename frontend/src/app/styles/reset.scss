@@ -4,6 +4,19 @@
   box-sizing: border-box;
 }
 
+.MuiGrid-root {
+  margin: 0;
+}
+
+.MuiGrid-container[class*="MuiGrid-spacing-"] {
+  margin-bottom: 4px;
+}
+
+.MuiGrid-container:not([class*="MuiGrid-spacing-"]) {
+  width: 100%;
+  margin: 4px;
+}
+
 input,
 button,
 textarea,

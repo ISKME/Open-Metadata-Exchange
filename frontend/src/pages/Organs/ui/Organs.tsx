@@ -25,7 +25,7 @@ const globalStyles = {
     background: 'rgb(48, 62, 72)',
     paddingLeft: '5%',
   },
-  '.MuiTabs-flexContainer': {
+  '.MuiTabs-list': {
     paddingTop: '3px',
   },
   '.MuiButtonBase-root.MuiTab-root.Mui-selected': {
@@ -78,7 +78,7 @@ const globalStyles = {
   '.MuiAutocomplete-popper *': {
     fontSize: '14px !important',
   },
-  '.MuiInputBase-inputSizeSmall': {
+  ':where(.MuiInputBase-sizeSmall) > .MuiInputBase-input': {
     fontSize: '14px !important',
   },
   '.MuiMenuItem-gutters': {

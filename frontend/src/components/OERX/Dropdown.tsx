@@ -40,7 +40,7 @@ export default function Dropdown({
         '& .MuiOutlinedInput-notchedOutline': {
           border: 'none',
         },
-        '&.MuiInputBase-sizeSmall > .MuiInputBase-input': {
+        '& :where(.MuiInputBase-sizeSmall) > .MuiInputBase-input': {
           padding: '0 0 8px',
           fontSize: '16px',
           paddingTop: '6px',
