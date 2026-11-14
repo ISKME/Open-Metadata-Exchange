@@ -157,6 +157,35 @@ export default function EnhancedTable({
 
   const indeterminate = (all && unselect.length > 0) || (!all && selected.length > 0);
 
+  const cellValue = (header, row) => (header.type === 'date' ? row[header.id]?.toLocaleDateString() : row[header.id]);
+
+  const renderEditor = (header) => {
+    if (header.items?.length) {
+      return (
+        <Select
+          value={editRowData[header.id]}
+          onChange={(event) => handleSelectChange(event, header.id)}
+          variant="outlined"
+          size="small"
+          sx={{ maxWidth: '80px' }}
+        >
+          {header.items.map((item) => (
+            <MenuItem key={item} value={item}>
+              {item}
+            </MenuItem>
+          ))}
+        </Select>
+      );
+    }
+    return (
+      <input
+        value={editRowData[header.id] || ''}
+        onChange={(e) => setEditRowData((prev) => ({ ...prev, [header.id]: e.target.value }))}
+        style={{ width: '100%', padding: '6px', fontSize: '0.875rem' }}
+      />
+    );
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -206,31 +235,7 @@ export default function EnhancedTable({
                           p: isEditing ? 0 : '12px 0 11px 0', maxWidth: header.width, minWidth: header.width, overflowWrap: 'break-word',
                         }}
                       >
-                        {isEditing && header.edit ? (
-                          header.items?.length ? (
-                            <Select
-                              value={editRowData[header.id]}
-                              onChange={(event) => handleSelectChange(event, header.id)}
-                              variant="outlined"
-                              size="small"
-                              sx={{ maxWidth: '80px' }}
-                            >
-                              {header.items.map((item) => (
-                                <MenuItem key={item} value={item}>
-                                  {item}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          ) : (
-                            <input
-                              value={editRowData[header.id] || ''}
-                              onChange={(e) => setEditRowData((prev) => ({ ...prev, [header.id]: e.target.value }))}
-                              style={{ width: '100%', padding: '6px', fontSize: '0.875rem' }}
-                            />
-                          )
-                        ) : (
-                          header.type === 'date' ? row[header.id]?.toLocaleDateString() : row[header.id]
-                        )}
+                        {isEditing && header.edit ? renderEditor(header) : cellValue(header, row)}
                       </TableCell>
                     ))}
                     {edit && (

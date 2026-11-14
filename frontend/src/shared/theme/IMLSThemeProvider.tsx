@@ -85,7 +85,7 @@ export default function IMLSThemeProvider({ children }: { children: React.ReactN
       } catch (err) {
         console.warn('Theme load failed, using defaults', err);
       } finally {
-        mounted && setLoading(false);
+        if (mounted) setLoading(false);
       }
     })();
     return () => {

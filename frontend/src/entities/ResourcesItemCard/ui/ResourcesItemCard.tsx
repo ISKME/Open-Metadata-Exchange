@@ -19,16 +19,12 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
   function MetaData() {
     return (
       <>
-        {(resource as any).metadata.map((item) => (
-          <>
-            {item.label && (
-              <p className={cls.subTitle}>
-                {item.label}
-                :
-                <span>{join(item.items?.map((el) => el.name))}</span>
-              </p>
-            )}
-          </>
+        {(resource as any).metadata.map((item) => item.label && (
+          <p className={cls.subTitle}>
+            {item.label}
+            :
+            <span>{join(item.items?.map((el) => el.name))}</span>
+          </p>
         ))}
       </>
     );
