@@ -97,9 +97,7 @@ export default function LayerItem({
   return (
     <div className={wrapperCls}>
       <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={clickOnEnterOrSpace}
+        role="presentation"
         onClick={select}
         onMouseEnter={() => hover(true)}
         onMouseLeave={() => hover(false)}
@@ -130,7 +128,7 @@ export default function LayerItem({
           >
             <Icon path={mdiMenuDown} size={0.7} rotate={open ? 0 : -90} />
           </div>
-          <div className="truncate flex-grow" style={itemStyle}>
+          <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className="truncate flex-grow" style={itemStyle}>
             {name}
           </div>
           <div

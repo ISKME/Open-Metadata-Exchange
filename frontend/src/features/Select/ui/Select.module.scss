@@ -19,6 +19,12 @@
   border: none;
 }
 
+.dropdownWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .dropdown {
   border-radius: 8px;
   border: 1px solid #1E1E1E;
