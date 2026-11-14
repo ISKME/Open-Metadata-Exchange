@@ -175,7 +175,7 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
           </svg>
           <div className={cls.div}>
             <div className={cls.div}>
-              <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => scrollDiv(-100)}>
+              <div role="button" tabIndex={0} aria-label="Scroll up" onKeyDown={clickOnEnterOrSpace} onClick={() => scrollDiv(-100)}>
                 <Arrow up />
               </div>
               <div
@@ -192,7 +192,7 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
                   </div>
                 ))}
               </div>
-              <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => scrollDiv(70)}>
+              <div role="button" tabIndex={0} aria-label="Scroll down" onKeyDown={clickOnEnterOrSpace} onClick={() => scrollDiv(70)}>
                 <Arrow />
               </div>
             </div>
