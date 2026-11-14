@@ -119,6 +119,7 @@ export default function LayerItem({
           <div
             role="button"
             tabIndex={0}
+            aria-label={open ? 'Collapse layer' : 'Expand layer'}
             onKeyDown={clickOnEnterOrSpace}
             style={{ marginLeft: `${level * 10}px` }}
             className={cx(
@@ -135,6 +136,7 @@ export default function LayerItem({
           <div
             role="button"
             tabIndex={0}
+            aria-label={visible ? 'Hide layer' : 'Show layer'}
             onKeyDown={clickOnEnterOrSpace}
             className={cx(
               'group-hover:opacity-100 cursor-pointer',

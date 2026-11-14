@@ -42,7 +42,7 @@ export default function CustomModal({
         >
           <div className="flex pb-3">
             <div className="flex-grow text-lg">{title}</div>
-            <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={close} className="cursor-pointer">
+            <div role="button" tabIndex={0} aria-label="Close" onKeyDown={clickOnEnterOrSpace} onClick={close} className="cursor-pointer">
               <Icon size={1} path={mdiClose} />
             </div>
           </div>
