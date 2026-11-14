@@ -78,6 +78,7 @@ export const SubscribedContent = () => {
             if (page !== 1) setPage(1);
             else search();
           }}
+          label="Search subscribed content"
         />
         {/* <Dropdown id="edu" label="Tenants" options={tenants} value={selectedTenants} onChange={e => setSelectedTenants(e.target.value)} />
         <Dropdown id="sub" label="Subject area" options={subjects} value={selectedSubjects} onChange={e => setSelectedSubjects(e.target.value)} />
