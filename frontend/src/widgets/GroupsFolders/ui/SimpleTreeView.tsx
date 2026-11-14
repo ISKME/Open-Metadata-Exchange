@@ -89,9 +89,7 @@ export function SimpleTreeView({
       <div className={cls.folders}>
         {folders.map((folder) => (
           <div
-            role="button"
-            tabIndex={0}
-            onKeyDown={clickOnEnterOrSpace}
+            role="presentation"
             key={folder.id}
             className={cls.foldersItem}
             onClick={() => handleFolderClick(folder.id, folder.is_default)}
@@ -99,7 +97,7 @@ export function SimpleTreeView({
             <div
               className={`${cls.foldersItem1} ${folderStateClass(folder.id)}`}
             >
-              <div className={`${cls.foldersItem2} ${folder.subfolders && folder.subfolders.length > 0 ? '' : cls.arrowSpace}`}>
+              <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={`${cls.foldersItem2} ${folder.subfolders && folder.subfolders.length > 0 ? '' : cls.arrowSpace}`}>
                 {folder.subfolders && folder.subfolders.length > 0 && (
                   <span>
                     {folder.id !== selectedFolder ? (
@@ -145,9 +143,9 @@ export function SimpleTreeView({
             {selectedFolder === folder.id && (
               <div>
                 {folder.subfolders.map((subfolder) => (
-                  <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} key={subfolder.id} className={`${cls.foldersItem} ${cls.subFolders}`} onClick={(e) => { e.stopPropagation(); handleSubfolderClick(subfolder.id); }}>
+                  <div role="presentation" key={subfolder.id} className={`${cls.foldersItem} ${cls.subFolders}`} onClick={(e) => { e.stopPropagation(); handleSubfolderClick(subfolder.id); }}>
                     <div className={`${cls.foldersItem1} ${subfolder.id === subSelected ? cls.selected : ''}`}>
-                      <div className={cls.foldersItem2}>
+                      <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls.foldersItem2}>
                         {subfolder.id !== subSelected ? (
                           <CloseFolderSvg />
                         ) : (
