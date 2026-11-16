@@ -3,6 +3,12 @@ import React from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
 import IMLSThemeProvider from 'shared/theme/IMLSThemeProvider';
 import { lazyPage, LazyPage } from 'shared/lib/lazyPage';
+// Group.module.scss contains :global(.app) and :global(.page-wrapper) rules that every page depends
+// on (white background, no padding). With one bundle they applied everywhere; now that Group is a
+// lazy chunk, importing the file here keeps those rules in the main CSS.
+// (Cases.module.scss and My.module.scss have similar rules, but those pages never use their styles,
+// so the production build already left them out before the pages were lazy-loaded.)
+import 'pages/Group/ui/Group.module.scss';
 
 // Every page is lazy-loaded, so each route gets its own JS/CSS chunk and the main bundle
 // only contains the app shell. AppRouter already wraps each route in <Suspense>.
