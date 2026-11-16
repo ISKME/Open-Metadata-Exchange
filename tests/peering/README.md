@@ -44,6 +44,12 @@ uv run pytest tests/peering -m peering -p no:run-parallel -v
 - When an article does not arrive, the test fails with the `Message-ID` and the
   `innfeed.log` of both nodes.
 
+The `peering` job in `.github/workflows/ci.yml` runs this command on every pull request and
+push to `main`. It sets `PEERING_LOGS_DIR`: when that variable is set, the fixture writes the
+`docker compose logs` and `innfeed.log` of each node to that folder just before the containers
+are removed. When the job fails, the folder is uploaded as the `peering-logs` artifact.
+Without the variable nothing is written.
+
 ## Run the test by hand
 
 Use these steps to look at what happens step by step, for example when the automatic test
