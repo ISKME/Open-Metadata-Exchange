@@ -8,4 +8,4 @@ export {
   ImageTitleContainer,
   ImagePreviewContainer,
   OASection,
-}
+};

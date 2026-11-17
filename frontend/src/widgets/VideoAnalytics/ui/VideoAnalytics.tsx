@@ -337,7 +337,7 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
           ]);
         } else {
           const { data } = await axios.get<OrganizationListResponse>(
-            "/api/organizations/v1/organizations",
+            '/api/organizations/v1/organizations',
             { params: { page_size: 500 } },
           );
 
@@ -356,8 +356,8 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
         if (active) {
           setError(
             isOrganizationReport
-              ? "Unable to load organization information."
-              : "Unable to load organization filters.",
+              ? 'Unable to load organization information.'
+              : 'Unable to load organization filters.',
           );
         }
       } finally {
@@ -385,7 +385,7 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
         .join(' ')
         .trim()
         || (user.email || '').trim()
-        || 'User ID: ' + user.id,
+        || `User ID: ${user.id}`,
     }));
     const nextUserTypes = Array.from(new Set(nextUsers.map((user) => user.user_type).filter(Boolean))).sort();
     const nextUserIds = new Set(nextUsers.map((user) => user.id));

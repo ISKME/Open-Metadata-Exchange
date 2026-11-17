@@ -8,7 +8,7 @@
 }
 
 .page-description-title {
-  font: 400 24px/24px "DINPro", sans-serif;
+  font: 400 24px/24px DINPro, sans-serif;
 }
 
 .page-description-title-container {
@@ -53,7 +53,7 @@
 .page-title {
   margin-bottom: 30px;
   color: #44515a;
-  font: 500 24px/24px "DINPro", sans-serif;
+  font: 500 24px/24px DINPro, sans-serif;
   padding-left: 24px;
 }
 
@@ -102,11 +102,11 @@
   width: 100%;
   padding: 17.5px 10px;
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.23);
+  border: 1px solid rgb(0 0 0 / 23%);
   display: block;
 }
 
-input[type=file] {
+input[type="file"] {
   box-shadow: none;
 
   :focus {
@@ -122,6 +122,6 @@ input[type=file] {
   p{
     margin-top: 14px;
     color: #44515a;
-    font: 500 20px/20px "DINPro", sans-serif;
+    font: 500 20px/20px DINPro, sans-serif;
   }
 }

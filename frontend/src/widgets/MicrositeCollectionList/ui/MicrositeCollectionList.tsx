@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { Key, memo, useState } from 'react';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { MicrositeItemCard } from '../../../entities/MicrositeItemCard';

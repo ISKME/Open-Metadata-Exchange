@@ -7,6 +7,7 @@
 
 :global(.page-wrapper) {
   padding: 0;
+
   // width: 100%;
   // @media screen and (max-width: 800px) {
   width: calc(100% - 36px);
@@ -52,7 +53,7 @@
 }
 
 .group-info .group-info-text {
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
 }
 
 @media only screen and (max-width: 767px) {
@@ -63,13 +64,13 @@
 
 .group-info h1 {
   color: #44515a;
-  font: 300 24px/24px "DINPro", sans-serif;
+  font: 300 24px/24px DINPro, sans-serif;
   margin: 0 0 15px;
 }
 
 .group-info h2 {
   color: #303e48;
-  font: 500 20px/20px "DINPro", sans-serif;
+  font: 500 20px/20px DINPro, sans-serif;
   margin: 0 0 10px;
 }
 
@@ -80,7 +81,7 @@
 
 .group-info p {
   color: #303e48;
-  font: 300 16px/26px "Roboto", sans-serif;
+  font: 300 16px/26px Roboto, sans-serif;
 }
 
 .group-info p:last-child {
@@ -121,7 +122,7 @@
 }
 
 .group-info-counters-item .text {
-  font: 300 16px "Roboto", sans-serif;
+  font: 300 16px Roboto, sans-serif;
 }
 
 .group-info-counters-item .text-counter {
@@ -140,18 +141,18 @@
 
 .case-field {
   display: inline;
-  font: 400 13px/21px "Roboto", sans-serif;
+  font: 400 13px/21px Roboto, sans-serif;
   color: #333333;
 }
 
-.case-field:after {
+.case-field::after {
   content: "|";
   display: inline;
   margin-left: 4px;
   color: #d9d9da;
 }
 
-.case-field:last-child:after {
+.case-field:last-child::after {
   display: none;
 }
 
@@ -165,14 +166,14 @@
   display: inline;
 }
 
-.case-field dd:after {
+.case-field dd::after {
   content: "/";
   display: inline;
   margin: 0;
   color: #d9d9da;
 }
 
-.case-field dd:last-child:after {
+.case-field dd:last-child::after {
   display: none;
 }
 

@@ -1,4 +1,3 @@
-
 interface FreshWidget {
     show: () => void;
   }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function({
+export default function ({
   label = 'Select View',
   items = [],
   onChange = (i) => {},

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-unused-vars */
+
 // @ts-nocheck
 import { memo, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';

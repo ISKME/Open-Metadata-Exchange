@@ -1,6 +1,6 @@
 .formatted-text {
-  color: #333333;
-  font: 400 14px / 24px "Poppins", sans-serif;
+  color: #333;
+  font: 400 14px / 24px Poppins, sans-serif;
   overflow-wrap: break-word;
   overflow-x: auto;
   margin-top: 30px;
@@ -21,7 +21,7 @@
 .formatted-text h2,
 .formatted-text h3,
 .formatted-text h4 {
-  font-family: "Poppins", sans-serif;
+  font-family: Poppins, sans-serif;
 }
 
 .formatted-text h1:first-child,
@@ -169,7 +169,7 @@
 
 .formatted-text abbr {
   cursor: help;
-  border-bottom: 1px dotted #777777;
+  border-bottom: 1px dotted #777;
   text-decoration: none;
 }
 

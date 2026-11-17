@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { memo, SelectHTMLAttributes, useRef, useState, useEffect } from 'react';
+import {
+  memo, SelectHTMLAttributes, useRef, useState, useEffect,
+} from 'react';
 import { SelectRenderer } from 'react-dropdown-select';
 import { classNames } from 'shared/lib/classNames/classNames';
 import cls from './Select.module.scss';
@@ -34,16 +36,15 @@ export const Select = memo((props: SelectProps) => {
     };
   }, []);
 
-
   useEffect(() => {
     const selected = selectOptions?.find((item) => item.slug === initial);
-    selected && setIsSelected(selected.name);
+    if (selected) setIsSelected(selected.name);
   }, [initial]);
 
   const handleSortChange = (key) => {
     onSelectChange({ target: { value: key } });
     const selected = selectOptions.find((item) => item.slug === key);
-    selected && setIsSelected(selected.name);
+    if (selected) setIsSelected(selected.name);
     setIsOpen(false);
   };
 

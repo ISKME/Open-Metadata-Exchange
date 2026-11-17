@@ -17,11 +17,11 @@ export const itemsSlice = createSlice({
       state.pages = pagination.numPages;
       state.count = pagination.count;
     },
-    updateItems(state, action){
+    updateItems(state, action) {
       const { items } = action.payload;
       state.items = items;
       state.count = items.length;
-    }
+    },
   },
 });
 

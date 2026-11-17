@@ -76,7 +76,7 @@ export function SharedUpdates({ className }: SharedUpdatesProps) {
             <br />
             of all of your notified updates.
           </p>
-          <button>Manage email frequency</button>
+          <button type="button">Manage email frequency</button>
         </div>
       </div>
       <div>

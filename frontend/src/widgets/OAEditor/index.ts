@@ -5,4 +5,4 @@ export {
   OAEditor,
   OAEditorDesc,
   QAEditorAction,
-}
+};
