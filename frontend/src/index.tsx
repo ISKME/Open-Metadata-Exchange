@@ -11,14 +11,14 @@ const store = setupStore();
 const recaptchaSiteKey = RECAPTCHA_PUBLIC_KEY;
 
 function bootstrapApp() {
-  const container = document.getElementById('root')
-  const root = createRoot(container!)
+  const container = document.getElementById('root');
+  const root = createRoot(container!);
   root.render(
     <BrowserRouter>
       <Provider store={store}>
         <App />
       </Provider>
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 }
 
@@ -56,4 +56,4 @@ function initRecaptcha() {
   } else {
     initRecaptcha();
   }
-})();
+}());

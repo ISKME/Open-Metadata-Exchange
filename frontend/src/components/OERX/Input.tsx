@@ -1,9 +1,13 @@
 // @ts-nocheck
-import { IconButton, FormControl, InputLabel, OutlinedInput, InputAdornment } from '@mui/material';
+import {
+  IconButton, FormControl, InputLabel, OutlinedInput, InputAdornment,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Icon from './icons/Magnify';
 
-export default function SearchBar({ value, onChange, onSearch, placeholder = "Search", label = placeholder, width = '700px' }) {
+export default function SearchBar({
+  value, onChange, onSearch, placeholder = 'Search', label = placeholder, width = '700px',
+}) {
   const theme = useTheme();
   // Enter in the field and clicking the icon button both submit the form.
   const handleSubmit = (event) => {
@@ -18,14 +22,14 @@ export default function SearchBar({ value, onChange, onSearch, placeholder = "Se
         value={value}
         onChange={onChange}
         inputProps={{ 'aria-label': label }}
-        endAdornment={
+        endAdornment={(
           <InputAdornment position="end">
             <IconButton type="submit" aria-label="Submit search" edge="end">
               {/* color={theme.palette.ark.inputsTextColor} */}
               <Icon />
             </IconButton>
           </InputAdornment>
-        }
+        )}
         placeholder={placeholder}
         sx={{
           width: { md: width, sm: '100%', xs: '100%' },

@@ -14,15 +14,13 @@ defineWebComponent('oa-editor', OAEditor, ['content-id', 'video-upload-strategy'
   };
 });
 
-defineWebComponent('oa-editor-action', QAEditorAction, ['title', 'event', 'class-name', 'next-url', 'action'], (wc) => {
-  return {
-    title: wc.getAttribute('title'),
-    event: wc.getAttribute('event'),
-    className: wc.getAttribute('class-name'),
-    nextURL: wc.getAttribute('next-url'),
-    action: wc.getAttribute('action'),
-  };
-});
+defineWebComponent('oa-editor-action', QAEditorAction, ['title', 'event', 'class-name', 'next-url', 'action'], (wc) => ({
+  title: wc.getAttribute('title'),
+  event: wc.getAttribute('event'),
+  className: wc.getAttribute('class-name'),
+  nextURL: wc.getAttribute('next-url'),
+  action: wc.getAttribute('action'),
+}));
 
 defineWebComponent('oa-editor-desc', OAEditorDesc, ['content-id', 'video-upload-strategy'], (wc) => {
   const content = document.getElementById(wc.getAttribute('content-id') as string)?.textContent;
@@ -33,18 +31,14 @@ defineWebComponent('oa-editor-desc', OAEditorDesc, ['content-id', 'video-upload-
   };
 });
 
-defineWebComponent('mfa-backup-token', MFABackupTokens, [], (wc) => {
-  return { ds: DS(1.4) };
-});
+defineWebComponent('mfa-backup-token', MFABackupTokens, [], (wc) => ({ ds: DS(1.4) }));
 
-defineWebComponent('video-annotation-editor', VideoAnnotationEditor, ['video-url', 'video-vtt', 'inline', 'edit-url'], (wc) => {
-  return {
-    videoUrl: wc.getAttribute('video-url'),
-    videoVTT: wc.getAttribute('video-vtt'),
-    inline: wc.hasAttribute('inline'),
-    editUrl: wc.getAttribute('edit-url') || undefined,
-  };
-});
+defineWebComponent('video-annotation-editor', VideoAnnotationEditor, ['video-url', 'video-vtt', 'inline', 'edit-url'], (wc) => ({
+  videoUrl: wc.getAttribute('video-url'),
+  videoVTT: wc.getAttribute('video-vtt'),
+  inline: wc.hasAttribute('inline'),
+  editUrl: wc.getAttribute('edit-url') || undefined,
+}));
 
 const attr = (wc: HTMLElement, name: string) => wc.getAttribute(name) || undefined;
 

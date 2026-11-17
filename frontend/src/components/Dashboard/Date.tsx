@@ -1,20 +1,20 @@
 // @ts-nocheck
-import { useEffect, useRef, useState } from "react";
-import { FormControl, MenuItem, Select } from "@mui/material";
-import DateRangePicker from "@wojtekmaj/react-daterange-picker";
-import { DateRange } from "widgets/enum";
+import { useEffect, useRef, useState } from 'react';
+import { FormControl, MenuItem, Select } from '@mui/material';
+import DateRangePicker from '@wojtekmaj/react-daterange-picker';
+import { DateRange } from 'widgets/enum';
 
-const CALENDAR_ID = "dashboard-date-range-calendar";
+const CALENDAR_ID = 'dashboard-date-range-calendar';
 
 const visuallyHiddenStyle = {
   border: 0,
-  clip: "rect(0 0 0 0)",
+  clip: 'rect(0 0 0 0)',
   height: 1,
   margin: -1,
-  overflow: "hidden",
+  overflow: 'hidden',
   padding: 0,
-  position: "absolute" as const,
-  whiteSpace: "nowrap" as const,
+  position: 'absolute' as const,
+  whiteSpace: 'nowrap' as const,
   width: 1,
 };
 
@@ -36,19 +36,19 @@ export default function ({
     }
 
     const calendarButton = root.querySelector<HTMLButtonElement>(
-      ".react-daterange-picker__calendar-button",
+      '.react-daterange-picker__calendar-button',
     );
 
     if (calendarButton) {
       calendarButton.setAttribute(
-        "aria-expanded",
-        isCalendarOpen ? "true" : "false",
+        'aria-expanded',
+        isCalendarOpen ? 'true' : 'false',
       );
-      calendarButton.setAttribute("aria-controls", CALENDAR_ID);
+      calendarButton.setAttribute('aria-controls', CALENDAR_ID);
     }
 
     const calendar = root.querySelector<HTMLElement>(
-      ".react-daterange-picker__calendar",
+      '.react-daterange-picker__calendar',
     );
 
     if (calendar) {
@@ -58,7 +58,7 @@ export default function ({
 
   return (
     <>
-      <FormControl size="small" sx={{ minWidth: "160px" }}>
+      <FormControl size="small" sx={{ minWidth: '160px' }}>
         <span id="date-range-label" style={visuallyHiddenStyle}>
           Date Range
         </span>
@@ -69,8 +69,8 @@ export default function ({
           value={range}
           onChange={handleRange}
           sx={{
-            "& fieldset": {
-              border: "none !important",
+            '& fieldset': {
+              border: 'none !important',
             },
           }}
         >
@@ -79,7 +79,7 @@ export default function ({
           <MenuItem value={DateRange.LAST_YEAR}>Last Year</MenuItem>
           <MenuItem value={DateRange.ALL_TIME}>All Time</MenuItem>
           {range === DateRange.CUSTOM && (
-            <MenuItem style={{ display: "none" }} value={DateRange.CUSTOM}>
+            <MenuItem style={{ display: 'none' }} value={DateRange.CUSTOM}>
               Date Range
             </MenuItem>
           )}
@@ -97,7 +97,7 @@ export default function ({
             handleDateRangeApply();
           }}
           onKeyDown={(event) => {
-            if (event.key === "Enter") {
+            if (event.key === 'Enter') {
               event.preventDefault();
               handleDateRangeApply();
             }
@@ -105,8 +105,8 @@ export default function ({
           clearAriaLabel="Clear date range"
           calendarAriaLabel={
             isCalendarOpen
-              ? "Close date range calendar"
-              : "Open date range calendar"
+              ? 'Close date range calendar'
+              : 'Open date range calendar'
           }
           dayAriaLabel="Day"
           monthAriaLabel="Month"

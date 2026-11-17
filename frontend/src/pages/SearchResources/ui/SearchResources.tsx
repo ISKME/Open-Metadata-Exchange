@@ -1,10 +1,6 @@
-/* eslint-disable no-useless-computed-key */
 /* eslint-disable react/button-has-type */
-/* eslint-disable array-callback-return */
-/* eslint-disable no-console */
+
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable max-len */
-/* eslint-disable eqeqeq */
 
 import { useLocation, useSearchParams } from 'react-router-dom';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -75,11 +71,12 @@ export function SearchResources({ className }: search_resourcesProps) {
 
   // useCallback ???
   const fetcher = async (queries) => {
+    let query = queries;
     if (PAGE !== 1) {
-      queries += `${queries ? '&' : '?'}page=${PAGE}`;
+      query += `${query ? '&' : '?'}page=${PAGE}`;
     }
     try {
-      const { data } = await axios.get(`/api/imls/v2/resources/${queries}`);
+      const { data } = await axios.get(`/api/imls/v2/resources/${query}`);
       return data.resources;
     } catch (e) { return {}; }
   };
@@ -93,7 +90,7 @@ export function SearchResources({ className }: search_resourcesProps) {
     if (fSort) queries.sortby = fSort;
     setSearchParams(queries);
     if (key === 'append') {
-      PAGE++;
+      PAGE += 1;
     } else {
       setResources([]);
       PAGE = 1;
@@ -125,15 +122,15 @@ export function SearchResources({ className }: search_resourcesProps) {
         searchParams.delete('page');
         setFilters(filters);
         const params: any = qs.parse(search);
-        for (const key in params) {
+        Object.keys(params).forEach((key) => {
           if (!Array.isArray(params[key])) {
             params[key] = [params[key]];
           }
-        }
+        });
         setChecked(params);
         // updatePath(null);
       });
-  }, [])
+  }, []);
 
   const handleSelectChange = useCallback(({ target }) => {
     setSorted(target.value);
@@ -146,7 +143,7 @@ export function SearchResources({ className }: search_resourcesProps) {
     const { value } = event.target;
     const updatedList = { ...checked };
     if (event.target.checked) {
-      if (updatedList.hasOwnProperty(slug)) {
+      if (Object.prototype.hasOwnProperty.call(updatedList, slug)) {
         updatedList[slug].push(value);
       } else {
         updatedList[slug] = [value];

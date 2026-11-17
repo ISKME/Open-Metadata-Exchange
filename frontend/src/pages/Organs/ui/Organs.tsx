@@ -1,7 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 import * as React from 'react';
 import axios from 'axios';
@@ -147,7 +143,13 @@ export function Organs() {
   }
 
   if (!organizationId) {
-    return <p>No organization is selected. You can select <a href="/my/new/default-organization">here</a></p>;
+    return (
+      <p>
+        No organization is selected. You can select
+        {' '}
+        <a href="/my/new/default-organization">here</a>
+      </p>
+    );
   }
 
   const handleMenuClick = (index) => {

@@ -24,9 +24,9 @@ const FiltersCheckbox = ({ id = 0, onChange = (id) => {} }) => {
 
   useEffect(() => {
     if (checked) {
-      share.push(id)
+      share.push(id);
     } else {
-      share.splice(share.indexOf(id), 1)
+      share.splice(share.indexOf(id), 1);
     }
     console.log(share);
   }, [checked]);
@@ -63,7 +63,7 @@ const FiltersCheckbox = ({ id = 0, onChange = (id) => {} }) => {
 
 const Button = ({
   // eslint-disable-next-line react/prop-types
-  property1, className, labelTextClassName, text = 'Share your institution’s OER content', onClick = () => {}
+  property1, className, labelTextClassName, text = 'Share your institution’s OER content', onClick = () => {},
 }) => (
   <div className={`${cls.button} ${cls[property1]} ${cls[className]}`} onClick={onClick}>
     <p className={`${cls.labelText} ${cls[labelTextClassName]}`}>{text}</p>
@@ -113,7 +113,7 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
   const scrollDiv = (amount) => {
     divRef.current.scrollTop += amount;
     if (divRef.current.scrollTop + divRef.current.offsetHeight >= divRef.current.scrollHeight - 70) {
-      PAGE++;
+      PAGE += 1;
       fetchData();
     }
   };
@@ -122,7 +122,7 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
     axios.post('/api/imls/v2/collections/site-collections/picker/', null, { params: { share } }).then(() => {
       onAdd(results.filter((item) => share.includes(item.id)));
     });
-  }
+  };
 
   const search = async (clear = false) => {
     try {
@@ -138,10 +138,10 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   function changeInput({ target }) {
-    setTenantFilter(target.value)
+    setTenantFilter(target.value);
     if (target.value === '') search(true);
   }
 
@@ -149,7 +149,7 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
     <div className={cls.filters}>
       <div className={cls.searchCollections}>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => search()}>
-          {/* eslint-disable-next-line max-len */}
+          { }
           <path d="M17.0163 10.0082C17.0163 11.5547 16.5143 12.9833 15.6686 14.1423L19.9341 18.4112C20.3553 18.8324 20.3553 19.5163 19.9341 19.9375C19.513 20.3587 18.829 20.3587 18.4078 19.9375L14.1423 15.6686C12.9833 16.5177 11.5547 17.0163 10.0082 17.0163C6.13682 17.0163 3 13.8795 3 10.0082C3 6.13682 6.13682 3 10.0082 3C13.8795 3 17.0163 6.13682 17.0163 10.0082ZM10.0082 14.86C10.6453 14.86 11.2762 14.7345 11.8649 14.4906C12.4535 14.2468 12.9884 13.8894 13.4389 13.4389C13.8894 12.9884 14.2468 12.4535 14.4906 11.8649C14.7345 11.2762 14.86 10.6453 14.86 10.0082C14.86 9.37101 14.7345 8.7401 14.4906 8.15145C14.2468 7.5628 13.8894 7.02795 13.4389 6.57741C12.9884 6.12688 12.4535 5.7695 11.8649 5.52568C11.2762 5.28185 10.6453 5.15636 10.0082 5.15636C9.37101 5.15636 8.7401 5.28185 8.15145 5.52568C7.5628 5.7695 7.02795 6.12688 6.57741 6.57741C6.12688 7.02795 5.7695 7.5628 5.52568 8.15145C5.28185 8.7401 5.15636 9.37101 5.15636 10.0082C5.15636 10.6453 5.28185 11.2762 5.52568 11.8649C5.7695 12.4535 6.12688 12.9884 6.57741 13.4389C7.02795 13.8894 7.5628 14.2468 8.15145 14.4906C8.7401 14.7345 9.37101 14.86 10.0082 14.86Z" fill="#262341" />
         </svg>
         <input
@@ -159,7 +159,7 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
           value={tenantFilter}
           onChange={changeInput}
           onKeyDown={(event) => {
-            if (event.key === 'Enter') search()
+            if (event.key === 'Enter') search();
           }}
         />
       </div>
@@ -184,9 +184,9 @@ export const Dropdown = ({ onAdd = (collectios) => {} }) => {
                   overflow: 'hidden',
                 }}
               >
-                {results/*.filter((item) => item.name && item.name.toLowerCase().includes(tenantFilter))*/.map((item) => (
+                {results/* .filter((item) => item.name && item.name.toLowerCase().includes(tenantFilter)) */.map((item) => (
                   <div className={cls.frame}>
-                  <FiltersCheckbox id={item.id} onChange={(id) => console.log(id)} />
+                    <FiltersCheckbox id={item.id} onChange={(id) => console.log(id)} />
                     <div className={cls.microsite}>{item.name}</div>
                   </div>
                 ))}

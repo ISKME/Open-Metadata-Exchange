@@ -1,7 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -45,7 +41,7 @@ const globalStyles = {
     textTransform: 'capitalize',
     '&:not(.Mui-selected):hover': {
       backgroundColor: '#f4f4f5',
-    }
+    },
   },
   '.MuiTabs-indicator': {
     display: 'none',

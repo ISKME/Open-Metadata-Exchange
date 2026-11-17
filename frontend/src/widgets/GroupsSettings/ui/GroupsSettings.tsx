@@ -29,13 +29,13 @@ export function GroupsSettings() {
   const [duplicateDescription, setDuplicateDescription] = React.useState('');
   const [cover, setCover] = React.useState(null);
   const { id: groupId } = useParams();
-  const inputRef = React.useRef(null)
-  const dataImageRef = React.useRef('')
+  const inputRef = React.useRef(null);
+  const dataImageRef = React.useRef('');
 
   const [duplicateFolders, setDuplicateFolders] = React.useState(true);
   const [duplicateMembers, setDuplicateMembers] = React.useState(true);
 
-  async function fetchGroupData() {
+  const fetchGroupData = async () => {
     try {
       const response = await axios.get(`/api/groups/v1/groups/${groupId}`);
       const groupData = response.data;
@@ -48,7 +48,7 @@ export function GroupsSettings() {
     } catch (error) {
       console.error('Error fetching group data:', error);
     }
-  }
+  };
 
   React.useEffect(() => {
     fetchGroupData();
@@ -75,7 +75,7 @@ export function GroupsSettings() {
       const response = await axios.put(`/api/groups/v1/groups/${groupId}`, formData, { headers });
       if (response.status === 200) {
         alert('Changes saved successfully.');
-        location.reload();
+        window.location.reload();
       } else {
         alert('An unexpected response was received. Please try again.');
       }
@@ -103,7 +103,7 @@ export function GroupsSettings() {
       const response = await axios.post(
         `/api/groups/v1/groups/${groupId}/duplicate`,
         payload,
-        { headers }
+        { headers },
       );
 
       if (response.status === 200 || response.status === 201) {
@@ -144,11 +144,10 @@ export function GroupsSettings() {
 
   const cancelChanges = () => {
     if (inputRef.current) {
-      inputRef.current.value = "";
+      inputRef.current.value = '';
     }
-    fetchGroupData()
-  }
-
+    fetchGroupData();
+  };
 
   return (
     <Grid container spacing={2} sx={{ padding: '0 10%' }}>
@@ -185,7 +184,7 @@ export function GroupsSettings() {
             <Typography sx={{ margin: '0 0 -16px 0' }}>What is the name of your Group?*</Typography>
             <FormControl fullWidth sx={{ marginTop: '16px' }}>
               <InputLabel shrink htmlFor="group-name">
-                e.g. 'Teachers as Makers'
+                e.g. &apos;Teachers as Makers&apos;
               </InputLabel>
               <TextField
                 id="group-name"
@@ -199,7 +198,7 @@ export function GroupsSettings() {
             <Typography sx={{ margin: '0 0 -16px 0' }}>Add a Description*</Typography>
             <FormControl fullWidth sx={{ marginTop: '16px' }}>
               <InputLabel shrink htmlFor="group-purpose">
-                This group's purpose is...
+                This group&apos;s purpose is...
               </InputLabel>
               <TextField
                 id="group-purpose"
@@ -228,7 +227,7 @@ export function GroupsSettings() {
             <Typography sx={{ margin: '0 0 -16px 0' }}>What is the name of your Group?*</Typography>
             <FormControl fullWidth sx={{ marginTop: '16px' }}>
               <InputLabel shrink htmlFor="group-name-duplicate">
-                e.g. 'Teachers as Makers'
+                e.g. &apos;Teachers as Makers&apos;
               </InputLabel>
               <TextField
                 id="group-name-duplicate"
@@ -242,7 +241,7 @@ export function GroupsSettings() {
             <Typography sx={{ margin: '0 0 -16px 0' }}>Add a Description*</Typography>
             <FormControl fullWidth sx={{ marginTop: '16px' }}>
               <InputLabel shrink htmlFor="group-purpose-duplicate">
-                This group's purpose is...
+                This group&apos;s purpose is...
               </InputLabel>
               <TextField
                 id="group-purpose-duplicate"
@@ -256,21 +255,21 @@ export function GroupsSettings() {
               />
             </FormControl>
             <FormControlLabel
-              control={
+              control={(
                 <Checkbox
                   checked={duplicateFolders}
                   onChange={(e) => setDuplicateFolders(e.target.checked)}
                 />
-              }
+              )}
               label="Duplicate Folders"
             />
             <FormControlLabel
-              control={
+              control={(
                 <Checkbox
                   checked={duplicateMembers}
                   onChange={(e) => setDuplicateMembers(e.target.checked)}
                 />
-              }
+              )}
               label="Duplicate Members"
             />
             <Button

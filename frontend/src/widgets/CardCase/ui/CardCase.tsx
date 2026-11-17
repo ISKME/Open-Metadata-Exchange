@@ -1,7 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 import * as React from 'react';
 import { Link } from 'react-router-dom';
@@ -62,19 +58,21 @@ const CardBlogMedia = styled(CardMedia)(({ theme }) => ({
   // },
 }));
 
-export function CardCase({ id, title, picture, description, items = [], checked = false, onCheck = (event) => {}, col = false }) {
+export function CardCase({
+  id, title, picture, description, items = [], checked = false, onCheck = (event) => {}, col = false,
+}) {
   const [more, setMore] = React.useState(false);
   return (
     <CardBlog sx={{ display: 'flex' }}>
       <Checkbox checked={checked} onChange={onCheck} inputProps={{ 'aria-label': 'Checkbox demo' }} />
-      <Link to={'/courseware/new/' + id?.split('.')?.pop()}>
+      <Link to={`/courseware/new/${id?.split('.')?.pop()}`}>
         <CardBlogMedia
           component="img"
           image={picture}
         />
       </Link>
       <CardContent sx={{ flex: '1', paddingTop: '0' }}>
-        <Link to={'/courseware/new/' + id?.split('.')?.pop()}>
+        <Link to={`/courseware/new/${id?.split('.')?.pop()}`}>
           <Typography component="div" variant="h5" sx={{ color: '#56788f', font: '700 19px / 25px "DINPro", sans-serif', marginBottom: '5px' }}>
             {title}
           </Typography>
