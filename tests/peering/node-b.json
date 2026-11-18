@@ -1,0 +1,24 @@
+{
+    "organization": "Peering test B",
+    "hostname": "node-b",
+    "peers": [
+	{
+	    "name": "node-a",
+	    "dns_name": "node-a",
+	    "port": 119,
+	    "incoming_ip": "172.30.0.11"
+	}
+    ],
+
+    "nntp_user": {
+	"username": "ome",
+	"password": "test-only-b"
+    },
+
+    "nntp_debug_user": {
+	"username": "debugreader",
+	"password": "test-only-b"
+    },
+
+    "cms_plugin": "server.plugins.qubes.plugin.QubesPlugin"
+}
