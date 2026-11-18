@@ -47,7 +47,7 @@ class PeeringNodes:
         *args: str,
         input_text: str | None = None,
         check: bool = True,
-        timeout: float = 0.001,
+        timeout: float = 60,
     ) -> subprocess.CompletedProcess[str]:
         command = [self.docker, "compose", "-f", str(COMPOSE_FILE), *args]
         try:
