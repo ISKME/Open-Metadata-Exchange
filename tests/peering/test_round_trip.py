@@ -2,7 +2,7 @@
 Prove that two INN nodes exchange articles in both directions.
 
 Skipped by default. Run it with:
-    uv run pytest tests/peering -m peering -p no:run-parallel -v
+    uv run pytest tests/peering -m peering -v
 """
 
 import uuid
@@ -11,7 +11,11 @@ import pytest
 
 from .nodes import PeeringNodes, wait_for
 
-pytestmark = pytest.mark.peering
+pytestmark = [
+    pytest.mark.peering,
+    pytest.mark.thread_unsafe,  # both tests share the same two nodes
+    pytest.mark.iterations(1),  # one article per direction is enough
+]
 
 # innfeed retries an unreachable peer after 30 s (initial-reconnect-time),
 # so wait clearly longer than that before calling it a failure.

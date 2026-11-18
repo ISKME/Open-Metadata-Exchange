@@ -77,7 +77,7 @@ rules.unresolved-reference = "ignore"
 
 [tool.pytest]
 # Peering tests start Docker containers: skipped by default, run with
-# uv run pytest tests/peering -m peering -p no:run-parallel -v
+# uv run pytest tests/peering -m peering -v
 addopts = [ "-m", "not peering" ]
 markers = [ "peering: starts two INN nodes with Docker Compose (slow, needs Docker)" ]
 

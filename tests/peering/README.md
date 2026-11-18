@@ -29,13 +29,14 @@ Requirements: Docker with Docker Compose v2, and [uv](https://docs.astral.sh/uv/
 From the root of the repository:
 
 ```shell
-uv run pytest tests/peering -m peering -p no:run-parallel -v
+uv run pytest tests/peering -m peering -v
 ```
 
 - The tests are marked `peering` and skipped by a plain `uv run pytest`, because they build
   an image and start containers.
-- `-p no:run-parallel` turns off pytest-run-parallel: the two nodes are shared, so the
-  tests must run once, one after the other.
+- The tests are marked `thread_unsafe` and `iterations(1)`: the two nodes are shared, so
+  each test runs once, one after the other, even with `--parallel-threads` or `--iterations`
+  (pytest-run-parallel, used by the rest of the test suite).
 - The test builds the image, starts both nodes, waits until INN answers `ctlinnd mode`,
   creates `ome.test` on both, posts an article with a unique `Message-ID` on one node and
   waits up to 90 seconds until `grephistory` finds it on the other. It also checks that
