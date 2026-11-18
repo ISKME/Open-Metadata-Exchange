@@ -6,7 +6,7 @@ import api from './api/axios';
 import cls from './styles.module.scss';
 import SearchBar from './components/Input';
 import Dropdown from './components/Dropdown';
-import { matomoTag } from "pages/Case/ui/helper";
+import { matomoTag } from 'pages/Case/ui/helper';
 
 export default function ArkHome() {
   const [search, setSearch] = useState('');
@@ -33,10 +33,10 @@ export default function ArkHome() {
     api.get('/api/curatedcollections/v2/curatedcollections?sortby=timestamp&per_page=3').then(({ data }) => {
       setCollections(data.collections.items);
       // setName(data.userInfo.name || data.userInfo.email);
-    })
+    });
   }, []);
 
-  function handleSearch() {
+  const handleSearch = () => {
     const params = new URLSearchParams();
     if (search) params.set('f.search', search);
     if (levels.length) params.set('f.sublevel', levels.map((item) => levelsList.find(({ name }) => name === item)?.slug).filter(Boolean));
@@ -44,9 +44,9 @@ export default function ArkHome() {
     if (materials.length) params.set('f.material_types', materials.map((item) => materialsList.find(({ name }) => name === item)?.slug).filter(Boolean).join('+'));
     window.location.href = `/ark/search?${params.toString().replace(/%2C/g, '+')}`;
     matomoTag({ category: 'Search', action: 'site search', name: (search || '').trim() });
-  }
+  };
 
-  const fontStyle = { fontFamily: theme.typography.fontFamily } // , fontSize: theme.typography.fontSize };
+  const fontStyle = { fontFamily: theme.typography.fontFamily }; // , fontSize: theme.typography.fontSize };
 
   return (
     <>
@@ -82,14 +82,14 @@ export default function ArkHome() {
       <Box className={cls.search}>
         <SearchBar
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
           onSearch={handleSearch}
         />
       </Box>
       <Box className={cls.dropdowns}>
-        <Dropdown id="edu" label="Educational level" options={levelsList} value={levels} onChange={e => setLevels(e.target.value)} />
-        <Dropdown id="mat" label="Material type" options={materialsList} value={materials} onChange={e => setMaterials(e.target.value)} />
-        <Dropdown id="sub" label="Subject area" options={subjectsList} value={subjects} onChange={e => setSubjects(e.target.value)} />
+        <Dropdown id="edu" label="Educational level" options={levelsList} value={levels} onChange={(e) => setLevels(e.target.value)} />
+        <Dropdown id="mat" label="Material type" options={materialsList} value={materials} onChange={(e) => setMaterials(e.target.value)} />
+        <Dropdown id="sub" label="Subject area" options={subjectsList} value={subjects} onChange={(e) => setSubjects(e.target.value)} />
       </Box>
     </>
   );

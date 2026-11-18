@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-unused-vars */
+
 import { Link, LinkProps } from 'react-router-dom';
 import { FC, memo } from 'react';
 

@@ -1,6 +1,3 @@
-/* eslint-disable func-names */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { classNames } from 'shared/lib/classNames/classNames';
@@ -19,19 +16,19 @@ interface AdvancedSearchProps {
 export function AdvancedSearch({ className }: AdvancedSearchProps) {
   const [values, setValues] = useState([]);
 
-    const options = [
-        {
-            value: '1',
-            label: 'most',
-        },
-        {
-            value: '2',
-            label: 'louis',
-        },
-        {
-            value: '3',
-            label: 'viva',
-        }];
+  const options = [
+    {
+      value: '1',
+      label: 'most',
+    },
+    {
+      value: '2',
+      label: 'louis',
+    },
+    {
+      value: '3',
+      label: 'viva',
+    }];
     // useEffect(() => {
     //   fetch('/api/imls/v2/collections/browse')
     //     .then(res => res.json())
@@ -45,7 +42,7 @@ export function AdvancedSearch({ className }: AdvancedSearchProps) {
   return (
     <div className={classNames(cls.Advanced, {}, [className])}>
       <ArrowIcon className={cls.back_link_img} />
-      <AppLink to="/imls/explore-oer-exchange" aria-label="Go Back to Explore OER Exchange" className={cls.back_link} text='Back to Explore OER Exchange' />
+      <AppLink to="/imls/explore-oer-exchange" aria-label="Go Back to Explore OER Exchange" className={cls.back_link} text="Back to Explore OER Exchange" />
       <h1 className={cls.advanced_title}>Advanced Search</h1>
       <div className="">
         <div className="">

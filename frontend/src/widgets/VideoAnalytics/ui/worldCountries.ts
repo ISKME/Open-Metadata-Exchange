@@ -1,4 +1,3 @@
-/* eslint-disable max-len -- Generated geographic paths. */
 // Natural Earth v5.1.2, Admin 0 countries (1:110m), public domain.
 // Source: https://github.com/nvkelso/natural-earth-vector/blob/v5.1.2/geojson/ne_110m_admin_0_countries.geojson
 // Terms: https://www.naturalearthdata.com/about/terms-of-use/

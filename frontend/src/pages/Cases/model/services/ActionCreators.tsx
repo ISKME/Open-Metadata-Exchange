@@ -1,17 +1,17 @@
 /* eslint-disable no-console */
-/* eslint-disable max-len */
+
 // @ts-nocheck
-import axios from 'axios'
-import qs from 'qs'
-import { AppDispatch } from 'app/providers/StoreProvider/config/store'
-import { casesSlice } from '../slice/CasesSlice'
+import axios from 'axios';
+import qs from 'qs';
+import { AppDispatch } from 'app/providers/StoreProvider/config/store';
+import { casesSlice } from '../slice/CasesSlice';
 import { extractUrlParams } from 'shared/lib/global';
 
 export const fetchCases = (URL, groupId = '', folderId = '', subFolderId = '', resources = false) => async (dispatch: AppDispatch) => {
-  const params = extractUrlParams()
-  if (groupId) params['f.group'] = groupId
-  if (folderId) params['f.folder'] = folderId
-  if (subFolderId) params['f.subfolder'] = subFolderId
+  const params = extractUrlParams();
+  if (groupId) params['f.group'] = groupId;
+  if (folderId) params['f.folder'] = folderId;
+  if (subFolderId) params['f.subfolder'] = subFolderId;
   try {
     // const paramsSerializer = (params) => qs.stringify(params, { arrayFormat: 'repeat' })
     // const { data } = await axios.get(URL, { params, paramsSerializer })
@@ -27,22 +27,22 @@ export const fetchCases = (URL, groupId = '', folderId = '', subFolderId = '', r
     //   framework.tags = tags
     // }
     // dispatch(casesSlice.actions.casesFetching({ ...data.resources, framework }))
-    params.source = resources ? 'submitted' : 'courseware'
-    const { data } = await axios.get(URL, { params, paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }) })
-    dispatch(casesSlice.actions.casesFetching(data.resources))
+    params.source = resources ? 'submitted' : 'courseware';
+    const { data } = await axios.get(URL, { params, paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }) });
+    dispatch(casesSlice.actions.casesFetching(data.resources));
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 };
 
 export const fetchStaticCasesData = (URL, resources = false) => async (dispatch: AppDispatch) => {
   try {
     const params = {
-      source: resources ? 'submitted' : 'courseware'
+      source: resources ? 'submitted' : 'courseware',
     };
-    const { data } = await axios.get(URL, { params, paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }) })
-    dispatch(casesSlice.actions.setStaticData(data.resources))
+    const { data } = await axios.get(URL, { params, paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }) });
+    dispatch(casesSlice.actions.setStaticData(data.resources));
   } catch (e) {
-    console.log('Error fetching static cases data:', e)
+    console.log('Error fetching static cases data:', e);
   }
 };

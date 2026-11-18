@@ -144,14 +144,14 @@ export function MySettings() {
           const { errors } = error.response.data;
           let errorMsg = 'Please correct the indicated errors:\n';
           if (errors.user_errors) {
-            for (const key in errors.user_errors) {
+            Object.keys(errors.user_errors).forEach((key) => {
               errorMsg += `${key}: ${errors.user_errors[key]}\n`;
-            }
+            });
           }
           if (errors.profile_errors) {
-            for (const key in errors.profile_errors) {
+            Object.keys(errors.profile_errors).forEach((key) => {
               errorMsg += `${key}: ${errors.profile_errors[key]}\n`;
-            }
+            });
           }
           setErrorMessage(errorMsg);
         } else {

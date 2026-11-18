@@ -2,23 +2,23 @@
 /* stylelint-disable color-hex-length */
 .allcollections {
   padding: 0;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
 }
 
 .allcollections_title {
   margin: 25px 0;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
   font-size: 26px;
 }
 
 .allcollections_desc {
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
   margin-bottom: 25px;
   font-weight: 600;
   font-size: 15px;
 
   a {
-    color: rgb(5, 77, 209);
+    color: rgb(5 77 209);
     text-decoration: underline;
   }
 }
@@ -41,7 +41,6 @@
   color: #ffffff;
 }
 
-//
 input[data-slug] {
   margin-right: 8px;
 }
@@ -75,22 +74,27 @@ input[data-slug] {
 .allcollections_board {
   display: flex;
   flex-direction: row;
+
   // justify-content: space-between;
 }
 
 .allcollections_list {
   width: 70%;
+
   // display: flex;
   // flex-direction: row;
   // flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: min-content;
+
   @media screen and (max-width: 1200px) {
     grid-template-columns: repeat(2, 1fr);
   }
+
   @media screen and (max-width: 980px) {
     grid-template-columns: 1fr;
+
     & > div {
       width: 315px;
     }
@@ -117,7 +121,7 @@ input[data-slug] {
   display: flex;
   gap: 8px;
   height: 60px;
-  padding: 0px 0px 16px;
+  padding: 0 0 16px;
   position: relative;
 }
 
@@ -203,7 +207,7 @@ input[data-slug] {
   display: inline-flex;
   flex: 0 0 auto;
   gap: 8px;
-  padding: 0px 8px;
+  padding: 0 8px;
   position: relative;
 }
 
@@ -222,29 +226,29 @@ input[data-slug] {
 }
 
 :root {
-  --body-large-font-family: "Open Sans", Helvetica;
+  --body-large-font-family: "Open Sans", helvetica;
   --body-large-font-size: 16px;
   --body-large-font-style: normal;
   --body-large-font-weight: 500;
   --body-large-letter-spacing: 0.5px;
   --body-large-line-height: 24px;
-  --body-large-medium-font-family: "Open Sans", Helvetica;
+  --body-large-medium-font-family: "Open Sans", helvetica;
   --body-large-medium-font-size: 16px;
   --body-large-medium-font-style: normal;
   --body-large-medium-font-weight: 500;
   --body-large-medium-letter-spacing: 0.5px;
   --body-large-medium-line-height: 24px;
-  --button-default-font-family: "Open Sans", Helvetica;
+  --button-default-font-family: "Open Sans", helvetica;
   --button-default-font-size: 16px;
   --button-default-font-style: normal;
   --button-default-font-weight: 600;
   --button-default-letter-spacing: 0.08px;
   --button-default-line-height: 24px;
-  --button-font-family: "Open Sans", Helvetica;
+  --button-font-family: "Open Sans", helvetica;
   --button-font-size: 16px;
   --button-font-style: normal;
   --button-font-weight: 600;
-  --button-in-line-font-family: "Open Sans", Helvetica;
+  --button-in-line-font-family: "Open Sans", helvetica;
   --button-in-line-font-size: 16px;
   --button-in-line-font-style: normal;
   --button-in-line-font-weight: 600;
@@ -252,96 +256,96 @@ input[data-slug] {
   --button-in-line-line-height: 24px;
   --button-letter-spacing: 0.5px;
   --button-line-height: 24px;
-  --display-small-font-family: "Open Sans", Helvetica;
+  --display-small-font-family: "Open Sans", helvetica;
   --display-small-font-size: 36px;
   --display-small-font-style: normal;
   --display-small-font-weight: 800;
   --display-small-letter-spacing: 0px;
   --display-small-line-height: 44px;
-  --fillsbackground: rgba(241, 242, 242, 1);
-  --fillsblack: rgba(30, 30, 30, 1);
-  --fillsstatesactive: rgba(5, 77, 209, 1);
-  --fillsstatesdisabled: rgba(218, 218, 218, 1);
-  --fillswhite: rgba(252, 252, 252, 1);
-  --headline-small-bold-font-family: "Open Sans", Helvetica;
+  --fillsbackground: rgb(241 242 242 / 100%);
+  --fillsblack: rgb(30 30 30 / 100%);
+  --fillsstatesactive: rgb(5 77 209 / 100%);
+  --fillsstatesdisabled: rgb(218 218 218 / 100%);
+  --fillswhite: rgb(252 252 252 / 100%);
+  --headline-small-bold-font-family: "Open Sans", helvetica;
   --headline-small-bold-font-size: 24px;
   --headline-small-bold-font-style: normal;
   --headline-small-bold-font-weight: 700;
   --headline-small-bold-letter-spacing: 0px;
   --headline-small-bold-line-height: 32px;
-  --headline-small-font-family: "Open Sans", Helvetica;
+  --headline-small-font-family: "Open Sans", helvetica;
   --headline-small-font-size: 24px;
   --headline-small-font-style: normal;
   --headline-small-font-weight: 600;
   --headline-small-letter-spacing: 0px;
   --headline-small-line-height: 32px;
-  --hover-shadow: 2px 5px 5px 0px rgba(0, 0, 0, 0.25);
-  --iconserror: rgba(235, 77, 57, 1);
-  --label-medium-bold-font-family: "Open Sans", Helvetica;
+  --hover-shadow: 2px 5px 5px 0px rgb(0 0 0 / 25%);
+  --iconserror: rgb(235 77 57 / 100%);
+  --label-medium-bold-font-family: "Open Sans", helvetica;
   --label-medium-bold-font-size: 12px;
   --label-medium-bold-font-style: normal;
   --label-medium-bold-font-weight: 700;
   --label-medium-bold-letter-spacing: 0.5px;
   --label-medium-bold-line-height: 16px;
-  --label-small-bold-font-family: "Open Sans", Helvetica;
+  --label-small-bold-font-family: "Open Sans", helvetica;
   --label-small-bold-font-size: 11px;
   --label-small-bold-font-style: normal;
   --label-small-bold-font-weight: 700;
   --label-small-bold-letter-spacing: 0.5px;
   --label-small-bold-line-height: 16px;
-  --label-small-medium-font-family: "Open Sans", Helvetica;
+  --label-small-medium-font-family: "Open Sans", helvetica;
   --label-small-medium-font-size: 11px;
   --label-small-medium-font-style: normal;
   --label-small-medium-font-weight: 500;
   --label-small-medium-letter-spacing: 0.5px;
   --label-small-medium-line-height: 16px;
-  --m-3syslightoutline: rgba(121, 116, 126, 1);
-  --m-3syslightprimary: rgba(103, 80, 164, 1);
-  --m3-elevation-light-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
-  --m3-elevation-light-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
-  --m3-label-large-font-family: "Roboto-Medium", Helvetica;
+  --m-3syslightoutline: rgb(121 116 126 / 100%);
+  --m-3syslightprimary: rgb(103 80 164 / 100%);
+  --m3-elevation-light-1: 0px 1px 3px 1px rgb(0 0 0 / 15%), 0px 1px 2px 0px rgb(0 0 0 / 30%);
+  --m3-elevation-light-2: 0px 2px 6px 2px rgb(0 0 0 / 15%), 0px 1px 2px 0px rgb(0 0 0 / 30%);
+  --m3-label-large-font-family: "Roboto-Medium", helvetica;
   --m3-label-large-font-size: 14px;
   --m3-label-large-font-style: normal;
   --m3-label-large-font-weight: 500;
-  --m3-label-large-letter-spacing: 0.10000000149011612px;
+  --m3-label-large-letter-spacing: 0.1000px;
   --m3-label-large-line-height: 20px;
-  --m3read-onlylighton-primaryopacity-008: rgba(255, 255, 255, 0.08);
-  --m3read-onlylighton-primaryopacity-012: rgba(255, 255, 255, 0.12);
-  --m3read-onlylighton-secondary-containeropacity-008: rgba(29, 25, 43, 0.08);
-  --m3read-onlylighton-secondary-containeropacity-012: rgba(29, 25, 43, 0.12);
-  --m3read-onlylightprimaryopacity-008: rgba(103, 80, 164, 0.08);
-  --m3read-onlylightprimaryopacity-012: rgba(103, 80, 164, 0.12);
-  --m3read-onlylightsurface1: rgba(255, 251, 254, 1);
-  --m3read-onlylightsurface2: rgba(255, 251, 254, 1);
-  --m3sysdarkon-secondary-container: rgba(232, 222, 248, 1);
-  --m3syslighton-primary: rgba(255, 255, 255, 1);
-  --m3syslighton-secondary-container: rgba(29, 25, 43, 1);
-  --m3syslighton-surface: rgba(28, 27, 31, 1);
-  --modal-shadow: 1px 2px 3px 0px rgba(0, 0, 0, 0.25);
-  --textdisabled: rgba(64, 64, 64, 1);
-  --textstandard: rgba(30, 30, 30, 1);
-  --title-large-bold-font-family: "Open Sans", Helvetica;
+  --m3read-onlylighton-primaryopacity-008: rgb(255 255 255 / 8%);
+  --m3read-onlylighton-primaryopacity-012: rgb(255 255 255 / 12%);
+  --m3read-onlylighton-secondary-containeropacity-008: rgb(29 25 43 / 8%);
+  --m3read-onlylighton-secondary-containeropacity-012: rgb(29 25 43 / 12%);
+  --m3read-onlylightprimaryopacity-008: rgb(103 80 164 / 8%);
+  --m3read-onlylightprimaryopacity-012: rgb(103 80 164 / 12%);
+  --m3read-onlylightsurface1: rgb(255 251 254 / 100%);
+  --m3read-onlylightsurface2: rgb(255 251 254 / 100%);
+  --m3sysdarkon-secondary-container: rgb(232 222 248 / 100%);
+  --m3syslighton-primary: rgb(255 255 255 / 100%);
+  --m3syslighton-secondary-container: rgb(29 25 43 / 100%);
+  --m3syslighton-surface: rgb(28 27 31 / 100%);
+  --modal-shadow: 1px 2px 3px 0px rgb(0 0 0 / 25%);
+  --textdisabled: rgb(64 64 64 / 100%);
+  --textstandard: rgb(30 30 30 / 100%);
+  --title-large-bold-font-family: "Open Sans", helvetica;
   --title-large-bold-font-size: 22px;
   --title-large-bold-font-style: normal;
   --title-large-bold-font-weight: 700;
   --title-large-bold-letter-spacing: 0px;
   --title-large-bold-line-height: 28px;
-  --title-medium-bold-font-family: "Open Sans", Helvetica;
+  --title-medium-bold-font-family: "Open Sans", helvetica;
   --title-medium-bold-font-size: 16px;
   --title-medium-bold-font-style: normal;
   --title-medium-bold-font-weight: 700;
-  --title-medium-bold-letter-spacing: 0.10000000149011612px;
+  --title-medium-bold-letter-spacing: 0.1000px;
   --title-medium-bold-line-height: 24px;
-  --title-medium-font-family: "Open Sans", Helvetica;
+  --title-medium-font-family: "Open Sans", helvetica;
   --title-medium-font-size: 16px;
   --title-medium-font-style: normal;
   --title-medium-font-weight: 600;
-  --title-medium-letter-spacing: 0.10000000149011612px;
+  --title-medium-letter-spacing: 0.1000px;
   --title-medium-line-height: 24px;
-  --title-medium-medium-font-family: "Open Sans", Helvetica;
+  --title-medium-medium-font-family: "Open Sans", helvetica;
   --title-medium-medium-font-size: 16px;
   --title-medium-medium-font-style: normal;
   --title-medium-medium-font-weight: 500;
-  --title-medium-medium-letter-spacing: 0.10000000149011612px;
+  --title-medium-medium-letter-spacing: 0.1000px;
   --title-medium-medium-line-height: 24px;
 }

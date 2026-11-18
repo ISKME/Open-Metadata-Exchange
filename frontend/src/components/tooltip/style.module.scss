@@ -18,10 +18,11 @@
   transform: translateX(-50%);
   opacity: 0;
   transition: opacity 0.3s;
+
   &::before {
-    border-width: 10px 8px 0 8px;
+    border-width: 10px 8px 0;
     border-style: solid;
-    border-color: #333 transparent transparent transparent;
+    border-color: #333 transparent transparent;
     top: -15px;
     transform: translateY(20px);
   }

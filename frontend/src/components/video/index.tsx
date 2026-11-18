@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
 const styles = `
 .oer-video-player-shell { position: relative; width: 100%; background:#000; }
@@ -8,7 +8,9 @@ const styles = `
 
 const MAX_ASPECT_RATIO = 16 / 9;
 
-export function Player(props: {
+export function Player({
+  code, time, endTime, onLoad, onPlay, onFail,
+}: {
   code?: string;
   time?: number | null;
   endTime?: number | null;
@@ -22,9 +24,9 @@ export function Player(props: {
   const [dims, setDims] = useState<{ width: number; height: number } | null>(null);
 
   useEffect(() => {
-    if (!document.head.querySelector("style[data-oer-video-shell]")) {
-      const s = document.createElement("style");
-      s.setAttribute("data-oer-video-shell", "1");
+    if (!document.head.querySelector('style[data-oer-video-shell]')) {
+      const s = document.createElement('style');
+      s.setAttribute('data-oer-video-shell', '1');
       s.textContent = styles;
       document.head.appendChild(s);
     }
@@ -32,19 +34,19 @@ export function Player(props: {
 
   useEffect(() => {
     setDims(null);
-  }, [props.code]);
+  }, [code]);
 
   const handleIframeLoad = (e: React.SyntheticEvent<HTMLIFrameElement>) => {
     const win = (e.target as HTMLIFrameElement).contentWindow as any;
     const p = win?.player;
     if (!p) {
-      props.onFail?.(new Error("Video player failed to load"));
+      onFail?.(new Error('Video player failed to load'));
       return;
     }
     playerRef.current = p;
 
     const measure = () => {
-      const el = win.document?.querySelector(".video-js");
+      const el = win.document?.querySelector('.video-js');
       const containerWidth = shellRef.current?.clientWidth;
       if (!el || !containerWidth) return;
       const rect = el.getBoundingClientRect();
@@ -59,11 +61,11 @@ export function Player(props: {
       }
     };
     measure();
-    p.on("playerresize", measure);
-    win.addEventListener?.("resize", measure);
+    p.on('playerresize', measure);
+    win.addEventListener?.('resize', measure);
 
-    p.on("play", () => props.onPlay?.());
-    p.on("timeupdate", () => {
+    p.on('play', () => onPlay?.());
+    p.on('timeupdate', () => {
       const end = segmentEndRef.current;
       if (end == null) return;
       if (p.currentTime() >= end - 0.05) {
@@ -71,45 +73,45 @@ export function Player(props: {
         segmentEndRef.current = null;
       }
     });
-    p.on("ended", () => {
+    p.on('ended', () => {
       segmentEndRef.current = null;
     });
 
     const emitLoaded = () => {
       measure();
-      props.onLoad?.({ sources: { duration: p.duration() } }, p);
+      onLoad?.({ sources: { duration: p.duration() } }, p);
     };
     if (p.readyState() > 0) emitLoaded();
-    else p.one("loadedmetadata", emitLoaded);
+    else p.one('loadedmetadata', emitLoaded);
   };
 
   useEffect(() => {
-    if (props.time == null) return;
+    if (time == null) return;
     const p = playerRef.current;
     if (!p) return;
-    segmentEndRef.current = props.endTime == null ? null : Number(props.endTime);
-    p.currentTime(Number(props.time));
+    segmentEndRef.current = endTime == null ? null : Number(endTime);
+    p.currentTime(Number(time));
     p.play();
-  }, [props.time, props.endTime]);
+  }, [time, endTime]);
 
-  if (!props.code) return <div className="oer-video-player-shell is-measuring" />;
+  if (!code) return <div className="oer-video-player-shell is-measuring" />;
 
   return (
     <div
       ref={shellRef}
-      className={`oer-video-player-shell${dims == null ? " is-measuring" : ""}`}
+      className={`oer-video-player-shell${dims == null ? ' is-measuring' : ''}`}
       style={dims == null ? undefined : { height: dims.height }}
     >
       <iframe
-        key={props.code}
+        key={code}
         title="Video player"
-        src={`/video/${props.code}/embed`}
+        src={`/video/${code}/embed`}
         allowFullScreen
         onLoad={handleIframeLoad}
         style={
           dims == null
             ? undefined
-            : { width: dims.width, left: "50%", transform: "translateX(-50%)" }
+            : { width: dims.width, left: '50%', transform: 'translateX(-50%)' }
         }
       />
     </div>

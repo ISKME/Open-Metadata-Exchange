@@ -133,6 +133,268 @@ function SectionHeading({
   );
 }
 
+function AudienceProgression({ data }) {
+  const layout = {
+    width: 920,
+    height: 550,
+    left: 72,
+    top: 55,
+    maxWidth: 520,
+    minWidth: 112,
+    sectionHeight: 145,
+    labelX: 665,
+  };
+
+  const maxValue = Math.max(...data.stages.map((stage) => stage.value));
+
+  const widthForValue = (value) => {
+    const ratio = value / maxValue;
+
+    return (
+      layout.minWidth
+      + ratio * (layout.maxWidth - layout.minWidth)
+    );
+  };
+
+  const conversionRate = (index) => {
+    if (index === 0) return 100;
+
+    return (
+      (data.stages[index].value / data.stages[index - 1].value)
+      * 100
+    );
+  };
+
+  const percent = (value) => `${value.toFixed(1)}%`;
+
+  const widths = data.stages.map((stage) => widthForValue(stage.value));
+
+  const description = data.stages
+    .map(
+      (stage, index) => `${stage.label}: ${stage.value}, ${percent(
+        conversionRate(index),
+      )} of previous stage`,
+    )
+    .join('. ');
+
+  return (
+    <div style={{ width: '100%' }}>
+      <svg
+        viewBox={`0 0 ${layout.width} ${layout.height}`}
+        role="img"
+        aria-label="Audience progression chart"
+        style={{
+          display: 'block',
+          width: '100%',
+          minWidth: '720px',
+          height: 'auto',
+        }}
+      >
+        <defs>
+          <filter
+            id="audience-shadow"
+            x="-20%"
+            y="-20%"
+            width="150%"
+            height="150%"
+          >
+            <feDropShadow
+              dx="0"
+              dy="7"
+              stdDeviation="8"
+              floodColor="#64748b"
+              floodOpacity="0.16"
+            />
+          </filter>
+
+          {data.stages.map((stage, index) => {
+            const nextColor = data.stages[index + 1]?.color || stage.color;
+
+            return (
+              <linearGradient
+                key={`stage-gradient-${index}`}
+                id={`stage-gradient-${index}`}
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="0%"
+              >
+                <stop
+                  offset="0%"
+                  stopColor={stage.color}
+                  stopOpacity="0.96"
+                />
+                <stop
+                  offset="100%"
+                  stopColor={nextColor}
+                  stopOpacity="0.96"
+                />
+              </linearGradient>
+            );
+          })}
+        </defs>
+
+        {data.stages.map((stage, index) => {
+          const y = layout.top + index * layout.sectionHeight;
+          const nextY = y + layout.sectionHeight;
+
+          const currentWidth = widths[index];
+          const nextWidth = index < widths.length - 1
+            ? widths[index + 1]
+            : Math.max(widths[index] * 0.72, 82);
+
+          const currentRight = layout.left + currentWidth;
+          const nextRight = layout.left + nextWidth;
+          const centerY = y + layout.sectionHeight / 2;
+
+          const path = [
+            `M ${layout.left} ${y}`,
+            `L ${currentRight} ${y}`,
+            `V ${nextY}`,
+            `H ${nextRight}`,
+            `L ${layout.left} ${nextY}`,
+            'Z',
+          ].join(' ');
+
+          return (
+            <g key={`${stage.label}-${index}`}>
+              <path
+                d={path}
+                fill={`url(#stage-gradient-${index})`}
+                filter="url(#audience-shadow)"
+              />
+
+              {index < data.stages.length - 1 && (
+                <line
+                  x1={layout.left}
+                  y1={nextY}
+                  x2={nextRight}
+                  y2={nextY}
+                  stroke="#ffffff"
+                  strokeWidth="2"
+                  opacity="0.62"
+                />
+              )}
+
+              <circle
+                cx={layout.left - 27}
+                cy={centerY}
+                r="14"
+                fill="#ffffff"
+                stroke={stage.color}
+                strokeWidth="2"
+              />
+
+              <text
+                x={layout.left - 27}
+                y={centerY + 1}
+                fill={stage.color}
+                fontSize="12"
+                fontWeight="700"
+                textAnchor="middle"
+                dominantBaseline="middle"
+              >
+                {index + 1}
+              </text>
+
+              <text
+                x={layout.left + 28}
+                y={centerY - 18}
+                fill="#ffffff"
+                fontSize="29"
+                fontWeight="750"
+              >
+                {stage.value.toLocaleString()}
+              </text>
+
+              <text
+                x={layout.left + 30}
+                y={centerY + 10}
+                fill="#ffffff"
+                fontSize="14"
+                fontWeight="700"
+                style={{
+                  filter:
+                  'drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5))',
+                }}
+              >
+                {stage.label}
+              </text>
+
+              <text
+                x={layout.left + 30}
+                y={centerY + 32}
+                fill="#ffffff"
+                fontSize="12"
+                style={{
+                  filter:
+                  'drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5))',
+                }}
+              >
+                {stage.description}
+              </text>
+
+              {index > 0 && (
+                <>
+                  <line
+                    x1={currentRight + 16}
+                    y1={centerY}
+                    x2={layout.labelX - 22}
+                    y2={centerY}
+                    stroke="#dce2eb"
+                    strokeWidth="1"
+                  />
+
+                  <circle
+                    cx={layout.labelX - 22}
+                    cy={centerY}
+                    r="4"
+                    fill={stage.color}
+                  />
+
+                  <text
+                    x={layout.labelX}
+                    y={centerY - 7}
+                    fill="#172033"
+                    fontSize="16"
+                    fontWeight="700"
+                  >
+                    {percent(conversionRate(index))}
+                  </text>
+
+                  <text
+                    x={layout.labelX}
+                    y={centerY + 15}
+                    fill="#8992a4"
+                    fontSize="11"
+                  >
+                    of previous stage
+                  </text>
+                </>
+              )}
+            </g>
+          );
+        })}
+
+        <line
+          x1={layout.left}
+          y1={layout.top}
+          x2={layout.left}
+          y2={
+            layout.top
+          + data.stages.length * layout.sectionHeight
+          }
+          stroke="#ffffff"
+          strokeWidth="2"
+          opacity="0.38"
+        />
+
+        <desc>{description}</desc>
+      </svg>
+    </div>
+  );
+}
+
 export function VideoAnalyticsDashboard({ data, params, compact = false }: VideoAnalyticsDashboardProps) {
   const [timelineMetric, setTimelineMetric] = useState<TimelineMetric>('playerImpressions');
   const [milestone, setMilestone] = useState<FunnelMilestone>(50);
@@ -486,26 +748,26 @@ export function VideoAnalyticsDashboard({ data, params, compact = false }: Video
         <div className={cls.funnelLayout}>
           <AudienceProgression
             data={{
-              title: "Audience progression",
-              subtitle: "From initial reach to meaningful engagement",
+              title: 'Audience progression',
+              subtitle: 'From initial reach to meaningful engagement',
               stages: [
                 {
-                  label: "Player Impressions",
-                  description: "Baseline audience reach",
+                  label: 'Player Impressions',
+                  description: 'Baseline audience reach',
                   value: formatInteger(funnel.playerImpressions),
-                  color: "#6657F5",
+                  color: '#6657F5',
                 },
                 {
-                  label: "Plays",
-                  description: "14.4% of impressions",
+                  label: 'Plays',
+                  description: '14.4% of impressions',
                   value: formatInteger(playRate),
-                  color: "#3193F4",
+                  color: '#3193F4',
                 },
                 {
-                  label: "Reached 50% play-through",
-                  description: "5.9% of plays",
+                  label: 'Reached 50% play-through',
+                  description: '5.9% of plays',
                   value: formatInteger(milestoneRate),
-                  color: "#16B991",
+                  color: '#16B991',
                 },
               ],
             }}
@@ -585,269 +847,4 @@ export function VideoAnalyticsDashboard({ data, params, compact = false }: Video
       </div>
     </div>
   );
-}
-
-function AudienceProgression({ data }) {
-  const layout = {
-    width: 920,
-    height: 550,
-    left: 72,
-    top: 55,
-    maxWidth: 520,
-    minWidth: 112,
-    sectionHeight: 145,
-    labelX: 665,
-  };
-
-  const maxValue = Math.max(...data.stages.map((stage) => stage.value));
-
-  const widthForValue = (value) => {
-    const ratio = value / maxValue;
-
-    return (
-      layout.minWidth +
-      ratio * (layout.maxWidth - layout.minWidth)
-    );
-  };
-
-  const conversionRate = (index) => {
-    if (index === 0) return 100;
-
-    return (
-      (data.stages[index].value / data.stages[index - 1].value) *
-      100
-    );
-  };
-
-  const percent = (value) => `${value.toFixed(1)}%`;
-
-  const widths = data.stages.map((stage) =>
-    widthForValue(stage.value)
-  );
-
-  const description = data.stages
-    .map(
-      (stage, index) =>
-        `${stage.label}: ${stage.value}, ${percent(
-          conversionRate(index)
-        )} of previous stage`
-    )
-    .join(". ");
-
-  return <div style={{ width: "100%" }}>
-    <svg
-      viewBox={`0 0 ${layout.width} ${layout.height}`}
-      role="img"
-      aria-label="Audience progression chart"
-      style={{
-        display: "block",
-        width: "100%",
-        minWidth: "720px",
-        height: "auto",
-      }}
-    >
-      <defs>
-        <filter
-          id="audience-shadow"
-          x="-20%"
-          y="-20%"
-          width="150%"
-          height="150%"
-        >
-          <feDropShadow
-            dx="0"
-            dy="7"
-            stdDeviation="8"
-            floodColor="#64748b"
-            floodOpacity="0.16"
-          />
-        </filter>
-
-        {data.stages.map((stage, index) => {
-          const nextColor =
-            data.stages[index + 1]?.color || stage.color;
-
-          return (
-            <linearGradient
-              key={`stage-gradient-${index}`}
-              id={`stage-gradient-${index}`}
-              x1="0%"
-              y1="0%"
-              x2="100%"
-              y2="0%"
-            >
-              <stop
-                offset="0%"
-                stopColor={stage.color}
-                stopOpacity="0.96"
-              />
-              <stop
-                offset="100%"
-                stopColor={nextColor}
-                stopOpacity="0.96"
-              />
-            </linearGradient>
-          );
-        })}
-      </defs>
-
-      {data.stages.map((stage, index) => {
-        const y = layout.top + index * layout.sectionHeight;
-        const nextY = y + layout.sectionHeight;
-
-        const currentWidth = widths[index];
-        const nextWidth =
-          index < widths.length - 1
-            ? widths[index + 1]
-            : Math.max(widths[index] * 0.72, 82);
-
-        const currentRight = layout.left + currentWidth;
-        const nextRight = layout.left + nextWidth;
-        const centerY = y + layout.sectionHeight / 2;
-
-        const path = [
-          `M ${layout.left} ${y}`,
-          `L ${currentRight} ${y}`,
-          `V ${nextY}`,
-          `H ${nextRight}`,
-          `L ${layout.left} ${nextY}`,
-          "Z",
-        ].join(" ");
-
-        return (
-          <g key={`${stage.label}-${index}`}>
-            <path
-              d={path}
-              fill={`url(#stage-gradient-${index})`}
-              filter="url(#audience-shadow)"
-            />
-
-            {index < data.stages.length - 1 && (
-              <line
-                x1={layout.left}
-                y1={nextY}
-                x2={nextRight}
-                y2={nextY}
-                stroke="#ffffff"
-                strokeWidth="2"
-                opacity="0.62"
-              />
-            )}
-
-            <circle
-              cx={layout.left - 27}
-              cy={centerY}
-              r="14"
-              fill="#ffffff"
-              stroke={stage.color}
-              strokeWidth="2"
-            />
-
-            <text
-              x={layout.left - 27}
-              y={centerY + 1}
-              fill={stage.color}
-              fontSize="12"
-              fontWeight="700"
-              textAnchor="middle"
-              dominantBaseline="middle"
-            >
-              {index + 1}
-            </text>
-
-            <text
-              x={layout.left + 28}
-              y={centerY - 18}
-              fill="#ffffff"
-              fontSize="29"
-              fontWeight="750"
-            >
-              {stage.value.toLocaleString()}
-            </text>
-
-            <text
-              x={layout.left + 30}
-              y={centerY + 10}
-              fill="#ffffff"
-              fontSize="14"
-              fontWeight="700"
-              style={{
-                filter:
-                  "drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5))",
-              }}
-            >
-              {stage.label}
-            </text>
-
-            <text
-              x={layout.left + 30}
-              y={centerY + 32}
-              fill="#ffffff"
-              fontSize="12"
-              style={{
-                filter:
-                  "drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5))",
-              }}
-            >
-              {stage.description}
-            </text>
-
-            {index > 0 && (
-              <>
-                <line
-                  x1={currentRight + 16}
-                  y1={centerY}
-                  x2={layout.labelX - 22}
-                  y2={centerY}
-                  stroke="#dce2eb"
-                  strokeWidth="1"
-                />
-
-                <circle
-                  cx={layout.labelX - 22}
-                  cy={centerY}
-                  r="4"
-                  fill={stage.color}
-                />
-
-                <text
-                  x={layout.labelX}
-                  y={centerY - 7}
-                  fill="#172033"
-                  fontSize="16"
-                  fontWeight="700"
-                >
-                  {percent(conversionRate(index))}
-                </text>
-
-                <text
-                  x={layout.labelX}
-                  y={centerY + 15}
-                  fill="#8992a4"
-                  fontSize="11"
-                >
-                  of previous stage
-                </text>
-              </>
-            )}
-          </g>
-        );
-      })}
-
-      <line
-        x1={layout.left}
-        y1={layout.top}
-        x2={layout.left}
-        y2={
-          layout.top +
-          data.stages.length * layout.sectionHeight
-        }
-        stroke="#ffffff"
-        strokeWidth="2"
-        opacity="0.38"
-      />
-
-      <desc>{description}</desc>
-    </svg>
-  </div>
 }

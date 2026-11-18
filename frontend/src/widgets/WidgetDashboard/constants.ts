@@ -1,17 +1,17 @@
-import { createTheme } from "@mui/material/styles";
-import type { EditorConfig } from "grapesjs";
-import { v4 as uuidv4 } from "uuid";
+import { createTheme } from '@mui/material/styles';
+import type { EditorConfig } from 'grapesjs';
+import { v4 as uuidv4 } from 'uuid';
 
 export const THEME = createTheme({
   palette: {
-    mode: "dark",
+    mode: 'dark',
   },
 });
 
 export const getGJSOptions: EditorConfig = {
-  height: "100vh",
+  height: '100vh',
   storageManager: {
-    type: "remote",
+    type: 'remote',
     stepsBeforeSave: 1000000,
     options: {
       remote: {},
@@ -21,40 +21,38 @@ export const getGJSOptions: EditorConfig = {
   selectorManager: { componentFirst: true },
 };
 
-export const generateDefaultContent = () => {
-  return {
-    assets: [],
-    styles: [],
-    pages: [
-      {
-        frames: [
-          {
-            component: {
-              type: "wrapper",
-              stylable: [
-                "background",
-                "background-color",
-                "background-image",
-                "background-repeat",
-                "background-attachment",
-                "background-position",
-                "background-size",
-              ],
-              head: {
-                type: "head",
-              },
-              docEl: {
-                tagName: "html",
-              },
+export const generateDefaultContent = () => ({
+  assets: [],
+  styles: [],
+  pages: [
+    {
+      frames: [
+        {
+          component: {
+            type: 'wrapper',
+            stylable: [
+              'background',
+              'background-color',
+              'background-image',
+              'background-repeat',
+              'background-attachment',
+              'background-position',
+              'background-size',
+            ],
+            head: {
+              type: 'head',
             },
-            id: uuidv4(),
+            docEl: {
+              tagName: 'html',
+            },
           },
-        ],
-        type: "main",
-        id: uuidv4(),
-      },
-    ],
-    symbols: [],
-    dataSources: [],
-  };
-};
+          id: uuidv4(),
+        },
+      ],
+      type: 'main',
+      id: uuidv4(),
+    },
+  ],
+  symbols: [],
+  dataSources: [],
+});

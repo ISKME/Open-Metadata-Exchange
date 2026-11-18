@@ -45,7 +45,7 @@ export default function CustomSelectorManager({
       <div
         className={cx(
           'flex items-center gap-2 flex-wrap p-2 bg-black/30 border rounded min-h-[45px]',
-          MAIN_BORDER_COLOR
+          MAIN_BORDER_COLOR,
         )}
       >
         {targetStr ? (
@@ -72,7 +72,9 @@ export default function CustomSelectorManager({
         ))}
       </div>
       <div>
-        Selected: <span className="opacity-70">{targetStr || 'None'}</span>
+        Selected:
+        {' '}
+        <span className="opacity-70">{targetStr || 'None'}</span>
       </div>
     </div>
   );

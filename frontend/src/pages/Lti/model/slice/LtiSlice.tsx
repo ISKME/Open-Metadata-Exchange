@@ -15,7 +15,9 @@ export const ltiSlice = createSlice({
   initialState,
   reducers: {
     ltiFetching(state, action) {
-      const { items, sortByOptions, sortBy, pagination, filters } = action.payload;
+      const {
+        items, sortByOptions, sortBy, pagination, filters,
+      } = action.payload;
       state.items = items;
       state.sorts = sortByOptions;
       state.pages = pagination.numPages;

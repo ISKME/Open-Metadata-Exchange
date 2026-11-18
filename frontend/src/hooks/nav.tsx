@@ -22,13 +22,13 @@ export default function useAsideNav() {
     useEffect(() => {
       const originalDisplay = document.body.style.display;
       document.body.style.display = 'flex';
-      const header: any = document.querySelector('.global-wrapper')
-      if (header) header.style.width = '100%'
+      const header: any = document.querySelector('.global-wrapper');
+      if (header) header.style.width = '100%';
       return () => {
         document.body.style.display = originalDisplay;
-        if (header) header.style.width = 'unset'
+        if (header) header.style.width = 'unset';
       };
     }, []);
-    return (children) => createPortal(children, getNavRoot())
+    return (children) => createPortal(children, getNavRoot());
   }
 }
