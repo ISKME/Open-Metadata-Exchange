@@ -522,7 +522,9 @@
 }
 
 .list-dialog .label-text-2 {
+  all: unset; // Reset is a <button>: drop the browser's button look, keep the link look
   color: #1e1e1e;
+  cursor: pointer;
   font-family: "Open Sans-SemiBold", Helvetica, sans-serif;
   font-size: 16px;
   font-weight: 600;
@@ -533,6 +535,12 @@
   text-decoration: underline;
   white-space: nowrap;
   width: fit-content;
+
+  // `all: unset` removes the browser focus ring; put a visible one back.
+  &:focus-visible {
+    outline: 3px solid #1747a1;
+    outline-offset: 2px;
+  }
 }
 
 .notification-button {
