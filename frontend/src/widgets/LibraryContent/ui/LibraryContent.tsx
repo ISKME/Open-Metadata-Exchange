@@ -29,7 +29,7 @@ const CardItem = () => (
       <span>Literature Bests</span>
     </div>
     <div className={cls.cardItemContent}>
-      <h6>M.O.S.T.</h6>
+      <h5>M.O.S.T.</h5>
       <span>PreK-12, HigherEd, Continuing Ed</span>
       <br />
       <span>15 resources</span>
