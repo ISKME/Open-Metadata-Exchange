@@ -424,6 +424,10 @@ export function VideoAnnotationEditor({
         });
         return arr;
       });
+      // After "select all" the model is `exclude`: keep the new caption unselected, as in MUI X 7
+      setRowSelectionModel((prev) => (prev.type === 'exclude'
+        ? { type: 'exclude', ids: new Set(prev.ids).add(created.id) }
+        : prev));
     } catch {
       setError('Failed to add caption.');
     } finally {
@@ -559,6 +563,7 @@ export function VideoAnnotationEditor({
       await uploadVttFile(videoVTT, selectedVttFile);
       const anns = await fetchAnnotations(videoUrl);
       setRows(annotationsToRows(anns));
+      setRowSelectionModel({ type: 'include', ids: new Set() });
       setDirtyIds(new Set());
       reloadCaptions(videoVTT);
       setStatus('Captions uploaded.');
