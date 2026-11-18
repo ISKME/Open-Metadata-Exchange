@@ -1,15 +1,15 @@
 // @ts-nocheck
 import { useEffect, useState, useMemo } from 'react';
-import api from './api/axios';
 import { Outlet, NavLink } from 'react-router-dom';
 import {
   AppBar, Toolbar, Typography, Box, Container, Link, CssBaseline, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, useTheme, useMediaQuery,
 } from '@mui/material';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Button } from 'components/Dashboard';
 import cls from './styles.module.scss';
 import Loader from './icons/Loader';
-import { Button } from 'components/Dashboard';
+import api from './api/axios';
 import Settings from './widgets/Settings';
 
 if (document.title === 'IMLS-React') document.title = 'The Ark: A Digital Public Goods Library';

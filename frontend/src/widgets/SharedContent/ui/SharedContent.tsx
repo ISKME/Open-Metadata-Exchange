@@ -25,8 +25,8 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import axios from 'axios';
-import cls from './SharedContent.module.scss';
 import SearchBar from 'components/OERX/Input';
+import cls from './SharedContent.module.scss';
 // import Dropdown from 'components/OERX/Dropdown';
 
 interface SubscribedContentProps {

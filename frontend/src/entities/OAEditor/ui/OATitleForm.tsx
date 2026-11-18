@@ -17,6 +17,7 @@ export function OATitleForm({
           <div className="controls">
             <input type="text" name="name" value={title} onChange={(e) => handleChange('title', e.target.value)} placeholder="Enter a Resource Title" />
             {errors && errors.length > 0 && errors.map((error, index) => (
+              // eslint-disable-next-line react/no-array-index-key -- the error messages are only shown, in the order the server sends them
               <p className="form-error help-block" id={`error_id_name_${index}`} key={index}><strong>{error}</strong></p>
             ))}
           </div>

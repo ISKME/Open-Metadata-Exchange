@@ -7,10 +7,10 @@ import {
   Typography, TextField, Button, Modal, Box, Checkbox, FormGroup, FormControlLabel, IconButton,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import cls from './GroupNew.module.scss';
 import { Uploader } from 'components/uploader';
 import req from 'shared/lib/req';
 import { useDebounce } from 'shared/lib/hooks';
+import cls from './GroupNew.module.scss';
 
 const modalStyle = {
   position: 'absolute',

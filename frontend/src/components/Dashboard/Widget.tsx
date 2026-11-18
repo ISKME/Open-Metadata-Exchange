@@ -9,13 +9,13 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DateRange } from 'widgets/enum';
+import req from 'shared/lib/req';
 import DrillControls, { useDrill, buildTimelineDrill } from './DrillControls';
 import colors from './colors';
 import { buildSectionChartData } from './chartUtils';
 import { Tabs } from '.';
 // ToDo: Make it Global
 import cls from './styles.module.scss';
-import req from 'shared/lib/req';
 
 function toRows(response) {
   if (Array.isArray(response?.data)) return response.data;
@@ -655,7 +655,7 @@ export default function ({
         return;
       }
 
-      const sort_field = selectedView === 'all' ? sortBy : selectedView;
+      const sortField = selectedView === 'all' ? sortBy : selectedView;
       const valueTitle = viewOptions
         .find((v) => v.slug === selectedView)
         ?.title?.replace(/^By /, '') || 'Value';
@@ -663,7 +663,7 @@ export default function ({
       const params = {
         ...buildBaseParams(),
         limit: 100000,
-        sort_by: sort_field,
+        sort_by: sortField,
         ...(searchPerformed
           && searchText.trim() && { search: searchText.trim() }),
       };
@@ -1180,6 +1180,7 @@ export default function ({
                     </thead>
                     <tbody>
                       {paginatedData.map((row, i) => (
+                        // eslint-disable-next-line react/no-array-index-key -- rows of the current page; they have no id of their own
                         <tr key={i}>
                           <td>{row?.date || ''}</td>
                           <td>{row?.eventCategory || '—'}</td>
@@ -1228,6 +1229,7 @@ export default function ({
 
                         if (!cols) {
                           return (
+                            // eslint-disable-next-line react/no-array-index-key -- rows of the current page; they have no id of their own
                             <tr key={i}>
                               <td style={{ width: '70%' }}>
                                 {item.url ? (
@@ -1250,6 +1252,7 @@ export default function ({
                         }
 
                         return (
+                          // eslint-disable-next-line react/no-array-index-key -- rows of the current page; they have no id of their own
                           <tr key={i}>
                             {cols.map((c) => {
                               const raw = item?.[c.key];

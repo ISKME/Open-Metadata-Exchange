@@ -2,6 +2,19 @@ import {
   FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText,
 } from '@mui/material';
 
+function DropdownIcon(props) {
+  return (
+    <span
+      {...props}
+      style={{
+        color: 'ark.inputsTextColor', right: 10, top: 'calc(50% - 1em)', fontSize: 16,
+      }}
+    >
+      ⮟
+    </span>
+  );
+}
+
 export default function Dropdown({
   id = 'dropdown',
   label = '',
@@ -59,16 +72,7 @@ export default function Dropdown({
             ? (selected) => selected.join(', ')
             : (selected) => selected
         }
-        IconComponent={(props) => (
-          <span
-            {...props}
-            style={{
-              color: 'ark.inputsTextColor', right: 10, top: 'calc(50% - 1em)', fontSize: 16,
-            }}
-          >
-            ⮟
-          </span>
-        )}
+        IconComponent={DropdownIcon}
         sx={{
           bgcolor: 'ark.inputsBackgroundColor',
           color: 'ark.inputsTextColor',

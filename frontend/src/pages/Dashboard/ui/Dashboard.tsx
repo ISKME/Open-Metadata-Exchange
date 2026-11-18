@@ -38,12 +38,12 @@ import {
   Arrow,
   Map,
 } from 'components/Dashboard/icons';
-import styles from './Dashboard.styles';
-import cls from './Dashboard.module.scss';
 import { DateRange } from 'widgets/enum';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import Settings from 'pages/Ark/widgets/Settings';
 import { buildSectionChartData } from 'components/Dashboard/chartUtils';
+import cls from './Dashboard.module.scss';
+import styles from './Dashboard.styles';
 
 export function Dashboard() {
   const location = useLocation();

@@ -19,10 +19,10 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import IconButton from '@mui/material/IconButton';
 import { Search } from '@mui/icons-material';
-import cls from './OrgansUsers.module.scss';
 import Table from 'components/table';
 import req from 'shared/lib/req';
 import { OrgansUsersImport } from 'widgets/OrgansUsersImport';
+import cls from './OrgansUsers.module.scss';
 
 function jsonToReadableText(json) {
   function processValue(value) {

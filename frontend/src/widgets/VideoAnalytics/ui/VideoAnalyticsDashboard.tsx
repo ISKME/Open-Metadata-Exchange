@@ -212,6 +212,7 @@ function AudienceProgression({ data }) {
 
             return (
               <linearGradient
+                // eslint-disable-next-line react/no-array-index-key -- the funnel stages are fixed and always in this order
                 key={`stage-gradient-${index}`}
                 id={`stage-gradient-${index}`}
                 x1="0%"
@@ -257,6 +258,7 @@ function AudienceProgression({ data }) {
           ].join(' ');
 
           return (
+            // eslint-disable-next-line react/no-array-index-key -- the funnel stages are fixed and always in this order
             <g key={`${stage.label}-${index}`}>
               <path
                 d={path}

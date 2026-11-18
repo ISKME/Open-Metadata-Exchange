@@ -38,12 +38,12 @@ export default function ArkAbout() {
       <Typography paragraph className={cls.text} color="ark.mainFontColor">
         Do you know of orphaned resources or collections who are looking for a good home? Please drop us a line at
         {' '}
-        <a href="#">openforeducation@gmail.com</a>
+        <a href="mailto:openforeducation@gmail.com">openforeducation@gmail.com</a>
       </Typography>
       <Typography paragraph className={cls.text} color="ark.mainFontColor">
         Are you a metadata librarian, archivist, or developer interested in contributing to The Ark? Please email
         {' '}
-        <a href="#">openforeducation@gmail.com</a>
+        <a href="mailto:openforeducation@gmail.com">openforeducation@gmail.com</a>
       </Typography>
       <hr style={{ marginBottom: '32px' }} />
       <Typography paragraph className={cls.text} color="ark.mainFontColor">
@@ -54,10 +54,10 @@ export default function ArkAbout() {
       </Typography>
       <div className={cls.partnership}>
         {/* <img src="/static/ark/images/1.png" /> */}
-        <img src="/static/newdesign/images/ark/1.png" style={{ transform: 'scale(.85)' }} />
-        <img src="/static/newdesign/images/ark/2.png" />
-        <img src="/static/newdesign/images/ark/3.png" style={{ width: '217px', height: '75px', marginTop: '37px' }} />
-        <img src="/static/newdesign/images/ark/4.png" />
+        <img src="/static/newdesign/images/ark/1.png" alt="Partner logo" style={{ transform: 'scale(.85)' }} />
+        <img src="/static/newdesign/images/ark/2.png" alt="Partner logo" />
+        <img src="/static/newdesign/images/ark/3.png" alt="Partner logo" style={{ width: '217px', height: '75px', marginTop: '37px' }} />
+        <img src="/static/newdesign/images/ark/4.png" alt="Partner logo" />
       </div>
     </>
   );

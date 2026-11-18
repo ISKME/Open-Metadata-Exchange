@@ -1,6 +1,7 @@
 import { classNames } from 'shared/lib/classNames/classNames';
 import { Link } from 'react-router-dom';
 import { memo, useEffect, useState } from 'react';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './ShareItemCard.module.scss';
 
 interface ShareItemCardProps {
@@ -16,7 +17,7 @@ export const ShareItemCard = memo(({
   const [share, setShare] = useState<boolean>(collection.isShared);
 
   return (
-    <div className={classNames('', {}, [className])} onClick={() => console.log(collection.id)}>
+    <div role="presentation" className={classNames('', {}, [className])} onClick={() => console.log(collection.id)}>
       <li className={cls.item_card}>
         <div className={cls.item_img_wrapper}>
           <img src={collection.thumbnail} alt="" width="300" height="150" />
@@ -26,6 +27,10 @@ export const ShareItemCard = memo(({
           <div className={cls.action} style={{ cursor: 'pointer' }}>
             { !share && (
               <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={clickOnEnterOrSpace}
+                aria-label="Share collection"
                 className={cls.action_save}
                 style={{ background: 'white' }}
                 onClick={
@@ -42,6 +47,10 @@ export const ShareItemCard = memo(({
             ) }
             { share && (
               <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={clickOnEnterOrSpace}
+                aria-label="Stop sharing collection"
                 className={cls.action_save}
                 style={{ background: '#0052cc' }}
                 onClick={

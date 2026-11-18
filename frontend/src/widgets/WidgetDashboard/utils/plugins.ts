@@ -1,7 +1,7 @@
 import { Editor } from 'grapesjs';
 import { createElement } from 'react';
-import { homepageHeroBlocks } from './homepageHeroBlocks';
 import axios from 'axios';
+import { homepageHeroBlocks } from './homepageHeroBlocks';
 
 const createButton = (text: string, styles: object = {}) => {
   const button = document.createElement('button');

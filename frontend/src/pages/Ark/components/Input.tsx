@@ -3,8 +3,8 @@ import {
   IconButton, FormControl, InputLabel, OutlinedInput, InputAdornment,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import Icon from '../icons/Magnify';
 import { matomoTag } from 'pages/Case/ui/helper';
+import Icon from '../icons/Magnify';
 
 export default function SearchBar({
   value, onChange, onSearch, placeholder = 'Search', matomoAction = 'site search',

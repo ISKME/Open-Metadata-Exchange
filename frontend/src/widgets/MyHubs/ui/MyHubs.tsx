@@ -27,8 +27,8 @@ export function MyHubs() {
         <h1 style={{ font: '400 24px / 24px "DINPro", sans-serif', color: '#303e48', textTransform: 'capitalize' }}>My Hubs</h1>
       </div>
       <Grid container spacing={2} sx={{ padding: '0 10%' }}>
-        {hubs.map((item, index) => (
-          <Grid item md={3} xs={6} key={index}>
+        {hubs.map((item) => (
+          <Grid item md={3} xs={6} key={item.slug}>
             <div className={cls['hub-list-item']}>
               <a href={`/hubs/${item.slug}`}>
                 <div className={cls['hub-cover']}>

@@ -6,7 +6,6 @@ import { classNames } from 'shared/lib/classNames/classNames';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import cls from './Home.module.scss';
 import {
   Typography,
   Box,
@@ -17,13 +16,14 @@ import {
   colors,
   SvgIcon,
 } from '@mui/material';
-import {
-  BellIcon, ExploreSyncIcon, LightIcon, ManageIcon, MangnifyIcon, SetPreferencesIcon, ShareIcon, StayUpdatedIcon,
-} from './icons';
 import Dropdown from 'components/OERX/Dropdown';
 import { sxStyles } from 'shared/theme/styles';
 import { CollectionCard } from 'widgets/CollectionCard';
 import Select from 'components/OERX/Select';
+import {
+  BellIcon, ExploreSyncIcon, LightIcon, ManageIcon, MangnifyIcon, SetPreferencesIcon, ShareIcon, StayUpdatedIcon,
+} from './icons';
+import cls from './Home.module.scss';
 
 interface HomeProps {
   className?: string;

@@ -170,6 +170,7 @@ export function AllCollections() {
     return (
       <Grid container spacing={3}>
         {items.map((data, i) => (
+          // eslint-disable-next-line react/no-array-index-key -- the same collection can come back on two pages, so the id alone is not unique
           <Grid item xs={12} sm={6} md={3} key={`${data.id || i}-${i}`}>
             <CollectionItemCard collection={data} />
           </Grid>

@@ -12,10 +12,10 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Search from '@mui/icons-material/Search';
 import { ResourcesAll } from 'widgets/ResourcesAll';
-import cls from './Resources.module.scss';
 import { AlignWidget } from 'widgets/CasesAll/ui/Align';
 import { getSelectedItems } from 'widgets/Filters/lib';
 import { extractUrlParams } from 'shared/lib/global';
+import cls from './Resources.module.scss';
 import styles from './Resources.styles';
 
 let tempMaterials = [];

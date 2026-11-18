@@ -80,8 +80,8 @@ export function SharedUpdates({ className }: SharedUpdatesProps) {
         </div>
       </div>
       <div>
-        <a href="#">Expand All Updates</a>
-        <a href="#">Clear update notifications</a>
+        <button type="button">Expand All Updates</button>
+        <button type="button">Clear update notifications</button>
       </div>
       <div className={cls.row}>
         <Accordion elevation={1} className={cls.accordionRoot}>
