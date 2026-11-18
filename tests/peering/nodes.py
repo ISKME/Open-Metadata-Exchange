@@ -29,6 +29,13 @@ def wait_for[T](check: Callable[[], T | None], timeout: float) -> T | None:
         time.sleep(1)
 
 
+def _text(output: bytes | str | None) -> str:
+    """Partial output of a timed-out command: TimeoutExpired keeps it as bytes."""
+    if isinstance(output, bytes):
+        return output.decode(errors="replace")
+    return output or ""
+
+
 @dataclass(frozen=True)
 class PeeringNodes:
     """Run Docker Compose commands against the two peering nodes."""
@@ -43,14 +50,24 @@ class PeeringNodes:
         timeout: float = 60,
     ) -> subprocess.CompletedProcess[str]:
         command = [self.docker, "compose", "-f", str(COMPOSE_FILE), *args]
-        result = subprocess.run(  # noqa: S603 - fixed arguments, no shell
-            command,
-            input=input_text,
-            capture_output=True,
-            text=True,
-            check=False,
-            timeout=timeout,
-        )
+        try:
+            result = subprocess.run(  # noqa: S603 - fixed arguments, no shell
+                command,
+                input=input_text,
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=timeout,
+            )
+        except subprocess.TimeoutExpired as error:
+            # A hanging command counts as a failed attempt, so wait_for keeps
+            # waiting and the normal failure message with the logs still shows up.
+            result = subprocess.CompletedProcess(
+                command,
+                returncode=124,  # exit code of timeout(1)
+                stdout=_text(error.stdout),
+                stderr=f"{_text(error.stderr)}Timed out after {timeout} s\n",
+            )
         if check and result.returncode != 0:
             pytest.fail(
                 f"Command failed with exit code {result.returncode}: "
