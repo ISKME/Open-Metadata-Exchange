@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import {
   Alert,
   Autocomplete,
+  AutocompleteRenderInputParams,
   Box,
   Button,
   CircularProgress,
@@ -439,10 +440,10 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
     setSearchParams(nextParams);
   };
 
-  const renderLoadingAdornment = (params) => (
+  const renderLoadingAdornment = (params: AutocompleteRenderInputParams) => (
     <>
       {isLoading ? <CircularProgress size={20} /> : null}
-      {params.InputProps.endAdornment}
+      {params.slotProps.input.endAdornment}
     </>
   );
 
