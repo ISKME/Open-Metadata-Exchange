@@ -39,7 +39,7 @@ export function Reports() {
     <Box sx={styles.box}>
       <GlobalStyles styles={styles.global} />
       <Grid container spacing={2} sx={styles.container}>
-        <Grid item xs={3}>
+        <Grid size={3}>
           <Paper elevation={0} sx={styles.paper}>
             <MenuList>
               {menuItems.map((item, index) => (
@@ -56,7 +56,7 @@ export function Reports() {
             </MenuList>
           </Paper>
         </Grid>
-        <Grid item xs={9}>
+        <Grid size={9}>
           <SelectedComponent {...selectedData} />
         </Grid>
       </Grid>

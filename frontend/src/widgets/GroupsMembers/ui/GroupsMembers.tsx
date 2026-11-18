@@ -421,19 +421,21 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
             sx={{ width: '300px', backgroundColor: 'white', '& input': { height: '30px' } }}
             value={searchQuery}
             onChange={handleSearchChange}
-            InputProps={{
-              endAdornment: searchQuery && (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => {
-                    setSearchQuery('');
-                    setMembers(originalMembers);
-                    setPendingMembers(originalPendingMembers);
-                  }}
-                  >
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
+            slotProps={{
+              input: {
+                endAdornment: searchQuery && (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => {
+                      setSearchQuery('');
+                      setMembers(originalMembers);
+                      setPendingMembers(originalPendingMembers);
+                    }}
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
             }}
           />
         </Paper>

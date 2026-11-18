@@ -181,10 +181,20 @@ export default function AllCollections() {
     if (notFound) {
       return (
         <Box sx={{ textAlign: 'center', mt: 8 }}>
-          <Typography variant="h6" color="text.secondary">
+          <Typography
+            variant="h6"
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
             No results found.
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
             Try adjusting your search or filter to find what you are looking for.
           </Typography>
         </Box>

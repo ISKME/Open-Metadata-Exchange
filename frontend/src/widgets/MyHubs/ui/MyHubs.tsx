@@ -28,7 +28,13 @@ export function MyHubs() {
       </div>
       <Grid container spacing={2} sx={{ padding: '0 10%' }}>
         {hubs.map((item) => (
-          <Grid item md={3} xs={6} key={item.slug}>
+          <Grid
+            key={item.slug}
+            size={{
+              md: 3,
+              xs: 6,
+            }}
+          >
             <div className={cls['hub-list-item']}>
               <a href={`/hubs/${item.slug}`}>
                 <div className={cls['hub-cover']}>

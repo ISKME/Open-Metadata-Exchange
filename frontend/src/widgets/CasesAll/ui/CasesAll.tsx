@@ -349,7 +349,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
 
   return (
     <Grid container spacing={2} sx={{ padding: '24px 10%' }} className={cls.cases}>
-      <Grid item xs={4} sx={{ paddingRight: '32px' }}>
+      <Grid sx={{ paddingRight: '32px' }} size={4}>
         {titles && (
           <Typography className={cls['page-subtitle']}>
             Filter Cases
@@ -434,7 +434,7 @@ export function CasesAll({ titles = '', URL = '/api/search/v2/browse/', exportUr
           <a href="/react/advanced-search">Advanced Search</a>
         </Typography>
       </Grid>
-      <Grid item xs={8}>
+      <Grid size={8}>
         <CasesList
           data={cases}
           sorts={sorts}

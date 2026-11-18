@@ -501,7 +501,16 @@ export default function ArkOverview() {
         >
           <Box sx={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
             <Button variant="text" onClick={() => navigate(-1)} sx={{ mb: 2 }}>⬅ Back</Button>
-            <Typography variant="h4" gutterBottom sx={{ flex: 1 }} color="ark.mainFontColor">{title}</Typography>
+            <Typography
+              variant="h4"
+              gutterBottom
+              sx={{
+                color: 'ark.mainFontColor',
+                flex: 1,
+              }}
+            >
+              {title}
+            </Typography>
           </Box>
           <Box sx={{
             display: 'flex', flexDirection: small ? 'column' : 'row', width: '100%', gap: '32px',
@@ -554,9 +563,12 @@ export default function ArkOverview() {
             {!!downloads?.length && <DownloadList data={downloads} canEdit={canEdit} editURL={editURL} />}
             <Typography
               sx={{
-                mb: 2, fontSize: '24px', fontWeight: 600, textAlign: 'center',
+                color: 'ark.mainFontColor',
+                mb: 2,
+                fontSize: '24px',
+                fontWeight: 600,
+                textAlign: 'center',
               }}
-              color="ark.mainFontColor"
             >
               Table of contents
             </Typography>

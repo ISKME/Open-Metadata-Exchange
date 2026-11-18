@@ -276,19 +276,21 @@ export const TableEdit = ({
             value={searchValue}
             onChange={handleSearchChange}
             sx={{ marginRight: '10px', width: '300px' }}
-            InputProps={{
-              endAdornment: searchValue && (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => {
-                      setSearchValue('');
-                      setDisplayedRows(rows);
-                    }}
-                  >
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
+            slotProps={{
+              input: {
+                endAdornment: searchValue && (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => {
+                        setSearchValue('');
+                        setDisplayedRows(rows);
+                      }}
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
             }}
           />
           <Button
@@ -400,7 +402,10 @@ export const TableEdit = ({
             margin="normal"
             multiline
           />
-          <Box mt={2}>
+          <Box sx={{
+            mt: 2,
+          }}
+          >
             <h4>Group Leader(s)*</h4>
             <Box className={cls.leadersList}>
               {leaders.map((leader) => (
@@ -421,7 +426,14 @@ export const TableEdit = ({
             <Link href={groupID ? `/groups/new/${groupID}?settings=true` : '/groups/new/?create'} rel="noopener">
               Open in Edit Mode
             </Link>
-            <Box mt={3} display="flex" justifyContent="flex-end" gap={1}>
+            <Box
+              sx={{
+                mt: 3,
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: 1,
+              }}
+            >
               <Button onClick={handleCloseModal} className={cls.cancelButton}>
                 Cancel
               </Button>
