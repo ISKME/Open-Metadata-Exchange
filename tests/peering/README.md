@@ -18,6 +18,7 @@ entrypoint, peers in `config.json`) without the API or the frontend.
 | `node-b.json` | Config of node-b: its own name, and node-a as its peer |
 | `conftest.py` | pytest fixture: starts both nodes, waits for INN, creates `ome.test`, always cleans up |
 | `nodes.py` | Helpers that run `ctlinnd`, `inews`, `grephistory` and `sm` in a node with `docker compose exec` |
+| `test_restart.py` | Stops node-b cleanly and kills it hard, and checks that it starts again with its articles |
 | `test_round_trip.py` | Posts an article on one node and checks that it arrives on the other, both ways |
 
 Each config is mounted as a Docker secret in `/run/secrets/`, and `OME_CONFIG` tells the
