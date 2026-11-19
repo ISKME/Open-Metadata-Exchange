@@ -21,7 +21,7 @@ import {
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import * as qstring from 'query-string';
+import qstring from 'query-string';
 import { sxStyles } from 'shared/theme/styles';
 import { CollectionItemCard } from 'pages/AllCollections/widgets/Collection';
 

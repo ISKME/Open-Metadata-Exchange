@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react';
 import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
-import * as qs from 'query-string';
+import qs from 'query-string';
 import { styled } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import Typography from '@mui/material/Typography';
