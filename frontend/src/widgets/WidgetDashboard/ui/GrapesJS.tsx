@@ -7,13 +7,13 @@ import GjsEditor, {
   ModalProvider,
 } from '@grapesjs/react';
 import { ThemeProvider } from '@mui/material/styles';
+import type { StorageManagerConfig } from 'grapesjs';
 import { MAIN_BORDER_COLOR } from './components/common';
 import CustomModal from './components/CustomModal';
 import CustomAssetManager from './components/CustomAssetManager';
 import Topbar from './components/Topbar';
 import RightSidebar from './components/RightSidebar';
 import './WidgetDashboard.module.scss';
-import type { StorageManagerConfig } from 'grapesjs';
 
 import { customPlugins } from '../utils/plugins';
 import { homepageHeroBlocks } from '../utils/homepageHeroBlocks';

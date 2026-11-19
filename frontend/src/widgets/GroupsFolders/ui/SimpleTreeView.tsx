@@ -2,6 +2,7 @@
 
 // @ts-nocheck
 import * as React from 'react';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './GroupsFolders.module.scss';
 import CloseFolderSvg from '../../../app/image/closeFolder.svg';
 import OpenFolderSvg from '../../../app/image/openFolder.svg';
@@ -71,9 +72,12 @@ export function SimpleTreeView({
     <div>
       <div className={cls.foldersHeader}>
         <div className={cls.foldersTitle}>Folders</div>
-        <div onClick={() => handleAddSubfolder(groupId, true)} className={cls.primary}>+ New Folder</div>
+        <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => handleAddSubfolder(groupId, true)} className={cls.primary}>+ New Folder</div>
       </div>
       <div
+        role="button"
+        tabIndex={0}
+        onKeyDown={clickOnEnterOrSpace}
         onClick={() => {
           setSelectedFolder(null);
           setSubSelected(null);
@@ -85,6 +89,7 @@ export function SimpleTreeView({
       <div className={cls.folders}>
         {folders.map((folder) => (
           <div
+            role="presentation"
             key={folder.id}
             className={cls.foldersItem}
             onClick={() => handleFolderClick(folder.id, folder.is_default)}
@@ -92,7 +97,7 @@ export function SimpleTreeView({
             <div
               className={`${cls.foldersItem1} ${folderStateClass(folder.id)}`}
             >
-              <div className={`${cls.foldersItem2} ${folder.subfolders && folder.subfolders.length > 0 ? '' : cls.arrowSpace}`}>
+              <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={`${cls.foldersItem2} ${folder.subfolders && folder.subfolders.length > 0 ? '' : cls.arrowSpace}`}>
                 {folder.subfolders && folder.subfolders.length > 0 && (
                   <span>
                     {folder.id !== selectedFolder ? (
@@ -124,12 +129,12 @@ export function SimpleTreeView({
               <div className={cls.svgWrapper}>
                 <ThreePointSvg className={cls.svg} />
                 <div className={cls.dropdown}>
-                  <div onClick={() => handleAddSubfolder(folder.id)}>Add Subfolder</div>
+                  <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => handleAddSubfolder(folder.id)}>Add Subfolder</div>
                   {
-                    !folder.is_default && <div onClick={() => handleDelete(folder.id, false)}>Delete</div>
+                    !folder.is_default && <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => handleDelete(folder.id, false)}>Delete</div>
                   }
                   {
-                    !folder.is_default && <div onClick={() => handleRename(folder.id, folder.title, false)}>Rename</div>
+                    !folder.is_default && <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => handleRename(folder.id, folder.title, false)}>Rename</div>
                   }
                 </div>
               </div>
@@ -138,9 +143,9 @@ export function SimpleTreeView({
             {selectedFolder === folder.id && (
               <div>
                 {folder.subfolders.map((subfolder) => (
-                  <div key={subfolder.id} className={`${cls.foldersItem} ${cls.subFolders}`} onClick={(e) => { e.stopPropagation(); handleSubfolderClick(subfolder.id); }}>
+                  <div role="presentation" key={subfolder.id} className={`${cls.foldersItem} ${cls.subFolders}`} onClick={(e) => { e.stopPropagation(); handleSubfolderClick(subfolder.id); }}>
                     <div className={`${cls.foldersItem1} ${subfolder.id === subSelected ? cls.selected : ''}`}>
-                      <div className={cls.foldersItem2}>
+                      <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls.foldersItem2}>
                         {subfolder.id !== subSelected ? (
                           <CloseFolderSvg />
                         ) : (
@@ -157,8 +162,8 @@ export function SimpleTreeView({
                       <div className={cls.svgWrapper}>
                         <ThreePointSvg className={cls.svg} />
                         <div className={cls.dropdown}>
-                          <div onClick={() => handleRename(`${folder.id}_${subfolder.id}`, subfolder.title, true)}>Rename</div>
-                          <div onClick={() => handleDelete(`${folder.id}_${subfolder.id}`, true)}>Delete</div>
+                          <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => handleRename(`${folder.id}_${subfolder.id}`, subfolder.title, true)}>Rename</div>
+                          <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => handleDelete(`${folder.id}_${subfolder.id}`, true)}>Delete</div>
                         </div>
                       </div>
                     </div>

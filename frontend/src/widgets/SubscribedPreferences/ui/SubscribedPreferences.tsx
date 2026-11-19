@@ -1,5 +1,4 @@
 // @ts-ignore
-import cls from './SubscribedPreferences.module.scss';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -8,6 +7,7 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { classes } from 'pages/OERX/styles';
+import cls from './SubscribedPreferences.module.scss';
 
 const styles = {
   appContainer: (theme) => ({
@@ -123,7 +123,13 @@ function HelpOutlineIcon(props) {
 
 function CheckboxItem({ label, checked }) {
   return (
-    <Box display="flex" alignItems="center" marginBottom={1}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: 1,
+      }}
+    >
       <FormControlLabel
         control={(
           <Checkbox
@@ -249,36 +255,51 @@ export const SubscribedPreferences = ({ className }: SubscribedContentProps) => 
           {sections.map((section) => (
             <MetadataSection n={stats[section.name]} title={section.name}>
               <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6,
+                  }}
+                >
                   <Typography variant="subtitle1" sx={styles.sectionSubheading}>
                     OER Exchange
                     {' '}
                     {section.name}
                   </Typography>
+                  {/* eslint-disable-next-line eqeqeq -- the mapping values from the API are compared as they are; === could stop matching when one side is a number */}
                   {Object.entries(section.mapping).sort((a) => !section.metadata.find(({ name }) => name == a[1][0]) && -1).map((item) => (
                     <Typography sx={{ height: '64px' }}>{item[0]}</Typography>
                   ))}
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    md: 6,
+                  }}
+                >
                   <Typography variant="subtitle1" sx={styles.sectionSubheading}>
                     Your
                     {' '}
                     {section.name}
                   </Typography>
+                  {/* eslint-disable-next-line eqeqeq -- the mapping values from the API are compared as they are; === could stop matching when one side is a number */}
                   {Object.entries(section.mapping).sort((a) => !section.metadata.find(({ name }) => name == a[1][0]) && -1).map((item) => (
                     <Autocomplete
                       disablePortal
                       disableClearable
                       options={section.metadata}
+                      // eslint-disable-next-line eqeqeq -- the mapping values from the API are compared as they are; === could stop matching when one side is a number
                       defaultValue={section.metadata.find(({ name }) => name == item[1][0])}
                       getOptionLabel={(option: any) => option.name}
                       sx={{
                         width: 300,
                         height: '64px',
                         '& .MuiOutlinedInput-notchedOutline': {
+                          // eslint-disable-next-line eqeqeq -- the mapping values from the API are compared as they are; === could stop matching when one side is a number
                           border: `1px solid ${section.metadata.find(({ name }) => name == item[1][0]) ? 'var(--primary-color)' : 'red'} !important`,
                         },
                       }}
+                      // eslint-disable-next-line eqeqeq -- the mapping values from the API are compared as they are; === could stop matching when one side is a number
                       renderInput={(params) => <TextField {...params} label={section.metadata.find(({ name }) => name == item[1][0]) ? item[0] : `Select ${section.name}`} />}
                       onChange={(_e, selected) => {
                         const temp = changes;

@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { classNames } from 'shared/lib/classNames/classNames';
 import SearchIcon from 'shared/assets/icons/search.svg';
-import cls from './SearchBar.module.scss';
 import { memo, useEffect, useRef } from 'react';
+import cls from './SearchBar.module.scss';
 
 interface SearchBarProps {
     className?: string;

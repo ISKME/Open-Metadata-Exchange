@@ -142,7 +142,7 @@ export function AdvancedSearchGlobal() {
           </div>
           <div className="top-action-buttons col-sm-4 col-md-3">
             <input type="button" className="btn btn-default" value="Search" onClick={submitSearch} />
-            <a href="#" className="btn btn-link js-reset-form" onClick={handlers.clear}>Clear</a>
+            <button type="button" className="btn btn-link js-reset-form" onClick={handlers.clear}>Clear</button>
           </div>
         </div>
         <div className="row">
@@ -179,7 +179,7 @@ export function AdvancedSearchGlobal() {
         </div>
         <div style={{ marginBottom: '30px' }}>
           <input type="button" className="btn btn-default" value="Search" onClick={submitSearch} />
-          <a href="#" className="btn btn-link js-reset-form" onClick={handlers.clear}>Clear</a>
+          <button type="button" className="btn btn-link js-reset-form" onClick={handlers.clear}>Clear</button>
         </div>
       </form>
     </div>

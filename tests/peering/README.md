@@ -131,7 +131,5 @@ The test proves that articles arrive in both directions between two configured p
 does not test that unknown hosts are refused. In a deployment that is done by `incoming.conf`
 (a peer is recognised by the IP of its `dns_name` or its `incoming_ip`) and the host firewall.
 
-## What this test does not cover
-
 The containers talk directly inside one Docker network. Firewalls, published ports, the real
-source IP behind NAT and DNS on the internet are tested on staging, not here.
+source IP behind NAT and DNS on the internet need a real deployment to test.

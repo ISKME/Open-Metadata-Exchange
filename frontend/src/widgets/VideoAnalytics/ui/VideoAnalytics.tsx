@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import {
   Alert,
   Autocomplete,
+  AutocompleteRenderInputParams,
   Box,
   Button,
   CircularProgress,
@@ -439,16 +440,16 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
     setSearchParams(nextParams);
   };
 
-  const renderLoadingAdornment = (params) => (
+  const renderLoadingAdornment = (params: AutocompleteRenderInputParams) => (
     <>
       {isLoading ? <CircularProgress size={20} /> : null}
-      {params.InputProps.endAdornment}
+      {params.slotProps.input.endAdornment}
     </>
   );
 
   const renderOrganizationFilters = () => (
     <Grid container spacing={2}>
-      <Grid item xs={4}>
+      <Grid size={4}>
         <Autocomplete
           multiple
           id="video-analytics-users"
@@ -468,16 +469,20 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
             <TextField
               {...params}
               label="Users"
-              InputProps={{
-                ...params.InputProps,
-                type: 'search',
-                endAdornment: renderLoadingAdornment(params),
+              slotProps={{
+                ...params.slotProps,
+
+                input: {
+                  ...params.slotProps.input,
+                  type: 'search',
+                  endAdornment: renderLoadingAdornment(params),
+                },
               }}
             />
           )}
         />
       </Grid>
-      <Grid item xs={4}>
+      <Grid size={4}>
         <FormControl size="small" sx={{ width: '100%' }}>
           <InputLabel className={sharedStyles.formInputLabel}>User Type</InputLabel>
           <Select
@@ -495,7 +500,7 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={4}>
+      <Grid size={4}>
         <Autocomplete
           id="video-analytics-group"
           options={groups}
@@ -507,10 +512,14 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
             <TextField
               {...params}
               label="Groups"
-              InputProps={{
-                ...params.InputProps,
-                type: 'search',
-                endAdornment: renderLoadingAdornment(params),
+              slotProps={{
+                ...params.slotProps,
+
+                input: {
+                  ...params.slotProps.input,
+                  type: 'search',
+                  endAdornment: renderLoadingAdornment(params),
+                },
               }}
             />
           )}
@@ -521,7 +530,13 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
 
   const renderReportsFilters = () => (
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={6} md={2.4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 6,
+          md: 2.4,
+        }}
+      >
         <Autocomplete
           id="video-analytics-organization"
           options={organizations}
@@ -533,21 +548,31 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
             <TextField
               {...params}
               label="Organizations"
-              InputProps={{
-                ...params.InputProps,
-                type: 'search',
-                endAdornment: (
-                  <>
-                    {isOrganizationsLoading ? <CircularProgress size={20} /> : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
+              slotProps={{
+                ...params.slotProps,
+
+                input: {
+                  ...params.slotProps.input,
+                  type: 'search',
+                  endAdornment: (
+                    <>
+                      {isOrganizationsLoading ? <CircularProgress size={20} /> : null}
+                      {params.slotProps.input.endAdornment}
+                    </>
+                  ),
+                },
               }}
             />
           )}
         />
       </Grid>
-      <Grid item xs={12} sm={6} md={2.4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 6,
+          md: 2.4,
+        }}
+      >
         <Autocomplete
           id="video-analytics-group"
           options={groups}
@@ -559,16 +584,26 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
             <TextField
               {...params}
               label="Groups"
-              InputProps={{
-                ...params.InputProps,
-                type: 'search',
-                endAdornment: renderLoadingAdornment(params),
+              slotProps={{
+                ...params.slotProps,
+
+                input: {
+                  ...params.slotProps.input,
+                  type: 'search',
+                  endAdornment: renderLoadingAdornment(params),
+                },
               }}
             />
           )}
         />
       </Grid>
-      <Grid item xs={12} sm={6} md={2.4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 6,
+          md: 2.4,
+        }}
+      >
         <FormControl size="small" sx={{ width: '100%' }}>
           <InputLabel className={sharedStyles.formInputLabel}>User Type</InputLabel>
           <Select
@@ -586,7 +621,13 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={12} sm={6} md={2.4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 6,
+          md: 2.4,
+        }}
+      >
         <FormControl size="small" sx={{ width: '100%' }}>
           <InputLabel className={sharedStyles.formInputLabel}>User Is Active</InputLabel>
           <Select
@@ -709,14 +750,22 @@ export function VideoAnalytics({ organizationId }: VideoAnalyticsProps) {
               }}
             >
               <div>
-                <Typography color="text.secondary">
+                <Typography sx={{
+                  color: 'text.secondary',
+                }}
+                >
                   {report.data.meta.sourceLabel}
                   {' · '}
                   {report.data.meta.periodLabel}
                   {' · '}
                   {report.data.meta.timezone || 'UTC'}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: 'text.secondary',
+                  }}
+                >
                   A dash (—) means data is unavailable, not zero. Media measurements may have partial coverage.
                 </Typography>
               </div>

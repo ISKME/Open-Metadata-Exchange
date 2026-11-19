@@ -23,8 +23,8 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import api from './api/axios';
 import qs from 'qs';
+import api from './api/axios';
 import { CollectionItemCard } from './widgets/Collection';
 import { Filter } from './widgets/Filter';
 import Dropdown from './components/Dropdown';
@@ -181,10 +181,20 @@ export default function AllCollections() {
     if (notFound) {
       return (
         <Box sx={{ textAlign: 'center', mt: 8 }}>
-          <Typography variant="h6" color="text.secondary">
+          <Typography
+            variant="h6"
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
             No results found.
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
             Try adjusting your search or filter to find what you are looking for.
           </Typography>
         </Box>
@@ -199,6 +209,7 @@ export default function AllCollections() {
         }}
       >
         {collections.map((data, i) => (
+          // eslint-disable-next-line react/no-array-index-key -- the same collection can come back on two pages, so the id alone is not unique
           <CollectionItemCard key={`${data.id}-${i}`} collection={data} />
         ))}
       </Box>

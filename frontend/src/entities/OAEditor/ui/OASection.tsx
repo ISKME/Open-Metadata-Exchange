@@ -67,7 +67,7 @@ export function OASection({
           // Once section is created, use it to create attachment.
           resolve({ submitURL: data.attachment_create_url, submitMethod: 'post' });
         }).catch((e) => {
-          reject('An error occurred during the creation of a Resource. Please, try later.');
+          reject(new Error('An error occurred during the creation of a Resource. Please, try later.'));
           console.error(e);
         });
       }
@@ -119,6 +119,7 @@ export function OASection({
       </div>
       <div className="task-preview">
         <h1 className="lesson-task-title">
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid -- focusable and works with Enter; the lesson editor CSS styles this header as a link */}
           <a href="#" onClick={toggleOpened}>
             <i className="fa fa-chevron-down">&nbsp;</i>
             <i className="fa fa-chevron-up">&nbsp;</i>
@@ -164,6 +165,7 @@ export function OASection({
                   </span>
                 </h2>
                 <div className="related-resources-forms-ct">
+                  {/* eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching */}
                   {attachments.map((attachment) => ((!editableAttachment || editableAttachment.id == attachment.id)
                       && (
                         <RelatedResourceWidget

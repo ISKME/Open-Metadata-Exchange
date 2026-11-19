@@ -12,6 +12,7 @@ import {
   Switch,
 } from '@mui/material';
 
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import styles from './WidgetDashboard.module.scss';
 import { generateDefaultContent } from '../constants';
 
@@ -304,6 +305,9 @@ export const WidgetDashboard: React.FC = () => {
                       </div>
                     ) : (
                       <div
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={clickOnEnterOrSpace}
                         className={styles.pageName}
                         onClick={() => {
                           setEditingPageId(page.id);
@@ -394,6 +398,9 @@ export const WidgetDashboard: React.FC = () => {
                 />
               ) : (
                 <div
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={clickOnEnterOrSpace}
                   className={styles.editImageName}
                   onClick={() => {
                     setEditingImageId(image.id);

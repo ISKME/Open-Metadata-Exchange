@@ -11,15 +11,15 @@ export const ImageTitleContainer = ({
       <div className={`thumbnail-uploaded-image-ct ${image ? '' : 'hidden'}`}>
         <p className="thumbnail-placeholder-text">Title image</p>
         <div className="thumbnail-image-widget-cover">
-          <img src={image} />
+          <img src={image} alt="Resource thumbnail" />
           <i className="thumbnail-image-widget-cover-spinner fa fa-spinner fa-spin fa-3x fa-fw" />
         </div>
         <div className="thumbnail-controls">
           <div className="js-clear">
-            <label htmlFor="image-clear_id" className="thumbnail-controls-label" onClick={() => { removeImage(); }}>
+            <label htmlFor="image-clear_id" className="thumbnail-controls-label">
               <i className="fa fa-times-circle" />
               <p className="thumbnail-controls-text">Remove</p>
-              <input type="checkbox" name="image-clear" id="image-clear_id" />
+              <input type="checkbox" name="image-clear" id="image-clear_id" onChange={() => { removeImage(); }} />
             </label>
             <label htmlFor="id_image" className="thumbnail-controls-label">
               <i className="fa fa-image" />
@@ -50,11 +50,12 @@ export const ImagePreviewContainer = ({
     </div>
     {image && (
       <div className="clear">
-        <input type="checkbox" name="image-clear" id="image-clear_id" />
-        <label htmlFor="image-clear_id" onClick={removeImage}>x</label>
+        <input type="checkbox" name="image-clear" id="image-clear_id" onChange={removeImage} />
+        <label htmlFor="image-clear_id">x</label>
       </div>
     )}
     <label htmlFor="id_image" style={{ fontWeight: 500 }}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid -- only styling: the label around it opens the file picker */}
       <a className="change"><span>Change Image</span></a>
     </label>
     <input id="id_image" type="file" name="image" accept=".png,.jpg,.jpeg,.gif,.svg" className="hidden" onChange={onImageChange} ref={fileInputRef} />

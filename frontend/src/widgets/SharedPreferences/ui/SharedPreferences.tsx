@@ -1,10 +1,10 @@
 // @ts-ignore
-import cls from './SharedPreferences.module.scss';
 import { classes } from 'pages/OERX/styles';
 import {
   Box, FormControlLabel, Checkbox, Typography, Tooltip, SvgIcon, Accordion, AccordionSummary, AccordionDetails,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import cls from './SharedPreferences.module.scss';
 
 const styles = {
   appContainer: (theme) => ({
@@ -118,7 +118,13 @@ function HelpOutlineIcon(props) {
 
 function CheckboxItem({ label, checked }) {
   return (
-    <Box display="flex" alignItems="center" marginBottom={1}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: 1,
+      }}
+    >
       <FormControlLabel
         control={(
           <Checkbox

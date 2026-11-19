@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { PagesResultProps } from '@grapesjs/react';
-import { BTN_CLS, MAIN_BORDER_COLOR, cx } from './common';
 import Icon from '@mdi/react';
 import { mdiDelete } from '@mdi/js';
+import { BTN_CLS, MAIN_BORDER_COLOR, cx } from './common';
 
 export default function CustomPageManager({
   pages,

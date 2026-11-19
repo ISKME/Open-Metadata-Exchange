@@ -3,8 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { setupStore } from 'app/providers/StoreProvider/config/store';
-import App from './app/App';
 import { RECAPTCHA_PUBLIC_KEY } from 'shared/config/recaptcha';
+import App from './app/App';
 
 const store = setupStore();
 

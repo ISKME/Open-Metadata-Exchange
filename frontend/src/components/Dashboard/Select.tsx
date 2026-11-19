@@ -31,15 +31,19 @@ export default function ({
               border: 'none !important',
             },
           }}
-          InputProps={{
-            ...params.InputProps,
-            type: 'search',
-            endAdornment: (
-              <>
-                {loading ? <CircularProgress size={20} aria-label="Loading options" /> : null}
-                {params.InputProps.endAdornment}
-              </>
-            ),
+          slotProps={{
+            ...params.slotProps,
+
+            input: {
+              ...params.slotProps.input,
+              type: 'search',
+              endAdornment: (
+                <>
+                  {loading ? <CircularProgress size={20} aria-label="Loading options" /> : null}
+                  {params.slotProps.input.endAdornment}
+                </>
+              ),
+            },
           }}
         />
       )}
