@@ -53,7 +53,7 @@
     "jest-environment-jsdom": "^30.5.2",
     "json-server": "^0.17.4",
     "mini-css-extract-plugin": "^2.10.2",
-    "sass": "^1.108.1",
+    "sass": "^1.108.2",
     "sass-loader": "^17.1.0",
     "style-loader": "^4.0.0",
     "stylelint": "^17.16.0",
@@ -62,7 +62,7 @@
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.72.1",
+    "typescript-eslint": "^8.72.2",
     "webpack": "^5.112.2",
     "webpack-cli": "^7.3.1",
     "webpack-dev-server": "^6.1.0"
