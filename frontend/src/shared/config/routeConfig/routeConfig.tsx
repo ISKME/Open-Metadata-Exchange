@@ -23,18 +23,6 @@ import { Group } from 'pages/Group';
 import { Case } from 'pages/Case';
 import { Lti } from 'pages/Lti';
 import { My } from 'pages/My';
-import { LibraryContent } from '../../../widgets/LibraryContent';
-import { MyAccount } from '../../../widgets/MyAccount';
-import { MyOrganizations } from '../../../widgets/MyOrganizations';
-import { MyItems } from '../../../widgets/MyItems';
-import { SharedContent } from '../../../widgets/SharedContent';
-import { SubscribedContent } from '../../../widgets/SubscribedContent';
-import { AdvancedSearch } from '../../../pages/AdvancedSearch';
-import { AdvancedSearchGlobal } from '../../../pages/AdvancedSearchGlobal';
-import { AllCollections } from '../../../pages/AllCollections';
-import { CollectionDetails } from '../../../pages/CollectionDetails/ui/CollectionDetails';
-import { Asset } from '../../../pages/Asset';
-import { WidgetDashboard } from '../../../widgets/WidgetDashboard';
 import GrapesEditorComponent from 'widgets/WidgetDashboard/ui/GrapesJS';
 import { MySettings } from 'widgets/MySettings';
 import { MyGroups } from 'widgets/MyGroups';
@@ -49,6 +37,18 @@ import ArkCourse from 'pages/Ark/Course';
 import ArkCollections from 'pages/Ark/Browse';
 import ArkCollection from 'pages/Ark/Collection';
 import IMLSThemeProvider from 'shared/theme/IMLSThemeProvider';
+import { WidgetDashboard } from '../../../widgets/WidgetDashboard';
+import { Asset } from '../../../pages/Asset';
+import { CollectionDetails } from '../../../pages/CollectionDetails/ui/CollectionDetails';
+import { AllCollections } from '../../../pages/AllCollections';
+import { AdvancedSearchGlobal } from '../../../pages/AdvancedSearchGlobal';
+import { AdvancedSearch } from '../../../pages/AdvancedSearch';
+import { SubscribedContent } from '../../../widgets/SubscribedContent';
+import { SharedContent } from '../../../widgets/SharedContent';
+import { MyItems } from '../../../widgets/MyItems';
+import { MyOrganizations } from '../../../widgets/MyOrganizations';
+import { MyAccount } from '../../../widgets/MyAccount';
+import { LibraryContent } from '../../../widgets/LibraryContent';
 
 export enum AppRoutes {
   HOME = 'home',

@@ -1,5 +1,4 @@
 // @ts-nocheck
-import api from './api/axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {
@@ -19,6 +18,7 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import HistoryIcon from '@mui/icons-material/History';
 import RemixIcon from '@mui/icons-material/Autorenew';
+import api from './api/axios';
 import Loader from './icons/Loader';
 
 const normalizeText = (s?: string) => {
@@ -47,9 +47,11 @@ function StarRating({ rate }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       {[...Array(full)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
         <StarIcon color="success" key={i} />
       ))}
       {[...Array(empty)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
         <StarBorderIcon color="disabled" key={i} />
       ))}
     </Box>
@@ -75,14 +77,31 @@ function HistoryModal({ open, onClose, history }) {
         </Typography>
 
         {!history?.length && (
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'text.secondary',
+              mb: 2,
+            }}
+          >
             No history available.
           </Typography>
         )}
 
         {history?.map((item, idx) => (
-          <Box key={idx} mb={2}>
-            <Typography variant="body2" color="text.secondary">
+          <Box
+            // eslint-disable-next-line react/no-array-index-key -- the history is only shown, in the order of the API
+            key={idx}
+            sx={{
+              mb: 2,
+            }}
+          >
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               {item?.change_type ? <b>{item.change_type}</b> : <b>update</b>}
               {' '}
               {item?.date
@@ -337,9 +356,21 @@ export default function ArkCourse() {
             {title}
           </Typography>
 
-          <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              alignItems: 'center',
+              mb: 1,
+            }}
+          >
             <StarRating rate={rate} />
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               (
               {rate || 0}
               )
@@ -347,7 +378,13 @@ export default function ArkCourse() {
           </Stack>
 
           {!!update && (
-            <Typography variant="body2" color="text.secondary" mb={1}>
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.secondary',
+                mb: 1,
+              }}
+            >
               Updated
               {' '}
               {update}
@@ -357,8 +394,10 @@ export default function ArkCourse() {
           <Stack
             direction="row"
             spacing={2}
-            mb={2}
-            sx={{ alignItems: 'center' }}
+            sx={{
+              mb: 2,
+              alignItems: 'center',
+            }}
           >
             <Typography variant="body2">
               {visits}
@@ -377,7 +416,13 @@ export default function ArkCourse() {
             </Typography>
           </Stack>
 
-          <Stack direction="row" spacing={2} flexWrap="wrap">
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{
+              flexWrap: 'wrap',
+            }}
+          >
             {canEdit && !!editURL && (
               <Button
                 variant="contained"
@@ -403,29 +448,54 @@ export default function ArkCourse() {
       </Card>
 
       {/* DETAILS ONLY (without View Resource) */}
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} mb={2}>
-        <Box flex={1}>
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        spacing={2}
+        sx={{
+          mb: 2,
+        }}
+      >
+        <Box sx={{
+          flex: 1,
+        }}
+        >
           <Typography
             variant="h2"
-            color="ark.mainFontColor"
             gutterBottom
-            sx={{ fontSize: '28px' }}
+            sx={{
+              color: 'ark.mainFontColor',
+              fontSize: '28px',
+            }}
           >
             Description
           </Typography>
 
-          <Typography variant="body1" color="ark.mainFontColor" paragraph>
+          <Typography
+            variant="body1"
+            sx={{
+              color: 'ark.mainFontColor',
+              marginBottom: '16px',
+            }}
+          >
             <b>Overview: </b>
           </Typography>
 
           <Typography
             variant="body1"
-            color="ark.mainFontColor"
-            paragraph
             dangerouslySetInnerHTML={{ __html: desc?.replace(/\r\n/g, '<br />')?.replace(/\n/g, '<br />') }}
+            sx={{
+              color: 'ark.mainFontColor',
+              marginBottom: '16px',
+            }}
           />
 
-          <Typography variant="body2" color="ark.mainFontColor" paragraph>
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'ark.mainFontColor',
+              marginBottom: '16px',
+            }}
+          >
             {!!subjects?.length && (
               <>
                 <b>Subject:</b>
@@ -550,12 +620,23 @@ export default function ArkCourse() {
 
           {!!keywords?.length && (
             <>
-              <Box mt={2}>
+              <Box sx={{
+                mt: 2,
+              }}
+              >
                 <b>Tags: </b>
               </Box>
-              <Box mt={1} sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+              <Box
+                sx={{
+                  mt: 1,
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 1,
+                }}
+              >
                 {keywords.map((item, idx) => (
                   <Chip
+                    // eslint-disable-next-line react/no-array-index-key -- keywords can repeat and are only shown
                     key={idx}
                     label={item}
                     variant="outlined"
@@ -576,11 +657,25 @@ export default function ArkCourse() {
           sx={{ display: { xs: 'none', sm: 'block' } }}
         />
 
-        <Box minWidth={240}>
+        <Box sx={{
+          minWidth: 240,
+        }}
+        >
           <Stack spacing={2}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
               <HistoryIcon color="action" />
-              <Typography variant="body2" color="ark.mainFontColor">
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'ark.mainFontColor',
+                }}
+              >
                 {history?.length || 0}
                 {' '}
                 Updates/Edits
@@ -589,9 +684,20 @@ export default function ArkCourse() {
             </Box>
 
             {!!history?.length && (
-              <Box display="flex" alignItems="center" gap={1}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                }}
+              >
                 <RemixIcon color="action" />
-                <Typography variant="body2" color="ark.mainFontColor">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: 'ark.mainFontColor',
+                  }}
+                >
                   {history.length}
                   {' '}
                   History items

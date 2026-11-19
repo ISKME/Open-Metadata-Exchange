@@ -2,10 +2,10 @@
 import { useState } from 'react';
 import { classNames } from 'shared/lib/classNames/classNames';
 import Select from 'react-dropdown-select';
+import { AppLink } from 'shared/ui/AppLink/AppLink';
 import ArrowIcon from '../../../shared/assets/icons/arrow-back.svg';
 import cls from './AdvancedSearch.module.scss';
 import { Button } from '../../../shared/ui/Button/Button';
-import { AppLink } from 'shared/ui/AppLink/AppLink';
 
 // import { useEffect, useState } from 'react';
 

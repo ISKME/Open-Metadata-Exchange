@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useState } from 'react';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './Collapse.module.scss';
 
 export const Collapse = (props) => {
@@ -10,7 +11,7 @@ export const Collapse = (props) => {
 
   return (
     <div style={style || {}}>
-      <div className={cls.collapseCard} onClick={() => number !== 0 && setIsOpen(!isOpen)} style={{ backgroundColor: number === 0 ? '#dadada' : '' }}>
+      <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls.collapseCard} onClick={() => number !== 0 && setIsOpen(!isOpen)} style={{ backgroundColor: number === 0 ? '#dadada' : '' }}>
         {number !== -1 && (
           <svg xmlns="http://www.w3.org/2000/svg" width="21" height="24" viewBox="0 0 21 24" fill="none">
             <g clipPath="url(#clip0_220_1538)">
@@ -33,7 +34,7 @@ export const Collapse = (props) => {
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ transform: isOpen ? 'rotate(180deg)' : '' }}>
               <path d="M17 9.5L12 14.5L7 9.5H17Z" fill="#1E1E1E" />
             </svg>
-            {number !== -1 && <a href="#">Clear</a>}
+            {number !== -1 && <button type="button">Clear</button>}
           </>
         )}
       </div>

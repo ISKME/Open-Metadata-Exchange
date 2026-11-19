@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 
 // @ts-nocheck
-import { useState, useEffect, useRef } from 'react';
+import {
+  Fragment, useState, useEffect, useRef,
+} from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import GlobalStyles from '@mui/material/GlobalStyles';
@@ -44,12 +46,14 @@ import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Popover from '@mui/material/Popover';
 import Player from 'components/video';
-import cls from './Case.module.scss';
 import { Comment } from '@mui/icons-material';
 import { AlignWidget } from 'widgets/Align';
 import Delete from '@mui/icons-material/Delete';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import req from 'shared/lib/req';
+import { Folders } from 'widgets/Folders';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import {
   styles, globalStyles, accordionStyles, notesStyle,
 } from './styles';
@@ -74,9 +78,8 @@ import {
   videoSegmentToAnnotation,
   sorting,
 } from './helper';
-import req from 'shared/lib/req';
 import Alert from './Alert';
-import { Folders } from 'widgets/Folders';
+import cls from './Case.module.scss';
 
 const notesByComments = [];
 let annotationUri;
@@ -87,6 +90,12 @@ let tempTime;
 let tempEndTime = null;
 let textRange = {};
 let loadedPlayer;
+// The rows in the tag form can be added and removed, so each row gets its own key
+let lastTagUid = 0;
+const withUid = (tag) => {
+  lastTagUid += 1;
+  return { ...tag, uid: lastTagUid };
+};
 
 function exampleLabel(example) {
   if (example.scope === 'video') {
@@ -118,7 +127,7 @@ const FilterInnerItems = ({
       {items.map((item, index) => (
         <Accordion
           sx={accordionStyles.sub}
-          key={`panel${name}-${item.full_code}-${index}`}
+          key={`panel${name}-${item.full_code}`}
         >
           <AccordionSummary
             expandIcon={
@@ -190,6 +199,7 @@ const FilterInnerItems = ({
                       {list.rationale}
                     </Typography>
                     <ul
+                      role="menu"
                       style={{
                         listStyle: 'circle',
                         listStylePosition: 'inside',
@@ -204,7 +214,11 @@ const FilterInnerItems = ({
                         : getVideoSegments(list.ranges)
                       ).map((segment, segmentIndex) => (
                         <li
+                          // eslint-disable-next-line react/no-array-index-key -- the segments of one note, in time order
                           key={`segment${list.id}-${segmentIndex}`}
+                          role="menuitem"
+                          tabIndex={0}
+                          onKeyDown={clickOnEnterOrSpace}
                           onClick={() => onSelect(videoSegmentToAnnotation(segment))}
                         >
                           {segment.entire_video
@@ -222,6 +236,9 @@ const FilterInnerItems = ({
                         .map((example) => (
                           <li
                             key={example.id}
+                            role="menuitem"
+                            tabIndex={0}
+                            onKeyDown={clickOnEnterOrSpace}
                             onClick={() => onSelect(example)}
                           >
                             {exampleLabel(example)}
@@ -255,7 +272,7 @@ const FilterItems = ({
           expanded={expanded === `panel${index}`}
           onChange={handleChange(`panel${index}`)}
           sx={accordionStyles.accordion}
-          key={`panel${index}`}
+          key={`panel${item.name}`}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -302,6 +319,9 @@ function Groups({
     <div style={{ fontFamily: '"DINPro", sans-serif', padding: '0 8px' }}>
       <Typography style={{ margin: '4px 0' }}>Who Can See this Note</Typography>
       <div
+        role="button"
+        tabIndex={0}
+        onKeyDown={clickOnEnterOrSpace}
         style={{
           background: selected === -1 ? 'rgba(0, 0, 0, .1)' : '',
           ...boxStyles,
@@ -311,9 +331,12 @@ function Groups({
         Only Me
       </div>
       <Typography style={{ margin: '4px 0' }}>Share With</Typography>
-      {options.map((option, index) => (
-        <div key={index}>
+      {options.map((option) => (
+        <div key={option.id}>
           <div
+            role="button"
+            tabIndex={0}
+            onKeyDown={clickOnEnterOrSpace}
             style={{
               background: selected === option.id ? 'rgba(0, 0, 0, .1)' : '',
               ...boxStyles,
@@ -323,6 +346,9 @@ function Groups({
             {option.title}
           </div>
           <div
+            role="button"
+            tabIndex={0}
+            onKeyDown={clickOnEnterOrSpace}
             style={{
               background:
                 selected === `${option.id}l` ? 'rgba(0, 0, 0, .1)' : '',
@@ -398,6 +424,7 @@ function Note({
   const handleSave = () => {
     const data = {
       text: content || text,
+      // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
       private: groupInfo.id == -1,
     };
     if (video && time) {
@@ -414,6 +441,7 @@ function Note({
         data.end_position = end;
       }
     }
+    // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
     if (groupInfo.id != -1) data.group_id = groupInfo.id;
     if (groupInfo.leader) data.instructor_only = groupInfo.leader ? 'True' : 'False';
     req.put(`annotations/${id}`, data).then(() => {
@@ -487,7 +515,7 @@ function Note({
       </Menu>
       <CardContent>
         <Grid container>
-          <Grid item xs={groups.length && !comment ? 6 : 12}>
+          <Grid size={groups.length && !comment ? 6 : 12}>
             {editing ? (
               <TextField
                 label="Note Text"
@@ -515,7 +543,9 @@ function Note({
                       <Checkbox
                         checked={checked}
                         onChange={({ target }) => setChecked(target.checked)}
-                        inputProps={{ 'aria-label': 'controlled' }}
+                        slotProps={{
+                          input: { 'aria-label': 'controlled' },
+                        }}
                       />
                     )}
                     label={
@@ -553,8 +583,11 @@ function Note({
             {framework ? (
               <Typography
                 variant="body2"
-                color="text.secondary"
-                sx={{ marginTop: '8px', display: 'block' }}
+                sx={{
+                  color: 'text.secondary',
+                  marginTop: '8px',
+                  display: 'block',
+                }}
               >
                 Framework:
                 {' '}
@@ -566,8 +599,8 @@ function Note({
             {time && (
               <Typography
                 variant="body2"
-                color="text.secondary"
                 sx={{
+                  color: 'text.secondary',
                   fontFamily: '"DINPro", sans-serif',
                   marginTop: '8px',
                   display: 'block',
@@ -575,6 +608,9 @@ function Note({
               >
                 {video && (
                   <span
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={clickOnEnterOrSpace}
                     style={{ cursor: 'pointer' }}
                     onClick={jump}
                   >
@@ -586,7 +622,7 @@ function Note({
             )}
           </Grid>
           {editing && groups.length && loaded ? (
-            <Grid item xs={comment ? 12 : 6}>
+            <Grid size={comment ? 12 : 6}>
               <Groups
                 options={groups}
                 init={groupInfo}
@@ -633,14 +669,14 @@ function AlignDialog({ onClose, open, onSelect = (tag) => {} }) {
 function TagForm({ videos, edit = null, onClose = () => {} }) {
   const { id } = useParams();
   const videoTag = { check: false, start: '', end: '' };
-  const [videoTags, setVideoTags] = useState([videoTag]);
-  const handleAdd = () => setVideoTags([...videoTags, videoTag]);
+  const [videoTags, setVideoTags] = useState(() => [withUid(videoTag)]);
+  const handleAdd = () => setVideoTags([...videoTags, withUid(videoTag)]);
   const handleDel = (i) => setVideoTags(videoTags.filter((_, j) => j !== i));
   const handleMod = (i, k, v) => setVideoTags(videoTags.map((o, j) => (j !== i ? o : { ...o, [k]: v })));
   //
   const pdfTag = { check: false, start: '', end: '' };
-  const [pdfTags, setPdfTags] = useState([pdfTag]);
-  const handleAddPdf = () => setPdfTags([...pdfTags, pdfTag]);
+  const [pdfTags, setPdfTags] = useState(() => [withUid(pdfTag)]);
+  const handleAddPdf = () => setPdfTags([...pdfTags, withUid(pdfTag)]);
   const handleDelPdf = (i) => setPdfTags(pdfTags.filter((_, j) => j !== i));
   const handleModPdf = (i, k, v) => setPdfTags(pdfTags.map((o, j) => (j !== i ? o : { ...o, [k]: v })));
   //
@@ -648,9 +684,9 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
   const [selectedTag, setSelectedTag] = useState({});
   //
   const text = { content: '' };
-  const [texts, setTexts] = useState([text]);
-  const handleText = (i, v) => setTexts(texts.map((o, j) => (i !== j ? o : { content: v })));
-  const handleAddText = () => setTexts([...texts, text]);
+  const [texts, setTexts] = useState(() => [withUid(text)]);
+  const handleText = (i, v) => setTexts(texts.map((o, j) => (i !== j ? o : { content: v, uid: o.uid })));
+  const handleAddText = () => setTexts([...texts, withUid(text)]);
   const handleDelText = (i) => setTexts(texts.filter((_, j) => j !== i));
   //
   const [rationale, setRationale] = useState('');
@@ -689,9 +725,9 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
       if (!videosTags.length) videosTags.push(videoTag);
       if (!pdfTags.length) pdfTags.push(pdfTag);
       if (!texts.length) texts.push(text);
-      setVideoTags(videosTags);
-      setPdfTags(pdfTags);
-      setTexts(texts);
+      setVideoTags(videosTags.map(withUid));
+      setPdfTags(pdfTags.map(withUid));
+      setTexts(texts.map(withUid));
       setSelectedTag(alignment);
     }
   }, [edit]);
@@ -699,23 +735,25 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
   const publish = (isPrivate = false) => {
     const annotations = [];
     videoTags.forEach((item) => {
+      // eslint-disable-next-line eqeqeq -- start and end are '' from the form or a number from the API, and 0 == '' is true, so === would change which rows count as empty
       if (!item.check && (item.start == '' || item.end == '')) return;
-      const start_position = item.check
+      const startPosition = item.check
         ? 0
         : timeToSeconds(duration, item.start || 0, 'Start');
-      const end_position = item.check
+      const endPosition = item.check
         ? duration
         : timeToSeconds(duration, item.end || duration, 'End');
       const data = {
         scope: 'video',
         uri: selected,
-        start_position,
-        end_position,
+        start_position: startPosition,
+        end_position: endPosition,
       };
       if (item.id) data.id = item.id;
       annotations.push(data);
     });
     pdfTags.forEach((item) => {
+      // eslint-disable-next-line eqeqeq -- start and end are '' from the form or a number from the API, and 0 == '' is true, so === would change which rows count as empty
       if (!item.check && (item.start == '' || item.end == '')) return;
       const data = {
         scope: 'pdf',
@@ -782,7 +820,7 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
     <Card sx={{ margin: '16px 0' }}>
       <CardContent>
         <Grid container sx={{ margin: '16px 0' }}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <div>
               <FormControl>
                 <FormLabel id="demo-controlled-radio-buttons-group">
@@ -807,21 +845,22 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
               </FormControl>
             </div>
             {videoTags.map((item, index) => (
-              <>
-                <div key={index}>
+              <Fragment key={item.uid}>
+                <div>
                   <FormControlLabel
                     label="Entire Video"
                     control={(
                       <Checkbox
                         checked={item.check}
                         onChange={({ target }) => handleMod(index, 'check', target.checked)}
-                        inputProps={{ 'aria-label': 'controlled' }}
+                        slotProps={{
+                          input: { 'aria-label': 'controlled' },
+                        }}
                       />
                     )}
                   />
                 </div>
                 <div
-                  key={index}
                   style={{
                     display: 'flex',
                     gap: '8px',
@@ -855,27 +894,28 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                     </IconButton>
                   )}
                 </div>
-              </>
+              </Fragment>
             ))}
             <div>
               <Button onClick={handleAdd}>+ Add Video Tag</Button>
             </div>
             {pdfTags.map((item, index) => (
-              <>
-                <div key={index}>
+              <Fragment key={item.uid}>
+                <div>
                   <FormControlLabel
                     label="Entire Instructional Materials PDF"
                     control={(
                       <Checkbox
                         checked={item.check}
                         onChange={({ target }) => handleModPdf(index, 'check', target.checked)}
-                        inputProps={{ 'aria-label': 'controlled' }}
+                        slotProps={{
+                          input: { 'aria-label': 'controlled' },
+                        }}
                       />
                     )}
                   />
                 </div>
                 <div
-                  key={index}
                   style={{
                     display: 'flex',
                     gap: '8px',
@@ -892,6 +932,7 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                     disabled={item.check}
                     error={
                       matchDigitFormat(item.start)
+                      // eslint-disable-next-line eqeqeq -- start and end are '' from the form or a number from the API, and 0 == '' is true, so === would change which rows count as empty
                       || (item.check && item.start == '')
                     }
                   />
@@ -904,6 +945,7 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                     disabled={item.check}
                     error={
                       matchDigitFormat(item.end)
+                      // eslint-disable-next-line eqeqeq -- start and end are '' from the form or a number from the API, and 0 == '' is true, so === would change which rows count as empty
                       || (item.check && item.end == '')
                     }
                   />
@@ -913,14 +955,14 @@ function TagForm({ videos, edit = null, onClose = () => {} }) {
                     </IconButton>
                   )}
                 </div>
-              </>
+              </Fragment>
             ))}
             <div>
               <Button onClick={handleAddPdf}>+ Add Pages</Button>
             </div>
             {texts.map((item, index) => (
               <div
-                key={index}
+                key={item.uid}
                 style={{ display: 'flex', alignItems: 'flex-start' }}
               >
                 <TextField
@@ -996,39 +1038,41 @@ function NoteForm({
       uri,
       text: formText,
       alignment_tag: selectedTag?.tag?.value,
+      // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
       private: groupInfo.id == -1,
     };
     if (video) {
-      const start_position = checked
+      const startPosition = checked
         ? 0
         : timeToSeconds(duration, formStart || 0, 'Start');
       // ~~ rounds down and turns NaN into 0
       /* eslint-disable no-bitwise */
-      let end_position;
-      if (checked) end_position = ~~duration;
-      else if (formEnd) end_position = ~~timeToSeconds(duration, formEnd || duration, 'End');
+      let endPosition;
+      if (checked) endPosition = ~~duration;
+      else if (formEnd) endPosition = ~~timeToSeconds(duration, formEnd || duration, 'End');
       /* eslint-enable no-bitwise */
       if (
-        start_position === undefined
-        || start_position === null
-        || end_position === undefined
-        || end_position === null
+        startPosition === undefined
+        || startPosition === null
+        || endPosition === undefined
+        || endPosition === null
       ) {
         alert("Enter end time, or enable 'Entire Video' checkbox!");
         return;
       }
-      if (end_position < start_position) {
+      if (endPosition < startPosition) {
         alert('Start time cannot be greater than end time!');
         return;
       }
-      data.start_position = start_position;
-      data.end_position = end_position;
+      data.start_position = startPosition;
+      data.end_position = endPosition;
       data.scope = 'video';
     } else if (checked) data.entire_entity = true;
     else {
       data.start_position = formStart;
       data.end_position = formEnd;
     }
+    // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
     if (groupInfo.id != -1) data.group_id = groupInfo.id;
     if (groupInfo.leader) data.instructor_only = groupInfo.leader ? 'True' : 'False';
 
@@ -1049,14 +1093,16 @@ function NoteForm({
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Grid container sx={{ margin: '16px 0' }}>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <div>
               <FormControlLabel
                 control={(
                   <Checkbox
                     checked={checked}
                     onChange={({ target }) => setChecked(target.checked)}
-                    inputProps={{ 'aria-label': 'controlled' }}
+                    slotProps={{
+                      input: { 'aria-label': 'controlled' },
+                    }}
                   />
                 )}
                 label={
@@ -1105,7 +1151,7 @@ function NoteForm({
               />
             </div>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Groups
               options={groups}
               onChange={(id, leader) => setGroupInfo({ id, leader })}
@@ -1404,12 +1450,14 @@ export function Case() {
       start_position: startPos.position,
       end_position: endPos.position,
       quote,
+      // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
       private: groupInfo.id == -1,
       ranges: {
         start: `/p[${startPos.paragraph + 1}]`,
         end: `/p[${endPos.paragraph + 1}]`,
       },
     };
+    // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
     if (groupInfo.id != -1) data.group_id = groupInfo.id;
     if (groupInfo.leader) data.instructor_only = groupInfo.leader ? 'True' : 'False';
     req
@@ -1503,7 +1551,7 @@ export function Case() {
           '@media (maxWidth: 1168px)': { padding: '0 16px' },
         }}
       >
-        <Grid item xs={4}>
+        <Grid size={4}>
           <div className="sidebar">
             <p className="case-id">
               Case #
@@ -1627,11 +1675,12 @@ export function Case() {
             </div>
           </div>
         </Grid>
-        <Grid item xs={8}>
+        <Grid size={8}>
           <div style={{ padding: '10px', backgroundColor: '#303e47' }}>
             <div style={{ marginBottom: '8px' }} id="playerContainer">
               {videos.map((item, index) => (
                 <Button
+                  // eslint-disable-next-line react/no-array-index-key -- the videos of the case are only shown, in a fixed order
                   key={index}
                   variant="contained"
                   sx={{
@@ -1698,6 +1747,10 @@ export function Case() {
                 <li className="hashmark-panel js-hashmark-panel active">
                   {notes.map((item, index) => (
                     <div
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={clickOnEnterOrSpace}
+                      // eslint-disable-next-line react/no-array-index-key -- the note markers are rebuilt as a whole on every change
                       key={index}
                       style={{ left: item.position }}
                       className="hashmark-link js-hashmark tooltip"
@@ -1802,7 +1855,7 @@ export function Case() {
           </Box>
           <div hidden={value !== 0}>
             <div className="links" style={{ display: 'block' }}>
-              <a href={commentaryFile} target="_blank">
+              <a href={commentaryFile} target="_blank" rel="noopener">
                 Open Commentary
               </a>
               <Button
@@ -1853,6 +1906,7 @@ export function Case() {
               {commentary?.match(/<(.+)>.*?<\/\1>/g)?.map((item, index) => {
                 if (item.startsWith('<p')) {
                   return (
+                    // eslint-disable-next-line react/no-array-index-key -- the paragraphs of the commentary, in document order
                     <div key={`paragraph${index}`}>
                       <div
                         style={{ flex: 1 }}
@@ -1967,6 +2021,7 @@ export function Case() {
                 }
                 return (
                   <div
+                    // eslint-disable-next-line react/no-array-index-key -- the paragraphs of the commentary, in document order
                     key={`heading${index}`}
                     dangerouslySetInnerHTML={{ __html: item }}
                   />
@@ -1979,7 +2034,7 @@ export function Case() {
           </div>
           <div hidden={value !== 1}>
             <div className="links">
-              <a href={material} target="_blank" className="case-link">
+              <a href={material} target="_blank" rel="noopener" className="case-link">
                 Open Instructional Materials
               </a>
               <button

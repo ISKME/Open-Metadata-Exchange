@@ -61,7 +61,7 @@ function CircleLoader() {
   );
 }
 
-interface search_resourcesProps {
+interface SearchResourcesProps {
   className?: string;
 }
 
@@ -316,16 +316,29 @@ export function CollectionDetails() {
     e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png';
   };
 
-  const FiltersBox = () => (
+  const renderFiltersBox = () => (
     <Box sx={{ minWidth: 260, p: 2 }}>
-      <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+      <Typography
+        variant="h6"
+        sx={{
+          fontWeight: 600,
+          mb: 1,
+        }}
+      >
         <FilterListIcon sx={{ mr: 1 }} />
         Filters
       </Typography>
       {filters && filters.map((el) => (
         <Accordion key={el.name} defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="subtitle1" fontWeight={600}>{el.name}</Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                fontWeight: 600,
+              }}
+            >
+              {el.name}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             {el.items?.map((item) => (
@@ -353,7 +366,7 @@ export function CollectionDetails() {
   return (
     <Box sx={{ mx: 'auto', mt: 4, p: 2 }}>
       <Drawer open={open} onClose={toggleDrawer(false)}>
-        <FiltersBox />
+        {renderFiltersBox()}
       </Drawer>
       <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/imls/explore-oer-exchange')} sx={{ mb: 2 }}>
         Back to Explore OER Exchange
@@ -371,10 +384,32 @@ export function CollectionDetails() {
               onError={handleImageError}
             />
             <CardContent sx={{ flex: 1 }}>
-              <Typography variant="h5" fontWeight={700}>{collectionName}</Typography>
-              <Typography variant="subtitle1" color="text.secondary" gutterBottom>{collectionMicrositeName}</Typography>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: 700,
+                }}
+              >
+                {collectionName}
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                gutterBottom
+                sx={{
+                  color: 'text.secondary',
+                }}
+              >
+                {collectionMicrositeName}
+              </Typography>
               <div dangerouslySetInnerHTML={{ __html: abstract }} />
-              <Stack direction="row" sx={{ mt: 1 }} flexDirection={{ sm: 'column', xs: 'column', md: 'row' }} gap="8px">
+              <Stack
+                direction="row"
+                sx={{
+                  flexDirection: { sm: 'column', xs: 'column', md: 'row' },
+                  gap: '8px',
+                  mt: 1,
+                }}
+              >
                 <Typography variant="body2">
                   {numResources}
                   {' '}
@@ -404,8 +439,23 @@ export function CollectionDetails() {
               </Stack>
             </CardContent>
           </Card>
-          <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>Search</Typography>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" sx={{ mb: 3 }}>
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 600,
+              mb: 2,
+            }}
+          >
+            Search
+          </Typography>
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={2}
+            sx={{
+              alignItems: 'center',
+              mb: 3,
+            }}
+          >
             <Box sx={{ flex: 1 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <SearchIcon color="action" />
@@ -423,7 +473,13 @@ export function CollectionDetails() {
               </Box>
             </Box>
             <Box sx={{ minWidth: 180 }}>
-              <Stack direction="row" alignItems="center" gap={1}>
+              <Stack
+                direction="row"
+                sx={{
+                  alignItems: 'center',
+                  gap: 1,
+                }}
+              >
                 <SortIcon color="action" />
                 <select
                   value={sorted || ''}
@@ -458,8 +514,14 @@ export function CollectionDetails() {
             )}
           </Stack>
           <Divider sx={{ mb: 2 }} />
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} alignItems="flex-start">
-            {!small && <FiltersBox />}
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={3}
+            sx={{
+              alignItems: 'flex-start',
+            }}
+          >
+            {!small && renderFiltersBox()}
             <Box sx={{ flex: 1, position: 'relative' }}>
               <Typography variant="subtitle1" sx={{ mb: 1 }}>
                 {totalNumber}
@@ -502,14 +564,42 @@ export function CollectionDetails() {
                     </CardContent>
                     <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', sm: 'block' } }} />
                     <CardContent>
-                      <Typography variant="h6" fontWeight={600} component={Link} to={`/imls/asset/${resource.detailURL?.split('/v2/resources/')?.pop()}`}>{resource.title || resource.name}</Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{resource.micrositeName || resource.site}</Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography
+                        variant="h6"
+                        component={Link}
+                        to={`/imls/asset/${resource.detailURL?.split('/v2/resources/')?.pop()}`}
+                        sx={{
+                          fontWeight: 600,
+                        }}
+                      >
+                        {resource.title || resource.name}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: 'text.secondary',
+                          mt: 1,
+                        }}
+                      >
+                        {resource.micrositeName || resource.site}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: 'text.secondary',
+                        }}
+                      >
                         Updated
                         {' '}
                         {new Date(resource.updateDate).toDateString()}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: 'text.secondary',
+                          mt: 1,
+                        }}
+                      >
                         {resource.abstract?.split(' ').slice(0, 20).join(' ')}
                         ...
                       </Typography>
@@ -538,10 +628,23 @@ export function CollectionDetails() {
         <Box sx={{ mt: 4 }}>
           <Button startIcon={<ArrowBackIcon />} onClick={() => { setDone(false); setMap(false); }} sx={{ mb: 2 }}>Back</Button>
           <Card sx={{ mb: 3, p: 2 }}>
-            <Stack direction="row" alignItems="center" spacing={2}>
+            <Stack
+              direction="row"
+              spacing={2}
+              sx={{
+                alignItems: 'center',
+              }}
+            >
               <CheckCircleIcon color="success" sx={{ fontSize: 40 }} />
               <Box>
-                <Typography variant="h6" fontWeight={700}>Exchange Successful</Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 700,
+                  }}
+                >
+                  Exchange Successful
+                </Typography>
                 <Typography variant="body2">
                   You published a new collection to
                   {' '}
@@ -565,8 +668,22 @@ export function CollectionDetails() {
             <Card sx={{ display: 'flex', alignItems: 'center', p: 2 }}>
               <Avatar src={thumbnail} alt={collectionName} sx={{ width: 80, height: 80, mr: 2 }} />
               <Box>
-                <Typography variant="h6" fontWeight={600}>{collectionName}</Typography>
-                <Typography variant="body2" color="text.secondary">{collectionMicrositeName}</Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 600,
+                  }}
+                >
+                  {collectionName}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: 'text.secondary',
+                  }}
+                >
+                  {collectionMicrositeName}
+                </Typography>
                 <Typography variant="body2">
                   {numResources}
                   {' '}
@@ -605,12 +722,26 @@ export function CollectionDetails() {
       )}
       {map && (
         <Box sx={{ mt: 4 }}>
-          <Typography variant="h6" fontWeight={700}>Map your Metadata Standards</Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 700,
+            }}
+          >
+            Map your Metadata Standards
+          </Typography>
           <Typography variant="body2" sx={{ mb: 2 }}>Select your preferred metadata to map for each metadata item.</Typography>
           {sections.map((section) => (
             <Accordion key={section.name} defaultExpanded sx={{ mb: 2 }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1" fontWeight={600}>{section.name}</Typography>
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    fontWeight: 600,
+                  }}
+                >
+                  {section.name}
+                </Typography>
                 {Number(stats[section.name]) > 0 && (
                   <Typography color="error" sx={{ ml: 2 }}>
                     {stats[section.name]}
@@ -624,7 +755,15 @@ export function CollectionDetails() {
               </AccordionSummary>
               <AccordionDetails>
                 {Object.entries(section.mapping).map((item) => (
-                  <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }} key={item[0]}>
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    key={item[0]}
+                    sx={{
+                      alignItems: 'center',
+                      mb: 2,
+                    }}
+                  >
                     <Typography sx={{ minWidth: 120 }}>{item[0]}</Typography>
                     <select
                       value={changes[section.name]?.[item[0]] || ''}

@@ -14,10 +14,10 @@ import IconButton from '@mui/material/IconButton';
 import Close from '@mui/icons-material/Close';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { LtiList } from 'widgets/LtiList';
-import { fetchLti } from '../model/services/ActionCreators';
 import useMediaQuery from '@mui/material/useMediaQuery';
 // import cls from './Lti.module.scss';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { fetchLti } from '../model/services/ActionCreators';
 
 // function creator(selector) { // element#id.class@attribute=value
 //   var pattern = /^(.*?)(?:#(.*?))?(?:\.(.*?))?(?:@(.*?)(?:=(.*?))?)?(\:+(.*?))?$/;
@@ -196,10 +196,14 @@ export function Lti() {
         <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
       </Drawer>
       <Grid container>
-        <Grid item xs={4} sx={{ paddingRight: '32px' }} style={{ display: match ? '' : 'none' }}>
+        <Grid
+          sx={{ paddingRight: '32px' }}
+          style={{ display: match ? '' : 'none' }}
+          size={4}
+        >
           <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
         </Grid>
-        <Grid item xs={match ? 8 : 12}>
+        <Grid size={match ? 8 : 12}>
           {/* topics={filteredTopics}
           grades={filteredGrades}
           frameworks={filteredFrameworks}

@@ -9,7 +9,6 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import ListItemText from '@mui/material/ListItemText';
-import cls from './Organs.module.scss';
 import { OrgansSettings } from 'widgets/OrgansSettings';
 import { OrgansUsers } from 'widgets/OrgansUsers';
 import { OrgansGroups } from 'widgets/OrgansGroups/ui/OrgansGroups';
@@ -17,6 +16,7 @@ import { OrgansCaseAnalytics } from 'widgets/OrgansCaseAnalytics';
 import { OrgansUserAnalytics } from 'widgets/OrgansUserAnalytics';
 import { VideoAnalytics } from 'widgets/VideoAnalytics';
 import { useSearchParams } from 'react-router-dom';
+import cls from './Organs.module.scss';
 
 const primaryColor = '#303e48';
 
@@ -25,7 +25,7 @@ const globalStyles = {
     background: 'rgb(48, 62, 72)',
     paddingLeft: '5%',
   },
-  '.MuiTabs-flexContainer': {
+  '.MuiTabs-list': {
     paddingTop: '3px',
   },
   '.MuiButtonBase-root.MuiTab-root.Mui-selected': {
@@ -78,7 +78,7 @@ const globalStyles = {
   '.MuiAutocomplete-popper *': {
     fontSize: '14px !important',
   },
-  '.MuiInputBase-inputSizeSmall': {
+  ':where(.MuiInputBase-sizeSmall) > .MuiInputBase-input': {
     fontSize: '14px !important',
   },
   '.MuiMenuItem-gutters': {
@@ -119,6 +119,7 @@ export function Organs() {
       try {
         const { data } = await axios.get('/api/users/v1/profile');
 
+        // eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching
         if (data.organization.role_id != ORGANIZATION_ADMIN_ROLE_ID) {
           throw new Error('Permission denied');
         }
@@ -162,13 +163,13 @@ export function Organs() {
     <Box sx={{ width: '100%', padding: '64px 0' }}>
       <GlobalStyles styles={globalStyles} />
       <Grid container spacing={2} sx={{ padding: '0 5%', '@media (max-width: 1168px)': { padding: '0 16px' } }}>
-        <Grid item xs={3}>
+        <Grid size={3}>
           <Paper elevation={0} sx={{ width: 320, maxWidth: '100%' }}>
             <MenuList>
               {menuItems.map((item, index) => (
                 <MenuItem
                   onClick={() => handleMenuClick(index)}
-                  key={index}
+                  key={item}
                   sx={{
                     backgroundColor: index === selectedMenu ? 'rgba(0, 0, 0, 0.1)' : '',
                     borderBottom: '1px solid #e8e8e8',
@@ -187,7 +188,7 @@ export function Organs() {
             </MenuList>
           </Paper>
         </Grid>
-        <Grid item xs={9}>
+        <Grid size={9}>
           {selectedMenu === 0 && <OrgansSettings id={organizationId} />}
           {selectedMenu === 1 && <OrgansUsers id={organizationId} />}
           {selectedMenu === 2 && <OrgansGroups id={organizationId} />}

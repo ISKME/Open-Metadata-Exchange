@@ -19,10 +19,10 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import IconButton from '@mui/material/IconButton';
 import { Search } from '@mui/icons-material';
-import cls from './OrgansUsers.module.scss';
 import Table from 'components/table';
 import req from 'shared/lib/req';
 import { OrgansUsersImport } from 'widgets/OrgansUsersImport';
+import cls from './OrgansUsers.module.scss';
 
 function jsonToReadableText(json) {
   function processValue(value) {
@@ -466,7 +466,14 @@ export function OrgansUsers({ id }) {
             </Select>
           </FormControl>
           <Box className={cls.modalFooter}>
-            <Box mt={3} display="flex" justifyContent="flex-end" gap={1}>
+            <Box
+              sx={{
+                mt: 3,
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: 1,
+              }}
+            >
               <Button onClick={() => setModal(false)}>
                 Cancel
               </Button>
@@ -497,7 +504,14 @@ export function OrgansUsers({ id }) {
             </Select>
           </FormControl>
           <Box className={cls.modalFooter}>
-            <Box mt={3} display="flex" justifyContent="flex-end" gap={1}>
+            <Box
+              sx={{
+                mt: 3,
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: 1,
+              }}
+            >
               <Button onClick={() => setMoveModal(false)}>
                 Cancel
               </Button>

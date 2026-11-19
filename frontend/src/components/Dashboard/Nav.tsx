@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { NavLink } from 'react-router-dom';
-import { Arrow, Book } from './icons';
 import { useEffect, useState } from 'react';
+import { Arrow, Book } from './icons';
 
 export default function ({
   target, widgetId, item, icon, widgets,
@@ -9,20 +9,22 @@ export default function ({
   const [open, setOpen] = useState(false);
   useEffect(() => setOpen(target === item.slug), [target, item.slug]);
   const single = !item.slug && !item?.widgets?.length;
-  const Link = ({ to, style, children }) => (single
-    ? <a href={to} style={{ ...style, textDecoration: 'none' }}>{children}</a>
-    : <NavLink to={to} style={{ ...style }}>{children}</NavLink>);
   if (single) {
     return (
       <li>
-        <Link to={`/reports/dashboard/${item.slug || ''}`} style={{ display: 'flex', gap: '8px', background: target === item.slug ? '#F3F3F3' : '' }}>
+        <a
+          href={`/reports/dashboard/${item.slug || ''}`}
+          style={{
+            display: 'flex', gap: '8px', background: target === item.slug ? '#F3F3F3' : '', textDecoration: 'none',
+          }}
+        >
           {item.icon || <Book />}
           <div>
             <span style={{ color: 'black', fontSize: '14px' }}>{item.title}</span>
             <br />
             <span style={{ color: 'rgba(0, 0, 0, .6)', fontSize: '12px' }}>{item.description}</span>
           </div>
-        </Link>
+        </a>
       </li>
     );
   }
@@ -45,6 +47,7 @@ export default function ({
           }}
           >
             {item.widgets.map((widget, i) => (
+              // eslint-disable-next-line react/no-array-index-key -- the widgets of a menu item are only shown, in a fixed order
               <li key={i}>
                 <NavLink to={widget.link || `${item.slug}/${widget.id}`} style={{ fontWeight: widgetId === widget.id ? 'bold' : 'normal', color: 'black', fontSize: '14px' }}>
                   {widget.title}

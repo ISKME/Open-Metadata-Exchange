@@ -6,15 +6,15 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { CasesList } from 'widgets/CasesList';
-import cls from './CasesSets.module.scss';
 import { Button } from '@mui/material';
+import cls from './CasesSets.module.scss';
 
 export function CasesSets() {
   const [value, setValue] = React.useState('one');
 
   return (
     <Grid container spacing={2} sx={{ padding: '24px 10%' }}>
-      <Grid item xs={4} sx={{ paddingRight: '32px' }}>
+      <Grid sx={{ paddingRight: '32px' }} size={4}>
         {[
           ['ABP1', 86],
           ['ATLAS Limited Library - Nov 2021', 329],
@@ -26,12 +26,12 @@ export function CasesSets() {
           ['PBS Science Courses', 40],
           ['Poetry Test Set', 13],
           ['Test API', 4],
-        ].map((child, j) => (
+        ].map((child) => (
           <Typography
             sx={{
               color: '#56788f', padding: '4px 0', cursor: 'pointer', borderBottom: '1px solid #e8e8e8',
             }}
-            key={j}
+            key={child[0]}
           >
             {child[0]}
             {' '}
@@ -41,7 +41,7 @@ export function CasesSets() {
           </Typography>
         ))}
       </Grid>
-      <Grid item xs={8}>
+      <Grid size={8}>
         <Box sx={{ width: '100%', marginBottom: '24px' }}>
           <Tabs
             value={value}

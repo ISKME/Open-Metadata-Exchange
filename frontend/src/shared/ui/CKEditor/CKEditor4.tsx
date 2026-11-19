@@ -1,7 +1,7 @@
 import { CKEditor } from 'ckeditor4-react';
 import { useState, useRef } from 'react';
-import { BlockUI } from '../BlockUI/BlockUI';
 import req from 'shared/lib/req';
+import { BlockUI } from '../BlockUI/BlockUI';
 
 const devLicenseKey = 'WkhwNE9USm5ZV3cyTUhBMFpEWnlZWEozZEhWdmJuY3gtTnpVMU9UTTVORFU1TkRZME5EazQ=';
 

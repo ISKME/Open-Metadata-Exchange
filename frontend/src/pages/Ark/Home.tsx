@@ -2,11 +2,11 @@
 import { useState, useEffect } from 'react';
 import { Typography, Box, Link } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { matomoTag } from 'pages/Case/ui/helper';
 import api from './api/axios';
 import cls from './styles.module.scss';
 import SearchBar from './components/Input';
 import Dropdown from './components/Dropdown';
-import { matomoTag } from 'pages/Case/ui/helper';
 
 export default function ArkHome() {
   const [search, setSearch] = useState('');
@@ -52,13 +52,32 @@ export default function ArkHome() {
     <>
       {/* color="ark.mainFontColor"
       sx={{ fontFamily: 'ark.fontFamilyMain' }} */}
-      <Typography variant="h4" gutterBottom className={cls.header} color="ark.mainFontColor">
+      <Typography
+        variant="h4"
+        gutterBottom
+        className={cls.header}
+        sx={{
+          color: 'ark.mainFontColor',
+        }}
+      >
         The Ark: A Digital Public Goods Library
       </Typography>
-      <Typography className={cls.subHeader} color="ark.mainFontColor">
+      <Typography
+        className={cls.subHeader}
+        sx={{
+          color: 'ark.mainFontColor',
+        }}
+      >
         Open for Education
       </Typography>
-      <Link href="/ark/about" className={cls.learn} color="ark.mainFontColor" style={fontStyle}>
+      <Link
+        href="/ark/about"
+        className={cls.learn}
+        style={fontStyle}
+        sx={{
+          color: 'ark.mainFontColor',
+        }}
+      >
         Learn More
       </Link>
       <Box className={cls.browseSamples}>
@@ -69,13 +88,22 @@ export default function ArkHome() {
           <Link
             key={collection.id}
             href={`/ark/collection/${collection.id}`}
-            color="ark.mainFontColor"
             style={fontStyle}
+            sx={{
+              color: 'ark.mainFontColor',
+            }}
           >
             {collection.name}
           </Link>
         ))}
-        <Link href="/ark/browse" className={cls.browseAll} color="ark.cardLinkTextColor" style={fontStyle}>
+        <Link
+          href="/ark/browse"
+          className={cls.browseAll}
+          style={fontStyle}
+          sx={{
+            color: 'ark.cardLinkTextColor',
+          }}
+        >
           See More
         </Link>
       </Box>

@@ -4,6 +4,13 @@
 # To enable these pre-commit hooks run:
 # `pipx install pre-commit` or `brew install pre-commit`
 # Then in the project root directory run `pre-commit install`
+# and `cd frontend && npm ci` for the eslint and stylelint hooks
+
+# The eslint and stylelint hooks at the bottom use the packages in frontend/node_modules,
+# which pre-commit.ci does not install, so pre-commit.ci skips them. The front-end job in
+# .github/workflows/ci.yml runs the same checks on every pull request.
+ci:
+  skip: [eslint, stylelint]
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -92,3 +99,26 @@ repos:
     rev: v1.32.0
     hooks:
     - id: zizmor
+
+  # Lint the staged frontend files before each commit, with the same config as
+  # `npm run lint:ts` and `npm run lint:scss`. These hooks need the frontend packages, so run
+  # `cd frontend && npm ci` once. Without them the hooks fail with that hint. They only run
+  # when a commit touches a .ts, .tsx or .scss file under frontend/.
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint (frontend)
+        language: system
+        files: ^frontend/.*\.(ts|tsx)$
+        entry: >-
+          bash -c 'cd frontend && if [ ! -x node_modules/.bin/eslint ]; then
+          echo "Run \"cd frontend && npm ci\" first"; exit 1; fi;
+          node_modules/.bin/eslint "${@#frontend/}"' --
+      - id: stylelint
+        name: stylelint (frontend)
+        language: system
+        files: ^frontend/.*\.scss$
+        entry: >-
+          bash -c 'cd frontend && if [ ! -x node_modules/.bin/stylelint ]; then
+          echo "Run \"cd frontend && npm ci\" first"; exit 1; fi;
+          node_modules/.bin/stylelint "${@#frontend/}"' --

@@ -38,12 +38,12 @@ import {
   Arrow,
   Map,
 } from 'components/Dashboard/icons';
-import styles from './Dashboard.styles';
-import cls from './Dashboard.module.scss';
 import { DateRange } from 'widgets/enum';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import Settings from 'pages/Ark/widgets/Settings';
 import { buildSectionChartData } from 'components/Dashboard/chartUtils';
+import cls from './Dashboard.module.scss';
+import styles from './Dashboard.styles';
 
 export function Dashboard() {
   const location = useLocation();
@@ -948,16 +948,20 @@ export function Dashboard() {
                                   sx={{
                                     '& fieldset': { border: 'none !important' },
                                   }}
-                                  InputProps={{
-                                    ...params.InputProps,
-                                    endAdornment: (
-                                      <>
-                                        {widgetLoadingMap[widget.id] ? (
-                                          <CircularProgress size={20} aria-label="Loading section options" />
-                                        ) : null}
-                                        {params.InputProps.endAdornment}
-                                      </>
-                                    ),
+                                  slotProps={{
+                                    ...params.slotProps,
+
+                                    input: {
+                                      ...params.slotProps.input,
+                                      endAdornment: (
+                                        <>
+                                          {widgetLoadingMap[widget.id] ? (
+                                            <CircularProgress size={20} aria-label="Loading section options" />
+                                          ) : null}
+                                          {params.slotProps.input.endAdornment}
+                                        </>
+                                      ),
+                                    },
                                   }}
                                 />
                               )}

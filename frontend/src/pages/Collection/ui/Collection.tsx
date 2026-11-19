@@ -38,7 +38,7 @@ export function Collection() {
   return (
     <>
       <Grid container spacing={2} sx={styles.container}>
-        <Grid item xs={4} sx={styles.thumbnail}>
+        <Grid sx={styles.thumbnail} size={4}>
           <img src={thumbnail} width="100%" alt="Collection Thumbnail" />
           {admin && (
             <Button
@@ -50,7 +50,7 @@ export function Collection() {
             </Button>
           )}
         </Grid>
-        <Grid item xs={8}>
+        <Grid size={8}>
           <Typography variant="h4">{name}</Typography>
           <div className={cls['formatted-text']} dangerouslySetInnerHTML={{ __html: abstract }} />
           {numResources ? (

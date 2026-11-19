@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './Collapse.module.scss';
 
 export const Collapse = (props) => {
@@ -9,7 +10,7 @@ export const Collapse = (props) => {
 
   return (
     <div style={style || {}}>
-      <div className={cls.collapseCard} onClick={() => setIsOpen(!isOpen)}>
+      <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls.collapseCard} onClick={() => setIsOpen(!isOpen)}>
         <div>
           <span>{title}</span>
           {Number(number) > 0 && (

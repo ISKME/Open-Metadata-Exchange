@@ -294,7 +294,7 @@ export function MyItems() {
       </Modal>
 
       <Grid container spacing={2} sx={{ padding: '32px 10%' }}>
-        <Grid item xs={4} sx={{ fontFamily: '"DINPro", sans-serif' }}>
+        <Grid sx={{ fontFamily: '"DINPro", sans-serif' }} size={4}>
           <SimpleTreeView
             folders={folders}
             setFolderId={setFolderId}
@@ -314,7 +314,7 @@ export function MyItems() {
             title="My Items"
           />
         </Grid>
-        <Grid item xs={8}>
+        <Grid size={8}>
           <MyItemsList
             data={items}
             defaultPage={defaultPage}
