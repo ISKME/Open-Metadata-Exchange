@@ -23,3 +23,29 @@ updates:
       interval: weekly
     cooldown:
       default-days: 7
+  - package-ecosystem: npm
+    directory: /frontend
+    groups:
+      npm:
+        update-types:
+          - minor
+          - patch  # Group all minor and patch updates into a single pull request, majors get their own
+    ignore:  # Held back on purpose, see CONTRIBUTING.md
+      - dependency-name: react
+        versions: [">=19"]
+      - dependency-name: react-dom
+        versions: [">=19"]
+      - dependency-name: "@types/react"
+        versions: [">=19"]
+      - dependency-name: "@types/react-dom"
+        versions: [">=19"]
+      - dependency-name: video.js
+        versions: [">=9"]
+      - dependency-name: "@grapesjs/react"
+        versions: [">=2"]
+      - dependency-name: grapesjs
+        versions: [">=0.23"]
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7

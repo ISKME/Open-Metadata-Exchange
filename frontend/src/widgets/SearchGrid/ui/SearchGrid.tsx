@@ -339,10 +339,10 @@ export function SearchGrid({
               </div>
             </div>
             <div className={cls.actionButtons}>
-              <button className={cls.button} style={{ cursor: 'pointer' }}>
-                <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls['label-text']} onClick={apply}>Confirm filters</div>
+              <button type="button" className={cls.button} style={{ cursor: 'pointer' }} onClick={apply}>
+                <div className={cls['label-text']}>Confirm filters</div>
               </button>
-              <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls['label-text-2']} style={{ cursor: 'pointer' }} onClick={clear}>Reset</div>
+              <button type="button" className={cls['label-text-2']} onClick={clear}>Reset</button>
             </div>
           </div>
         </div>

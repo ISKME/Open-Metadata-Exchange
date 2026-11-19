@@ -71,7 +71,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
           enable-cache: true
       - run: uv python install  # Version from pyproject.toml project.requires-python
@@ -84,8 +84,9 @@ jobs:
           path: ${{ env.PEERING_LOGS_DIR }}
           if-no-files-found: ignore
 
-  # ESLint and stylelint errors fail this job (warnings do not). To also block merging a pull
-  # request with a lint error, a repository admin adds `front-end (26)` as a required status
+  # ESLint and stylelint errors fail this job (warnings do not), and so does a frontend package
+  # with a high or critical vulnerability. To also block merging a pull
+  # request that fails this job, a repository admin adds `front-end (26)` as a required status
   # check: Settings > Rules > Rulesets (or Branches > Branch protection rules) for `main` >
   # Require status checks to pass > add `front-end (26)`. Rename it there when the Node.js
   # version in the matrix changes. The eslint and stylelint hooks in .pre-commit-config.yaml
@@ -109,3 +110,5 @@ jobs:
       - run: cd frontend && npm run lint:ts
       - run: cd frontend && npm run typecheck
       - run: cd frontend && npm run unit
+      - run: cd frontend && npm audit --audit-level=high
+      - run: cd frontend && npm outdated || true  # Report only, Dependabot opens the update pull requests

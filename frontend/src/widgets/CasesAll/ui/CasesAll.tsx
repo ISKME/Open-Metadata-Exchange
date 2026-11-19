@@ -5,7 +5,7 @@ import {
   useState, useEffect, useRef, useCallback,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import * as qs from 'query-string';
+import qs from 'query-string';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
