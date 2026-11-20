@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 // @ts-nocheck
 import React, { memo, useState } from 'react';
 import {
@@ -12,8 +11,8 @@ import {
   List,
   ListItem,
 } from '@mui/material';
-import { Checkbox } from '../components/Checkbox';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Checkbox } from '../components/Checkbox';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -52,7 +51,7 @@ export const Filter = memo(({
           // bgcolor: '#ececec',
           borderRadius: 2,
           '& .MuiAccordionSummary-content': { alignItems: 'center', m: 0 },
-          '& .Mui-expanded': { margin: '8px 0 !important' }
+          '& .Mui-expanded': { margin: '8px 0 !important' },
         }}
       >
         <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -64,14 +63,14 @@ export const Filter = memo(({
           {options.slice(0, visibleItems).map((el) => (
             <ListItem key={el.name} disableGutters sx={{ py: 0 }}>
               <FormControlLabel
-                control={
+                control={(
                   <Checkbox
                     filter={filter}
                     element={el}
                     onFilterChange={onFilterChange}
                     checkMarks={checkMarks}
                   />
-                }
+                )}
                 label={<Typography variant="body2">{el.name}</Typography>}
                 sx={{ ml: 0.5 }}
               />

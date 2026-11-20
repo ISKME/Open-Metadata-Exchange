@@ -4,7 +4,7 @@ import {
   FC, memo, useState, useEffect,
 } from 'react';
 import { useLocation } from 'react-router-dom';
-import * as qs from 'query-string';
+import qs from 'query-string';
 import cls from './Checkbox.module.scss';
 
 interface CheckboxProps {

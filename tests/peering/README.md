@@ -16,13 +16,45 @@ entrypoint, peers in `config.json`) without the API or the frontend.
 | `compose.yaml` | Builds the image from `Dockerfile-nntp` and starts two nodes with fixed IPs |
 | `node-a.json` | Config of node-a: its own name, and node-b as its peer |
 | `node-b.json` | Config of node-b: its own name, and node-a as its peer |
+| `conftest.py` | pytest fixture: starts both nodes, waits for INN, creates `ome.test`, always cleans up |
+| `nodes.py` | Helpers that run `ctlinnd`, `inews`, `grephistory` and `sm` in a node with `docker compose exec` |
+| `test_round_trip.py` | Posts an article on one node and checks that it arrives on the other, both ways |
 
 Each config is mounted as a Docker secret in `/run/secrets/`, and `OME_CONFIG` tells the
 entrypoint which file to read. The passwords are test values only.
 
 ## Run the test
 
-Requirements: Docker with Docker Compose v2.
+Requirements: Docker with Docker Compose v2, and [uv](https://docs.astral.sh/uv/).
+From the root of the repository:
+
+```shell
+uv run pytest tests/peering -m peering -v
+```
+
+- The tests are marked `peering` and skipped by a plain `uv run pytest`, because they build
+  an image and start containers.
+- The tests are marked `thread_unsafe` and `iterations(1)`: the two nodes are shared, so
+  each test runs once, one after the other, even with `--parallel-threads` or `--iterations`
+  (pytest-run-parallel, used by the rest of the test suite).
+- The test builds the image, starts both nodes, waits until INN answers `ctlinnd mode`,
+  creates `ome.test` on both, posts an article with a unique `Message-ID` on one node and
+  waits up to 90 seconds until `grephistory` finds it on the other. It also checks that
+  `Path` shows the article came from the other node.
+- The containers are always removed afterwards, also when a test fails.
+- When an article does not arrive, the test fails with the `Message-ID` and the
+  `innfeed.log` of both nodes.
+
+The `peering` job in `.github/workflows/ci.yml` runs this command on every pull request and
+push to `main`. It sets `PEERING_LOGS_DIR`: when that variable is set, the fixture writes the
+`docker compose logs` and `innfeed.log` of each node to that folder just before the containers
+are removed. When the job fails, the folder is uploaded as the `peering-logs` artifact.
+Without the variable nothing is written.
+
+## Run the test by hand
+
+Use these steps to look at what happens step by step, for example when the automatic test
+fails.
 
 1. Start both nodes from this folder:
 
@@ -76,12 +108,14 @@ Look at both sides:
 | Question | Where to look |
 | -------- | ------------- |
 | Did node-a send the article? | `docker compose exec node-a tail -n 20 /var/log/news/innfeed.log` |
-| Did node-b refuse it, and why? | `docker compose exec node-b tail -n 20 /var/log/news/news.notice` |
+| Did node-b refuse it? | `docker compose exec node-a grep -v ' queue: ' /var/log/news/innfeed.log` (`501 Unknown MODE variant` means node-b does not accept node-a as a peer) |
 | Does node-a find node-b? | `docker compose exec node-a getent hosts node-b` |
 | Does the node read the right config? | `docker compose exec node-a printenv OME_CONFIG` |
 
 Known pitfalls:
 
+- **`news.notice` stays empty.** innd logs to syslog, and the image does not run a syslog
+  daemon. Only `innfeed.log` shows what was sent.
 - **PowerShell drops the double quotes** inside a command passed to `docker compose exec ... sh -c '...'`.
   Post from a shell inside the container (step 3) instead.
 - **`inews` needs a server.** `server` is not set in `inn.conf`, so without `NNTPSERVER=localhost`
@@ -91,7 +125,11 @@ Known pitfalls:
 - **Service names.** Nodes find each other by their Compose service name (`node-a`, `node-b`),
   which must match `dns_name` in the configs.
 
-## What this test does not cover
+## What this test does not prove
+
+The test proves that articles arrive in both directions between two configured peers. It
+does not test that unknown hosts are refused. In a deployment that is done by `incoming.conf`
+(a peer is recognised by the IP of its `dns_name` or its `incoming_ip`) and the host firewall.
 
 The containers talk directly inside one Docker network. Firewalls, published ports, the real
-source IP behind NAT and DNS on the internet are tested on staging, not here.
+source IP behind NAT and DNS on the internet need a real deployment to test.

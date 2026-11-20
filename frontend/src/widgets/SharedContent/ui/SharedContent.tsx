@@ -15,7 +15,6 @@ import {
   TextField,
   Checkbox,
   List,
-  ListItem,
   ListItemText,
   ListItemIcon,
   IconButton,
@@ -25,15 +24,16 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import axios from 'axios';
-import cls from './SharedContent.module.scss';
 import SearchBar from 'components/OERX/Input';
+import ListItemButton from '@mui/material/ListItemButton';
+import cls from './SharedContent.module.scss';
 // import Dropdown from 'components/OERX/Dropdown';
 
 interface SubscribedContentProps {
     className?: string;
 }
 
-let tempUnshareTitle = '';
+const tempUnshareTitle = '';
 
 export const SharedContent = ({ className }: SubscribedContentProps) => {
   const [collections, setCollections] = useState([]);
@@ -56,9 +56,9 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
   // Fetch filters
   useEffect(() => {
     axios.get('/api/imls/v2/resources').then(({ data }) => {
-      setSubjects(data.resources.filters.find(f => f.keyword === 'f.general_subject')?.items || []);
-      setLevels(data.resources.filters.find(f => f.keyword === 'f.sublevel')?.items || []);
-      setTenants(data.resources.filters.find(f => f.keyword === 'tenant')?.items || []);
+      setSubjects(data.resources.filters.find((f) => f.keyword === 'f.general_subject')?.items || []);
+      setLevels(data.resources.filters.find((f) => f.keyword === 'f.sublevel')?.items || []);
+      setTenants(data.resources.filters.find((f) => f.keyword === 'tenant')?.items || []);
     });
   }, []);
 
@@ -67,10 +67,10 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
     params.set('per_page', String(perPage));
     params.set('page', String(page));
     if (inputValue) params.set('f.search', inputValue);
-    selectedSubjects.forEach(v => params.append('f.general_subject', v));
-    selectedLevels.forEach(v => params.append('f.sublevel', v));
-    selectedTenants.forEach(v => params.append('tenant', v));
-    axios.get('/api/imls/v2/collections/site-collections?' + params.toString()).then(({ data }) => {
+    selectedSubjects.forEach((v) => params.append('f.general_subject', v));
+    selectedLevels.forEach((v) => params.append('f.sublevel', v));
+    selectedTenants.forEach((v) => params.append('tenant', v));
+    axios.get(`/api/imls/v2/collections/site-collections?${params.toString()}`).then(({ data }) => {
       setCollections(data.collections.items || []);
       setTotalPages(Math.ceil((data.collections.pagination.count || 0) / perPage));
     });
@@ -113,8 +113,8 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
 
   const handleImageError = (e) => {
     e.target.onerror = null;
-    e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png'
-  }
+    e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png';
+  };
 
   return (
     <Box sx={{ p: 3 }}>
@@ -122,10 +122,10 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
         {/* onSearch={handleSearch} */}
         <SearchBar
           value={inputValue}
-          onChange={({ target }) => { setInputValue(target.value) }}
+          onChange={({ target }) => { setInputValue(target.value); }}
           onSearch={() => {
-            if (page !== 1) setPage(1)
-            else search()
+            if (page !== 1) setPage(1);
+            else search();
           }}
           label="Search shared content"
           width="400px"
@@ -137,9 +137,23 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
         <Dropdown id="sub" label="Subject area" options={subjects} value={selectedSubjects} onChange={e => setSelectedSubjects(e.target.value)} />
         <Dropdown id="mat" label="Educational level" options={levels} value={selectedLevels} onChange={e => setSelectedLevels(e.target.value)} /> */}
       </Box>
-      <Grid container spacing={4} justifyContent="center" sx={{ mt: 2 }}>
+      <Grid
+        container
+        spacing={4}
+        sx={{
+          justifyContent: 'center',
+          mt: 2,
+        }}
+      >
         {collections.map((item) => (
-          <Grid item xs={12} sm={4} md={3} key={item.id}>
+          <Grid
+            key={item.id}
+            size={{
+              xs: 12,
+              sm: 4,
+              md: 3,
+            }}
+          >
             <Card sx={{ position: 'relative', height: '100%' }}>
               <CardMedia
                 component="img"
@@ -148,10 +162,16 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
                 title={item.name}
                 onError={handleImageError}
               />
-                {/* startIcon={<RemoveIcon />} */}
-                <Button color="error" onClick={() => handleUnshare(item.id, item.name)} sx={{ mt: 1, position: 'absolute', right: '8px', top: '4px', textTransform: 'capitalize', background: 'white', fontWeight: 'bold' }}>
-                  Unshare
-                </Button>
+              {/* startIcon={<RemoveIcon />} */}
+              <Button
+                color="error"
+                onClick={() => handleUnshare(item.id, item.name)}
+                sx={{
+                  mt: 1, position: 'absolute', right: '8px', top: '4px', textTransform: 'capitalize', background: 'white', fontWeight: 'bold',
+                }}
+              >
+                Unshare
+              </Button>
               <CardContent>
                 <Typography variant="h4" sx={{ fontSize: '1.2rem', mb: 1 }}>
                   {item.name}
@@ -160,7 +180,9 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
                   {item.levels?.join(', ') || 'PreK-12, HigherEd, ContinuingEd'}
                 </Typography>
                 <Typography variant="body2">
-                  {item.numResources} resources
+                  {item.numResources}
+                  {' '}
+                  resources
                 </Typography>
               </CardContent>
             </Card>
@@ -175,19 +197,20 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
         <DialogTitle>Add Collections to Shared</DialogTitle>
         <DialogContent>
           <List>
-            {pickerItems.map(item => (
-              <ListItem key={item.id} button onClick={() => {
-                setPickerSelected(prev =>
-                  prev.includes(item.id)
-                    ? prev.filter(id => id !== item.id)
-                    : [...prev, item.id]
-                );
-              }}>
+            {pickerItems.map((item) => (
+              <ListItemButton
+                key={item.id}
+                onClick={() => {
+                  setPickerSelected((prev) => (prev.includes(item.id)
+                    ? prev.filter((id) => id !== item.id)
+                    : [...prev, item.id]));
+                }}
+              >
                 <ListItemIcon>
                   <Checkbox checked={pickerSelected.includes(item.id)} />
                 </ListItemIcon>
                 <ListItemText primary={item.name} secondary={item.levels?.join(', ')} />
-              </ListItem>
+              </ListItemButton>
             ))}
           </List>
         </DialogContent>
@@ -200,7 +223,12 @@ export const SharedContent = ({ className }: SubscribedContentProps) => {
       <Dialog open={unshareDialog.open} onClose={() => setUnshareDialog({ open: false, id: null, name: '' })}>
         <DialogTitle>Unshare Collection?</DialogTitle>
         <DialogContent>
-          <Typography>Are you sure you want to unshare <b>{unshareDialog.name}</b>?</Typography>
+          <Typography>
+            Are you sure you want to unshare
+            {' '}
+            <b>{unshareDialog.name}</b>
+            ?
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setUnshareDialog({ open: false, id: null, name: '' })}>Cancel</Button>

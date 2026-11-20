@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { classNames } from 'shared/lib/classNames/classNames';
 import SearchIcon from 'shared/assets/icons/search.svg';
-import cls from './SearchBar.module.scss';
 import { memo, useEffect, useRef } from 'react';
+import cls from './SearchBar.module.scss';
 
 interface SearchBarProps {
     className?: string;
@@ -12,7 +12,10 @@ interface SearchBarProps {
     onClear?: () => void;
     placeholder: string;
 }
-export const SearchBar = memo(({ value, onInputChange, onKeyDown, onClear, placeholder, className }: SearchBarProps) => {
+export const SearchBar = memo(({
+  value, onInputChange, onKeyDown, onClear, placeholder, className,
+}: SearchBarProps) => {
+  const ref = useRef(null);
   // useEffect(() => {
   //   if (!value && onClear) onClear();
   // }, [value]);
@@ -24,7 +27,6 @@ export const SearchBar = memo(({ value, onInputChange, onKeyDown, onClear, place
     element.addEventListener('search', handler);
     return () => element.removeEventListener('search', handler);
   }, []);
-  const ref = useRef(null);
   return (
     <div className={classNames(cls.Searchbar, {}, [className])}>
       <SearchIcon className={cls.search_icon} />

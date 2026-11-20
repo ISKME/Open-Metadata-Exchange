@@ -58,6 +58,13 @@ and correctness. The hooks include:
 | `pyproject-fmt` | `pyproject.toml` formatting |
 | `validate-pyproject` | `pyproject.toml` validation |
 | `uv-pre-commit` | `uv.lock` file updates |
+| `eslint` (local) | ESLint on `frontend/**/*.ts(x)` files, same config as `npm run lint:ts` |
+| `stylelint` (local) | stylelint on `frontend/**/*.scss` files, same config as `npm run lint:scss` |
+
+The `eslint` and `stylelint` hooks use the packages in `frontend/node_modules`, so run
+`cd frontend && npm ci` once (see Setup). Without them these two hooks fail with a hint.
+pre-commit.ci cannot install those packages and skips these two hooks, so the `front-end` job
+in `.github/workflows/ci.yml` runs the same checks on every pull request.
 
 ### Setup
 
@@ -68,6 +75,7 @@ uv pip install --upgrade pip
 pip install --editable .
 uv tool install pre-commit
 pre-commit install
+cd frontend && npm ci  # for the eslint and stylelint hooks
 ```
 
 ## Python Conventions

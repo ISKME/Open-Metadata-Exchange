@@ -1,75 +1,75 @@
 // @ts-nocheck
-import axios from 'axios'
+import axios from 'axios';
 
 // temp csrf var & timer
-const csrf = () => new Promise((res) => axios.get('/api/csrf-token/').then(({ data }) => res(data.token)))
+const csrf = () => new Promise((res) => { axios.get('/api/csrf-token/').then(({ data }) => res(data.token)); });
 
 export default {
-  post: (url, body, form = false) => new Promise(async (res, rej) => {
+  post: (url, body, form = false) => new Promise(async (res, rej) => { // eslint-disable-line no-async-promise-executor -- every error is caught below and passed to rej
     try {
-      const token = await csrf()
-      const headers = { 'X-Csrftoken': token, 'Content-Type': form ? 'multipart/form-data' : 'application/json;charset=UTF-8' }
+      const token = await csrf();
+      const headers = { 'X-Csrftoken': token, 'Content-Type': form ? 'multipart/form-data' : 'application/json;charset=UTF-8' };
+      let payload = body;
       if (form) {
-        const formData = new FormData()
-        for (const key in body) {
-          const value = body[key]
-          if (value !== undefined && value !== null)
-            formData.append(key, value)
-        }
-        body = formData
+        const formData = new FormData();
+        Object.keys(body).forEach((key) => {
+          const value = body[key];
+          if (value !== undefined && value !== null) formData.append(key, value);
+        });
+        payload = formData;
       }
-      const { data } = await axios.post((url.startsWith('/') || url.startsWith('http')) ? url : ('/api/' + url), body, { headers })
-      res(data)
+      const { data } = await axios.post((url.startsWith('/') || url.startsWith('http')) ? url : (`/api/${url}`), payload, { headers });
+      res(data);
     } catch (e) {
-      rej(e?.response?.data || e)
+      rej(e?.response?.data || e);
     }
   }),
-  put: (url, body, form = false) => new Promise(async (res, rej) => {
+  put: (url, body, form = false) => new Promise(async (res, rej) => { // eslint-disable-line no-async-promise-executor -- every error is caught below and passed to rej
     try {
-      const token = await csrf()
-      const headers = { 'X-Csrftoken': token, 'Content-Type': form ? 'multipart/form-data' : 'application/json;charset=UTF-8' }
+      const token = await csrf();
+      const headers = { 'X-Csrftoken': token, 'Content-Type': form ? 'multipart/form-data' : 'application/json;charset=UTF-8' };
+      let payload = body;
       if (form) {
-        const formData = new FormData()
-        for (const key in body) {
-          const value = body[key]
-          if (value !== undefined && value !== null)
-            formData.append(key, value)
-        }
-        body = formData
+        const formData = new FormData();
+        Object.keys(body).forEach((key) => {
+          const value = body[key];
+          if (value !== undefined && value !== null) formData.append(key, value);
+        });
+        payload = formData;
       }
-      const { data } = await axios.put(url.startsWith('/api/') ? url : '/api/' + url, body, { headers })
-      res(data)
+      const { data } = await axios.put(url.startsWith('/api/') ? url : `/api/${url}`, payload, { headers });
+      res(data);
     } catch (e) {
-      rej(e?.response?.data || e)
+      rej(e?.response?.data || e);
     }
   }),
-  patch: (url, body, form = false) => new Promise(async (res, rej) => {
+  patch: (url, body, form = false) => new Promise(async (res, rej) => { // eslint-disable-line no-async-promise-executor -- every error is caught below and passed to rej
     try {
-      const token = await csrf()
-      const headers = { 'X-Csrftoken': token, 'Content-Type': form ? 'multipart/form-data' : 'application/json;charset=UTF-8' }
+      const token = await csrf();
+      const headers = { 'X-Csrftoken': token, 'Content-Type': form ? 'multipart/form-data' : 'application/json;charset=UTF-8' };
+      let payload = body;
       if (form) {
-        const formData = new FormData()
-        for (const key in body) {
-          const value = body[key]
-          if (value !== undefined)
-            formData.append(key, value)
-        }
-        body = formData
+        const formData = new FormData();
+        Object.keys(body).forEach((key) => {
+          const value = body[key];
+          if (value !== undefined) formData.append(key, value);
+        });
+        payload = formData;
       }
-      const { data } = await axios.patch(url.startsWith('/api/') ? url : '/api/' + url, body, { headers })
-      res(data)
+      const { data } = await axios.patch(url.startsWith('/api/') ? url : `/api/${url}`, payload, { headers });
+      res(data);
     } catch (e) {
-      rej(e?.response?.data || e)
+      rej(e?.response?.data || e);
     }
   }),
-  del: (url, body = {}) => new Promise(async (res, rej) => {
+  del: (url, body = {}) => new Promise(async (res, rej) => { // eslint-disable-line no-async-promise-executor -- every error is caught below and passed to rej
     try {
-      const token = await csrf()
-      const headers = { 'X-Csrftoken': token }
-      const { data } = await axios.delete(url.startsWith('/api/') ? url : '/api/' + url, { data: body, headers })
-      res(data)
+      const token = await csrf();
+      const headers = { 'X-Csrftoken': token };
+      const { data } = await axios.delete(url.startsWith('/api/') ? url : `/api/${url}`, { data: body, headers });
+      res(data);
     } catch (e) {
-      rej(e?.response?.data || e)
+      rej(e?.response?.data || e);
     }
-  })
-}
+  }),
+};

@@ -41,6 +41,7 @@ export const Filter = memo(({
           {filter.name === 'Tenants' ? 'Digital Library Providers' : filter.name}
         </p>
         <button
+          type="button"
           className={cls.icon_btn}
           onClick={onToggle}
         >
@@ -60,7 +61,7 @@ export const Filter = memo(({
           />
         ))}
         {visibleItems < options.length && (
-          <button onClick={handleSeeMoreClick} className={cls.seeMore}>+ See More</button>
+          <button type="button" onClick={handleSeeMoreClick} className={cls.seeMore}>+ See More</button>
         )}
       </div>
     </li>

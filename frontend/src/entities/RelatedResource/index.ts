@@ -1,3 +1,3 @@
 import { RelatedResource } from './ui/RelatedResource';
 
-export { RelatedResource }
+export { RelatedResource };

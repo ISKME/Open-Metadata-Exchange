@@ -21,13 +21,13 @@
 
     .title {
       margin: 0 0 20px;
-      font: 500 36px / 40px "DINPro", sans-serif;
+      font: 500 36px / 40px DINPro, sans-serif;
       color: #333333;
     }
 
     .description {
       margin-top: 15px;
-      font: italic 18px / 26px "DINPro", sans-serif;
+      font: italic 18px / 26px DINPro, sans-serif;
       color: #333333;
     }
   }
@@ -36,19 +36,22 @@
 .collections {
   margin: auto;
   padding: 50px 15px;
+
   @media (min-width: 768px) {
     width: 750px;
   }
+
   @media (min-width: 980px) {
     width: 960px;
   }
+
   @media (min-width: 1200px) {
     width: 1170px;
   }
 
   h1 {
     color: #333333;
-    font: 400 28px / 32px "DINPro", sans-serif;
+    font: 400 28px / 32px DINPro, sans-serif;
     text-align: center;
     margin-bottom: 10px;
   }
@@ -63,15 +66,15 @@
       position: relative;
       border-radius: 2px;
       height: 210px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 8px rgb(0, 0, 0, 20%);
 
       &:hover {
-        box-shadow: 0 2px 10px 5px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 10px 5px rgb(0, 0, 0, 30%);
       }
 
       &::before {
         border-radius: 2px 2px 0 0;
-        background: linear-gradient(rgba(71, 79, 96, 0.2), rgba(0, 0, 0, 0.9));
+        background: linear-gradient(rgb(71, 79, 96, 20%), rgb(0, 0, 0, 90%));
         height: 175px;
         appearance: none;
         content: "";
@@ -84,7 +87,7 @@
       }
 
       .image {
-        background: rgba(241, 242, 242, 0.5);
+        background: rgb(241, 242, 242, 50%);
         position: relative;
         display: block;
         width: 100%;
@@ -102,7 +105,7 @@
         right: 5px;
         z-index: 10;
         color: #ffffff;
-        font-family: "Poppins", sans-serif;
+        font-family: Poppins, sans-serif;
         text-align: center;
         font-size: 18px;
         line-height: 1.2;
@@ -112,7 +115,7 @@
         .heading {
           position: absolute;
           width: 100%;
-          padding: 0 10px 0 10px;
+          padding: 0 10px;
           bottom: 20%;
 
           h4 {

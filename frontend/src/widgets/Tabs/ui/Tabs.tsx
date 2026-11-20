@@ -1,6 +1,9 @@
-import { memo, useState, useRef, useEffect } from 'react';
+import {
+  memo, useState, useRef, useEffect,
+} from 'react';
 import { NavLink } from 'react-router-dom';
 import { classNames } from 'shared/lib/classNames/classNames';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './Tabs.module.scss';
 
 interface TabsProps {
@@ -13,21 +16,23 @@ interface TabsProps {
 
 const checker = (path) => window.location.pathname.startsWith(path);
 
-export const Tabs = memo(({ className, style, tabs, children, onChange }: TabsProps) => {
+export const Tabs = memo(({
+  className, style: styleProp, tabs, children, onChange: onChangeProp,
+}: TabsProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const [activeSubTab, setActiveSubTab] = useState(0);
   const tabsRef = useRef(null);
   const [showArrows, setShowArrows] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
-  style = style || {};
+  const style = styleProp || {};
 
-  onChange = onChange || (() => {});
+  const onChange = onChangeProp || (() => {});
 
   useEffect(() => {
     const checkArrows = () => {
       const tabsContainer = tabsRef.current;
       // if (tabsContainer.scrollWidth > tabsContainer.clientWidth) {
-      if (480 >= tabsContainer.clientWidth) {
+      if (tabsContainer.clientWidth <= 480) {
         setShowArrows(true);
       } else {
         setShowArrows(false);
@@ -63,7 +68,7 @@ export const Tabs = memo(({ className, style, tabs, children, onChange }: TabsPr
   const handleArrowClick = (direction) => {
     const tabsContainer = tabsRef.current;
     const containerWidth = tabsContainer.clientWidth;
-    const scrollWidth = tabsContainer.scrollWidth;
+    const { scrollWidth } = tabsContainer;
 
     let newPosition;
 
@@ -92,13 +97,15 @@ export const Tabs = memo(({ className, style, tabs, children, onChange }: TabsPr
       {showArrows && (
         <div className={cls.arrows}>
           <button
+            type="button"
             className={`${cls.arrow} ${cls.prev} ${scrollPosition === 0 ? cls.disabled : ''}`}
             onClick={() => handleArrowClick('prev')}
           >
             &lt;
           </button>
           <button
-            className={`${cls.arrow} ${cls.next} ${scrollPosition === tabsRef.current?.scrollWidth - tabsRef.current?.clientWidth ? cls.disabled : ''}`}
+            type="button"
+            className={`${cls.arrow} ${cls.next} ${tabsRef.current && scrollPosition === tabsRef.current.scrollWidth - tabsRef.current.clientWidth ? cls.disabled : ''}`}
             onClick={() => handleArrowClick('next')}
           >
             &gt;
@@ -108,6 +115,10 @@ export const Tabs = memo(({ className, style, tabs, children, onChange }: TabsPr
       <div className={cls.tabs} ref={tabsRef}>
         {tabs.map((tab, index) => (
           <div
+            role="button"
+            tabIndex={0}
+            onKeyDown={clickOnEnterOrSpace}
+            // eslint-disable-next-line react/no-array-index-key -- the tabs come from props and the active tab is tracked by position too
             key={index}
             className={`${cls.tab} ${activeTab === index ? cls.active : ''}`}
             onClick={() => {
@@ -135,11 +146,15 @@ export const Tabs = memo(({ className, style, tabs, children, onChange }: TabsPr
           <div className={cls.actions}>
             {tabs[activeTab].content.map((item, index) => (
               <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={clickOnEnterOrSpace}
                 className={`${cls.action} ${activeSubTab === index ? cls.activeAction : ''}`}
                 onClick={() => {
                   setActiveSubTab(index);
                   onChange(activeTab, index);
                 }}
+                // eslint-disable-next-line react/no-array-index-key -- the tabs come from props and the active tab is tracked by position too
                 key={index}
               >
                 <div className={cls.actionBg} />

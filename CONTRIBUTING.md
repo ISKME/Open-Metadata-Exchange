@@ -37,6 +37,27 @@ pre-commit install
 
 This project requires that a current version of `Docker Desktop` is properly installed.
 
+## Frontend packages
+
+The npm packages in `frontend/` are kept up to date like this:
+
+* Dependabot opens one pull request a week with all minor and patch updates, and a separate
+  pull request for each major update. It waits 7 days after a release.
+* The `front-end` job in `.github/workflows/ci.yml` runs `npm audit --audit-level=high`. A pull
+  request fails when any frontend package, also a dev tool, has a high or critical
+  vulnerability. `npm update <package>` often fixes it within the allowed versions.
+* The same job prints `npm outdated` as a report. It does not fail on outdated packages.
+* A package that the code in `frontend/src` imports belongs in `dependencies`, not in
+  `devDependencies`, so that `npm audit --omit=dev` shows what ends up in the browser.
+
+Dependabot skips these major updates in `.github/dependabot.yml` on purpose. Remove the entry
+when the reason is gone:
+
+* React 19: `ckeditor4-react` only supports React 18
+* video.js 9 and later: `videojs-hls-quality-selector` only works with video.js 8
+* `@grapesjs/react` 2 and grapesjs 0.23: `@grapesjs/react` 2 depends on React 19 itself and
+  only supports grapesjs 0.22
+
 ## Starting from scratch
 
 Start by creating your own `fork` of the `Open-Metadata-Exchange` GitHub repository.

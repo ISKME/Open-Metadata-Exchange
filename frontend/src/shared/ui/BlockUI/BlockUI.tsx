@@ -1,4 +1,6 @@
-export const buiStyle: { [key: string]: React.CSSProperties } = {
+import type { CSSProperties } from 'react';
+
+export const buiStyle: { [key: string]: CSSProperties } = {
   uiBox: {
     position: 'relative',
   },
@@ -25,11 +27,9 @@ export const buiStyle: { [key: string]: React.CSSProperties } = {
   },
 };
 
-export const BlockUI = ({ text = 'Please wait...' }) => {
-  return (
-    <>
-    <div style={buiStyle.overlay}></div>
+export const BlockUI = ({ text = 'Please wait...' }) => (
+  <>
+    <div style={buiStyle.overlay} />
     <div style={buiStyle.panel}>{text}</div>
-    </>
-  )
-}
+  </>
+);

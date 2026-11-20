@@ -9,6 +9,8 @@ You will need the following:
    1. IP address reachable from the outside by the peer.
    1. Port 119 (and 563) is unblocked for the peer.
    1. Port 119 on the host forwarded to port 1119, where Docker is listening.
+   1. Only your peers can reach that port. Docker publishes it past UFW and firewalld:
+      see [FIREWALL.md](FIREWALL.md).
 
 ## Peering Configuration
 

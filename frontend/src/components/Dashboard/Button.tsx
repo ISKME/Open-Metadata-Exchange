@@ -1,4 +1,4 @@
-import cls from "./styles.module.scss";
+import cls from './styles.module.scss';
 
 export default function ({ children, onClick = () => {} }) {
   return (

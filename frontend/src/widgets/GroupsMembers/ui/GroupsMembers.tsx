@@ -1,9 +1,8 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/prop-types */
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
+
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -15,18 +14,18 @@ import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import IconButton from '@mui/material/IconButton';
-import InputAdornment from "@mui/material/InputAdornment";
-import ClearIcon from "@mui/icons-material/Clear";
+import InputAdornment from '@mui/material/InputAdornment';
+import ClearIcon from '@mui/icons-material/Clear';
 import Close from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Table from 'components/table'
+import Table from 'components/table';
 import Modal from '@mui/material/Modal';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import req from 'shared/lib/req'
+import req from 'shared/lib/req';
 
 const buttonStyles = {
   border: '1px solid #999',
@@ -59,15 +58,15 @@ const toolbarStyles = {
   gap: '4px',
   backgroundColor: '#efeff0',
   padding: '8px',
-}
+};
 
 export function GroupsMembers({ onMembersCountChange = () => {} }) {
-  const { id: group_id } = useParams();
-  const [open, setOpen] = useState(false)
-  const [list, setList] = useState([])
-  const [checkedEmails, setCheckedEmails] = useState([])
-  const [text, setText] = useState('')
-  const [search, setSearch] = useState('')
+  const { id: groupId } = useParams();
+  const [open, setOpen] = useState(false);
+  const [list, setList] = useState([]);
+  const [checkedEmails, setCheckedEmails] = useState([]);
+  const [text, setText] = useState('');
+  const [search, setSearch] = useState('');
 
   const [members, setMembers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -87,56 +86,27 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
   const hasAnyActiveSelection = hasCurrentSelection || hasPendingSelection;
 
   const handleCheckboxChange = (event, email) => {
-    const { checked } = event.target
+    const { checked } = event.target;
     if (checked) {
-      setCheckedEmails([...checkedEmails, email])
+      setCheckedEmails([...checkedEmails, email]);
     } else {
       setCheckedEmails(checkedEmails.filter((checkedEmail) => checkedEmail !== email));
     }
-  }
+  };
 
   useEffect(() => {
-  axios.get(`/api/groups/v1/groups/${group_id}/members/invite`).then(({ data }) => {
-    setList(data)
-  })
-}, [group_id])
-
-  async function add() {
-    const extraEmails = text
-      .split(',')
-      .map((item) => item.trim())
-      .filter(Boolean);
-
-    const emails = [...checkedEmails, ...extraEmails];
-
-    if (!emails.length) {
-      alert('Please select or enter at least one email.');
-      return;
-    }
-
-    await req.post(`groups/v1/groups/${group_id}/members/invite`, {
-      emails,
+    axios.get(`/api/groups/v1/groups/${groupId}/members/invite`).then(({ data }) => {
+      setList(data);
     });
-
-    setOpen(false);
-    setCheckedEmails([]);
-    setText('');
-    alert('Successfully invited!');
-
-    await fetchMembers();
-    await fetchPendingMembers();
-
-    setSelectedCurrentMembers([]);
-    setSelectedPendingMembers([]);
-  }
+  }, [groupId]);
 
   async function fetchMembers(params = {}) {
     try {
-      const response = await axios.get(`/api/groups/v1/groups/${group_id}/members`, {
+      const response = await axios.get(`/api/groups/v1/groups/${groupId}/members`, {
         params: { page, page_size: pageSize, ...params },
       });
 
-      const rows = response.data.results.map(member => ({
+      const rows = response.data.results.map((member) => ({
         id: member.id,
         name: `${member.user.first_name} ${member.user.last_name}`,
         firstName: member.user.first_name,
@@ -158,7 +128,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
 
   async function fetchPendingMembers() {
     try {
-      const { data } = await axios.get(`/api/groups/v1/groups/${group_id}/members/invitations`);
+      const { data } = await axios.get(`/api/groups/v1/groups/${groupId}/members/invitations`);
 
       const rows = (Array.isArray(data) ? data : data?.results || []).map((item) => ({
         id: item.id,
@@ -177,6 +147,35 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
     }
   }
 
+  async function add() {
+    const extraEmails = text
+      .split(',')
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    const emails = [...checkedEmails, ...extraEmails];
+
+    if (!emails.length) {
+      alert('Please select or enter at least one email.');
+      return;
+    }
+
+    await req.post(`groups/v1/groups/${groupId}/members/invite`, {
+      emails,
+    });
+
+    setOpen(false);
+    setCheckedEmails([]);
+    setText('');
+    alert('Successfully invited!');
+
+    await fetchMembers();
+    await fetchPendingMembers();
+
+    setSelectedCurrentMembers([]);
+    setSelectedPendingMembers([]);
+  }
+
   async function getCsrfHeaders() {
     const { data } = await axios.get('/api/csrf-token');
 
@@ -189,11 +188,11 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
   useEffect(() => {
     setPage(1);
     fetchPendingMembers();
-  }, [group_id]);
+  }, [groupId]);
 
   useEffect(() => {
     fetchMembers();
-  }, [group_id, page, pageSize]);
+  }, [groupId, page, pageSize]);
 
   const handleMemberModify = async (data) => {
     const isAdmin = data.role === 'Leader';
@@ -201,14 +200,14 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
     try {
       const headers = await getCsrfHeaders();
 
-      await axios.put(`/api/groups/v1/groups/${group_id}/members/${data.id}`, {
+      await axios.put(`/api/groups/v1/groups/${groupId}/members/${data.id}`, {
         is_admin: isAdmin,
       }, { headers });
 
       await fetchMembers();
     } catch (error) {
       console.error('Error updating member!', error);
-      alert("An error occurred while trying to update the member. Please try again.");
+      alert('An error occurred while trying to update the member. Please try again.');
     }
   };
 
@@ -224,27 +223,25 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
 
     if (tab === 0) {
       setMembers(originalMembers.filter(
-        (member) =>
-          member.name.toLowerCase().includes(query) ||
-          member.email.toLowerCase().includes(query)
+        (member) => member.name.toLowerCase().includes(query)
+          || member.email.toLowerCase().includes(query),
       ));
     } else {
       setPendingMembers(originalPendingMembers.filter(
-        (member) =>
-          `${member.firstName} ${member.lastName}`.toLowerCase().includes(query) ||
-          member.email.toLowerCase().includes(query)
+        (member) => `${member.firstName} ${member.lastName}`.toLowerCase().includes(query)
+          || member.email.toLowerCase().includes(query),
       ));
     }
   };
 
   async function remove() {
-    if (!confirm('Are you sure you want to remove selected users?')) return;
+    if (!window.confirm('Are you sure you want to remove selected users?')) return;
 
     try {
       const headers = await getCsrfHeaders();
 
       if (tab === 0) {
-        await axios.delete(`/api/groups/v1/groups/${group_id}/members`, {
+        await axios.delete(`/api/groups/v1/groups/${groupId}/members`, {
           headers,
           data: {
             members: selectedCurrentMembers,
@@ -259,8 +256,8 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
       if (tab === 1) {
         await Promise.all(
           selectedPendingMembers.map((invitationId) => (
-            axios.delete(`/api/groups/v1/groups/${group_id}/members/invitations/${invitationId}`, { headers })
-          ))
+            axios.delete(`/api/groups/v1/groups/${groupId}/members/invitations/${invitationId}`, { headers })
+          )),
         );
 
         setSelectedPendingMembers([]);
@@ -273,7 +270,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
   }
 
   async function reInvite() {
-    if (!confirm('Are you sure you want to re-invite selected users?')) return;
+    if (!window.confirm('Are you sure you want to re-invite selected users?')) return;
 
     const selectedPendingRows = pendingMembers.filter((member) => (
       selectedPendingMembers.includes(member.id)
@@ -286,7 +283,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
     if (!emails.length) return;
 
     try {
-      await req.post(`groups/v1/groups/${group_id}/members/invite`, {
+      await req.post(`groups/v1/groups/${groupId}/members/invite`, {
         emails,
       });
 
@@ -302,10 +299,10 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
 
   useEffect(() => {
     if (!open) {
-      setSearch('')
-      setText('')
+      setSearch('');
+      setText('');
     }
-  }, [open])
+  }, [open]);
 
   return (
     <>
@@ -338,7 +335,7 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
           </FormControl>
           <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
             <FormGroup>
-              {list.filter(({ first_name, last_name, email }) => search.toLowerCase().split(/\s+/).every(word => [first_name, last_name, email].filter(Boolean).join(' ').toLowerCase().includes(word))).map((item) => (
+              {list.filter(({ first_name, last_name, email }) => search.toLowerCase().split(/\s+/).every((word) => [first_name, last_name, email].filter(Boolean).join(' ').toLowerCase().includes(word))).map((item) => (
                 <FormControlLabel
                   key={item.id}
                   control={<Checkbox />}
@@ -370,24 +367,29 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
           <hr style={{ margin: '16px 0' }} />
           <div style={{ textAlign: 'right' }}>
             <Button onClick={() => {
-              setOpen(false)
-              setCheckedEmails([])
-            }}>Cancel</Button>
-            <Button onClick={add} sx={{
-              marginLeft: '16px',
-              padding: '6px 12px',
-              borderColor: '#303e48',
-              backgroundColor: '#303e48',
-              color: '#fad000',
-              fontFamily: '"DINPro", sans-serif',
-              boxShadow: '0 3px 0 #202c34',
-              '&:hover': {
-                borderColor: '#8f9bae',
-                backgroundColor: '#8f9bae',
-                color: '#ffffff',
-                boxShadow: '0 3px 0 #7c8ba2',
-              },
+              setOpen(false);
+              setCheckedEmails([]);
             }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={add}
+              sx={{
+                marginLeft: '16px',
+                padding: '6px 12px',
+                borderColor: '#303e48',
+                backgroundColor: '#303e48',
+                color: '#fad000',
+                fontFamily: '"DINPro", sans-serif',
+                boxShadow: '0 3px 0 #202c34',
+                '&:hover': {
+                  borderColor: '#8f9bae',
+                  backgroundColor: '#8f9bae',
+                  color: '#ffffff',
+                  boxShadow: '0 3px 0 #7c8ba2',
+                },
+              }}
             >
               Add member
             </Button>
@@ -416,21 +418,24 @@ export function GroupsMembers({ onMembersCountChange = () => {} }) {
             variant="outlined"
             className="search"
             size="small"
-            sx={{ width:'300px', backgroundColor: 'white', '& input': { height: '30px' } }}
+            sx={{ width: '300px', backgroundColor: 'white', '& input': { height: '30px' } }}
             value={searchQuery}
             onChange={handleSearchChange}
-            InputProps={{
-              endAdornment: searchQuery && (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => {
-                    setSearchQuery("");
-                    setMembers(originalMembers);
-                    setPendingMembers(originalPendingMembers);
-                  }}>
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
+            slotProps={{
+              input: {
+                endAdornment: searchQuery && (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => {
+                      setSearchQuery('');
+                      setMembers(originalMembers);
+                      setPendingMembers(originalPendingMembers);
+                    }}
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
             }}
           />
         </Paper>

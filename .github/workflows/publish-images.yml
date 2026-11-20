@@ -32,17 +32,12 @@ jobs:
         include:
           - image: ome-api
             dockerfile: Dockerfile-api
-            build_args: INN_SERVER_NAME=nntp-server
           - image: ome-frontend
             dockerfile: Dockerfile-fe
-            build_args: ""
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-
-      - name: Use example config (no secrets in images)
-        run: cp config.json.example config.json
 
       - name: Make the API image self-contained
         # Upstream Dockerfile-api expects ./server, ./static and ./templates as
@@ -77,7 +72,6 @@ jobs:
         with:
           context: .
           file: ${{ matrix.dockerfile }}
-          build-args: ${{ matrix.build_args }}
           push: true
           tags: |
             ghcr.io/odisee-ome-2627/${{ matrix.image }}:${{ steps.meta.outputs.env }}

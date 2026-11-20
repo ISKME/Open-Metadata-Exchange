@@ -1,10 +1,8 @@
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable max-len */
-/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from 'shared/ui/Button/Button';
 import { useNavigate } from 'react-router-dom';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './CollectionHeader.module.scss';
 
 function checkOverflow(el) {
@@ -18,7 +16,7 @@ function checkOverflow(el) {
 }
 
 export const CollectionHeader = ({
-  id, name, micrositeName, micrositeSlug, numResources, educationLevels, updatedOn, thumbnail, abstract, subscribed, className, onDone = () => {}
+  id, name, micrositeName, micrositeSlug, numResources, educationLevels, updatedOn, thumbnail, abstract, subscribed, className, onDone = () => {},
 }: any) => {
   const navigator = useNavigate();
   const [sub, setSub] = useState(subscribed);
@@ -81,10 +79,10 @@ export const CollectionHeader = ({
         </div>
       </div>
       <h4>Overview:</h4>
-      {/* eslint-disable-next-line react/no-danger */}
+      { }
       <div style={{ position: 'relative' }}>
         <div id="compress" className={more && cls.compress} dangerouslySetInnerHTML={{ __html: abstract }} />
-        {more && <span className={cls.overview_link} onClick={() => setMore(false)}>Read More</span>}
+        {more && <span role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls.overview_link} onClick={() => setMore(false)}>Read More</span>}
       </div>
     </div>
   );
