@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 const NAV_ROOT_ID = 'imls-nav-root';
@@ -18,11 +18,13 @@ function getNavRoot(): HTMLElement {
 }
 
 export default function useAsideNav() {
-  const onImls = window.location.href.includes('/imls');
+  const hasAsideNav = window.location.href.includes('/imls');
 
-  // Always called, so the hooks run in the same order on every render
-  useEffect(() => {
-    if (!onImls) return undefined;
+  // useLayoutEffect (not useEffect) so <body> becomes a flex container before the browser paints.
+  // With useEffect the page was first painted full width and then shifted when the sidebar was
+  // placed next to it, which Lighthouse reported as a layout shift (CLS 0.78).
+  useLayoutEffect(() => {
+    if (!hasAsideNav) return undefined;
     const originalDisplay = document.body.style.display;
     document.body.style.display = 'flex';
     const header: any = document.querySelector('.global-wrapper');
@@ -31,8 +33,8 @@ export default function useAsideNav() {
       document.body.style.display = originalDisplay;
       if (header) header.style.width = 'unset';
     };
-  }, []);
+  }, [hasAsideNav]);
 
-  if (!onImls) return undefined;
+  if (!hasAsideNav) return undefined;
   return (children) => createPortal(children, getNavRoot());
 }
