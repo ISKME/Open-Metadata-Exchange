@@ -56,7 +56,7 @@ to restart the containers, not rebuild them. The contents of the file should loo
 | nntp\_debug\_user.username | debugging username                           |                                                                        |
 | nntp\_debug\_user.password | debugging password                           |                                                                        |
 | cms_plugin                 | python classpath for the plugin for your CMS | e.g. server.plugins.qubes.plugin.QubesPlugin                           |
-| innfeed                    | optional                                     | How innfeed retries a peer that cannot be reached                      |
+| innfeed                    | optional                                     | How innfeed retries a peer that cannot be reached. Whole seconds, at least 1; initial not above max, or the NNTP container does not start |
 | innfeed.initial\_reconnect\_time | seconds                                | First wait before a retry, doubled after each failure. Default 30      |
 | innfeed.max\_reconnect\_time | seconds                                    | Longest wait between retries. Default 3600                             |
 
