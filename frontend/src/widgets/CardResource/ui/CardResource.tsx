@@ -1,7 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
@@ -10,8 +6,8 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
-import cls from './CardResource.module.scss';
 import { Button } from '@mui/material';
+import cls from './CardResource.module.scss';
 
 const CardBlog = styled(Card)(({ theme }) => ({
   margin: 'auto',
@@ -33,26 +29,28 @@ const CardBlog = styled(Card)(({ theme }) => ({
   },
 }));
 
-export function CardResource({ id, title, description, url, items = [] }) {
+export function CardResource({
+  id, title, description, url, items = [],
+}) {
   return (
     <CardBlog sx={{ display: 'flex' }}>
       <CardContent sx={{ flex: '1', paddingTop: '0', width: '100%' }}>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-          <a href={url} target="_blank" style={{ cursor: 'pointer', flex: 1 }} target="_blank" title={`Download resource ${title}`}>
+          <a href={url} target="_blank" rel="noopener" style={{ cursor: 'pointer', flex: 1 }} title={`Download resource ${title}`}>
             <Typography component="div" variant="h5" sx={{ color: '#56788f', font: '700 19px / 25px "DINPro", sans-serif', marginBottom: '5px' }}>
               {title}
             </Typography>
           </a>
-          <a href={url} className={cls.downloadButton} target="_blank" title={`Download resource ${title}`}>
+          <a href={url} className={cls.downloadButton} target="_blank" rel="noopener" title={`Download resource ${title}`}>
             Download
-            <i className="fa fa-file-word-o" aria-hidden="true"></i>
+            <i className="fa fa-file-word-o" aria-hidden="true" />
           </a>
         </div>
         <div style={{ display: 'flex' }}>
           <Typography
             variant="subtitle1"
-            color="text.secondary"
             component="div"
+            dangerouslySetInnerHTML={{ __html: description }}
             sx={{
               flex: 1,
               font: 'normal 14px / 21px "Roboto", sans-serif',
@@ -62,16 +60,19 @@ export function CardResource({ id, title, description, url, items = [] }) {
               boxOrient: 'vertical',
               overflow: 'hidden',
             }}
-            dangerouslySetInnerHTML={{ __html: description }}
           />
         </div>
         <div className={cls['case-fields']}>
           {items.map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key -- the fields of the card are only shown, in a fixed order
             <ul className={cls['case-field']} key={index}>
               <span>{item.label}</span>
-              {item.items.map((innerItem, itemIndex) => <li key={itemIndex}>
-                <span>{innerItem.name}</span>
-              </li>)}
+              {item.items.map((innerItem, itemIndex) => (
+                // eslint-disable-next-line react/no-array-index-key -- the fields of the card are only shown, in a fixed order
+                <li key={itemIndex}>
+                  <span>{innerItem.name}</span>
+                </li>
+              ))}
             </ul>
           ))}
         </div>

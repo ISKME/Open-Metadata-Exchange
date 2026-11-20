@@ -1,6 +1,6 @@
-import { Autocomplete, TextField, CircularProgress } from '@mui/material'
+import { Autocomplete, TextField, CircularProgress } from '@mui/material';
 
-export default function({
+export default function ({
   id = '',
   label = '',
   options = [],
@@ -29,20 +29,24 @@ export default function({
             minWidth: '200px',
             '& fieldset': {
               border: 'none !important',
-            }
+            },
           }}
-          InputProps={{
-            ...params.InputProps,
-            type: 'search',
-            endAdornment: (
-              <>
-                {loading ? <CircularProgress size={20} aria-label="Loading options" /> : null}
-                {params.InputProps.endAdornment}
-              </>
-            ),
+          slotProps={{
+            ...params.slotProps,
+
+            input: {
+              ...params.slotProps.input,
+              type: 'search',
+              endAdornment: (
+                <>
+                  {loading ? <CircularProgress size={20} aria-label="Loading options" /> : null}
+                  {params.slotProps.input.endAdornment}
+                </>
+              ),
+            },
           }}
         />
       )}
     />
-  )
+  );
 }

@@ -5,18 +5,18 @@ import { BuildOptions } from './types/config';
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
 export function buildDevServer(options: BuildOptions): DevServerConfiguration {
-    return {
-        port: options.port,
-        open: true,
-        historyApiFallback: true,
-        hot: true,
-        allowedHosts: "all",
-        proxy: [
-            {
-                context: ['/api/'],
-                target: API_URL,
-                changeOrigin: true,
-            },
-        ],
-    };
+  return {
+    port: options.port,
+    open: true,
+    historyApiFallback: true,
+    hot: true,
+    allowedHosts: 'all',
+    proxy: [
+      {
+        context: ['/api/'],
+        target: API_URL,
+        changeOrigin: true,
+      },
+    ],
+  };
 }

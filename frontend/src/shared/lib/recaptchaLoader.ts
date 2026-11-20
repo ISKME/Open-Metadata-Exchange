@@ -1,4 +1,5 @@
 // @ts-nocheck
+/* global grecaptcha */
 // React form utility in case need to get a token.
 let loading: Promise<typeof grecaptcha> | null = null;
 

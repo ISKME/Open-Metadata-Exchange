@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { PagesResultProps } from '@grapesjs/react';
-import { BTN_CLS, MAIN_BORDER_COLOR, cx } from './common';
 import Icon from '@mdi/react';
 import { mdiDelete } from '@mdi/js';
+import { BTN_CLS, MAIN_BORDER_COLOR, cx } from './common';
 
 export default function CustomPageManager({
   pages,
@@ -32,7 +32,7 @@ export default function CustomPageManager({
           className={cx(
             'flex items-center py-2 px-4 border-b',
             index === 0 && 'border-t',
-            MAIN_BORDER_COLOR
+            MAIN_BORDER_COLOR,
           )}
         >
           <button

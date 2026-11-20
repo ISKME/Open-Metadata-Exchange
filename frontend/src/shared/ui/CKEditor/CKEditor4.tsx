@@ -1,61 +1,61 @@
 import { CKEditor } from 'ckeditor4-react';
 import { useState, useRef } from 'react';
-import { BlockUI } from '../BlockUI/BlockUI';
 import req from 'shared/lib/req';
+import { BlockUI } from '../BlockUI/BlockUI';
 
 const devLicenseKey = 'WkhwNE9USm5ZV3cyTUhBMFpEWnlZWEozZEhWdmJuY3gtTnpVMU9UTTVORFU1TkRZME5EazQ=';
 
 const plugins = [
-  "about",
-  "basicstyles",
-  "blockquote",
-  "clipboard",
-  "contextmenu",
-  "enterkey",
-  "entities",
-  "floatingspace",
-  "format",
-  "indentblock",
-  "indentlist",
-  "justify",
-  "link",
-  "list",
-  "notificationaggregator",
-  "quicktable",
-  "resize",
-  "tabletools",
-  "tableresize",
-  "toolbar",
-  "undo",
-  "wysiwygarea",
-  "pastefromword",
-  "uploadfile",
-  "a11ychecker",
-  "video",
-  "image2",
-  "uploadimage",
-  "filebrowser",
-  "showblocks",
+  'about',
+  'basicstyles',
+  'blockquote',
+  'clipboard',
+  'contextmenu',
+  'enterkey',
+  'entities',
+  'floatingspace',
+  'format',
+  'indentblock',
+  'indentlist',
+  'justify',
+  'link',
+  'list',
+  'notificationaggregator',
+  'quicktable',
+  'resize',
+  'tabletools',
+  'tableresize',
+  'toolbar',
+  'undo',
+  'wysiwygarea',
+  'pastefromword',
+  'uploadfile',
+  'a11ychecker',
+  'video',
+  'image2',
+  'uploadimage',
+  'filebrowser',
+  'showblocks',
   // "abbr",
-  "mathjax",
-  "removeformat",
+  'mathjax',
+  'removeformat',
 ];
 
 const defaultConfig = {
-  uiColor: "#FAFAFA",
+  uiColor: '#FAFAFA',
   toolbar: [
-    { name: 'document', items: [ 'A11ychecker' ] },
-    { name: 'clipboard', items: [ 'PasteFromWord', 'Undo', "Redo" ] },
-    { name: 'styles', items: [ 'Format' ] },
-    { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'RemoveFormat'] },
-    { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
-    { name: 'links', items: [ 'Link', 'Unlink' ] },
-    { name: 'insert', items: [ 'Image', 'Table', 'Video', 'Mathjax' ] },
-    { name: 'tools', items: [ 'ShowBlocks' ] },
+    { name: 'document', items: ['A11ychecker'] },
+    { name: 'clipboard', items: ['PasteFromWord', 'Undo', 'Redo'] },
+    { name: 'styles', items: ['Format'] },
+    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'RemoveFormat'] },
+    { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+    { name: 'links', items: ['Link', 'Unlink'] },
+    { name: 'insert', items: ['Image', 'Table', 'Video', 'Mathjax'] },
+    { name: 'tools', items: ['ShowBlocks'] },
   ],
-  removeButtons: "Cut,Copy,Paste,JustifyBlock,Anchor,About",
-  format_tags: "p;h3;h4;pre",
-  indentClasses: ["indent-1", "indent-2", "indent-3"],
+  removeButtons: 'Cut,Copy,Paste,JustifyBlock,Anchor,About',
+  format_tags: 'p;h3;h4;pre',
+  indentClasses: ['indent-1', 'indent-2', 'indent-3'],
   plugins: plugins.join(','),
   oembedUrl: '/oembed/client',
   uploadUrl: '/editor/documents/upload',
@@ -78,52 +78,57 @@ const defaultConfig = {
   image2_altRequired: true,
   contentsLangDirection: 'ltr',
   stylesSet: false,
-  qtWidth: "100%",
+  qtWidth: '100%',
   allowedContent: true,
-  mathJaxLib: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML",
+  mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML',
   height: 425,
   useComputedState: false,
   language: 'en',
-}
+};
 
-export function CKEditorWidget({ content, onChange, config={}, googleImport=true }) {
+export function CKEditorWidget({
+  content, onChange, config = {} as Record<string, unknown>, googleImport = true,
+}) {
   const [importing, setImporting] = useState(false);
   const editorRef = useRef(null);
-  const googleAPI = window['googleapiShowPicker'];
-  config['licenseKey'] = window['CKEDITOR_4_LICENSE_KEY'] || devLicenseKey;
+  const googleAPI = window.googleapiShowPicker;
+  // eslint-disable-next-line no-param-reassign -- the license key is added to the config that goes to the editor
+  config.licenseKey = window.CKEDITOR_4_LICENSE_KEY || devLicenseKey;
 
   const onGoogleFileSelect = (docId, accessToken) => {
     setImporting(true);
-    req.post(window['GOOGLE_DOCS_IMPORT_URL'], {doc_id: docId, access_token: accessToken}, true).then((data: {body: string}) => {
+    req.post(window.GOOGLE_DOCS_IMPORT_URL, { doc_id: docId, access_token: accessToken }, true).then((data: {body: string}) => {
       editorRef.current?.setData(data.body);
       setImporting(false);
-    }).catch(error => {
+    }).catch((error) => {
       setImporting(false);
       console.error(error);
-    })
-  }
+    });
+  };
 
   const onGoogleFileCancel = () => {
-  }
+  };
 
   const importFromGoogle = (e) => {
     e.preventDefault();
     googleAPI(onGoogleFileSelect, onGoogleFileCancel);
-  }
+  };
 
   return (
     <>
-    { importing && <BlockUI /> }
-    <CKEditor editorUrl="/static/ckeditor4-lts/ckeditor.js"
-              config={ {...defaultConfig, ...config} }
-              initData={ content }
-              onChange={onChange} onInstanceReady={(e) => {
-                editorRef.current = e.editor
-              }}
-    />
-    {googleImport && (
-      <button type="button" className="btn btn-ckeditor-import mod-google-drive" onClick={importFromGoogle}>Import from Google Drive</button>
-    )}
+      { importing && <BlockUI /> }
+      <CKEditor
+        editorUrl="/static/ckeditor4-lts/ckeditor.js"
+        config={{ ...defaultConfig, ...config }}
+        initData={content}
+        onChange={onChange}
+        onInstanceReady={(e) => {
+          editorRef.current = e.editor;
+        }}
+      />
+      {googleImport && (
+        <button type="button" className="btn btn-ckeditor-import mod-google-drive" onClick={importFromGoogle}>Import from Google Drive</button>
+      )}
     </>
-  )
+  );
 }

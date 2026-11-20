@@ -2,7 +2,7 @@
 // ToDo: gather in single source for themes
 
 export const globalStyles = {
-  '.MuiAccordionSummary-contentGutters': {
+  ':where(.MuiAccordionSummary-gutters) .MuiAccordionSummary-content': {
     margin: '0 !important',
   },
   '.MuiAccordionSummary-gutters': {

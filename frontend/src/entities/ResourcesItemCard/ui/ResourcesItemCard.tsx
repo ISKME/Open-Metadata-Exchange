@@ -1,6 +1,6 @@
-/* eslint-disable max-len */
 import { Link } from 'react-router-dom';
 import { memo, useState } from 'react';
+import { clickOnEnterOrSpace } from 'shared/lib/a11y/clickOnEnterOrSpace';
 import cls from './ResourcesItemCard.module.scss';
 import AccessibleIcon from '../../../shared/assets/icons/accessible.svg';
 import FullCourseIcon from '../../../shared/assets/icons/full-course.svg';
@@ -12,27 +12,25 @@ interface CollectionItemCardProps {
   resource?: any;
 }
 
-const join = (arr) => arr.length ? arr?.reduce((a, b, i, array) => a + (i < array.length - 1 ? ', ' : ' and ') + b) : '';
+const join = (arr) => (arr.length ? arr?.reduce((a, b, i, array) => a + (i < array.length - 1 ? ', ' : ' and ') + b) : '');
+
+function MetaData({ resource }) {
+  return (
+    <>
+      {(resource as any).metadata.map((item) => item.label && (
+        <p className={cls.subTitle}>
+          {item.label}
+          :
+          <span>{join(item.items?.map((el) => el.name))}</span>
+        </p>
+      ))}
+    </>
+  );
+}
 
 export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCardProps) => {
   const [see, setSee] = useState(false);
   const [checked, setChecked] = useState(false);
-  function MetaData() {
-    return (
-      <>
-        {(resource as any).metadata.map((item) => (
-          <>
-            {item.label && (
-              <p className={cls.subTitle}>
-                {item.label}:
-                <span>{join(item.items?.map((el) => el.name))}</span>
-              </p>
-            )}
-          </>
-        ))}
-      </>
-    );
-  }
   return (
     <li
       className={cls.item_card}
@@ -87,7 +85,7 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
                   viewBox="0 0 24 24"
                   width="18"
                   height="18"
-                  style={{ position: "relative", top: 0, left: 0 }}
+                  style={{ position: 'relative', top: 0, left: 0 }}
                 >
                   <path d="M12 .587l3.668 7.571L24 9.423l-6 5.847 1.416 8.256L12 18.902 4.584 23.526 6 15.27 0 9.423l8.332-1.265L12 .587z" />
                 </svg>
@@ -98,7 +96,7 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
                   width="18"
                   height="18"
                   style={{
-                    position: "absolute",
+                    position: 'absolute',
                     top: 0,
                     left: 0,
                     clipPath: `inset(0 ${100 - (Number(resource.rating) % 1) * 100}% 0 0)`,
@@ -126,7 +124,7 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
                 >
                   <path d="M12 .587l3.668 7.571L24 9.423l-6 5.847 1.416 8.256L12 18.902 4.584 23.526 6 15.27 0 9.423l8.332-1.265L12 .587z" />
                 </svg>
-              )
+              ),
             )}
           </div>
           <p style={{
@@ -141,15 +139,15 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
             <div>
               <strong>Views:</strong>
               <p style={{
-                  color: '#428bca', fontWeight: 'bold', fontSize: '15px', marginLeft: '8px', display: 'inline',
-                }}
-                >
-                  {`(${resource.visits || 0})`}
+                color: '#428bca', fontWeight: 'bold', fontSize: '15px', marginLeft: '8px', display: 'inline',
+              }}
+              >
+                {`(${resource.visits || 0})`}
               </p>
             </div>
           ) : null
         }
-        <MetaData />
+        <MetaData resource={resource} />
         <div className={cls.item_accessibility}>
           <AccessibleIcon className={cls.accessible_icon} />
           {resource.accessibility?.join(', ')}
@@ -160,7 +158,7 @@ export const ResourcesItemCard = memo(({ resource, className }: CollectionItemCa
             {see ? resource.abstract : (`${resource.abstract?.split(' ')?.slice(0, 20)?.join(' ')}...`)}
             {' '}
           </span>
-          {!see && <span className={cls.overview_link} onClick={() => setSee(true)}>Read More</span>}
+          {!see && <span role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} className={cls.overview_link} onClick={() => setSee(true)}>Read More</span>}
         </p>
       </div>
 

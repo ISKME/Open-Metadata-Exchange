@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 // @ts-nocheck
 import React, { useState, memo } from 'react';
 import {
@@ -18,10 +17,9 @@ import FullCourseIcon from 'shared/assets/icons/full-course.svg';
 import RightsIcon from 'shared/assets/icons/rights.svg';
 import InfoIcon from 'shared/assets/icons/info.svg';
 
-const join = (arr) =>
-  arr && arr.length
-    ? arr.reduce((a, b, i, array) => a + (i < array.length - 1 ? ', ' : ' and ') + b)
-    : '';
+const join = (arr) => (arr && arr.length
+  ? arr.reduce((a, b, i, array) => a + (i < array.length - 1 ? ', ' : ' and ') + b)
+  : '');
 
 function StarRating({ rating = 0 }) {
   const full = Math.floor(rating);
@@ -31,13 +29,24 @@ function StarRating({ rating = 0 }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       {[...Array(full)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
         <svg viewBox="0 0 24 24" width="24" height="24" key={`full-${i}`} style={{ fill: '#6f983d' }}>
           <path d="M12 .587l3.668 7.571L24 9.423l-6 5.847 1.416 8.256L12 18.902 4.584 23.526 6 15.27 0 9.423l8.332-1.265L12 .587z" />
         </svg>
       ))}
       {partial && (
-        <Box sx={{ position: 'relative', width: 18, height: 18, display: 'inline-block' }}>
-          <svg viewBox="0 0 24 24" width="24" height="24" style={{ fill: '#ccc', position: 'absolute', top: 0, left: 0 }}>
+        <Box sx={{
+          position: 'relative', width: 18, height: 18, display: 'inline-block',
+        }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            style={{
+              fill: '#ccc', position: 'absolute', top: 0, left: 0,
+            }}
+          >
             <path d="M12 .587l3.668 7.571L24 9.423l-6 5.847 1.416 8.256L12 18.902 4.584 23.526 6 15.27 0 9.423l8.332-1.265L12 .587z" />
           </svg>
           <svg
@@ -57,6 +66,7 @@ function StarRating({ rating = 0 }) {
         </Box>
       )}
       {[...Array(empty)].map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key -- the stars only show the rating and have no identity of their own
         <svg viewBox="0 0 24 24" width="24" height="24" key={`empty-${i}`} style={{ fill: '#ccc' }}>
           <path d="M12 .587l3.668 7.571L24 9.423l-6 5.847 1.416 8.256L12 18.902 4.584 23.526 6 15.27 0 9.423l8.332-1.265L12 .587z" />
         </svg>
@@ -69,19 +79,29 @@ function MetaData({ metadata }) {
   if (!metadata) return null;
   return (
     <Box sx={{ mt: 1 }}>
-      {metadata.map((item, idx) =>
-        item.label ? (
-          <Typography key={idx} variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-            <strong>{item.label}:</strong>{' '}
-            <span>{join(item.items?.map((el) => el.name))}</span>
-          </Typography>
-        ) : null
-      )}
+      {metadata.map((item, idx) => (item.label ? (
+        <Typography
+          // eslint-disable-next-line react/no-array-index-key -- the metadata of one card is only shown, in a fixed order
+          key={idx}
+          variant="body2"
+          sx={{
+            color: 'text.secondary',
+            mb: 0.5,
+          }}
+        >
+          <strong>
+            {item.label}
+            :
+          </strong>
+          {' '}
+          <span>{join(item.items?.map((el) => el.name))}</span>
+        </Typography>
+      ) : null))}
     </Box>
   );
 }
 
-export const ResourceCard = memo(function ResourceCard({ resource }) {
+export const ResourceCard = memo(({ resource }) => {
   const [see, setSee] = useState(false);
   const [checked, setChecked] = useState(false);
 
@@ -121,7 +141,13 @@ export const ResourceCard = memo(function ResourceCard({ resource }) {
             boxShadow: '1px 2px 5px rgba(0, 0, 0, .2)',
           }}
         />
-        <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+        <Typography
+          variant="body2"
+          sx={{
+            color: 'text.secondary',
+            textAlign: 'center',
+          }}
+        >
           {resource.license_bucket_title}
         </Typography>
       </CardContent>
@@ -149,20 +175,36 @@ export const ResourceCard = memo(function ResourceCard({ resource }) {
             {resource.title || resource.name}
           </MuiLink>
         </Box>
-        <Typography variant="caption" color="text.secondary" sx={{ mb: 1 }}>
-          Updated {new Date(resource.updateDate).toDateString()}
+        <Typography
+          variant="caption"
+          sx={{
+            color: 'text.secondary',
+            mb: 1,
+          }}
+        >
+          Updated
+          {' '}
+          {new Date(resource.updateDate).toDateString()}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
           <StarRating rating={Number(resource.rating) || 0} />
-          <Typography sx={{ color: '#428bca', fontWeight: 'bold', fontSize: 15, ml: 1 }}>
-            ({resource.ratings_number || 0})
+          <Typography sx={{
+            color: '#428bca', fontWeight: 'bold', fontSize: 15, ml: 1,
+          }}
+          >
+            (
+            {resource.ratings_number || 0}
+            )
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
           <Typography variant="body2" sx={{ fontWeight: 500 }}>
             Views:
           </Typography>
-          <Typography sx={{ color: '#428bca', fontWeight: 'bold', fontSize: 15, ml: 1 }}>
+          <Typography sx={{
+            color: '#428bca', fontWeight: 'bold', fontSize: 15, ml: 1,
+          }}
+          >
             {resource.visits || 0}
           </Typography>
         </Box>
@@ -170,13 +212,23 @@ export const ResourceCard = memo(function ResourceCard({ resource }) {
         <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
           <Box component="span" sx={{ display: 'flex', alignItems: 'center', mr: 1 }}>
             <AccessibleIcon style={{ width: 20, marginRight: 4 }} />
-            {!!resource.accessibility?.length && <Typography variant="body2" color="text.secondary">
-              ({resource.accessibility?.join(', ')})
-            </Typography>}
+            {!!resource.accessibility?.length && (
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'text.secondary',
+                }}
+              >
+                (
+                {resource.accessibility?.join(', ')}
+                )
+              </Typography>
+            )}
           </Box>
         </Box>
         <Typography variant="body2" sx={{ mt: 1 }}>
-          <strong>Overview:</strong>{' '}
+          <strong>Overview:</strong>
+          {' '}
           <span>
             {see
               ? resource.abstract
@@ -185,7 +237,9 @@ export const ResourceCard = memo(function ResourceCard({ resource }) {
           {!see && (
             <MuiLink
               component="button"
-              sx={{ ml: 1, color: 'primary.main', cursor: 'pointer', fontWeight: 500 }}
+              sx={{
+                ml: 1, color: 'primary.main', cursor: 'pointer', fontWeight: 500,
+              }}
               onClick={() => setSee(true)}
             >
               Read More

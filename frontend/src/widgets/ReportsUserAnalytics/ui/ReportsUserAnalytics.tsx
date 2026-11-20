@@ -1,9 +1,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/prop-types */
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 // @ts-nocheck
 import * as React from 'react';
 import styled from '@emotion/styled';
@@ -30,9 +27,8 @@ import { Autocomplete, CircularProgress } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { AnalyticsPageSize, AnalyticsPagination, analyticsTableProps } from 'shared/ui/AnalyticsTable/AnalyticsTable';
-import cls from './ReportsUserAnalytics.module.scss'
+import cls from './ReportsUserAnalytics.module.scss';
 import { DateRange, UserIsActiveStatus, ChartColors } from '../../enum';
-
 
 const USER_LABELS = {
   login: 'Logins',
@@ -43,7 +39,6 @@ const USER_LABELS = {
   allNotes: 'Notes',
   saves: 'Cases Saved',
 };
-
 
 let globalSearchValue = '';
 function EditUserToolbar({ onSearch, onExport, onClear }) {
@@ -158,84 +153,11 @@ export function ReportsUserAnalytics() {
     saves: ChartColors.BROWN,
   };
 
-  React.useEffect(() => {
-    const startDate = new Date(new Date().setDate(new Date().getDate() - 30));
-    const endDate = new Date();
-    const userIds = [];
-    const group = null;
-    const organization = null;
-
-    let cancelled = false;
-    setIsLoading(true);
-    const initialRequest = fetchData(startDate, endDate);
-    initialRequest.then(availableDate => {
-      if (cancelled || latestAnalyticsRequest.current !== initialRequest) return;
-      const reportingEndDate = availableDate || endDate;
-      const reportingStartDate = new Date(reportingEndDate);
-      reportingStartDate.setDate(reportingEndDate.getDate() - 30);
-      setDate([reportingStartDate, reportingEndDate]);
-      if (formatDate(startDate) !== formatDate(reportingStartDate)
-        || formatDate(endDate) !== formatDate(reportingEndDate)) {
-        fetchData(reportingStartDate, reportingEndDate);
-      }
-      fetchConfigs(reportingStartDate, reportingEndDate);
-      fetchTableData(reportingStartDate, reportingEndDate, userIds, group, organization);
-    });
-    return () => { cancelled = true; };
-  }, []);
-
-  React.useEffect(() => {
-    if (!latestAvailableDate) return;
-    setDate(current => current[1] > latestAvailableDate
-      ? [new Date(Math.min(current[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate]
-      : current);
-  }, [latestAvailableDate]);
-
   const formatDate = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
-  };
-
-  const fetchData = (startDate, endDate, users = [], group = null, organization = null) => {
-    const params = {
-      date_range_start: startDate ? formatDate(startDate) : undefined,
-      date_range_end: endDate ? formatDate(endDate) : undefined,
-      users: users.length > 0 ? users : undefined,
-      group: group || undefined,
-      organization: organization || undefined,
-    };
-
-    const request = axios
-      .get('/clickhouse/overall/user-analytics', { params })
-      .then(({ data }) => {
-        const latest = data.reduce((maximum, item) => item.date > maximum ? item.date : maximum, '');
-        let availableDate = null;
-        if (latest) {
-          const [year, month, day] = latest.split('-').map(Number);
-          availableDate = new Date(year, month - 1, day);
-          // Keep the latest known day when loading an older or filtered range.
-          setLatestAvailableDate(previous => previous && previous >= availableDate ? previous : availableDate);
-        }
-        const formattedData = data.map((item) => ({
-          date: item.date,
-          login: item.logins,
-          resourceView: item.casesViewed,
-          search: item.searches,
-          groups: item.groups,
-          downloads: item.resourcesDownloaded,
-          allNotes: item.notes,
-          saves: item.casesSaved,
-        }));
-        if (latestAnalyticsRequest.current === request) setChartData(formattedData);
-        return availableDate;
-      })
-      .catch((error) => {
-        console.error('Error fetching analytics data:', error);
-      });
-    latestAnalyticsRequest.current = request;
-    return request;
   };
 
   const fetchTableData = async (startDate, endDate, users = [], group = null, organization = null) => {
@@ -255,12 +177,11 @@ export function ReportsUserAnalytics() {
       const configResponse = await axios.get('/clickhouse/configs', { params });
       const userConfigs = configResponse.data.users;
 
-      const userMap = userConfigs.reduce((map, user) => {
-        map[user.id] =
-          `${user.first_name || ''} ${user.last_name || ''}`.trim()
+      const userMap = userConfigs.reduce((acc, user) => {
+        acc[user.id] = `${user.first_name || ''} ${user.last_name || ''}`.trim()
           || user.email?.trim()
           || `User ID: ${user.id}`;
-        return map;
+        return acc;
       }, {});
 
       const data = response.data.map((item) => {
@@ -273,7 +194,7 @@ export function ReportsUserAnalytics() {
           id: userId || 'unlogged',
           user: fullName,
           userType:
-            userConfigs.find(user => +user.id === +userId)?.user_type
+            userConfigs.find((user) => +user.id === +userId)?.user_type
             || 'Unknown',
           login: item.logins,
           view: item.casesViewed,
@@ -312,10 +233,84 @@ export function ReportsUserAnalytics() {
       return data.users;
     } catch (error) {
       console.error('Error fetching configs:', error);
+      return undefined;
     } finally {
       setIsLoading(false);
     }
   };
+
+  const fetchData = (startDate, endDate, users = [], group = null, organization = null) => {
+    const params = {
+      date_range_start: startDate ? formatDate(startDate) : undefined,
+      date_range_end: endDate ? formatDate(endDate) : undefined,
+      users: users.length > 0 ? users : undefined,
+      group: group || undefined,
+      organization: organization || undefined,
+    };
+
+    const request = axios
+      .get('/clickhouse/overall/user-analytics', { params })
+      .then(({ data }) => {
+        const latest = data.reduce((maximum, item) => (item.date > maximum ? item.date : maximum), '');
+        let availableDate = null;
+        if (latest) {
+          const [year, month, day] = latest.split('-').map(Number);
+          availableDate = new Date(year, month - 1, day);
+          // Keep the latest known day when loading an older or filtered range.
+          setLatestAvailableDate((previous) => (previous && previous >= availableDate ? previous : availableDate));
+        }
+        const formattedData = data.map((item) => ({
+          date: item.date,
+          login: item.logins,
+          resourceView: item.casesViewed,
+          search: item.searches,
+          groups: item.groups,
+          downloads: item.resourcesDownloaded,
+          allNotes: item.notes,
+          saves: item.casesSaved,
+        }));
+        if (latestAnalyticsRequest.current === request) setChartData(formattedData);
+        return availableDate;
+      })
+      .catch((error) => {
+        console.error('Error fetching analytics data:', error);
+      });
+    latestAnalyticsRequest.current = request;
+    return request;
+  };
+
+  React.useEffect(() => {
+    const startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    const endDate = new Date();
+    const userIds = [];
+    const group = null;
+    const organization = null;
+
+    let cancelled = false;
+    setIsLoading(true);
+    const initialRequest = fetchData(startDate, endDate);
+    initialRequest.then((availableDate) => {
+      if (cancelled || latestAnalyticsRequest.current !== initialRequest) return;
+      const reportingEndDate = availableDate || endDate;
+      const reportingStartDate = new Date(reportingEndDate);
+      reportingStartDate.setDate(reportingEndDate.getDate() - 30);
+      setDate([reportingStartDate, reportingEndDate]);
+      if (formatDate(startDate) !== formatDate(reportingStartDate)
+        || formatDate(endDate) !== formatDate(reportingEndDate)) {
+        fetchData(reportingStartDate, reportingEndDate);
+      }
+      fetchConfigs(reportingStartDate, reportingEndDate);
+      fetchTableData(reportingStartDate, reportingEndDate, userIds, group, organization);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  React.useEffect(() => {
+    if (!latestAvailableDate) return;
+    setDate((current) => (current[1] > latestAvailableDate
+      ? [new Date(Math.min(current[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate]
+      : current));
+  }, [latestAvailableDate]);
 
   const resetFilters = () => {
     setSelectedParams({ users: [], group: null, organization: null });
@@ -328,30 +323,31 @@ export function ReportsUserAnalytics() {
     const selectedRange = event.target.value;
     setRange(selectedRange);
 
-    let startDate, endDate;
+    let startDate; let
+      endDate;
 
     if (typeof selectedRange === 'number' && selectedRange >= 2015 && selectedRange <= new Date().getFullYear()) {
       startDate = new Date(selectedRange, 0, 1);
       endDate = new Date(selectedRange, 11, 31);
     } else {
       switch (selectedRange) {
-        case DateRange.LAST_30_DAYS:
-          endDate = latestAvailableDate || new Date();
-          startDate = new Date(endDate);
-          startDate.setDate(endDate.getDate() - 30);
-          break;
-        case DateRange.LAST_90_DAYS:
-          endDate = latestAvailableDate || new Date();
-          startDate = new Date(endDate);
-          startDate.setDate(endDate.getDate() - 90);
-          break;
-        case DateRange.LAST_YEAR:
-          endDate = latestAvailableDate || new Date();
-          startDate = new Date(endDate.getFullYear() - 1, endDate.getMonth(), endDate.getDate());
-          break;
-        case DateRange.CUSTOM:
-        default:
-          return;
+      case DateRange.LAST_30_DAYS:
+        endDate = latestAvailableDate || new Date();
+        startDate = new Date(endDate);
+        startDate.setDate(endDate.getDate() - 30);
+        break;
+      case DateRange.LAST_90_DAYS:
+        endDate = latestAvailableDate || new Date();
+        startDate = new Date(endDate);
+        startDate.setDate(endDate.getDate() - 90);
+        break;
+      case DateRange.LAST_YEAR:
+        endDate = latestAvailableDate || new Date();
+        startDate = new Date(endDate.getFullYear() - 1, endDate.getMonth(), endDate.getDate());
+        break;
+      case DateRange.CUSTOM:
+      default:
+        return;
       }
     }
 
@@ -364,7 +360,8 @@ export function ReportsUserAnalytics() {
     resetFilters();
   };
 
-  const handleDateRangeChange = (newDate) => {
+  const handleDateRangeChange = (selectedDate) => {
+    let newDate = selectedDate;
     if (latestAvailableDate && newDate?.[0] && newDate?.[1] > latestAvailableDate) {
       newDate = [new Date(Math.min(newDate[0].getTime(), latestAvailableDate.getTime())), latestAvailableDate];
     }
@@ -390,7 +387,7 @@ export function ReportsUserAnalytics() {
   const getYearOptions = () => {
     const currentYear = (latestAvailableDate || new Date()).getFullYear();
     const years = [];
-    for (let year = 2015; year <= currentYear; year++) {
+    for (let year = 2015; year <= currentYear; year += 1) {
       years.push(year);
     }
     return years.reverse();
@@ -408,39 +405,45 @@ export function ReportsUserAnalytics() {
     fetchTableData(date[0], date[1], selectedParams.users, updatedGroup, selectedParams.organization);
   };
 
+  const getFilteredUserIds = (sourceUsers, filters) => {
+    if (Object.values(filters).every((value) => value === '')) return [];
+
+    const filteredUsers = sourceUsers.filter((user) => (
+      (!filters.userType || (user.user_types || []).includes(filters.userType))
+      && (!filters.atlasRole || user.user_type === filters.atlasRole)
+      && (!filters.isActive || Boolean(user.is_active) === (filters.isActive === UserIsActiveStatus.ACTIVE))
+      && (!filters.state || user.state === filters.state)
+    )).map((user) => user.id);
+    return filteredUsers.length ? filteredUsers : [-1];
+  };
+
   const handleOrganizationChange = async (event, newValue) => {
     const updatedOrganization = newValue ? newValue.label : null;
     const updatedUsers = await fetchConfigs(date[0], date[1], updatedOrganization);
     const filteredUsers = getFilteredUserIds(updatedUsers || users, userFilters);
 
-    setSelectedParams(prev => ({ ...prev, organization: updatedOrganization, users: filteredUsers }));
+    setSelectedParams((prev) => ({ ...prev, organization: updatedOrganization, users: filteredUsers }));
     fetchData(date[0], date[1], filteredUsers, selectedParams.group, updatedOrganization);
     fetchTableData(date[0], date[1], filteredUsers, selectedParams.group, updatedOrganization);
-  };
-
-  const getFilteredUserIds = (sourceUsers, filters) => {
-    if (Object.values(filters).every(value => value === '')) return [];
-
-    const filteredUsers = sourceUsers.filter(user => (
-      (!filters.userType || (user.user_types || []).includes(filters.userType))
-      && (!filters.atlasRole || user.user_type === filters.atlasRole)
-      && (!filters.isActive || Boolean(user.is_active) === (filters.isActive === UserIsActiveStatus.ACTIVE))
-      && (!filters.state || user.state === filters.state)
-    )).map(user => user.id);
-    return filteredUsers.length ? filteredUsers : [-1];
   };
 
   const handleUserFilterChange = (field, value) => {
     const filters = { ...userFilters, [field]: value };
     const filteredUsers = getFilteredUserIds(users, filters);
     setUserFilters(filters);
-    setSelectedParams(prev => ({ ...prev, users: filteredUsers }));
+    setSelectedParams((prev) => ({ ...prev, users: filteredUsers }));
     fetchData(date[0], date[1], filteredUsers, selectedParams.group, selectedParams.organization);
     fetchTableData(date[0], date[1], filteredUsers, selectedParams.group, selectedParams.organization);
   };
 
   const renderUserFilter = (field, label, options) => (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid
+      size={{
+        xs: 12,
+        sm: 6,
+        md: 4,
+      }}
+    >
       <FormControl size="small" sx={{ width: '100%' }}>
         <InputLabel className={cls.formInputLabel} shrink>{label}</InputLabel>
         <Select
@@ -448,10 +451,10 @@ export function ReportsUserAnalytics() {
           value={userFilters[field]}
           label={label}
           displayEmpty
-          onChange={event => handleUserFilterChange(field, event.target.value)}
+          onChange={(event) => handleUserFilterChange(field, event.target.value)}
         >
           <MenuItem value="">All</MenuItem>
-          {options.map(option => (
+          {options.map((option) => (
             <MenuItem key={option.value ?? option} value={option.value ?? option}>
               {option.label ?? option}
             </MenuItem>
@@ -472,10 +475,12 @@ export function ReportsUserAnalytics() {
   const activeSeries = Object.entries(activeItems)
     .filter(([key, value]) => value)
     .map(([key]) => ({
-      data: chartData.map(item => item[key]),
+      data: chartData.map((item) => item[key]),
       label: USER_LABELS[key],
       connectNulls: true,
       color: colors[key],
+      showMark: true,
+      shape: 'circle',
     }));
 
   const toggleSelectAll = () => {
@@ -491,8 +496,8 @@ export function ReportsUserAnalytics() {
       const searchLower = searchValue.toLowerCase();
 
       return (
-        userStr.includes(searchLower) ||
-        idStr.includes(searchLower)
+        userStr.includes(searchLower)
+        || idStr.includes(searchLower)
       );
     });
     setTableData(filteredData);
@@ -540,7 +545,7 @@ export function ReportsUserAnalytics() {
   };
 
   const totalUsers = originalTableData.filter(
-    (row) => row.id !== 'unlogged'
+    (row) => row.id !== 'unlogged',
   ).length;
 
   return (
@@ -550,7 +555,10 @@ export function ReportsUserAnalytics() {
       </Typography>
       {latestAvailableDate && (
         <Typography sx={{ fontWeight: 400, mb: 1, color: 'red' }}>
-          Data is updated weekly. Data is currently available through {latestAvailableDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}.
+          Data is updated weekly. Data is currently available through
+          {' '}
+          {latestAvailableDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          .
         </Typography>
       )}
       <div>
@@ -579,69 +587,89 @@ export function ReportsUserAnalytics() {
         />
       </div>
       <Grid container spacing={2}>
-        {renderUserFilter('userType', 'User Type', [...new Set(users.flatMap(user => user.user_types || []))].sort())}
-        {renderUserFilter('atlasRole', 'ATLAS Role', [...new Set(users.map(user => user.user_type).filter(Boolean))].sort())}
+        {renderUserFilter('userType', 'User Type', [...new Set(users.flatMap((user) => user.user_types || []))].sort())}
+        {renderUserFilter('atlasRole', 'ATLAS Role', [...new Set(users.map((user) => user.user_type).filter(Boolean))].sort())}
         {renderUserFilter('isActive', 'User Is Active', [
           { value: UserIsActiveStatus.ACTIVE, label: 'Yes' },
           { value: UserIsActiveStatus.INACTIVE, label: 'No' },
         ])}
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <Autocomplete
             id="organization-autocomplete"
             options={organizations || []}
             loading={isLoading}
-            value={organizations.find(option => option.label === selectedParams.organization) || null}
+            value={organizations.find((option) => option.label === selectedParams.organization) || null}
             onChange={handleOrganizationChange}
             renderInput={(params) => (
               <TextField
                 {...params}
                 label="Organization"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <Autocomplete
             id="groups-autocomplete"
             options={groups || []}
             loading={isLoading}
-            value={groups.find(option => option.label === selectedParams.group) || null}
+            value={groups.find((option) => option.label === selectedParams.group) || null}
             onChange={handleGroupChange}
             renderInput={(params) => (
               <TextField
                 {...params}
                 label="Group"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
           />
         </Grid>
-        {renderUserFilter('state', 'State', [...new Set(users.map(user => user.state).filter(Boolean))].sort())}
+        {renderUserFilter('state', 'State', [...new Set(users.map((user) => user.state).filter(Boolean))].sort())}
       </Grid>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
         {Object.keys(activeItems).map((key) => (
           <FormControlLabel
             key={key}
-            control={
+            control={(
               <Checkbox
                 checked={activeItems[key]}
                 onChange={() => handleToggleItem(key)}
@@ -652,7 +680,7 @@ export function ReportsUserAnalytics() {
                   },
                 }}
               />
-            }
+            )}
             label={USER_LABELS[key]}
           />
         ))}
@@ -660,7 +688,7 @@ export function ReportsUserAnalytics() {
           variant="outlined"
           onClick={toggleSelectAll}
           sx={{ marginLeft: '16px' }}
-          color='primary'
+          color="primary"
         >
           {allSelected ? 'Unselect All' : 'Select All'}
         </Button>
@@ -669,14 +697,17 @@ export function ReportsUserAnalytics() {
         <LineChart
           xAxis={[
             {
-              data: chartData.map(item => item.date),
+              data: chartData.map((item) => item.date),
               scaleType: 'point',
             },
           ]}
           series={activeSeries}
           width={1280}
           height={400}
-          slotProps={{ legend: { hidden: true } }}
+          margin={{
+            top: 50, right: 50, bottom: 50 - 25, left: 50 - 45,
+          }}
+          hideLegend
         />
       )}
       <TableContainer component={Paper}>
@@ -709,7 +740,7 @@ export function ReportsUserAnalytics() {
                     <CellWithRightBorder key={key}>
                       {chartData.reduce(
                         (sum, item) => sum + (item[key] || 0),
-                        0
+                        0,
                       )}
                     </CellWithRightBorder>
                   ))}
@@ -720,29 +751,27 @@ export function ReportsUserAnalytics() {
       </TableContainer>
       <Typography variant="h6">Details by User</Typography>
       <div>
-      {isLoading ? (
-        <CircularProgress />
-      ) : (
-        <DataGrid
-          {...analyticsTableProps}
-          slots={{
-            pagination: AnalyticsPagination,
-            toolbar: () => (
-              <EditUserToolbar
-                onSearch={handleSearch}
-                onClear={handleClearSearch}
-                onExport={handleExport}
-              />
-            ),
-          }}
-          rows={tableData}
-          columns={columns}
-          getRowHeight={() => 'auto'}
-          disableRowSelectionOnClick
-          showCellVerticalBorder
-          autoHeight
-        />
-      )}
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          <DataGrid
+            {...analyticsTableProps}
+            slots={{
+              pagination: AnalyticsPagination,
+              toolbar: EditUserToolbar,
+            }}
+            slotProps={{
+              toolbar: { onSearch: handleSearch, onClear: handleClearSearch, onExport: handleExport },
+            }}
+            rows={tableData}
+            columns={columns}
+            getRowHeight={() => 'auto'}
+            disableRowSelectionOnClick
+            showCellVerticalBorder
+            autoHeight
+            showToolbar
+          />
+        )}
       </div>
     </div>
   );

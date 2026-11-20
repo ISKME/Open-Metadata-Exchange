@@ -16,11 +16,11 @@ export default {
       paddingTop: '8px !important',
       paddingBottom: '8px !important',
     },
-    '.MuiInputBase-inputSizeSmall': {
+    ':where(.MuiInputBase-sizeSmall) > .MuiInputBase-input': {
       minHeight: '32px',
       background: 'white !important',
     },
-    '.MuiInputBase-inputMultiline': {
+    ':where(.MuiInputBase-multiline) > .MuiInputBase-input': {
       boxShadow: 'none !important',
     },
   },

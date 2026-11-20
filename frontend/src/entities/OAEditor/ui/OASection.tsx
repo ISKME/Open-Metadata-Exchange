@@ -6,10 +6,12 @@ import req from 'shared/lib/req';
 
 import cls from './OAEditor.module.scss';
 
-export function OASection({ section, number, totalNumber, onChange, onSectionMove, onSectionDelete, createURL, RelatedResourceWidget, videoUploadStrategy=undefined }) {
+export function OASection({
+  section, number, totalNumber, onChange, onSectionMove, onSectionDelete, createURL, RelatedResourceWidget, videoUploadStrategy = undefined,
+}) {
   const [sectionLoc, setSectionLoc] = useState(section);
   const [isNew, setIsNew] = useState(section.is_new || false);
-  const [opened, setOpened] = useState(number == 1);
+  const [opened, setOpened] = useState(number === 1);
   const [name, setName] = useState(section.name);
   const [content, setContent] = useState(section.content);
   const [teacherDescription, setTeacherDescription] = useState(section.teacher_description);
@@ -22,7 +24,7 @@ export function OASection({ section, number, totalNumber, onChange, onSectionMov
     name: setName,
     content: setContent,
     teacher_description: setTeacherDescription,
-  }
+  };
 
   const handleChange = (field, value, newSection: ISection | null = null, replace = false) => {
     const currentSection = newSection || sectionLoc;
@@ -32,20 +34,20 @@ export function OASection({ section, number, totalNumber, onChange, onSectionMov
     }
     currentSection[field] = value;
     onChange(section, currentSection, replace);
-  }
+  };
 
   const toggleOpened = (e) => {
     e.preventDefault();
     setOpened(!opened);
-  }
+  };
 
   const moveSection = (offset) => {
     onSectionMove(number - 1, offset);
-  }
+  };
 
   const deleteSection = () => {
     onSectionDelete(number - 1);
-  }
+  };
 
   const attachmentOnBeforeSubmit = (attachment) => {
     setProcessingAttachment(true);
@@ -53,9 +55,9 @@ export function OASection({ section, number, totalNumber, onChange, onSectionMov
     return new Promise((resolve, reject) => {
       if (!isNew) {
         // Processing existing section.
-        const submitURL = !!attachment?.update_url ? attachment.update_url : sectionLoc.attachment_create_url;
+        const submitURL = attachment?.update_url ? attachment.update_url : sectionLoc.attachment_create_url;
         const submitMethod = attachment ? 'put' : 'post';
-        resolve({ submitURL: submitURL, submitMethod: submitMethod });
+        resolve({ submitURL, submitMethod });
       } else {
         // Section does not exist yet, creating it first.
         req.post(createURL, { ...section, number }).then((data: ISection) => {
@@ -65,12 +67,12 @@ export function OASection({ section, number, totalNumber, onChange, onSectionMov
           // Once section is created, use it to create attachment.
           resolve({ submitURL: data.attachment_create_url, submitMethod: 'post' });
         }).catch((e) => {
-          reject('An error occurred during the creation of a Resource. Please, try later.');
+          reject(new Error('An error occurred during the creation of a Resource. Please, try later.'));
           console.error(e);
-        })
+        });
       }
-    })
-  }
+    });
+  };
 
   const attachmentOnAfterSubmit = (method, attachment) => {
     setProcessingAttachment(false);
@@ -81,28 +83,32 @@ export function OASection({ section, number, totalNumber, onChange, onSectionMov
       setAttachments([...attachments, attachment]);
     }
     if (method === 'delete') {
-      setAttachments(attachments.filter(att => att.id !== attachment.id));
+      setAttachments(attachments.filter((att) => att.id !== attachment.id));
     }
-  }
+  };
 
-  return(
+  return (
     <div className={`lesson-task editable-task ${opened ? 'is-opened' : ''}`}>
       <div>
-        {!confirmDelete && (<div className={`${cls['editable-task-buttons']} editable-task-buttons mod-right`}>
-          <button type="button" className="btn btn-icon" title="Move up" onClick={() => moveSection(-1)} disabled={number === 1}>
-            <i className="fa fa-arrow-up"></i>
+        {!confirmDelete && (
+          <div className={`${cls['editable-task-buttons']} editable-task-buttons mod-right`}>
+            <button type="button" className="btn btn-icon" title="Move up" aria-label="Move up" onClick={() => moveSection(-1)} disabled={number === 1}>
+              <i className="fa fa-arrow-up" />
             </button>
-          <button type="button" className="btn btn-icon" title="Move down" onClick={() => moveSection(1)} disabled={number === totalNumber}>
-            <i className="fa fa-arrow-down"></i>
-          </button>
-          <button type="button" className="btn btn-icon btn-task-delete" title="Delete Section" onClick={() => setConfirmDelete(true)}>
-            <i className="fa fa-remove"></i>
-          </button>
-        </div>)}
+            <button type="button" className="btn btn-icon" title="Move down" aria-label="Move down" onClick={() => moveSection(1)} disabled={number === totalNumber}>
+              <i className="fa fa-arrow-down" />
+            </button>
+            <button type="button" className="btn btn-icon btn-task-delete" title="Delete Section" aria-label="Delete Section" onClick={() => setConfirmDelete(true)}>
+              <i className="fa fa-remove" />
+            </button>
+          </div>
+        )}
         {confirmDelete && (
           <div className="alert alert-danger task-delete-confirmation" style={{ display: 'block' }}>
             <div className="task-delete-confirmation-text">
-              <strong>Delete this Section?</strong> This action cannot be undone.
+              <strong>Delete this Section?</strong>
+              {' '}
+              This action cannot be undone.
             </div>
             <div className="task-delete-confirmation-buttons">
               <button className="btn btn-danger" type="button" onClick={deleteSection}>Yes, delete</button>
@@ -113,10 +119,13 @@ export function OASection({ section, number, totalNumber, onChange, onSectionMov
       </div>
       <div className="task-preview">
         <h1 className="lesson-task-title">
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid -- focusable and works with Enter; the lesson editor CSS styles this header as a link */}
           <a href="#" onClick={toggleOpened}>
             <i className="fa fa-chevron-down">&nbsp;</i>
             <i className="fa fa-chevron-up">&nbsp;</i>
-            <span>Section</span> <span>{number}</span>
+            <span>Section</span>
+            {' '}
+            <span>{number}</span>
           </a>
         </h1>
         <div className={opened ? 'hidden' : ''}>
@@ -147,22 +156,31 @@ export function OASection({ section, number, totalNumber, onChange, onSectionMov
               <div className="related-resources-formset" style={buiStyle.uiBox}>
                 {processingAttachment && <BlockUI />}
                 <h2 className="related-resources-formset-title">
-                  <span>Attach Section {number} Resources</span>
+                  <span>
+                    Attach Section
+                    {' '}
+                    {number}
+                    {' '}
+                    Resources
+                  </span>
                 </h2>
                 <div className="related-resources-forms-ct">
-                  {attachments.map(attachment => {
-                    return ((!editableAttachment || editableAttachment.id == attachment.id) &&
-                      <RelatedResourceWidget key={attachment.id}
-                                             resource={attachment}
-                                             beforeSubmitCallback={attachmentOnBeforeSubmit}
-                                             afterSubmitCallback={attachmentOnAfterSubmit}
-                                             editCallback={setEditableAttachment}
+                  {/* eslint-disable-next-line eqeqeq -- this id can be a number or a string (API, URL, form), and == treats both the same; === could stop matching */}
+                  {attachments.map((attachment) => ((!editableAttachment || editableAttachment.id == attachment.id)
+                      && (
+                        <RelatedResourceWidget
+                          key={attachment.id}
+                          resource={attachment}
+                          beforeSubmitCallback={attachmentOnBeforeSubmit}
+                          afterSubmitCallback={attachmentOnAfterSubmit}
+                          editCallback={setEditableAttachment}
                         />
-                    )
-                  })}
+                      )
+                  ))}
                   {!editableAttachment && (
-                    <RelatedResourceWidget beforeSubmitCallback={attachmentOnBeforeSubmit}
-                                           afterSubmitCallback={attachmentOnAfterSubmit}
+                    <RelatedResourceWidget
+                      beforeSubmitCallback={attachmentOnBeforeSubmit}
+                      afterSubmitCallback={attachmentOnAfterSubmit}
                     />
                   )}
                 </div>
@@ -186,5 +204,5 @@ export function OASection({ section, number, totalNumber, onChange, onSectionMov
         </div>
       </div>
     </div>
-  )
+  );
 }

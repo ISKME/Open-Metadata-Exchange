@@ -1,9 +1,8 @@
-/* eslint-disable no-useless-computed-key */
 /* eslint-disable react/button-has-type */
-/* eslint-disable array-callback-return */
+
 /* eslint-disable no-console */
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable max-len */
+
 /* eslint-disable eqeqeq */
 
 import {
@@ -23,13 +22,13 @@ import {
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { Button } from 'shared/ui/Button/Button';
 import { AppLink } from 'shared/ui/AppLink/AppLink';
+import { Paging } from 'components/paging';
 import ArrowIcon from '../../../shared/assets/icons/arrow-back.svg';
 import { SearchBar } from '../../../features/SearchBar';
 import { Select } from '../../../features/Select';
 import { Filter } from '../../../features/Filter';
 import { ShareItemCard } from '../../../entities/ShareItemCard';
 import cls from './ShareContent.module.scss';
-import { Paging } from 'components/paging';
 
 interface ShareContentProps {
   className?: string;

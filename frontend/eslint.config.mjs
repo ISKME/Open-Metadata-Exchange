@@ -63,9 +63,55 @@ export default [
         },
     },
     {
+        files: ['**/*.{ts,tsx}'],
+        rules: {
+            // TypeScript checks the props where they are typed
+            'react/prop-types': 'off',
+            // Replaced by naming-convention, like in Airbnb's TypeScript config: our own names
+            // are checked, the snake_case fields of the API (Python backend) are not
+            camelcase: 'off',
+            '@typescript-eslint/naming-convention': [
+                'error',
+                { selector: 'variable', format: ['camelCase', 'PascalCase', 'UPPER_CASE'] },
+                { selector: 'function', format: ['camelCase', 'PascalCase'] },
+                { selector: 'typeLike', format: ['PascalCase'] },
+                // API fields that are destructured keep their name
+                { selector: 'variable', modifiers: ['destructured'], format: null },
+                // Global defined by webpack
+                { selector: 'variable', filter: { regex: '^__IS_DEV__$', match: true }, format: null },
+            ],
+        },
+    },
+    {
         files: ['webpack*.config.ts', 'config/**/*.ts'],
         languageOptions: {
             globals: globals.node,
+        },
+    },
+    {
+        rules: {
+            // JSX is indented by react/jsx-indent. Airbnb leaves JSX out of indent; without that,
+            // both rules fix the same lines differently and never agree.
+            indent: [2, 2, {
+                ignoredNodes: [
+                    'JSXElement', 'JSXElement > *', 'JSXAttribute', 'JSXIdentifier', 'JSXNamespacedName',
+                    'JSXMemberExpression', 'JSXSpreadAttribute', 'JSXExpressionContainer', 'JSXOpeningElement',
+                    'JSXClosingElement', 'JSXFragment', 'JSXOpeningFragment', 'JSXClosingFragment', 'JSXText',
+                    'JSXEmptyExpression', 'JSXSpreadChild',
+                ],
+            }],
+            // Airbnb's ignore options, so long SVG paths, strings and URLs do not count
+            'max-len': ['error', {
+                code: 200,
+                ignoreComments: true,
+                ignoreUrls: true,
+                ignoreStrings: true,
+                ignoreTemplateLiterals: true,
+                ignoreRegExpLiterals: true,
+            }],
+            // rel="noopener" is enough: the opened page cannot reach window.opener, and the sites and
+            // file hosts we link to still get the Referer they get today (noreferrer would remove it)
+            'react/jsx-no-target-blank': ['error', { allowReferrer: true, enforceDynamicLinks: 'always' }],
         },
     },
 ];

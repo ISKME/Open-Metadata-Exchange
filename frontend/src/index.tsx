@@ -3,22 +3,22 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { setupStore } from 'app/providers/StoreProvider/config/store';
-import App from './app/App';
 import { RECAPTCHA_PUBLIC_KEY } from 'shared/config/recaptcha';
+import App from './app/App';
 
 const store = setupStore();
 
 const recaptchaSiteKey = RECAPTCHA_PUBLIC_KEY;
 
 function bootstrapApp() {
-  const container = document.getElementById('root')
-  const root = createRoot(container!)
+  const container = document.getElementById('root');
+  const root = createRoot(container!);
   root.render(
     <BrowserRouter>
       <Provider store={store}>
         <App />
       </Provider>
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 }
 
@@ -56,4 +56,4 @@ function initRecaptcha() {
   } else {
     initRecaptcha();
   }
-})();
+}());

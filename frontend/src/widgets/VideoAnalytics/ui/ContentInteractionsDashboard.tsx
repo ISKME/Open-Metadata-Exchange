@@ -58,7 +58,13 @@ function SectionHeading({
           {title}
         </Typography>
         {description ? (
-          <Typography component="p" color="text.secondary" className={cls.sectionDescription}>
+          <Typography
+            component="p"
+            className={cls.sectionDescription}
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
             {description}
           </Typography>
         ) : null}
@@ -146,7 +152,13 @@ export function ContentInteractionsDashboard({
               </article>
             ))}
           </div>
-          <Typography component="p" color="text.secondary" className={cls.sectionDescription}>
+          <Typography
+            component="p"
+            className={cls.sectionDescription}
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
             A dash means this interaction is unavailable in the collected data, not zero activity.
           </Typography>
         </Paper>
@@ -163,7 +175,12 @@ export function ContentInteractionsDashboard({
             description="Videos ranked by the number of shares."
           />
           {topSharedVideos.length === 0 ? (
-            <Typography component="p" color="text.secondary">
+            <Typography
+              component="p"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               {highlights.shares === null
                 ? 'Video sharing data is not available.'
                 : 'No shared videos found for the selected filters.'}
@@ -180,7 +197,13 @@ export function ContentInteractionsDashboard({
                   <Typography component="span" className={cls.videoTitle}>
                     {video.title}
                   </Typography>
-                  <Typography component="span" color="text.secondary" className={cls.videoShares}>
+                  <Typography
+                    component="span"
+                    className={cls.videoShares}
+                    sx={{
+                      color: 'text.secondary',
+                    }}
+                  >
                     {formatInteger(video.shares)}
                     {' '}
                     {video.shares === 1 ? 'Share' : 'Shares'}
@@ -256,7 +279,12 @@ export function ContentInteractionsDashboard({
             aria-hidden="true"
           />
           <Typography component="span">{selectedMetric.label}</Typography>
-          <Typography component="span" color="text.secondary">
+          <Typography
+            component="span"
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
             Total:
             {' '}
             {formatInteger(selectedMetricTotal)}
@@ -279,19 +307,25 @@ export function ContentInteractionsDashboard({
                 label: selectedMetric.label,
                 color: selectedMetric.color,
                 valueFormatter: (value) => formatInteger(value),
+                showMark: true,
               }]}
               width={compact ? 720 : 1040}
               height={300}
               margin={{
-                left: 58, right: 24, top: 24, bottom: 42,
+                left: 58 - 45, right: 24, top: 24, bottom: 42 - 25,
               }}
               grid={{ horizontal: true }}
-              slotProps={{ legend: { hidden: true } }}
+              hideLegend
             />
           </div>
         ) : (
           <div className={cls.emptyState} role="status">
-            <Typography component="p" color="text.secondary">
+            <Typography
+              component="p"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               {selectedMetricTotal === null
                 ? `${selectedMetric.label} data is not available.`
                 : 'No video activity found for the selected filters.'}
