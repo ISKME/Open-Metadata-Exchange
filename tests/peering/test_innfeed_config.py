@@ -1,6 +1,6 @@
 """
 Check that the innfeed reconnect times from config.json end up in innfeed.conf,
-and that a node with a wrong time does not start.
+that innfeed accepts them, and that a node with a wrong time does not start.
 
 Skipped by default. Run it with:
     uv run pytest tests/peering -m peering -v
@@ -58,6 +58,22 @@ def test_reconnect_times_default(peering_nodes: PeeringNodes) -> None:
         "initial-reconnect-time": "30",
         "max-reconnect-time": "3600",
     }
+
+
+def test_innfeed_accepts_the_times(peering_nodes: PeeringNodes) -> None:
+    """innfeed itself checks the rendered innfeed.conf of node-a, without starting.
+
+    innfeed names a value that it does not accept or changes, such as
+    "initial-reconnect-time (0) ... cannot be less than 1. Using 30".
+    """
+    result = peering_nodes.exec(
+        "node-a", "su", "news", "-s", "/bin/sh", "-c", "/usr/lib/news/bin/innfeed -C",
+        check=False,
+    )  # fmt: skip
+    output = result.stdout + result.stderr
+    assert result.returncode == 0, output
+    assert "config loading succeeded" in output
+    assert "reconnect-time" not in output
 
 
 @pytest.mark.parametrize(
