@@ -60,4 +60,19 @@ if [ -n "${stopping}" ]; then
 		rc=$?
 	done
 fi
+
+# innd tells innfeed to stop. innfeed then saves its backlog, removes innfeed.pid and exits.
+# Wait for that (at most 20 s), or the kernel kills innfeed when this script ends. The pid file,
+# not the process, tells when it is done: an exited innfeed stays a zombie of this script.
+n=0
+while [ -f "${PATHRUN}/innfeed.pid" ] && [ "${n}" -lt 40 ]; do
+	sleep 0.5
+	n=$((n + 1))
+done
+
+# The nnrpd for port 563 runs on its own. Stop it too, so it leaves no nnrpd-563.pid behind.
+if [ -f "${PATHRUN}/nnrpd-563.pid" ]; then
+	kill "$(cat "${PATHRUN}/nnrpd-563.pid")" 2>/dev/null
+	rm -f "${PATHRUN}/nnrpd-563.pid"
+fi
 exit "${rc}"  # The exit code of innd becomes the exit code of the container
