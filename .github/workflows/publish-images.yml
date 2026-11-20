@@ -3,6 +3,7 @@ name: publish-images
 # Builds the frontend, API and NNTP images and publishes them to GHCR.
 # Branch → environment tag: main → dev, staging → staging, production → production.
 # Watchtower on each server pulls the new image for its environment tag.
+# A release adds the version and stable tags to these images: see promote-images.yml.
 
 on:
   push:
@@ -10,6 +11,10 @@ on:
   workflow_dispatch:
 
 permissions: {}
+
+env:
+  # Registry and owner of the images, the same as in promote-images.yml.
+  IMAGE_PREFIX: ghcr.io/odisee-ome-2627
 
 concurrency:
   group: publish-images-${{ github.ref_name }}
@@ -76,8 +81,8 @@ jobs:
           file: ${{ matrix.dockerfile }}
           push: true
           tags: |
-            ghcr.io/odisee-ome-2627/${{ matrix.image }}:${{ steps.meta.outputs.env }}
-            ghcr.io/odisee-ome-2627/${{ matrix.image }}:${{ steps.meta.outputs.env }}-${{ steps.meta.outputs.sha }}
+            ${{ env.IMAGE_PREFIX }}/${{ matrix.image }}:${{ steps.meta.outputs.env }}
+            ${{ env.IMAGE_PREFIX }}/${{ matrix.image }}:${{ steps.meta.outputs.env }}-${{ steps.meta.outputs.sha }}
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
