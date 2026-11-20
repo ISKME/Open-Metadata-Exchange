@@ -40,7 +40,7 @@ nnrpd -D -p 563 -S
 /usr/lib/news/bin/innd "$@" &
 innd_pid=$!
 stopping=
-# shellcheck disable=SC2329  # Called by the trap below
+# shellcheck disable=SC2317,SC2329  # Called by the trap below (SC2317 before shellcheck 0.11)
 stop_innd() {
 	[ -n "${stopping}" ] && return  # A second signal: the shutdown is already running
 	stopping=1
