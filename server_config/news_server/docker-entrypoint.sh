@@ -40,14 +40,24 @@ nnrpd -D -p 563 -S
 /usr/lib/news/bin/innd "$@" &
 innd_pid=$!
 stopping=
-trap 'stopping=1; ctlinnd shutdown "container stop" >/dev/null 2>&1 || kill "${innd_pid}"' TERM INT
+# shellcheck disable=SC2329  # Called by the trap below
+stop_innd() {
+	[ -n "${stopping}" ] && return  # A second signal: the shutdown is already running
+	stopping=1
+	ctlinnd shutdown "container stop" >/dev/null 2>&1 || kill "${innd_pid}"
+}
+trap stop_innd TERM INT
 
 # wait returns early when a stop signal runs the trap. Only then is innd still shutting down, so
-# wait again. Otherwise innd stopped by itself and rc is already its exit code.
+# wait until it is gone: another signal can end a wait early too, and if this script (PID 1)
+# ended now, the kernel would kill innd halfway. Otherwise innd stopped by itself and rc is
+# already its exit code.
 wait "${innd_pid}"
 rc=$?
 if [ -n "${stopping}" ]; then
-	wait "${innd_pid}"
-	rc=$?
+	while kill -0 "${innd_pid}" 2>/dev/null; do  # Signal 0 only checks that innd still runs
+		wait "${innd_pid}"
+		rc=$?
+	done
 fi
 exit "${rc}"  # The exit code of innd becomes the exit code of the container
