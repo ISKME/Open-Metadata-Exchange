@@ -19,6 +19,7 @@ entrypoint, peers in `config.json`) without the API or the frontend.
 | `conftest.py` | pytest fixture: starts both nodes, waits for INN, creates `ome.test`, always cleans up |
 | `nodes.py` | Helpers that run `ctlinnd`, `inews`, `grephistory` and `sm` in a node with `docker compose exec` |
 | `test_round_trip.py` | Posts an article on one node and checks that it arrives on the other, both ways |
+| `test_healthcheck.py` | Checks that the image turns healthy, and that its healthcheck fails while innd is throttled |
 
 Each config is mounted as a Docker secret in `/run/secrets/`, and `OME_CONFIG` tells the
 entrypoint which file to read. The passwords are test values only.
