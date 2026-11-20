@@ -20,7 +20,7 @@ const globalStyles = {
     // paddingLeft: '10%',
     borderBottom: '1px solid rgb(239, 239, 240)',
   },
-  '.MuiTabs-flexContainer': {
+  '.MuiTabs-list': {
     paddingTop: '3px',
   },
   '.MuiButtonBase-root.MuiTab-root.Mui-selected': {

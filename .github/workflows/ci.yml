@@ -62,8 +62,31 @@ jobs:
       - run: uv run pytest --iterations=8 --parallel-threads=auto --ignore-gil-enabled
       - run: uv run scripts/nntp_io.py
 
-  # ESLint and stylelint errors fail this job (warnings do not). To also block merging a pull
-  # request with a lint error, a repository admin adds `front-end (26)` as a required status
+  peering:  # Two INN nodes built from this commit must exchange articles. See tests/peering/
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PEERING_LOGS_DIR: peering-logs  # Written by tests/peering/conftest.py before cleanup
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+      - run: uv python install  # Version from pyproject.toml project.requires-python
+      - run: uv sync --group dev
+      - run: uv run pytest tests/peering -m peering -v
+      - if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: peering-logs
+          path: ${{ env.PEERING_LOGS_DIR }}
+          if-no-files-found: ignore
+
+  # ESLint and stylelint errors fail this job (warnings do not), and so does a frontend package
+  # with a high or critical vulnerability. To also block merging a pull
+  # request that fails this job, a repository admin adds `front-end (26)` as a required status
   # check: Settings > Rules > Rulesets (or Branches > Branch protection rules) for `main` >
   # Require status checks to pass > add `front-end (26)`. Rename it there when the Node.js
   # version in the matrix changes. The eslint and stylelint hooks in .pre-commit-config.yaml
@@ -87,3 +110,5 @@ jobs:
       - run: cd frontend && npm run lint:ts
       - run: cd frontend && npm run typecheck
       - run: cd frontend && npm run unit
+      - run: cd frontend && npm audit --audit-level=high
+      - run: cd frontend && npm outdated || true  # Report only, Dependabot opens the update pull requests

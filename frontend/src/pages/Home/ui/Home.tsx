@@ -129,9 +129,11 @@ export function Home({ className }: HomeProps) {
           onChange={({ target }) => setInputValue(target.value)}
           variant="outlined"
           placeholder="Search Collections"
-          inputProps={{ 'aria-label': 'Search collections' }}
           sx={sxStyles.searchInput}
           size="small"
+          slotProps={{
+            htmlInput: { 'aria-label': 'Search collections' },
+          }}
         />
         <Button type="submit" variant="contained" sx={sxStyles.searchButton}>
           Search
@@ -156,15 +158,32 @@ export function Home({ className }: HomeProps) {
         Add collections and resources to your microsite from nationwide digital libraries sharing on the OER Exchange.
       </Typography>
       {data && (
-        <Grid container spacing={4} justifyContent="center">
+        <Grid
+          container
+          spacing={4}
+          sx={{
+            justifyContent: 'center',
+          }}
+        >
           {data.map((item) => (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+                md: 4,
+              }}
+            >
               <CollectionCard item={item} />
             </Grid>
           ))}
         </Grid>
       )}
-      <Box display="flex" justifyContent="center">
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <Button variant="outlined" sx={sxStyles.viewAllButton} onClick={() => navigate('/imls/browse')}>
           View all the collections in OER Exchange
         </Button>
@@ -173,7 +192,13 @@ export function Home({ className }: HomeProps) {
         Learn About The OER Exchange
       </Typography>
       <Grid container spacing={4}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 3,
+          }}
+        >
           <FeatureCard
             title="Share"
             text="Share your institution's OER content with other libraries."
@@ -185,7 +210,13 @@ export function Home({ className }: HomeProps) {
             }]}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 3,
+          }}
+        >
           <FeatureCard
             title="Explore & Sync"
             text="Explore and sync subscribed OER content to your institution’s library."
@@ -201,7 +232,13 @@ export function Home({ className }: HomeProps) {
             }]}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 3,
+          }}
+        >
           <FeatureCard
             title="Stay Updated"
             text="Get notified of the newest changes in OER when you subscribe to collections."
@@ -217,7 +254,13 @@ export function Home({ className }: HomeProps) {
             }]}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 3,
+          }}
+        >
           <FeatureCard
             title="Set Preferences"
             text="Get recommended content delivered when you set your content preferences."

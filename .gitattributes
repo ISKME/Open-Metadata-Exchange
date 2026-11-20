@@ -1,0 +1,9 @@
+# Normalize line endings in repo
+* text=auto
+
+# Files that run inside Linux containers: always LF
+*.sh             text eol=lf
+*.j2             text eol=lf
+*.py             text eol=lf
+Dockerfile*      text eol=lf
+server_config/** text eol=lf

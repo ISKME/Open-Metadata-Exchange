@@ -147,12 +147,10 @@ export function Folders({ ids = [] }) {
       </CButton>
       <Menu
         id="fade-menu"
-        MenuListProps={{ 'aria-labelledby': 'fade-button' }}
         className={cls.fadeMenu}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        TransitionComponent={Fade}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right',
@@ -160,6 +158,12 @@ export function Folders({ ids = [] }) {
         transformOrigin={{
           vertical: 'top',
           horizontal: 'right',
+        }}
+        slotProps={{
+          list: { 'aria-labelledby': 'fade-button' },
+        }}
+        slots={{
+          transition: Fade,
         }}
       >
         {creatingFolder ? (

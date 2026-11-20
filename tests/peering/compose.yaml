@@ -1,0 +1,45 @@
+# Two INN nodes that peer with each other, for testing only
+# Run from this folder: docker compose up -d --build
+
+name: ome-peering-test
+
+x-nntp-node: &nntp-node
+  build:
+    context: ../..
+    dockerfile: Dockerfile-nntp
+  image: ome-nntp:peering-test
+
+services:
+  node-a:
+    <<: *nntp-node
+    hostname: node-a
+    environment:
+      OME_CONFIG: /run/secrets/node_a_config
+    secrets:
+      - node_a_config
+    networks:
+      peering:
+        ipv4_address: 172.30.0.11
+
+  node-b:
+    <<: *nntp-node
+    hostname: node-b
+    environment:
+      OME_CONFIG: /run/secrets/node_b_config
+    secrets:
+      - node_b_config
+    networks:
+      peering:
+        ipv4_address: 172.30.0.12
+
+secrets:
+    node_a_config:
+      file: ./node-a.json
+    node_b_config:
+      file: ./node-b.json
+
+networks:
+  peering:
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24

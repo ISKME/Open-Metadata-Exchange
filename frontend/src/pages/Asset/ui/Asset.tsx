@@ -59,8 +59,13 @@ function HistoryModal({ open, onClose, history }) {
       >
         <Typography variant="h6" gutterBottom>Version History</Typography>
         {history.map((item, idx) => (
-          // eslint-disable-next-line react/no-array-index-key -- the history is only shown, in the order of the API
-          <Box key={idx} mb={2}>
+          <Box
+            // eslint-disable-next-line react/no-array-index-key -- the history is only shown, in the order of the API
+            key={idx}
+            sx={{
+              mb: 2,
+            }}
+          >
             {item.change_type === 'remixed_from' && (
               <>
                 <span>Remixed from </span>
@@ -213,27 +218,57 @@ export function Asset() {
         />
         <CardContent sx={{ flex: 1 }}>
           <Typography variant="h4" gutterBottom>{title}</Typography>
-          <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              alignItems: 'center',
+              mb: 1,
+            }}
+          >
             <StarRating rate={rate} />
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               (
               {rate || 0}
               )
             </Typography>
           </Stack>
-          <Typography variant="body2" color="text.secondary" mt={1}>
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'text.secondary',
+              mt: 1,
+            }}
+          >
             First published
             {' '}
             {create}
           </Typography>
           {!!update && (
-            <Typography variant="body2" color="text.secondary" mb={1}>
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.secondary',
+                mb: 1,
+              }}
+            >
               Last updated
               {' '}
               {new Date(update).toDateString().slice(4)}
             </Typography>
           )}
-          <Stack direction="row" spacing={2} mb={1}>
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{
+              mb: 1,
+            }}
+          >
             <Typography variant="body2">
               {visits}
               {' '}
@@ -250,7 +285,13 @@ export function Asset() {
               Downloads
             </Typography>
           </Stack>
-          <Stack direction="row" spacing={2} mb={2}>
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{
+              mb: 2,
+            }}
+          >
             <Button variant="contained" color="primary" onClick={() => { window.location.href = url; }}>
               View Resource
             </Button>
@@ -260,14 +301,43 @@ export function Asset() {
           </Stack>
         </CardContent>
       </Card>
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} mb={2}>
-        <Box flex={1}>
-          <Typography variant="h6" color="ark.mainFontColor" gutterBottom>Description</Typography>
-          <Typography variant="body1" color="ark.mainFontColor" paragraph>
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        spacing={2}
+        sx={{
+          mb: 2,
+        }}
+      >
+        <Box sx={{
+          flex: 1,
+        }}
+        >
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{
+              color: 'ark.mainFontColor',
+            }}
+          >
+            Description
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              color: 'ark.mainFontColor',
+              marginBottom: '16px',
+            }}
+          >
             <b>Overview: </b>
             {desc}
           </Typography>
-          <Typography variant="body2" color="ark.mainFontColor" paragraph>
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'ark.mainFontColor',
+              marginBottom: '16px',
+            }}
+          >
             <b>Subject:</b>
             {' '}
             {subjects?.join(', ')}
@@ -305,11 +375,22 @@ export function Asset() {
             )}
             {licenseImage && <img src={licenseImage} alt="CC" style={{ marginLeft: 8, verticalAlign: 'middle', height: 24 }} />}
           </Typography>
-          <Box mt={2}>
+          <Box sx={{
+            mt: 2,
+          }}
+          >
             <b>Tags: </b>
             <Button variant="outlined" size="small" sx={{ ml: 1 }}>Add New Tag</Button>
           </Box>
-          <Box mt={1} color="ark.mainFontColor" sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+          <Box
+            sx={{
+              mt: 1,
+              color: 'ark.mainFontColor',
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 1,
+            }}
+          >
             {keywords.map((item, idx) => (
               // eslint-disable-next-line react/no-array-index-key -- keywords can repeat and are only shown
               <Chip key={idx} label={item} variant="outlined" sx={{ bgcolor: 'ark.innerCardsBackgroundColor', color: 'ark.innerCardsTextColor' }} />
@@ -317,11 +398,25 @@ export function Asset() {
           </Box>
         </Box>
         <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', sm: 'block' } }} />
-        <Box minWidth={220}>
+        <Box sx={{
+          minWidth: 220,
+        }}
+        >
           <Stack spacing={2}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
               <HistoryIcon color="action" />
-              <Typography variant="body2" color="ark.mainFontColor">
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'ark.mainFontColor',
+                }}
+              >
                 {history.length}
                 {' '}
                 Updates/Edits since first published
@@ -330,9 +425,20 @@ export function Asset() {
               </Typography>
             </Box>
             {history.length > 0 && (
-              <Box display="flex" alignItems="center" gap={1}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                }}
+              >
                 <RemixIcon color="action" />
-                <Typography variant="body2" color="ark.mainFontColor">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: 'ark.mainFontColor',
+                  }}
+                >
                   {history.length}
                   {' '}
                   Remixes

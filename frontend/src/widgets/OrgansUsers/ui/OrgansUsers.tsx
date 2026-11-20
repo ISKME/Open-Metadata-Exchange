@@ -466,7 +466,14 @@ export function OrgansUsers({ id }) {
             </Select>
           </FormControl>
           <Box className={cls.modalFooter}>
-            <Box mt={3} display="flex" justifyContent="flex-end" gap={1}>
+            <Box
+              sx={{
+                mt: 3,
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: 1,
+              }}
+            >
               <Button onClick={() => setModal(false)}>
                 Cancel
               </Button>
@@ -497,7 +504,14 @@ export function OrgansUsers({ id }) {
             </Select>
           </FormControl>
           <Box className={cls.modalFooter}>
-            <Box mt={3} display="flex" justifyContent="flex-end" gap={1}>
+            <Box
+              sx={{
+                mt: 3,
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: 1,
+              }}
+            >
               <Button onClick={() => setMoveModal(false)}>
                 Cancel
               </Button>

@@ -10,13 +10,32 @@ export default function ArkAbout() {
 
   return (
     <>
-      <Typography variant="h4" gutterBottom className={cls.header} color="ark.mainFontColor">
+      <Typography
+        variant="h4"
+        gutterBottom
+        className={cls.header}
+        sx={{
+          color: 'ark.mainFontColor',
+        }}
+      >
         The Ark: A Digital Public Goods Library
       </Typography>
-      <Typography variant="h5" gutterBottom className={cls.title} color="ark.mainFontColor">
+      <Typography
+        variant="h5"
+        gutterBottom
+        className={cls.title}
+        sx={{
+          color: 'ark.mainFontColor',
+        }}
+      >
         Open for Education
       </Typography>
-      <Typography className={cls.text} color="ark.mainFontColor">
+      <Typography
+        className={cls.text}
+        sx={{
+          color: 'ark.mainFontColor',
+        }}
+      >
         The Ark is a library of digital public goods that contains public domain and openly licensed educational materials
         which have either lost their digital home, or are at risk. Over time, shifting priorities and budgetary constraints
         of digital libraries containing educational resources in the U.S. and around the world have resulted in the
@@ -24,29 +43,66 @@ export default function ArkAbout() {
         with other collection partners and archives, the goal of this library is to ensure that these resources are in
         circulation for educators, researchers, and librarians in K-12 and higher education.
       </Typography>
-      <Typography variant="h5" gutterBottom className={cls.title} color="ark.mainFontColor">
+      <Typography
+        variant="h5"
+        gutterBottom
+        className={cls.title}
+        sx={{
+          color: 'ark.mainFontColor',
+        }}
+      >
         Our Mission
       </Typography>
-      <Typography className={cls.text} color="ark.mainFontColor">
+      <Typography
+        className={cls.text}
+        sx={{
+          color: 'ark.mainFontColor',
+        }}
+      >
         The Ark is committed to serve as an exemplary steward of public domain and openly licensed educational content
         to ensure that resource collections are preserved, regenerated, and available to all educators who wish to adopt
         and adapt them.
       </Typography>
-      <Typography variant="h5" gutterBottom className={cls.title} color="ark.mainFontColor">
+      <Typography
+        variant="h5"
+        gutterBottom
+        className={cls.title}
+        sx={{
+          color: 'ark.mainFontColor',
+        }}
+      >
         Take Action
       </Typography>
-      <Typography paragraph className={cls.text} color="ark.mainFontColor">
+      <Typography
+        className={cls.text}
+        sx={{
+          color: 'ark.mainFontColor',
+          marginBottom: '16px',
+        }}
+      >
         Do you know of orphaned resources or collections who are looking for a good home? Please drop us a line at
         {' '}
         <a href="mailto:openforeducation@gmail.com">openforeducation@gmail.com</a>
       </Typography>
-      <Typography paragraph className={cls.text} color="ark.mainFontColor">
+      <Typography
+        className={cls.text}
+        sx={{
+          color: 'ark.mainFontColor',
+          marginBottom: '16px',
+        }}
+      >
         Are you a metadata librarian, archivist, or developer interested in contributing to The Ark? Please email
         {' '}
         <a href="mailto:openforeducation@gmail.com">openforeducation@gmail.com</a>
       </Typography>
       <hr style={{ marginBottom: '32px' }} />
-      <Typography paragraph className={cls.text} color="ark.mainFontColor">
+      <Typography
+        className={cls.text}
+        sx={{
+          color: 'ark.mainFontColor',
+          marginBottom: '16px',
+        }}
+      >
         In partnership with the Institute for the Study of Knowledge Management in Education, the Internet Archive, the
         Data Rescue Project, and the American Association of Colleges & Universities, The Ark was created to ensure that
         public domain and openly licensed educational content resource collections are preserved, regenerated, and

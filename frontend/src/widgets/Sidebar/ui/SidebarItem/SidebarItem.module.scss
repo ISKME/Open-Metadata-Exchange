@@ -21,6 +21,12 @@
     outline: none;
   }
 
+  // Keyboard focus only; white on the #484F60 sidebar is about 8:1.
+  &:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+  }
+
   padding: 8px;
   margin: 16px;
   border-radius: 8px;
@@ -47,6 +53,11 @@
   &:focus,
   &:active {
     outline: none;
+  }
+
+  &:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
   }
 
   &:hover {

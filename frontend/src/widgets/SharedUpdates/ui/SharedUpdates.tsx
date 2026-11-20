@@ -86,7 +86,13 @@ export function SharedUpdates({ className }: SharedUpdatesProps) {
       <div className={cls.row}>
         <Accordion elevation={1} className={cls.accordionRoot}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
               <Typography variant="subtitle1">URL update</Typography>
               <Box className={cls.countBadge}>1</Box>
             </Box>
@@ -101,7 +107,13 @@ export function SharedUpdates({ className }: SharedUpdatesProps) {
 
         <Accordion elevation={1} className={cls.accordionRoot}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
               <Typography variant="subtitle1">Metadata update</Typography>
               <Box className={cls.countBadge}>1</Box>
             </Box>
@@ -117,7 +129,13 @@ export function SharedUpdates({ className }: SharedUpdatesProps) {
       <div>
         <Accordion elevation={1} className={cls.accordionRoot}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
               <Typography variant="subtitle1">Deaccessioned</Typography>
               <Box className={cls.countBadge}>1</Box>
             </Box>

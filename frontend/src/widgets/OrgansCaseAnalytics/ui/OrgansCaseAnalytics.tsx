@@ -591,6 +591,8 @@ export function OrgansCaseAnalytics({ id }) {
       label: CASE_LABELS[key],
       connectNulls: true,
       color: colors[key],
+      showMark: true,
+      shape: 'circle',
     }));
 
   return (
@@ -630,7 +632,13 @@ export function OrgansCaseAnalytics({ id }) {
         />
       </div>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <FormControl size="small" sx={{ width: '100%' }}>
             <InputLabel className={cls.formInputLabel}>User Type</InputLabel>
             <Select
@@ -646,7 +654,13 @@ export function OrgansCaseAnalytics({ id }) {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <FormControl size="small" sx={{ width: '100%' }}>
             <InputLabel className={cls.formInputLabel}>ATLAS Role</InputLabel>
             <Select
@@ -664,7 +678,13 @@ export function OrgansCaseAnalytics({ id }) {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+          }}
+        >
           <FormControl size="small" sx={{ width: '100%' }}>
             <InputLabel className={cls.formInputLabel}>User Is Active</InputLabel>
             <Select
@@ -681,7 +701,13 @@ export function OrgansCaseAnalytics({ id }) {
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 6,
+          }}
+        >
           <Autocomplete
             id="groups-autocomplete"
             options={groups || []}
@@ -692,21 +718,31 @@ export function OrgansCaseAnalytics({ id }) {
               <TextField
                 {...params}
                 label="Group"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 6,
+          }}
+        >
           <Autocomplete
             id="state-autocomplete"
             options={stateOptions}
@@ -717,7 +753,13 @@ export function OrgansCaseAnalytics({ id }) {
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 3,
+          }}
+        >
           <Autocomplete
             id="subjects-autocomplete"
             options={subjectOptions || []}
@@ -729,21 +771,31 @@ export function OrgansCaseAnalytics({ id }) {
               <TextField
                 {...params}
                 label="Subject"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 3,
+          }}
+        >
           <Autocomplete
             id="grades-autocomplete"
             options={gradeOptions || []}
@@ -755,21 +807,31 @@ export function OrgansCaseAnalytics({ id }) {
               <TextField
                 {...params}
                 label="Grade"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 3,
+          }}
+        >
           <Autocomplete
             id="areas-autocomplete"
             options={areaOptions || []}
@@ -781,21 +843,31 @@ export function OrgansCaseAnalytics({ id }) {
               <TextField
                 {...params}
                 label="Certificate Area"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 3,
+          }}
+        >
           <Autocomplete
             id="ethnicities-autocomplete"
             options={ethnicityOptions || []}
@@ -807,15 +879,19 @@ export function OrgansCaseAnalytics({ id }) {
               <TextField
                 {...params}
                 label="Ethnicity"
-                InputProps={{
-                  ...params.InputProps,
-                  type: 'search',
-                  endAdornment: (
-                    <>
-                      {isLoading ? <CircularProgress size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  ...params.slotProps,
+
+                  input: {
+                    ...params.slotProps.input,
+                    type: 'search',
+                    endAdornment: (
+                      <>
+                        {isLoading ? <CircularProgress size={20} /> : null}
+                        {params.slotProps.input.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}
@@ -861,7 +937,10 @@ export function OrgansCaseAnalytics({ id }) {
           series={activeSeries}
           width={800}
           height={400}
-          slotProps={{ legend: { hidden: true } }}
+          margin={{
+            top: 50, right: 50, bottom: 50 - 25, left: 50 - 45,
+          }}
+          hideLegend
         />
       )}
       <TableContainer component={Paper}>
@@ -923,6 +1002,7 @@ export function OrgansCaseAnalytics({ id }) {
             disableRowSelectionOnClick
             showCellVerticalBorder
             autoHeight
+            showToolbar
           />
         )}
       </div>

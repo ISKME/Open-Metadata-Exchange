@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import {
   useLocation, useSearchParams, useNavigate, Link,
 } from 'react-router-dom';
-import * as qs from 'query-string';
+import qs from 'query-string';
 import { styled } from '@mui/material/styles';
 import { useAppDispatch } from 'hooks/redux';
 import Typography from '@mui/material/Typography';
@@ -493,14 +493,18 @@ export function CasesList({
             </CButton>
             <Menu
               id="fade-menu"
-              MenuListProps={{
-                'aria-labelledby': 'fade-button',
-              }}
               className={cls.fadeMenu}
               anchorEl={anchorEl}
               open={open}
               onClose={handleClose}
-              TransitionComponent={Fade}
+              slotProps={{
+                list: {
+                  'aria-labelledby': 'fade-button',
+                },
+              }}
+              slots={{
+                transition: Fade,
+              }}
             >
               {creatingFolder ? (
                 <div className={cls.foldersWrapper} style={{ padding: '16px', width: 'min-content' }}>

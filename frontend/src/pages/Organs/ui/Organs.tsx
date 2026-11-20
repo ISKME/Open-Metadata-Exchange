@@ -25,7 +25,7 @@ const globalStyles = {
     background: 'rgb(48, 62, 72)',
     paddingLeft: '5%',
   },
-  '.MuiTabs-flexContainer': {
+  '.MuiTabs-list': {
     paddingTop: '3px',
   },
   '.MuiButtonBase-root.MuiTab-root.Mui-selected': {
@@ -78,7 +78,7 @@ const globalStyles = {
   '.MuiAutocomplete-popper *': {
     fontSize: '14px !important',
   },
-  '.MuiInputBase-inputSizeSmall': {
+  ':where(.MuiInputBase-sizeSmall) > .MuiInputBase-input': {
     fontSize: '14px !important',
   },
   '.MuiMenuItem-gutters': {
@@ -163,7 +163,7 @@ export function Organs() {
     <Box sx={{ width: '100%', padding: '64px 0' }}>
       <GlobalStyles styles={globalStyles} />
       <Grid container spacing={2} sx={{ padding: '0 5%', '@media (max-width: 1168px)': { padding: '0 16px' } }}>
-        <Grid item xs={3}>
+        <Grid size={3}>
           <Paper elevation={0} sx={{ width: 320, maxWidth: '100%' }}>
             <MenuList>
               {menuItems.map((item, index) => (
@@ -188,7 +188,7 @@ export function Organs() {
             </MenuList>
           </Paper>
         </Grid>
-        <Grid item xs={9}>
+        <Grid size={9}>
           {selectedMenu === 0 && <OrgansSettings id={organizationId} />}
           {selectedMenu === 1 && <OrgansUsers id={organizationId} />}
           {selectedMenu === 2 && <OrgansGroups id={organizationId} />}

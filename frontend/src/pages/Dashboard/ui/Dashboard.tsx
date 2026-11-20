@@ -948,16 +948,20 @@ export function Dashboard() {
                                   sx={{
                                     '& fieldset': { border: 'none !important' },
                                   }}
-                                  InputProps={{
-                                    ...params.InputProps,
-                                    endAdornment: (
-                                      <>
-                                        {widgetLoadingMap[widget.id] ? (
-                                          <CircularProgress size={20} aria-label="Loading section options" />
-                                        ) : null}
-                                        {params.InputProps.endAdornment}
-                                      </>
-                                    ),
+                                  slotProps={{
+                                    ...params.slotProps,
+
+                                    input: {
+                                      ...params.slotProps.input,
+                                      endAdornment: (
+                                        <>
+                                          {widgetLoadingMap[widget.id] ? (
+                                            <CircularProgress size={20} aria-label="Loading section options" />
+                                          ) : null}
+                                          {params.slotProps.input.endAdornment}
+                                        </>
+                                      ),
+                                    },
                                   }}
                                 />
                               )}

@@ -174,7 +174,7 @@ export function MySettings() {
       <Container maxWidth="md">
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <Grid container spacing={2}>
-            <Grid item xs={12} className={`${cls['grid-form']}`}>
+            <Grid className={`${cls['grid-form']}`} size={12}>
               <TextField
                 label="First name"
                 name="first_name"
@@ -185,7 +185,7 @@ export function MySettings() {
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid item xs={12} className={`${cls['grid-form']}`}>
+            <Grid className={`${cls['grid-form']}`} size={12}>
               <TextField
                 label="Last name"
                 name="last_name"
@@ -196,7 +196,7 @@ export function MySettings() {
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid item xs={12} className={`${cls['grid-form']}`}>
+            <Grid className={`${cls['grid-form']}`} size={12}>
               <TextField
                 label="Email"
                 name="email"
@@ -208,7 +208,7 @@ export function MySettings() {
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid item xs={12} className={`${cls['form-header']}`}>
+            <Grid className={`${cls['form-header']}`} size={12}>
               <Typography>
                 {currentProfileImage
                   ? 'Change profile image'
@@ -238,12 +238,12 @@ export function MySettings() {
                 </div>
               )}
             </Grid>
-            <Grid item xs={12} className={`${cls['form-header']}`}>
+            <Grid className={`${cls['form-header']}`} size={12}>
               <Typography>
                 Change password
               </Typography>
             </Grid>
-            <Grid item xs={12} className={`${cls['grid-form']}`}>
+            <Grid className={`${cls['grid-form']}`} size={12}>
               <TextField
                 label="Old password"
                 name="old_password"
@@ -258,7 +258,7 @@ export function MySettings() {
                 helperText={errors.old_password}
               />
             </Grid>
-            <Grid item xs={12} className={`${cls['grid-form']}`}>
+            <Grid className={`${cls['grid-form']}`} size={12}>
               <TextField
                 label="New password"
                 name="new_password"
@@ -272,7 +272,7 @@ export function MySettings() {
                 helperText={errors.new_password}
               />
             </Grid>
-            <Grid item xs={12} className={`${cls['grid-form']}`}>
+            <Grid className={`${cls['grid-form']}`} size={12}>
               <TextField
                 label="Confirm new password"
                 name="confirm_new_password"
@@ -286,7 +286,7 @@ export function MySettings() {
                 helperText={errors.confirm_new_password}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button
                 className="btn btn-primary"
                 type="submit"

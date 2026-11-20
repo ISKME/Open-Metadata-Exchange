@@ -755,7 +755,10 @@ export default function ({
                   series={[{ data: currentData, arcLabel: () => '' }]}
                   width={300}
                   height={300}
-                  slotProps={{ legend: { hidden: true } }}
+                  margin={{
+                    top: 5, right: 100, bottom: 5, left: 5,
+                  }}
+                  hideLegend
                 />
               </div>
             )}
@@ -781,7 +784,10 @@ export default function ({
                   series={series}
                   height={420}
                   width={Math.max(640, xAxis.length * 60)}
-                  slotProps={{ legend: { hidden: true } }}
+                  margin={{
+                    top: 50, right: 50, bottom: 50 - 25 - 20, left: 50 - 45,
+                  }}
+                  hideLegend
                 />
               </div>
             )}

@@ -64,7 +64,13 @@ export function CardCase({
   const [more, setMore] = React.useState(false);
   return (
     <CardBlog sx={{ display: 'flex' }}>
-      <Checkbox checked={checked} onChange={onCheck} inputProps={{ 'aria-label': 'Checkbox demo' }} />
+      <Checkbox
+        checked={checked}
+        onChange={onCheck}
+        slotProps={{
+          input: { 'aria-label': 'Checkbox demo' },
+        }}
+      />
       <Link to={`/courseware/new/${id?.split('.')?.pop()}`}>
         <CardBlogMedia
           component="img"
@@ -80,9 +86,9 @@ export function CardCase({
         <div style={{ display: 'flex' }}>
           <Typography
             variant="subtitle1"
-            color="text.secondary"
             component="div"
             sx={{
+              color: 'text.secondary',
               flex: 1,
               overflow: 'hidden',
               textOverflow: 'ellipsis',

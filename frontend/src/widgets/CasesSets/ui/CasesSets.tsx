@@ -14,7 +14,7 @@ export function CasesSets() {
 
   return (
     <Grid container spacing={2} sx={{ padding: '24px 10%' }}>
-      <Grid item xs={4} sx={{ paddingRight: '32px' }}>
+      <Grid sx={{ paddingRight: '32px' }} size={4}>
         {[
           ['ABP1', 86],
           ['ATLAS Limited Library - Nov 2021', 329],
@@ -41,7 +41,7 @@ export function CasesSets() {
           </Typography>
         ))}
       </Grid>
-      <Grid item xs={8}>
+      <Grid size={8}>
         <Box sx={{ width: '100%', marginBottom: '24px' }}>
           <Tabs
             value={value}
