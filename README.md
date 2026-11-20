@@ -28,7 +28,7 @@ sequenceDiagram
 
 ## Run the components
 
-For local development and testing, start two INN2 servers, two FastAPI servers, and two React front ends with:
+For local development and testing, start an INN2 server, a FastAPI server, and the React front end with:
 
 ```bash
 docker compose build
@@ -41,12 +41,12 @@ open http://localhost:5001
   * <https://www.eyrie.org/~eagle/software/inn/docs-2.7>
   * <https://github.com/cclauss/apt-get-inn2-docker>
 * [FastAPI](https://fastapi.tiangolo.com/)-Server middle tier that connects the INN to the frontend.
-* [FE2](./fe2/README.md) user interface that connects to the FastAPI-Server.
+* FE2 user interface in `frontend/` that connects to the FastAPI-Server.
 
 ### FE2 NodeServer
 
 ```bash
-cd fe2
+cd frontend
 npm ci
 npm run start
 # Wait for `webpack x.y.z compiled successfully`
