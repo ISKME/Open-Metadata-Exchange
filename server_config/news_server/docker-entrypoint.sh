@@ -39,6 +39,15 @@ nnrpd -D -p 563 -S
 # Docker's stop signal into a clean "ctlinnd shutdown".
 /usr/lib/news/bin/innd "$@" &
 innd_pid=$!
-trap 'ctlinnd shutdown "container stop" >/dev/null 2>&1 || kill "${innd_pid}"' TERM INT
-wait "${innd_pid}"  # Returns early when a stop signal arrives and the trap runs
-wait "${innd_pid}"  # Then waits until innd has really shut down, and passes on its exit code
+stopping=
+trap 'stopping=1; ctlinnd shutdown "container stop" >/dev/null 2>&1 || kill "${innd_pid}"' TERM INT
+
+# wait returns early when a stop signal runs the trap. Only then is innd still shutting down, so
+# wait again. Otherwise innd stopped by itself and rc is already its exit code.
+wait "${innd_pid}"
+rc=$?
+if [ -n "${stopping}" ]; then
+	wait "${innd_pid}"
+	rc=$?
+fi
+exit "${rc}"  # The exit code of innd becomes the exit code of the container
