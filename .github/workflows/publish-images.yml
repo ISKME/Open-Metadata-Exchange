@@ -1,6 +1,6 @@
 name: publish-images
 
-# Builds the frontend and API images and publishes them to GHCR.
+# Builds the frontend, API and NNTP images and publishes them to GHCR.
 # Branch → environment tag: main → dev, staging → staging, production → production.
 # Watchtower on each server pulls the new image for its environment tag.
 
@@ -34,6 +34,8 @@ jobs:
             dockerfile: Dockerfile-api
           - image: ome-frontend
             dockerfile: Dockerfile-fe
+          - image: ome-nntp
+            dockerfile: Dockerfile-nntp
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
