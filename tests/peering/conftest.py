@@ -65,5 +65,6 @@ def peering_nodes() -> Iterator[PeeringNodes]:
         yield nodes
     finally:
         save_logs(nodes)
-        # No --volumes: there are none, and it would delete data in other setups.
-        nodes.compose("down", "--remove-orphans", check=False)
+        # --volumes deletes the INN data of these two test nodes (project
+        # ome-peering-test only), so the next run starts empty. Never on a real node.
+        nodes.compose("down", "--volumes", "--remove-orphans", check=False)

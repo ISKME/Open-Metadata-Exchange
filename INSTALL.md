@@ -61,6 +61,20 @@ to restart the containers, not rebuild them. The contents of the file should loo
 
 [^1]: The IP address that is seen inside your Docker container might be NATted. e.g., 172.21.0.1, the gateway of the docker network.
 
+## Data
+
+INN keeps its data in two Docker volumes, so a new image or `docker compose down` keeps it:
+
+| Volume       | Folder in the container | What is in it                                                   |
+|--------------|-------------------------|-----------------------------------------------------------------|
+| `nntp-db`    | `/var/lib/news`         | The newsgroups (`active`) and the history of every article      |
+| `nntp-spool` | `/var/spool/news`       | The articles, their overview, and the backlog for unreachable peers |
+
+The config is not in a volume: it is made again from `config.json` at every start.
+`docker compose down --volumes` deletes all articles. To keep the data in a folder of your own
+(for example on a NAS), use a host folder instead, such as `./data/nntp-db:/var/lib/news`:
+an empty folder is filled at the first start.
+
 ## Backend
 
 ### Plugin
