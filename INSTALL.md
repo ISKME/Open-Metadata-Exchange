@@ -63,15 +63,15 @@ to restart the containers, not rebuild them. The contents of the file should loo
 
 ## Start the node
 
-[`deploy/compose.yml`](deploy/compose.yml) runs a node from the published images, so the server
+[`deploy/compose.yaml`](deploy/compose.yaml) runs a node from the published images, so the server
 needs no source code and builds nothing. (`docker-compose.yml` in the root is for development.)
 
-1. Copy `deploy/compose.yml` to a folder on the server and put your `config.json` next to it.
+1. Copy `deploy/compose.yaml` to a folder on the server and put your `config.json` next to it.
 1. Start the node: `docker compose up -d`. The website and the API are on port 80,
    the peers connect to port 1119.
 1. Update to the latest release: `docker compose pull && docker compose up -d`.
 
-The images follow the tag `stable`, the latest release. Settings go in a `.env` file next to `compose.yml`:
+The images follow the tag `stable`, the latest release. Settings go in a `.env` file next to `compose.yaml`:
 
 | **Variable**    | **Default**                | **Comment**                                       |
 |-----------------|----------------------------|---------------------------------------------------|

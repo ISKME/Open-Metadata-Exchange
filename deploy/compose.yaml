@@ -2,11 +2,11 @@
 # For development (build from source, code mounted) use docker-compose.yml in the repository root.
 #
 # Put config.json next to this file (see config.json.example and INSTALL.md), then:
-#   docker compose -f deploy/compose.yml up -d
+#   docker compose -f deploy/compose.yaml up -d
 # Update to the latest release:
-#   docker compose -f deploy/compose.yml pull && docker compose -f deploy/compose.yml up -d
+#   docker compose -f deploy/compose.yaml pull && docker compose -f deploy/compose.yaml up -d
 # Optional automatic updates (Watchtower, see below):
-#   docker compose -f deploy/compose.yml --profile autoupdate up -d
+#   docker compose -f deploy/compose.yaml --profile autoupdate up -d
 #
 # Settings, from the environment or a .env file next to this file (all optional):
 #   OME_REGISTRY   where the images come from   (default ghcr.io/odisee-ome-2627)

@@ -1,5 +1,5 @@
 """
-Check deploy/compose.yml, the compose file for production nodes.
+Check deploy/compose.yaml, the compose file for production nodes.
 
 It reads the file through "docker compose config", so the variables are filled in
 as on a real node. Skipped when Docker Compose is not installed.
@@ -16,7 +16,7 @@ import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEPLOY = REPO_ROOT / "deploy"
-COMPOSE_FILE = DEPLOY / "compose.yml"
+COMPOSE_FILE = DEPLOY / "compose.yaml"
 TEST_CONFIG = REPO_ROOT / "tests" / "peering" / "node-a.json"  # No real credentials
 NODE_SERVICES = {"nntp-server", "fastapi-server", "imls-react"}
 DOCKER = shutil.which("docker")
@@ -31,8 +31,9 @@ def compose_config(*args: str, **settings: str) -> dict:
     env |= {"OME_CONFIG": str(TEST_CONFIG)} | settings
     result = subprocess.run(  # noqa: S603 - fixed arguments, no shell
         [DOCKER, "compose", "-f", COMPOSE_FILE, *args, "config", "--format", "json"],
-        capture_output=True, text=True, check=True, env=env, timeout=60,
+        capture_output=True, text=True, check=False, env=env, timeout=60,
     )  # fmt: skip
+    assert result.returncode == 0, f"docker compose config failed: {result.stderr}"
     return json.loads(result.stdout)
 
 
