@@ -14,7 +14,9 @@ You will need the following:
 
 ## Peering Configuration
 
-Copy `./config.json.example` to `./config.json` and edit it. It is not baked into the images:
+Copy `config.json.example` to `config.json` and edit it. On a server, it goes next to `compose.yaml`
+(see [Start the node](#start-the-node)); for development, in the root of the repository, next to
+`docker-compose.yml`. It is not baked into the images:
 Docker Compose mounts it at runtime as the `ome_config` secret, so after editing it you only need
 to restart the containers, not rebuild them. The contents of the file should look as follows:
 
