@@ -20,9 +20,12 @@ entrypoint, peers in `config.json`) without the API or the frontend.
 | `nodes.py` | Helpers that run `ctlinnd`, `inews`, `grephistory` and `sm` in a node with `docker compose exec` |
 | `test_restart.py` | Stops node-b cleanly and kills it hard, and checks that it starts again with its articles |
 | `test_round_trip.py` | Posts an article on one node and checks that it arrives on the other, both ways |
+| `test_innfeed_config.py` | Checks that the innfeed reconnect times from the config end up in `innfeed.conf` |
 
 Each config is mounted as a Docker secret in `/run/secrets/`, and `OME_CONFIG` tells the
-entrypoint which file to read. The passwords are test values only.
+entrypoint which file to read. The passwords are test values only. Both configs set short
+innfeed reconnect times (2 s, at most 10 s), so a node retries a peer within seconds after
+an outage instead of after 30 s or more.
 
 ## Run the test
 
