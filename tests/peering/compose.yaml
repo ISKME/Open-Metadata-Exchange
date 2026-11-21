@@ -8,6 +8,7 @@ x-nntp-node: &nntp-node
     context: ../..
     dockerfile: Dockerfile-nntp
   image: ome-nntp:peering-test
+  stop_grace_period: 30s  # innd needs a few seconds to stop cleanly; Docker Desktop waits only 1 s
 
 services:
   node-a:

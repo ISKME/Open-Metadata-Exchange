@@ -8,12 +8,13 @@ on:
         required: true
         default: ""
 
-permissions:
-  contents: write
+permissions: {}
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -35,3 +36,16 @@ jobs:
             --title "${INPUTS_VERSION}" \
             --generate-notes \
             --target main
+
+  promote-images:
+    # Our fork only (odisee-ome-2627): tag the images of this release as the
+    # version and stable. See promote-images.yml.
+    needs: release
+    if: github.repository_owner == 'odisee-ome-2627'
+    permissions:
+      contents: read
+      packages: write
+    # The self-repository form ($/) is new (July 2026) and not yet supported by actionlint.
+    uses: ./.github/workflows/promote-images.yml  # zizmor: ignore[self-repository]
+    with:
+      version: ${{ inputs.version }}

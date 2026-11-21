@@ -1,0 +1,100 @@
+name: promote-images
+
+# Gives the images of a release their release tags, without building them again.
+# publish-images tags every image built on main as dev-<sha>. For a release, the
+# images of the release commit get two more tags: the version (yyyy.mm.dd) and
+# stable. Partner nodes follow stable, so it only moves when a release is made.
+#
+# Called by release.yml. Start it by hand to try again, for example when the
+# images of the release commit were not published yet.
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: "Release version (yyyy.mm.dd)"
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (yyyy.mm.dd)"
+        required: true
+
+permissions: {}
+
+env:
+  # Registry and owner of the images, the same as in publish-images.yml.
+  IMAGE_PREFIX: ghcr.io/odisee-ome-2627
+  IMAGES: ome-api ome-frontend ome-nntp
+
+jobs:
+  promote:
+    # Runs only in the fork odisee-ome-2627/Open-Metadata-Exchange, like publish-images.
+    if: github.repository_owner == 'odisee-ome-2627'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Find the commit of the release
+        id: commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          if ! echo "${VERSION}" | grep -qE '^[0-9]{4}\.[0-9]{2}\.[0-9]{2}$'; then
+            echo "::error::Version '${VERSION}' does not match the yyyy.mm.dd format"
+            exit 1
+          fi
+          # The tag decides the commit, not the current state of main.
+          if ! sha=$(gh api "repos/${GITHUB_REPOSITORY}/commits/refs/tags/${VERSION}" --jq .sha); then
+            echo "::error::Tag ${VERSION} not found"
+            exit 1
+          fi
+          echo "Release ${VERSION} is commit ${sha}"
+          echo "sha=${sha::7}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Wait until every image of the release commit exists
+        # publish-images may still be building them right after a merge.
+        # Check all images first, so stable never points to a mix of releases.
+        env:
+          SHA: ${{ steps.commit.outputs.sha }}
+        run: |
+          for attempt in $(seq 1 40); do
+            missing=""
+            for image in ${IMAGES}; do
+              if ! docker buildx imagetools inspect "${IMAGE_PREFIX}/${image}:dev-${SHA}" > /dev/null 2>&1; then
+                missing="${missing} ${image}"
+              fi
+            done
+            if [ -z "${missing}" ]; then
+              exit 0
+            fi
+            echo "Attempt ${attempt}/40, not published yet:${missing}"
+            sleep 30
+          done
+          echo "::error::Not found after 20 minutes:${missing} (tag dev-${SHA}). Check publish-images on main, then run promote-images again."
+          exit 1
+
+      - name: Add the version and stable tags
+        # imagetools copies the manifest (list) as it is, so the digest stays the same.
+        env:
+          SHA: ${{ steps.commit.outputs.sha }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          for image in ${IMAGES}; do
+            docker buildx imagetools create \
+              --tag "${IMAGE_PREFIX}/${image}:${VERSION}" \
+              --tag "${IMAGE_PREFIX}/${image}:stable" \
+              "${IMAGE_PREFIX}/${image}:dev-${SHA}"
+            echo "${image}: dev-${SHA} is now also ${VERSION} and stable"
+          done

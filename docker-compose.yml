@@ -16,6 +16,7 @@ services:
       - 1119:119
     secrets:
       - ome_config
+    stop_grace_period: 30s  # innd needs a few seconds to stop cleanly; Docker Desktop waits only 1 s
     post_start:
       - command:  sh -c "/usr/local/bin/wait_for_tcp.sh 119 20 && /usr/local/bin/preseed.sh"
 
