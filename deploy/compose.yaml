@@ -1,12 +1,13 @@
 # One OME node for production: it only pulls published images, nothing is built here.
 # For development (build from source, code mounted) use docker-compose.yml in the repository root.
 #
-# Put config.json next to this file (see config.json.example and INSTALL.md), then:
-#   docker compose -f deploy/compose.yaml up -d
+# Copy this file to a folder on the server and put config.json next to it
+# (see config.json.example and INSTALL.md). Then, in that folder:
+#   docker compose up -d
 # Update to the latest release:
-#   docker compose -f deploy/compose.yaml pull && docker compose -f deploy/compose.yaml up -d
+#   docker compose pull && docker compose up -d
 # Optional automatic updates (Watchtower, see below):
-#   docker compose -f deploy/compose.yaml --profile autoupdate up -d
+#   docker compose --profile autoupdate up -d
 #
 # Settings, from the environment or a .env file next to this file (all optional):
 #   OME_REGISTRY   where the images come from   (default ghcr.io/odisee-ome-2627)

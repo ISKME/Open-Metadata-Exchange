@@ -89,8 +89,19 @@ def test_watchtower_only_with_the_autoupdate_profile() -> None:
         assert labels.get(WATCHTOWER_LABEL) == "true", f"{name} has no Watchtower label"
 
 
-@pytest.mark.parametrize(
-    "path", sorted(p for p in DEPLOY.rglob("*") if p.is_file()), ids=str
-)
-def test_no_password_in_deploy(path: Path) -> None:
-    assert "password" not in path.read_text().lower(), f"{path} mentions a password"
+def committed_deploy_files() -> list[str]:
+    """Files in deploy/ that are in git; a local config.json or .env never is."""
+    git = shutil.which("git")
+    if git is None:
+        return []
+    result = subprocess.run(  # noqa: S603 - fixed arguments, no shell
+        [git, "ls-files", "-z", "deploy"],
+        cwd=REPO_ROOT, capture_output=True, text=True, check=True, timeout=30,
+    )  # fmt: skip
+    return sorted(name for name in result.stdout.split("\0") if name)
+
+
+@pytest.mark.parametrize("name", committed_deploy_files())
+def test_no_password_in_deploy(name: str) -> None:
+    text = (REPO_ROOT / name).read_text(errors="replace").lower()
+    assert "password" not in text, f"{name} mentions a password"
