@@ -19,6 +19,7 @@ DEPLOY = REPO_ROOT / "deploy"
 COMPOSE_FILE = DEPLOY / "compose.yaml"
 TEST_CONFIG = REPO_ROOT / "tests" / "peering" / "node-a.json"  # No real credentials
 NODE_SERVICES = {"nntp-server", "fastapi-server", "imls-react"}
+WATCHTOWER_LABEL = "com.centurylinklabs.watchtower.enable"
 DOCKER = shutil.which("docker")
 
 pytestmark = pytest.mark.skipif(DOCKER is None, reason="needs Docker Compose")
@@ -61,7 +62,7 @@ def test_node_restarts_and_stops_cleanly() -> None:
     for name, service in services.items():
         assert service["restart"] == "unless-stopped", name
     nntp = services["nntp-server"]
-    assert nntp["stop_grace_period"] == "30s"
+    assert nntp.get("stop_grace_period") == "30s", "innd needs time to stop cleanly"
     assert (
         services["fastapi-server"]["depends_on"]["nntp-server"]["condition"]
         == "service_healthy"
@@ -84,9 +85,8 @@ def test_watchtower_only_with_the_autoupdate_profile() -> None:
     assert "watchtower" in services
     assert "--label-enable" in services["watchtower"]["command"]
     for name in NODE_SERVICES:
-        assert (
-            services[name]["labels"]["com.centurylinklabs.watchtower.enable"] == "true"
-        ), name
+        labels = services[name].get("labels", {})
+        assert labels.get(WATCHTOWER_LABEL) == "true", f"{name} has no Watchtower label"
 
 
 @pytest.mark.parametrize(
