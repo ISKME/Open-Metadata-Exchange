@@ -29,7 +29,7 @@ const CardItem = () => (
       <span>Literature Bests</span>
     </div>
     <div className={cls.cardItemContent}>
-      <h6>M.O.S.T.</h6>
+      <h5>M.O.S.T.</h5>
       <span>PreK-12, HigherEd, Continuing Ed</span>
       <br />
       <span>15 resources</span>
@@ -42,7 +42,7 @@ export function LibraryContent({ className }: LibraryContentProps) {
   return (
     <>
       <section className={cls.common}>
-        <h1>Your library is the place to manage:</h1>
+        <h2>Your library is the place to manage:</h2>
         <div>
           <div role="button" tabIndex={0} onKeyDown={clickOnEnterOrSpace} onClick={() => { navigate('/imls/site-collections/subscribed-collections'); }}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

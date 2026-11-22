@@ -11,7 +11,7 @@
   background: #FCFCFC;
   font-family: 'Open Sans', sans-serif;
 
-  h1 {
+  h1, h2 {
     color: #1E1E1E;
     text-align: center;
     font-size: 36px;
@@ -219,7 +219,8 @@
     text-align: center;
     font-size: 11.664px;
 
-    h6 {
+    h5 {
+      font-size: 0.67em; // was an h6: keep the browser's h6 size
       font-weight: 700;
       color: #054DD1;
     }
