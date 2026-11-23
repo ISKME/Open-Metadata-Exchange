@@ -96,8 +96,10 @@ def committed_deploy_files() -> list[str]:
         return []
     result = subprocess.run(  # noqa: S603 - fixed arguments, no shell
         [git, "ls-files", "-z", "deploy"],
-        cwd=REPO_ROOT, capture_output=True, text=True, check=True, timeout=30,
+        cwd=REPO_ROOT, capture_output=True, text=True, check=False, timeout=30,
     )  # fmt: skip
+    if result.returncode != 0:  # Not a git checkout, such as a release tarball
+        return []
     return sorted(name for name in result.stdout.split("\0") if name)
 
 
