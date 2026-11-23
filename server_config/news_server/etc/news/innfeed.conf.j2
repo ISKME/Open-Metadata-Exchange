@@ -58,8 +58,9 @@ connection-stats:         true
 #stats-reset:              43200
 
 #initial-sleep:            2
-#initial-reconnect-time:   30
-#max-reconnect-time:       3600
+# Optional "innfeed" object in config.json; INN's defaults (30 and 3600) otherwise.
+initial-reconnect-time:   {{ (innfeed | default({})).initial_reconnect_time | default(30) }}
+max-reconnect-time:       {{ (innfeed | default({})).max_reconnect_time | default(3600) }}
 
 
 ##  Defaults for all peers.  These all exist at global scope.  Any of them can
