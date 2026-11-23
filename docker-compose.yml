@@ -1,6 +1,12 @@
 services:
   nntp-server:
     hostname: nntp-server
+    volumes:
+      # INN's data: newsgroups and history, and the articles and the backlog for the peers.
+      # They outlive the container, so a new image or "docker compose down" keeps them.
+      # "docker compose down --volumes" deletes them.
+      - nntp-db:/var/lib/news
+      - nntp-spool:/var/spool/news
     build:
       dockerfile: Dockerfile-nntp
     networks:
@@ -53,6 +59,10 @@ services:
 secrets:
   ome_config:
     file: ./config.json
+
+volumes:
+  nntp-db:
+  nntp-spool:
 
 networks:
   my_network:
