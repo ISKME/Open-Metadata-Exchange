@@ -34,7 +34,8 @@ SPREAD_TIMEOUT = 20  # seconds for innfeed to pass an article on to the peer
 NODE_A_CONFIG = json.loads((Path(__file__).parent / "node-a.json").read_text())
 
 # A small NNTP client: each step is a command, and an article to send after a
-# 335/340 reply. It prints every reply as JSON, for the test to read.
+# 335/340 reply. It prints every reply as JSON, for the test to read. After a 215
+# reply (a list), the next item is the list of lines that followed it.
 CLIENT = """
 import json, socket, sys
 steps = json.loads(sys.argv[1])
@@ -54,8 +55,10 @@ for command, article in steps:
         file.write(article.encode() + b".\\r\\n"); file.flush()
         replies.append(file.readline().decode().strip())
     elif reply.startswith("215"):
-        while file.readline().decode().rstrip("\\r\\n") != ".":
-            pass
+        lines = []
+        while (line := file.readline().decode().rstrip("\\r\\n")) != ".":
+            lines.append(line)
+        replies.append(lines)
 print(json.dumps(replies))
 """
 
@@ -121,6 +124,20 @@ def test_stranger_cannot_post(peering_nodes: PeeringNodes) -> None:
     assert replies[1].startswith("480"), f"POST was not refused: {replies}"
     assert not peering_nodes.find(NODE, message_id)
     assert not wait_for(lambda: peering_nodes.find(PEER, message_id), SPREAD_TIMEOUT)
+
+
+def test_stranger_cannot_read(peering_nodes: PeeringNodes) -> None:
+    """A client that does not log in sees no group and cannot open one."""
+    assert peering_nodes.exec(NODE, "grep", f"^{NEWSGROUP} ", "/var/lib/news/active")
+    replies = talk([("LIST ACTIVE", None), (f"GROUP {NEWSGROUP}", None)])
+    # INN may refuse the list (480) or give an empty one: both show no group.
+    if replies[1].startswith("215"):
+        listing, group = replies[2], replies[3]
+        assert listing == [], f"a stranger sees groups: {listing}"
+    else:
+        group = replies[2]
+        assert replies[1][:3] in ("480", "502"), f"unexpected LIST reply: {replies}"
+    assert group[:3] in ("480", "502"), f"a stranger opened {NEWSGROUP}: {replies}"
 
 
 def test_client_that_logs_in_reads_and_posts(peering_nodes: PeeringNodes) -> None:
