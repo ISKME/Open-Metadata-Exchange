@@ -61,7 +61,7 @@ access "localhost" {
 
 {% if nntp_user %}
 auth "{{nntp_user.username}}" {
-     auth: "ckpasswd -f /var/lib/news/newsusers"
+     auth: "ckpasswd -f /etc/news/newsusers"
      default: "<{{nntp_user.username}}>"
 }
 
@@ -75,7 +75,7 @@ access "{{nntp_user.username}}" {
 {% if nntp_debug_user %}
 auth "{{nntp_debug_user.username}}" {
      default: "<{{nntp_debug_user.username}}>"
-     auth: "ckpasswd -f /var/lib/news/newsusers"
+     auth: "ckpasswd -f /etc/news/newsusers"
 }
 
 access "{{nntp_debug_user.username}}" {
