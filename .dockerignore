@@ -1,3 +1,7 @@
 # Local node configuration (contains credentials); mounted at runtime
 config.json
 .env
+
+# Python caches: not part of the images (and may belong to root after a container run)
+**/__pycache__
+**/*.pyc

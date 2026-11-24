@@ -46,14 +46,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Make the API image self-contained
-        # Upstream Dockerfile-api expects ./server, ./static and ./templates as
-        # volume mounts (local development). For deployment the code must be in
-        # the image. Temporary until this is fixed upstream at ISKME.
-        if: matrix.image == 'ome-api'
-        run: |
-          printf '\nCOPY ./server /app/server\nCOPY ./static /app/static\nCOPY ./templates /app/templates\n' >> Dockerfile-api
-
       - name: Determine environment tag
         id: meta
         env:
