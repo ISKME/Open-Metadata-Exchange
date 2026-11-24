@@ -95,6 +95,6 @@
     "uuid": "^14.0.3",
     "video.js": "^8.24.2",
     "videojs-hls-quality-selector": "^2.0.0",
-    "webpack-bundle-tracker": "^1.6.0"
+    "webpack-bundle-tracker": "^3.2.4"
   }
 }
