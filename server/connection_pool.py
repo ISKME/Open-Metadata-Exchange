@@ -18,6 +18,10 @@ class ClientFactory(PooledObjectFactory):
             username=inn_username,
             password=inn_password,
         )
+        if inn_username:
+            # Log in now: INN only asks for it when a command needs it (POST),
+            # and an anonymous LIST just returns no groups.
+            nntp_client.login()
         return PooledObject(nntp_client)
 
     def destroy(self, pooled_object: PooledObject) -> None:
