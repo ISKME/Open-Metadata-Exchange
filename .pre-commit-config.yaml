@@ -64,12 +64,12 @@ repos:
           - tomli
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.30.6
+    rev: v2.31.2
     hooks:
       - id: pyproject-fmt
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.5
+    rev: v0.17.6
     hooks:
       - id: ruff-check
       - id: ruff-format
@@ -86,7 +86,7 @@ repos:
   #     - id: ty
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.13.8
+    rev: 0.13.9
     hooks:
       - id: uv-lock
 
@@ -96,7 +96,7 @@ repos:
       - id: validate-pyproject
 
   - repo: https://github.com/zizmorcore/zizmor-pre-commit
-    rev: v1.32.0
+    rev: v1.33.1
     hooks:
     - id: zizmor
 
