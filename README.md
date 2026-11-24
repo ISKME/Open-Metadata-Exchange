@@ -2,6 +2,7 @@
 
 Distributed / Decentralized Network for Open Metadata Exchange
 
+* Project: <https://www.iskme.org/open-metadata-exchange-ome>
 * Documentation: <https://iskme.github.io/Open-Metadata-Exchange>
 
 [![ome_build](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml)
