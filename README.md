@@ -5,10 +5,10 @@ Distributed / Decentralized Network for Open Metadata Exchange
 * Project: <https://www.iskme.org/open-metadata-exchange-ome>
 * Documentation: <https://iskme.github.io/Open-Metadata-Exchange>
 
-[![ome_build](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/build.yml)
+[![ome_ci](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/ci.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/ci.yml)
 [![ome_docs](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/sphinx.yml/badge.svg)](https://github.com/ISKME/Open-Metadata-Exchange/actions/workflows/sphinx.yml)
 
-## High Level "what connects to what"
+## High-level "what connects to what"
 
 ```mermaid
 sequenceDiagram
