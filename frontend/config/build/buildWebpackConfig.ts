@@ -24,7 +24,7 @@ export function buildWebpackConfig(options: BuildOptions): webpack.Configuration
       chunkFilename: '[name].[contenthash].js',
       path: paths.build,
       clean: true,
-      publicPath: isDev ? '/' : '/static/',
+      publicPath: isDev ? '/' : 'auto',
     },
     cache: {
       type: 'filesystem',
