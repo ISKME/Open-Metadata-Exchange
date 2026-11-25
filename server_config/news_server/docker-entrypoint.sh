@@ -23,6 +23,22 @@ done
 chown root:root /etc/news -R
 chmod a+x /usr/local/bin/preseed.sh
 
+# innfeed quietly ignores a wrong reconnect time, so check the values from config.json here.
+initial=$(sed -n 's/^[[:space:]]*initial-reconnect-time:[[:space:]]*//p' /etc/news/innfeed.conf)
+max=$(sed -n 's/^[[:space:]]*max-reconnect-time:[[:space:]]*//p' /etc/news/innfeed.conf)
+for seconds in "${initial}" "${max}"; do
+	case "${seconds}" in
+	'' | *[!0-9]* | 0*)
+		echo "innfeed reconnect times in config.json must be whole seconds, 1 or more: got '${initial}' and '${max}'" >&2
+		exit 1
+		;;
+	esac
+done
+if [ "${initial}" -gt "${max}" ]; then
+	echo "innfeed initial_reconnect_time (${initial}) in config.json is longer than max_reconnect_time (${max})" >&2
+	exit 1
+fi
+
 . /usr/lib/news/innshellvars
 
 # A container that was killed (power cut, crash, a Docker stop timeout that ran out) keeps these
