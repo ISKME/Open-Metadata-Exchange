@@ -53,7 +53,7 @@
     "jest-environment-jsdom": "^30.5.2",
     "json-server": "^0.17.4",
     "mini-css-extract-plugin": "^2.10.2",
-    "sass": "^1.108.1",
+    "sass": "^1.108.2",
     "sass-loader": "^17.1.0",
     "style-loader": "^4.0.0",
     "stylelint": "^17.16.0",
@@ -62,7 +62,7 @@
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.72.1",
+    "typescript-eslint": "^8.73.0",
     "webpack": "^5.112.2",
     "webpack-cli": "^7.3.1",
     "webpack-dev-server": "^6.1.0"
@@ -75,8 +75,8 @@
     "@mdi/react": "^1.6.1",
     "@mui/icons-material": "^9.5.0",
     "@mui/material": "^9.5.0",
-    "@mui/x-charts": "^9.17.0",
-    "@mui/x-data-grid": "^9.17.0",
+    "@mui/x-charts": "^9.18.1",
+    "@mui/x-data-grid": "^9.18.0",
     "@reduxjs/toolkit": "^2.14.0",
     "@wojtekmaj/react-daterange-picker": "^7.1.0",
     "axios": "^1.21.1",
@@ -94,7 +94,6 @@
     "react-select": "^5.10.2",
     "uuid": "^14.0.3",
     "video.js": "^8.24.2",
-    "videojs-hls-quality-selector": "^2.0.0",
-    "webpack-bundle-tracker": "^1.6.0"
+    "videojs-hls-quality-selector": "^2.0.0"
   }
 }
