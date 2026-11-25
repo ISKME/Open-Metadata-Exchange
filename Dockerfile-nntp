@@ -12,7 +12,11 @@ COPY ./tools/docker_tools/j2_related/j2_filters.py /tmp/j2_filters.py
 COPY ./server_config/news_server/etc/news/* /etc/news/
 RUN chown root:root /etc/news -R
 
-COPY ./server_config/news_server/var/lib/news/newsusers.j2 /var/lib/news/newsusers.j2
+# Starting files of the data folders (active, history, spool folders). docker-entrypoint.sh copies
+# the missing ones into the volumes, which start empty when they are host folders.
+RUN mkdir -p /usr/local/share/ome \
+	&& cp -a /var/lib/news /usr/local/share/ome/news-db \
+	&& cp -a /var/spool/news /usr/local/share/ome/news-spool
 
 RUN mkdir -p /var/www/inn
 RUN chown news:news /var/www/inn
