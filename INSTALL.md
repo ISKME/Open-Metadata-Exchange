@@ -66,31 +66,6 @@ to restart the containers, not rebuild them. The contents of the file should loo
 
 [^1]: The IP address that is seen inside your Docker container might be NATted. e.g., 172.21.0.1, the gateway of the docker network.
 
-## Start the node
-
-[`deploy/compose.yaml`](deploy/compose.yaml) runs a node from the published images, so the server
-needs no source code and builds nothing. (`docker-compose.yml` in the root is for development.)
-
-1. Copy `deploy/compose.yaml` to a folder on the server and put your `config.json` next to it.
-1. Start the node: `docker compose up -d`. The website and the API are on port 80,
-   the peers connect to port 1119.
-1. Update to the latest release: `docker compose pull && docker compose up -d`.
-
-The images follow the tag `stable`, the latest release. Settings go in a `.env` file next to `compose.yaml`:
-
-| **Variable**    | **Default**                | **Comment**                                       |
-|-----------------|----------------------------|---------------------------------------------------|
-| `OME_VERSION`   | `stable`                   | A release such as `2026.11.25` to stay on it       |
-| `OME_REGISTRY`  | `ghcr.io/odisee-ome-2627`  | Where the images come from                        |
-| `OME_CONFIG`    | `./config.json`            | Path to `config.json`                             |
-| `OME_HTTP_PORT` | `80`                       | Port of the website and the API                   |
-| `OME_NNTP_PORT` | `1119`                     | Port for the peers                                |
-
-To update automatically, start the node with `docker compose --profile autoupdate up -d`.
-[Watchtower](https://github.com/nicholas-fedor/watchtower) then checks every hour for a new `stable`
-image. It is off by default: it needs access to the Docker socket (root on the host),
-and it does not check who published an image.
-
 ## Data
 
 INN keeps its data in two Docker volumes, so a new image or `docker compose down` keeps it:

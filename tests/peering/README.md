@@ -18,12 +18,15 @@ entrypoint, peers in `config.json`) without the API or the frontend.
 | `node-b.json` | Config of node-b: its own name, and node-a as its peer |
 | `conftest.py` | pytest fixture: starts both nodes, waits for INN, creates `ome.test`, always cleans up |
 | `nodes.py` | Helpers that run `ctlinnd`, `inews`, `grephistory` and `sm` in a node with `docker compose exec` |
+| `test_healthcheck.py` | Checks that the image turns healthy, and that its healthcheck fails while innd is throttled |
 | `test_restart.py` | Stops node-b cleanly and kills it hard, and checks that it starts again with its articles |
+| `test_innfeed_config.py` | Checks that the innfeed reconnect times from the config end up in `innfeed.conf` |
 | `test_round_trip.py` | Posts an article on one node and checks that it arrives on the other, both ways |
 | `test_innfeed_config.py` | Checks that the innfeed reconnect times from the config end up in `innfeed.conf` |
 | `test_healthcheck.py` | Checks that the image turns healthy, and that its healthcheck fails while innd is throttled |
 | `test_volumes.py` | Checks that a new container keeps the articles, and that empty host folders work |
 | `test_stranger.py` | A container that is not a peer cannot feed, stream or post an article; a client that logs in can read and post |
+| `test_volumes.py` | Checks that a new container keeps the articles, and that empty host folders work |
 
 Each config is mounted as a Docker secret in `/run/secrets/`, and `OME_CONFIG` tells the
 entrypoint which file to read. The passwords are test values only. Both configs set short
