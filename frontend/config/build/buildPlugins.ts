@@ -3,8 +3,6 @@ import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { BuildOptions } from './types/config';
 
-const BundleTracker = require('webpack-bundle-tracker');
-
 export function buildPlugins({ paths, isDev, htmlPublicPath }: BuildOptions): webpack.WebpackPluginInstance[] {
   const plugins: webpack.WebpackPluginInstance[] = [
     new HtmlWebpackPlugin({
@@ -21,7 +19,6 @@ export function buildPlugins({ paths, isDev, htmlPublicPath }: BuildOptions): we
     new webpack.DefinePlugin({
       __IS_DEV__: JSON.stringify(isDev),
     }),
-    new BundleTracker({ filename: './webpack-stats.json' }),
   ];
 
   // Hot reloading is only used by the dev server. In a production build it only added
