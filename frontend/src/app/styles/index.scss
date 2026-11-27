@@ -56,6 +56,13 @@ body {
   }
 }
 
+// The reCAPTCHA v3 script injects its badge (256x60, bottom right) into <body>.
+// Give it its fixed size and position up front so it never moves when fonts or styles load.
+.grecaptcha-badge {
+  position: fixed !important;
+  bottom: 14px;
+}
+
 .page-wrapper {
   width: calc(100% - 140px);
   padding: 20px;

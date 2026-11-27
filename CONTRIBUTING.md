@@ -111,6 +111,10 @@ Creating a release requires **Write** (or higher) repository access on GitHub.
 GitHub will create a tag on `main`, generate release notes from merged pull requests since the
 previous tag, and publish the release at <https://github.com/ISKME/Open-Metadata-Exchange/releases>.
 
+In the fork `odisee-ome-2627/Open-Metadata-Exchange`, the release also gives the images of that
+commit two more tags: the version and `stable` (`promote-images.yml`, nothing is built again).
+After a manual release, run **Actions → promote-images** with the same version.
+
 ### Manual alternative
 
 1. Go to <https://github.com/ISKME/Open-Metadata-Exchange/releases> and click **Draft a new release**.

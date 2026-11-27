@@ -1,0 +1,118 @@
+# One OME node for production: it only pulls published images, nothing is built here.
+# For development (build from source, code mounted) use docker-compose.yml in the repository root.
+#
+# Copy this file to a folder on the server and put config.json next to it
+# (see config.json.example and INSTALL.md). Then, in that folder:
+#   docker compose up -d
+# Update to the latest release:
+#   docker compose pull && docker compose up -d
+# Optional automatic updates (Watchtower, see below):
+#   docker compose --profile autoupdate up -d
+#
+# Settings, from the environment or a .env file next to this file (all optional):
+#   OME_REGISTRY   where the images come from   (default ghcr.io/odisee-ome-2627)
+#   OME_VERSION    image tag: stable, or a release such as 2026.11.25   (default stable)
+#   OME_CONFIG     path to config.json   (default ./config.json, next to this file)
+#   OME_NNTP_PORT  host port for the peers   (default 1119)
+#   OME_HTTP_PORT  host port for the web site and the API   (default 80)
+
+name: ome
+
+x-logging: &logging
+  # Docker keeps container logs forever by default. A full disk stops innd from accepting articles.
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+x-autoupdate: &autoupdate
+  # Watchtower (profile autoupdate) only updates containers with this label.
+  com.centurylinklabs.watchtower.enable: "true"
+
+services:
+  nntp-server:
+    image: ${OME_REGISTRY:-ghcr.io/odisee-ome-2627}/ome-nntp:${OME_VERSION:-stable}
+    hostname: nntp-server
+    restart: unless-stopped
+    # innd needs a few seconds to stop, and waits for innfeed to save the backlog for the peers.
+    stop_grace_period: 30s
+    secrets:
+      - ome_config
+    volumes:
+      # Articles, history and the backlog for the peers. See "Data" in INSTALL.md.
+      - nntp-db:/var/lib/news
+      - nntp-spool:/var/spool/news
+    ports:
+      # Keep the quotes. 0.0.0.0 publishes on IPv4 only: see FIREWALL.md, and let only your peers in.
+      - "0.0.0.0:${OME_NNTP_PORT:-1119}:119"
+    networks:
+      ome_net:
+        ipv4_address: 172.21.0.2
+    labels: *autoupdate
+    logging: *logging
+
+  fastapi-server:
+    image: ${OME_REGISTRY:-ghcr.io/odisee-ome-2627}/ome-api:${OME_VERSION:-stable}
+    hostname: fastapi-server
+    restart: unless-stopped
+    # The image starts "fastapi dev" (reload on code changes); production uses "fastapi run".
+    command: ["uv", "run", "--env-file=.env", "fastapi", "run", "--host=0.0.0.0", "--port=8000", "server/main.py"]
+    environment:
+      INN_SERVER_NAME: nntp-server
+    secrets:
+      - ome_config
+    # Not published on the host: the frontend passes /api/ on to it.
+    networks:
+      ome_net:
+        ipv4_address: 172.21.0.3
+    depends_on:
+      nntp-server:
+        condition: service_healthy
+        restart: true
+    labels: *autoupdate
+    logging: *logging
+
+  imls-react:
+    image: ${OME_REGISTRY:-ghcr.io/odisee-ome-2627}/ome-frontend:${OME_VERSION:-stable}
+    restart: unless-stopped
+    ports:
+      - "${OME_HTTP_PORT:-80}:80"
+    networks:
+      ome_net:
+        ipv4_address: 172.21.0.4
+    depends_on:
+      - fastapi-server
+    labels: *autoupdate
+    logging: *logging
+
+  watchtower:
+    # Optional: started only with --profile autoupdate. It needs the Docker socket (root on the
+    # host) and does not check image signatures, so updating by hand is the default.
+    # Maintained fork of containrrr/watchtower, which was archived in December 2025.
+    image: nickfedor/watchtower:1.19.0
+    profiles: [autoupdate]
+    restart: unless-stopped
+    # --label-enable: only the labelled containers above, not Watchtower itself.
+    # --stop-timeout: the same time as stop_grace_period, so innd can stop cleanly.
+    # --cleanup: remove the old image after an update.
+    command: ["--label-enable", "--stop-timeout", "30s", "--cleanup", "--interval", "3600"]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    logging: *logging
+
+secrets:
+  ome_config:
+    file: ${OME_CONFIG:-./config.json}
+
+volumes:
+  nntp-db:
+  nntp-spool:
+
+networks:
+  ome_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
+          # The INN config trusts this gateway address (readers.conf), so keep this subnet.
+          gateway: 172.21.0.1
