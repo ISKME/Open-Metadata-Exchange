@@ -1,0 +1,37 @@
+
+name: Monthly Bluesky Post
+
+on:
+  schedule:
+    # First day of every month, at 12:00 UTC
+    - cron: "0 12 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  post:
+    name: Send monthly Bluesky message
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
+
+      - name: Install Python
+        run: uv python install
+
+      - name: Install atproto
+        run: uv pip install atproto
+
+      - name: Post to Bluesky
+        env:
+          BLUESKY_HANDLE: ${{ vars.BLUESKY_HANDLE }}
+          BLUESKY_PASSWORD: ${{ secrets.bluesky_password }}
+        run: uv run --no-project scripts/post_to_bluesky.py
