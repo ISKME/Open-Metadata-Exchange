@@ -1,6 +1,10 @@
 {
     "organization": "Peering test B",
     "hostname": "node-b",
+    "innfeed": {
+        "initial_reconnect_time": 2,
+        "max_reconnect_time": 10
+    },
     "peers": [
 	{
 	    "name": "node-a",

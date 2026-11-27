@@ -13,14 +13,7 @@ from pathlib import Path
 
 import pytest
 
-from .nodes import (
-    BUILD_TIMEOUT,
-    NEWSGROUP,
-    NODES,
-    READY_TIMEOUT,
-    PeeringNodes,
-    wait_for,
-)
+from .nodes import BUILD_TIMEOUT, NEWSGROUP, NODES, PeeringNodes
 
 
 def save_logs(nodes: PeeringNodes) -> None:
@@ -55,15 +48,12 @@ def peering_nodes() -> Iterator[PeeringNodes]:
     try:
         nodes.compose("up", "--detach", "--build", timeout=BUILD_TIMEOUT)
         for node in NODES:
-            if not wait_for(lambda node=node: nodes.is_ready(node), READY_TIMEOUT):
-                pytest.fail(
-                    f"INN on {node} was not ready within {READY_TIMEOUT} s.\n\n"
-                    f"{nodes.diagnostics(node)}"
-                )
+            nodes.wait_ready(node)
             # A node only stores articles in groups it knows.
             nodes.exec(node, "ctlinnd", "newgroup", NEWSGROUP)
         yield nodes
     finally:
         save_logs(nodes)
-        # No --volumes: there are none, and it would delete data in other setups.
-        nodes.compose("down", "--remove-orphans", check=False)
+        # --volumes deletes the INN data of these two test nodes (project
+        # ome-peering-test only), so the next run starts empty. Never on a real node.
+        nodes.compose("down", "--volumes", "--remove-orphans", check=False)

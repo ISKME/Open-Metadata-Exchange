@@ -25,6 +25,12 @@ WORKDIR /app
 
 COPY env.j2 /app/.env.j2
 
+# The application, so the image runs on its own (for example from deploy/compose.yaml).
+# docker-compose.yml mounts ./server, ./static and ./templates over it for live development.
+COPY ./server /app/server
+COPY ./static /app/static
+COPY ./templates /app/templates
+
 # Expose port 8000
 EXPOSE 8000
 

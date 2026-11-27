@@ -1,8 +1,9 @@
 name: publish-images
 
-# Builds the frontend and API images and publishes them to GHCR.
+# Builds the frontend, API and NNTP images and publishes them to GHCR.
 # Branch → environment tag: main → dev, staging → staging, production → production.
 # Watchtower on each server pulls the new image for its environment tag.
+# A release adds the version and stable tags to these images: see promote-images.yml.
 
 on:
   push:
@@ -10,6 +11,10 @@ on:
   workflow_dispatch:
 
 permissions: {}
+
+env:
+  # Registry and owner of the images, the same as in promote-images.yml.
+  IMAGE_PREFIX: ghcr.io/odisee-ome-2627
 
 concurrency:
   group: publish-images-${{ github.ref_name }}
@@ -32,25 +37,14 @@ jobs:
         include:
           - image: ome-api
             dockerfile: Dockerfile-api
-            build_args: INN_SERVER_NAME=nntp-server
           - image: ome-frontend
             dockerfile: Dockerfile-fe
-            build_args: ""
+          - image: ome-nntp
+            dockerfile: Dockerfile-nntp
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-
-      - name: Use example config (no secrets in images)
-        run: cp config.json.example config.json
-
-      - name: Make the API image self-contained
-        # Upstream Dockerfile-api expects ./server, ./static and ./templates as
-        # volume mounts (local development). For deployment the code must be in
-        # the image. Temporary until this is fixed upstream at ISKME.
-        if: matrix.image == 'ome-api'
-        run: |
-          printf '\nCOPY ./server /app/server\nCOPY ./static /app/static\nCOPY ./templates /app/templates\n' >> Dockerfile-api
 
       - name: Determine environment tag
         id: meta
@@ -77,11 +71,10 @@ jobs:
         with:
           context: .
           file: ${{ matrix.dockerfile }}
-          build-args: ${{ matrix.build_args }}
           push: true
           tags: |
-            ghcr.io/odisee-ome-2627/${{ matrix.image }}:${{ steps.meta.outputs.env }}
-            ghcr.io/odisee-ome-2627/${{ matrix.image }}:${{ steps.meta.outputs.env }}-${{ steps.meta.outputs.sha }}
+            ${{ env.IMAGE_PREFIX }}/${{ matrix.image }}:${{ steps.meta.outputs.env }}
+            ${{ env.IMAGE_PREFIX }}/${{ matrix.image }}:${{ steps.meta.outputs.env }}-${{ steps.meta.outputs.sha }}
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}

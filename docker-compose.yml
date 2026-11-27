@@ -1,6 +1,12 @@
 services:
   nntp-server:
     hostname: nntp-server
+    volumes:
+      # INN's data: newsgroups and history, and the articles and the backlog for the peers.
+      # They outlive the container, so a new image or "docker compose down" keeps them.
+      # "docker compose down --volumes" deletes them.
+      - nntp-db:/var/lib/news
+      - nntp-spool:/var/spool/news
     build:
       dockerfile: Dockerfile-nntp
     networks:
@@ -10,6 +16,7 @@ services:
       - 1119:119
     secrets:
       - ome_config
+    stop_grace_period: 30s  # innd needs a few seconds to stop cleanly; Docker Desktop waits only 1 s
     post_start:
       - command:  sh -c "/usr/local/bin/wait_for_tcp.sh 119 20 && /usr/local/bin/preseed.sh"
 
@@ -52,6 +59,10 @@ services:
 secrets:
   ome_config:
     file: ./config.json
+
+volumes:
+  nntp-db:
+  nntp-spool:
 
 networks:
   my_network:

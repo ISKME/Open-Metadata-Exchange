@@ -84,8 +84,8 @@ jobs:
           path: ${{ env.PEERING_LOGS_DIR }}
           if-no-files-found: ignore
 
-  # ESLint and stylelint errors fail this job (warnings do not), and so does a frontend package
-  # with a high or critical vulnerability. To also block merging a pull
+  # ESLint and stylelint errors fail this job (warnings do not), and so do a failing production
+  # build and a frontend package with a high or critical vulnerability. To also block merging a pull
   # request that fails this job, a repository admin adds `front-end (26)` as a required status
   # check: Settings > Rules > Rulesets (or Branches > Branch protection rules) for `main` >
   # Require status checks to pass > add `front-end (26)`. Rename it there when the Node.js
@@ -110,5 +110,6 @@ jobs:
       - run: cd frontend && npm run lint:ts
       - run: cd frontend && npm run typecheck
       - run: cd frontend && npm run unit
+      - run: cd frontend && npm run build:prod  # The build of Dockerfile-fe: catches updates that break it
       - run: cd frontend && npm audit --audit-level=high
       - run: cd frontend && npm outdated || true  # Report only, Dependabot opens the update pull requests

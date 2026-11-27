@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import ShareIcon from '@mui/icons-material/Share';
 import cls from './Library.module.scss';
@@ -64,7 +65,10 @@ export function Library({ className }: LibraryProps) {
   return (
     <Box className={cls.library_wrapper}>
       <Box id="my_library" className={cls.library}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '36px' }}>
+        <Typography variant="h4" component="h1" className={cls.library_title} sx={{ fontWeight: 700, textAlign: 'center', mt: 4 }}>
+          My Library
+        </Typography>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           {mainTabs.map((tab, idx) => (
             <Button
               key={tab.label}

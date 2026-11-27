@@ -60,13 +60,15 @@ access "localhost" {
 }
 
 {% if nntp_user %}
+# No default: identity here. With one, every client that does not log in would get these
+# rights (read and post), from any host. The API logs in with this user and password.
 auth "{{nntp_user.username}}" {
-     auth: "ckpasswd -f /var/lib/news/newsusers"
-     default: "<{{nntp_user.username}}>"
+     auth: "ckpasswd -f /etc/news/newsusers"
 }
 
+# After AUTHINFO, the identity is the user name itself (without < >).
 access "{{nntp_user.username}}" {
-       users: "<{{nntp_user.username}}>"
+       users: "{{nntp_user.username}}"
        newsgroups: "*,!junk,!control,!control.*"
 }
 {% endif %}
@@ -74,12 +76,11 @@ access "{{nntp_user.username}}" {
 
 {% if nntp_debug_user %}
 auth "{{nntp_debug_user.username}}" {
-     default: "<{{nntp_debug_user.username}}>"
-     auth: "ckpasswd -f /var/lib/news/newsusers"
+     auth: "ckpasswd -f /etc/news/newsusers"
 }
 
 access "{{nntp_debug_user.username}}" {
-       users: "<{{nntp_debug_user.username}}>"
+       users: "{{nntp_debug_user.username}}"
        newsgroups: "*,!junk,!control,!control.*"
 }
 {% endif %}

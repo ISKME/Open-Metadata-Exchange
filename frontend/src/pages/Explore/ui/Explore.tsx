@@ -63,6 +63,7 @@ export function Explore({ className }: ExploreProps) {
     >
       <Typography
         variant="h4"
+        component="h1"
         gutterBottom
         sx={{
           fontWeight: 700,
@@ -103,6 +104,7 @@ export function Explore({ className }: ExploreProps) {
           >
             <Typography
               variant="h5"
+              component="h2"
               sx={{
                 fontWeight: 600,
               }}
@@ -153,6 +155,7 @@ export function Explore({ className }: ExploreProps) {
                         <CardContent sx={{ flex: 1 }}>
                           <Typography
                             variant="h6"
+                            component="h3"
                             sx={{
                               fontWeight: 600,
                               fontSize: '1.2rem',
@@ -227,6 +230,7 @@ export function Explore({ className }: ExploreProps) {
                     <CardContent sx={{ flex: 1, textAlign: 'center' }}>
                       <Typography
                         variant="h6"
+                        component="h3"
                         sx={{
                           fontWeight: 600,
                         }}

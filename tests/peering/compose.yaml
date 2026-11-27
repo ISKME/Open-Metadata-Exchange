@@ -8,6 +8,7 @@ x-nntp-node: &nntp-node
     context: ../..
     dockerfile: Dockerfile-nntp
   image: ome-nntp:peering-test
+  stop_grace_period: 30s  # innd needs a few seconds to stop cleanly; Docker Desktop waits only 1 s
 
 services:
   node-a:
@@ -17,6 +18,9 @@ services:
       OME_CONFIG: /run/secrets/node_a_config
     secrets:
       - node_a_config
+    volumes:
+      - node-a-db:/var/lib/news
+      - node-a-spool:/var/spool/news
     networks:
       peering:
         ipv4_address: 172.30.0.11
@@ -28,6 +32,9 @@ services:
       OME_CONFIG: /run/secrets/node_b_config
     secrets:
       - node_b_config
+    volumes:
+      - node-b-db:/var/lib/news
+      - node-b-spool:/var/spool/news
     networks:
       peering:
         ipv4_address: 172.30.0.12
@@ -37,6 +44,12 @@ secrets:
       file: ./node-a.json
     node_b_config:
       file: ./node-b.json
+
+volumes:  # INN's data, as in docker-compose.yml
+  node-a-db:
+  node-a-spool:
+  node-b-db:
+  node-b-spool:
 
 networks:
   peering:

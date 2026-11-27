@@ -34,7 +34,7 @@ export function CollectionCard({ item }) {
     e.target.src = '/static/newdesign/images/materials/default-thumbnail-index.png';
   };
   return (
-    <Link to={item.id !== '' && `/imls/collection-details/${item.micrositeSlug}/${item.id}/resources`} aria-label="Go to Collection page">
+    <Link to={item.id !== '' && `/imls/collection-details/${item.micrositeSlug}/${item.id}/resources`}>
       <Card sx={sxStyles.card}>
         <CardMedia
           component="img"
@@ -47,7 +47,7 @@ export function CollectionCard({ item }) {
           <Typography variant="h4" component="h3" sx={sxStyles.cardTitle}>
             {item.name}
           </Typography>
-          <Typography variant="subtitle1" sx={sxStyles.cardSubtitle}>
+          <Typography variant="subtitle1" component="p" sx={sxStyles.cardSubtitle}>
             {level.join(', ')}
           </Typography>
           <Typography variant="body2" sx={sxStyles.cardResources}>
